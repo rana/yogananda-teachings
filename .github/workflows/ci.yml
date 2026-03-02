@@ -56,7 +56,7 @@ jobs:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
 
     env:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
@@ -66,26 +66,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      - name: Pull Vercel environment
-        run: vercel pull --yes --token=$VERCEL_TOKEN
-
-      - name: Build with Vercel
-        run: vercel build --token=$VERCEL_TOKEN
-
-      - name: Deploy (preview)
+      - name: Deploy to Vercel (preview)
         id: deploy
         run: |
-          URL=$(vercel deploy --prebuilt --token=$VERCEL_TOKEN)
+          URL=$(vercel deploy --token=$VERCEL_TOKEN)
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Deployed to: $URL"
 
