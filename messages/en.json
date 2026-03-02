@@ -11,7 +11,8 @@
     "about": "About",
     "browse": "Browse",
     "privacy": "Privacy",
-    "legal": "Legal"
+    "legal": "Legal",
+    "bookmarks": "Bookmarks"
   },
   "footer": {
     "copyright": "© Self-Realization Fellowship",
@@ -169,6 +170,17 @@
     "fontLarge": "Large",
     "fontLarger": "Larger",
     "language": "Language"
+  },
+  "bookmarks": {
+    "heading": "Your Bookmarks",
+    "subtitle": "Passages and chapters you've saved",
+    "empty": "No bookmarks yet",
+    "emptyHint": "Use the lotus icon while reading to save chapters and passages.",
+    "removeBookmark": "Remove bookmark",
+    "bookmarkChapter": "Bookmark this chapter",
+    "removeChapterBookmark": "Remove chapter bookmark",
+    "chapter": "Chapter {number}",
+    "savedOn": "Saved {date}"
   },
   "a11y": {
     "skipToContent": "Skip to main content",

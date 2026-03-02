@@ -11,7 +11,8 @@
     "about": "Acerca de",
     "browse": "Explorar",
     "privacy": "Privacidad",
-    "legal": "Legal"
+    "legal": "Legal",
+    "bookmarks": "Marcadores"
   },
   "footer": {
     "copyright": "© Self-Realization Fellowship",
@@ -169,6 +170,17 @@
     "fontLarge": "Grande",
     "fontLarger": "Más grande",
     "language": "Idioma"
+  },
+  "bookmarks": {
+    "heading": "Tus Marcadores",
+    "subtitle": "Pasajes y capítulos que has guardado",
+    "empty": "Aún no hay marcadores",
+    "emptyHint": "Usa el icono del loto mientras lees para guardar capítulos y pasajes.",
+    "removeBookmark": "Eliminar marcador",
+    "bookmarkChapter": "Marcar este capítulo",
+    "removeChapterBookmark": "Eliminar marcador del capítulo",
+    "chapter": "Capítulo {number}",
+    "savedOn": "Guardado el {date}"
   },
   "a11y": {
     "skipToContent": "Saltar al contenido principal",
