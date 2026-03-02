@@ -32,7 +32,7 @@ function getTimeBand(): TimeBand {
 /** Circadian only applies when the effective theme is light. */
 function shouldApplyCircadian(): boolean {
   const theme = getPreference("color-theme");
-  if (theme === "dark" || theme === "sepia") return false;
+  if (theme === "dark" || theme === "sepia" || theme === "meditate") return false;
   if (theme === "auto") {
     return !window.matchMedia("(prefers-color-scheme: dark)").matches;
   }

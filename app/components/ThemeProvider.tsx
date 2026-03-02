@@ -20,18 +20,6 @@ import {
   type ColorTheme,
 } from "@/lib/services/preferences";
 
-/**
- * Resolve the effective theme to apply on the DOM.
- * "auto" reads the system preference; others pass through.
- */
-function resolveTheme(theme: ColorTheme): string {
-  if (theme !== "auto") return theme;
-  if (typeof window === "undefined") return "light";
-  return window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
-}
-
 function applyTheme(theme: ColorTheme): void {
   document.documentElement.setAttribute("data-theme", theme === "auto" ? "auto" : theme);
 }

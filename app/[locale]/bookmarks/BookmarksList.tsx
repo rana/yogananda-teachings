@@ -90,7 +90,7 @@ export function BookmarksList() {
             {group.bookmarks.map((bm) => (
               <li
                 key={bm.id}
-                className="group flex items-start gap-3 rounded-lg border border-srf-navy/5 bg-white px-4 py-3 transition-colors hover:border-srf-gold/20"
+                className="group flex items-start gap-3 rounded-lg border border-srf-navy/5 bg-(--theme-surface) px-4 py-3 transition-colors hover:border-srf-gold/20"
               >
                 {/* Lotus indicator */}
                 <SrfLotus className="mt-0.5 h-4 w-4 shrink-0 text-srf-gold" />

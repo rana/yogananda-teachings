@@ -102,7 +102,7 @@ export default async function BooksPage({
                 <Link
                   key={book.id}
                   href={`/books/${book.id}`}
-                  className="block rounded-lg border border-srf-navy/10 bg-white p-6 transition-colors hover:border-srf-gold/40"
+                  className="block rounded-lg border border-srf-navy/10 bg-(--theme-surface) p-6 transition-colors hover:border-srf-gold/40"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>

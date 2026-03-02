@@ -1,7 +1,7 @@
 /**
  * Reader settings popover — M2a-11.
  *
- * Unified reader preferences: text-only mode, font size, language.
+ * Unified reader preferences: text-only mode, color theme, font size, language.
  * Replaces standalone LanguageSwitcher in Header and TextOnlyToggle in Footer.
  * Uses the preferences service (PRI-10: zero framework imports in /lib/services/).
  * WCAG 2.1 AA: focus trap, Escape close, aria-modal, 44px touch targets (PRI-07).
@@ -20,6 +20,7 @@ import {
   getPreference,
   setPreference,
   type FontSize,
+  type ColorTheme,
 } from "@/lib/services/preferences";
 
 // ── Font size CSS class mapping ───────────────────────────────────
@@ -44,6 +45,7 @@ function applyFontSizeClass(size: FontSize): void {
 
 export function ReaderSettings() {
   const t = useTranslations("settings");
+  const t2 = useTranslations("reader");
   const locale = useLocale() as Locale;
   const router = useRouter();
   const pathname = usePathname();
@@ -51,6 +53,7 @@ export function ReaderSettings() {
   const [open, setOpen] = useState(false);
   const [textOnly, setTextOnly] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>("default");
+  const [colorTheme, setColorThemeState] = useState<ColorTheme>("auto");
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -60,9 +63,11 @@ export function ReaderSettings() {
   useEffect(() => {
     const storedTextOnly = getPreference("text-only-mode");
     const storedFontSize = getPreference("font-size");
+    const storedTheme = getPreference("color-theme");
 
     setTextOnly(storedTextOnly);
     setFontSize(storedFontSize);
+    setColorThemeState(storedTheme);
 
     // Apply classes that may have been set before this component mounted
     if (storedTextOnly) {
@@ -158,6 +163,11 @@ export function ReaderSettings() {
     applyFontSizeClass(size);
   }, []);
 
+  const changeColorTheme = useCallback((theme: ColorTheme) => {
+    setColorThemeState(theme);
+    setPreference("color-theme", theme);
+  }, []);
+
   const switchLocale = useCallback(
     (newLocale: Locale) => {
       router.replace(pathname, { locale: newLocale });
@@ -175,6 +185,16 @@ export function ReaderSettings() {
     { value: "default", label: t("fontDefault") },
     { value: "large", label: t("fontLarge") },
     { value: "larger", label: t("fontLarger") },
+  ];
+
+  // ── Color theme options ───────────────────────────────────────
+
+  const colorThemeOptions: { value: ColorTheme; label: string }[] = [
+    { value: "auto", label: t2("theme_auto") },
+    { value: "light", label: t2("theme_light") },
+    { value: "sepia", label: t2("theme_sepia") },
+    { value: "dark", label: t2("theme_dark") },
+    { value: "meditate", label: t2("theme_meditate") },
   ];
 
   return (
@@ -241,6 +261,29 @@ export function ReaderSettings() {
               </button>
             </label>
           </div>
+
+          {/* ── Color theme ─────────────────────────────────────── */}
+          <fieldset className="mb-4">
+            <legend className="mb-2 text-sm font-medium text-srf-navy">
+              {t2("colorTheme")}
+            </legend>
+            <div className="flex flex-wrap gap-1">
+              {colorThemeOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => changeColorTheme(option.value)}
+                  className={`min-h-[44px] flex-1 rounded-md px-2 py-1.5 text-xs transition-colors ${
+                    colorTheme === option.value
+                      ? "bg-srf-navy text-warm-cream"
+                      : "bg-srf-navy/5 text-srf-navy/60 hover:bg-srf-navy/10 hover:text-srf-navy"
+                  }`}
+                  aria-pressed={colorTheme === option.value}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
 
           {/* ── Font size ───────────────────────────────────────── */}
           <fieldset className="mb-4">

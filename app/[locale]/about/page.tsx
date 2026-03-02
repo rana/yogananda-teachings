@@ -102,7 +102,7 @@ export default async function AboutPage({
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block rounded-lg border border-srf-navy/10 bg-white px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
+                className="block rounded-lg border border-srf-navy/10 bg-(--theme-surface) px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
               >
                 {t(link.key)}
               </a>

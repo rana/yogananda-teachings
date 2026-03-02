@@ -61,7 +61,7 @@ export default async function IntegrityPage({
             <h2 className="mb-3 font-display text-lg text-srf-navy">
               {book.title}
             </h2>
-            <div className="overflow-x-auto rounded-lg border border-srf-navy/10 bg-white">
+            <div className="overflow-x-auto rounded-lg border border-srf-navy/10 bg-(--theme-surface)">
               <table className="w-full text-xs">
                 <thead>
                   <tr className="border-b border-srf-navy/5">

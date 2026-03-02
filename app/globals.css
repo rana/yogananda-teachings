@@ -145,6 +145,17 @@
   --theme-surface: #162030;
 }
 
+/* Meditate — deeper dark for contemplation (DES-011) */
+[data-theme="meditate"] {
+  --theme-bg: #0a1633;
+  --theme-bg-secondary: #111e3a;
+  --theme-text: #d4cfc7;
+  --theme-text-secondary: #9a9590;
+  --theme-border: #253050;
+  --theme-gold: color-mix(in srgb, #e8cf4a 60%, transparent);
+  --theme-surface: #0e1a30;
+}
+
 /* Auto: dark when system prefers dark */
 @media (prefers-color-scheme: dark) {
   [data-theme="auto"] {
@@ -167,7 +178,8 @@
   }
 
   [data-theme="dark"],
-  [data-theme="auto"] {
+  [data-theme="auto"],
+  [data-theme="meditate"] {
     --theme-text: #ffffff;
     --theme-text-secondary: #cccccc;
     --theme-border: #888888;

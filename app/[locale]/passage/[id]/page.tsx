@@ -121,7 +121,7 @@ export default async function PassagePage({
         <div className="flex flex-wrap items-center gap-3">
           <Link
             href={`/books/${passage.bookId}/${passage.chapterNumber}`}
-            className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-white"
+            className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface)"
           >
             {t("readInContext")}
           </Link>
@@ -133,7 +133,7 @@ export default async function PassagePage({
         </div>
 
         {/* Book invitation — M2b-10 */}
-        <div className="mt-10 rounded-lg border border-srf-gold/20 bg-white p-6">
+        <div className="mt-10 rounded-lg border border-srf-gold/20 bg-(--theme-surface) p-6">
           <p className="mb-3 text-sm font-medium text-srf-navy">
             {t("bookInvitation", { book: passage.bookTitle })}
           </p>

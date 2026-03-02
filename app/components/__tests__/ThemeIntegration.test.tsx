@@ -104,6 +104,20 @@ describe("Theme Integration", () => {
     expect(document.documentElement.hasAttribute("data-time-band")).toBe(false);
   });
 
+  it("circadian is suppressed when meditate theme is active", () => {
+    mockGetPreference.mockReturnValue("meditate");
+
+    render(
+      <>
+        <ThemeProvider />
+        <CircadianProvider />
+      </>,
+    );
+
+    expect(document.documentElement.getAttribute("data-theme")).toBe("meditate");
+    expect(document.documentElement.hasAttribute("data-time-band")).toBe(false);
+  });
+
   it("circadian is suppressed in auto mode when OS prefers dark", () => {
     mockGetPreference.mockReturnValue("auto");
     mockMediaMatches = true;

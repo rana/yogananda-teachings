@@ -22,19 +22,19 @@ export default function GlobalNotFound() {
       <nav className="flex flex-wrap justify-center gap-3" aria-label="Helpful links">
         <Link
           href="/en"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-white hover:border-srf-gold"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface) hover:border-srf-gold"
         >
           Home
         </Link>
         <Link
           href="/en/search"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-white hover:text-srf-navy"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-(--theme-surface) hover:text-srf-navy"
         >
           Search
         </Link>
         <Link
           href="/en/books"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-white hover:text-srf-navy"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-(--theme-surface) hover:text-srf-navy"
         >
           Books
         </Link>

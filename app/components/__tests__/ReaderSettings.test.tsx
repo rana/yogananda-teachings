@@ -495,15 +495,15 @@ describe("ReaderSettings", () => {
   // ── Fieldset semantics ────────────────────────────────────────
 
   describe("fieldset semantics", () => {
-    it("wraps font size options in a fieldset with legend", () => {
+    it("wraps color theme and font size in fieldsets with legends", () => {
       render(<ReaderSettings />);
       openPopover();
       const panel = screen.getByRole("dialog");
-      const fieldset = panel.querySelector("fieldset");
-      expect(fieldset).toBeInTheDocument();
-      const legend = panel.querySelector("legend");
-      expect(legend).toBeInTheDocument();
-      expect(legend).toHaveTextContent("settings.fontSize");
+      const fieldsets = panel.querySelectorAll("fieldset");
+      expect(fieldsets.length).toBeGreaterThanOrEqual(2);
+      const legends = panel.querySelectorAll("legend");
+      expect(legends[0]).toHaveTextContent("reader.colorTheme");
+      expect(legends[1]).toHaveTextContent("settings.fontSize");
     });
   });
 });

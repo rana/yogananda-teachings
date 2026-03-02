@@ -15,7 +15,7 @@
 // ── Types ────────────────────────────────────────────────────────
 
 export type FontSize = "default" | "large" | "larger";
-export type ColorTheme = "auto" | "light" | "sepia" | "dark";
+export type ColorTheme = "auto" | "light" | "sepia" | "dark" | "meditate";
 
 export interface ReaderPreferences {
   /** Text-only mode: hides images, decorative elements, web fonts. */
@@ -58,6 +58,7 @@ const VALID_COLOR_THEMES: readonly ColorTheme[] = [
   "light",
   "sepia",
   "dark",
+  "meditate",
 ] as const;
 
 // ── SSR guard ────────────────────────────────────────────────────

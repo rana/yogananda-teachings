@@ -28,13 +28,13 @@ export default function Error({
       <div className="flex flex-wrap justify-center gap-3">
         <button
           onClick={reset}
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-white hover:border-srf-gold"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface) hover:border-srf-gold"
         >
           {t("tryAgain")}
         </button>
         <Link
           href="/"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-white hover:text-srf-navy"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-(--theme-surface) hover:text-srf-navy"
         >
           {t("backHome")}
         </Link>

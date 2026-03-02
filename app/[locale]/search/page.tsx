@@ -52,7 +52,7 @@ export default function SearchPage() {
 function SearchSkeleton() {
   return (
     <main id="main-content" className="min-h-screen">
-      <div className="border-b border-srf-gold/20 bg-white">
+      <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
         <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
           <div className="h-8 w-48 animate-pulse rounded bg-srf-navy/10" />
         </div>
@@ -222,7 +222,7 @@ function SearchPageInner() {
   return (
     <main id="main-content" className="min-h-screen">
       {/* Search header */}
-      <div className="border-b border-srf-gold/20 bg-white">
+      <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
         <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
           <h1 className="mb-2 font-display text-2xl text-srf-navy md:text-3xl">
             {t("heading")}
@@ -236,13 +236,13 @@ function SearchPageInner() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder={t("placeholder")}
-                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-white px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
+                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
                 aria-label={t("heading")}
               />
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="min-h-11 min-w-11 rounded-lg border border-srf-navy/15 bg-white px-2 py-2.5 text-sm text-srf-navy focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
+                className="min-h-11 min-w-11 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-2 py-2.5 text-sm text-srf-navy focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
                 aria-label={t("language")}
               >
                 {locales.map((loc) => (
@@ -294,7 +294,7 @@ function SearchPageInner() {
             return (
               <article
                 key={result.id}
-                className="rounded-lg border border-srf-navy/10 bg-white p-4 md:p-6"
+                className="rounded-lg border border-srf-navy/10 bg-(--theme-surface) p-4 md:p-6"
                 role="listitem"
               >
                 <blockquote className="mb-3 text-base leading-relaxed text-srf-navy md:text-lg md:leading-relaxed">

@@ -143,7 +143,7 @@ export default async function BookLandingPage({
               <li key={ch.id}>
                 <Link
                   href={`/books/${bookId}/${ch.chapterNumber}`}
-                  className="flex items-baseline gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-white min-h-[44px]"
+                  className="flex items-baseline gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-(--theme-surface) min-h-[44px]"
                 >
                   <span className="min-w-[2rem] text-end text-sm tabular-nums text-srf-navy/40">
                     {ch.chapterNumber}

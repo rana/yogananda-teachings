@@ -67,7 +67,7 @@ export default async function HomePage({
                 name="q"
                 type="search"
                 placeholder={t("searchPrompt")}
-                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-white px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
+                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
                 maxLength={500}
               />
               <button
@@ -90,7 +90,7 @@ export default async function HomePage({
               <NextLink
                 key={door.key}
                 href={`/${locale}/search?q=${encodeURIComponent(door.query)}`}
-                className="rounded-full border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy/70 transition-all hover:border-srf-gold hover:bg-white hover:text-srf-navy min-h-11 inline-flex items-center"
+                className="rounded-full border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy/70 transition-all hover:border-srf-gold hover:bg-(--theme-surface) hover:text-srf-navy min-h-11 inline-flex items-center"
               >
                 {t(`thematicDoors.${door.key}`)}
               </NextLink>
@@ -108,7 +108,7 @@ export default async function HomePage({
               <NextLink
                 key={entry.key}
                 href={`/${locale}/search?q=${encodeURIComponent(entry.query)}`}
-                className="rounded-lg border border-srf-navy/10 bg-white px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
+                className="rounded-lg border border-srf-navy/10 bg-(--theme-surface) px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
               >
                 {t(`seeking.${entry.key}`)}
               </NextLink>
@@ -124,7 +124,7 @@ export default async function HomePage({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <NextLink
               href={`/${locale}/books`}
-              className="group rounded-lg border border-srf-navy/5 bg-white p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
+              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
             >
               <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
                 {t("startHere.curious.title")}
@@ -135,7 +135,7 @@ export default async function HomePage({
             </NextLink>
             <NextLink
               href={`/${locale}/search?q=${encodeURIComponent("comfort hope healing")}`}
-              className="group rounded-lg border border-srf-navy/5 bg-white p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
+              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
             >
               <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
                 {t("startHere.need.title")}
@@ -146,7 +146,7 @@ export default async function HomePage({
             </NextLink>
             <NextLink
               href={`/${locale}/search?q=${encodeURIComponent("meditation technique practice")}`}
-              className="group rounded-lg border border-srf-navy/5 bg-white p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
+              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
             >
               <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
                 {t("startHere.seeker.title")}

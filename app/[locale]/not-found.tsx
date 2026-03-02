@@ -25,19 +25,19 @@ export default async function NotFound() {
       <nav className="flex flex-wrap justify-center gap-3" aria-label={t("helpfulLinks")}>
         <Link
           href="/"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-white hover:border-srf-gold"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface) hover:border-srf-gold"
         >
           {nav("home")}
         </Link>
         <Link
           href="/search"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-white hover:text-srf-navy"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-(--theme-surface) hover:text-srf-navy"
         >
           {nav("search")}
         </Link>
         <Link
           href="/books"
-          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-white hover:text-srf-navy"
+          className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy/70 transition-colors hover:bg-(--theme-surface) hover:text-srf-navy"
         >
           {nav("books")}
         </Link>
