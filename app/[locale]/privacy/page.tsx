@@ -99,12 +99,12 @@ export default async function PrivacyPage({
               personal information to access, correct, or delete. If you have
               questions or concerns, contact Self-Realization Fellowship at{" "}
               <a
-                href="https://yogananda.org/contact"
+                href="https://yogananda.org/contact-us"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-srf-navy underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-gold"
               >
-                yogananda.org/contact
+                yogananda.org/contact-us
               </a>
               .
             </p>

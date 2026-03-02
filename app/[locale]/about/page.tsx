@@ -17,9 +17,9 @@ const GURUS = [
 
 const GO_DEEPER_LINKS = [
   { key: "lessons", url: "https://yogananda.org/lessons" },
-  { key: "centers", url: "https://yogananda.org/find-a-center" },
-  { key: "meditation", url: "https://yogananda.org/online-meditation-center" },
-  { key: "app", url: "https://yogananda.org/srf-app" },
+  { key: "centers", url: "https://yogananda.org/locations" },
+  { key: "meditation", url: "https://onlinemeditation.yogananda.org/" },
+  { key: "app", url: "https://yogananda.org/app-faq" },
   { key: "bookstore", url: "https://bookstore.yogananda-srf.org" },
   { key: "youtube", url: "https://www.youtube.com/@YoganandaSRF" },
 ];
