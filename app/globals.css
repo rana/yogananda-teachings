@@ -92,29 +92,34 @@
 }
 
 /* ── Tailwind theme configuration ──────────────────────────────── */
+/* Color tokens resolve through the CSS theme system below.
+ * This makes ALL Tailwind classes (text-srf-navy, bg-warm-cream, etc.)
+ * automatically adapt to the active color theme — dark, sepia, circadian.
+ * Zero component changes required. */
 @theme {
   --font-serif: "Merriweather", "Lora", Georgia, "Times New Roman", serif;
   --font-sans: "Open Sans", system-ui, -apple-system, sans-serif;
   --font-display: "Lora", "Merriweather", Georgia, serif;
 
-  --color-srf-gold: #dcbd23;
-  --color-srf-navy: #1a2744;
-  --color-warm-cream: #FAF8F5;
-  --color-warm-cream-dark: #f0ece4;
+  --color-srf-gold: var(--theme-gold);
+  --color-srf-navy: var(--theme-text);
+  --color-warm-cream: var(--theme-bg);
+  --color-warm-cream-dark: var(--theme-bg-secondary);
 }
 
 /* ── Color theme tokens ───────────────────────────────────────── */
-/* Theme-aware custom properties — consumed by all components.
+/* Theme-aware custom properties — consumed by all components
+ * and resolved through Tailwind token aliases above.
  * Light is the default. data-theme on <html> overrides.
  * "auto" uses prefers-color-scheme to switch between light and dark. */
 
 :root {
-  --theme-bg: var(--color-warm-cream);
+  --theme-bg: #FAF8F5;
   --theme-bg-secondary: #f0ece4;
-  --theme-text: var(--color-srf-navy);
-  --theme-text-secondary: color-mix(in srgb, var(--color-srf-navy) 70%, transparent);
-  --theme-border: color-mix(in srgb, var(--color-srf-navy) 12%, transparent);
-  --theme-gold: var(--color-srf-gold);
+  --theme-text: #1a2744;
+  --theme-text-secondary: color-mix(in srgb, #1a2744 70%, transparent);
+  --theme-border: color-mix(in srgb, #1a2744 12%, transparent);
+  --theme-gold: #dcbd23;
   --theme-surface: white;
 }
 
