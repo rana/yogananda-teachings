@@ -263,20 +263,27 @@ body {
   border-width: 0;
 }
 
-/* ── Print stylesheet — M2a-10 ─────────────────────────────────── */
+/* ── Print stylesheet — M2a-10, DES-049 ──────────────────────────── */
 @media print {
   header, footer, nav,
   [data-no-print],
-  .low-bandwidth-banner {
+  .low-bandwidth-banner,
+  .scroll-indicator,
+  .dwell-icon {
     display: none !important;
   }
 
   body {
     background: white !important;
     color: black !important;
-    font-size: 11pt !important;
+    font-family: "Merriweather", Georgia, serif !important;
+    font-size: 12pt !important;
     line-height: 1.6 !important;
   }
+
+  /* Page layout (DES-049) */
+  @page { margin: 2cm; }
+  @page :first { margin-top: 3cm; }
 
   main {
     max-width: 100% !important;
@@ -312,6 +319,16 @@ body {
     margin-inline-start: 0;
   }
 
+  /* Page breaks: never inside a passage, always before chapter titles */
+  .passage-card { break-inside: avoid; }
+  h2 { break-before: page; }
+
+  /* Citations: always visible, never truncated */
+  .reader-citation {
+    font-size: 10pt !important;
+    font-style: italic;
+  }
+
   /* Footer citation */
   .print-citation {
     display: block !important;
@@ -320,6 +337,11 @@ body {
     border-top: 1px solid #ccc;
     font-size: 9pt;
     color: #666;
+  }
+
+  /* Remove reader texture background in print */
+  .reader-texture {
+    background-image: none !important;
   }
 }
 
@@ -449,12 +471,31 @@ body {
   display: none !important;
 }
 
-/* Enlarged text for group reading: 24px+, comfortable line height */
+/* Responsive presentation mode sizing (DES-049) */
+/* Mobile: 24px+ */
 [data-mode="present"] article {
   font-size: 1.5rem !important;
   line-height: 1.9 !important;
   max-inline-size: 48rem !important;
   margin-inline: auto !important;
+}
+/* Tablet: 28px+ */
+@media (min-width: 640px) {
+  [data-mode="present"] article {
+    font-size: 1.75rem !important;
+  }
+}
+/* Desktop: 32px+ */
+@media (min-width: 1024px) {
+  [data-mode="present"] article {
+    font-size: 2rem !important;
+  }
+}
+/* Wide: 36px+ */
+@media (min-width: 1280px) {
+  [data-mode="present"] article {
+    font-size: 2.25rem !important;
+  }
 }
 
 /* ── Contextual Quiet Corner — M2b-7 ────────────────────────── */
@@ -475,6 +516,46 @@ body {
 [data-mode="quiet"] article {
   opacity: 0.05;
   pointer-events: none;
+}
+
+/* ── Interaction modality — DES-049 ─────────────────────────────── */
+
+/* Touch-primary: larger tap targets for key interactive elements */
+@media (hover: none) and (pointer: coarse) {
+  .reader-content [data-paragraph] {
+    /* Extra inline padding for comfortable touch selection */
+    padding-inline: 0.25rem;
+  }
+}
+
+/* Desktop-class: subtle hover affordances on reader paragraphs */
+@media (hover: hover) and (pointer: fine) {
+  .reader-content [data-paragraph]:hover {
+    background-color: color-mix(in srgb, var(--theme-gold) 3%, transparent);
+    border-radius: 2px;
+  }
+}
+
+/* ── Tablet reader margins — DES-049 ──────────────────────────── */
+/* Wider than mobile but narrower than desktop for comfortable reading */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .reader-content {
+    padding-inline: 3rem; /* 48px at 768px width */
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .reader-content {
+    padding-inline: 4rem; /* 64px approaching desktop */
+  }
+}
+
+/* ── Orientation handling — DES-049 ──────────────────────────── */
+/* Phone landscape: cap line length to prevent excessively long lines */
+@media (max-width: 639px) and (orientation: landscape) {
+  .reader-content {
+    max-inline-size: 36rem;
+    margin-inline: auto;
+  }
 }
 
 /* ── Reduced motion — M2a-8 (ADR-003) ─────────────────────────── */
