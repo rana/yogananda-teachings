@@ -169,6 +169,36 @@
   }
 }
 
+/* ── Circadian color temperature — DES-011 ───────────────────── */
+/* Subtle background warmth shifts based on time of day.
+ * data-time-band set by CircadianProvider only in light mode. */
+
+/* Morning: cooler cream (5:00–9:59) */
+[data-time-band="morning"] {
+  --theme-bg: #FDFBF8;
+  --theme-bg-secondary: #f2eee6;
+}
+
+/* Evening: warmer cream (16:00–20:59) */
+[data-time-band="evening"] {
+  --theme-bg: #F7F2EC;
+  --theme-bg-secondary: #ebe5db;
+}
+
+/* Midday (10:00–15:59) uses default palette — no override needed */
+/* Night (21:00–4:59): attribute removed by JS, dark theme applies */
+
+/* ── "Breath Between Chapters" — DES-012 ─────────────────────── */
+
+@keyframes chapterFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* ── Base styles ───────────────────────────────────────────────── */
 body {
   font-family: var(--font-serif);

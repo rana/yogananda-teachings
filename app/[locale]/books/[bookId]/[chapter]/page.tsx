@@ -20,6 +20,8 @@ import { ReaderModes } from "@/app/components/ReaderModes";
 import { ThemeSelector } from "@/app/components/ThemeSelector";
 import { FontSizeSelector } from "@/app/components/FontSizeSelector";
 import { PartingWord } from "@/app/components/PartingWord";
+import { ChapterBreath } from "@/app/components/ChapterBreath";
+import { ChapterNavLink } from "@/app/components/ChapterNavLink";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -253,28 +255,34 @@ export default async function ChapterPage({
         chapterTitle={content.chapter.title}
       />
 
-      {/* Reading content — M2b-4 typography: drop caps, paper texture */}
-      <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">
-        <div className="reader-content space-y-6">
-          {content.paragraphs.map((para, i) => (
-            <p
-              key={para.id}
-              id={`p-${i}`}
-              data-paragraph={i}
-              className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
-            >
-              {para.content}
-            </p>
-          ))}
-        </div>
+      {/* "Breath Between Chapters" — DES-012 */}
+      <ChapterBreath
+        chapterNumber={content.chapter.chapterNumber}
+        chapterTitle={content.chapter.title}
+      >
+        {/* Reading content — M2b-4 typography: drop caps, paper texture */}
+        <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">
+          <div className="reader-content space-y-6">
+            {content.paragraphs.map((para, i) => (
+              <p
+                key={para.id}
+                id={`p-${i}`}
+                data-paragraph={i}
+                className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
+              >
+                {para.content}
+              </p>
+            ))}
+          </div>
 
-        {/* Print-only citation */}
-        <div className="print-citation">
-          {content.book.author}, <em>{content.book.title}</em>, Chapter{" "}
-          {content.chapter.chapterNumber}: {content.chapter.title}. ©
-          Self-Realization Fellowship. teachings.yogananda.org
-        </div>
-      </article>
+          {/* Print-only citation */}
+          <div className="print-citation">
+            {content.book.author}, <em>{content.book.title}</em>, Chapter{" "}
+            {content.chapter.chapterNumber}: {content.chapter.title}. ©
+            Self-Realization Fellowship. teachings.yogananda.org
+          </div>
+        </article>
+      </ChapterBreath>
 
       {/* Session closure — M2b-9 (DES-014) */}
       <PartingWord locale={locale} />
@@ -286,7 +294,7 @@ export default async function ChapterPage({
       >
         <div className="mx-auto flex max-w-[38rem] items-stretch">
           {content.prevChapter ? (
-            <Link
+            <ChapterNavLink
               href={`/books/${bookId}/${content.prevChapter.chapterNumber}`}
               rel="prev"
               className="flex flex-1 flex-col px-4 py-4 text-start transition-colors hover:bg-warm-cream min-h-[44px]"
@@ -296,7 +304,7 @@ export default async function ChapterPage({
                 {content.prevChapter.chapterNumber}.{" "}
                 {content.prevChapter.title}
               </span>
-            </Link>
+            </ChapterNavLink>
           ) : (
             <div className="flex-1" />
           )}
@@ -304,7 +312,7 @@ export default async function ChapterPage({
           <div className="w-px bg-srf-navy/10" />
 
           {content.nextChapter ? (
-            <Link
+            <ChapterNavLink
               href={`/books/${bookId}/${content.nextChapter.chapterNumber}`}
               rel="next"
               className="flex flex-1 flex-col px-4 py-4 text-end transition-colors hover:bg-warm-cream min-h-[44px]"
@@ -314,7 +322,7 @@ export default async function ChapterPage({
                 {content.nextChapter.chapterNumber}.{" "}
                 {content.nextChapter.title}
               </span>
-            </Link>
+            </ChapterNavLink>
           ) : (
             <div className="flex-1" />
           )}

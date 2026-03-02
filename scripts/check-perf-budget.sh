@@ -14,15 +14,16 @@
 set -euo pipefail
 
 # ── Budget (ADR-123: tunable default, not architectural commitment) ──
-# Value: 128 KB First Load JS per page
+# Value: 130 KB First Load JS per page
 # Rationale: PRI-07 target is <100KB. CI threshold catches regressions
 #   while allowing headroom for framework overhead + reader interactivity.
 #   The shared JS baseline (~102KB) is mostly React + Next.js runtime.
-#   Raised from 120→128 in M2b: bookmarks, keyboard nav, scroll indicator
-#   add ~4KB page-specific JS — justified reader functionality (DES-008).
+#   Raised 120→128 in M2b: bookmarks, keyboard nav, scroll indicator (~4KB).
+#   Raised 128→130 in M2b stretch: chapter breath transition (DES-012) and
+#   chapter nav link client wrapper add ~1KB justified reader UX.
 # Evaluate: When shared JS drops below 90KB (framework upgrade) or
 #   when any page consistently stays below 110KB for a milestone.
-BUDGET_KB=128
+BUDGET_KB=130
 
 # ── Read build output ────────────────────────────────────────────────
 

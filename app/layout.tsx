@@ -12,6 +12,7 @@ import "./globals.css";
 import { ServiceWorkerRegistration } from "@/app/components/ServiceWorkerRegistration";
 import { LowBandwidthBanner } from "@/app/components/LowBandwidthBanner";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
+import { CircadianProvider } from "@/app/components/CircadianProvider";
 import { SRF, SRF_SOCIAL, SRF_SAME_AS, PORTAL } from "@/lib/config/srf-links";
 
 export const viewport: Viewport = {
@@ -98,6 +99,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           Skip to main content
         </a>
         <ThemeProvider />
+        <CircadianProvider />
         <LowBandwidthBanner />
         {children}
         <ServiceWorkerRegistration />
