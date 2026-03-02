@@ -13,6 +13,7 @@ import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
+import { LowBandwidthBanner } from "@/app/components/LowBandwidthBanner";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -74,6 +75,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <LowBandwidthBanner />
       <Header />
       <div className="flex-1">{children}</div>
       <Footer />
