@@ -9,8 +9,7 @@
 
 import { Suspense, useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTranslations } from "next-intl";
-import { useLocale } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import NextLink from "next/link";
 import { locales, localeNames } from "@/i18n/config";
 import type { CrisisInfo } from "@/lib/services/crisis";

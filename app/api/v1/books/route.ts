@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   const bookId = request.nextUrl.searchParams.get("id");
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
     const books = await getBooks(pool, language, { updatedSince, createdSince });
     return NextResponse.json({ data: books });
   } catch (err) {
-    console.error("Books API error:", err);
+    logger.error("Books API error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json({ error: "Failed to fetch books" }, { status: 500 });
   }
 }

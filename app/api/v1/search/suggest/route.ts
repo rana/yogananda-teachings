@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSuggestions } from "@/lib/services/suggestions";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   const prefix = request.nextUrl.searchParams.get("q") || "";
@@ -26,7 +27,7 @@ export async function GET(request: NextRequest) {
       { headers: { "Cache-Control": "public, max-age=300" } },
     );
   } catch (err) {
-    console.error("Suggestions error:", err);
+    logger.error("Suggestions error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json({ data: [] });
   }
 }

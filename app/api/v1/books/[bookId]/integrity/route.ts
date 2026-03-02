@@ -7,6 +7,7 @@
 
 import { NextResponse } from "next/server";
 import pool from "@/lib/db";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   _request: Request,
@@ -66,7 +67,7 @@ export async function GET(
       },
     });
   } catch (err) {
-    console.error("Integrity API error:", err);
+    logger.error("Integrity API error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { error: "Failed to compute integrity hashes" },
       { status: 500 },

@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   const language = request.nextUrl.searchParams.get("language") || "en";
@@ -41,7 +42,7 @@ export async function GET(request: NextRequest) {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {
-    console.error("Random passage error:", err);
+    logger.error("Random passage error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { error: "Failed to fetch passage" },
       { status: 500 },

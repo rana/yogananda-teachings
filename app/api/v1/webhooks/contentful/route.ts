@@ -73,16 +73,16 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    if (topic.includes("publish") || topic.includes("create")) {
-      // Upsert: sync the TextBlock content to book_chunks
-      await handlePublish(entryId, payload);
-      return NextResponse.json({ status: "synced", entryId });
-    }
-
     if (topic.includes("unpublish") || topic.includes("delete")) {
       // Remove: delete the corresponding book_chunk
       await handleUnpublish(entryId);
       return NextResponse.json({ status: "removed", entryId });
+    }
+
+    if (topic.includes("publish") || topic.includes("create")) {
+      // Upsert: sync the TextBlock content to book_chunks
+      await handlePublish(entryId, payload);
+      return NextResponse.json({ status: "synced", entryId });
     }
 
     return NextResponse.json({

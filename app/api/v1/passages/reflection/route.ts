@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getReflectionPassage } from "@/lib/services/passages";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   const language = request.nextUrl.searchParams.get("language") || "en";
@@ -44,7 +45,7 @@ export async function GET(request: NextRequest) {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {
-    console.error("Reflection passage error:", err);
+    logger.error("Reflection passage error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { error: "Failed to fetch reflection" },
       { status: 500 },

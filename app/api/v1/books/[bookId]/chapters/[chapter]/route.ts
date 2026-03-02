@@ -8,6 +8,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getChapterContent } from "@/lib/services/books";
+import { logger } from "@/lib/logger";
 
 export async function GET(
   _request: NextRequest,
@@ -35,7 +36,7 @@ export async function GET(
 
     return NextResponse.json({ data: content });
   } catch (err) {
-    console.error("Chapter content error:", err);
+    logger.error("Chapter content error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { error: "Failed to fetch chapter" },
       { status: 500 },

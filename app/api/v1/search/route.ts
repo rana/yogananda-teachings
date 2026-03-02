@@ -16,6 +16,7 @@ import pool from "@/lib/db";
 import { search, type SearchResponse } from "@/lib/services/search";
 import { checkRateLimit } from "@/lib/services/rate-limit";
 import { SEARCH_RESULTS_LIMIT } from "@/lib/config";
+import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
   // Rate limiting — M1c-6 (ADR-023)
@@ -43,8 +44,9 @@ export async function GET(request: NextRequest) {
   const query = params.get("q");
   const language = params.get("language") || "en";
   const limitParam = params.get("limit");
-  const limit = limitParam
-    ? Math.min(Math.max(1, parseInt(limitParam, 10) || SEARCH_RESULTS_LIMIT), 50)
+  const parsed = limitParam !== null ? parseInt(limitParam, 10) : NaN;
+  const limit = !isNaN(parsed)
+    ? Math.min(Math.max(1, parsed), 50)
     : SEARCH_RESULTS_LIMIT;
 
   if (!query || query.trim().length === 0) {
@@ -97,7 +99,7 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (err) {
-    console.error("Search error:", err);
+    logger.error("Search error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(
       { error: "Search failed" },
       { status: 500 },
