@@ -91,7 +91,15 @@
     "previous": "Previous",
     "next": "Next",
     "readingTime": "About {minutes} minute read",
-    "minuteAbbrev": "min"
+    "minuteAbbrev": "min",
+    "dwell": "Contemplate this passage",
+    "dwellExit": "Return to reading",
+    "focusMode": "Focus",
+    "focusModeOn": "Focus mode active",
+    "focusModeOff": "Exit focus mode",
+    "presentMode": "Present",
+    "presentModeOn": "Presentation mode active",
+    "presentModeOff": "Exit presentation mode"
   },
   "quiet": {
     "heading": "The Quiet Corner",

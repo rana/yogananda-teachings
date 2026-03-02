@@ -23,6 +23,8 @@ export interface ReaderPreferences {
   "font-size": FontSize;
   /** Preferred reading language (locale code, e.g. 'en', 'es'). */
   "reading-language": string;
+  /** Focus reading mode: suppresses chrome, keeps reading column + Next Chapter only. */
+  "focus-mode": boolean;
 }
 
 export type PreferenceKey = keyof ReaderPreferences;
@@ -38,6 +40,7 @@ const DEFAULTS: Readonly<ReaderPreferences> = {
   "text-only-mode": false,
   "font-size": "default",
   "reading-language": "en",
+  "focus-mode": false,
 };
 
 const VALID_FONT_SIZES: readonly FontSize[] = [
@@ -81,6 +84,10 @@ function sanitize(raw: Record<string, unknown>): ReaderPreferences {
     "reading-language": isValidLanguage(raw["reading-language"])
       ? raw["reading-language"]
       : DEFAULTS["reading-language"],
+    "focus-mode":
+      typeof raw["focus-mode"] === "boolean"
+        ? raw["focus-mode"]
+        : DEFAULTS["focus-mode"],
   };
 }
 

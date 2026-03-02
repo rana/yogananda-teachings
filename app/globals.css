@@ -300,6 +300,51 @@ body {
   margin-inline: -0.5rem;
 }
 
+/* ── Dwell contemplation mode — M2b-1 (DES-009) ──────────────── */
+
+/* Dim all paragraphs when dwell is active */
+[data-dwell-active] [data-paragraph] {
+  opacity: 0.15;
+  transition: opacity 300ms ease;
+}
+
+/* Keep the focused paragraph vivid */
+[data-dwell-active] [data-paragraph][data-dwell-target] {
+  opacity: 1;
+}
+
+/* ── Focus reading mode — M2b-8 ──────────────────────────────── */
+
+/* Suppress all chrome except reading column + next chapter nav */
+[data-mode="focus"] header,
+[data-mode="focus"] footer,
+[data-mode="focus"] [data-no-focus] {
+  display: none !important;
+}
+
+/* ── Presentation mode — M2b-15 ──────────────────────────────── */
+
+/* Warm cream fills viewport */
+[data-mode="present"] {
+  background: var(--color-warm-cream) !important;
+}
+
+/* Hide all chrome: header, footer, nav, and explicitly tagged elements */
+[data-mode="present"] header,
+[data-mode="present"] footer,
+[data-mode="present"] nav,
+[data-mode="present"] [data-no-present] {
+  display: none !important;
+}
+
+/* Enlarged text for group reading: 24px+, comfortable line height */
+[data-mode="present"] article {
+  font-size: 1.5rem !important;
+  line-height: 1.9 !important;
+  max-inline-size: 48rem !important;
+  margin-inline: auto !important;
+}
+
 /* ── Reduced motion — M2a-8 (ADR-003) ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -307,5 +352,10 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Instant dwell transitions for reduced motion */
+  [data-dwell-active] [data-paragraph] {
+    transition: none !important;
   }
 }

@@ -91,7 +91,15 @@
     "previous": "Anterior",
     "next": "Siguiente",
     "readingTime": "Lectura de aproximadamente {minutes} minutos",
-    "minuteAbbrev": "min"
+    "minuteAbbrev": "min",
+    "dwell": "Contemplar este pasaje",
+    "dwellExit": "Volver a la lectura",
+    "focusMode": "Enfoque",
+    "focusModeOn": "Modo enfoque activo",
+    "focusModeOff": "Salir del modo enfoque",
+    "presentMode": "Presentar",
+    "presentModeOn": "Modo presentación activo",
+    "presentModeOff": "Salir del modo presentación"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",

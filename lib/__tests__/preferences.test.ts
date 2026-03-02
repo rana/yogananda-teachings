@@ -34,6 +34,7 @@ describe("defaults", () => {
       "text-only-mode": false,
       "font-size": "default",
       "reading-language": "en",
+      "focus-mode": false,
     });
   });
 
@@ -43,6 +44,7 @@ describe("defaults", () => {
       "text-only-mode": false,
       "font-size": "default",
       "reading-language": "en",
+      "focus-mode": false,
     });
   });
 
@@ -148,6 +150,7 @@ describe("validation", () => {
       "text-only-mode": true,
       "font-size": "large",
       "reading-language": "es",
+      "focus-mode": false,
     });
     expect((prefs as Record<string, unknown>)["unknown-key"]).toBeUndefined();
   });
