@@ -10,6 +10,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
+import { PORTAL } from "@/lib/config/srf-links";
 import { Header } from "@/app/components/Header";
 import { Footer } from "@/app/components/Footer";
 
@@ -31,7 +32,7 @@ export async function generateMetadata({
       template: `%s — ${messages.metadata.title}`,
     },
     description: messages.metadata.description,
-    metadataBase: new URL("https://teachings.yogananda.org"),
+    metadataBase: new URL(PORTAL.canonical),
     alternates: {
       canonical: `${prefix}/`,
       languages: {

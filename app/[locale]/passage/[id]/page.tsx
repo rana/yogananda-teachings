@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import pool from "@/lib/db";
 import { getPassage } from "@/lib/services/books";
+import { PORTAL } from "@/lib/config/srf-links";
 import { ShareButton } from "@/app/components/ShareButton";
 import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
@@ -76,7 +77,7 @@ export default async function PassagePage({
   const passage = await getPassage(pool, id);
   if (!passage) notFound();
 
-  const passageUrl = `https://teachings.yogananda.org/${locale}/passage/${id}`;
+  const passageUrl = `${PORTAL.canonical}/${locale}/passage/${id}`;
   const citation = `${passage.bookAuthor}, ${passage.bookTitle}, Ch. ${passage.chapterNumber}: ${passage.chapterTitle}${passage.pageNumber ? `, p. ${passage.pageNumber}` : ""}`;
 
   const jsonLd = {

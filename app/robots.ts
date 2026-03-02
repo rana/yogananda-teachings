@@ -6,6 +6,7 @@
  */
 
 import type { MetadataRoute } from "next";
+import { PORTAL } from "@/lib/config/srf-links";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -14,6 +15,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/_next/", "/ops"],
     },
-    sitemap: "https://teachings.yogananda.org/sitemap.xml",
+    sitemap: `${PORTAL.canonical}/sitemap.xml`,
   };
 }

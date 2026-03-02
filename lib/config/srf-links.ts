@@ -215,10 +215,18 @@ export const YSS = {
 
 // ── Portal ──────────────────────────────────────────────────────
 
-export const PORTAL = {
-  /** Canonical portal domain (production) */
-  canonical: "https://teachings.yogananda.org",
+/**
+ * NEXT_PUBLIC_SITE_URL controls the canonical base URL for metadata, OG images,
+ * JSON-LD, sitemaps, and robots.txt. Set in Vercel env vars per environment.
+ * Falls back to the pre-launch Vercel URL if unset.
+ */
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://teachings.yogananda.tech";
 
-  /** Current deployment (pre-launch) */
-  deployment: "https://yogananda-teachings.vercel.app",
+export const PORTAL = {
+  /** Canonical portal domain — driven by NEXT_PUBLIC_SITE_URL env var */
+  canonical: siteUrl,
+
+  /** Final SRF production domain (post-launch, when yogananda.org is available) */
+  canonicalFinal: "https://teachings.yogananda.org",
 } as const;

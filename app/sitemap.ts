@@ -9,8 +9,9 @@ import type { MetadataRoute } from "next";
 import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
 import { locales } from "@/i18n/config";
+import { PORTAL } from "@/lib/config/srf-links";
 
-const BASE_URL = "https://teachings.yogananda.org";
+const BASE_URL = PORTAL.canonical;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const entries: MetadataRoute.Sitemap = [];
