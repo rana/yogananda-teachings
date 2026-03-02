@@ -131,7 +131,7 @@ If the ≥ 80% threshold is not met, the following contingencies apply before pr
 2. **Embedding model swap.** Benchmark against Cohere embed-v3, BGE-M3, or multilingual-e5-large-instruct using the same test suite. The `embedding_model` column on `book_chunks` supports migration (ADR-046).
 3. **Manual curation bridge.** Tag the 30 test queries with expected passages manually. Use these as a curated fallback while improving automated retrieval. The portal can launch with curated results for common queries and automated results for long-tail.
 4. **Hybrid weighting tuning.** Adjust the RRF k-constant and the relative weight of vector vs. FTS results.
-5. **Per-category analysis.** Use the seven difficulty categories to target improvements: if Emotional queries fail but Direct queries pass, the Vocabulary Bridge (ADR-129, currently unscheduled — conditional on these results) may be the fix rather than embedding model changes. If Dark Night queries fail, the bridge's state mappings and retrieval intent routing need strengthening.
+5. **Per-category analysis.** Use the seven difficulty categories to target improvements: if Emotional queries fail but Direct queries pass, the Vocabulary Bridge (ADR-129, DES-059) may be the fix rather than embedding model changes. If Dark Night queries fail, the bridge's state mappings and retrieval intent routing need strengthening.
 
 ---
 
@@ -568,7 +568,6 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 | PRO | Feature | Original Milestone | Re-evaluate At |
 |-----|---------|----------------|----------------|
 | PRO-027 | Design Tooling (Figma + Storybook) | 2a | If team grows beyond AI-human pair |
-| ADR-129 | Vocabulary Bridge (5-layer semantic infrastructure) | 1c | If M1a-8 search quality evaluation identifies vocabulary mismatch as primary failure mode |
 | PRO-029 | Cross-Media Intelligence (video, audio, chant, content hub) | Future | Arc 3 boundary |
 | PRO-030 | Sacred Image Management (watermarking, multi-size) | Future | Arc 3 boundary |
 | PRO-031 | Study & Community Tools (workspace, collections, VLD) | Future | Post-Arc 3 |

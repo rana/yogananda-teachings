@@ -1,5 +1,7 @@
 ## DES-039: Infrastructure and Deployment
 
+**Status: Implemented** — see `scripts/bootstrap.sh`, `scripts/deploy.sh`, `scripts/status.sh`, `.github/workflows/ci.yml`
+
 All infrastructure is managed as code per SRF engineering standards. Vendor resources are managed by the yogananda-platform MCP server; one-time AWS security setup uses `bootstrap.sh`. See ADR-016 (revised 2026-03-01).
 
 ### Bootstrap: One-Time Security Setup

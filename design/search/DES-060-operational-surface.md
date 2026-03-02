@@ -1,5 +1,7 @@
 ## DES-060: Operational Surface — Health, Deployment, and Traceability
 
+**Status: Implemented** — see `app/ops/`, `scripts/status.sh`, `scripts/deploy.sh`, `scripts/release-tag.sh`, `scripts/doc-validate.sh`
+
 A unified operational layer providing health monitoring, deployment ceremony, document integrity validation, and design-artifact traceability. Consolidates PRO-035 (Release Tagging), PRO-036 (Operational Health), PRO-037 (Document Integrity CI), and PRO-039 (Design-Artifact Traceability) into a single implementation specification.
 
 ### Governing Decisions

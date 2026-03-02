@@ -1,5 +1,7 @@
 ## DES-058: Search Quality Evaluation Harness
 
+**Status: Implemented** — see `scripts/eval/`, `data/eval/`
+
 **Governed by:** ADR-005 E5, M1a-8, M1b-2
 
 The search quality evaluation harness is the acceptance gate for Arc 1. It validates that hybrid search returns relevant passages for representative queries before the portal is deployed. This section specifies the golden set format, query design protocol, evaluation methodology, metrics, automation, and CI integration.

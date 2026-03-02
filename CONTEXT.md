@@ -2,17 +2,17 @@
 
 ## Current State
 
-**Arc 2: Presence — Milestone 2b (Refine) complete, stretch goals advancing.** 13 of 13 numbered deliverables done; 3 items reclassified (HyDE/Cohere Rerank → M3a search pipeline; Vercel KV skipped — trigger conditions not met). Stretch goals actively shipping: color theme system (auto/light/sepia/dark), font size selector, circadian color temperature (DES-011), "Breath Between Chapters" (DES-012), PWA manifest. Remaining stretch: WCAG audit, responsive design polish, visual regression testing. See ROADMAP.md § M2b for details.
+**Arc 2: Presence — Milestone 2b (Refine) complete.** 13 of 13 numbered deliverables done; 3 items reclassified (HyDE/Cohere Rerank → M3a search pipeline; Vercel KV skipped — trigger conditions not met). Stretch goals shipped: 5 color themes (auto/light/sepia/dark/meditate), color theme selector in ReaderSettings, circadian color temperature (DES-011), "Breath Between Chapters" (DES-012), PWA manifest + offline fallback, cross-site URL registry, font size + line spacing selector, visual regression Playwright screenshots, DES-007 Opening Moment, reading progress persistence, keyboard help overlay (? key), haptic dwell feedback. See ROADMAP.md § M2b for details.
 
-**What exists:** Full working portal deployed on Vercel. All pages navigable: Homepage, Books, About, Quiet Corner, Privacy, Legal, Browse, Integrity, Search, Ops, Passage, Bookmarks. Hybrid search (vector + BM25 + RRF) operational in English and Spanish. Reader experience immersive: dwell contemplation, keyboard navigation, lotus bookmarks, focus/presentation modes, parting words, contextual quiet corner, adaptive low-bandwidth. Color theme system with circadian warmth shifts. 395 Vitest tests across 32 files (all passing). Performance: all pages ≤ 130KB First Load JS. CI pipeline (build, lint, type check, test, a11y) runs on every PR.
+**What exists:** Full working portal deployed on Vercel. All pages navigable: Homepage, Books, About, Quiet Corner, Privacy, Legal, Browse, Integrity, Search, Ops, Passage, Bookmarks. Hybrid search (vector + BM25 + RRF) operational in English and Spanish. Reader experience immersive: dwell contemplation, keyboard navigation, lotus bookmarks, focus/presentation modes, parting words, contextual quiet corner, adaptive low-bandwidth. Color theme system with circadian warmth shifts. 480 Vitest tests across 43 files, 36 E2E Playwright tests (all passing). ALL React components have unit tests — zero untested components remain. Performance: all pages ≤ 130KB First Load JS. CI pipeline (build, lint, type check, test, a11y) runs on every PR.
 
 **Corpus:** 2,681 total chunks (1,568 en + 1,113 es), all embedded via Voyage voyage-3-large. English search quality: 92% Recall@3 (12 queries, 275ms avg). Spanish: 100% eval pass (15/15). Two books ingested: *Autobiography of a Yogi* (English, 49 chapters, 164,029 words) and *Autobiografía de un yogui* (Spanish, 49 chapters, 122,602 words).
 
 **Infrastructure:** Neon PostgreSQL 18 Scale tier (pgvector + pg_search + pg_stat_statements). Contentful space with Book → Chapter → Section → TextBlock content model (en + es locales). Sentry error tracking. CI/CD via GitHub Actions (ci.yml). Terraform configuration for Neon, Sentry, Vercel, AWS. Service Worker with network-first caching + offline fallback. Centralized cross-site URL registry (`/lib/config/srf-links.ts`) covering the yogananda.org ecosystem (80+ URLs, three-room model).
 
-**Design documentation:** PRINCIPLES.md (12 principles), DESIGN.md (cross-cutting index) + 33 individual design files in `design/` (search/, experience/, editorial/), DECISIONS.md index + 3 body files (130+ ADRs), PROPOSALS.md (PRO-001 through PRO-044). DES-060 (Operational Surface) adopted from PRO-035/036/037/039.
+**Design documentation:** PRINCIPLES.md (12 principles), DESIGN.md (cross-cutting index) + 34 individual design files in `design/` (search/, experience/, editorial/), DECISIONS.md index + 3 body files (130+ ADRs), PROPOSALS.md (PRO-001 through PRO-044). DES-060 (Operational Surface) adopted from PRO-035/036/037/039.
 
-**What's next:** Close M2b (assess stretch goals), then begin Milestone 3a (Corpus) — ingest first-wave books (*Where There Is Light*, *Sayings*, *Scientific Healing Affirmations*), expand Today's Wisdom and Quiet Corner pools, activate cross-book search. HyDE and Cohere Rerank evaluate as M3a-11/M3a-12 with larger corpus. Hindi deferred to Milestone 5b — authorized YSS ebook unavailable outside India (PRO-043 explores unblock path via YSS authorization, potentially activating ~425M reachable).
+**What's next:** Begin Milestone 3a (Corpus) — ingest first-wave books (*Where There Is Light*, *Sayings*, *Scientific Healing Affirmations*), expand Today's Wisdom and Quiet Corner pools, activate cross-book search. HyDE and Cohere Rerank evaluate as M3a-11/M3a-12 with larger corpus. Hindi deferred to Milestone 5b — authorized YSS ebook unavailable outside India (PRO-043 explores unblock path via YSS authorization, potentially activating ~425M reachable).
 
 **Build methodology (PRI-12):** Claude executes all deliverables autonomously — as architect, designer, implementer, and operator. No human-in-the-loop gates in the development process. The human principal reviews at their discretion, not as a blocking step. This applies to development methodology — PRINCIPLES.md § "Human Review as Mandatory Gate" governs the production portal's content governance, not the build process.
 
@@ -28,31 +28,19 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 
 ## Open Questions
 
-### Tier 1: No remaining blockers — Milestone 1a can begin
-
-*Reclassified 2026-02-25. These questions are real but discoverable through implementation, not prerequisites for starting. Chunk size is evaluated in Deliverable M1a-8. Enrichment prompt is Deliverable M1c-13. Edition variance resolved for Arc 1 (ebook extraction for English via `scripts/book-ingest/`; Amazon Spanish edition for 1b; Hindi deferred — authorized source unavailable); multi-edition is Arc 3+. Parameter validation already governed by ADR-123. Devanāgarī typeface selection is now Arc 1 relevant for Sanskrit verses in English books; full Hindi reading deferred to Milestone 5b.*
+*Summary: 0 Tier 1, 17 Tier 2, 22 Tier 3, 36 Tier 4, ~35 Tier 5+ (in `docs/guides/future-questions.md`). No blockers for M3a.*
 
 ### Tier 2: Resolve During Arc 1 (not 1a-specific)
-
-**Technical (reclassified from Tier 1 — resolved through deliverable assignments)**
-- [x] Optimal chunk size for Yogananda's prose style (test 200, 300, 500 token chunks). *Resolved: evaluated empirically in Deliverable M1a-8.* (ADR-048)
-- [x] Optimal enrichment prompt structure: test unified enrichment prompt (ADR-115) against 30 actual passages. *Resolved: Deliverable M1c-13 addresses this directly.* (ADR-115)
-- [x] Edition variance policy: when multiple editions exist with textual variants, which edition is canonical? *Resolved: Arc 1 uses spiritmaji.com edition (ADR-123 parameter). Multi-edition policy is Arc 3+.* (ADR-001, ADR-034, ADR-039, ADR-007)
-- [x] Milestone 1a parameter validation. *Resolved: governed by ADR-123. Success criteria in ROADMAP.md include search quality evaluation (Deliverable M1a-8).*
-
-**Stakeholder (reclassified from Tier 1 — now Arc 1 relevant for Hindi/Spanish)**
-- [ ] Which books have official translations in which languages? **Critical for Tier 1 (Spanish) in Arc 1; Hindi deferred to Milestone 5b.** Content availability matrix needed: Language × Book × Format (print/ebook/digital text/audio). Arc 1 uses Amazon-purchased Spanish edition as temporary source; full matrix needed before Tier 2 activation. (ADR-075, ADR-077, ADR-128)
-- [ ] *God Talks with Arjuna* Devanāgarī content: not relevant until that book is ingested (Milestone 3a+). (ADR-080, ADR-048)
 
 **Technical**
 - [ ] Contentful record capacity: monitor record count during ingestion. Evaluate tier needs at Milestone 3a (multi-book corpus).
 - [ ] fastText vs. alternative language detection for short queries containing Sanskrit terms. Evaluate during Arc 1 search quality testing.
-- [x] Devanāgarī font timing: *Resolved 2026-02-28, updated 2026-03-01.* Both *God Talks with Arjuna* and *The Holy Science* contain Devanāgarī verses. Hindi *Autobiography* deferred from Arc 1 (authorized source unavailable outside India). Noto Serif Devanagari still needed for Sanskrit verses in English books (Arc 3+); full Hindi reading typography (ADR-080) activates in Milestone 5b. (ADR-080)
 - [ ] Abuse and misuse patterns: extraction at scale, quote weaponization, SEO parasitism. Should the portal include rate limiting tiers, `rel=canonical` enforcement, MCP usage policy, or text watermarking? (ADR-001, ADR-011, ADR-101, ADR-063, ADR-081)
-- [x] Cloudflare adoption and scope. *Resolved 2026-02-26: Vercel-native (Firewall Rules, DDoS protection, bot detection, CDN). Cloudflare removed from portal infrastructure — double-CDN adds complexity without unique value for this portal. PRO-017 created for re-evaluation if SRF routes the domain through Cloudflare. All documents updated.* (PRO-017)
 - [ ] VLD editorial authentication: Milestone 3b+ VLD curation (ADR-082) references Auth0 roles, but Auth0 arrives at Milestone 7a+. What authentication mechanism serves the editorial portal before Auth0? Options: API keys, HTTP Basic, or lightweight auth (e.g., Neon Auth per PRO-005). Needs resolution before Milestone 3b scoping.
 
 **Stakeholder**
+- [ ] Which books have official translations in which languages? **Critical for Tier 1 (Spanish) in Arc 1; Hindi deferred to Milestone 5b.** Content availability matrix needed: Language × Book × Format (print/ebook/digital text/audio). Arc 1 uses Amazon-purchased Spanish edition as temporary source; full matrix needed before Tier 2 activation. (ADR-075, ADR-077, ADR-128)
+- [ ] *God Talks with Arjuna* Devanāgarī content: not relevant until that book is ingested (Milestone 3a+). (ADR-080, ADR-048)
 - [ ] Existing SRF editorial voice guide: does SRF already have brand voice guidelines? The portal should extend them. (ADR-074)
 - [ ] SRF editorial policy on contested transliterations: does SRF confirm house style (e.g., "Babaji" vs. "Bābājī") as canonical for all portal display text? (ADR-080, ADR-034)
 - [ ] Cross-property content correction coordination: shared content source of truth, or each property maintains its own? (ADR-034, ADR-039)
@@ -182,6 +170,12 @@ Questions about Milestone 3b+ features — multilingual scale, multimedia, MCP d
 | 2026-03-01 | Dark Night query category added to search quality evaluation — 8 fragmentary distress queries evaluated by Opus for retrieval intent match, not just Recall@3 | DES-058, ADR-129 |
 | 2026-03-01 | Terraform replaced by Platform MCP for all vendor infrastructure. ADR-016 revised: `teachings.json` as declarative spec, Platform MCP as execution engine, platform database as state store. `bootstrap.sh` preserved for one-time AWS security. PRI-12 justifies divergence from SRF Tech Stack Brief. | ADR-016, ADR-017, DES-039 |
 | 2026-03-01 | Two-layer Neon management model replaces three-layer: Platform MCP + Neon MCP (infrastructure + operations) and SQL (data). Former Terraform layer absorbed by platform. | DES-039, ADR-124 |
+| 2026-02-25 | Optimal chunk size evaluated empirically in M1a-8 | ADR-048 |
+| 2026-02-25 | Enrichment prompt structure resolved via M1c-13 deliverable | ADR-115 |
+| 2026-02-25 | Edition variance: Arc 1 uses spiritmaji.com edition; multi-edition policy Arc 3+ | ADR-001, ADR-034 |
+| 2026-02-25 | M1a parameter validation governed by ADR-123 with success criteria in ROADMAP.md | ADR-123 |
+| 2026-03-01 | Devanāgarī font timing: both *God Talks with Arjuna* and *The Holy Science* contain Devanāgarī. Hindi deferred; Noto Serif Devanagari needed for Sanskrit in English books (Arc 3+) | ADR-080 |
+| 2026-02-26 | Cloudflare removed from portal stack — Vercel-native suffices; PRO-017 for re-evaluation | PRO-017 |
 
 *Tech-selection decisions (embedding model, AI provider, single-database, full-text search, graph layer, language URLs) are fully captured in their governing ADRs (ADR-118, ADR-014, ADR-119, ADR-013, ADR-117, ADR-114, ADR-027) and no longer repeated here.*
 

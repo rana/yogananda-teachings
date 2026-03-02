@@ -154,6 +154,15 @@ Step 12: Graph Metrics (Milestone 3b+, ADR-117 — nightly batch, not per-ingest
  └── extracted_relationships (Step 7) feed graph structure automatically
 ```
 
+### Contentful Integration (Implementation)
+
+| Component | File | Status |
+|-----------|------|--------|
+| Contentful client | `lib/contentful.ts` | Active development |
+| Contentful import script | `scripts/ingest/import-contentful.ts` | Active development |
+| Inbound webhook handler | `app/api/v1/webhooks/contentful/route.ts` | Active development |
+| Ingestion orchestrator | `scripts/ingest/ingest.ts` | Active development |
+
 ### Webhook Sync Pipeline (Contentful → Neon, Milestone 1c+)
 
 ```

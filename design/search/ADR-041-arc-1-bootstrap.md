@@ -1,5 +1,7 @@
 ## ADR-041: Arc 1 Bootstrap
 
+**Status: Implemented** — see `migrations/001_initial_schema.sql`, `scripts/book-ingest/`, `lib/services/`, `app/api/v1/`
+
 The path from "no code" to "running search" — the ceremony that transforms design documents into a working system.
 
 ### Environment Setup

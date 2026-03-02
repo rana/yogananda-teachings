@@ -42,8 +42,7 @@
 | PRO-030 | Sacred Image Management — Watermarking and Multi-Size Serving | Feature | Suspended from ADR-063, ADR-064 | ADR-063, ADR-064 | Bulk suspension 2026-03-01 |
 | PRO-031 | Study & Community Tools — Workspace, Collections, VLD | Feature | Suspended from ADR-083, ADR-086, ADR-087 | ADR-083, ADR-086, ADR-087 | Bulk suspension 2026-03-01 |
 | PRO-032 | Brand Distribution — Dashboard, Email, Social Media | Feature | Suspended from ADR-090, ADR-091, ADR-092 | ADR-090, ADR-091, ADR-092 | Bulk suspension 2026-03-01 |
-| PRO-043 | Teachings Platform — Shared Foundation for SRF and YSS | Feature (Platform) | Proposed | ADR-075, ADR-077, ADR-078, ADR-128, ADR-011, ADR-079, PRO-034 | Strategic exploration 2026-03-01 |
-| PRO-044 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) | Proposed | PRI-04, ADR-104, ADR-122, DES-029, DES-042, DES-054 | Ecosystem exploration 2026-03-02 |
+| PRO-033 | YSS Locale Branding | Feature | Subsumed → PRO-043 | ADR-079 | ADR-079 suspension 2026-03-01 |
 | PRO-034 | Magazine API Rationalization | Enhancement | Suspended from ADR-108 | ADR-108 | Bulk suspension 2026-03-01 |
 | PRO-035 | Release Tagging and Deployment Ceremony | Enhancement | Adopted → DES-060, M1a-11, M1c-17, M1c-18 | ADR-018, ADR-020, DES-039, ADR-105, DES-051, DES-060 | Ops exploration 2026-03-01 |
 | PRO-036 | Operational Health Surface and SLI/SLO Framework | Feature | Adopted → DES-060, ADR-095 §SLI/SLO, M1a-10. `/ops` page → platform MCP | ADR-095, ADR-020, DES-039, ADR-021, DES-060 | Ops exploration 2026-03-01 |
@@ -53,6 +52,8 @@
 | PRO-040 | Living Golden Set — Seeker-Fed Search Quality | Enhancement | Proposed | DES-058, ADR-095, ADR-099, ADR-053 | Ops exploration 2026-03-01 |
 | PRO-041 | Documents as Executable Specifications | Enhancement | Proposed | ADR-098, ADR-094, PRO-037 | Ops exploration 2026-03-01 |
 | PRO-042 | Feature Lifecycle Portal — Calm Operations for Engineering Leadership | Feature | Proposed | PRO-038, PRO-036, DES-060, ADR-095, ADR-099, ADR-098, PRI-08 | Ops exploration 2026-03-01 |
+| PRO-043 | Teachings Platform — Shared Foundation for SRF and YSS | Feature (Platform) | Proposed | ADR-075, ADR-077, ADR-078, ADR-128, ADR-011, ADR-079, PRO-034 | Strategic exploration 2026-03-01 |
+| PRO-044 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) | Proposed | PRI-04, ADR-104, ADR-122, DES-029, DES-042, DES-054 | Ecosystem exploration 2026-03-02 |
 
 ---
 
