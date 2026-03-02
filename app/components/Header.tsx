@@ -11,7 +11,7 @@
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
-import { LanguageSwitcher } from "./LanguageSwitcher";
+import { ReaderSettings } from "./ReaderSettings";
 import { SrfLotus } from "./SrfLotus";
 
 export function Header() {
@@ -61,7 +61,7 @@ export function Header() {
               </Link>
             );
           })}
-          <LanguageSwitcher />
+          <ReaderSettings />
         </div>
       </nav>
     </header>

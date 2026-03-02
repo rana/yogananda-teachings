@@ -160,6 +160,16 @@
     "backHome": "Return home",
     "helpfulLinks": "Helpful links"
   },
+  "settings": {
+    "label": "Settings",
+    "textOnly": "Text-only mode",
+    "textOnlyDescription": "Hide images and decorative elements",
+    "fontSize": "Font size",
+    "fontDefault": "Default",
+    "fontLarge": "Large",
+    "fontLarger": "Larger",
+    "language": "Language"
+  },
   "a11y": {
     "skipToContent": "Skip to main content",
     "mainNavigation": "Main navigation",

@@ -160,6 +160,16 @@
     "backHome": "Volver al inicio",
     "helpfulLinks": "Enlaces útiles"
   },
+  "settings": {
+    "label": "Ajustes",
+    "textOnly": "Modo solo texto",
+    "textOnlyDescription": "Ocultar imágenes y elementos decorativos",
+    "fontSize": "Tamaño de fuente",
+    "fontDefault": "Predeterminado",
+    "fontLarge": "Grande",
+    "fontLarger": "Más grande",
+    "language": "Idioma"
+  },
   "a11y": {
     "skipToContent": "Saltar al contenido principal",
     "mainNavigation": "Navegación principal",

@@ -1,7 +1,7 @@
 /**
  * Site footer — M2a-5 (ADR-088).
  *
- * SRF ecosystem links, text-only toggle, copyright.
+ * SRF ecosystem links and copyright.
  * Locale-aware via next-intl.
  */
 
@@ -9,7 +9,6 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { TextOnlyToggle } from "./TextOnlyToggle";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -80,11 +79,8 @@ export function Footer() {
           </a>
         </nav>
 
-        {/* Bottom row */}
-        <div className="mt-4 flex items-center justify-between">
-          <p className="text-xs text-srf-navy/30">{t("copyright")}</p>
-          <TextOnlyToggle />
-        </div>
+        {/* Copyright */}
+        <p className="mt-4 text-center text-xs text-srf-navy/30">{t("copyright")}</p>
       </div>
     </footer>
   );
