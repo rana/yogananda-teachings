@@ -325,7 +325,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 
 **Goal:** Add the contemplative reader interactions that distinguish the portal from a standard web reader — dwell mode, keyboard navigation, bookmarks, typography refinements, and offline support.
 
-**Progress (2026-03-02):** 13 of 13 numbered deliverables complete. **Stretch goals advancing:** Color theme system (auto/light/sepia/dark with `data-theme` on `<html>`, high-contrast support), font size selector (3 sizes, class on `<html>`), circadian color temperature (DES-011: morning/midday/evening warmth shifts via `data-time-band`), "Breath Between Chapters" transition (DES-012: 1.2s title pause + 400ms fade on prev/next navigation), PWA manifest (standalone, installable), centralized cross-site URL registry (`/lib/config/srf-links.ts` with 80+ URLs, all hardcoded URLs migrated). HyDE search (M2b-12) and Cohere Rerank (M2b-13) reclassified to M3a-11/M3a-12 for multi-book corpus evaluation. M2b-14 (Vercel KV) skipped — trigger conditions not met. 395 Vitest tests across 32 files (all passing). Performance: all pages ≤ 130KB First Load JS.
+**Progress (2026-03-02):** 13 of 13 numbered deliverables complete. **Stretch goals advancing:** Color theme system with 5 themes (auto/light/sepia/dark/meditate) via `data-theme` on `<html>`, with high-contrast support and theme-aware surfaces (`bg-(--theme-surface)` replacing all `bg-white`). Meditation theme (`#0a1633` deep navy, `#d4cfc7` text, gold at 60%) for contemplative reading. Color theme selector in ReaderSettings popover. Font size selector (3 sizes, class on `<html>`). Circadian color temperature (DES-011: morning/midday/evening warmth shifts via `data-time-band`). "Breath Between Chapters" transition (DES-012: 1.2s title pause + 400ms fade on prev/next navigation). PWA manifest (standalone, installable). Centralized cross-site URL registry (`/lib/config/srf-links.ts` with 80+ URLs, all hardcoded URLs migrated). HyDE search (M2b-12) and Cohere Rerank (M2b-13) reclassified to M3a-11/M3a-12 for multi-book corpus evaluation. M2b-14 (Vercel KV) skipped — trigger conditions not met. 403 Vitest tests across 33 files (all passing). Performance: all pages ≤ 130KB First Load JS.
 
 ### Deliverables
 
@@ -368,8 +368,8 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 **Additional deliverables (stretch goals — not in the numbered deliverable table but expected by arc gate):**
 - Calm Technology design system as shared npm package
 - Formal WCAG 2.1 AA third-party audit with real-user assistive technology testing
-- Reading mode: adjustable font, sepia/dark mode, high-contrast (`prefers-color-scheme`, `prefers-contrast`)
-- Circadian color temperature and "Breath Between Chapters" transitions (DES-011, DES-012)
+- **Done.** Reading mode: 5 color themes (auto/light/sepia/dark/meditate) with theme selector in ReaderSettings, adjustable font, high-contrast (`prefers-contrast`), theme-aware surfaces across all pages
+- **Done.** Circadian color temperature and "Breath Between Chapters" transitions (DES-011, DES-012)
 - Progressive Web App: offline book reading, home screen installable (ADR-012)
 - Responsive design polish: tablet layout, print stylesheet, touch-friendly (DES-049)
 - Visual regression testing via Playwright screenshots
