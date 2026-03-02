@@ -1,16 +1,32 @@
 /**
- * Search service unit tests — M2a-21.
+ * Search service unit tests — M2a-21, M2b-12, M2b-13.
  *
  * Tests the hybrid search service with mock pg.Pool.
- * Mocks Voyage API for embedding generation.
+ * Mocks Voyage API, HyDE (Claude Bedrock), and Cohere Rerank.
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { search } from "../search";
 
-// Mock fetch for Voyage API calls
+// Mock fetch for Voyage and Cohere API calls
 const mockFetch = vi.fn();
 vi.stubGlobal("fetch", mockFetch);
+
+// Mock HyDE generation
+vi.mock("../hyde", () => ({
+  generateHypotheticalDocument: vi.fn().mockResolvedValue(null),
+}));
+
+// Mock Rerank
+vi.mock("../rerank", () => ({
+  rerank: vi.fn().mockResolvedValue(null),
+}));
+
+import { generateHypotheticalDocument } from "../hyde";
+import { rerank } from "../rerank";
+
+const mockHyde = generateHypotheticalDocument as ReturnType<typeof vi.fn>;
+const mockRerank = rerank as ReturnType<typeof vi.fn>;
 
 function mockPool(rows: Record<string, unknown>[]) {
   return {
@@ -39,6 +55,8 @@ describe("search", () => {
     vi.clearAllMocks();
     // Default: Voyage API not available (no API key)
     delete process.env.VOYAGE_API_KEY;
+    mockHyde.mockResolvedValue(null);
+    mockRerank.mockResolvedValue(null);
   });
 
   it("returns FTS-only results when VOYAGE_API_KEY is not set", async () => {
@@ -139,5 +157,138 @@ describe("search", () => {
       expect.any(String),
       expect.arrayContaining([5]),
     );
+  });
+
+  // ── HyDE enhancement (M2b-12) ──────────────────────────────────
+
+  it("uses enhanced mode with HyDE when enhance='hyde' and HyDE succeeds", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    // Query embedding (call 1) + HyDE document embedding (call 2)
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.2) }] }),
+      });
+
+    mockHyde.mockResolvedValueOnce(
+      "Meditation is the science of God-realization. Through deep stillness of body and mind...",
+    );
+
+    const pool = mockPool([{ ...sampleRow, from_hyde: true }]);
+
+    const result = await search(pool, { query: "meditation", enhance: "hyde" });
+
+    expect(result.mode).toBe("enhanced");
+    expect(result.enhancements).toContain("hyde");
+    expect(mockHyde).toHaveBeenCalledWith("meditation", "en");
+  });
+
+  it("falls back to standard hybrid when HyDE generation fails", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+    });
+
+    mockHyde.mockResolvedValueOnce(null); // HyDE failed
+
+    const pool = mockPool([sampleRow]);
+
+    const result = await search(pool, { query: "meditation", enhance: "hyde" });
+
+    expect(result.mode).toBe("hybrid"); // Not enhanced — HyDE failed
+    expect(result.enhancements).toBeUndefined();
+  });
+
+  // ── Rerank enhancement (M2b-13) ────────────────────────────────
+
+  it("reranks results when enhance='rerank' and Cohere succeeds", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+    });
+
+    const sampleRow2 = { ...sampleRow, id: "chunk-2", rrf_score: "0.70" };
+    const pool = mockPool([sampleRow, sampleRow2]);
+
+    mockRerank.mockResolvedValueOnce([
+      { index: 1, relevance_score: 0.98 }, // chunk-2 ranked higher
+      { index: 0, relevance_score: 0.82 }, // chunk-1 ranked lower
+    ]);
+
+    const result = await search(pool, { query: "meditation", enhance: "rerank" });
+
+    expect(result.mode).toBe("enhanced");
+    expect(result.enhancements).toContain("rerank");
+    // chunk-2 should now be first (reranker put it first)
+    expect(result.results[0].id).toBe("chunk-2");
+    expect(result.results[0].score).toBe(0.98);
+  });
+
+  it("falls back to RRF scores when Cohere fails", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+    });
+
+    const pool = mockPool([sampleRow]);
+    mockRerank.mockResolvedValueOnce(null); // Rerank failed
+
+    const result = await search(pool, { query: "meditation", enhance: "rerank" });
+
+    expect(result.mode).toBe("hybrid"); // Not enhanced — rerank failed
+    expect(result.results[0].score).toBe(0.85); // Original RRF score
+  });
+
+  // ── Full enhancement (M2b-12 + M2b-13) ────────────────────────
+
+  it("applies both HyDE and Rerank when enhance='full'", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.2) }] }),
+      });
+
+    mockHyde.mockResolvedValueOnce("A hypothetical passage about finding inner peace...");
+    mockRerank.mockResolvedValueOnce([
+      { index: 0, relevance_score: 0.99 },
+    ]);
+
+    const pool = mockPool([{ ...sampleRow, from_hyde: true }]);
+
+    const result = await search(pool, { query: "inner peace", enhance: "full" });
+
+    expect(result.mode).toBe("enhanced");
+    expect(result.enhancements).toContain("hyde");
+    expect(result.enhancements).toContain("rerank");
+    expect(result.results[0].score).toBe(0.99);
+  });
+
+  it("does not activate enhancements without enhance option", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () => Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+    });
+
+    const pool = mockPool([sampleRow]);
+
+    const result = await search(pool, { query: "meditation" });
+
+    expect(result.mode).toBe("hybrid");
+    expect(result.enhancements).toBeUndefined();
+    expect(mockHyde).not.toHaveBeenCalled();
+    expect(mockRerank).not.toHaveBeenCalled();
   });
 });

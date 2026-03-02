@@ -2,11 +2,14 @@
  * Hybrid search service: vector + FTS + RRF (ADR-044, ADR-114).
  *
  * Framework-agnostic (PRI-10). Receives a pg.Pool as dependency.
- * No AI in the search path — pure hybrid search is the primary mode (ADR-119).
+ * Pure hybrid search is the primary mode — no AI in the search path (ADR-119).
+ * Optional enhancements: HyDE (M2b-12) and cross-encoder reranking (M2b-13).
  */
 
 import type pg from "pg";
-import { RRF_K, SEARCH_RESULTS_LIMIT } from "@/lib/config";
+import { RRF_K, SEARCH_RESULTS_LIMIT, RERANK_TOP_N } from "@/lib/config";
+import { generateHypotheticalDocument } from "@/lib/services/hyde";
+import { rerank } from "@/lib/services/rerank";
 
 // ── Types ────────────────────────────────────────────────────────
 
@@ -21,26 +24,30 @@ export interface SearchResult {
   pageNumber: number | null;
   sectionHeading: string | null;
   language: string;
-  /** RRF combined score */
+  /** RRF combined score (or rerank relevance score when reranked) */
   score: number;
   /** Which search paths contributed to this result */
-  sources: ("vector" | "fts")[];
+  sources: ("vector" | "fts" | "hyde")[];
 }
 
 export interface SearchOptions {
   query: string;
   language?: string;
   limit?: number;
+  /** Optional AI enhancements (ADR-119). Feature-flagged. */
+  enhance?: "hyde" | "rerank" | "full";
 }
 
 export interface SearchResponse {
   results: SearchResult[];
   query: string;
-  mode: "hybrid" | "fts_only" | "vector_only";
+  mode: "hybrid" | "fts_only" | "vector_only" | "enhanced";
   totalResults: number;
   durationMs: number;
   /** When results come from a different language than requested */
   fallbackLanguage?: string;
+  /** Which enhancements were active on this search */
+  enhancements?: ("hyde" | "rerank")[];
 }
 
 // ── Embedding ────────────────────────────────────────────────────
@@ -48,8 +55,9 @@ export interface SearchResponse {
 const VOYAGE_API_URL = "https://api.voyageai.com/v1/embeddings";
 const EMBEDDING_MODEL = "voyage-3-large";
 
-async function getQueryEmbedding(
-  query: string,
+async function getEmbedding(
+  text: string,
+  inputType: "query" | "document",
 ): Promise<number[] | null> {
   const apiKey = process.env.VOYAGE_API_KEY;
   if (!apiKey) return null;
@@ -63,8 +71,8 @@ async function getQueryEmbedding(
       },
       body: JSON.stringify({
         model: EMBEDDING_MODEL,
-        input: [query],
-        input_type: "query",
+        input: [text],
+        input_type: inputType,
       }),
     });
 
@@ -79,42 +87,68 @@ async function getQueryEmbedding(
   }
 }
 
+async function getQueryEmbedding(query: string): Promise<number[] | null> {
+  return getEmbedding(query, "query");
+}
+
+async function getDocumentEmbedding(text: string): Promise<number[] | null> {
+  return getEmbedding(text, "document");
+}
+
 // ── Search ───────────────────────────────────────────────────────
 
 /**
  * Hybrid search: vector similarity + full-text search + RRF fusion.
  *
- * When embeddings are available: full hybrid (vector + FTS + RRF).
- * When embeddings unavailable: FTS-only mode (still returns ranked results).
+ * Primary mode: pure hybrid (vector + FTS + RRF). No AI in the search path.
+ * Enhanced mode (feature-flagged): HyDE and/or cross-encoder reranking.
  */
 export async function search(
   pool: pg.Pool,
   options: SearchOptions,
 ): Promise<SearchResponse> {
   const start = Date.now();
-  const { query, language = "en", limit = SEARCH_RESULTS_LIMIT } = options;
+  const {
+    query,
+    language = "en",
+    limit = SEARCH_RESULTS_LIMIT,
+    enhance,
+  } = options;
   const fetchCount = limit * 3; // Over-fetch for RRF fusion
+
+  const wantHyde = enhance === "hyde" || enhance === "full";
+  const wantRerank = enhance === "rerank" || enhance === "full";
+  const activeEnhancements: ("hyde" | "rerank")[] = [];
 
   // Attempt to get query embedding for vector search
   const queryEmbedding = await getQueryEmbedding(query);
   const hasVectorSearch = queryEmbedding !== null;
 
+  // HyDE: generate hypothetical document and embed in document-space (M2b-12)
+  let hydeEmbedding: number[] | null = null;
+  if (wantHyde && hasVectorSearch) {
+    const hypothetical = await generateHypotheticalDocument(query, language);
+    if (hypothetical) {
+      hydeEmbedding = await getDocumentEmbedding(hypothetical);
+      if (hydeEmbedding) activeEnhancements.push("hyde");
+    }
+  }
+
   let mode: SearchResponse["mode"];
   let results: SearchResult[];
 
   if (hasVectorSearch) {
-    // Full hybrid: vector + FTS + RRF
     mode = "hybrid";
     results = await hybridSearch(
       pool,
       query,
       queryEmbedding,
+      hydeEmbedding,
       language,
       fetchCount,
       limit,
     );
   } else {
-    // FTS-only fallback
     mode = "fts_only";
     results = await ftsOnlySearch(pool, query, language, limit);
   }
@@ -129,6 +163,7 @@ export async function search(
         pool,
         query,
         queryEmbedding,
+        hydeEmbedding,
         "en",
         fetchCount,
         limit,
@@ -137,6 +172,26 @@ export async function search(
       results = await ftsOnlySearch(pool, query, "en", limit);
     }
   }
+
+  // Cross-encoder reranking (M2b-13, ADR-119)
+  if (wantRerank && results.length > 0) {
+    const reranked = await rerank(
+      query,
+      results.map((r) => ({ id: r.id, content: r.content })),
+      RERANK_TOP_N,
+    );
+
+    if (reranked) {
+      activeEnhancements.push("rerank");
+      // Reorder results by reranker relevance scores
+      results = reranked.map((rr) => ({
+        ...results[rr.index],
+        score: rr.relevance_score,
+      }));
+    }
+  }
+
+  if (activeEnhancements.length > 0) mode = "enhanced";
 
   const durationMs = Date.now() - start;
 
@@ -152,6 +207,7 @@ export async function search(
     totalResults: results.length,
     durationMs,
     fallbackLanguage,
+    ...(activeEnhancements.length > 0 && { enhancements: activeEnhancements }),
   };
 }
 
@@ -159,13 +215,27 @@ async function hybridSearch(
   pool: pg.Pool,
   query: string,
   queryEmbedding: number[],
+  hydeEmbedding: number[] | null,
   language: string,
   fetchCount: number,
   limit: number,
 ): Promise<SearchResult[]> {
   const embeddingStr = `[${queryEmbedding.join(",")}]`;
 
-  // RRF over vector + FTS (ADR-044, DES-004 § Hybrid Search)
+  // When HyDE is active, run three-path RRF: query vector + HyDE vector + FTS
+  if (hydeEmbedding) {
+    return threePathHybridSearch(
+      pool,
+      query,
+      embeddingStr,
+      `[${hydeEmbedding.join(",")}]`,
+      language,
+      fetchCount,
+      limit,
+    );
+  }
+
+  // Standard two-path: query vector + FTS (ADR-044, DES-004 § Hybrid Search)
   const { rows } = await pool.query(
     `
     WITH vector_results AS (
@@ -222,6 +292,96 @@ async function hybridSearch(
     [embeddingStr, language, fetchCount, query, RRF_K, limit],
   );
 
+  return rows.map(mapRow);
+}
+
+/**
+ * Three-path RRF: query vector + HyDE document vector + FTS.
+ * The HyDE vector searches in document-space (ADR-119 § HyDE).
+ */
+async function threePathHybridSearch(
+  pool: pg.Pool,
+  query: string,
+  queryEmbeddingStr: string,
+  hydeEmbeddingStr: string,
+  language: string,
+  fetchCount: number,
+  limit: number,
+): Promise<SearchResult[]> {
+  const { rows } = await pool.query(
+    `
+    WITH query_vector_results AS (
+      SELECT bc.id,
+        ROW_NUMBER() OVER (ORDER BY bc.embedding <=> $1::vector) AS rank
+      FROM book_chunks bc
+      WHERE bc.language = $3
+        AND bc.embedding IS NOT NULL
+      ORDER BY bc.embedding <=> $1::vector
+      LIMIT $4
+    ),
+    hyde_vector_results AS (
+      SELECT bc.id,
+        ROW_NUMBER() OVER (ORDER BY bc.embedding <=> $2::vector) AS rank
+      FROM book_chunks bc
+      WHERE bc.language = $3
+        AND bc.embedding IS NOT NULL
+      ORDER BY bc.embedding <=> $2::vector
+      LIMIT $4
+    ),
+    fts_results AS (
+      SELECT bc.id,
+        ts_rank_cd(bc.search_vector, plainto_tsquery('simple', $5)) AS fts_score,
+        ROW_NUMBER() OVER (ORDER BY ts_rank_cd(bc.search_vector, plainto_tsquery('simple', $5)) DESC) AS rank
+      FROM book_chunks bc
+      WHERE bc.language = $3
+        AND bc.search_vector @@ plainto_tsquery('simple', $5)
+      ORDER BY fts_score DESC
+      LIMIT $4
+    ),
+    all_ids AS (
+      SELECT id FROM query_vector_results
+      UNION SELECT id FROM hyde_vector_results
+      UNION SELECT id FROM fts_results
+    ),
+    rrf AS (
+      SELECT
+        a.id,
+        (COALESCE(1.0 / ($6 + qv.rank), 0) +
+         COALESCE(1.0 / ($6 + hv.rank), 0) +
+         COALESCE(1.0 / ($6 + f.rank), 0)) AS rrf_score,
+        qv.id IS NOT NULL AS from_vector,
+        hv.id IS NOT NULL AS from_hyde,
+        f.id IS NOT NULL AS from_fts
+      FROM all_ids a
+      LEFT JOIN query_vector_results qv ON a.id = qv.id
+      LEFT JOIN hyde_vector_results hv ON a.id = hv.id
+      LEFT JOIN fts_results f ON a.id = f.id
+    )
+    SELECT
+      rrf.id,
+      rrf.rrf_score,
+      rrf.from_vector,
+      rrf.from_hyde,
+      rrf.from_fts,
+      bc.content,
+      bc.page_number,
+      bc.section_heading,
+      bc.language,
+      b.id AS book_id,
+      b.title AS book_title,
+      b.author AS book_author,
+      c.title AS chapter_title,
+      c.chapter_number
+    FROM rrf
+    JOIN book_chunks bc ON bc.id = rrf.id
+    JOIN books b ON b.id = bc.book_id
+    JOIN chapters c ON c.id = bc.chapter_id
+    ORDER BY rrf.rrf_score DESC
+    LIMIT $7
+    `,
+    [queryEmbeddingStr, hydeEmbeddingStr, language, fetchCount, query, RRF_K, limit],
+  );
+
   return rows.map((row) => ({
     id: row.id,
     content: row.content,
@@ -236,6 +396,7 @@ async function hybridSearch(
     score: parseFloat(row.rrf_score),
     sources: [
       ...(row.from_vector ? (["vector"] as const) : []),
+      ...(row.from_hyde ? (["hyde"] as const) : []),
       ...(row.from_fts ? (["fts"] as const) : []),
     ],
   }));
@@ -284,8 +445,30 @@ async function ftsOnlySearch(
     sectionHeading: row.section_heading,
     language: row.language,
     score: parseFloat(row.score),
-    sources: ["fts"] as ("vector" | "fts")[],
+    sources: ["fts"] as ("vector" | "fts" | "hyde")[],
   }));
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+
+function mapRow(row: Record<string, unknown>): SearchResult {
+  return {
+    id: row.id as string,
+    content: row.content as string,
+    bookId: row.book_id as string,
+    bookTitle: row.book_title as string,
+    bookAuthor: row.book_author as string,
+    chapterTitle: row.chapter_title as string,
+    chapterNumber: row.chapter_number as number,
+    pageNumber: row.page_number as number | null,
+    sectionHeading: row.section_heading as string | null,
+    language: row.language as string,
+    score: parseFloat(row.rrf_score as string),
+    sources: [
+      ...(row.from_vector ? (["vector"] as const) : []),
+      ...(row.from_fts ? (["fts"] as const) : []),
+    ],
+  };
 }
 
 // ── Query Logging (ADR-053) ──────────────────────────────────────

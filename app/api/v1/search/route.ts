@@ -3,12 +3,14 @@
  *
  * Hybrid search: vector + FTS + RRF (ADR-044).
  * Returns ranked verbatim passages with citations (PRI-01, PRI-02).
- * No query expansion or intent classification — pure hybrid search (ADR-119).
+ * Pure hybrid search is the primary mode (ADR-119).
+ * Optional AI enhancements via `enhance` param (M2b-12/13).
  *
  * Query params:
  *   q         — search query (required)
  *   language  — language filter (default: "en")
  *   limit     — max results (default: 20, max: 50)
+ *   enhance   — optional: "hyde", "rerank", or "full" (both)
  */
 
 import { NextRequest, NextResponse } from "next/server";
@@ -63,11 +65,19 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Parse enhance param — validated to known values only
+  const enhanceParam = params.get("enhance");
+  const enhance =
+    enhanceParam === "hyde" || enhanceParam === "rerank" || enhanceParam === "full"
+      ? enhanceParam
+      : undefined;
+
   try {
     const response: SearchResponse = await search(pool, {
       query: query.trim(),
       language,
       limit,
+      enhance,
     });
 
     // API response shape per DES-019 § API Conventions (ADR-110)
@@ -95,6 +105,9 @@ export async function GET(request: NextRequest) {
         durationMs: response.durationMs,
         ...(response.fallbackLanguage && {
           fallbackLanguage: response.fallbackLanguage,
+        }),
+        ...(response.enhancements && {
+          enhancements: response.enhancements,
         }),
       },
     });

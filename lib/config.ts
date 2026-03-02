@@ -31,6 +31,25 @@ export const EMBEDDING_DIMENSIONS = 1024; // voyage-3-large output size.
 
 // ── Passages ────────────────────────────────────────────────────
 
+// ── HyDE — Hypothetical Document Embedding (M2b-12, ADR-119) ────
+
+/** Bedrock model for HyDE generation. Haiku for speed + cost. */
+export const HYDE_BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
+// Evaluate: switch to open-source (Mistral via Bedrock) when quality comparable.
+
+/** Max tokens for hypothetical document generation. */
+export const HYDE_MAX_TOKENS = 200; // ADR-119: 100-200 token passage.
+
+// ── Rerank — Cross-Encoder Reranking (M2b-13, ADR-119) ──────────
+
+/** Cohere reranking model. Multilingual-native. */
+export const RERANK_MODEL = "rerank-v3.5"; // Evaluate: BGE-reranker-v2 (self-hosted) at scale.
+
+/** Number of top results after reranking. */
+export const RERANK_TOP_N = 10; // ADR-119: cross-encoder returns top 10.
+
+// ── Passages ────────────────────────────────────────────────────
+
 /** Minimum passage length for Today's Wisdom display (characters). */
 export const PASSAGE_MIN_LENGTH = 80; // Below this, passages lack context. Evaluate at M2a.
 
