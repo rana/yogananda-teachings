@@ -21,6 +21,7 @@ import { ThemeSelector } from "@/app/components/ThemeSelector";
 import { FontSizeSelector } from "@/app/components/FontSizeSelector";
 import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
+import { PORTAL } from "@/lib/config/srf-links";
 
 /** Estimate reading time in minutes (~230 WPM average). */
 function estimateReadingTime(paragraphs: { content: string }[]): number {
@@ -42,7 +43,7 @@ export async function generateMetadata({
   const content = await getChapterContent(pool, bookId, chapterNumber);
   if (!content) return {};
   const prefix = locale === "en" ? "" : `/${locale}`;
-  const base = `https://teachings.yogananda.org${prefix}/books/${bookId}`;
+  const base = `${PORTAL.canonical}${prefix}/books/${bookId}`;
 
   // rel="prev"/"next" for sequential chapter navigation (M2a-7)
   const other: Record<string, string> = {};
@@ -90,7 +91,7 @@ export default async function ChapterPage({
 
   const readingTime = estimateReadingTime(content.paragraphs);
 
-  const bookUrl = `https://teachings.yogananda.org/${locale}/books/${bookId}`;
+  const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookId}`;
   const chapterUrl = `${bookUrl}/${chapterNumber}`;
   const jsonLd = [
     {
@@ -118,7 +119,7 @@ export default async function ChapterPage({
           "@type": "ListItem",
           position: 1,
           name: "Books",
-          item: `https://teachings.yogananda.org/${locale}/books`,
+          item: `${PORTAL.canonical}/${locale}/books`,
         },
         {
           "@type": "ListItem",

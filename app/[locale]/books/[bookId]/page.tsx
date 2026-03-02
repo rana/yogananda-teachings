@@ -11,6 +11,7 @@ import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
 import { getBooks, getChapters, getEquivalentBook } from "@/lib/services/books";
 import type { Metadata } from "next";
+import { PORTAL } from "@/lib/config/srf-links";
 
 export async function generateMetadata({
   params,
@@ -59,7 +60,7 @@ export default async function BookLandingPage({
     // No equivalent exists — show this book (ADR-077 cross-language fallback)
   }
 
-  const bookUrl = `https://teachings.yogananda.org/${locale}/books/${bookId}`;
+  const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookId}`;
   const jsonLd = [
     {
       "@context": "https://schema.org",
@@ -92,7 +93,7 @@ export default async function BookLandingPage({
           "@type": "ListItem",
           position: 1,
           name: "Books",
-          item: `https://teachings.yogananda.org/${locale}/books`,
+          item: `${PORTAL.canonical}/${locale}/books`,
         },
         {
           "@type": "ListItem",

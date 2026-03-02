@@ -13,6 +13,7 @@ import { getBooks, getChapters } from "@/lib/services/books";
 import { localeNames } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
+import { PORTAL } from "@/lib/config/srf-links";
 import { SRF_BOOKSTORE } from "@/lib/config/srf-links";
 
 export async function generateMetadata({
@@ -60,14 +61,14 @@ export default async function BooksPage({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: t("heading"),
-    url: `https://teachings.yogananda.org/${locale}/books`,
+    url: `${PORTAL.canonical}/${locale}/books`,
     hasPart: booksWithChapters.map((book) => ({
       "@type": "Book",
       name: book.title,
       author: { "@type": "Person", name: book.author },
       inLanguage: book.language,
       ...(book.publicationYear && { datePublished: String(book.publicationYear) }),
-      url: `https://teachings.yogananda.org/${locale}/books/${book.id}`,
+      url: `${PORTAL.canonical}/${locale}/books/${book.id}`,
       numberOfPages: book.chapterCount,
       copyrightHolder: {
         "@type": "Organization",
