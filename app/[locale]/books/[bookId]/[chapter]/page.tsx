@@ -14,6 +14,9 @@ import { getChapterContent, getEquivalentBook } from "@/lib/services/books";
 import { BookmarkButton } from "@/app/components/BookmarkButton";
 import { ScrollIndicator } from "@/app/components/ScrollIndicator";
 import { KeyboardNav } from "@/app/components/KeyboardNav";
+import { DwellMode } from "@/app/components/DwellMode";
+import { ReaderModes } from "@/app/components/ReaderModes";
+import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
 
 /** Estimate reading time in minutes (~230 WPM average). */
@@ -215,17 +218,24 @@ export default async function ChapterPage({
                 </span>
               </p>
             </div>
-            {/* Lotus bookmark — M2b-3 */}
-            <BookmarkButton
+            <div className="flex items-center gap-1">
+              {/* Reading modes — M2b-8, M2b-15 */}
+              <ReaderModes />
+              {/* Lotus bookmark — M2b-3 */}
+              <BookmarkButton
               bookId={bookId}
               bookTitle={content.book.title}
               bookAuthor={content.book.author}
               chapterNumber={content.chapter.chapterNumber}
               chapterTitle={content.chapter.title}
             />
+            </div>
           </div>
         </div>
       </header>
+
+      {/* Dwell contemplation — M2b-1 */}
+      <DwellMode />
 
       {/* Reading content — M2b-4 typography: drop caps, paper texture */}
       <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">
@@ -249,6 +259,9 @@ export default async function ChapterPage({
           Self-Realization Fellowship. teachings.yogananda.org
         </div>
       </article>
+
+      {/* Session closure — M2b-9 (DES-014) */}
+      <PartingWord locale={locale} />
 
       {/* Chapter navigation */}
       <nav
