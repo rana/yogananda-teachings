@@ -1,7 +1,8 @@
 /**
- * Chapter reader — M2a-2 (ADR-006, DES-006).
+ * Chapter reader — M2a-2, M2b-4, M2b-5 (ADR-006, DES-006, DES-008).
  *
  * Reading column at 38rem max-width for 65-75 char line length.
+ * Typography: drop caps, paper texture, optical margin alignment.
  * Print citation for @media print.
  */
 
@@ -10,7 +11,19 @@ import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
 import { getChapterContent, getEquivalentBook } from "@/lib/services/books";
+import { BookmarkButton } from "@/app/components/BookmarkButton";
+import { ScrollIndicator } from "@/app/components/ScrollIndicator";
+import { KeyboardNav } from "@/app/components/KeyboardNav";
 import type { Metadata } from "next";
+
+/** Estimate reading time in minutes (~230 WPM average). */
+function estimateReadingTime(paragraphs: { content: string }[]): number {
+  const words = paragraphs.reduce(
+    (sum, p) => sum + p.content.split(/\s+/).length,
+    0,
+  );
+  return Math.max(1, Math.round(words / 230));
+}
 
 export async function generateMetadata({
   params,
@@ -69,6 +82,8 @@ export default async function ChapterPage({
     // No equivalent — show this content (ADR-077 cross-language fallback)
   }
 
+  const readingTime = estimateReadingTime(content.paragraphs);
+
   const bookUrl = `https://teachings.yogananda.org/${locale}/books/${bookId}`;
   const chapterUrl = `${bookUrl}/${chapterNumber}`;
   const jsonLd = [
@@ -115,43 +130,111 @@ export default async function ChapterPage({
     },
   ];
 
+  // Speculation Rules: prerender next chapter, prefetch previous (M2b-11)
+  const speculationRules = {
+    prerender: content.nextChapter
+      ? [
+          {
+            urls: [
+              `/${locale}/books/${bookId}/${content.nextChapter.chapterNumber}`,
+            ],
+          },
+        ]
+      : [],
+    prefetch: content.prevChapter
+      ? [
+          {
+            urls: [
+              `/${locale}/books/${bookId}/${content.prevChapter.chapterNumber}`,
+            ],
+          },
+        ]
+      : [],
+  };
+
   return (
     <main id="main-content" className="min-h-screen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {/* Speculation Rules — M2b-11 (ADR-081 §13) */}
+      {(speculationRules.prerender.length > 0 ||
+        speculationRules.prefetch.length > 0) && (
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(speculationRules),
+          }}
+        />
+      )}
+
+      {/* Scroll position indicator — M2b-5 */}
+      <ScrollIndicator />
+
+      {/* Keyboard navigation — M2b-2 */}
+      <KeyboardNav
+        bookId={bookId}
+        prevChapter={content.prevChapter?.chapterNumber ?? null}
+        nextChapter={content.nextChapter?.chapterNumber ?? null}
+        locale={locale}
+      />
+
       {/* Reader header */}
       <header className="border-b border-srf-gold/20 bg-white">
         <div className="mx-auto max-w-[38rem] px-4 py-4">
-          <nav className="mb-2 text-sm text-srf-navy/50" aria-label="Breadcrumb">
+          <nav
+            className="mb-2 text-sm text-srf-navy/50"
+            aria-label="Breadcrumb"
+          >
             <Link href="/books" className="hover:text-srf-navy/80">
               {t("breadcrumbBooks")}
             </Link>
-            <span className="mx-2" aria-hidden="true">/</span>
+            <span className="mx-2" aria-hidden="true">
+              /
+            </span>
             <Link href={`/books/${bookId}`} className="hover:text-srf-navy/80">
               {content.book.title}
             </Link>
           </nav>
-          <h1 className="font-display text-xl text-srf-navy md:text-2xl">
-            <span className="me-2 text-srf-navy/40">
-              {content.chapter.chapterNumber}.
-            </span>
-            {content.chapter.title}
-          </h1>
-          <p className="mt-1 text-sm text-srf-navy/50">
-            {content.book.author}
-          </p>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h1 className="font-display text-xl text-srf-navy md:text-2xl">
+                <span className="me-2 text-srf-navy/40">
+                  {content.chapter.chapterNumber}.
+                </span>
+                {content.chapter.title}
+              </h1>
+              <p className="mt-1 text-sm text-srf-navy/50">
+                {content.book.author}
+                <span className="mx-2" aria-hidden="true">
+                  ·
+                </span>
+                <span aria-label={t("readingTime", { minutes: readingTime })}>
+                  ~{readingTime} {t("minuteAbbrev")}
+                </span>
+              </p>
+            </div>
+            {/* Lotus bookmark — M2b-3 */}
+            <BookmarkButton
+              bookId={bookId}
+              bookTitle={content.book.title}
+              bookAuthor={content.book.author}
+              chapterNumber={content.chapter.chapterNumber}
+              chapterTitle={content.chapter.title}
+            />
+          </div>
         </div>
       </header>
 
-      {/* Reading content */}
-      <article className="mx-auto max-w-[38rem] px-4 py-8 md:py-12">
-        <div className="space-y-6">
+      {/* Reading content — M2b-4 typography: drop caps, paper texture */}
+      <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">
+        <div className="reader-content space-y-6">
           {content.paragraphs.map((para, i) => (
             <p
               key={para.id}
               id={`p-${i}`}
+              data-paragraph={i}
               className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
             >
               {para.content}
@@ -161,9 +244,9 @@ export default async function ChapterPage({
 
         {/* Print-only citation */}
         <div className="print-citation">
-          {content.book.author}, <em>{content.book.title}</em>,
-          Chapter {content.chapter.chapterNumber}: {content.chapter.title}.
-          © Self-Realization Fellowship. teachings.yogananda.org
+          {content.book.author}, <em>{content.book.title}</em>, Chapter{" "}
+          {content.chapter.chapterNumber}: {content.chapter.title}. ©
+          Self-Realization Fellowship. teachings.yogananda.org
         </div>
       </article>
 
@@ -181,7 +264,8 @@ export default async function ChapterPage({
             >
               <span className="text-xs text-srf-navy/40">{t("previous")}</span>
               <span className="text-sm text-srf-navy">
-                {content.prevChapter.chapterNumber}. {content.prevChapter.title}
+                {content.prevChapter.chapterNumber}.{" "}
+                {content.prevChapter.title}
               </span>
             </Link>
           ) : (
@@ -198,7 +282,8 @@ export default async function ChapterPage({
             >
               <span className="text-xs text-srf-navy/40">{t("next")}</span>
               <span className="text-sm text-srf-navy">
-                {content.nextChapter.chapterNumber}. {content.nextChapter.title}
+                {content.nextChapter.chapterNumber}.{" "}
+                {content.nextChapter.title}
               </span>
             </Link>
           ) : (

@@ -89,7 +89,9 @@
   "reader": {
     "breadcrumbBooks": "Books",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "readingTime": "About {minutes} minute read",
+    "minuteAbbrev": "min"
   },
   "quiet": {
     "heading": "The Quiet Corner",

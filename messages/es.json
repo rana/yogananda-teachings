@@ -89,7 +89,9 @@
   "reader": {
     "breadcrumbBooks": "Libros",
     "previous": "Anterior",
-    "next": "Siguiente"
+    "next": "Siguiente",
+    "readingTime": "Lectura de aproximadamente {minutes} minutos",
+    "minuteAbbrev": "min"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
