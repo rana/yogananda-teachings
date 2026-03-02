@@ -345,6 +345,26 @@ body {
   margin-inline: auto !important;
 }
 
+/* ── Contextual Quiet Corner — M2b-7 ────────────────────────── */
+
+/* Hide all chrome when contextual quiet is active */
+[data-mode="quiet"] header,
+[data-mode="quiet"] footer,
+[data-mode="quiet"] nav,
+[data-mode="quiet"] [data-no-quiet] {
+  display: none !important;
+}
+
+[data-mode="quiet"] {
+  background: var(--color-warm-cream) !important;
+}
+
+/* In quiet mode, article content hidden — the fixed overlay takes over */
+[data-mode="quiet"] article {
+  opacity: 0.05;
+  pointer-events: none;
+}
+
 /* ── Reduced motion — M2a-8 (ADR-003) ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

@@ -99,7 +99,10 @@
     "focusModeOff": "Exit focus mode",
     "presentMode": "Present",
     "presentModeOn": "Presentation mode active",
-    "presentModeOff": "Exit presentation mode"
+    "presentModeOff": "Exit presentation mode",
+    "pauseWithThis": "Pause with this",
+    "quietReturn": "Return to reading",
+    "quietBookmark": "Bookmark this passage"
   },
   "quiet": {
     "heading": "The Quiet Corner",
@@ -168,7 +171,8 @@
   },
   "lowBandwidth": {
     "message": "Slow connection detected.",
-    "enableTextOnly": "Enable text-only mode"
+    "enableTextOnly": "Enable text-only mode",
+    "dismiss": "Dismiss"
   },
   "errors": {
     "notFound": "This page could not be found.",

@@ -15,6 +15,7 @@ import { BookmarkButton } from "@/app/components/BookmarkButton";
 import { ScrollIndicator } from "@/app/components/ScrollIndicator";
 import { KeyboardNav } from "@/app/components/KeyboardNav";
 import { DwellMode } from "@/app/components/DwellMode";
+import { ContextualQuiet } from "@/app/components/ContextualQuiet";
 import { ReaderModes } from "@/app/components/ReaderModes";
 import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
@@ -236,6 +237,14 @@ export default async function ChapterPage({
 
       {/* Dwell contemplation — M2b-1 */}
       <DwellMode />
+
+      {/* Contextual Quiet Corner — M2b-7 */}
+      <ContextualQuiet
+        bookId={bookId}
+        bookTitle={content.book.title}
+        chapterNumber={content.chapter.chapterNumber}
+        chapterTitle={content.chapter.title}
+      />
 
       {/* Reading content — M2b-4 typography: drop caps, paper texture */}
       <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">

@@ -99,7 +99,10 @@
     "focusModeOff": "Salir del modo enfoque",
     "presentMode": "Presentar",
     "presentModeOn": "Modo presentación activo",
-    "presentModeOff": "Salir del modo presentación"
+    "presentModeOff": "Salir del modo presentación",
+    "pauseWithThis": "Pausa con esto",
+    "quietReturn": "Volver a la lectura",
+    "quietBookmark": "Guardar este pasaje"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
@@ -168,7 +171,8 @@
   },
   "lowBandwidth": {
     "message": "Conexión lenta detectada.",
-    "enableTextOnly": "Activar modo solo texto"
+    "enableTextOnly": "Activar modo solo texto",
+    "dismiss": "Cerrar"
   },
   "errors": {
     "notFound": "Esta página no se pudo encontrar.",
