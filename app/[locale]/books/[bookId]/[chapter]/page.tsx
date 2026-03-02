@@ -17,6 +17,7 @@ import { KeyboardNav } from "@/app/components/KeyboardNav";
 import { DwellMode } from "@/app/components/DwellMode";
 import { ContextualQuiet } from "@/app/components/ContextualQuiet";
 import { ReaderModes } from "@/app/components/ReaderModes";
+import { ThemeSelector } from "@/app/components/ThemeSelector";
 import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
 
@@ -185,7 +186,7 @@ export default async function ChapterPage({
       />
 
       {/* Reader header */}
-      <header className="border-b border-srf-gold/20 bg-white">
+      <header className="border-b border-(--theme-border) bg-(--theme-surface)">
         <div className="mx-auto max-w-[38rem] px-4 py-4">
           <nav
             className="mb-2 text-sm text-srf-navy/50"
@@ -219,7 +220,9 @@ export default async function ChapterPage({
                 </span>
               </p>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+              {/* Color theme — M2b stretch */}
+              <ThemeSelector />
               {/* Reading modes — M2b-8, M2b-15 */}
               <ReaderModes />
               {/* Lotus bookmark — M2b-3 */}
@@ -274,7 +277,7 @@ export default async function ChapterPage({
 
       {/* Chapter navigation */}
       <nav
-        className="border-t border-srf-navy/10 bg-white"
+        className="border-t border-(--theme-border) bg-(--theme-surface)"
         aria-label="Chapter navigation"
       >
         <div className="mx-auto flex max-w-[38rem] items-stretch">

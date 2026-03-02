@@ -15,6 +15,7 @@
 // ── Types ────────────────────────────────────────────────────────
 
 export type FontSize = "default" | "large" | "larger";
+export type ColorTheme = "auto" | "light" | "sepia" | "dark";
 
 export interface ReaderPreferences {
   /** Text-only mode: hides images, decorative elements, web fonts. */
@@ -25,6 +26,8 @@ export interface ReaderPreferences {
   "reading-language": string;
   /** Focus reading mode: suppresses chrome, keeps reading column + Next Chapter only. */
   "focus-mode": boolean;
+  /** Color theme: auto follows system prefers-color-scheme. */
+  "color-theme": ColorTheme;
 }
 
 export type PreferenceKey = keyof ReaderPreferences;
@@ -41,12 +44,20 @@ const DEFAULTS: Readonly<ReaderPreferences> = {
   "font-size": "default",
   "reading-language": "en",
   "focus-mode": false,
+  "color-theme": "auto",
 };
 
 const VALID_FONT_SIZES: readonly FontSize[] = [
   "default",
   "large",
   "larger",
+] as const;
+
+const VALID_COLOR_THEMES: readonly ColorTheme[] = [
+  "auto",
+  "light",
+  "sepia",
+  "dark",
 ] as const;
 
 // ── SSR guard ────────────────────────────────────────────────────
@@ -61,6 +72,13 @@ function isValidFontSize(value: unknown): value is FontSize {
   return (
     typeof value === "string" &&
     VALID_FONT_SIZES.includes(value as FontSize)
+  );
+}
+
+function isValidColorTheme(value: unknown): value is ColorTheme {
+  return (
+    typeof value === "string" &&
+    VALID_COLOR_THEMES.includes(value as ColorTheme)
   );
 }
 
@@ -88,6 +106,9 @@ function sanitize(raw: Record<string, unknown>): ReaderPreferences {
       typeof raw["focus-mode"] === "boolean"
         ? raw["focus-mode"]
         : DEFAULTS["focus-mode"],
+    "color-theme": isValidColorTheme(raw["color-theme"])
+      ? raw["color-theme"]
+      : DEFAULTS["color-theme"],
   };
 }
 

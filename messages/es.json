@@ -102,7 +102,12 @@
     "presentModeOff": "Salir del modo presentación",
     "pauseWithThis": "Pausa con esto",
     "quietReturn": "Volver a la lectura",
-    "quietBookmark": "Guardar este pasaje"
+    "quietBookmark": "Guardar este pasaje",
+    "colorTheme": "Tema de color",
+    "theme_auto": "Auto",
+    "theme_light": "Claro",
+    "theme_sepia": "Sepia",
+    "theme_dark": "Oscuro"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",

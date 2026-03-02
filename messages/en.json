@@ -102,7 +102,12 @@
     "presentModeOff": "Exit presentation mode",
     "pauseWithThis": "Pause with this",
     "quietReturn": "Return to reading",
-    "quietBookmark": "Bookmark this passage"
+    "quietBookmark": "Bookmark this passage",
+    "colorTheme": "Color theme",
+    "theme_auto": "Auto",
+    "theme_light": "Light",
+    "theme_sepia": "Sepia",
+    "theme_dark": "Dark"
   },
   "quiet": {
     "heading": "The Quiet Corner",
