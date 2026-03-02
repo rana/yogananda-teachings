@@ -7,6 +7,7 @@
  */
 
 import { NextResponse } from "next/server";
+import { PORTAL } from "@/lib/config/srf-links";
 
 const spec = {
   openapi: "3.1.0",
@@ -15,13 +16,13 @@ const spec = {
     version: "1.0.0",
     description:
       "Public API for accessing Paramahansa Yogananda's published teachings. All content is verbatim — no AI-generated text. Full attribution on every result.",
-    contact: { url: "https://teachings.yogananda.org" },
+    contact: { url: PORTAL.canonical },
     license: {
       name: "Content: All Rights Reserved (Self-Realization Fellowship)",
-      url: "https://teachings.yogananda.org/en/legal",
+      url: `${PORTAL.canonical}/en/legal`,
     },
   },
-  servers: [{ url: "https://teachings.yogananda.org/api/v1" }],
+  servers: [{ url: `${PORTAL.canonical}/api/v1` }],
   paths: {
     "/health": {
       get: {
