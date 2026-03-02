@@ -13,6 +13,7 @@ import NextLink from "next/link";
 import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
 import { TodaysWisdom } from "@/app/components/TodaysWisdom";
+import { OpeningMoment } from "@/app/components/OpeningMoment";
 import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
@@ -45,6 +46,7 @@ export default async function HomePage({
   const passage = await getRandomPassage(pool, locale === "es" ? "es" : "en");
 
   return (
+    <OpeningMoment>
     <main id="main-content" className="min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-8 md:py-16">
         {/* Today's Wisdom — hero position */}
@@ -174,5 +176,6 @@ export default async function HomePage({
         </section>
       </div>
     </main>
+    </OpeningMoment>
   );
 }

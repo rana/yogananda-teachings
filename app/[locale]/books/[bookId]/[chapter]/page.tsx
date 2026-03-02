@@ -22,6 +22,7 @@ import { FontSizeSelector } from "@/app/components/FontSizeSelector";
 import { PartingWord } from "@/app/components/PartingWord";
 import { ChapterBreath } from "@/app/components/ChapterBreath";
 import { ChapterNavLink } from "@/app/components/ChapterNavLink";
+import { ReadingProgress } from "@/app/components/ReadingProgress";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -181,6 +182,9 @@ export default async function ChapterPage({
       {/* Scroll position indicator — M2b-5 */}
       <ScrollIndicator />
 
+      {/* Reading progress — saves/restores scroll position per chapter */}
+      <ReadingProgress bookId={bookId} chapterNumber={chapterNumber} />
+
       {/* Keyboard navigation — M2b-2 */}
       <KeyboardNav
         bookId={bookId}
@@ -275,9 +279,10 @@ export default async function ChapterPage({
 
           {/* Print-only citation */}
           <div className="print-citation">
-            {content.book.author}, <em>{content.book.title}</em>, Chapter{" "}
-            {content.chapter.chapterNumber}: {content.chapter.title}. ©
-            Self-Realization Fellowship. teachings.yogananda.org
+            {content.book.author}, <em>{content.book.title}</em>,{" "}
+            {t("printChapter")} {content.chapter.chapterNumber}:{" "}
+            {content.chapter.title}. {t("printCopyright")}.{" "}
+            {PORTAL.canonical.replace("https://", "")}
           </div>
         </article>
       </ChapterBreath>

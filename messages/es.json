@@ -112,7 +112,9 @@
     "fontSize": "Tamaño de fuente",
     "fontSize_default": "Tamaño normal",
     "fontSize_large": "Tamaño grande",
-    "fontSize_larger": "Tamaño más grande"
+    "fontSize_larger": "Tamaño más grande",
+    "printChapter": "Capítulo",
+    "printCopyright": "© Self-Realization Fellowship"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",

@@ -112,7 +112,9 @@
     "fontSize": "Font size",
     "fontSize_default": "Default size",
     "fontSize_large": "Large size",
-    "fontSize_larger": "Larger size"
+    "fontSize_larger": "Larger size",
+    "printChapter": "Chapter",
+    "printCopyright": "© Self-Realization Fellowship"
   },
   "quiet": {
     "heading": "The Quiet Corner",
