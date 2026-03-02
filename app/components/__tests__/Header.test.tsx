@@ -95,6 +95,15 @@ describe("Header", () => {
     expect(booksLink?.className).not.toContain("font-medium");
   });
 
+  it("sets aria-current=page on active link and omits it on inactive links", () => {
+    mockPathname = "/en/search";
+    render(<Header />);
+    const searchLink = screen.getByText("nav.search").closest("a");
+    expect(searchLink).toHaveAttribute("aria-current", "page");
+    const booksLink = screen.getByText("nav.books").closest("a");
+    expect(booksLink).not.toHaveAttribute("aria-current");
+  });
+
   it("all navigation links have min-h-[44px] for touch targets", () => {
     render(<Header />);
     const navLinks = ["nav.search", "nav.books", "nav.quiet", "nav.about"];

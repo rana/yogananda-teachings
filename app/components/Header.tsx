@@ -51,6 +51,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={isActive ? "page" : undefined}
                 className={`rounded-md px-2 py-1.5 text-xs sm:text-sm transition-colors min-h-[44px] inline-flex items-center ${
                   isActive
                     ? "text-srf-navy font-medium"
