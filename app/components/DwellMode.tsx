@@ -44,12 +44,35 @@ export function DwellMode() {
   const activateDwell = useCallback((paragraphIndex: number) => {
     setActive(true);
     setTargetIndex(paragraphIndex);
+    // Haptic confirmation on mobile (M2b-1 success criterion)
+    // Respect prefers-reduced-motion: skip haptic when motion reduced
+    if (typeof navigator !== "undefined" && navigator.vibrate) {
+      const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (motionOk) navigator.vibrate(10);
+    }
   }, []);
 
   const deactivateDwell = useCallback(() => {
     setActive(false);
     setTargetIndex(null);
   }, []);
+
+  // ── Keyboard shortcut integration (d key via KeyboardNav) ───────
+
+  useEffect(() => {
+    function handleDwellToggle(e: Event) {
+      const detail = (e as CustomEvent).detail as { index: number };
+      if (active) {
+        deactivateDwell();
+      } else {
+        activateDwell(detail.index);
+      }
+    }
+
+    window.addEventListener("srf:dwell-toggle", handleDwellToggle);
+    return () =>
+      window.removeEventListener("srf:dwell-toggle", handleDwellToggle);
+  }, [active, activateDwell, deactivateDwell]);
 
   // ── Apply/remove data attributes on the DOM ──────────────────────
 

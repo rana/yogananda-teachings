@@ -65,6 +65,7 @@ export function BookmarkButton({
       onClick={handleToggle}
       aria-label={label}
       aria-pressed={bookmarked}
+      data-testid="bookmark-button"
       className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md transition-colors hover:bg-srf-navy/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-srf-gold"
     >
       <svg

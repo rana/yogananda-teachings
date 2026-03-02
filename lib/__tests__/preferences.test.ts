@@ -36,6 +36,7 @@ describe("defaults", () => {
       "reading-language": "en",
       "focus-mode": false,
       "color-theme": "auto",
+      "line-spacing": "default",
     });
   });
 
@@ -47,6 +48,7 @@ describe("defaults", () => {
       "reading-language": "en",
       "focus-mode": false,
       "color-theme": "auto",
+      "line-spacing": "default",
     });
   });
 
@@ -154,6 +156,7 @@ describe("validation", () => {
       "reading-language": "es",
       "focus-mode": false,
       "color-theme": "auto",
+      "line-spacing": "default",
     });
     expect((prefs as Record<string, unknown>)["unknown-key"]).toBeUndefined();
   });

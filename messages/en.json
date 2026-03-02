@@ -114,7 +114,16 @@
     "fontSize_large": "Large size",
     "fontSize_larger": "Larger size",
     "printChapter": "Chapter",
-    "printCopyright": "© Self-Realization Fellowship"
+    "printCopyright": "© Self-Realization Fellowship",
+    "keyboardHelp": "Keyboard shortcuts",
+    "keyHelp_paragraph": "Next / previous paragraph",
+    "keyHelp_chapter": "Next / previous chapter",
+    "keyHelp_search": "Search",
+    "keyHelp_dwell": "Contemplate focused paragraph",
+    "keyHelp_bookmark": "Toggle bookmark",
+    "keyHelp_escape": "Exit current mode",
+    "keyHelp_help": "Show this help",
+    "keyHelp_close": "Close"
   },
   "quiet": {
     "heading": "The Quiet Corner",
@@ -202,7 +211,11 @@
     "fontDefault": "Default",
     "fontLarge": "Large",
     "fontLarger": "Larger",
-    "language": "Language"
+    "language": "Language",
+    "lineSpacing": "Line spacing",
+    "spacingDefault": "Default",
+    "spacingRelaxed": "Relaxed",
+    "spacingSpacious": "Spacious"
   },
   "bookmarks": {
     "heading": "Your Bookmarks",

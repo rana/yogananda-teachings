@@ -114,7 +114,16 @@
     "fontSize_large": "Tamaño grande",
     "fontSize_larger": "Tamaño más grande",
     "printChapter": "Capítulo",
-    "printCopyright": "© Self-Realization Fellowship"
+    "printCopyright": "© Self-Realization Fellowship",
+    "keyboardHelp": "Atajos de teclado",
+    "keyHelp_paragraph": "Siguiente / anterior párrafo",
+    "keyHelp_chapter": "Siguiente / anterior capítulo",
+    "keyHelp_search": "Buscar",
+    "keyHelp_dwell": "Contemplar párrafo enfocado",
+    "keyHelp_bookmark": "Alternar marcador",
+    "keyHelp_escape": "Salir del modo actual",
+    "keyHelp_help": "Mostrar esta ayuda",
+    "keyHelp_close": "Cerrar"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
@@ -202,7 +211,11 @@
     "fontDefault": "Predeterminado",
     "fontLarge": "Grande",
     "fontLarger": "Más grande",
-    "language": "Idioma"
+    "language": "Idioma",
+    "lineSpacing": "Interlineado",
+    "spacingDefault": "Normal",
+    "spacingRelaxed": "Relajado",
+    "spacingSpacious": "Amplio"
   },
   "bookmarks": {
     "heading": "Tus Marcadores",

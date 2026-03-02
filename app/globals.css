@@ -250,6 +250,14 @@ body {
   font-size: 125%; /* 20px base */
 }
 
+/* ── Line spacing preferences — M2b success criteria ─────────── */
+.line-relaxed .reader-content {
+  line-height: 2.1;
+}
+.line-spacious .reader-content {
+  line-height: 2.4;
+}
+
 /* ── Screen reader only utility ────────────────────────────────── */
 .sr-only {
   position: absolute;

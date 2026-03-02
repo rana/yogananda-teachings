@@ -317,7 +317,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 - Platform MCP `environment_create` provisions a complete development environment from scratch
 - `GET /api/v1/books?updated_since=...` returns only recently modified books; response includes `sync.latest_timestamp`
 
-- Opening moment — portal threshold: lotus SVG fade on first session visit (DES-007)
+- **Done.** Opening moment — portal threshold: lotus SVG fade on first session visit (DES-007)
 
 ---
 
@@ -325,7 +325,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 
 **Goal:** Add the contemplative reader interactions that distinguish the portal from a standard web reader — dwell mode, keyboard navigation, bookmarks, typography refinements, and offline support.
 
-**Progress (2026-03-02):** 13 of 13 numbered deliverables complete. **Stretch goals advancing:** Color theme system with 5 themes (auto/light/sepia/dark/meditate) via `data-theme` on `<html>`, with high-contrast support and theme-aware surfaces (`bg-(--theme-surface)` replacing all `bg-white`). Meditation theme (`#0a1633` deep navy, `#d4cfc7` text, gold at 60%) for contemplative reading. Color theme selector in ReaderSettings popover. Font size selector (3 sizes, class on `<html>`). Circadian color temperature (DES-011: morning/midday/evening warmth shifts via `data-time-band`). "Breath Between Chapters" transition (DES-012: 1.2s title pause + 400ms fade on prev/next navigation). PWA manifest (standalone, installable). Centralized cross-site URL registry (`/lib/config/srf-links.ts` with 80+ URLs, all hardcoded URLs migrated). HyDE search (M2b-12) and Cohere Rerank (M2b-13) reclassified to M3a-11/M3a-12 for multi-book corpus evaluation. M2b-14 (Vercel KV) skipped — trigger conditions not met. 403 Vitest tests across 33 files (all passing). Performance: all pages ≤ 130KB First Load JS.
+**Progress (2026-03-02):** 13 of 13 numbered deliverables complete. **Stretch goals advancing:** Color theme system with 5 themes (auto/light/sepia/dark/meditate) via `data-theme` on `<html>`, with high-contrast support and theme-aware surfaces (`bg-(--theme-surface)` replacing all `bg-white`). Meditation theme (`#0a1633` deep navy, `#d4cfc7` text, gold at 60%) for contemplative reading. Color theme selector in ReaderSettings popover. Font size selector (3 sizes, class on `<html>`). Circadian color temperature (DES-011: morning/midday/evening warmth shifts via `data-time-band`). "Breath Between Chapters" transition (DES-012: 1.2s title pause + 400ms fade on prev/next navigation). PWA manifest (standalone, installable). Centralized cross-site URL registry (`/lib/config/srf-links.ts` with 80+ URLs, all hardcoded URLs migrated). HyDE search (M2b-12) and Cohere Rerank (M2b-13) reclassified to M3a-11/M3a-12 for multi-book corpus evaluation. M2b-14 (Vercel KV) skipped — trigger conditions not met. **Latest (session 4):** DES-007 Opening Moment implemented (lotus SVG portal threshold on first session visit). `ReadingProgress.tsx` saves/restores reading position per chapter (localStorage, debounced, 50-entry bounded). Offline fallback page (`public/offline.html`). SW bumped to v3 with offline navigation fallback. `text-white` theme bug fixed (3 instances → `text-warm-cream`). `aria-current="page"` on active Header nav links. Print citation i18n'd (en/es). E2E test expansion to 36 tests (reader features, PWA, visual regression, bookmarks, accessibility). 416 Vitest tests across 35 files (all passing). Performance: all pages ≤ 130KB First Load JS.
 
 ### Deliverables
 
@@ -370,9 +370,9 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 - Formal WCAG 2.1 AA third-party audit with real-user assistive technology testing
 - **Done.** Reading mode: 5 color themes (auto/light/sepia/dark/meditate) with theme selector in ReaderSettings, adjustable font, high-contrast (`prefers-contrast`), theme-aware surfaces across all pages
 - **Done.** Circadian color temperature and "Breath Between Chapters" transitions (DES-011, DES-012)
-- Progressive Web App: offline book reading, home screen installable (ADR-012)
+- **Done.** Progressive Web App: manifest.webmanifest (standalone, installable), apple-icon.tsx, sw.js v3 (shell + font + last-read chapter caching), offline fallback page (`public/offline.html`). Offline book reading: last-read chapter cached by SW. (ADR-012)
 - **Done.** Responsive design polish: enhanced print stylesheet (@page margins, page breaks, citation styling), interaction modality detection (hover/pointer CSS for touch vs desktop), responsive presentation mode (24px→36px across 4 tiers), tablet reader margins (48–64px), phone landscape line-length capping (DES-049)
-- Visual regression testing via Playwright screenshots
+- **Done.** Visual regression testing: Playwright E2E expanded to 36 tests including screenshot baselines for 4 key pages (homepage, search, books, quiet corner) with `toHaveScreenshot` and `maxDiffPixelRatio: 0.01`
 
 **Additional success criteria:** WCAG 2.1 AA audit passes with zero critical violations. PWA installs on mobile and serves cached chapters offline. `prefers-reduced-motion` disables all animations.
 

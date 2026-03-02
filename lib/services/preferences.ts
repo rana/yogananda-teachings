@@ -16,6 +16,7 @@
 
 export type FontSize = "default" | "large" | "larger";
 export type ColorTheme = "auto" | "light" | "sepia" | "dark" | "meditate";
+export type LineSpacing = "default" | "relaxed" | "spacious";
 
 export interface ReaderPreferences {
   /** Text-only mode: hides images, decorative elements, web fonts. */
@@ -28,6 +29,8 @@ export interface ReaderPreferences {
   "focus-mode": boolean;
   /** Color theme: auto follows system prefers-color-scheme. */
   "color-theme": ColorTheme;
+  /** Line spacing preference for reading content. */
+  "line-spacing": LineSpacing;
 }
 
 export type PreferenceKey = keyof ReaderPreferences;
@@ -45,6 +48,7 @@ const DEFAULTS: Readonly<ReaderPreferences> = {
   "reading-language": "en",
   "focus-mode": false,
   "color-theme": "auto",
+  "line-spacing": "default",
 };
 
 const VALID_FONT_SIZES: readonly FontSize[] = [
@@ -59,6 +63,12 @@ const VALID_COLOR_THEMES: readonly ColorTheme[] = [
   "sepia",
   "dark",
   "meditate",
+] as const;
+
+const VALID_LINE_SPACINGS: readonly LineSpacing[] = [
+  "default",
+  "relaxed",
+  "spacious",
 ] as const;
 
 // ── SSR guard ────────────────────────────────────────────────────
@@ -80,6 +90,13 @@ function isValidColorTheme(value: unknown): value is ColorTheme {
   return (
     typeof value === "string" &&
     VALID_COLOR_THEMES.includes(value as ColorTheme)
+  );
+}
+
+function isValidLineSpacing(value: unknown): value is LineSpacing {
+  return (
+    typeof value === "string" &&
+    VALID_LINE_SPACINGS.includes(value as LineSpacing)
   );
 }
 
@@ -110,6 +127,9 @@ function sanitize(raw: Record<string, unknown>): ReaderPreferences {
     "color-theme": isValidColorTheme(raw["color-theme"])
       ? raw["color-theme"]
       : DEFAULTS["color-theme"],
+    "line-spacing": isValidLineSpacing(raw["line-spacing"])
+      ? raw["line-spacing"]
+      : DEFAULTS["line-spacing"],
   };
 }
 

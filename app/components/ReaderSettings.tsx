@@ -21,6 +21,7 @@ import {
   setPreference,
   type FontSize,
   type ColorTheme,
+  type LineSpacing,
 } from "@/lib/services/preferences";
 
 // ── Font size CSS class mapping ───────────────────────────────────
@@ -29,6 +30,12 @@ const FONT_SIZE_CLASSES: Record<FontSize, string | null> = {
   default: null,
   large: "font-large",
   larger: "font-larger",
+};
+
+const LINE_SPACING_CLASSES: Record<LineSpacing, string | null> = {
+  default: null,
+  relaxed: "line-relaxed",
+  spacious: "line-spacious",
 };
 
 /** Apply the font-size class to <html>, removing any previous one. */
@@ -43,6 +50,16 @@ function applyFontSizeClass(size: FontSize): void {
   if (cls) html.classList.add(cls);
 }
 
+/** Apply the line-spacing class to <html>, removing any previous one. */
+function applyLineSpacingClass(spacing: LineSpacing): void {
+  const html = document.documentElement;
+  for (const cls of Object.values(LINE_SPACING_CLASSES)) {
+    if (cls) html.classList.remove(cls);
+  }
+  const cls = LINE_SPACING_CLASSES[spacing];
+  if (cls) html.classList.add(cls);
+}
+
 export function ReaderSettings() {
   const t = useTranslations("settings");
   const t2 = useTranslations("reader");
@@ -54,6 +71,7 @@ export function ReaderSettings() {
   const [textOnly, setTextOnly] = useState(false);
   const [fontSize, setFontSize] = useState<FontSize>("default");
   const [colorTheme, setColorThemeState] = useState<ColorTheme>("auto");
+  const [lineSpacing, setLineSpacingState] = useState<LineSpacing>("default");
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -64,16 +82,19 @@ export function ReaderSettings() {
     const storedTextOnly = getPreference("text-only-mode");
     const storedFontSize = getPreference("font-size");
     const storedTheme = getPreference("color-theme");
+    const storedSpacing = getPreference("line-spacing");
 
     setTextOnly(storedTextOnly);
     setFontSize(storedFontSize);
     setColorThemeState(storedTheme);
+    setLineSpacingState(storedSpacing);
 
     // Apply classes that may have been set before this component mounted
     if (storedTextOnly) {
       document.documentElement.classList.add("text-only");
     }
     applyFontSizeClass(storedFontSize);
+    applyLineSpacingClass(storedSpacing);
   }, []);
 
   // ── Click-outside handler ─────────────────────────────────────
@@ -168,6 +189,12 @@ export function ReaderSettings() {
     setPreference("color-theme", theme);
   }, []);
 
+  const changeLineSpacing = useCallback((spacing: LineSpacing) => {
+    setLineSpacingState(spacing);
+    setPreference("line-spacing", spacing);
+    applyLineSpacingClass(spacing);
+  }, []);
+
   const switchLocale = useCallback(
     (newLocale: Locale) => {
       router.replace(pathname, { locale: newLocale });
@@ -185,6 +212,14 @@ export function ReaderSettings() {
     { value: "default", label: t("fontDefault") },
     { value: "large", label: t("fontLarge") },
     { value: "larger", label: t("fontLarger") },
+  ];
+
+  // ── Line spacing options ──────────────────────────────────────
+
+  const lineSpacingOptions: { value: LineSpacing; label: string }[] = [
+    { value: "default", label: t("spacingDefault") },
+    { value: "relaxed", label: t("spacingRelaxed") },
+    { value: "spacious", label: t("spacingSpacious") },
   ];
 
   // ── Color theme options ───────────────────────────────────────
@@ -301,6 +336,29 @@ export function ReaderSettings() {
                       : "bg-srf-navy/5 text-srf-navy/60 hover:bg-srf-navy/10 hover:text-srf-navy"
                   }`}
                   aria-pressed={fontSize === option.value}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+
+          {/* ── Line spacing ───────────────────────────────────────── */}
+          <fieldset className="mb-4">
+            <legend className="mb-2 text-sm font-medium text-srf-navy">
+              {t("lineSpacing")}
+            </legend>
+            <div className="flex gap-1">
+              {lineSpacingOptions.map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => changeLineSpacing(option.value)}
+                  className={`min-h-[44px] flex-1 rounded-md px-2 py-1.5 text-xs transition-colors ${
+                    lineSpacing === option.value
+                      ? "bg-srf-navy text-warm-cream"
+                      : "bg-srf-navy/5 text-srf-navy/60 hover:bg-srf-navy/10 hover:text-srf-navy"
+                  }`}
+                  aria-pressed={lineSpacing === option.value}
                 >
                   {option.label}
                 </button>
