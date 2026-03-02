@@ -1,17 +1,18 @@
 /**
- * Passage detail page — M2a-6 (ADR-022, ADR-068).
+ * Passage detail page — M2a-6, M2b-10 (ADR-022, ADR-067, ADR-068).
  *
  * Single passage with full citation, OG meta tags for rich
- * link previews, and share functionality. The shareable URL
- * for every passage displayed in search results.
+ * link previews, share functionality, framing context, and
+ * book invitation for non-search visitors.
  */
 
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import pool from "@/lib/db";
 import { getPassage } from "@/lib/services/books";
 import { ShareButton } from "@/app/components/ShareButton";
+import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -54,7 +55,6 @@ export async function generateMetadata({
       images: [ogImageUrl],
     },
     other: {
-      // Google Scholar meta tags — M2a-7 (ADR-081)
       "citation_title": passage.bookTitle,
       "citation_author": passage.bookAuthor,
       "citation_publication_date": "1946",
@@ -71,6 +71,7 @@ export default async function PassagePage({
 }) {
   const { locale, id } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("passage");
 
   const passage = await getPassage(pool, id);
   if (!passage) notFound();
@@ -102,6 +103,11 @@ export default async function PassagePage({
       />
 
       <div className="mx-auto max-w-[38rem] px-4 py-8 md:py-16">
+        {/* Framing context for external arrivals — M2b-10 (ADR-067) */}
+        <p className="mb-6 text-sm text-srf-navy/50">
+          {t("fromBook", { book: passage.bookTitle })}
+        </p>
+
         {/* The passage */}
         <blockquote className="mb-6 border-l-2 border-srf-gold/40 pl-6 text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
           &ldquo;{passage.content}&rdquo;
@@ -116,13 +122,39 @@ export default async function PassagePage({
             href={`/books/${passage.bookId}/${passage.chapterNumber}`}
             className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-white"
           >
-            Read in context
+            {t("readInContext")}
           </Link>
           <ShareButton
             url={passageUrl}
             text={`"${passage.content.slice(0, 100)}..." — ${passage.bookAuthor}`}
             title={passage.bookTitle}
           />
+        </div>
+
+        {/* Book invitation — M2b-10 */}
+        <div className="mt-10 rounded-lg border border-srf-gold/20 bg-white p-6">
+          <p className="mb-3 text-sm font-medium text-srf-navy">
+            {t("bookInvitation", { book: passage.bookTitle })}
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href={`/books/${passage.bookId}`}
+              className="inline-flex min-h-11 items-center rounded-lg bg-srf-navy px-4 py-2 text-sm text-warm-cream transition-colors hover:bg-srf-navy/90"
+            >
+              {t("exploreBook")}
+            </Link>
+            <Link
+              href="/search"
+              className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-warm-cream"
+            >
+              {t("searchTeachings")}
+            </Link>
+          </div>
+        </div>
+
+        {/* Parting word — M2b-9 */}
+        <div className="mt-10">
+          <PartingWord locale={locale} />
         </div>
 
         {/* Copyright notice */}

@@ -146,6 +146,13 @@
     "subtitle": "Hashes verificables para cada capítulo del portal",
     "description": "Cada capítulo lleva un hash SHA-256 calculado en el momento de la incorporación. Puede verificar que el texto que está leyendo corresponde a la fuente original."
   },
+  "passage": {
+    "fromBook": "De {book}",
+    "readInContext": "Leer en contexto",
+    "bookInvitation": "Este pasaje es de {book} — explore el texto completo libremente.",
+    "exploreBook": "Explorar el libro",
+    "searchTeachings": "Buscar en las enseñanzas"
+  },
   "share": {
     "button": "Compartir",
     "copyLink": "Copiar enlace",

@@ -146,6 +146,13 @@
     "subtitle": "Verifiable hashes for every chapter in the portal",
     "description": "Every chapter carries a SHA-256 hash computed at ingestion time. You can verify that the text you're reading matches the original source."
   },
+  "passage": {
+    "fromBook": "From {book}",
+    "readInContext": "Read in context",
+    "bookInvitation": "This passage is from {book} — explore the full text freely.",
+    "exploreBook": "Explore the book",
+    "searchTeachings": "Search the teachings"
+  },
   "share": {
     "button": "Share",
     "copyLink": "Copy link",
