@@ -27,7 +27,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 DEFAULT_PROJECT_DIR = os.path.expanduser(
-    "~/.claude/projects/-home-rana-prj-srf-yogananda-teachings"
+    "~/.claude/projects/-home-rana-prj-yogananda-teachings"
 )
 
 

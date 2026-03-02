@@ -44,7 +44,7 @@ variable "sentry_organization" {
 variable "github_repository" {
   description = "GitHub repository (org/repo format)"
   type        = string
-  default     = "rana/srf-yogananda-teachings"
+  default     = "rana/yogananda-teachings"
 }
 
 variable "domain" {
