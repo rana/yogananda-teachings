@@ -184,6 +184,9 @@
     "chapter": "Capítulo {number}",
     "savedOn": "Guardado el {date}"
   },
+  "partingWord": {
+    "label": "Una palabra de despedida"
+  },
   "a11y": {
     "skipToContent": "Saltar al contenido principal",
     "mainNavigation": "Navegación principal",

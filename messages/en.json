@@ -184,6 +184,9 @@
     "chapter": "Chapter {number}",
     "savedOn": "Saved {date}"
   },
+  "partingWord": {
+    "label": "A parting word"
+  },
   "a11y": {
     "skipToContent": "Skip to main content",
     "mainNavigation": "Main navigation",
