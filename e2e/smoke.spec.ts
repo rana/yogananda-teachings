@@ -136,6 +136,175 @@ test.describe("Passage", () => {
   });
 });
 
+test.describe("Reader Features (M2b)", () => {
+  // These tests require a chapter page with real content.
+  // Skip gracefully if the book/chapter doesn't exist (e.g. empty DB in CI).
+
+  test("theme selector has 5 themes including meditate", async ({ page }) => {
+    await page.goto("/en/books");
+    // Navigate to any available book chapter
+    const bookLink = page.locator("a[href*='/books/']").first();
+    if (!(await bookLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await bookLink.click();
+    // Look for chapter link
+    const chapterLink = page.locator("a[href*='/books/'][href$='/1']").first();
+    if (!(await chapterLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await chapterLink.click();
+    // Theme selector should have 5 radio buttons
+    const themeRadios = page.locator('[data-testid="theme-selector"] [role="radio"]');
+    await expect(themeRadios).toHaveCount(5);
+  });
+
+  test("scroll indicator present on chapter pages", async ({ page }) => {
+    await page.goto("/en/books");
+    const bookLink = page.locator("a[href*='/books/']").first();
+    if (!(await bookLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await bookLink.click();
+    const chapterLink = page.locator("a[href*='/books/'][href$='/1']").first();
+    if (!(await chapterLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await chapterLink.click();
+    // Scroll indicator should be present (hidden until scroll)
+    await expect(page.locator(".scroll-indicator")).toBeAttached();
+  });
+
+  test("bookmark button present on chapter pages", async ({ page }) => {
+    await page.goto("/en/books");
+    const bookLink = page.locator("a[href*='/books/']").first();
+    if (!(await bookLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await bookLink.click();
+    const chapterLink = page.locator("a[href*='/books/'][href$='/1']").first();
+    if (!(await chapterLink.isVisible())) {
+      test.skip();
+      return;
+    }
+    await chapterLink.click();
+    // Bookmark button should be in the header
+    const bookmarkBtn = page.locator('[data-testid="bookmark-button"]');
+    await expect(bookmarkBtn).toBeVisible();
+  });
+});
+
+test.describe("Bookmarks", () => {
+  test("bookmarks page loads with empty state", async ({ page }) => {
+    await page.goto("/en/bookmarks");
+    await expect(page.locator("main")).toBeVisible();
+    // Empty state text should show (no bookmarks yet)
+    await expect(page.locator("main")).toContainText(/bookmark/i);
+  });
+});
+
+test.describe("PWA", () => {
+  test("manifest is valid", async ({ request }) => {
+    const response = await request.get("/manifest.webmanifest");
+    expect(response.status()).toBe(200);
+    const body = await response.json();
+    expect(body.name).toBe("SRF Teachings Portal");
+    expect(body.display).toBe("standalone");
+    expect(body.icons.length).toBeGreaterThan(0);
+  });
+
+  test("service worker is registered", async ({ page }) => {
+    await page.goto("/en");
+    // Wait for SW registration
+    await page.waitForTimeout(2000);
+    const swRegistered = await page.evaluate(async () => {
+      if (!("serviceWorker" in navigator)) return false;
+      const reg = await navigator.serviceWorker.getRegistration("/sw.js");
+      return !!reg;
+    });
+    expect(swRegistered).toBeTruthy();
+  });
+
+  test("offline fallback page exists", async ({ request }) => {
+    const response = await request.get("/offline.html");
+    expect(response.status()).toBe(200);
+    const body = await response.text();
+    expect(body).toContain("offline");
+    expect(body).toContain("Yogananda");
+  });
+});
+
+test.describe("Legal and Privacy", () => {
+  test("privacy page loads", async ({ page }) => {
+    await page.goto("/en/privacy");
+    await expect(page.locator("main")).toBeVisible();
+  });
+
+  test("legal page loads", async ({ page }) => {
+    await page.goto("/en/legal");
+    await expect(page.locator("main")).toBeVisible();
+  });
+
+  test("integrity page loads", async ({ page }) => {
+    await page.goto("/en/integrity");
+    await expect(page.locator("main")).toBeVisible();
+  });
+});
+
+test.describe("Browse", () => {
+  test("browse page loads", async ({ page }) => {
+    await page.goto("/en/browse");
+    await expect(page.locator("main")).toBeVisible();
+  });
+});
+
+test.describe("Visual Regression", () => {
+  // Screenshot baselines for key pages.
+  // First run generates baselines; subsequent runs compare.
+  // Run: npx playwright test --update-snapshots to update baselines.
+
+  test("homepage visual baseline", async ({ page }) => {
+    await page.goto("/en");
+    await page.waitForLoadState("networkidle");
+    await expect(page).toHaveScreenshot("homepage.png", {
+      maxDiffPixelRatio: 0.01,
+      fullPage: false,
+    });
+  });
+
+  test("search page visual baseline", async ({ page }) => {
+    await page.goto("/en/search");
+    await page.waitForLoadState("networkidle");
+    await expect(page).toHaveScreenshot("search.png", {
+      maxDiffPixelRatio: 0.01,
+      fullPage: false,
+    });
+  });
+
+  test("books page visual baseline", async ({ page }) => {
+    await page.goto("/en/books");
+    await page.waitForLoadState("networkidle");
+    await expect(page).toHaveScreenshot("books.png", {
+      maxDiffPixelRatio: 0.01,
+      fullPage: false,
+    });
+  });
+
+  test("quiet corner visual baseline", async ({ page }) => {
+    await page.goto("/en/quiet");
+    await page.waitForLoadState("networkidle");
+    await expect(page).toHaveScreenshot("quiet.png", {
+      maxDiffPixelRatio: 0.01,
+      fullPage: false,
+    });
+  });
+});
+
 test.describe("404", () => {
   test("shows friendly not-found page", async ({ page }) => {
     const response = await page.goto("/en/nonexistent-page-xyz");
@@ -160,6 +329,15 @@ test.describe("Accessibility", () => {
     // The skip link should become visible
     const skipLink = page.locator('a[href="#main-content"]');
     await expect(skipLink).toBeVisible();
+  });
+
+  test("active nav link has aria-current=page", async ({ page }) => {
+    await page.goto("/en/search");
+    const navLink = page.getByRole("link", { name: "Search" });
+    await expect(navLink).toHaveAttribute("aria-current", "page");
+    // Non-active links should not have aria-current
+    const booksLink = page.getByRole("link", { name: "Books" });
+    await expect(booksLink).not.toHaveAttribute("aria-current");
   });
 
   test("touch targets meet 44px minimum", async ({ page }) => {
