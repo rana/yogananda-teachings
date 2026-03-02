@@ -13,13 +13,7 @@ export const RRF_K = 60; // Standard RRF default. Evaluate after M1a-8 search qu
 /** Maximum search results returned. */
 export const SEARCH_RESULTS_LIMIT = 20; // Sufficient for top-3 evaluation. Revisit at M1a-8.
 
-/** Minimum similarity threshold for vector search results. */
-export const VECTOR_SIMILARITY_THRESHOLD = 0.3; // Conservative. Evaluate at M1a-8.
-
 // ── Chunking ────────────────────────────────────────────────────
-
-/** Target chunk size in tokens. */
-export const CHUNK_TARGET_TOKENS = 300; // Paragraph-based. ADR-048. Evaluate at M1a-8.
 
 /** Minimum chunk size in tokens. */
 export const CHUNK_MIN_TOKENS = 100; // ADR-048. Short paragraphs stay whole.
@@ -46,13 +40,3 @@ export const PASSAGE_MAX_LENGTH = 600; // Comfortable single-screen reading. Eva
 /** Maximum passage length for Quiet Corner reflections (characters). */
 export const REFLECTION_MAX_LENGTH = 500; // Shorter for contemplative focus. Evaluate at M2a.
 
-// ── Reading ─────────────────────────────────────────────────────
-
-/** Optimal line length for English prose (characters). */
-export const LINE_LENGTH_MIN_CHARS = 65; // Typography standard. ADR-006.
-
-/** Maximum line length for English prose (characters). */
-export const LINE_LENGTH_MAX_CHARS = 75; // Typography standard. ADR-006.
-
-/** Maximum content width for reading column (rem). */
-export const READING_MAX_WIDTH_REM = 38; // Produces ~65-75 chars with body text.

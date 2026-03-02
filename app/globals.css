@@ -199,11 +199,6 @@ body {
     margin-inline-start: 0;
   }
 
-  /* Page breaks between chapters */
-  .chapter-break {
-    page-break-before: always;
-  }
-
   /* Footer citation */
   .print-citation {
     display: block !important;
