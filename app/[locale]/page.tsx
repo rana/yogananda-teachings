@@ -72,7 +72,7 @@ export default async function HomePage({
               />
               <button
                 type="submit"
-                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-4 py-2.5 text-sm font-sans font-semibold text-white transition-colors hover:bg-srf-navy/90"
+                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-4 py-2.5 text-sm font-sans font-semibold text-warm-cream transition-colors hover:bg-srf-navy/90"
               >
                 {t("searchButton")}
               </button>

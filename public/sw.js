@@ -9,9 +9,11 @@
  *   so it can be served offline when connectivity drops (M2b-6, ADR-006)
  */
 
-const CACHE_NAME = "srf-shell-v2";
+const CACHE_NAME = "srf-shell-v3";
 const FONT_CACHE = "srf-fonts-v1";
 const LAST_READ_CACHE = "srf-last-read-v1";
+
+const OFFLINE_URL = "/offline.html";
 
 const SHELL_URLS = [
   "/",
@@ -23,12 +25,15 @@ const SHELL_URLS = [
   "/privacy",
   "/legal",
   "/integrity",
+  "/bookmarks",
   "/es",
   "/es/search",
   "/es/books",
   "/es/about",
   "/es/quiet",
   "/es/browse",
+  "/es/bookmarks",
+  OFFLINE_URL,
 ];
 
 // Install: pre-cache app shell
@@ -113,14 +118,15 @@ self.addEventListener("fetch", (event) => {
             .then((cache) => cache.match(event.request))
             .then(
               (cached) =>
-                cached || caches.match(event.request).then((c) => c || caches.match("/")),
+                cached ||
+                caches.match(event.request).then((c) => c || caches.match(OFFLINE_URL)),
             ),
         ),
     );
     return;
   }
 
-  // Everything else: network-first, fall back to cache
+  // Everything else: network-first, fall back to cache, then offline page
   event.respondWith(
     fetch(event.request)
       .then((response) => {
@@ -131,7 +137,16 @@ self.addEventListener("fetch", (event) => {
         return response;
       })
       .catch(() =>
-        caches.match(event.request).then((cached) => cached || caches.match("/")),
+        caches
+          .match(event.request)
+          .then(
+            (cached) =>
+              cached ||
+              caches.match("/") ||
+              (event.request.mode === "navigate"
+                ? caches.match(OFFLINE_URL)
+                : undefined),
+          ),
       ),
   );
 });

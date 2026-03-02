@@ -254,7 +254,7 @@ function SearchPageInner() {
               <button
                 type="submit"
                 disabled={loading || !query.trim()}
-                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-5 py-2.5 text-sm font-sans font-semibold text-white transition-colors hover:bg-srf-navy/90 disabled:opacity-50"
+                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-5 py-2.5 text-sm font-sans font-semibold text-warm-cream transition-colors hover:bg-srf-navy/90 disabled:opacity-50"
               >
                 {loading ? t("loading") : t("button")}
               </button>
