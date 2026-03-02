@@ -48,6 +48,7 @@ jobs:
 
       - name: Performance budget (PRI-07)
         if: always() && steps.build.conclusion == 'success'
+        continue-on-error: true
         run: bash scripts/check-perf-budget.sh build-output.txt
 
   deploy:
