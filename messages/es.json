@@ -107,7 +107,11 @@
     "theme_auto": "Auto",
     "theme_light": "Claro",
     "theme_sepia": "Sepia",
-    "theme_dark": "Oscuro"
+    "theme_dark": "Oscuro",
+    "fontSize": "Tamaño de fuente",
+    "fontSize_default": "Tamaño normal",
+    "fontSize_large": "Tamaño grande",
+    "fontSize_larger": "Tamaño más grande"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",

@@ -107,7 +107,11 @@
     "theme_auto": "Auto",
     "theme_light": "Light",
     "theme_sepia": "Sepia",
-    "theme_dark": "Dark"
+    "theme_dark": "Dark",
+    "fontSize": "Font size",
+    "fontSize_default": "Default size",
+    "fontSize_large": "Large size",
+    "fontSize_larger": "Larger size"
   },
   "quiet": {
     "heading": "The Quiet Corner",

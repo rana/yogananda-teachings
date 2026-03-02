@@ -18,6 +18,7 @@ import { DwellMode } from "@/app/components/DwellMode";
 import { ContextualQuiet } from "@/app/components/ContextualQuiet";
 import { ReaderModes } from "@/app/components/ReaderModes";
 import { ThemeSelector } from "@/app/components/ThemeSelector";
+import { FontSizeSelector } from "@/app/components/FontSizeSelector";
 import { PartingWord } from "@/app/components/PartingWord";
 import type { Metadata } from "next";
 
@@ -220,7 +221,9 @@ export default async function ChapterPage({
                 </span>
               </p>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2" data-no-focus data-no-present>
+              {/* Font size — M2b stretch */}
+              <FontSizeSelector />
               {/* Color theme — M2b stretch */}
               <ThemeSelector />
               {/* Reading modes — M2b-8, M2b-15 */}

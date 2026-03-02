@@ -17,6 +17,7 @@ import { SRF, SRF_SOCIAL, SRF_SAME_AS, PORTAL } from "@/lib/config/srf-links";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#1a2744",
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
