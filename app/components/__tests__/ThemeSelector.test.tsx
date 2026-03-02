@@ -44,13 +44,13 @@ describe("ThemeSelector", () => {
     mockSubscribe.mockReturnValue(unsubscribeFn);
   });
 
-  it("renders a radiogroup with four options", () => {
+  it("renders a radiogroup with five options", () => {
     render(<ThemeSelector />);
     const group = screen.getByRole("radiogroup");
     expect(group).toBeInTheDocument();
 
     const radios = screen.getAllByRole("radio");
-    expect(radios).toHaveLength(4);
+    expect(radios).toHaveLength(5);
   });
 
   it("marks the current theme as checked", () => {
@@ -95,6 +95,7 @@ describe("ThemeSelector", () => {
     expect(screen.getByLabelText("reader.theme_light")).toBeInTheDocument();
     expect(screen.getByLabelText("reader.theme_sepia")).toBeInTheDocument();
     expect(screen.getByLabelText("reader.theme_dark")).toBeInTheDocument();
+    expect(screen.getByLabelText("reader.theme_meditate")).toBeInTheDocument();
   });
 
   it("has 44x44px minimum touch targets", () => {

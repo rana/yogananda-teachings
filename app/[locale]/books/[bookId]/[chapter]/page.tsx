@@ -206,39 +206,37 @@ export default async function ChapterPage({
               {content.book.title}
             </Link>
           </nav>
-          <div className="flex items-start justify-between gap-3">
-            <div>
+          <div>
+            <div className="flex items-start justify-between gap-3">
               <h1 className="font-display text-xl text-srf-navy md:text-2xl">
                 <span className="me-2 text-srf-navy/40">
                   {content.chapter.chapterNumber}.
                 </span>
                 {content.chapter.title}
               </h1>
-              <p className="mt-1 text-sm text-srf-navy/50">
-                {content.book.author}
-                <span className="mx-2" aria-hidden="true">
-                  ·
-                </span>
-                <span aria-label={t("readingTime", { minutes: readingTime })}>
-                  ~{readingTime} {t("minuteAbbrev")}
-                </span>
-              </p>
-            </div>
-            <div className="flex items-center gap-2" data-no-focus data-no-present>
-              {/* Font size — M2b stretch */}
-              <FontSizeSelector />
-              {/* Color theme — M2b stretch */}
-              <ThemeSelector />
-              {/* Reading modes — M2b-8, M2b-15 */}
-              <ReaderModes />
-              {/* Lotus bookmark — M2b-3 */}
+              {/* Lotus bookmark — always visible */}
               <BookmarkButton
-              bookId={bookId}
-              bookTitle={content.book.title}
-              bookAuthor={content.book.author}
-              chapterNumber={content.chapter.chapterNumber}
-              chapterTitle={content.chapter.title}
-            />
+                bookId={bookId}
+                bookTitle={content.book.title}
+                bookAuthor={content.book.author}
+                chapterNumber={content.chapter.chapterNumber}
+                chapterTitle={content.chapter.title}
+              />
+            </div>
+            <p className="mt-1 text-sm text-srf-navy/50">
+              {content.book.author}
+              <span className="mx-2" aria-hidden="true">
+                ·
+              </span>
+              <span aria-label={t("readingTime", { minutes: readingTime })}>
+                ~{readingTime} {t("minuteAbbrev")}
+              </span>
+            </p>
+            {/* Reader controls — second row, hidden in focus/present mode */}
+            <div className="mt-3 flex flex-wrap items-center gap-2" data-no-focus data-no-present>
+              <FontSizeSelector />
+              <ThemeSelector />
+              <ReaderModes />
             </div>
           </div>
         </div>

@@ -371,7 +371,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 - **Done.** Reading mode: 5 color themes (auto/light/sepia/dark/meditate) with theme selector in ReaderSettings, adjustable font, high-contrast (`prefers-contrast`), theme-aware surfaces across all pages
 - **Done.** Circadian color temperature and "Breath Between Chapters" transitions (DES-011, DES-012)
 - Progressive Web App: offline book reading, home screen installable (ADR-012)
-- Responsive design polish: tablet layout, print stylesheet, touch-friendly (DES-049)
+- **Done.** Responsive design polish: enhanced print stylesheet (@page margins, page breaks, citation styling), interaction modality detection (hover/pointer CSS for touch vs desktop), responsive presentation mode (24px→36px across 4 tiers), tablet reader margins (48–64px), phone landscape line-length capping (DES-049)
 - Visual regression testing via Playwright screenshots
 
 **Additional success criteria:** WCAG 2.1 AA audit passes with zero critical violations. PWA installs on mobile and serves cached chapters offline. `prefers-reduced-motion` disables all animations.
