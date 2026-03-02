@@ -1,6 +1,7 @@
 # CI Pipeline — M1c-1
 #
 # Runs on every push and PR. Tests, lint, build, doc-validate.
+# On push to main: also deploys to Vercel (PRO-008 Layer 1).
 # CI-agnostic deployment scripts in /scripts/ (ADR-018).
 
 name: CI
@@ -50,6 +51,46 @@ jobs:
       - name: Performance budget (PRI-07)
         if: always() && steps.build.conclusion == 'success'
         run: bash scripts/check-perf-budget.sh build-output.txt
+
+  deploy:
+    name: Deploy to Vercel
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --token=$VERCEL_TOKEN
+
+      - name: Build with Vercel
+        run: vercel build --token=$VERCEL_TOKEN
+
+      - name: Deploy (preview)
+        id: deploy
+        run: |
+          URL=$(vercel deploy --prebuilt --token=$VERCEL_TOKEN)
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed to: $URL"
+
+      - name: Summary
+        run: |
+          echo "### Vercel Deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Preview: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: \`${GITHUB_SHA::7}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Promote via platform: \`promote teachings\`" >> "$GITHUB_STEP_SUMMARY"
 
   doc-validate:
     name: Document Integrity
