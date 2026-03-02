@@ -9,6 +9,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { SRF, SRF_PRACTICE, SRF_BOOKSTORE, SRF_SOCIAL } from "@/lib/config/srf-links";
 
 export function Footer() {
   const t = useTranslations("footer");
@@ -49,7 +50,7 @@ export function Footer() {
         {/* External SRF links */}
         <nav aria-label={a11y("srfEcosystem")} className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs text-srf-navy/40">
           <a
-            href="https://yogananda.org"
+            href={SRF.home}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-srf-navy/60 transition-colors"
@@ -57,7 +58,7 @@ export function Footer() {
             {t("yoganandaOrg")}
           </a>
           <a
-            href="https://yogananda.org/lessons"
+            href={SRF_PRACTICE.lessons}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-srf-navy/60 transition-colors"
@@ -65,7 +66,7 @@ export function Footer() {
             {t("lessons")}
           </a>
           <a
-            href="https://bookstore.yogananda-srf.org"
+            href={SRF_BOOKSTORE.home}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-srf-navy/60 transition-colors"
@@ -73,7 +74,7 @@ export function Footer() {
             {t("bookstore")}
           </a>
           <a
-            href="https://www.youtube.com/@YoganandaSRF"
+            href={SRF_SOCIAL.youtube}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-srf-navy/60 transition-colors"

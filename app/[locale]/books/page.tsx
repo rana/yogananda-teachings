@@ -13,6 +13,7 @@ import { getBooks, getChapters } from "@/lib/services/books";
 import { localeNames } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
+import { SRF_BOOKSTORE } from "@/lib/config/srf-links";
 
 export async function generateMetadata({
   params,
@@ -136,7 +137,7 @@ export default async function BooksPage({
             {/* SRF Bookstore signpost */}
             <p className="mt-4 text-center text-sm">
               <a
-                href="https://bookstore.yogananda-srf.org"
+                href={SRF_BOOKSTORE.home}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-srf-navy/50 underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"

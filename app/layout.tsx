@@ -11,6 +11,7 @@ import { getLocale } from "next-intl/server";
 import "./globals.css";
 import { ServiceWorkerRegistration } from "@/app/components/ServiceWorkerRegistration";
 import { LowBandwidthBanner } from "@/app/components/LowBandwidthBanner";
+import { SRF, SRF_SOCIAL, SRF_SAME_AS, PORTAL } from "@/lib/config/srf-links";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -31,25 +32,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 name: "SRF Teachings Portal",
-                url: "https://teachings.yogananda.org",
+                url: PORTAL.canonical,
                 description:
                   "Paramahansa Yogananda's published teachings — freely accessible worldwide",
                 copyrightHolder: {
                   "@type": "Organization",
                   name: "Self-Realization Fellowship",
-                  url: "https://yogananda.org",
+                  url: SRF.home,
                 },
                 publisher: {
                   "@type": "Organization",
                   name: "Self-Realization Fellowship",
-                  url: "https://yogananda.org",
+                  url: SRF.home,
                 },
                 potentialAction: {
                   "@type": "SearchAction",
                   target: {
                     "@type": "EntryPoint",
                     urlTemplate:
-                      "https://teachings.yogananda.org/en/search?q={search_term_string}",
+                      `${PORTAL.canonical}/en/search?q={search_term_string}`,
                   },
                   "query-input": "required name=search_term_string",
                 },
@@ -58,21 +59,21 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 name: "Self-Realization Fellowship",
-                url: "https://yogananda.org",
+                url: SRF.home,
                 sameAs: [
-                  "https://www.wikidata.org/wiki/Q1075365",
-                  "https://en.wikipedia.org/wiki/Self-Realization_Fellowship",
-                  "https://www.youtube.com/@YoganandaSRF",
+                  SRF_SAME_AS.orgWikidata,
+                  SRF_SAME_AS.orgWikipedia,
+                  SRF_SOCIAL.youtube,
                 ],
               },
               {
                 "@context": "https://schema.org",
                 "@type": "Person",
                 name: "Paramahansa Yogananda",
-                url: "https://yogananda.org/paramahansa-yogananda",
+                url: SRF.yogananda,
                 sameAs: [
-                  "https://www.wikidata.org/wiki/Q131814",
-                  "https://en.wikipedia.org/wiki/Paramahansa_Yogananda",
+                  SRF_SAME_AS.yoganandaWikidata,
+                  SRF_SAME_AS.yoganandaWikipedia,
                 ],
                 birthDate: "1893-01-05",
                 deathDate: "1952-03-07",

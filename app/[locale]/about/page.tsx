@@ -7,6 +7,13 @@
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import {
+  SRF_PRACTICE,
+  SRF_COMMUNITY,
+  SRF_ORG,
+  SRF_BOOKSTORE,
+  SRF_SOCIAL,
+} from "@/lib/config/srf-links";
 
 const GURUS = [
   { name: "Mahavatar Babaji", role: "The deathless guru" },
@@ -16,12 +23,12 @@ const GURUS = [
 ];
 
 const GO_DEEPER_LINKS = [
-  { key: "lessons", url: "https://yogananda.org/lessons" },
-  { key: "centers", url: "https://yogananda.org/locations" },
-  { key: "meditation", url: "https://onlinemeditation.yogananda.org/" },
-  { key: "app", url: "https://yogananda.org/app-faq" },
-  { key: "bookstore", url: "https://bookstore.yogananda-srf.org" },
-  { key: "youtube", url: "https://www.youtube.com/@YoganandaSRF" },
+  { key: "lessons", url: SRF_PRACTICE.lessons },
+  { key: "centers", url: SRF_COMMUNITY.locations },
+  { key: "meditation", url: SRF_PRACTICE.onlineMeditation },
+  { key: "app", url: SRF_ORG.app },
+  { key: "bookstore", url: SRF_BOOKSTORE.home },
+  { key: "youtube", url: SRF_SOCIAL.youtube },
 ];
 
 export default async function AboutPage({

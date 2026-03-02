@@ -13,6 +13,7 @@ import NextLink from "next/link";
 import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
 import { TodaysWisdom } from "@/app/components/TodaysWisdom";
+import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
 
@@ -162,7 +163,7 @@ export default async function HomePage({
           <p className="text-sm text-srf-navy/50">
             {t("practiceBridge")}{" "}
             <a
-              href="https://yogananda.org/lessons"
+              href={SRF_PRACTICE.lessons}
               target="_blank"
               rel="noopener noreferrer"
               className="text-srf-navy/70 underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"

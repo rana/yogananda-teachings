@@ -7,6 +7,7 @@
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { SRF_ORG } from "@/lib/config/srf-links";
 
 export default async function PrivacyPage({
   params,
@@ -99,7 +100,7 @@ export default async function PrivacyPage({
               personal information to access, correct, or delete. If you have
               questions or concerns, contact Self-Realization Fellowship at{" "}
               <a
-                href="https://yogananda.org/contact-us"
+                href={SRF_ORG.contact}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-srf-navy underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-gold"

@@ -6,6 +6,7 @@
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { SRF } from "@/lib/config/srf-links";
 
 export default async function LegalPage({
   params,
@@ -89,7 +90,7 @@ export default async function LegalPage({
               Los Angeles, California 90065
               <br />
               <a
-                href="https://yogananda.org"
+                href={SRF.home}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-srf-navy underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-gold"
