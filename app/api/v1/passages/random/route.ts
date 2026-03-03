@@ -27,9 +27,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       data: {
         id: passage.id,
+        slug: passage.slug,
         content: passage.content,
         citation: {
           bookId: passage.bookId,
+          bookSlug: passage.bookSlug,
           book: passage.bookTitle,
           author: passage.bookAuthor,
           chapter: passage.chapterTitle,

@@ -130,9 +130,8 @@ export function DwellMode() {
 
     function handleClick(e: MouseEvent | TouchEvent) {
       const target = e.target as HTMLElement;
-      // If the click is on the dwell-target paragraph or inside it, stay in dwell
-      const dwellTarget = document.querySelector("[data-dwell-target]");
-      if (dwellTarget && dwellTarget.contains(target)) return;
+      // Let links and buttons within the passage work normally
+      if (target.closest("a, button")) return;
       deactivateDwell();
     }
 

@@ -15,6 +15,7 @@ import { getRandomPassage } from "@/lib/services/passages";
 import { TodaysWisdom } from "@/app/components/TodaysWisdom";
 import { OpeningMoment } from "@/app/components/OpeningMoment";
 import { HomeSearchEnhanced } from "@/app/components/HomeSearchEnhanced";
+import { ContinueReading } from "@/app/components/ContinueReading";
 import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
@@ -50,6 +51,9 @@ export default async function HomePage({
     <OpeningMoment>
     <main id="main-content" className="min-h-screen">
       <div className="mx-auto max-w-3xl px-4 py-8 md:py-16">
+        {/* Continue Reading — returning seekers see where they left off */}
+        <ContinueReading locale={locale} />
+
         {/* Today's Wisdom — hero position */}
         <TodaysWisdom passage={passage} />
 

@@ -10,7 +10,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
-import { getChapterContent, getEquivalentBook } from "@/lib/services/books";
+import { getEquivalentBook, resolveChapterContent } from "@/lib/services/books";
 import { getChapterRelations } from "@/lib/services/relations";
 import { BookmarkButton } from "@/app/components/BookmarkButton";
 import { RelatedTeachings } from "@/app/components/RelatedTeachings";
@@ -29,6 +29,9 @@ import { RichText } from "@/app/components/RichText";
 import { ChapterNotes } from "@/app/components/ChapterNotes";
 import { EphemeralHighlights } from "@/app/components/EphemeralHighlights";
 import { ResonanceWatcher } from "@/app/components/ResonanceWatcher";
+import { PassageArrival } from "@/app/components/PassageArrival";
+import { ThreadReturnBar } from "@/app/components/ThreadReturnBar";
+import { ReadingJourney } from "@/app/components/ReadingJourney";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -49,10 +52,10 @@ export async function generateMetadata({
   const { locale, bookId, chapter } = await params;
   const chapterNumber = parseInt(chapter, 10);
   if (isNaN(chapterNumber) || chapterNumber < 1) return {};
-  const content = await getChapterContent(pool, bookId, chapterNumber);
+  const content = await resolveChapterContent(pool, bookId, chapterNumber);
   if (!content) return {};
   const prefix = locale === "en" ? "" : `/${locale}`;
-  const base = `${PORTAL.canonical}${prefix}/books/${bookId}`;
+  const base = `${PORTAL.canonical}${prefix}/books/${content.book.slug}`;
 
   // rel="prev"/"next" for sequential chapter navigation (M2a-7)
   const other: Record<string, string> = {};
@@ -67,7 +70,7 @@ export async function generateMetadata({
     title: `${content.chapter.title} — ${content.book.title}`,
     description: `Chapter ${content.chapter.chapterNumber} of ${content.book.title} by ${content.book.author}`,
     alternates: {
-      canonical: `${prefix}/books/${bookId}/${chapter}`,
+      canonical: `${prefix}/books/${content.book.slug}/${chapter}`,
     },
     other,
   };
@@ -85,15 +88,17 @@ export default async function ChapterPage({
   const chapterNumber = parseInt(chapter, 10);
   if (isNaN(chapterNumber) || chapterNumber < 1) notFound();
 
-  const content = await getChapterContent(pool, bookId, chapterNumber);
+  const content = await resolveChapterContent(pool, bookId, chapterNumber);
   if (!content) notFound();
+
+  const bookSlug = content.book.slug;
 
   // Cross-language redirect: if book language doesn't match locale,
   // redirect to the equivalent book's same chapter (PRI-06)
   if (content.book.language !== locale) {
-    const equivalent = await getEquivalentBook(pool, bookId, locale);
+    const equivalent = await getEquivalentBook(pool, content.book.id, locale);
     if (equivalent) {
-      redirect(`/${locale}/books/${equivalent.id}/${chapterNumber}`);
+      redirect(`/${locale}/books/${equivalent.slug}/${chapterNumber}`);
     }
     // No equivalent — show this content (ADR-077 cross-language fallback)
   }
@@ -104,11 +109,11 @@ export default async function ChapterPage({
   // Single DB round-trip, included in SSR — zero client-side fetching.
   const chapterRelations = await getChapterRelations(
     pool,
-    bookId,
+    content.book.id,
     chapterNumber,
   );
 
-  const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookId}`;
+  const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookSlug}`;
   const chapterUrl = `${bookUrl}/${chapterNumber}`;
   const jsonLd = [
     {
@@ -160,7 +165,7 @@ export default async function ChapterPage({
       ? [
           {
             urls: [
-              `/${locale}/books/${bookId}/${content.nextChapter.chapterNumber}`,
+              `/${locale}/books/${bookSlug}/${content.nextChapter.chapterNumber}`,
             ],
           },
         ]
@@ -169,7 +174,7 @@ export default async function ChapterPage({
       ? [
           {
             urls: [
-              `/${locale}/books/${bookId}/${content.prevChapter.chapterNumber}`,
+              `/${locale}/books/${bookSlug}/${content.prevChapter.chapterNumber}`,
             ],
           },
         ]
@@ -197,11 +202,20 @@ export default async function ChapterPage({
       <ScrollIndicator />
 
       {/* Reading progress — saves/restores scroll position per chapter */}
-      <ReadingProgress bookId={bookId} chapterNumber={chapterNumber} />
+      <ReadingProgress bookId={bookSlug} chapterNumber={chapterNumber} />
+
+      {/* Reading journey — records this chapter visit for homepage "Continue Reading" */}
+      <ReadingJourney
+        bookSlug={bookSlug}
+        bookTitle={content.book.title}
+        bookAuthor={content.book.author}
+        chapterNumber={chapterNumber}
+        chapterTitle={content.chapter.title}
+      />
 
       {/* Keyboard navigation — M2b-2 */}
       <KeyboardNav
-        bookId={bookId}
+        bookId={bookSlug}
         prevChapter={content.prevChapter?.chapterNumber ?? null}
         nextChapter={content.nextChapter?.chapterNumber ?? null}
         locale={locale}
@@ -220,7 +234,7 @@ export default async function ChapterPage({
             <span className="mx-2" aria-hidden="true">
               /
             </span>
-            <Link href={`/books/${bookId}`} className="hover:text-srf-navy/80">
+            <Link href={`/books/${bookSlug}`} className="hover:text-srf-navy/80">
               {content.book.title}
             </Link>
           </nav>
@@ -234,7 +248,8 @@ export default async function ChapterPage({
               </h1>
               {/* Lotus bookmark — always visible */}
               <BookmarkButton
-                bookId={bookId}
+                bookId={content.book.id}
+                bookSlug={bookSlug}
                 bookTitle={content.book.title}
                 bookAuthor={content.book.author}
                 chapterNumber={content.chapter.chapterNumber}
@@ -266,15 +281,22 @@ export default async function ChapterPage({
       {/* Resonance watcher — M3a-7 (ADR-052): maps dwell events to chunk IDs */}
       <ResonanceWatcher paragraphChunkIds={content.paragraphs.map((p) => p.id)} />
 
+      {/* Passage Arrival — scroll + highlight when arriving from search or golden thread */}
+      <PassageArrival paragraphChunkIds={content.paragraphs.map((p) => p.id)} />
+
       {/* Contextual Quiet Corner — M2b-7 */}
       <ContextualQuiet
-        bookId={bookId}
+        bookId={content.book.id}
+        bookSlug={bookSlug}
         bookTitle={content.book.title}
         chapterNumber={content.chapter.chapterNumber}
         chapterTitle={content.chapter.title}
       />
 
       {/* "Breath Between Chapters" — DES-012 */}
+      {/* Thread Return Bar — golden thread breadcrumb (ADR-050) */}
+      <ThreadReturnBar locale={locale} />
+
       <ChapterBreath
         chapterNumber={content.chapter.chapterNumber}
         chapterTitle={content.chapter.title}
@@ -298,6 +320,7 @@ export default async function ChapterPage({
                     text={para.content}
                     formatting={para.formatting}
                     footnotes={content.footnotes}
+                    dropCap={i === 0}
                   />
                 </p>
               ))}
@@ -317,8 +340,9 @@ export default async function ChapterPage({
             relations={chapterRelations.paragraphs}
             thread={chapterRelations.thread}
             paragraphChunkIds={content.paragraphs.map((p) => p.id)}
-            bookId={bookId}
+            bookSlug={bookSlug}
             chapterNumber={chapterNumber}
+            chapterTitle={content.chapter.title}
             locale={locale}
           />
         </div>
@@ -341,7 +365,7 @@ export default async function ChapterPage({
         <div className="mx-auto flex max-w-[38rem] items-stretch">
           {content.prevChapter ? (
             <ChapterNavLink
-              href={`/books/${bookId}/${content.prevChapter.chapterNumber}`}
+              href={`/books/${bookSlug}/${content.prevChapter.chapterNumber}`}
               rel="prev"
               className="flex flex-1 flex-col px-4 py-4 text-start transition-colors hover:bg-warm-cream min-h-[44px]"
             >
@@ -359,7 +383,7 @@ export default async function ChapterPage({
 
           {content.nextChapter ? (
             <ChapterNavLink
-              href={`/books/${bookId}/${content.nextChapter.chapterNumber}`}
+              href={`/books/${bookSlug}/${content.nextChapter.chapterNumber}`}
               rel="next"
               className="flex flex-1 flex-col px-4 py-4 text-end transition-colors hover:bg-warm-cream min-h-[44px]"
             >

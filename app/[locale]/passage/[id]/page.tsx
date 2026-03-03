@@ -10,7 +10,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound } from "next/navigation";
 import pool from "@/lib/db";
-import { getPassage } from "@/lib/services/books";
+import { resolvePassage } from "@/lib/services/books";
 import { PORTAL } from "@/lib/config/srf-links";
 import { ShareButton } from "@/app/components/ShareButton";
 import { PartingWord } from "@/app/components/PartingWord";
@@ -22,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string; id: string }>;
 }): Promise<Metadata> {
   const { id } = await params;
-  const passage = await getPassage(pool, id);
+  const passage = await resolvePassage(pool, id);
   if (!passage) return {};
 
   const truncated =
@@ -74,10 +74,11 @@ export default async function PassagePage({
   setRequestLocale(locale);
   const t = await getTranslations("passage");
 
-  const passage = await getPassage(pool, id);
+  const passage = await resolvePassage(pool, id);
   if (!passage) notFound();
 
-  const passageUrl = `${PORTAL.canonical}/${locale}/passage/${id}`;
+  // Use slug for canonical URL (human-readable, shareable)
+  const passageUrl = `${PORTAL.canonical}/${locale}/passage/${passage.slug}`;
   const citation = `${passage.bookAuthor}, ${passage.bookTitle}, Ch. ${passage.chapterNumber}: ${passage.chapterTitle}${passage.pageNumber ? `, p. ${passage.pageNumber}` : ""}`;
 
   const jsonLd = {
@@ -120,7 +121,7 @@ export default async function PassagePage({
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3">
           <Link
-            href={`/books/${passage.bookId}/${passage.chapterNumber}`}
+            href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
             className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface)"
           >
             {t("readInContext")}
@@ -139,7 +140,7 @@ export default async function PassagePage({
           </p>
           <div className="flex flex-wrap gap-3">
             <Link
-              href={`/books/${passage.bookId}`}
+              href={`/books/${passage.bookSlug}`}
               className="inline-flex min-h-11 items-center rounded-lg bg-srf-navy px-4 py-2 text-sm text-warm-cream transition-colors hover:bg-srf-navy/90"
             >
               {t("exploreBook")}

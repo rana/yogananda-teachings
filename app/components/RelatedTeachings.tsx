@@ -23,10 +23,10 @@ import {
 } from "react";
 import NextLink from "next/link";
 import { sendResonance } from "@/lib/resonance-beacon";
+import { pushThreadPosition } from "@/lib/thread-memory";
 import {
   SETTLED_PARAGRAPH_DEBOUNCE_MS,
   FOCUS_ZONE_ROOT_MARGIN,
-  THREAD_MAX_DEPTH,
 } from "@/lib/config";
 import type { RelatedPassage, ThreadSuggestion } from "@/lib/services/relations";
 
@@ -39,8 +39,9 @@ interface RelatedTeachingsProps {
   thread: ThreadSuggestion[];
   /** Ordered chunk IDs matching paragraph DOM order (data-paragraph={i}) */
   paragraphChunkIds: string[];
-  bookId: string;
+  bookSlug: string;
   chapterNumber: number;
+  chapterTitle: string;
   locale: string;
 }
 
@@ -118,47 +119,41 @@ function useSettledParagraph(): number | null {
   return settled;
 }
 
-// ── Thread Navigation Hook ──────────────────────────────────────
-
-interface ThreadPosition {
-  bookId: string;
-  chapterNumber: number;
-  scrollY: number;
-}
-
-function useThreadNavigation() {
-  const [stack, setStack] = useState<ThreadPosition[]>([]);
-
-  const push = useCallback(
-    (pos: ThreadPosition) => {
-      setStack((prev) => [...prev.slice(-THREAD_MAX_DEPTH + 1), pos]);
-    },
-    [],
-  );
-
-  const pop = useCallback(() => {
-    const last = stack[stack.length - 1];
-    setStack((prev) => prev.slice(0, -1));
-    return last ?? null;
-  }, [stack]);
-
-  return { stack, push, pop, depth: stack.length };
-}
-
 // ── Passage Card ────────────────────────────────────────────────
 
 function PassageCard({
   passage,
   locale,
+  currentContext,
 }: {
   passage: RelatedPassage;
   locale: string;
+  /** Current reading position — pushed to thread stack on "Read" click */
+  currentContext: {
+    bookSlug: string;
+    chapterNumber: number;
+    chapterTitle: string;
+    settledChunkId: string | null;
+  };
 }) {
   // Truncate content for display
   const displayContent =
     passage.content.length > 160
       ? passage.content.slice(0, 157) + "\u2026"
       : passage.content;
+
+  const handleReadClick = useCallback(() => {
+    sendResonance(passage.id, "traverse");
+    // Push current position to thread stack so the seeker can return
+    if (currentContext.settledChunkId) {
+      pushThreadPosition({
+        bookSlug: currentContext.bookSlug,
+        chapterNumber: currentContext.chapterNumber,
+        chapterTitle: currentContext.chapterTitle,
+        chunkId: currentContext.settledChunkId,
+      });
+    }
+  }, [passage.id, currentContext]);
 
   return (
     <div className="group rounded-lg border border-srf-navy/8 bg-(--theme-surface) p-3 transition-colors hover:border-srf-gold/30">
@@ -184,9 +179,9 @@ function PassageCard({
           </>
         )}
         <NextLink
-          href={`/${locale}/books/${passage.bookTitle}/${passage.chapterNumber}`}
+          href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
           className="ml-auto text-srf-gold/70 transition-colors hover:text-srf-gold min-h-[44px] inline-flex items-center"
-          onClick={() => sendResonance(passage.id, "traverse")}
+          onClick={handleReadClick}
         >
           Read
         </NextLink>
@@ -202,11 +197,18 @@ function SidePanel({
   thread,
   sourceText,
   locale,
+  currentContext,
 }: {
   passages: RelatedPassage[];
   thread: ThreadSuggestion[];
   sourceText: string | null;
   locale: string;
+  currentContext: {
+    bookSlug: string;
+    chapterNumber: number;
+    chapterTitle: string;
+    settledChunkId: string | null;
+  };
 }) {
   if (passages.length === 0 && thread.length === 0) {
     return (
@@ -240,7 +242,7 @@ function SidePanel({
       {/* Related passage cards */}
       <div className="space-y-3">
         {passages.map((passage) => (
-          <PassageCard key={passage.id} passage={passage} locale={locale} />
+          <PassageCard key={passage.id} passage={passage} locale={locale} currentContext={currentContext} />
         ))}
       </div>
 
@@ -252,9 +254,9 @@ function SidePanel({
           </h4>
           <ul className="space-y-1.5">
             {thread.map((t) => (
-              <li key={`${t.bookId}-${t.chapterNumber}`}>
+              <li key={`${t.bookSlug}-${t.chapterNumber}`}>
                 <NextLink
-                  href={`/${locale}/books/${t.bookId}/${t.chapterNumber}`}
+                  href={`/${locale}/books/${t.bookSlug}/${t.chapterNumber}`}
                   className="flex items-baseline gap-2 rounded-md px-2 py-1.5 text-sm text-srf-navy/60 transition-colors hover:bg-srf-gold/5 hover:text-srf-navy min-h-[44px]"
                 >
                   <span className="shrink-0 text-xs text-srf-gold/50">
@@ -407,14 +409,14 @@ export function RelatedTeachings({
   relations,
   thread,
   paragraphChunkIds,
-  bookId,
+  bookSlug,
   chapterNumber,
+  chapterTitle,
   locale,
 }: RelatedTeachingsProps) {
   const settledIdx = useSettledParagraph();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIdx, setSheetIdx] = useState<number | null>(null);
-  const _threadNav = useThreadNavigation();
 
   // Get the chunk ID and text for the settled paragraph
   const settledChunkId =
@@ -450,6 +452,14 @@ export function RelatedTeachings({
   const hasAnyRelations =
     Object.keys(relations).length > 0 || thread.length > 0;
 
+  // Current reading context for thread memory
+  const currentContext = {
+    bookSlug,
+    chapterNumber,
+    chapterTitle,
+    settledChunkId,
+  };
+
   return (
     <>
       {/* Desktop side panel — visible at lg: */}
@@ -467,6 +477,7 @@ export function RelatedTeachings({
           thread={hasAnyRelations ? thread : []}
           sourceText={sourceText}
           locale={locale}
+          currentContext={currentContext}
         />
       </aside>
 
@@ -487,6 +498,7 @@ export function RelatedTeachings({
               thread={thread}
               sourceText={null}
               locale={locale}
+              currentContext={currentContext}
             />
           </BottomSheet>
         </>

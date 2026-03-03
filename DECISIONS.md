@@ -192,6 +192,7 @@ How the portal is built, tested, monitored, and governed. Engineering standards,
 - ADR-123: Principle vs. Parameter — Decision Classification and Governance Flexibility ◆
 - ADR-124: Neon Platform Governance — PostgreSQL Version, Tier, Compute, Branching, Extensions, and Observability ◆
 - ADR-131: AI-Native Operations Architecture — MCP Requirements, Machine-Readable Surfaces, and Documentation-as-Infrastructure
+- ADR-132: Human-Readable URL Strategy — Slugs Over UUIDs
 
 ---
 
@@ -201,7 +202,7 @@ ADR bodies are split across three files by concern group:
 
 | File | Groups | ADRs | Arc Relevance |
 |------|--------|------|---------------|
-| [DECISIONS-core.md](DECISIONS-core.md) | Foundational, Infrastructure, Application Architecture, Content, Search | ADR-001–027, 029–044, 046–050, 052–053, 114–121, 125–130 | Arc 1+ (implementation-critical) |
+| [DECISIONS-core.md](DECISIONS-core.md) | Foundational, Infrastructure, Application Architecture, Content, Search | ADR-001–027, 029–044, 046–050, 052–053, 114–121, 125–130, 132 | Arc 1+ (implementation-critical) |
 | [DECISIONS-experience.md](DECISIONS-experience.md) | Cross-Media, Seeker Experience, Internationalization | ADR-054–081, 104, 122 | Arc 2+ (experience design) |
 | [DECISIONS-operations.md](DECISIONS-operations.md) | Staff, Brand, Operations & Governance | ADR-082–101, 105–113, 123–124, 131 | Arc 1+ (governance, engineering standards); Arc 3+ (staff, brand, operations) |
 

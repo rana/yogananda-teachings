@@ -41,8 +41,10 @@ import type { DailyPassage } from "@/lib/services/passages";
 
 const samplePassage: DailyPassage = {
   id: "chunk-001",
+  slug: "live-quietly-moment-see-beauty",
   content: "Live quietly in the moment and see the beauty of all before you.",
   bookId: "autobiography-en",
+  bookSlug: "autobiography-of-a-yogi",
   bookTitle: "Autobiography of a Yogi",
   bookAuthor: "Paramahansa Yogananda",
   chapterTitle: "My Parents and Early Life",

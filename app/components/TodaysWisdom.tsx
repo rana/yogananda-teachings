@@ -33,8 +33,10 @@ export function TodaysWisdom({ passage: initial }: Props) {
         const json = await res.json();
         setPassage({
           id: json.data.id,
+          slug: json.data.slug ?? json.data.id,
           content: json.data.content,
           bookId: json.data.citation.bookId,
+          bookSlug: json.data.citation.bookSlug ?? json.data.citation.bookId,
           bookTitle: json.data.citation.book,
           bookAuthor: json.data.citation.author,
           chapterTitle: json.data.citation.chapter,
@@ -71,7 +73,7 @@ export function TodaysWisdom({ passage: initial }: Props) {
           <cite className="not-italic">
             — {passage.bookAuthor},{" "}
             <NextLink
-              href={`/${locale}/books/${passage.bookId}`}
+              href={`/${locale}/books/${passage.bookSlug}`}
               className="underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"
             >
               <em>{passage.bookTitle}</em>
@@ -80,8 +82,8 @@ export function TodaysWisdom({ passage: initial }: Props) {
           </cite>
         </footer>
 
-        {/* Show me another */}
-        <div className="mt-6">
+        {/* Actions */}
+        <div className="mt-6 flex items-center gap-4">
           <button
             onClick={fetchAnother}
             disabled={loading}
@@ -90,6 +92,12 @@ export function TodaysWisdom({ passage: initial }: Props) {
           >
             {loading ? "..." : t("showAnother")}
           </button>
+          <NextLink
+            href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
+            className="min-h-11 inline-flex items-center rounded px-3 py-1.5 text-sm text-srf-gold/70 transition-colors hover:text-srf-gold"
+          >
+            {t("readInContext")}
+          </NextLink>
         </div>
       </div>
     </section>

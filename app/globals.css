@@ -436,8 +436,9 @@ body {
 
 /* ── Reader typography — M2b-4 (DES-008) ─────────────────────── */
 
-/* Drop capital at chapter starts — Merriweather 700, navy, 3-line */
-.reader-content > p:first-of-type::first-letter {
+/* Drop capital at chapter starts — explicit span, not ::first-letter.
+   Avoids ::first-letter grabbing superscript footnote markers. */
+.drop-cap {
   font-family: var(--font-serif);
   font-weight: 700;
   color: var(--theme-text);

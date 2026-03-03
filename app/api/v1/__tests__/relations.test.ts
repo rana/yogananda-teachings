@@ -43,6 +43,8 @@ describe("/api/v1/passages/:id/related", () => {
       {
         id: "chunk-2",
         content: "God is approachable.",
+        bookId: "book-1",
+        bookSlug: "autobiography-of-a-yogi",
         bookTitle: "Autobiography of a Yogi",
         bookAuthor: "Paramahansa Yogananda",
         chapterTitle: "Years in My Master's Hermitage",
@@ -141,6 +143,8 @@ describe("/api/v1/chapters/:bookId/:number/relations", () => {
           {
             id: "r1",
             content: "Related passage",
+            bookId: "book-a",
+            bookSlug: "book-a",
             bookTitle: "Book A",
             bookAuthor: "Author A",
             chapterTitle: "Chapter 5",
@@ -159,6 +163,7 @@ describe("/api/v1/chapters/:bookId/:number/relations", () => {
           chapterTitle: "Years in My Master's Hermitage",
           bookTitle: "Autobiography of a Yogi",
           bookId: "book-1",
+          bookSlug: "autobiography-of-a-yogi",
           connectionCount: 8,
           label: null,
         },

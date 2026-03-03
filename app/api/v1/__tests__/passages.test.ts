@@ -32,8 +32,10 @@ function makeRequest(url: string): NextRequest {
 
 const samplePassage = {
   id: "chunk-42",
+  slug: "season-failure-best-time-sowing",
   content: "The season of failure is the best time for sowing the seeds of success.",
   bookId: "book-1",
+  bookSlug: "autobiography-of-a-yogi",
   bookTitle: "Autobiography of a Yogi",
   bookAuthor: "Paramahansa Yogananda",
   chapterTitle: "Years in My Master's Hermitage",
@@ -61,6 +63,7 @@ describe("/api/v1/passages/random", () => {
     expect(body.data.content).toContain("season of failure");
     expect(body.data.citation).toEqual({
       bookId: "book-1",
+      bookSlug: "autobiography-of-a-yogi",
       book: "Autobiography of a Yogi",
       author: "Paramahansa Yogananda",
       chapter: "Years in My Master's Hermitage",

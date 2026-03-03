@@ -19,6 +19,7 @@ import { PORTAL } from "@/lib/config/srf-links";
 
 interface Citation {
   bookId: string;
+  bookSlug: string;
   book: string;
   author: string;
   chapter: string;
@@ -28,6 +29,7 @@ interface Citation {
 
 interface SearchResult {
   id: string;
+  slug: string;
   content: string;
   citation: Citation;
   language: string;
@@ -380,7 +382,7 @@ function SearchPageInner() {
                   )}
                   <span aria-hidden="true">&middot;</span>
                   <NextLink
-                    href={`/${locale}/books/${result.citation.bookId}/${result.citation.chapterNumber}`}
+                    href={`/${locale}/books/${result.citation.bookSlug}/${result.citation.chapterNumber}#passage-${result.id}`}
                     className="text-srf-gold hover:text-srf-navy transition-colors min-h-11 inline-flex items-center"
                   >
                     {t("readInContext")}
@@ -388,7 +390,7 @@ function SearchPageInner() {
                   <InlineShareButton
                     passage={result.content}
                     citation={result.citation}
-                    url={`${PORTAL.canonical}/${locale}/passage/${result.id}`}
+                    url={`${PORTAL.canonical}/${locale}/passage/${result.slug}`}
                     chunkId={result.id}
                   />
                   {debugMode && (

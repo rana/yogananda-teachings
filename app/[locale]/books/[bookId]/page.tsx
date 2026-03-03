@@ -9,7 +9,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
-import { getBooks, getChapters, getEquivalentBook } from "@/lib/services/books";
+import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -19,15 +19,14 @@ export async function generateMetadata({
   params: Promise<{ locale: string; bookId: string }>;
 }): Promise<Metadata> {
   const { locale, bookId } = await params;
-  const books = await getBooks(pool);
-  const book = books.find((b) => b.id === bookId);
+  const book = await resolveBook(pool, bookId);
   if (!book) return {};
   const prefix = locale === "en" ? "" : `/${locale}`;
   return {
     title: book.title,
     description: `${book.title} by ${book.author} — read chapters online`,
     alternates: {
-      canonical: `${prefix}/books/${bookId}`,
+      canonical: `${prefix}/books/${book.slug}`,
     },
   };
 }
@@ -42,25 +41,22 @@ export default async function BookLandingPage({
   const t = await getTranslations("books");
   const rt = await getTranslations("reader");
 
-  const [books, chapters] = await Promise.all([
-    getBooks(pool),
-    getChapters(pool, bookId),
-  ]);
-
-  const book = books.find((b) => b.id === bookId);
+  const book = await resolveBook(pool, bookId);
   if (!book) notFound();
+
+  const chapters = await getChapters(pool, book.id);
 
   // Cross-language redirect: if book language doesn't match locale,
   // redirect to the equivalent book in the current locale (PRI-06)
   if (book.language !== locale) {
-    const equivalent = await getEquivalentBook(pool, bookId, locale);
+    const equivalent = await getEquivalentBook(pool, book.id, locale);
     if (equivalent) {
-      redirect(`/${locale}/books/${equivalent.id}`);
+      redirect(`/${locale}/books/${equivalent.slug}`);
     }
     // No equivalent exists — show this book (ADR-077 cross-language fallback)
   }
 
-  const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookId}`;
+  const bookUrl = `${PORTAL.canonical}/${locale}/books/${book.slug}`;
   const jsonLd = [
     {
       "@context": "https://schema.org",
@@ -142,7 +138,7 @@ export default async function BookLandingPage({
             {chapters.map((ch) => (
               <li key={ch.id}>
                 <Link
-                  href={`/books/${bookId}/${ch.chapterNumber}`}
+                  href={`/books/${book.slug}/${ch.chapterNumber}`}
                   className="flex items-baseline gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-(--theme-surface) min-h-[44px]"
                 >
                   <span className="min-w-[2rem] text-end text-sm tabular-nums text-srf-navy/40">

@@ -8,6 +8,7 @@ import type pg from "pg";
 
 export interface Book {
   id: string;
+  slug: string;
   title: string;
   author: string;
   language: string;
@@ -84,12 +85,13 @@ export async function getBooks(
 
   const where = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
   const { rows } = await pool.query(
-    `SELECT id, title, author, language, publication_year, cover_image_url, bookstore_url
+    `SELECT id, slug, title, author, language, publication_year, cover_image_url, bookstore_url
      FROM books ${where} ORDER BY language, title`,
     params,
   );
   return rows.map((r) => ({
     id: r.id,
+    slug: r.slug,
     title: r.title,
     author: r.author,
     language: r.language,
@@ -142,7 +144,7 @@ export async function getEquivalentBook(
   targetLanguage: string,
 ): Promise<Book | null> {
   const { rows } = await pool.query(
-    `SELECT b2.id, b2.title, b2.author, b2.language, b2.publication_year,
+    `SELECT b2.id, b2.slug, b2.title, b2.author, b2.language, b2.publication_year,
             b2.cover_image_url, b2.bookstore_url
      FROM books b1
      JOIN books b2 ON b2.author = b1.author AND b2.language = $2 AND b2.id != b1.id
@@ -154,6 +156,7 @@ export async function getEquivalentBook(
   const r = rows[0];
   return {
     id: r.id,
+    slug: r.slug,
     title: r.title,
     author: r.author,
     language: r.language,
@@ -165,10 +168,12 @@ export async function getEquivalentBook(
 
 export interface Passage {
   id: string;
+  slug: string;
   content: string;
   language: string;
   pageNumber: number | null;
   bookId: string;
+  bookSlug: string;
   bookTitle: string;
   bookAuthor: string;
   chapterTitle: string;
@@ -181,8 +186,9 @@ export async function getPassage(
   passageId: string,
 ): Promise<Passage | null> {
   const { rows } = await pool.query(
-    `SELECT bc.id, bc.content, bc.language, bc.page_number,
-            b.id AS book_id, b.title AS book_title, b.author AS book_author,
+    `SELECT bc.id, bc.slug, bc.content, bc.language, bc.page_number,
+            b.id AS book_id, b.slug AS book_slug, b.title AS book_title,
+            b.author AS book_author,
             c.title AS chapter_title, c.chapter_number
      FROM book_chunks bc
      JOIN books b ON b.id = bc.book_id
@@ -194,10 +200,50 @@ export async function getPassage(
   const r = rows[0];
   return {
     id: r.id,
+    slug: r.slug,
     content: r.content,
     language: r.language,
     pageNumber: r.page_number,
     bookId: r.book_id,
+    bookSlug: r.book_slug,
+    bookTitle: r.book_title,
+    bookAuthor: r.book_author,
+    chapterTitle: r.chapter_title,
+    chapterNumber: r.chapter_number,
+  };
+}
+
+/**
+ * Resolve a passage by slug or UUID (backward-compatible).
+ * Tries slug first (the common frontend path), falls back to UUID
+ * for old bookmarks and external links.
+ */
+export async function resolvePassage(
+  pool: pg.Pool,
+  identifier: string,
+): Promise<Passage | null> {
+  const { rows } = await pool.query(
+    `SELECT bc.id, bc.slug, bc.content, bc.language, bc.page_number,
+            b.id AS book_id, b.slug AS book_slug, b.title AS book_title,
+            b.author AS book_author,
+            c.title AS chapter_title, c.chapter_number
+     FROM book_chunks bc
+     JOIN books b ON b.id = bc.book_id
+     JOIN chapters c ON c.id = bc.chapter_id
+     WHERE bc.slug = $1 OR bc.id::text = $1
+     LIMIT 1`,
+    [identifier],
+  );
+  if (rows.length === 0) return null;
+  const r = rows[0];
+  return {
+    id: r.id,
+    slug: r.slug,
+    content: r.content,
+    language: r.language,
+    pageNumber: r.page_number,
+    bookId: r.book_id,
+    bookSlug: r.book_slug,
     bookTitle: r.book_title,
     bookAuthor: r.book_author,
     chapterTitle: r.chapter_title,
@@ -213,8 +259,8 @@ export async function getChapterContent(
   // Get chapter (with footnotes)
   const chResult = await pool.query(
     `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order, c.footnotes,
-            b.title as book_title, b.author as book_author, b.language,
-            b.publication_year, b.cover_image_url, b.bookstore_url
+            b.slug as book_slug, b.title as book_title, b.author as book_author,
+            b.language, b.publication_year, b.cover_image_url, b.bookstore_url
      FROM chapters c
      JOIN books b ON b.id = c.book_id
      WHERE c.book_id = $1 AND c.chapter_number = $2`,
@@ -255,6 +301,7 @@ export async function getChapterContent(
     },
     book: {
       id: ch.book_id,
+      slug: ch.book_slug,
       title: ch.book_title,
       author: ch.book_author,
       language: ch.language,
@@ -277,4 +324,49 @@ export async function getChapterContent(
       ? { id: next.id, chapterNumber: next.chapter_number, title: next.title }
       : null,
   };
+}
+
+/**
+ * Resolve a book by slug or UUID (backward-compatible).
+ * Tries slug first (the common frontend path), falls back to UUID
+ * for old bookmarks and external links.
+ */
+export async function resolveBook(
+  pool: pg.Pool,
+  identifier: string,
+): Promise<Book | null> {
+  const { rows } = await pool.query(
+    `SELECT id, slug, title, author, language, publication_year,
+            cover_image_url, bookstore_url
+     FROM books
+     WHERE slug = $1 OR id::text = $1
+     LIMIT 1`,
+    [identifier],
+  );
+  if (rows.length === 0) return null;
+  const r = rows[0];
+  return {
+    id: r.id,
+    slug: r.slug,
+    title: r.title,
+    author: r.author,
+    language: r.language,
+    publicationYear: r.publication_year,
+    coverImageUrl: r.cover_image_url,
+    bookstoreUrl: r.bookstore_url,
+  };
+}
+
+/**
+ * Get chapter content by book slug or UUID (backward-compatible).
+ * Resolves the book first, then delegates to getChapterContent.
+ */
+export async function resolveChapterContent(
+  pool: pg.Pool,
+  bookIdentifier: string,
+  chapterNumber: number,
+): Promise<ChapterContent | null> {
+  const book = await resolveBook(pool, bookIdentifier);
+  if (!book) return null;
+  return getChapterContent(pool, book.id, chapterNumber);
 }

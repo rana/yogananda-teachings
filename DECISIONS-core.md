@@ -5730,3 +5730,61 @@ The full multi-lens homepage is Arc 2a. At 1c, the recognition-first principle m
 - PRO-018 (Four Doors), PRO-019 (Multi-Lens Homepage), PRO-020 (Wanderer's Path) capture the Arc 2a+ implementation details
 
 **Governs:** DES-006, DES-007, DES-015, PRO-018, PRO-019, PRO-020
+
+## ADR-132: Human-Readable URL Strategy — Slugs Over UUIDs
+
+**Status:** Implemented — see `migrations/005_book_slugs.sql`, `migrations/006_passage_slugs.sql`, `lib/services/books.ts`
+
+**Date:** 2026-03-02
+
+### Context
+
+Frontend URLs used UUIDs (UUIDv7) as identifiers: `/books/019cb0d1-24d8-74ce-8a62-76aede429162/3`, `/passage/019cb0d1-5778-77c7-b914-be0c62f6c08f`. These are machine-optimal but hostile to humans — hard to read, impossible to remember, painful to copy-paste or communicate verbally, and they reveal implementation details. For a portal presenting Yogananda's teachings, URLs should be as considered as the typography.
+
+The portal's URLs are shared in WhatsApp messages, email, social media, and potentially QR codes on physical materials. A URL like `/en/passage/season-failure-best-time-sowing` communicates the content's essence before the page loads — it's a preview, an invitation, a first taste of the teaching.
+
+### Decision
+
+**Two-tier URL strategy:** human-readable slugs for frontend routes, UUIDs for API routes.
+
+#### Book URLs
+
+Books use editorial slugs derived from the title: `/books/autobiography-of-a-yogi/3`. Schema: `books.slug TEXT NOT NULL`, with `UNIQUE INDEX ON (slug, language)` for language-scoped uniqueness.
+
+#### Passage URLs
+
+Passages (book chunks) use content-derived slugs: `/passage/season-failure-best-time-sowing`. Generated algorithmically from the first 5 significant words of the passage content, with stop-word removal (English + Spanish) and accent normalization via `unaccent()`.
+
+Schema: `book_chunks.slug TEXT NOT NULL`, with `UNIQUE INDEX ON (slug, language)`. A PL/pgSQL function `generate_content_slug()` produces the base slug; collisions within the same language are resolved with `-2`, `-3` suffixes. For 2,681 chunks across 2 languages, collision rate was 0% (English) and 0.5% (Spanish, 6 collisions).
+
+Example slugs:
+- `season-failure-best-time-sowing` — evocative, memorable
+- `hard-pierce-veil-divine-various` — captures the verse's tone
+- `dueno-cuerpo-mente-kriya-yogui` — Spanish with accent normalization
+- `received-graciously-home-lahiri-family` — includes proper nouns naturally
+
+#### API URLs
+
+API routes (`/api/v1/`) continue using UUIDs. These are machine interfaces where stability and unambiguity matter more than readability.
+
+#### Backward Compatibility
+
+Both `resolveBook()` and `resolvePassage()` accept either a slug or UUID: `WHERE slug = $1 OR id::text = $1 LIMIT 1`. Old bookmarks, shared links, and external references using UUIDs continue to resolve correctly. localStorage bookmarks use optional `bookSlug`/`passageSlug` fields with fallback to UUID for legacy entries.
+
+### Alternatives Considered
+
+1. **Keep UUIDs.** Simplest but worst human experience. Rejected.
+2. **Short base62 codes** (e.g., `/p/3Kx9mQ`). Compact but opaque — worse than UUIDs for communicating content. Rejected.
+3. **Chapter + position** (e.g., `/passage/autobiography/12/7`). Fragile under re-ingestion — ADR-022 exists precisely because positional identifiers shift. Rejected.
+4. **Scholarly citation codes** (e.g., `/p/AY-12-98`). Machine-readable but requires decoding; doesn't convey the passage's spirit. Rejected.
+5. **Content hash prefixes** (e.g., `/p/a7f3e2`). Stable but meaningless. Rejected.
+
+### Consequences
+
+- All frontend URLs are now human-readable and shareable
+- Slug generation happens at ingestion time (new books) and via migration (existing data)
+- The `generate_content_slug()` function must be called during future book ingestion
+- Passage slugs are language-scoped — the same content in different languages gets different slugs
+- New config constant not needed: slug generation is a database function, not a tunable parameter
+
+**Governs:** `migrations/005_book_slugs.sql`, `migrations/006_passage_slugs.sql`, `lib/services/books.ts` (`resolveBook`, `resolvePassage`)

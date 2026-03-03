@@ -125,8 +125,10 @@ describe("/api/v1/search", () => {
       results: [
         {
           id: "chunk-1",
+          slug: "soul-must-stretch-over-cosmos",
           content: "The soul must stretch over the cosmos.",
           bookId: "book-1",
+          bookSlug: "autobiography-of-a-yogi",
           bookTitle: "Autobiography of a Yogi",
           bookAuthor: "Paramahansa Yogananda",
           chapterTitle: "The Law of Miracles",
@@ -152,9 +154,11 @@ describe("/api/v1/search", () => {
     expect(body.data).toHaveLength(1);
     expect(body.data[0]).toEqual({
       id: "chunk-1",
+      slug: "soul-must-stretch-over-cosmos",
       content: "The soul must stretch over the cosmos.",
       citation: {
         bookId: "book-1",
+        bookSlug: "autobiography-of-a-yogi",
         book: "Autobiography of a Yogi",
         author: "Paramahansa Yogananda",
         chapter: "The Law of Miracles",
@@ -248,8 +252,10 @@ describe("/api/v1/search", () => {
       results: [
         {
           id: "chunk-en",
+          slug: "english-fallback-content",
           content: "English fallback content",
           bookId: "book-1",
+          bookSlug: "autobiography-of-a-yogi",
           bookTitle: "Autobiography of a Yogi",
           bookAuthor: "Paramahansa Yogananda",
           chapterTitle: "Chapter 1",

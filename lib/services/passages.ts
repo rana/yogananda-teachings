@@ -14,8 +14,10 @@ import {
 
 export interface DailyPassage {
   id: string;
+  slug: string;
   content: string;
   bookId: string;
+  bookSlug: string;
   bookTitle: string;
   bookAuthor: string;
   chapterTitle: string;
@@ -28,10 +30,12 @@ export interface DailyPassage {
 const PASSAGE_SELECT = `
   SELECT
     bc.id,
+    bc.slug,
     bc.content,
     bc.page_number,
     bc.language,
     b.id AS book_id,
+    b.slug AS book_slug,
     b.title AS book_title,
     b.author AS book_author,
     c.title AS chapter_title,
@@ -44,8 +48,10 @@ const PASSAGE_SELECT = `
 function rowToPassage(row: Record<string, unknown>): DailyPassage {
   return {
     id: row.id as string,
+    slug: row.slug as string,
     content: row.content as string,
     bookId: row.book_id as string,
+    bookSlug: row.book_slug as string,
     bookTitle: row.book_title as string,
     bookAuthor: row.book_author as string,
     chapterTitle: row.chapter_title as string,

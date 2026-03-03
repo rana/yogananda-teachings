@@ -19,6 +19,8 @@ export interface RelatedPassage {
   id: string;
   /** Truncated to ~200 chars for prefetch; full content via passage API */
   content: string;
+  bookId: string;
+  bookSlug: string;
   bookTitle: string;
   bookAuthor: string;
   chapterTitle: string;
@@ -36,6 +38,7 @@ export interface ThreadSuggestion {
   chapterTitle: string;
   bookTitle: string;
   bookId: string;
+  bookSlug: string;
   connectionCount: number;
   label: string | null;
 }
@@ -61,6 +64,8 @@ export async function getRelatedPassages(
     `SELECT
       bc.id,
       LEFT(bc.content, 200) as content,
+      b.id::text as "bookId",
+      b.slug as "bookSlug",
       b.title as "bookTitle",
       b.author as "bookAuthor",
       c.title as "chapterTitle",
@@ -138,6 +143,8 @@ export async function getChapterRelations(
       f.source_chunk_id as "sourceChunkId",
       bc.id,
       LEFT(bc.content, 200) as content,
+      b.id::text as "bookId",
+      b.slug as "bookSlug",
       b.title as "bookTitle",
       b.author as "bookAuthor",
       ch.title as "chapterTitle",
@@ -166,6 +173,8 @@ export async function getChapterRelations(
     paragraphs[sourceId].push({
       id: row.id,
       content: row.content,
+      bookId: row.bookId,
+      bookSlug: row.bookSlug,
       bookTitle: row.bookTitle,
       bookAuthor: row.bookAuthor,
       chapterTitle: row.chapterTitle,
@@ -185,6 +194,7 @@ export async function getChapterRelations(
       ch.title as "chapterTitle",
       b.title as "bookTitle",
       b.id::text as "bookId",
+      b.slug as "bookSlug",
       COUNT(*)::int as "connectionCount",
       (array_agg(cr.relation_label)
         FILTER (WHERE cr.relation_label IS NOT NULL))[1] as label
@@ -196,7 +206,7 @@ export async function getChapterRelations(
       AND cr.similarity >= $2
       AND ch.chapter_number != $3
       AND COALESCE(cr.relation_type, '') NOT IN ('translation', 'same_chapter')
-    GROUP BY ch.chapter_number, ch.title, b.title, b.id
+    GROUP BY ch.chapter_number, ch.title, b.title, b.id, b.slug
     ORDER BY COUNT(*) DESC
     LIMIT 5`,
     [chunkIds, RELATIONS_MIN_SIMILARITY, chapterNumber],

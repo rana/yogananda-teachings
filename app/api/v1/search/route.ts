@@ -92,9 +92,11 @@ export async function GET(request: NextRequest) {
     const body = {
       data: response.results.map((r) => ({
         id: r.id,
+        slug: r.slug,
         content: r.content,
         citation: {
           bookId: r.bookId,
+          bookSlug: r.bookSlug,
           book: r.bookTitle,
           author: r.bookAuthor,
           chapter: r.chapterTitle,

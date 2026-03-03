@@ -15,6 +15,8 @@ import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 import { SRF_BOOKSTORE } from "@/lib/config/srf-links";
+import { MarkBooksSeen } from "@/app/components/MarkBooksSeen";
+import { NewBookBadge } from "@/app/components/NewBookBadge";
 
 export async function generateMetadata({
   params,
@@ -68,7 +70,7 @@ export default async function BooksPage({
       author: { "@type": "Person", name: book.author },
       inLanguage: book.language,
       ...(book.publicationYear && { datePublished: String(book.publicationYear) }),
-      url: `${PORTAL.canonical}/${locale}/books/${book.id}`,
+      url: `${PORTAL.canonical}/${locale}/books/${book.slug}`,
       numberOfPages: book.chapterCount,
       copyrightHolder: {
         "@type": "Organization",
@@ -97,17 +99,25 @@ export default async function BooksPage({
           </p>
         ) : (
           <>
+            {/* M3a-8: mark catalog as seen when seeker visits Books */}
+            <MarkBooksSeen bookIds={booksWithChapters.map((b) => b.id)} />
+
             <div className="space-y-4">
               {booksWithChapters.map((book) => (
                 <Link
                   key={book.id}
-                  href={`/books/${book.id}`}
+                  href={`/books/${book.slug}`}
                   className="block rounded-lg border border-srf-navy/10 bg-(--theme-surface) p-6 transition-colors hover:border-srf-gold/40"
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div>
                       <h2 className="mb-1 font-display text-lg text-srf-navy md:text-xl">
                         {book.title}
+                        {/* M3a-8: "New" badge for unseen books */}
+                        <NewBookBadge
+                          bookId={book.id}
+                          allBookIds={booksWithChapters.map((b) => b.id)}
+                        />
                       </h2>
                       <p className="text-sm text-srf-navy/60">
                         {book.author}

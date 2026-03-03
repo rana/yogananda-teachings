@@ -13,6 +13,7 @@ import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import { ReaderSettings } from "./ReaderSettings";
 import { SrfLotus } from "./SrfLotus";
+import { NewBooksIndicator } from "./NewBooksIndicator";
 
 export function Header() {
   const t = useTranslations("nav");
@@ -47,18 +48,20 @@ export function Header() {
         <div className="flex items-center gap-1 sm:gap-3">
           {navItems.map((item) => {
             const isActive = pathname.includes(item.href);
+            const isBooks = item.href === "/books";
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`rounded-md px-2 py-1.5 text-xs sm:text-sm transition-colors min-h-[44px] inline-flex items-center ${
+                className={`relative rounded-md px-2 py-1.5 text-xs sm:text-sm transition-colors min-h-[44px] inline-flex items-center ${
                   isActive
                     ? "text-srf-navy font-medium"
                     : "text-srf-navy/60 hover:text-srf-navy"
                 }`}
               >
                 {item.label}
+                {isBooks && <NewBooksIndicator />}
               </Link>
             );
           })}

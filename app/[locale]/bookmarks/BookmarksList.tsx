@@ -21,6 +21,8 @@ import { SrfLotus } from "@/app/components/SrfLotus";
 
 interface BookGroup {
   bookId: string;
+  /** Slug for human-readable URLs (falls back to bookId for legacy bookmarks) */
+  bookUrlId: string;
   bookTitle: string;
   bookmarks: Bookmark[];
 }
@@ -36,6 +38,7 @@ function groupByBook(bookmarks: readonly Bookmark[]): BookGroup[] {
     } else {
       map.set(bm.bookId, {
         bookId: bm.bookId,
+        bookUrlId: bm.bookSlug ?? bm.bookId,
         bookTitle: bm.bookTitle,
         bookmarks: [bm],
       });
@@ -79,7 +82,7 @@ export function BookmarksList() {
         <section key={group.bookId}>
           <h2 className="mb-3 font-display text-lg text-srf-navy">
             <Link
-              href={`/books/${group.bookId}`}
+              href={`/books/${group.bookUrlId}`}
               className="hover:text-srf-gold transition-colors"
             >
               {group.bookTitle}
@@ -99,7 +102,7 @@ export function BookmarksList() {
                 <div className="min-w-0 flex-1">
                   {bm.type === "chapter" ? (
                     <Link
-                      href={`/books/${bm.bookId}/${bm.chapterNumber}`}
+                      href={`/books/${bm.bookSlug ?? bm.bookId}/${bm.chapterNumber}`}
                       className="block text-sm font-medium text-srf-navy hover:text-srf-gold transition-colors"
                     >
                       {t("chapter", { number: bm.chapterNumber })}
@@ -109,7 +112,7 @@ export function BookmarksList() {
                   ) : (
                     <div>
                       <Link
-                        href={`/passage/${bm.passageId}`}
+                        href={`/passage/${bm.passageSlug ?? bm.passageId}`}
                         className="block text-sm text-srf-navy/80 leading-relaxed hover:text-srf-navy transition-colors"
                       >
                         &ldquo;{bm.content}

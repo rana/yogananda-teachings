@@ -37,8 +37,10 @@ import type { DailyPassage } from "@/lib/services/passages";
 
 const samplePassage: DailyPassage = {
   id: "passage-001",
+  slug: "season-failure-best-time-sowing",
   content: "The season of failure is the best time for sowing the seeds of success.",
   bookId: "autobiography-of-a-yogi",
+  bookSlug: "autobiography-of-a-yogi",
   bookTitle: "Autobiography of a Yogi",
   bookAuthor: "Paramahansa Yogananda",
   chapterTitle: "Years in My Master's Hermitage",

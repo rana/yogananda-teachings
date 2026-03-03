@@ -30,6 +30,7 @@ const TIMER_OPTIONS = [
 interface ContextualQuietProps {
   /** Book metadata for passage bookmark (PRI-02: full attribution) */
   bookId: string;
+  bookSlug?: string;
   bookTitle: string;
   chapterNumber: number;
   chapterTitle: string;
@@ -39,6 +40,7 @@ interface ContextualQuietProps {
 
 export function ContextualQuiet({
   bookId,
+  bookSlug,
   bookTitle,
   chapterNumber,
   chapterTitle,
@@ -187,13 +189,14 @@ export function ContextualQuiet({
       passageId: targetIdRef.current || `p-${Date.now()}`,
       content: targetTextRef.current,
       bookId,
+      bookSlug,
       bookTitle,
       chapterNumber,
       chapterTitle,
       pageNumber: null,
     });
     setBookmarked(true);
-  }, [bookId, bookTitle, chapterNumber, chapterTitle]);
+  }, [bookId, bookSlug, bookTitle, chapterNumber, chapterTitle]);
 
   // ── Format timer ───────────────────────────────────────────────
 

@@ -15,8 +15,10 @@ import { rerank } from "@/lib/services/rerank";
 
 export interface SearchResult {
   id: string;
+  slug: string;
   content: string;
   bookId: string;
+  bookSlug: string;
   bookTitle: string;
   bookAuthor: string;
   chapterTitle: string;
@@ -353,11 +355,13 @@ async function hybridSearch(
       rrf.rrf_score,
       rrf.from_vector,
       rrf.from_fts,
+      bc.slug,
       bc.content,
       bc.page_number,
       bc.section_heading,
       bc.language,
       b.id AS book_id,
+      b.slug AS book_slug,
       b.title AS book_title,
       b.author AS book_author,
       c.title AS chapter_title,
@@ -443,11 +447,13 @@ async function threePathHybridSearch(
       rrf.from_vector,
       rrf.from_hyde,
       rrf.from_fts,
+      bc.slug,
       bc.content,
       bc.page_number,
       bc.section_heading,
       bc.language,
       b.id AS book_id,
+      b.slug AS book_slug,
       b.title AS book_title,
       b.author AS book_author,
       c.title AS chapter_title,
@@ -464,8 +470,10 @@ async function threePathHybridSearch(
 
   return rows.map((row) => ({
     id: row.id,
+    slug: row.slug,
     content: row.content,
     bookId: row.book_id,
+    bookSlug: row.book_slug,
     bookTitle: row.book_title,
     bookAuthor: row.book_author,
     chapterTitle: row.chapter_title,
@@ -492,11 +500,13 @@ async function ftsOnlySearch(
     `
     SELECT
       bc.id,
+      bc.slug,
       bc.content,
       bc.page_number,
       bc.section_heading,
       bc.language,
       b.id AS book_id,
+      b.slug AS book_slug,
       b.title AS book_title,
       b.author AS book_author,
       c.title AS chapter_title,
@@ -515,8 +525,10 @@ async function ftsOnlySearch(
 
   return rows.map((row) => ({
     id: row.id,
+    slug: row.slug,
     content: row.content,
     bookId: row.book_id,
+    bookSlug: row.book_slug,
     bookTitle: row.book_title,
     bookAuthor: row.book_author,
     chapterTitle: row.chapter_title,
@@ -534,8 +546,10 @@ async function ftsOnlySearch(
 function mapRow(row: Record<string, unknown>): SearchResult {
   return {
     id: row.id as string,
+    slug: row.slug as string,
     content: row.content as string,
     bookId: row.book_id as string,
+    bookSlug: row.book_slug as string,
     bookTitle: row.book_title as string,
     bookAuthor: row.book_author as string,
     chapterTitle: row.chapter_title as string,

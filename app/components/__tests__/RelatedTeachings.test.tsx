@@ -35,6 +35,8 @@ vi.mock("next/link", () => ({
 const mockPassage: RelatedPassage = {
   id: "chunk-related-1",
   content: "God is approachable. God is not a cosmic dictator.",
+  bookId: "book-1",
+  bookSlug: "autobiography-of-a-yogi",
   bookTitle: "Autobiography of a Yogi",
   bookAuthor: "Paramahansa Yogananda",
   chapterTitle: "Years in My Master's Hermitage",
@@ -49,6 +51,8 @@ const mockPassage: RelatedPassage = {
 const mockPassage2: RelatedPassage = {
   id: "chunk-related-2",
   content: "The deeper the self-realization of a man, the more he influences the whole universe.",
+  bookId: "book-1",
+  bookSlug: "autobiography-of-a-yogi",
   bookTitle: "Autobiography of a Yogi",
   bookAuthor: "Paramahansa Yogananda",
   chapterTitle: "The Science of Kriya Yoga",
@@ -65,6 +69,7 @@ const mockThread: ThreadSuggestion = {
   chapterTitle: "Babaji, the Yogi-Christ of Modern India",
   bookTitle: "Autobiography of a Yogi",
   bookId: "book-1",
+  bookSlug: "autobiography-of-a-yogi",
   connectionCount: 5,
   label: null,
 };
@@ -73,8 +78,9 @@ const defaultProps = {
   relations: { "chunk-1": [mockPassage, mockPassage2] } as Record<string, RelatedPassage[]>,
   thread: [mockThread],
   paragraphChunkIds: ["chunk-1", "chunk-2", "chunk-3"],
-  bookId: "book-1",
+  bookSlug: "autobiography-of-a-yogi",
   chapterNumber: 1,
+  chapterTitle: "My Parents and Early Life",
   locale: "en",
 };
 
@@ -233,7 +239,7 @@ describe("RelatedTeachings", () => {
     });
 
     const threadLink = screen.getByText(/Babaji, the Yogi-Christ/).closest("a");
-    expect(threadLink?.getAttribute("href")).toBe("/en/books/book-1/33");
+    expect(threadLink?.getAttribute("href")).toBe("/en/books/autobiography-of-a-yogi/33");
 
     cleanup();
   });

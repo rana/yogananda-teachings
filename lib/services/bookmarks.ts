@@ -19,6 +19,8 @@ export interface ChapterBookmark {
   type: "chapter";
   id: string;
   bookId: string;
+  /** Human-readable slug for URL construction (absent in legacy bookmarks) */
+  bookSlug?: string;
   bookTitle: string;
   bookAuthor: string;
   chapterNumber: number;
@@ -30,8 +32,12 @@ export interface PassageBookmark {
   type: "passage";
   id: string;
   passageId: string;
+  /** Human-readable passage slug for URL construction (absent in legacy bookmarks) */
+  passageSlug?: string;
   content: string; // first 200 chars for display
   bookId: string;
+  /** Human-readable slug for URL construction (absent in legacy bookmarks) */
+  bookSlug?: string;
   bookTitle: string;
   chapterNumber: number;
   chapterTitle: string;
@@ -170,6 +176,7 @@ export function getBookmarks(): readonly Bookmark[] {
  */
 export function addChapterBookmark(data: {
   bookId: string;
+  bookSlug?: string;
   bookTitle: string;
   bookAuthor: string;
   chapterNumber: number;
@@ -187,6 +194,7 @@ export function addChapterBookmark(data: {
     type: "chapter",
     id,
     bookId: data.bookId,
+    ...(data.bookSlug && { bookSlug: data.bookSlug }),
     bookTitle: data.bookTitle,
     bookAuthor: data.bookAuthor,
     chapterNumber: data.chapterNumber,
@@ -206,8 +214,10 @@ export function addChapterBookmark(data: {
  */
 export function addPassageBookmark(data: {
   passageId: string;
+  passageSlug?: string;
   content: string;
   bookId: string;
+  bookSlug?: string;
   bookTitle: string;
   chapterNumber: number;
   chapterTitle: string;
@@ -225,8 +235,10 @@ export function addPassageBookmark(data: {
     type: "passage",
     id,
     passageId: data.passageId,
+    ...(data.passageSlug && { passageSlug: data.passageSlug }),
     content: data.content.slice(0, MAX_CONTENT_LENGTH),
     bookId: data.bookId,
+    ...(data.bookSlug && { bookSlug: data.bookSlug }),
     bookTitle: data.bookTitle,
     chapterNumber: data.chapterNumber,
     chapterTitle: data.chapterTitle,
@@ -261,6 +273,7 @@ export function removeBookmark(id: string): void {
  */
 export function toggleChapterBookmark(data: {
   bookId: string;
+  bookSlug?: string;
   bookTitle: string;
   bookAuthor: string;
   chapterNumber: number;

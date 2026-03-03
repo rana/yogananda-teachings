@@ -145,6 +145,14 @@ export const RESONANCE_RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 export const RESONANCE_TOP_LIMIT = 50;
 // Default editorial view. Evaluate: increase when corpus grows past 10K chunks.
 
+// ── Book Catalog (M3a-8) ──────────────────────────────────────
+
+/** Book catalog version — triggers nav "new books" indicator. */
+export const BOOK_CATALOG_VERSION = 1;
+// Bump when books are added. Drives gold dot in nav + "New" badges on Books page.
+// Uses localStorage comparison — no DB query in the nav path.
+// Evaluate: replace with dynamic count from API when catalog grows past 10 books.
+
 // ── Contentful ─────────────────────────────────────────────────
 
 /** Delay between Contentful Management API calls (ms). */

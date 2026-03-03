@@ -72,8 +72,10 @@ export function QuietCornerClient({ passage: initial }: Props) {
         const json = await res.json();
         setPassage({
           id: json.data.id,
+          slug: json.data.slug ?? json.data.id,
           content: json.data.content,
           bookId: json.data.citation.bookId,
+          bookSlug: json.data.citation.bookSlug ?? json.data.citation.bookId,
           bookTitle: json.data.citation.book,
           bookAuthor: json.data.citation.author,
           chapterTitle: json.data.citation.chapter,

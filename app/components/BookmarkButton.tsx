@@ -19,6 +19,7 @@ import {
 
 interface BookmarkButtonProps {
   bookId: string;
+  bookSlug?: string;
   bookTitle: string;
   bookAuthor: string;
   chapterNumber: number;
@@ -27,6 +28,7 @@ interface BookmarkButtonProps {
 
 export function BookmarkButton({
   bookId,
+  bookSlug,
   bookTitle,
   bookAuthor,
   chapterNumber,
@@ -48,12 +50,13 @@ export function BookmarkButton({
   const handleToggle = useCallback(() => {
     toggleChapterBookmark({
       bookId,
+      bookSlug,
       bookTitle,
       bookAuthor,
       chapterNumber,
       chapterTitle,
     });
-  }, [bookId, bookTitle, bookAuthor, chapterNumber, chapterTitle]);
+  }, [bookId, bookSlug, bookTitle, bookAuthor, chapterNumber, chapterTitle]);
 
   const label = bookmarked
     ? t("removeChapterBookmark")

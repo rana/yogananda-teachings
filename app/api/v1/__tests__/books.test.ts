@@ -46,6 +46,7 @@ describe("/api/v1/books", () => {
     mockGetBooks.mockResolvedValue([
       {
         id: "book-1",
+        slug: "autobiography-of-a-yogi",
         title: "Autobiography of a Yogi",
         author: "Paramahansa Yogananda",
         language: "en",
@@ -55,6 +56,7 @@ describe("/api/v1/books", () => {
       },
       {
         id: "book-2",
+        slug: "autobiografia-de-un-yogui",
         title: "Autobiografia de un yogui",
         author: "Paramahansa Yogananda",
         language: "es",
@@ -175,6 +177,7 @@ describe("/api/v1/books/:bookId/chapters/:chapter", () => {
       },
       book: {
         id: "book-1",
+        slug: "autobiography-of-a-yogi",
         title: "Autobiography of a Yogi",
         author: "Paramahansa Yogananda",
         language: "en",

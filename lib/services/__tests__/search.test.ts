@@ -36,6 +36,7 @@ function mockPool(rows: Record<string, unknown>[]) {
 
 const sampleRow = {
   id: "chunk-1",
+  slug: "god-approachable",
   rrf_score: "0.85",
   from_vector: true,
   from_fts: true,
@@ -44,6 +45,7 @@ const sampleRow = {
   section_heading: null,
   language: "en",
   book_id: "book-1",
+  book_slug: "autobiography-of-a-yogi",
   book_title: "Autobiography of a Yogi",
   book_author: "Paramahansa Yogananda",
   chapter_title: "Years in My Master's Hermitage",

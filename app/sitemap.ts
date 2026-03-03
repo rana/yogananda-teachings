@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const locale = book.language === "en" ? "" : `/${book.language}`;
 
     entries.push({
-      url: `${BASE_URL}${locale}/books/${book.id}`,
+      url: `${BASE_URL}${locale}/books/${book.slug}`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,
@@ -57,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     for (const ch of chapters) {
       entries.push({
-        url: `${BASE_URL}${locale}/books/${book.id}/${ch.chapterNumber}`,
+        url: `${BASE_URL}${locale}/books/${book.slug}/${ch.chapterNumber}`,
         lastModified: now,
         changeFrequency: "monthly",
         priority: 0.6,

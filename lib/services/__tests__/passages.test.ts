@@ -19,10 +19,12 @@ function mockPool(rows: Record<string, unknown>[]) {
 
 const sampleRow = {
   id: "chunk-1",
+  slug: "beginning-spiritual-search-driven-great",
   content: "In the beginning of my spiritual search I was driven by a great hunger.",
   page_number: 42,
   language: "en",
   book_id: "book-1",
+  book_slug: "autobiography-of-a-yogi",
   book_title: "Autobiography of a Yogi",
   book_author: "Paramahansa Yogananda",
   chapter_title: "My Parents and Early Life",

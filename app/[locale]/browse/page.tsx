@@ -66,7 +66,7 @@ export default async function BrowsePage({
                 {langBooks.map((book) => (
                   <li key={book.id}>
                     <Link
-                      href={`/books/${book.id}`}
+                      href={`/books/${book.slug}`}
                       className="inline text-sm text-srf-navy hover:text-srf-gold"
                     >
                       {book.title}
