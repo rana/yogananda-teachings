@@ -31,6 +31,7 @@ vi.mock("@/lib/logger", () => ({
 
 import { GET as healthGET } from "../health/route";
 import { POST as webhookPOST } from "../webhooks/contentful/route";
+import { richTextToPlainText } from "@/lib/contentful";
 import { getHealthStatus } from "@/lib/services/health";
 
 const mockGetHealthStatus = vi.mocked(getHealthStatus);
@@ -153,6 +154,38 @@ describe("/api/v1/webhooks/contentful", () => {
     );
   }
 
+  /** Rich Text AST document for testing */
+  const richTextContent = {
+    nodeType: "document",
+    data: {},
+    content: [
+      {
+        nodeType: "paragraph",
+        data: {},
+        content: [
+          {
+            nodeType: "text",
+            value: "The characteristic features of ",
+            marks: [],
+            data: {},
+          },
+          {
+            nodeType: "text",
+            value: "Indian culture",
+            marks: [{ type: "italic" }],
+            data: {},
+          },
+          {
+            nodeType: "text",
+            value: " have long been a search for ultimate verities.",
+            marks: [],
+            data: {},
+          },
+        ],
+      },
+    ],
+  };
+
   const textBlockPayload = {
     sys: {
       id: "entry-123",
@@ -161,11 +194,11 @@ describe("/api/v1/webhooks/contentful", () => {
       space: { sys: { id: "space-1" } },
     },
     fields: {
-      body: { "en-US": "Some content" },
+      content: { "en-US": richTextContent },
     },
   };
 
-  it("processes a textBlock publish event", async () => {
+  it("processes a textBlock publish event with Rich Text content", async () => {
     mockQuery.mockResolvedValue({ rowCount: 1 });
 
     const req = makeWebhookRequest(textBlockPayload);
@@ -175,6 +208,15 @@ describe("/api/v1/webhooks/contentful", () => {
     const body = await res.json();
     expect(body.status).toBe("synced");
     expect(body.entryId).toBe("entry-123");
+
+    // Verify the UPDATE query received plain text extracted from Rich Text
+    expect(mockQuery).toHaveBeenCalledWith(
+      expect.stringContaining("UPDATE book_chunks"),
+      expect.arrayContaining([
+        "The characteristic features of Indian culture have long been a search for ultimate verities.",
+        "entry-123",
+      ]),
+    );
   });
 
   it("processes a textBlock unpublish event", async () => {
@@ -315,5 +357,130 @@ describe("/api/v1/webhooks/contentful", () => {
 
     const body = await res.json();
     expect(body.status).toBe("synced");
+  });
+
+  it("handles publish with no content field gracefully", async () => {
+    const noContent = {
+      sys: {
+        id: "entry-no-content",
+        type: "Entry",
+        contentType: { sys: { id: "textBlock" } },
+      },
+      fields: {
+        pageNumber: { "en-US": 42 },
+      },
+    };
+
+    const req = makeWebhookRequest(noContent);
+    const res = await webhookPOST(req);
+    expect(res.status).toBe(200);
+    expect(mockQuery).not.toHaveBeenCalled();
+  });
+});
+
+// ── richTextToPlainText unit tests ──────────────────────────────
+
+describe("richTextToPlainText", () => {
+  it("extracts plain text from a single paragraph", () => {
+    const doc = {
+      nodeType: "document",
+      data: {},
+      content: [
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "Hello world", marks: [], data: {} },
+          ],
+        },
+      ],
+    };
+    expect(richTextToPlainText(doc)).toBe("Hello world");
+  });
+
+  it("joins multiple paragraphs with double newlines", () => {
+    const doc = {
+      nodeType: "document",
+      data: {},
+      content: [
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "First paragraph.", marks: [], data: {} },
+          ],
+        },
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "Second paragraph.", marks: [], data: {} },
+          ],
+        },
+      ],
+    };
+    expect(richTextToPlainText(doc)).toBe(
+      "First paragraph.\n\nSecond paragraph.",
+    );
+  });
+
+  it("strips formatting marks and concatenates text nodes", () => {
+    const doc = {
+      nodeType: "document",
+      data: {},
+      content: [
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "normal ", marks: [], data: {} },
+            {
+              nodeType: "text",
+              value: "bold",
+              marks: [{ type: "bold" }],
+              data: {},
+            },
+            { nodeType: "text", value: " text", marks: [], data: {} },
+          ],
+        },
+      ],
+    };
+    expect(richTextToPlainText(doc)).toBe("normal bold text");
+  });
+
+  it("returns empty string for null/undefined input", () => {
+    expect(richTextToPlainText(null as never)).toBe("");
+    expect(richTextToPlainText(undefined as never)).toBe("");
+  });
+
+  it("skips empty paragraphs", () => {
+    const doc = {
+      nodeType: "document",
+      data: {},
+      content: [
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "Content", marks: [], data: {} },
+          ],
+        },
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "  ", marks: [], data: {} },
+          ],
+        },
+        {
+          nodeType: "paragraph",
+          data: {},
+          content: [
+            { nodeType: "text", value: "More content", marks: [], data: {} },
+          ],
+        },
+      ],
+    };
+    expect(richTextToPlainText(doc)).toBe("Content\n\nMore content");
   });
 });

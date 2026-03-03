@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { search } from "../search";
+import { search, clearEmbeddingCache } from "../search";
 
 // Mock fetch for Voyage and Cohere API calls
 const mockFetch = vi.fn();
@@ -53,6 +53,7 @@ const sampleRow = {
 describe("search", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    clearEmbeddingCache(); // Prevent cross-test cache leakage
     // Default: Voyage API not available (no API key)
     delete process.env.VOYAGE_API_KEY;
     mockHyde.mockResolvedValue(null);

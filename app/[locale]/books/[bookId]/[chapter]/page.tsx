@@ -11,7 +11,9 @@ import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
 import { getChapterContent, getEquivalentBook } from "@/lib/services/books";
+import { getChapterRelations } from "@/lib/services/relations";
 import { BookmarkButton } from "@/app/components/BookmarkButton";
+import { RelatedTeachings } from "@/app/components/RelatedTeachings";
 import { ScrollIndicator } from "@/app/components/ScrollIndicator";
 import { KeyboardNav } from "@/app/components/KeyboardNav";
 import { DwellMode } from "@/app/components/DwellMode";
@@ -23,6 +25,9 @@ import { PartingWord } from "@/app/components/PartingWord";
 import { ChapterBreath } from "@/app/components/ChapterBreath";
 import { ChapterNavLink } from "@/app/components/ChapterNavLink";
 import { ReadingProgress } from "@/app/components/ReadingProgress";
+import { RichText } from "@/app/components/RichText";
+import { ChapterNotes } from "@/app/components/ChapterNotes";
+import { EphemeralHighlights } from "@/app/components/EphemeralHighlights";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -93,6 +98,14 @@ export default async function ChapterPage({
   }
 
   const readingTime = estimateReadingTime(content.paragraphs);
+
+  // Batch prefetch: all paragraph relations for the entire chapter (M3c-2).
+  // Single DB round-trip, included in SSR — zero client-side fetching.
+  const chapterRelations = await getChapterRelations(
+    pool,
+    bookId,
+    chapterNumber,
+  );
 
   const bookUrl = `${PORTAL.canonical}/${locale}/books/${bookId}`;
   const chapterUrl = `${bookUrl}/${chapterNumber}`;
@@ -262,30 +275,56 @@ export default async function ChapterPage({
         chapterNumber={content.chapter.chapterNumber}
         chapterTitle={content.chapter.title}
       >
-        {/* Reading content — M2b-4 typography: drop caps, paper texture */}
-        <article className="reader-texture mx-auto max-w-[38rem] px-4 py-8 md:py-12">
-          <div className="reader-content space-y-6">
-            {content.paragraphs.map((para, i) => (
-              <p
-                key={para.id}
-                id={`p-${i}`}
-                data-paragraph={i}
-                className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
-              >
-                {para.content}
-              </p>
-            ))}
-          </div>
+        {/* Reading layout: article + Related Teachings side panel (M3c-3).
+            Mobile: single column (side panel hidden, bottom sheet instead).
+            Desktop (lg:): flex layout with sticky side panel in the right margin.
+            The reading column stays at 38rem — the side panel uses whitespace. */}
+        <div className="mx-auto max-w-[38rem] lg:flex lg:max-w-[58rem] lg:gap-8">
+          {/* Reading content — M2b-4 typography: drop caps, paper texture */}
+          <article className="reader-texture max-w-[38rem] px-4 py-8 md:py-12">
+            <div className="reader-content space-y-6">
+              {content.paragraphs.map((para, i) => (
+                <p
+                  key={para.id}
+                  id={`p-${i}`}
+                  data-paragraph={i}
+                  className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
+                >
+                  <RichText
+                    text={para.content}
+                    formatting={para.formatting}
+                    footnotes={content.footnotes}
+                  />
+                </p>
+              ))}
+            </div>
 
-          {/* Print-only citation */}
-          <div className="print-citation">
-            {content.book.author}, <em>{content.book.title}</em>,{" "}
-            {t("printChapter")} {content.chapter.chapterNumber}:{" "}
-            {content.chapter.title}. {t("printCopyright")}.{" "}
-            {PORTAL.canonical.replace("https://", "")}
-          </div>
-        </article>
+            {/* Print-only citation */}
+            <div className="print-citation">
+              {content.book.author}, <em>{content.book.title}</em>,{" "}
+              {t("printChapter")} {content.chapter.chapterNumber}:{" "}
+              {content.chapter.title}. {t("printCopyright")}.{" "}
+              {PORTAL.canonical.replace("https://", "")}
+            </div>
+          </article>
+
+          {/* Related Teachings — the golden thread (M3c-3, ADR-050) */}
+          <RelatedTeachings
+            relations={chapterRelations.paragraphs}
+            thread={chapterRelations.thread}
+            paragraphChunkIds={content.paragraphs.map((p) => p.id)}
+            bookId={bookId}
+            chapterNumber={chapterNumber}
+            locale={locale}
+          />
+        </div>
       </ChapterBreath>
+
+      {/* Ephemeral highlights — M3c-6 (double-tap/click gold border) */}
+      <EphemeralHighlights />
+
+      {/* Chapter footnotes — PRI-01 verbatim fidelity */}
+      <ChapterNotes footnotes={content.footnotes} />
 
       {/* Session closure — M2b-9 (DES-014) */}
       <PartingWord locale={locale} />

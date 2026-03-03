@@ -36,6 +36,8 @@ export interface SearchOptions {
   limit?: number;
   /** Optional AI enhancements (ADR-119). Feature-flagged. */
   enhance?: "hyde" | "rerank" | "full";
+  /** Skip embedding generation entirely — FTS-only fast path (~100ms). */
+  forceFts?: boolean;
 }
 
 export interface SearchResponse {
@@ -55,12 +57,53 @@ export interface SearchResponse {
 const VOYAGE_API_URL = "https://api.voyageai.com/v1/embeddings";
 const EMBEDDING_MODEL = "voyage-3-large";
 
+// In-memory embedding cache. Voyage returns identical vectors for identical input.
+// Module-scoped: survives across invocations within the same serverless instance.
+// At 1024 floats × 8 bytes ≈ 8KB per entry, 500 entries ≈ 4MB — well within limits.
+const EMBEDDING_CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+const EMBEDDING_CACHE_MAX = 500;
+const embeddingCache = new Map<
+  string,
+  { embedding: number[]; expires: number }
+>();
+
+function getCachedEmbedding(key: string): number[] | undefined {
+  const entry = embeddingCache.get(key);
+  if (!entry) return undefined;
+  if (Date.now() > entry.expires) {
+    embeddingCache.delete(key);
+    return undefined;
+  }
+  return entry.embedding;
+}
+
+/** Clear the embedding cache. Exported for test isolation. */
+export function clearEmbeddingCache(): void {
+  embeddingCache.clear();
+}
+
+function setCachedEmbedding(key: string, embedding: number[]): void {
+  // Evict oldest entries if at capacity
+  if (embeddingCache.size >= EMBEDDING_CACHE_MAX) {
+    const firstKey = embeddingCache.keys().next().value;
+    if (firstKey !== undefined) embeddingCache.delete(firstKey);
+  }
+  embeddingCache.set(key, {
+    embedding,
+    expires: Date.now() + EMBEDDING_CACHE_TTL_MS,
+  });
+}
+
 async function getEmbedding(
   text: string,
   inputType: "query" | "document",
 ): Promise<number[] | null> {
   const apiKey = process.env.VOYAGE_API_KEY;
   if (!apiKey) return null;
+
+  const cacheKey = `${inputType}:${text}`;
+  const cached = getCachedEmbedding(cacheKey);
+  if (cached) return cached;
 
   try {
     const response = await fetch(VOYAGE_API_URL, {
@@ -81,7 +124,9 @@ async function getEmbedding(
     const data = (await response.json()) as {
       data: { embedding: number[] }[];
     };
-    return data.data[0].embedding;
+    const embedding = data.data[0].embedding;
+    setCachedEmbedding(cacheKey, embedding);
+    return embedding;
   } catch {
     return null;
   }
@@ -113,7 +158,42 @@ export async function search(
     language = "en",
     limit = SEARCH_RESULTS_LIMIT,
     enhance,
+    forceFts = false,
   } = options;
+
+  // FTS-only fast path (~100ms) — skips Voyage API entirely.
+  // Used by the client's first-phase fetch for instant results.
+  if (forceFts) {
+    const results = await ftsOnlySearch(pool, query, language, limit);
+
+    // Cross-language fallback (ADR-077)
+    let fallbackLanguage: string | undefined;
+    if (results.length === 0 && language !== "en") {
+      fallbackLanguage = "en";
+      const fallbackResults = await ftsOnlySearch(pool, query, "en", limit);
+      const durationMs = Date.now() - start;
+      logQuery(pool, query, language, fallbackResults.length, "fts_only", durationMs).catch(() => {});
+      return {
+        results: fallbackResults,
+        query,
+        mode: "fts_only",
+        totalResults: fallbackResults.length,
+        durationMs,
+        fallbackLanguage,
+      };
+    }
+
+    const durationMs = Date.now() - start;
+    logQuery(pool, query, language, results.length, "fts_only", durationMs).catch(() => {});
+    return {
+      results,
+      query,
+      mode: "fts_only",
+      totalResults: results.length,
+      durationMs,
+    };
+  }
+
   const fetchCount = limit * 3; // Over-fetch for RRF fusion
 
   const wantHyde = enhance === "hyde" || enhance === "full";

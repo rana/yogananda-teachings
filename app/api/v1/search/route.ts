@@ -10,6 +10,7 @@
  *   q         — search query (required)
  *   language  — language filter (default: "en")
  *   limit     — max results (default: 20, max: 50)
+ *   mode      — optional: "fts" for FTS-only fast path (~100ms vs ~600ms hybrid)
  *   enhance   — optional: "hyde", "rerank", or "full" (both)
  */
 
@@ -65,6 +66,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
+  // Parse mode param — "fts" skips Voyage embedding for fast results (~100ms)
+  const modeParam = params.get("mode");
+  const forceFts = modeParam === "fts";
+
   // Parse enhance param — validated to known values only
   const enhanceParam = params.get("enhance");
   const enhance =
@@ -78,10 +83,13 @@ export async function GET(request: NextRequest) {
       language,
       limit,
       enhance,
+      forceFts,
     });
 
     // API response shape per DES-019 § API Conventions (ADR-110)
-    return NextResponse.json({
+    // Cache identical queries at Vercel edge for 60s; serve stale up to 5min while revalidating.
+    // Corpus changes infrequently; seekers searching the same terms benefit from edge caching.
+    const body = {
       data: response.results.map((r) => ({
         id: r.id,
         content: r.content,
@@ -110,7 +118,14 @@ export async function GET(request: NextRequest) {
           enhancements: response.enhancements,
         }),
       },
-    });
+    };
+    // Set cache headers — query string is part of the cache key by default
+    const resp = NextResponse.json(body);
+    resp.headers.set(
+      "Cache-Control",
+      "public, s-maxage=60, stale-while-revalidate=300",
+    );
+    return resp;
   } catch (err) {
     logger.error("Search error", { error: err instanceof Error ? err.message : String(err) });
     return NextResponse.json(

@@ -134,6 +134,17 @@
   --theme-surface: #f0dfc2;
 }
 
+/* Earth — warm clay, terracotta accent (YSS-inspired, PRO-043 proof-of-concept) */
+[data-theme="earth"] {
+  --theme-bg: #f2e8de;
+  --theme-bg-secondary: #e6dacf;
+  --theme-text: #3a2518;
+  --theme-text-secondary: #6b5240;
+  --theme-border: #c4a988;
+  --theme-gold: #bb4f27;
+  --theme-surface: #ede3d8;
+}
+
 /* Dark — deep navy, respects the brand */
 [data-theme="dark"] {
   --theme-bg: #0f1923;
@@ -356,6 +367,71 @@ body {
 /* Hide print-only elements on screen */
 .print-citation {
   display: none;
+}
+
+/* ── Rich text formatting — PRI-01 verbatim fidelity ─────────── */
+
+/* Small caps for chapter labels and proper nouns */
+.small-caps {
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+
+/* ── Footnote markers — DPUB-ARIA, pure HTML ─────────────────── */
+
+/* Inline superscript footnote references */
+.footnote-ref a {
+  text-decoration: none;
+  color: var(--theme-gold);
+  font-size: 0.75em;
+  vertical-align: super;
+  line-height: 0; /* prevent affecting paragraph line height */
+  padding: 0 0.1em;
+  transition: color 150ms ease;
+}
+.footnote-ref a:hover {
+  text-decoration: underline;
+  color: color-mix(in srgb, var(--theme-gold) 80%, var(--theme-text));
+}
+.footnote-ref a:focus-visible {
+  outline: 2px solid var(--theme-gold);
+  outline-offset: 1px;
+  border-radius: 2px;
+}
+
+/* Chapter notes section at end of chapter */
+.chapter-notes {
+  border-top: 1px solid var(--theme-border);
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+}
+
+/* Back-link arrow */
+.footnote-backlink {
+  text-decoration: none;
+  color: var(--theme-gold);
+  font-size: 0.875em;
+  padding-inline-start: 0.25em;
+  opacity: 0.6;
+  transition: opacity 150ms ease;
+}
+.footnote-backlink:hover {
+  opacity: 1;
+}
+
+/* Print: always show footnotes, remove interactive styling */
+@media print {
+  .chapter-notes {
+    border-top: 1px solid #ccc;
+    margin-top: 1.5em;
+    padding-top: 1em;
+  }
+  .footnote-ref a {
+    color: black !important;
+  }
+  .footnote-backlink {
+    display: none; /* back-links meaningless on paper */
+  }
 }
 
 /* ── Reader typography — M2b-4 (DES-008) ─────────────────────── */

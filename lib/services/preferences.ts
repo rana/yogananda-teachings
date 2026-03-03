@@ -15,7 +15,7 @@
 // ── Types ────────────────────────────────────────────────────────
 
 export type FontSize = "default" | "large" | "larger";
-export type ColorTheme = "auto" | "light" | "sepia" | "dark" | "meditate";
+export type ColorTheme = "auto" | "light" | "sepia" | "earth" | "dark" | "meditate";
 export type LineSpacing = "default" | "relaxed" | "spacious";
 
 export interface ReaderPreferences {
@@ -61,6 +61,7 @@ const VALID_COLOR_THEMES: readonly ColorTheme[] = [
   "auto",
   "light",
   "sepia",
+  "earth",
   "dark",
   "meditate",
 ] as const;

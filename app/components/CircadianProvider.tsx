@@ -5,7 +5,7 @@
  * Subtly shifts background warmth: cooler cream in morning,
  * standard midday, warmer cream in evening.
  *
- * Only active in light mode contexts — dark/sepia themes
+ * Only active in light mode contexts — dark/sepia/earth themes
  * and OS dark preference override circadian shifts.
  *
  * Runs once on mount. No polling, no intervals.
@@ -32,7 +32,7 @@ function getTimeBand(): TimeBand {
 /** Circadian only applies when the effective theme is light. */
 function shouldApplyCircadian(): boolean {
   const theme = getPreference("color-theme");
-  if (theme === "dark" || theme === "sepia" || theme === "meditate") return false;
+  if (theme === "dark" || theme === "sepia" || theme === "earth" || theme === "meditate") return false;
   if (theme === "auto") {
     return !window.matchMedia("(prefers-color-scheme: dark)").matches;
   }

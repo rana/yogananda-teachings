@@ -13,6 +13,7 @@ import { useTranslations, useLocale } from "next-intl";
 import NextLink from "next/link";
 import { locales, localeNames } from "@/i18n/config";
 import type { CrisisInfo } from "@/lib/services/crisis";
+import { SearchCombobox } from "@/app/components/SearchCombobox";
 
 interface Citation {
   bookId: string;
@@ -165,6 +166,16 @@ function SearchPageInner() {
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
 
+  // Engineering debug mode — ?debug query param or localStorage flag.
+  // Readers see clean result counts; engineers see timing, mode, scores.
+  const [debugMode] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      searchParams.has("debug") ||
+      localStorage.getItem("srf-debug") === "true"
+    );
+  });
+
   const doSearch = useCallback(
     async (q: string, lang: string) => {
       if (!q.trim()) return;
@@ -172,31 +183,65 @@ function SearchPageInner() {
       setLoading(true);
       setSearched(true);
 
-      // Crisis detection (M1c-9)
-      try {
-        const crisisRes = await fetch(
-          `/api/v1/search/crisis?q=${encodeURIComponent(q.trim())}&language=${lang}`,
-        );
-        if (crisisRes.ok) {
-          const crisisData = await crisisRes.json();
-          setCrisis(crisisData);
-        }
-      } catch {
-        setCrisis({ detected: false });
-      }
+      const encoded = encodeURIComponent(q.trim());
 
-      try {
-        const res = await fetch(
-          `/api/v1/search?q=${encodeURIComponent(q.trim())}&language=${lang}`,
-        );
-        const data = await res.json();
-        setResults(data.data || []);
-        setMeta(data.meta || null);
-      } catch {
-        setResults([]);
-        setMeta(null);
-      } finally {
-        setLoading(false);
+      // Conditional hybrid search:
+      //
+      // 1. Fire FTS-only + crisis detection in parallel (~40ms warm).
+      //    Renders results immediately — seeker sees content fast.
+      // 2. If FTS returned sparse results (< threshold), fire hybrid
+      //    for semantic recall via Voyage embeddings (~350ms).
+      //    Otherwise skip — FTS was sufficient, no Voyage cost.
+      //
+      // This eliminates Voyage API calls on common keyword queries entirely.
+
+      const crisisPromise = fetch(
+        `/api/v1/search/crisis?q=${encoded}&language=${lang}`,
+      ).then((r) => (r.ok ? r.json() : { detected: false }))
+        .catch(() => ({ detected: false }));
+
+      const ftsPromise = fetch(
+        `/api/v1/search?q=${encoded}&language=${lang}&mode=fts`,
+      ).then(async (r) => {
+        const data = await r.json();
+        return { data: data.data || [], meta: data.meta || null };
+      }).catch(() => ({ data: [], meta: null }));
+
+      // Phase 1: render FTS results + crisis
+      const [crisisData, ftsData] = await Promise.all([
+        crisisPromise,
+        ftsPromise,
+      ]);
+
+      setCrisis(crisisData as CrisisInfo);
+      setResults(ftsData.data);
+      setMeta(ftsData.meta);
+      setLoading(false);
+
+      // Phase 2: only fire hybrid if FTS results are sparse
+      const HYBRID_THRESHOLD = 5;
+      const HYBRID_TIMEOUT = 4000;
+
+      if (ftsData.data.length < HYBRID_THRESHOLD) {
+        try {
+          const controller = new AbortController();
+          const timeout = setTimeout(() => controller.abort(), HYBRID_TIMEOUT);
+
+          const hybridRes = await fetch(
+            `/api/v1/search?q=${encoded}&language=${lang}`,
+            { signal: controller.signal },
+          );
+          clearTimeout(timeout);
+
+          const hybridJson = await hybridRes.json();
+          const hybridData = hybridJson.data || [];
+          if (hybridData.length > 0) {
+            setResults(hybridData);
+            setMeta(hybridJson.meta || null);
+          }
+        } catch {
+          // Timeout or network error — seeker already has FTS results
+        }
       }
     },
     [],
@@ -231,13 +276,14 @@ function SearchPageInner() {
 
           <form onSubmit={handleSearch} role="search">
             <div className="flex gap-2">
-              <input
-                type="search"
+              <SearchCombobox
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={setQuery}
+                onSubmit={(q) => doSearch(q, language)}
+                language={language}
                 placeholder={t("placeholder")}
+                ariaLabel={t("heading")}
                 className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
-                aria-label={t("heading")}
               />
               <select
                 value={language}
@@ -270,8 +316,12 @@ function SearchPageInner() {
         {meta && (
           <div className="mb-4">
             <p className="text-sm text-srf-navy/50">
-              {meta.totalResults} result{meta.totalResults !== 1 ? "s" : ""} in{" "}
-              {meta.durationMs}ms ({meta.mode})
+              {meta.totalResults} result{meta.totalResults !== 1 ? "s" : ""}
+              {debugMode && (
+                <span className="ml-1 font-mono text-xs text-srf-navy/30">
+                  {meta.durationMs}ms · {meta.mode}
+                </span>
+              )}
             </p>
             {meta.fallbackLanguage && (
               <p className="mt-1 text-sm text-srf-gold">
@@ -334,6 +384,11 @@ function SearchPageInner() {
                     citation={result.citation}
                     url={`/${locale}/passage/${result.id}`}
                   />
+                  {debugMode && (
+                    <span className="ml-auto font-mono text-xs text-srf-navy/25">
+                      {result.score.toFixed(3)} · {result.sources.join("+")}
+                    </span>
+                  )}
                 </footer>
               </article>
             );

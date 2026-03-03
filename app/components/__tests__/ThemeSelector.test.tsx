@@ -44,13 +44,13 @@ describe("ThemeSelector", () => {
     mockSubscribe.mockReturnValue(unsubscribeFn);
   });
 
-  it("renders a radiogroup with five options", () => {
+  it("renders a radiogroup with six options", () => {
     render(<ThemeSelector />);
     const group = screen.getByRole("radiogroup");
     expect(group).toBeInTheDocument();
 
     const radios = screen.getAllByRole("radio");
-    expect(radios).toHaveLength(5);
+    expect(radios).toHaveLength(6);
   });
 
   it("marks the current theme as checked", () => {

@@ -104,6 +104,20 @@ describe("Theme Integration", () => {
     expect(document.documentElement.hasAttribute("data-time-band")).toBe(false);
   });
 
+  it("circadian is suppressed when earth theme is active", () => {
+    mockGetPreference.mockReturnValue("earth");
+
+    render(
+      <>
+        <ThemeProvider />
+        <CircadianProvider />
+      </>,
+    );
+
+    expect(document.documentElement.getAttribute("data-theme")).toBe("earth");
+    expect(document.documentElement.hasAttribute("data-time-band")).toBe(false);
+  });
+
   it("circadian is suppressed when meditate theme is active", () => {
     mockGetPreference.mockReturnValue("meditate");
 

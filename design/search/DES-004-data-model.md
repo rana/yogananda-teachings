@@ -61,6 +61,8 @@ CREATE TABLE chapters (
  title TEXT,
  contentful_id TEXT, -- Contentful entry ID (production)
  sort_order INTEGER NOT NULL,
+ footnotes JSONB NOT NULL DEFAULT '[]', -- Array of {marker, text, pageNumber}. 530 across both books (248 en, 282 es).
+ -- Rendered by <ChapterNotes> at end of chapter. Bidirectional anchor links (PRI-01).
  content_hash TEXT, -- SHA-256 of chapter content, computed at ingestion (ADR-039)
  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -78,6 +80,9 @@ CREATE TABLE book_chunks (
 
  -- The actual text (verbatim from the book)
  content TEXT NOT NULL,
+ formatting JSONB NOT NULL DEFAULT '[]', -- Array of {start, end, style}. Styles: italic|bold|bold-italic|small-caps|superscript.
+ -- Offsets relative to content string (adjusted for merged paragraphs). ~3,919 spans across both books.
+ -- Rendered by <RichText> in chapter reader (PRI-01 verbatim fidelity).
 
  -- Location metadata
  page_number INTEGER,

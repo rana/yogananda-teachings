@@ -901,7 +901,9 @@ The portal subtly shifts its warmth based on the time of day. **On by default, o
 | Accents | Standard `--srf-gold` | Golden text highlights on key phrases (editorial, `--srf-gold` at 60%) |
 | Interactive elements | Standard | Subtle star-point highlights — `--srf-white` at 8% on focus/hover |
 
-Meditation Mode activates automatically on `/quiet`. In the book reader, it is available as a fourth toggle state: Auto → Light → Dark → **Meditate**. Stored in `localStorage`. The deeper palette creates a visual environment that supports contemplation — like reading by candlelight rather than under fluorescent light.
+Meditation Mode activates automatically on `/quiet`. In the book reader, it is available as part of the six-theme progression: Auto → Light → Sepia → **Earth** → Dark → **Meditate**. Stored in `localStorage`. The deeper palette creates a visual environment that supports contemplation — like reading by candlelight rather than under fluorescent light.
+
+**Earth theme.** Warm clay-paper background (`#f2e8de`), deep brown text (`#3a2518`), terracotta accent (`#bb4f27` — YSS brand color). Sits between Sepia (antique paper, warm gold) and Dark (deep navy). The terracotta accent originates from yssofindia.org and resonates with Indian visual culture — temple walls, clay, earth. Serves as a proof-of-concept for PRO-043's brand-variant theming: the organization configuration layer can later set Earth as the default theme for Hindi locale, providing cultural welcome without explicit branding infrastructure. WCAG AA verified: text 12.1:1, secondary text 6.1:1, accent 5.0:1.
 
 *Adopted from Visual Design Language Enhancement proposal (2026-02-23). The deep blue field echoes Yogananda's description of the spiritual eye's infinite blue — the color of deep meditation.*
 
@@ -1432,6 +1434,9 @@ The following tokens are derived from analysis of yogananda.org, convocation.yog
  --srf-orange: #de6a10; /* Hover states, warm accent, X/social icon */
  --srf-navy: #1a2744; /* Logo wordmark, primary headings, nav text (estimated from assets) */
  --srf-white: #ffffff; /* Backgrounds, button text on dark */
+
+ /* === YSS Brand Color (from yssofindia.org — PRO-043) === */
+ --yss-terracotta: #bb4f27; /* YSS primary accent. Earth reader theme accent. */
 
  /* === Secondary Colors (from Online Meditation Center) === */
  --srf-orange-warm: #f7882f; /* OMC form submit buttons, warm CTA variant */

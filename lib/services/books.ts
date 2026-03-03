@@ -24,15 +24,29 @@ export interface Chapter {
   sortOrder: number;
 }
 
+export interface FormattingSpan {
+  start: number;
+  end: number;
+  style: string;
+}
+
+export interface Footnote {
+  marker: string;
+  text: string;
+  pageNumber: number;
+}
+
 export interface ChapterContent {
   chapter: Chapter;
   book: Book;
   paragraphs: {
     id: string;
     content: string;
+    formatting: FormattingSpan[];
     pageNumber: number | null;
     paragraphIndex: number | null;
   }[];
+  footnotes: Footnote[];
   prevChapter: { id: string; chapterNumber: number; title: string } | null;
   nextChapter: { id: string; chapterNumber: number; title: string } | null;
 }
@@ -196,9 +210,9 @@ export async function getChapterContent(
   bookId: string,
   chapterNumber: number,
 ): Promise<ChapterContent | null> {
-  // Get chapter
+  // Get chapter (with footnotes)
   const chResult = await pool.query(
-    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order,
+    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order, c.footnotes,
             b.title as book_title, b.author as book_author, b.language,
             b.publication_year, b.cover_image_url, b.bookstore_url
      FROM chapters c
@@ -210,9 +224,9 @@ export async function getChapterContent(
   if (chResult.rows.length === 0) return null;
   const ch = chResult.rows[0];
 
-  // Get paragraphs (chunks ordered by paragraph_index)
+  // Get paragraphs with formatting (chunks ordered by paragraph_index)
   const paraResult = await pool.query(
-    `SELECT id, content, page_number, paragraph_index
+    `SELECT id, content, formatting, page_number, paragraph_index
      FROM book_chunks
      WHERE chapter_id = $1
      ORDER BY paragraph_index, created_at`,
@@ -251,9 +265,11 @@ export async function getChapterContent(
     paragraphs: paraResult.rows.map((r) => ({
       id: r.id,
       content: r.content,
+      formatting: r.formatting || [],
       pageNumber: r.page_number,
       paragraphIndex: r.paragraph_index,
     })),
+    footnotes: ch.footnotes || [],
     prevChapter: prev
       ? { id: prev.id, chapterNumber: prev.chapter_number, title: prev.title }
       : null,

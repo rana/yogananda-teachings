@@ -1,7 +1,7 @@
 /**
  * Theme selector — M2b stretch (DES-008).
  *
- * Five color themes: Auto (system), Light, Sepia, Dark, Meditate.
+ * Six color themes: Auto (system), Light, Sepia, Earth, Dark, Meditate.
  * Compact button group for chapter reader header or settings.
  *
  * 44x44px touch targets (PRI-07).
@@ -25,6 +25,7 @@ const THEMES: { value: ColorTheme; icon: string }[] = [
   { value: "auto", icon: "A" },
   { value: "light", icon: "L" },
   { value: "sepia", icon: "S" },
+  { value: "earth", icon: "E" },
   { value: "dark", icon: "D" },
   { value: "meditate", icon: "M" },
 ];

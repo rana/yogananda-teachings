@@ -186,10 +186,12 @@ describe("/api/v1/books/:bookId/chapters/:chapter", () => {
         {
           id: "p-1",
           content: "The characteristic features of Indian culture...",
+          formatting: [],
           pageNumber: 1,
           paragraphIndex: 0,
         },
       ],
+      footnotes: [],
       prevChapter: null,
       nextChapter: { id: "ch-2", chapterNumber: 2, title: "My Mother's Death" },
     });

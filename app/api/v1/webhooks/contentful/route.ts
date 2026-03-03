@@ -1,11 +1,12 @@
 /**
  * Contentful webhook sync — /api/v1/webhooks/contentful (M1c-7)
  *
- * Event-driven sync: Contentful publish → chunk → embed → upsert Neon.
- * Handles create, update, and unpublish events.
+ * Event-driven sync: Contentful publish/unpublish → update Neon.
+ * Processes TextBlock entries and syncs content to book_chunks.
  *
- * Contentful sends webhooks on content publish/unpublish.
- * This endpoint processes TextBlock entries and syncs them to book_chunks.
+ * On publish: extracts plain text from Rich Text AST, updates
+ * matching chunk content. search_vector trigger auto-updates.
+ * Embedding regeneration deferred (run backfill-embeddings.ts).
  *
  * Governing refs: ADR-010, DES-005
  */
@@ -13,6 +14,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { logger } from "@/lib/logger";
+import { richTextToPlainText, type RichTextNode } from "@/lib/contentful";
 
 // Contentful webhook headers
 const TOPIC_HEADER = "x-contentful-topic";
@@ -28,6 +30,8 @@ interface ContentfulWebhookPayload {
   };
   fields?: Record<string, Record<string, unknown>>;
 }
+
+// ── Route Handler ────────────────────────────────────────────────
 
 export async function POST(request: NextRequest) {
   // Verify webhook secret
@@ -64,7 +68,7 @@ export async function POST(request: NextRequest) {
     entryId,
   });
 
-  // Only process TextBlock entries for now
+  // Only process TextBlock entries
   if (entryType !== "textBlock") {
     return NextResponse.json({
       status: "skipped",
@@ -74,13 +78,11 @@ export async function POST(request: NextRequest) {
 
   try {
     if (topic.includes("unpublish") || topic.includes("delete")) {
-      // Remove: delete the corresponding book_chunk
       await handleUnpublish(entryId);
       return NextResponse.json({ status: "removed", entryId });
     }
 
     if (topic.includes("publish") || topic.includes("create")) {
-      // Upsert: sync the TextBlock content to book_chunks
       await handlePublish(entryId, payload);
       return NextResponse.json({ status: "synced", entryId });
     }
@@ -101,28 +103,54 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// ── Event Handlers ───────────────────────────────────────────────
+
 async function handlePublish(
   entryId: string,
   payload: ContentfulWebhookPayload,
 ): Promise<void> {
-  // Extract plain text content from the entry
-  // Contentful Rich Text AST → plain text extraction
-  // For now, log the event — full rich text parsing in Arc 2
   const fields = payload.fields;
   if (!fields) {
     logger.warn("Contentful publish: no fields", { entryId });
     return;
   }
 
-  // Update the contentful_sync_status on matching chunks
-  await pool.query(
-    `UPDATE book_chunks
-     SET updated_at = now()
-     WHERE contentful_id = $1`,
-    [entryId],
-  );
+  // Extract Rich Text content — Contentful sends fields keyed by locale
+  const contentField = fields.content as
+    | Record<string, RichTextNode>
+    | undefined;
+  if (!contentField) {
+    logger.warn("Contentful publish: no content field", { entryId });
+    return;
+  }
 
-  logger.info("Contentful publish synced", { entryId });
+  // Process each locale's content
+  for (const [locale, richText] of Object.entries(contentField)) {
+    const plainText = richTextToPlainText(richText);
+    if (!plainText.trim()) continue;
+
+    // Update matching chunk content. search_vector trigger auto-fires.
+    // Embedding becomes stale — regenerate via backfill-embeddings.ts.
+    const { rowCount } = await pool.query(
+      `UPDATE book_chunks
+       SET content = $1, updated_at = now()
+       WHERE contentful_id = $2`,
+      [plainText, entryId],
+    );
+
+    if (rowCount === 0) {
+      logger.warn("Contentful publish: no matching chunk", {
+        entryId,
+        locale,
+      });
+    } else {
+      logger.info("Contentful publish: chunk content updated", {
+        entryId,
+        locale,
+        rowCount,
+      });
+    }
+  }
 }
 
 async function handleUnpublish(entryId: string): Promise<void> {

@@ -860,7 +860,7 @@ Use **Neon PostgreSQL with the pgvector extension** for both relational data and
 
 ## ADR-010: Contentful as Editorial Source of Truth
 
-- **Status:** Accepted
+- **Status:** Implemented — see `scripts/ingest/import-contentful.ts`, `app/api/v1/webhooks/contentful/route.ts`, `lib/contentful.ts`
 - **Date:** 2026-02-17
 
 ### Context

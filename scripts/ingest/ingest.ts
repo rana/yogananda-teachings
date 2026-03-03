@@ -6,11 +6,12 @@
  * embeddings via Voyage API, and inserts into Neon.
  *
  * Usage:
- *   npx tsx scripts/ingest/ingest.ts --book <slug> [--skip-embeddings] [--dry-run]
+ *   npx tsx scripts/ingest/ingest.ts --book <slug> [--contentful-map <path>] [--skip-embeddings] [--dry-run]
  *
  * Examples:
  *   npx tsx scripts/ingest/ingest.ts --book autobiography-of-a-yogi
- *   npx tsx scripts/ingest/ingest.ts --book autobiografia-de-un-yogui
+ *   npx tsx scripts/ingest/ingest.ts --book autobiography-of-a-yogi \
+ *     --contentful-map data/book-ingest/autobiography-of-a-yogi/contentful-map.json
  *
  * Requires: NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY (optional with --skip-embeddings)
  */
@@ -82,22 +83,50 @@ interface Paragraph {
   sequenceInChapter: number;
 }
 
+interface FootnoteJson {
+  marker: string;
+  text: string;
+  pageNumber: number;
+}
+
 interface ChapterJson {
   chapterNumber: number;
   title: string;
   slug: string;
   pageRange: [number, number];
   sections: { heading: string | null; paragraphs: Paragraph[] }[];
-  footnotes: Record<string, string>;
+  footnotes: FootnoteJson[];
   metadata: Record<string, unknown>;
+}
+
+interface FormattingSpan {
+  start: number;
+  end: number;
+  style: string;
 }
 
 interface Chunk {
   content: string;
+  formatting: FormattingSpan[];
   pageNumber: number;
   sectionHeading: string | null;
   paragraphIndex: number;
   tokenEstimate: number;
+}
+
+/** Contentful mapping from import-contentful.ts (DES-005 Step 3.5) */
+interface ContentfulMap {
+  book: { slug: string; contentfulId: string };
+  chapters: {
+    chapterNumber: number;
+    contentfulId: string;
+    sectionContentfulId: string;
+    textBlocks: {
+      sequenceInChapter: number;
+      pageNumber: number;
+      contentfulId: string;
+    }[];
+  }[];
 }
 
 // ── Helpers ──────────────────────────────────────────────────────
@@ -118,9 +147,26 @@ function chunkParagraphs(
 
   function flushBuffer() {
     if (buffer.length === 0) return;
-    const content = buffer.map((p) => p.text).join("\n\n");
+    // Merge text and adjust formatting span offsets for merged paragraphs
+    const parts: string[] = [];
+    const mergedFormatting: FormattingSpan[] = [];
+    let offset = 0;
+    for (let i = 0; i < buffer.length; i++) {
+      if (i > 0) offset += 2; // "\n\n" separator
+      parts.push(buffer[i].text);
+      for (const span of buffer[i].formatting) {
+        mergedFormatting.push({
+          start: span.start + offset,
+          end: span.end + offset,
+          style: span.style,
+        });
+      }
+      offset += buffer[i].text.length;
+    }
+    const content = parts.join("\n\n");
     chunks.push({
       content,
+      formatting: mergedFormatting,
       pageNumber: buffer[0].pageNumber,
       sectionHeading,
       paragraphIndex: buffer[0].sequenceInChapter,
@@ -218,6 +264,16 @@ async function main() {
   const args = process.argv.slice(2);
   const skipEmbeddings = args.includes("--skip-embeddings");
   const dryRun = args.includes("--dry-run");
+
+  // Parse --contentful-map <path>
+  const mapIdx = args.indexOf("--contentful-map");
+  let contentfulMap: ContentfulMap | null = null;
+  if (mapIdx !== -1 && args[mapIdx + 1]) {
+    contentfulMap = JSON.parse(readFileSync(args[mapIdx + 1], "utf-8"));
+    console.log(
+      `Contentful mapping loaded: ${contentfulMap!.chapters.length} chapters`,
+    );
+  }
 
   // Parse --book <slug>
   const bookIdx = args.indexOf("--book");
@@ -332,9 +388,10 @@ async function main() {
     await client.query("BEGIN");
 
     // Insert book
+    const bookContentfulId = contentfulMap?.book.contentfulId || null;
     const bookResult = await client.query(
-      `INSERT INTO books (title, author, language, isbn, publication_year, author_tier, bookstore_url)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+      `INSERT INTO books (title, author, language, isbn, publication_year, author_tier, bookstore_url, contentful_id)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING id`,
       [
         book.title,
@@ -344,22 +401,29 @@ async function main() {
         extras.publicationYear,
         book.authorTier || "guru",
         extras.bookstoreUrl,
+        bookContentfulId,
       ],
     );
     const bookId = bookResult.rows[0].id;
-    console.log(`Book inserted: ${bookId}`);
+    console.log(`Book inserted: ${bookId}${bookContentfulId ? ` (contentful: ${bookContentfulId})` : ""}`);
 
     // Insert chapters and chunks
     let embeddingIdx = 0;
     let totalInserted = 0;
 
     for (const chData of allChunks) {
+      // Look up Contentful mapping for this chapter
+      const chapterMap = contentfulMap?.chapters.find(
+        (c) => c.chapterNumber === chData.chapterNumber,
+      );
+      const chapterContentfulId = chapterMap?.contentfulId || null;
+
       // Insert chapter
       const chResult = await client.query(
-        `INSERT INTO chapters (book_id, chapter_number, title, sort_order)
-         VALUES ($1, $2, $3, $4)
+        `INSERT INTO chapters (book_id, chapter_number, title, sort_order, contentful_id)
+         VALUES ($1, $2, $3, $4, $5)
          RETURNING id`,
-        [bookId, chData.chapterNumber, chData.chapterTitle, chData.chapterNumber],
+        [bookId, chData.chapterNumber, chData.chapterTitle, chData.chapterNumber, chapterContentfulId],
       );
       const chapterId = chResult.rows[0].id;
 
@@ -370,11 +434,21 @@ async function main() {
             ? `[${allEmbeddings[embeddingIdx].join(",")}]`
             : null;
 
+        // Look up the TextBlock contentful_id for this chunk's first paragraph
+        let chunkContentfulId: string | null = null;
+        if (chapterMap) {
+          const tb = chapterMap.textBlocks.find(
+            (tb) => tb.sequenceInChapter === chunk.paragraphIndex,
+          );
+          if (tb) chunkContentfulId = tb.contentfulId;
+        }
+
         await client.query(
           `INSERT INTO book_chunks (
             book_id, chapter_id, content, page_number, section_heading,
-            paragraph_index, language, embedding, embedding_model, embedding_dimension
-          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+            paragraph_index, language, embedding, embedding_model, embedding_dimension,
+            contentful_id
+          ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
           [
             bookId,
             chapterId,
@@ -386,6 +460,7 @@ async function main() {
             embedding,
             skipEmbeddings ? "pending" : EMBEDDING_MODEL,
             EMBEDDING_DIMENSIONS,
+            chunkContentfulId,
           ],
         );
 
@@ -429,10 +504,16 @@ async function main() {
       [bookId],
     );
 
+    const cfResult = await client.query(
+      "SELECT COUNT(*) as count FROM book_chunks WHERE book_id = $1 AND contentful_id IS NOT NULL",
+      [bookId],
+    );
+
     console.log(`\nVerification:`);
     console.log(`  Total chunks: ${countResult.rows[0].count}`);
     console.log(`  With search_vector: ${svResult.rows[0].count}`);
     console.log(`  With embedding: ${embResult.rows[0].count}`);
+    console.log(`  With contentful_id: ${cfResult.rows[0].count}`);
   } catch (err) {
     await client.query("ROLLBACK");
     throw err;

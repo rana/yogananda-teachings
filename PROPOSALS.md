@@ -54,6 +54,7 @@
 | PRO-042 | Feature Lifecycle Portal — Calm Operations for Engineering Leadership | Feature | Proposed | PRO-038, PRO-036, DES-060, ADR-095, ADR-099, ADR-098, PRI-08 | Ops exploration 2026-03-01 |
 | PRO-043 | Teachings Platform — Shared Foundation for SRF and YSS | Feature (Platform) | Proposed | ADR-075, ADR-077, ADR-078, ADR-128, ADR-011, ADR-079, PRO-034 | Strategic exploration 2026-03-01 |
 | PRO-044 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) | Proposed | PRI-04, ADR-104, ADR-122, DES-029, DES-042, DES-054 | Ecosystem exploration 2026-03-02 |
+| PRO-045 | Visual Design Language System — AI-First Design Tokens | Feature (Platform) | Proposed | PRI-03, PRI-07, PRI-08, PRI-10, PRI-12, ADR-065, ADR-080, PRO-043, PRO-044 | Design exploration 2026-03-02 |
 
 ---
 
@@ -1886,6 +1887,8 @@ Lightweight configuration, not multi-tenancy:
 
 API endpoints that return bookstore links or Practice Bridge routing accept an optional `org` parameter. Search, content, themes, and knowledge graph endpoints are organization-agnostic.
 
+**Early proof-of-concept: Earth reader theme.** The "Earth" color theme (terracotta accent `#bb4f27`, clay-paper background) was implemented as a standalone reader feature — the sixth theme in the Auto → Light → Sepia → Earth → Dark → Meditate progression. It validates that the theme system supports accent-color variation per context without organizational infrastructure. When the organization configuration layer ships, Earth becomes the natural default theme for Hindi locale — cultural welcome without explicit branding. See DES-006 § Earth theme.
+
 **Organizational provenance via source edition.** The deferred `organization` column may be unnecessary. Each book edition already carries a publisher in its metadata — "Self-Realization Fellowship" or "Yogoda Satsanga Society of India." Source edition → publisher provides organizational provenance without adding an explicit column. Language matching handles audience separation naturally. If a future use case genuinely requires an `organization` column, it can be added as a simple migration — but the burden of proof is on demonstrating that edition-based provenance is insufficient.
 
 #### Component 5: Surface Options — Parts or Whole
@@ -2053,6 +2056,69 @@ Search engine architecture, reading experience, accessibility, DELTA compliance,
 **Re-evaluate At:** M2a completion, Arc 2 planning
 **Decision Required From:** Architecture (wisdom category mapping, glossary integration depth), Human principal (SRF coordination for bidirectional linking)
 **Origin:** Ecosystem exploration via Playwright MCP snapshots of yogananda.org (2026-03-02). Full findings: `.elmer/proposals/yogananda-org-ecosystem-exploration.md`
+
+### PRO-045: Visual Design Language System — AI-First Design Tokens
+
+**Status:** Proposed
+**Type:** Feature (Platform)
+**Governing Refs:** PRI-03 (Honoring the Spirit), PRI-07 (Accessibility), PRI-08 (Calm Technology), PRI-10 (10-year horizon), PRI-12 (AI-Native Development), ADR-065 (Design System), ADR-080 (Hindi Typography), PRO-043 (YSS Platform Partnership), PRO-044 (Cross-Site Harmony)
+**Target:** Immediate (Arc 1 — independent of portal milestones)
+**Dependencies:** None — standalone repository, portal is first consumer but not a dependency.
+**Repository:** `rana/yogananda-design` (GitHub, created 2026-03-02)
+
+#### Context
+
+The portal has a complete, production-ready design token system embedded in `app/globals.css`, `lib/config.ts`, and `lib/services/preferences.ts`. Six color themes, circadian color temperature, self-hosted fonts, Hindi typography infrastructure, behavioral timings. But these are framework-coupled CSS custom properties — not extractable, not machine-queryable, not consumable by non-portal projects.
+
+When AI (the primary builder, PRI-12) designs a component, it cross-references 6+ files and 4+ ADRs to synthesize the correct visual treatment. A structured, AI-readable design language specification makes this knowledge queryable from a single source.
+
+#### What It Is
+
+A standalone repository (`yogananda-design`) containing the canonical visual design language for the Yogananda digital ecosystem. Three layers:
+
+1. **Foundations** (`*.tokens.json`) — W3C Design Tokens Community Group (DTCG) format. Quantifiable tokens: colors, typography, spacing, duration, shadows. Organization-specific files (SRF, YSS) plus shared foundations. Every token has `$description` and `$extensions` with principle reference, rationale, and evaluation trigger.
+
+2. **Semantics** (`*.language.json`) — Custom format. Design language rules: emotional registers (sacred/reverential/instructional/functional/ambient), attention gradient (gold opacity hierarchy), calm technology constraints (forbidden + required patterns), accessibility requirements, typographic conventions per script.
+
+3. **Patterns** (`*.pattern.json`) — Custom format. Composition recipes: pre-composed molecules (passage card, search result, chapter transition). Named combinations of Layer 1 tokens governed by Layer 2 semantics. Implementation-agnostic.
+
+Plus: self-hosted font files, lotus SVG motif, font manifest, brand image guidelines.
+
+#### Two Organizations, Shared Foundations
+
+SRF and YSS are distinct visual expressions of shared design foundations:
+- **SRF** — "Entering a library." Navy (#1a2744), Gold (#dcbd23), Cream (#FAF8F5). Merriweather/Lora/Open Sans. Contemplative cool, scholarly warmth.
+- **YSS** — "Entering an ashram." Terracotta (#bb4f27), Clay (#f2e8de). Noto Serif Devanagari/Raleway. Devotional warmth, Indian earth tones. **Scaffold** — awaiting YSS editorial input.
+
+Shared: calm technology constraints, accessibility minimums, behavioral timings, emotional registers, content-to-treatment mappings.
+
+#### Innovation: What No Existing Design System Has
+
+1. **Emotional registers** — content types map to reverence levels. Guru's words get different treatment than navigation chrome.
+2. **Attention gradient** — a calibrated hierarchy from interactive (gold at 1.0) to subliminal (gold at 0.06) to texture (noise at 0.03).
+3. **Constraint-first architecture** — the forbidden list (calm technology rules) is as structured and machine-readable as the color palette.
+4. **AI-first authorship** — designed for machine consumption. `$description` fields are the primary documentation. `$extensions` embed rationale without requiring ADR cross-reference.
+
+#### Consumers
+
+- **yogananda-teachings** (portal) — SRF design language. Primary consumer. CI lint validates portal CSS against design tokens.
+- **yogananda-platform** — Infrastructure dashboard. Lighter brand touch.
+- **Future YSS surface** (PRO-043) — YSS design language. Second consumer when activated.
+- **PDF generation** (ADR-050) — Shared tokens for consistent output.
+- **Style Dictionary / Tokens Studio** — Generate CSS, SCSS, Android XML, Swift from same tokens.
+- **Figma** (PRO-027, when activated) — DTCG format is Figma Variables-compatible.
+
+#### What This Does NOT Change
+
+Portal implementation, search architecture, reading experience behavior, DELTA compliance, content pipeline. The design repo is a canonical reference that the portal validates against — not a runtime dependency. The portal continues to own its CSS; the design repo owns the design *intent*.
+
+#### MCP Server (Future)
+
+Not needed now — token files are small enough for any context window. Becomes valuable when the system needs computation: contrast validation, theme+circadian+locale resolution, composition guidance. Architect for it (structured data, standard format); build when 2+ active consumers exist.
+
+**Re-evaluate At:** PRO-043 activation (YSS surface), Arc 2 planning
+**Decision Required From:** Architecture (CI lint integration, direction of derivation), Human principal (YSS visual identity approval)
+**Origin:** Design exploration 2026-03-02
 
 ---
 
