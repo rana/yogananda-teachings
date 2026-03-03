@@ -79,7 +79,7 @@ jobs:
       - name: Alias to dev environment
         if: success()
         run: |
-          vercel alias ${{ steps.deploy.outputs.url }} dev.teachings.yogananda.tech --token=$VERCEL_TOKEN
+          vercel alias ${{ steps.deploy.outputs.url }} dev.teachings.yogananda.tech --token=$VERCEL_TOKEN --scope=$VERCEL_ORG_ID
           echo "Aliased to: https://dev.teachings.yogananda.tech"
 
       - name: Notify platform (deployment sync)
