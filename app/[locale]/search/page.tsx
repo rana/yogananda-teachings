@@ -422,13 +422,11 @@ function SearchPageInner() {
 
         {meta && (
           <div className="mb-4">
-            <p className="text-sm text-srf-navy/50">
+            <p
+              className="text-sm text-srf-navy/50"
+              title={`${meta.durationMs}ms · ${meta.mode}`}
+            >
               {meta.totalResults} result{meta.totalResults !== 1 ? "s" : ""}
-              {debugMode && (
-                <span className="ml-1 font-mono text-xs text-srf-navy/30">
-                  {meta.durationMs}ms · {meta.mode}
-                </span>
-              )}
             </p>
             {meta.fallbackLanguage && (
               <p className="mt-1 text-sm text-srf-gold">
@@ -484,12 +482,11 @@ function SearchPageInner() {
                       <span>p. {result.citation.page}</span>
                     </>
                   )}
-                  <span aria-hidden="true">&middot;</span>
                   <NextLink
                     href={`/${locale}/books/${result.citation.bookSlug}/${result.citation.chapterNumber}#passage-${result.id}`}
                     className="text-srf-gold hover:text-srf-navy transition-colors min-h-11 inline-flex items-center"
                   >
-                    {t("readInContext")}
+                    {t("readChapter")}
                   </NextLink>
                   <InlineShareButton
                     passage={result.content}

@@ -2,19 +2,25 @@
 description: Idea backlog and exploration workspace. Processed by `/scratch` skill.
 ---
 
+
 # Scratch Pad
 
 ---
-How would you design for a world-class amazing experience?
 
-You have complete design autonomy. What are your preferences?
-
----
 Think slowly, carefully, thoroughly, and deeply.
+
+How would you design for a world-class amazing experience?
 
 Think generatively and imaginatively.
 
 Be proactive.
+
+Resonate at the highest octaves of expression.
+
+You have complete design autonomy. 
+
+---
+
 
 Consider an ability to progress a tested environment from dev to staging. How to do it? Do we have tagging? What is world-class amazing experience? Imagine an operational portal as dashboard able to see each environment, promote from one environment to the next. Can see all per environment (metrics, errors, logs, features, readme, updates, tests, etc and so on). Could see service stats DB, Sentry, New Relic, CloudWatch, S3, Vercel, etc). Maybe have links out to services and not rebuild there products. Or, sometimes make calls to service APIs for inclusion into operational dashboard? Also Health states, SLIs, SLOs, SLAs definition and runtime metrics. Visit counts etc. Continuous delivery of features?
 For each proposed, What do you see for, against, and through?

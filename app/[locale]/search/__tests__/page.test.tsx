@@ -18,7 +18,7 @@ vi.mock("next-intl", () => ({
       language: "Language",
       suggestionsHeading: "Explore the teachings",
       suggestionsSubtitle: "Not sure where to begin? Try one of these doorways:",
-      readInContext: "Read in context",
+      readChapter: "Read chapter",
       recentSearches: "Your recent searches",
       clearRecent: "Clear",
     };
