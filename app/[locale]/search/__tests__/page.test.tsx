@@ -11,7 +11,7 @@ vi.mock("next-intl", () => ({
     const translations: Record<string, string> = {
       heading: "Search the Teachings",
       subtitle: "Verbatim passages from Paramahansa Yogananda's published works",
-      placeholder: "What did Yogananda say about...",
+      placeholder: "peace, courage, healing, love...",
       button: "Search",
       loading: "...",
       noResults: "No passages found.",
@@ -106,14 +106,14 @@ describe("SearchPage curated suggestions", () => {
     render(<SearchPage />);
 
     // English suggestions (default language is "en")
-    expect(screen.getByRole("button", { name: "Inner peace" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Divine love" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Peace of mind" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Love" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Overcoming fear" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Cosmic consciousness" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "The soul" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "The miraculous" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Life's purpose" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Willpower" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "God-realization" })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: "Meditation" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Where do they go?" })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Healing" })).toBeInTheDocument();
   });
 
   it("clicking a suggestion triggers a search", async () => {
@@ -126,8 +126,8 @@ describe("SearchPage curated suggestions", () => {
 
     render(<SearchPage />);
 
-    const innerPeaceBtn = screen.getByRole("button", { name: "Inner peace" });
-    fireEvent.click(innerPeaceBtn);
+    const peaceBtn = screen.getByRole("button", { name: "Peace of mind" });
+    fireEvent.click(peaceBtn);
 
     // After clicking, fetch should have been called (crisis + FTS)
     // Wait a tick for the async doSearch to fire
@@ -139,7 +139,7 @@ describe("SearchPage curated suggestions", () => {
     const calls = fetchMock.mock.calls.map((c) => c[0] as string);
     const searchCall = calls.find(
       (url) =>
-        url.includes("/api/v1/search?") && url.includes("Inner%20peace"),
+        url.includes("/api/v1/search?") && url.includes("Peace%20of%20mind"),
     );
     expect(searchCall).toBeDefined();
   });
@@ -162,7 +162,7 @@ describe("SearchPage curated suggestions", () => {
     expect(screen.getByText("Explore the teachings")).toBeInTheDocument();
 
     // Click a suggestion to trigger search
-    fireEvent.click(screen.getByRole("button", { name: "Meditation" }));
+    fireEvent.click(screen.getByRole("button", { name: "Healing" }));
 
     // Wait for search to complete — suggestions should disappear
     await vi.waitFor(() => {

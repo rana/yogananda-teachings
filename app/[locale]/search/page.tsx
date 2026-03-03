@@ -18,6 +18,7 @@ import { HighlightedText } from "@/app/components/HighlightedText";
 import { sendResonance } from "@/lib/resonance-beacon";
 import { addRecentSearch, getRecentSearches, clearRecentSearches } from "@/lib/search-history";
 import { PORTAL } from "@/lib/config/srf-links";
+import { SEARCH_PLACEHOLDERS } from "@/lib/config/search-prompts";
 
 /**
  * Curated search invitations — editorially chosen doorways into the corpus.
@@ -26,14 +27,14 @@ import { PORTAL } from "@/lib/config/srf-links";
  * (which are broader) — these are search-tuned.
  */
 const CURATED_SUGGESTIONS = [
-  { en: "Inner peace", es: "Paz interior" },
-  { en: "Divine love", es: "Amor divino" },
+  { en: "Peace of mind", es: "Paz mental" },
+  { en: "Love", es: "Amor" },
   { en: "Overcoming fear", es: "Superar el miedo" },
-  { en: "Cosmic consciousness", es: "Conciencia cósmica" },
-  { en: "The soul", es: "El alma" },
+  { en: "The miraculous", es: "Lo milagroso" },
+  { en: "Life's purpose", es: "El propósito de la vida" },
   { en: "Willpower", es: "Fuerza de voluntad" },
-  { en: "God-realization", es: "Realización de Dios" },
-  { en: "Meditation", es: "Meditación" },
+  { en: "Where do they go?", es: "¿A dónde van?" },
+  { en: "Healing", es: "Sanación" },
 ] as const;
 
 interface Citation {
@@ -77,7 +78,7 @@ function SearchSkeleton() {
   return (
     <main id="main-content" className="min-h-screen">
       <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
-        <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
+        <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
           <div className="h-8 w-48 animate-pulse rounded bg-srf-navy/10" />
         </div>
       </div>
@@ -164,7 +165,7 @@ function InlineShareButton({
       type="button"
       onClick={handleShare}
       data-no-print
-      className="min-h-11 inline-flex items-center gap-1.5 rounded-lg border border-srf-navy/10 px-3 py-1.5 text-xs text-srf-navy/60 transition-colors hover:border-srf-gold/40 hover:text-srf-navy"
+      className="min-h-11 inline-flex items-center gap-1 text-sm text-srf-navy/60 transition-colors hover:text-srf-navy"
       aria-label={t("button")}
     >
       <svg
@@ -305,7 +306,7 @@ function SearchPageInner() {
     <main id="main-content" className="min-h-screen">
       {/* Search header */}
       <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
-        <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
+        <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
           <h1 className="mb-2 font-display text-2xl text-srf-navy md:text-3xl">
             {t("heading")}
           </h1>
@@ -319,6 +320,7 @@ function SearchPageInner() {
                 onSubmit={(q) => doSearch(q, language)}
                 language={language}
                 placeholder={t("placeholder")}
+                placeholders={SEARCH_PLACEHOLDERS[language] ?? SEARCH_PLACEHOLDERS.en}
                 ariaLabel={t("heading")}
                 className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
               />

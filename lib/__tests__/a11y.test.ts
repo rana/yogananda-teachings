@@ -175,12 +175,12 @@ describe("form accessibility", () => {
         <h1>Search the Teachings</h1>
         <form role="search" aria-label="Search the teachings">
           <label for="search-input" class="sr-only">
-            What did Yogananda say about...?
+            peace, courage, healing, love...
           </label>
           <input
             id="search-input"
             type="search"
-            placeholder="What did Yogananda say about...?"
+            placeholder="peace, courage, healing, love..."
             maxlength="500"
           />
           <button type="submit" aria-label="Search">Search</button>

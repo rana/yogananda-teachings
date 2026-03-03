@@ -23,6 +23,13 @@ import {
   type ColorTheme,
   type LineSpacing,
 } from "@/lib/services/preferences";
+import {
+  clearSearchData,
+  clearReadingData,
+  clearBookmarkData,
+  clearPreferenceData,
+  clearAllData,
+} from "@/lib/services/storage-clear";
 
 // ── Font size CSS class mapping ───────────────────────────────────
 
@@ -72,6 +79,12 @@ export function ReaderSettings() {
   const [fontSize, setFontSize] = useState<FontSize>("default");
   const [colorTheme, setColorThemeState] = useState<ColorTheme>("auto");
   const [lineSpacing, setLineSpacingState] = useState<LineSpacing>("default");
+
+  // Inline confirmation state for data clearing buttons
+  const [confirmingTier, setConfirmingTier] = useState<string | null>(null);
+  const [doneTier, setDoneTier] = useState<string | null>(null);
+  const confirmTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const doneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -205,6 +218,57 @@ export function ReaderSettings() {
   const toggleOpen = useCallback(() => {
     setOpen((prev) => !prev);
   }, []);
+
+  // ── Data clearing with inline confirmation ──────────────────
+
+  const clearActions: Record<string, () => void> = {
+    search: clearSearchData,
+    reading: clearReadingData,
+    bookmarks: clearBookmarkData,
+    preferences: () => {
+      clearPreferenceData();
+      // Re-sync component state with defaults
+      setTextOnly(false);
+      setFontSize("default");
+      setColorThemeState("auto");
+      setLineSpacingState("default");
+      applyFontSizeClass("default");
+      applyLineSpacingClass("default");
+      document.documentElement.classList.remove("text-only");
+    },
+    all: () => {
+      clearAllData();
+      window.location.reload();
+    },
+  };
+
+  const handleClearClick = useCallback(
+    (tier: string) => {
+      // Clear any existing timers
+      if (confirmTimerRef.current) clearTimeout(confirmTimerRef.current);
+      if (doneTimerRef.current) clearTimeout(doneTimerRef.current);
+
+      if (confirmingTier === tier) {
+        // Second click — execute the clear
+        clearActions[tier]();
+        setConfirmingTier(null);
+        // "Start fresh" reloads immediately, no done state needed
+        if (tier === "all") return;
+        setDoneTier(tier);
+        doneTimerRef.current = setTimeout(() => setDoneTier(null), 1500);
+      } else {
+        // First click — enter confirming state
+        setConfirmingTier(tier);
+        setDoneTier(null);
+        confirmTimerRef.current = setTimeout(
+          () => setConfirmingTier(null),
+          3000,
+        );
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [confirmingTier],
+  );
 
   // ── Font size options ─────────────────────────────────────────
 
@@ -415,6 +479,62 @@ export function ReaderSettings() {
                 </div>
               ))}
             </dl>
+          </div>
+
+          {/* ── Your data ──────────────────────────────────────── */}
+          <div className="mt-3 border-t border-srf-navy/10 pt-3">
+            <p className="mb-1 text-sm font-medium text-srf-navy">
+              {t("yourData")}
+            </p>
+            <p className="mb-3 text-[11px] text-srf-navy/40">
+              {t("yourDataNote")}
+            </p>
+            <div className="space-y-1.5">
+              {(
+                [
+                  ["search", t("clearSearchHistory")],
+                  ["reading", t("clearReadingHistory")],
+                  ["bookmarks", t("clearBookmarks")],
+                  ["preferences", t("resetPreferences")],
+                ] as const
+              ).map(([tier, label]) => {
+                const isConfirming = confirmingTier === tier;
+                const isDone = doneTier === tier;
+                return (
+                  <button
+                    key={tier}
+                    onClick={() => handleClearClick(tier)}
+                    className={`min-h-[44px] w-full rounded-md border px-3 py-2 text-xs transition-colors ${
+                      isConfirming
+                        ? "border-srf-gold/50 text-srf-navy/70"
+                        : isDone
+                          ? "border-srf-navy/10 text-srf-navy/40"
+                          : "border-srf-navy/10 text-srf-navy/50 hover:text-srf-navy/70"
+                    }`}
+                  >
+                    {isDone
+                      ? t("clearedFeedback")
+                      : isConfirming
+                        ? t("confirmPrompt")
+                        : label}
+                  </button>
+                );
+              })}
+
+              {/* Start fresh — separated visually */}
+              <button
+                onClick={() => handleClearClick("all")}
+                className={`mt-2 min-h-[44px] w-full rounded-md border px-3 py-2 text-xs font-medium transition-colors ${
+                  confirmingTier === "all"
+                    ? "border-srf-gold/50 text-srf-navy/70"
+                    : "border-srf-navy/10 text-srf-navy/50 hover:text-srf-navy/70"
+                }`}
+              >
+                {confirmingTier === "all"
+                  ? t("confirmPrompt")
+                  : t("startFresh")}
+              </button>
+            </div>
           </div>
         </div>
       )}

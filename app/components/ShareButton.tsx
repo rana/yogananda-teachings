@@ -77,7 +77,7 @@ export function ShareButton({ passage, citation, url, text, title, chunkId }: Sh
       type="button"
       onClick={handleShare}
       data-no-print
-      className="min-h-11 inline-flex items-center gap-1.5 rounded-lg border border-srf-navy/10 px-3 py-1.5 text-xs text-srf-navy/60 transition-colors hover:border-srf-gold/40 hover:text-srf-navy"
+      className="min-h-11 inline-flex items-center gap-1 text-sm text-srf-navy/60 transition-colors hover:text-srf-navy"
       aria-label={t("button")}
     >
       <svg

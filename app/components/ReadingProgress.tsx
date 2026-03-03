@@ -51,6 +51,19 @@ function getSavedParagraph(chapterKey: string): number | null {
   return map[chapterKey] ?? null;
 }
 
+/**
+ * Clear all reading progress data.
+ * Used by the "Your Data" settings section.
+ */
+export function clearReadingProgress(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // localStorage unavailable — skip silently
+  }
+}
+
 export function ReadingProgress({
   bookId,
   chapterNumber,

@@ -1202,7 +1202,7 @@ The portal's personas are **need-based, not demographic**. A 16-year-old in care
 
 ### Seeker Personas (External)
 
-Persona names below are **internal design vocabulary** — used in design documents, code comments, and team discussion. UI-facing copy follows the "Inhabit, don't label" principle above: the homepage Start Here section uses "A Place to Begin," "Light for Dark Hours," and "Exploring Meditation?" rather than surfacing these taxonomy labels.
+Persona names below are **internal design vocabulary** — used in design documents, code comments, and team discussion. UI-facing copy follows the "Inhabit, don't label" principle above: the homepage Start Here section uses "A Place to Begin," "Light for Dark Hours," and "Be Still And..." rather than surfacing these taxonomy labels. Descriptions give rather than ask — "Millions have found their way here" instead of "New to Yogananda?"
 
 | Persona | Entry Pattern | Primary Section | Key ADRs |
 |---|---|---|---|

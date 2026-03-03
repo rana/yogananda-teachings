@@ -25,6 +25,7 @@ import {
   SUGGEST_FUZZY_THRESHOLD,
   SUGGEST_FUZZY_MIN_CHARS,
 } from "@/lib/config";
+import { useRotatingPlaceholder } from "@/app/hooks/useRotatingPlaceholder";
 
 interface Suggestion {
   text: string;
@@ -42,6 +43,8 @@ interface SearchComboboxProps {
   onSubmit: (query: string) => void;
   language: string;
   placeholder?: string;
+  /** Rotating placeholder texts — crossfades between items when input is empty + unfocused. */
+  placeholders?: readonly string[];
   ariaLabel?: string;
   className?: string;
   id?: string;
@@ -56,6 +59,7 @@ export function SearchCombobox({
   onSubmit,
   language,
   placeholder,
+  placeholders,
   ariaLabel,
   className,
   id,
@@ -65,6 +69,15 @@ export function SearchCombobox({
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  // Rotating placeholder — active when input is empty and unfocused
+  const rotatingActive = !!placeholders && placeholders.length > 1 && !value && !isFocused;
+  const { text: rotatingText, fading } = useRotatingPlaceholder(
+    placeholders ?? [],
+    rotatingActive,
+  );
+  const showOverlay = !!placeholders && placeholders.length > 0 && !value;
 
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
@@ -316,9 +329,14 @@ export function SearchCombobox({
 
   // Focus: show zero-state chips
   const handleFocus = useCallback(() => {
+    setIsFocused(true);
     isFirstKeystroke.current = true;
     updateSuggestions(value);
   }, [value, updateSuggestions]);
+
+  const handleBlur = useCallback(() => {
+    setIsFocused(false);
+  }, []);
 
   // Click outside: close
   useEffect(() => {
@@ -342,6 +360,9 @@ export function SearchCombobox({
   const activeDescendant =
     activeIndex >= 0 ? `${instanceId}-option-${activeIndex}` : undefined;
 
+  // When overlay is visible, hide native placeholder visually but keep for screen readers
+  const effectivePlaceholder = showOverlay ? "" : (placeholder || rotatingText);
+
   return (
     <div className="relative flex-1">
       <input
@@ -354,14 +375,27 @@ export function SearchCombobox({
         aria-activedescendant={activeDescendant}
         aria-autocomplete="list"
         aria-label={ariaLabel}
+        aria-placeholder={showOverlay ? rotatingText : undefined}
         value={value}
         onChange={(e) => handleInputChange(e.target.value)}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        placeholder={placeholder}
+        onBlur={handleBlur}
+        placeholder={effectivePlaceholder}
         autoComplete="off"
         className={className}
       />
+
+      {/* Rotating placeholder overlay — crossfades between human-centered prompts */}
+      {showOverlay && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-srf-navy/35 transition-opacity duration-500 ease-in-out"
+          style={{ opacity: fading ? 0 : 1 }}
+        >
+          {rotatingText}
+        </span>
+      )}
 
       {hasItems && (
         <ul

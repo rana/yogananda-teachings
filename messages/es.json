@@ -29,7 +29,7 @@
     "showAnother": "Mostrar otra",
     "readInContext": "Leer en el capítulo",
     "continueReading": "Continúa donde lo dejaste",
-    "searchPrompt": "¿Qué dijo Yogananda sobre...?",
+    "searchPrompt": "paz, valor, sanación, amor...",
     "searchButton": "Buscar",
     "practiceBridge": "¿Interesado en aprender meditación?",
     "srfLessons": "Lecciones de SRF",
@@ -53,23 +53,23 @@
       "heading": "Empieza Aquí",
       "curious": {
         "title": "Un Lugar para Empezar",
-        "description": "¿Nuevo con Yogananda? Comienza con el clásico espiritual más querido del siglo XX."
+        "description": "Millones han encontrado su camino aquí a través de un libro extraordinario."
       },
       "need": {
         "title": "Luz para las Horas Oscuras",
-        "description": "¿Buscas consuelo, sanación o esperanza? Estos pasajes hablan directamente al corazón."
+        "description": "Hay palabras que llevan luz. Estos pasajes están aquí siempre que los necesites."
       },
       "seeker": {
-        "title": "¿Explorando la Meditación?",
-        "description": "¿Listo para explorar la ciencia de la meditación? Comienza con la guía práctica de Yogananda."
+        "title": "Aquiétate Y...",
+        "description": "La paz que buscas no está lejos. Las palabras de Yogananda iluminan el camino interior."
       }
     }
   },
   "search": {
     "heading": "Buscar en las Enseñanzas",
     "subtitle": "Pasajes textuales de las obras publicadas de Paramahansa Yogananda",
-    "placeholder": "¿Qué dijo Yogananda sobre...?",
-    "placeholderEs": "¿Qué dijo Yogananda sobre...?",
+    "placeholder": "paz, valor, sanación, amor...",
+    "placeholderEs": "paz, valor, sanación, amor...",
     "button": "Buscar",
     "loading": "...",
     "noResults": "No se encontraron pasajes. Intenta con otras palabras.",
@@ -77,8 +77,8 @@
     "fallbackLanguage": "Sin resultados en {language}. Mostrando resultados en inglés.",
     "readChapter": "Leer capítulo",
     "language": "Idioma",
-    "suggestionsHeading": "Explora las enseñanzas",
-    "suggestionsSubtitle": "¿No sabes por dónde empezar? Prueba con uno de estos:",
+    "suggestionsHeading": "O comienza aquí",
+    "suggestionsSubtitle": "Algunas puertas a las palabras de Yogananda",
     "recentSearches": "Tus búsquedas recientes",
     "clearRecent": "Borrar"
   },
@@ -229,7 +229,16 @@
     "spacingDefault": "Normal",
     "spacingRelaxed": "Relajado",
     "spacingSpacious": "Amplio",
-    "keyboardNote": "Disponible durante la lectura"
+    "keyboardNote": "Disponible durante la lectura",
+    "yourData": "Tus datos",
+    "yourDataNote": "Todo permanece en tu dispositivo",
+    "clearSearchHistory": "Borrar historial de búsqueda",
+    "clearReadingHistory": "Borrar historial de lectura",
+    "clearBookmarks": "Borrar marcadores",
+    "resetPreferences": "Restablecer ajustes",
+    "startFresh": "Comenzar de nuevo",
+    "confirmPrompt": "¿Seguro?",
+    "clearedFeedback": "Listo"
   },
   "bookmarks": {
     "heading": "Tus Marcadores",

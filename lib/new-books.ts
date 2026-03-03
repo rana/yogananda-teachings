@@ -66,6 +66,20 @@ export function markBooksSeen(currentIds: string[]): void {
 }
 
 /**
+ * Clear all new-books tracking data.
+ * Used by the "Your Data" settings section.
+ */
+export function clearNewBooks(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem(VERSION_KEY);
+    localStorage.removeItem(IDS_KEY);
+  } catch {
+    // localStorage unavailable — skip silently
+  }
+}
+
+/**
  * Initialize the books tracker for first-time visitors.
  * Called on first page load (any page) to set baseline.
  * Does nothing if already initialized.

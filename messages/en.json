@@ -29,7 +29,7 @@
     "showAnother": "Show me another",
     "readInContext": "Read in chapter",
     "continueReading": "Continue where you left off",
-    "searchPrompt": "What did Yogananda say about...",
+    "searchPrompt": "peace, courage, healing, love...",
     "searchButton": "Search",
     "practiceBridge": "Interested in learning meditation?",
     "srfLessons": "SRF Lessons",
@@ -53,23 +53,23 @@
       "heading": "Start Here",
       "curious": {
         "title": "A Place to Begin",
-        "description": "New to Yogananda? Begin with the most beloved spiritual classic of the 20th century."
+        "description": "Millions have found their way here through one extraordinary book."
       },
       "need": {
         "title": "Light for Dark Hours",
-        "description": "Seeking comfort, healing, or hope? These passages speak directly to the heart."
+        "description": "Some words carry light. These passages are here whenever you need them."
       },
       "seeker": {
-        "title": "Exploring Meditation?",
-        "description": "Ready to explore the science of meditation? Start with Yogananda's practical guidance."
+        "title": "Be Still And...",
+        "description": "The peace you're looking for isn't far away. Yogananda's words light the path within."
       }
     }
   },
   "search": {
     "heading": "Search the Teachings",
     "subtitle": "Verbatim passages from Paramahansa Yogananda's published works",
-    "placeholder": "What did Yogananda say about...",
-    "placeholderEs": "¿Qué dijo Yogananda sobre...?",
+    "placeholder": "peace, courage, healing, love...",
+    "placeholderEs": "paz, valor, sanación, amor...",
     "button": "Search",
     "loading": "...",
     "noResults": "No passages found. Try different words.",
@@ -77,8 +77,8 @@
     "fallbackLanguage": "No results in {language}. Showing English results.",
     "readChapter": "Read chapter",
     "language": "Language",
-    "suggestionsHeading": "Explore the teachings",
-    "suggestionsSubtitle": "Not sure where to begin? Try one of these doorways:",
+    "suggestionsHeading": "Or begin here",
+    "suggestionsSubtitle": "A few doorways into Yogananda's words",
     "recentSearches": "Your recent searches",
     "clearRecent": "Clear"
   },
@@ -229,7 +229,16 @@
     "spacingDefault": "Default",
     "spacingRelaxed": "Relaxed",
     "spacingSpacious": "Spacious",
-    "keyboardNote": "Available while reading"
+    "keyboardNote": "Available while reading",
+    "yourData": "Your data",
+    "yourDataNote": "Everything stays on your device",
+    "clearSearchHistory": "Clear search history",
+    "clearReadingHistory": "Clear reading history",
+    "clearBookmarks": "Clear bookmarks",
+    "resetPreferences": "Reset preferences",
+    "startFresh": "Start fresh",
+    "confirmPrompt": "Sure?",
+    "clearedFeedback": "Cleared"
   },
   "bookmarks": {
     "heading": "Your Bookmarks",
