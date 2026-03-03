@@ -25,6 +25,7 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
+import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import { sendResonance } from "@/lib/resonance-beacon";
 import { pushThreadPosition } from "@/lib/thread-memory";
@@ -140,6 +141,7 @@ function PassageCard({
     settledChunkId: string | null;
   };
 }) {
+  const t = useTranslations("reader");
   const [navigating, setNavigating] = useState(false);
 
   // Truncate content for display
@@ -187,10 +189,10 @@ function PassageCard({
         )}
         <NextLink
           href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
-          className={`ml-auto transition-colors min-h-[44px] inline-flex items-center ${navigating ? 'text-srf-gold font-medium' : 'text-srf-gold/70 hover:text-srf-gold'}`}
+          className={`ml-auto transition-colors min-h-11 inline-flex items-center ${navigating ? 'text-srf-gold font-medium' : 'text-srf-gold/70 hover:text-srf-gold'}`}
           onClick={handleReadClick}
         >
-          {navigating ? "Opening\u2026" : "Read"}
+          {navigating ? t("threadOpening") : t("threadRead")}
         </NextLink>
       </footer>
     </div>
@@ -217,13 +219,13 @@ function SidePanel({
     settledChunkId: string | null;
   };
 }) {
+  const t = useTranslations("reader");
+
   if (passages.length === 0 && thread.length === 0) {
     return (
       <div className="py-12 text-center">
-        <p className="text-sm text-srf-navy/25 italic">
-          Settle into a passage
-          <br />
-          to discover connections
+        <p className="text-sm text-srf-navy/25 italic whitespace-pre-line">
+          {t("settlePrompt")}
         </p>
       </div>
     );
@@ -241,7 +243,7 @@ function SidePanel({
       {/* Source reference */}
       {truncatedSource && (
         <p className="text-xs text-srf-navy/35 leading-relaxed">
-          <span className="font-medium text-srf-navy/50">Related to:</span>{" "}
+          <span className="font-medium text-srf-navy/50">{t("relatedTo")}</span>{" "}
           &ldquo;{truncatedSource}&rdquo;
         </p>
       )}
@@ -257,27 +259,27 @@ function SidePanel({
       {thread.length > 0 && (
         <div className="border-t border-srf-navy/8 pt-4">
           <h4 className="mb-0.5 text-xs font-semibold tracking-wide text-srf-navy/40 uppercase">
-            Continue the Thread
+            {t("continueThread")}
           </h4>
           <p className="mb-2 text-[11px] leading-snug text-srf-navy/30">
-            Chapters where these ideas continue
+            {t("threadDesc")}
           </p>
           <ul className="space-y-1.5">
-            {thread.map((t) => (
-              <li key={`${t.bookSlug}-${t.chapterNumber}`}>
+            {thread.map((ts) => (
+              <li key={`${ts.bookSlug}-${ts.chapterNumber}`}>
                 <NextLink
-                  href={`/${locale}/books/${t.bookSlug}/${t.chapterNumber}`}
-                  className="flex items-baseline gap-2 rounded-md px-2 py-1.5 text-sm text-srf-navy/60 transition-colors hover:bg-srf-gold/5 hover:text-srf-navy min-h-[44px]"
+                  href={`/${locale}/books/${ts.bookSlug}/${ts.chapterNumber}`}
+                  className="flex items-baseline gap-2 rounded-md px-2 py-1.5 text-sm text-srf-navy/60 transition-colors hover:bg-srf-gold/5 hover:text-srf-navy min-h-11"
                 >
                   <span
                     className="shrink-0 text-xs text-srf-gold/50"
-                    title={`${t.connectionCount} shared ${t.connectionCount === 1 ? 'theme' : 'themes'}`}
-                    aria-label={`${t.connectionCount} shared ${t.connectionCount === 1 ? 'theme' : 'themes'}`}
+                    title={t("threadSharedThemes", { count: ts.connectionCount })}
+                    aria-label={t("threadSharedThemes", { count: ts.connectionCount })}
                   >
-                    {t.connectionCount}
+                    {ts.connectionCount}
                   </span>
                   <span className="line-clamp-2">
-                    Ch. {t.chapterNumber}: {t.chapterTitle}
+                    Ch. {ts.chapterNumber}: {ts.chapterTitle}
                   </span>
                 </NextLink>
               </li>
@@ -294,10 +296,12 @@ function SidePanel({
 function BottomSheet({
   isOpen,
   onClose,
+  ariaLabel,
   children,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  ariaLabel: string;
   children: ReactNode;
 }) {
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -337,13 +341,13 @@ function BottomSheet({
         ref={sheetRef}
         role="dialog"
         aria-modal="true"
-        aria-label="Related Teachings"
+        aria-label={ariaLabel}
         className="thread-sheet-enter fixed inset-x-0 bottom-0 z-50 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-srf-gold/20 bg-(--theme-surface) px-4 pb-8 pt-3 shadow-lg"
       >
         {/* Drag handle visual */}
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-srf-navy/15" />
         <h3 className="mb-3 text-sm font-semibold text-srf-navy/60">
-          Related Teachings
+          {ariaLabel}
         </h3>
         {children}
       </div>
@@ -425,6 +429,7 @@ export function RelatedTeachings({
   chapterTitle,
   locale,
 }: RelatedTeachingsProps) {
+  const t = useTranslations("reader");
   const settledIdx = useSettledParagraph();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIdx, setSheetIdx] = useState<number | null>(null);
@@ -499,10 +504,10 @@ export function RelatedTeachings({
         className="hidden lg:block lg:w-72 lg:shrink-0 lg:self-start lg:sticky lg:top-8 lg:py-8"
         data-no-focus
         data-no-present
-        aria-label="Related Teachings"
+        aria-label={t("relatedTeachings")}
       >
         <h3 className="mb-4 text-xs font-semibold tracking-wide text-srf-navy/40 uppercase">
-          Related Teachings
+          {t("relatedTeachings")}
         </h3>
         {/* Key change triggers CSS fade animation on content swap */}
         <div key={settledChunkId ?? "empty"} className="thread-panel-fade">
@@ -523,6 +528,7 @@ export function RelatedTeachings({
           <BottomSheet
             isOpen={sheetOpen}
             onClose={() => setSheetOpen(false)}
+            ariaLabel={t("relatedTeachings")}
           >
             <SidePanel
               passages={sheetPassages}

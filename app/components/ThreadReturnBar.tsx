@@ -15,6 +15,7 @@
  */
 
 import { useState, useEffect, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import {
   peekThreadPosition,
@@ -27,6 +28,7 @@ interface ThreadReturnBarProps {
 }
 
 export function ThreadReturnBar({ locale }: ThreadReturnBarProps) {
+  const t = useTranslations("reader");
   const router = useRouter();
   const [returnTo, setReturnTo] = useState<{
     chapterTitle: string;
@@ -58,12 +60,12 @@ export function ThreadReturnBar({ locale }: ThreadReturnBarProps) {
 
   return (
     <div
-      className="border-b border-srf-gold/15 bg-srf-gold/[0.03]"
+      className="border-b border-srf-gold/15 bg-srf-gold/3"
       data-no-focus
       data-no-present
       data-no-print
     >
-      <div className="mx-auto flex max-w-[38rem] items-center gap-2 px-4 py-2">
+      <div className="mx-auto flex max-w-152 items-center gap-2 px-4 py-2">
         {/* Thread depth indicator — small gold dots */}
         <div className="flex gap-0.5" aria-hidden="true">
           {Array.from({ length: Math.min(returnTo.depth, 5) }).map((_, i) => (
@@ -94,7 +96,7 @@ export function ThreadReturnBar({ locale }: ThreadReturnBarProps) {
             />
           </svg>
           <span>
-            Return to Ch. {returnTo.chapterNumber}: {returnTo.chapterTitle}
+            {t("returnToChapter", { number: returnTo.chapterNumber, title: returnTo.chapterTitle })}
           </span>
         </button>
       </div>

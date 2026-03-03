@@ -29,6 +29,7 @@
     "showAnother": "Show me another",
     "readInContext": "Read in chapter",
     "continueReading": "Continue where you left off",
+    "noPassages": "No passages available yet.",
     "searchPrompt": "peace, courage, healing, love...",
     "searchButton": "Search",
     "practiceBridge": "Interested in learning meditation?",
@@ -135,7 +136,16 @@
     "keyHelp_close": "Close",
     "sharePassage": "Share this passage",
     "shared": "Shared",
-    "copiedToClipboard": "Copied"
+    "copiedToClipboard": "Copied",
+    "returnToChapter": "Return to Ch. {number}: {title}",
+    "relatedTeachings": "Related Teachings",
+    "relatedTo": "Related to:",
+    "settlePrompt": "Settle into a passage\nto discover connections",
+    "continueThread": "Continue the Thread",
+    "threadDesc": "Chapters where these ideas continue",
+    "threadSharedThemes": "{count, plural, one {# shared theme} other {# shared themes}}",
+    "threadOpening": "Opening\u2026",
+    "threadRead": "Read"
   },
   "quiet": {
     "heading": "The Quiet Corner",

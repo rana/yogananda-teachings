@@ -55,7 +55,7 @@ export function TodaysWisdom({ passage: initial }: Props) {
   if (!passage) {
     return (
       <div className="py-16 text-center text-srf-navy/40">
-        <p className="text-lg italic">No passages available yet.</p>
+        <p className="text-lg italic">{t("noPassages")}</p>
       </div>
     );
   }

@@ -12,6 +12,27 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { RelatedTeachings } from "../RelatedTeachings";
 import type { RelatedPassage, ThreadSuggestion } from "@/lib/services/relations";
 
+// ── Mock next-intl ──────────────────────────────────────────────
+
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string, values?: Record<string, unknown>) => {
+    const map: Record<string, string | ((v: Record<string, unknown>) => string)> = {
+      relatedTeachings: "Related Teachings",
+      relatedTo: "Related to:",
+      settlePrompt: "Settle into a passage\nto discover connections",
+      continueThread: "Continue the Thread",
+      threadDesc: "Chapters where these ideas continue",
+      threadSharedThemes: (v: Record<string, unknown>) =>
+        `${v.count} shared ${Number(v.count) === 1 ? "theme" : "themes"}`,
+      threadOpening: "Opening\u2026",
+      threadRead: "Read",
+    };
+    const val = map[key];
+    if (typeof val === "function") return val(values ?? {});
+    return val ?? key;
+  },
+}));
+
 // ── Mock next/link ───────────────────────────────────────────────
 
 vi.mock("next/link", () => ({

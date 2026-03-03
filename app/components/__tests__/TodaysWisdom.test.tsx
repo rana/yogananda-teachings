@@ -80,7 +80,7 @@ describe("TodaysWisdom", () => {
 
   it("shows null state when no passage provided", () => {
     render(<TodaysWisdom passage={null} />);
-    expect(screen.getByText("No passages available yet.")).toBeInTheDocument();
+    expect(screen.getByText("home.noPassages")).toBeInTheDocument();
     expect(screen.queryByRole("blockquote")).toBeNull();
   });
 

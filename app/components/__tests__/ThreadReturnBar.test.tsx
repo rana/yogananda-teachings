@@ -5,6 +5,15 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
 
+// Mock next-intl
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string, values?: Record<string, unknown>) => {
+    if (key === "returnToChapter")
+      return `Return to Ch. ${values?.number}: ${values?.title}`;
+    return key;
+  },
+}));
+
 // Mock next/navigation
 const mockPush = vi.fn();
 vi.mock("next/navigation", () => ({

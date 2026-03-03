@@ -29,6 +29,7 @@
     "showAnother": "Mostrar otra",
     "readInContext": "Leer en el capítulo",
     "continueReading": "Continúa donde lo dejaste",
+    "noPassages": "Aún no hay pasajes disponibles.",
     "searchPrompt": "paz, valor, sanación, amor...",
     "searchButton": "Buscar",
     "practiceBridge": "¿Interesado en aprender meditación?",
@@ -135,7 +136,16 @@
     "keyHelp_close": "Cerrar",
     "sharePassage": "Compartir este pasaje",
     "shared": "Compartido",
-    "copiedToClipboard": "Copiado"
+    "copiedToClipboard": "Copiado",
+    "returnToChapter": "Volver a Cap. {number}: {title}",
+    "relatedTeachings": "Enseñanzas Relacionadas",
+    "relatedTo": "Relacionado con:",
+    "settlePrompt": "Adéntrate en un pasaje\npara descubrir conexiones",
+    "continueThread": "Continuar el Hilo",
+    "threadDesc": "Capítulos donde estas ideas continúan",
+    "threadSharedThemes": "{count, plural, one {# tema compartido} other {# temas compartidos}}",
+    "threadOpening": "Abriendo\u2026",
+    "threadRead": "Leer"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
