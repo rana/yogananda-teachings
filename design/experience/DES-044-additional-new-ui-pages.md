@@ -1,5 +1,38 @@
 ## DES-044: Additional New UI Pages
 
+### `/library` — Personal Library
+
+**Status: Implemented** — see `app/[locale]/library/`
+
+A quiet, personal map of the seeker's reading journey. Books appear automatically when the seeker visits any chapter — no explicit "add to library" action. The library aggregates three localStorage sources into one coherent view:
+
+- **Visited chapters** (`lib/visited-chapters.ts`) — which chapters the seeker has read in each book
+- **Reading journey** (`lib/reading-journey.ts`) — last-read position (book, chapter, timestamp)
+- **Bookmarks** (`lib/services/bookmarks.ts`) — saved passages and chapters
+
+**Design principles:**
+- Auto-add on chapter visit — silent, frictionless (the act of reading IS the act of adding)
+- Chapter count shown (not percentage bar — total chapter count is server data unavailable client-side)
+- "Continue" link to last-read chapter per book
+- Bookmark count badge per book
+- Relative timestamps ("today", "yesterday", "3 days ago") — calm, not precise
+- **No time tracking, no minutes spent, no streaks** — antithetical to PRI-08 (calm technology). Time tracking implicitly values quantity of attention over quality of presence.
+- Empty state with warm invitation and "Browse books" CTA for first-time visitors
+- DELTA-compliant: all data stays on-device (PRI-09)
+
+**Architecture note:** Designed as a "Books" section with extension points for future media types. When videos (DES-021), audio, and other content types arrive, they can appear as additional sections in the library. The `LibraryBook` type is the first of what will become a `LibraryItem` union.
+
+**Files:**
+- `lib/personal-library.ts` — Aggregation utility: `getLibrary()`, `hasLibraryEntries()`
+- `app/[locale]/library/page.tsx` — Server component (metadata, translations)
+- `app/[locale]/library/LibraryView.tsx` — Client component (book cards, empty state)
+- `lib/__tests__/personal-library.test.ts` — 13 tests
+- `app/[locale]/library/__tests__/LibraryView.test.tsx` — 7 tests
+
+**Navigation:** Header nav (between Books and Quiet Corner), Footer nav (before Bookmarks).
+
+---
+
 ### DES-045: `/journeys` — Calendar Reading Journeys
 
 Browse available time-bound reading experiences. Lists evergreen, seasonal, and annual journeys with descriptions, durations, and "Subscribe" buttons. Active seasonal journeys highlighted.

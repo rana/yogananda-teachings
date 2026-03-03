@@ -262,11 +262,12 @@ body {
 }
 
 /* ── Line spacing preferences — M2b success criteria ─────────── */
-.line-relaxed .reader-content {
-  line-height: 2.1;
+/* Target paragraphs directly to override their inline leading-* classes */
+.line-relaxed .reader-content [data-paragraph] {
+  line-height: 2.1 !important;
 }
-.line-spacious .reader-content {
-  line-height: 2.4;
+.line-spacious .reader-content [data-paragraph] {
+  line-height: 2.4 !important;
 }
 
 /* ── Screen reader only utility ────────────────────────────────── */
@@ -475,6 +476,60 @@ body {
   line-height: 1;
 }
 
+/* ── Book figures — PRI-01 photographs, PRI-07 accessibility ──── */
+
+.book-figure {
+  margin-block: 2rem;
+  text-align: center;
+  break-inside: avoid;
+}
+
+.book-figure-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 70vh;
+  margin-inline: auto;
+  border-radius: 2px;
+}
+
+.book-caption {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--theme-text-secondary);
+  margin-block-start: 0.75rem;
+  max-width: 30rem;
+  margin-inline: auto;
+}
+
+/* Dwell mode: dim figures alongside paragraphs */
+[data-dwell-active] .book-figure {
+  opacity: 0.15;
+  transition: opacity 300ms ease;
+}
+
+/* Text-only mode: hide figures */
+.text-only .book-figure {
+  display: none !important;
+}
+
+/* Print: keep figures together, scale appropriately */
+@media print {
+  .book-figure {
+    break-inside: avoid;
+    margin-block: 1.5em;
+  }
+  .book-figure-img {
+    max-height: 40vh;
+  }
+  .book-caption {
+    color: #444 !important;
+    font-size: 10pt;
+  }
+}
+
 /* Optical margin alignment — progressive enhancement */
 .reader-content {
   hanging-punctuation: first allow-end;
@@ -527,9 +582,10 @@ body {
   transition: opacity 300ms ease;
 }
 
-/* Keep the focused paragraph vivid */
+/* Keep the focused paragraph vivid; pointer hint that tap/click exits */
 [data-dwell-active] [data-paragraph][data-dwell-target] {
   opacity: 1;
+  cursor: pointer;
 }
 
 /* ── Focus reading mode — M2b-8 ──────────────────────────────── */

@@ -12,6 +12,7 @@ import pool from "@/lib/db";
 import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
+import { ChapterProgress, ChapterVisitedDot } from "@/app/components/ChapterProgress";
 
 export async function generateMetadata({
   params,
@@ -134,21 +135,33 @@ export default async function BookLandingPage({
             No chapters available yet.
           </p>
         ) : (
-          <ol className="space-y-0.5" aria-label="Chapters">
-            {chapters.map((ch) => (
-              <li key={ch.id}>
-                <Link
-                  href={`/books/${book.slug}/${ch.chapterNumber}`}
-                  className="flex items-baseline gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-(--theme-surface) min-h-[44px]"
-                >
-                  <span className="min-w-[2rem] text-end text-sm tabular-nums text-srf-navy/40">
-                    {ch.chapterNumber}
-                  </span>
-                  <span className="text-srf-navy">{ch.title}</span>
-                </Link>
-              </li>
-            ))}
-          </ol>
+          <>
+            {/* Reading progress — subtle gold bar for returning seekers */}
+            <ChapterProgress
+              bookSlug={book.slug}
+              totalChapters={chapters.length}
+            />
+
+            <ol className="space-y-0.5" aria-label="Chapters">
+              {chapters.map((ch) => (
+                <li key={ch.id}>
+                  <Link
+                    href={`/books/${book.slug}/${ch.chapterNumber}`}
+                    className="flex items-center gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-(--theme-surface) min-h-[44px]"
+                  >
+                    <span className="min-w-8 text-end text-sm tabular-nums text-srf-navy/40">
+                      {ch.chapterNumber}
+                    </span>
+                    <span className="flex-1 text-srf-navy">{ch.title}</span>
+                    <ChapterVisitedDot
+                      bookSlug={book.slug}
+                      chapterNumber={ch.chapterNumber}
+                    />
+                  </Link>
+                </li>
+              ))}
+            </ol>
+          </>
         )}
 
         {/* Bookstore signpost */}

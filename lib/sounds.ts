@@ -37,11 +37,20 @@ export function singingBowl(volume = 0.15): void {
   try {
     const ctx = new AudioContext();
     const now = ctx.currentTime;
-    const duration = 5;
+    const duration = 8; // Room for fundamental (τ=2.2s) to decay naturally
 
     const master = ctx.createGain();
     master.gain.value = volume;
-    master.connect(ctx.destination);
+
+    // Fade curtain — smooth ending regardless of partial decay state.
+    // Holds at full volume, then fades over the final 1.5s so the
+    // ringing gradually subsides rather than clipping at the boundary.
+    const curtain = ctx.createGain();
+    curtain.gain.setValueAtTime(1, now);
+    curtain.gain.setValueAtTime(1, now + duration - 1.5);
+    curtain.gain.linearRampToValueAtTime(0, now + duration);
+    curtain.connect(ctx.destination);
+    master.connect(curtain);
 
     // Himalayan bowl partials — inharmonic ratios from measured specimens.
     // [freq ratio, amplitude, decay τ (s), beat rate (Hz)]
@@ -109,11 +118,18 @@ export function templeBell(volume = 0.15): void {
   try {
     const ctx = new AudioContext();
     const now = ctx.currentTime;
-    const duration = 4;
+    const duration = 6; // Room for undertone (τ=2.0s) to decay naturally
 
     const master = ctx.createGain();
     master.gain.value = volume;
-    master.connect(ctx.destination);
+
+    // Fade curtain — smooth ending so the bell ring subsides naturally
+    const curtain = ctx.createGain();
+    curtain.gain.setValueAtTime(1, now);
+    curtain.gain.setValueAtTime(1, now + duration - 1.0);
+    curtain.gain.linearRampToValueAtTime(0, now + duration);
+    curtain.connect(ctx.destination);
+    master.connect(curtain);
 
     const primary = 659.3; // E5
 

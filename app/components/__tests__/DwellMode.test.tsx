@@ -131,6 +131,108 @@ describe("DwellMode", () => {
     expect(article.hasAttribute("data-dwell-active")).toBe(false);
   });
 
+  it("exits dwell mode on click/tap of the target paragraph", async () => {
+    render(<DwellMode />);
+    const para = article.querySelector("[data-paragraph='1']")!;
+
+    // Activate via long-press
+    act(() => {
+      fireEvent.touchStart(para, {
+        touches: [{ clientX: 0, clientY: 0 }],
+      });
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 600));
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(true);
+
+    // Wait for the click exit handler to register (100ms delay)
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 150));
+    });
+
+    // Click the target paragraph itself
+    act(() => {
+      fireEvent.click(para);
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(false);
+    expect(article.querySelector("[data-dwell-target]")).toBeNull();
+  });
+
+  it("exits dwell mode on click of a button inside a paragraph", async () => {
+    render(<DwellMode />);
+    const para = article.querySelector("[data-paragraph='0']")!;
+
+    // Add a button inside the paragraph (like SharePassage does)
+    const btn = document.createElement("button");
+    btn.textContent = "Share";
+    para.appendChild(btn);
+
+    // Activate via long-press
+    act(() => {
+      fireEvent.touchStart(para, {
+        touches: [{ clientX: 0, clientY: 0 }],
+      });
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 600));
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(true);
+
+    // Wait for the click exit handler to register
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 150));
+    });
+
+    // Click the button inside the paragraph — should still exit dwell
+    act(() => {
+      fireEvent.click(btn);
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(false);
+  });
+
+  it("does not exit dwell mode when clicking a link (footnote)", async () => {
+    render(<DwellMode />);
+    const para = article.querySelector("[data-paragraph='2']")!;
+
+    // Add a footnote link inside the paragraph
+    const link = document.createElement("a");
+    link.href = "#fn-1";
+    link.textContent = "1";
+    para.appendChild(link);
+
+    // Activate via long-press
+    act(() => {
+      fireEvent.touchStart(para, {
+        touches: [{ clientX: 0, clientY: 0 }],
+      });
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 600));
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(true);
+
+    // Wait for the click exit handler to register
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 150));
+    });
+
+    // Click the footnote link — should NOT exit dwell
+    act(() => {
+      fireEvent.click(link);
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(true);
+  });
+
   it("exits dwell mode on Escape key", async () => {
     render(<DwellMode />);
     const para = article.querySelector("[data-paragraph='2']")!;
@@ -187,6 +289,32 @@ describe("DwellMode", () => {
         .querySelector("[data-paragraph='1']")
         ?.hasAttribute("data-dwell-target"),
     ).toBe(false);
+  });
+
+  it("exits dwell mode on srf:dwell-exit custom event", async () => {
+    render(<DwellMode />);
+    const para = article.querySelector("[data-paragraph='1']")!;
+
+    // Activate via long-press
+    act(() => {
+      fireEvent.touchStart(para, {
+        touches: [{ clientX: 0, clientY: 0 }],
+      });
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 600));
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(true);
+
+    // Dispatch srf:dwell-exit (from dismiss button in ContextualQuiet)
+    act(() => {
+      window.dispatchEvent(new CustomEvent("srf:dwell-exit"));
+    });
+
+    expect(article.hasAttribute("data-dwell-active")).toBe(false);
+    expect(article.querySelector("[data-dwell-target]")).toBeNull();
   });
 
   it("cleans up data attributes on unmount", async () => {

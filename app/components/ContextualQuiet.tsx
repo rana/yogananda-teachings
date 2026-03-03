@@ -198,6 +198,12 @@ export function ContextualQuiet({
     setBookmarked(true);
   }, [bookId, bookSlug, bookTitle, chapterNumber, chapterTitle]);
 
+  // ── Dismiss dwell mode (dispatches event to DwellMode) ─────────
+
+  const dismissDwell = useCallback(() => {
+    window.dispatchEvent(new CustomEvent("srf:dwell-exit"));
+  }, []);
+
   // ── Format timer ───────────────────────────────────────────────
 
   const formatTime = (s: number) => {
@@ -222,6 +228,8 @@ export function ContextualQuiet({
         data-testid="contextual-quiet"
         className="fixed inset-0 z-40 flex items-center justify-center px-4"
         style={{ background: "var(--color-warm-cream)" }}
+        onClick={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         <div className="mx-auto max-w-xl text-center">
           {/* The dwelled passage as affirmation */}
@@ -294,11 +302,13 @@ export function ContextualQuiet({
     );
   }
 
-  // Dwell active but not in quiet mode: show the "Pause with this" button
+  // Dwell active but not in quiet mode: show the "Pause with this" button + dismiss
   return (
     <div
-      className="fixed inset-x-0 bottom-8 z-30 flex justify-center"
+      className="fixed inset-x-0 bottom-8 z-30 flex items-center justify-center gap-3"
       data-testid="pause-with-this-container"
+      onClick={(e) => e.stopPropagation()}
+      onTouchEnd={(e) => e.stopPropagation()}
     >
       <button
         onClick={enterQuietMode}
@@ -310,6 +320,27 @@ export function ContextualQuiet({
           &#9673;
         </span>
         {t("pauseWithThis")}
+      </button>
+      <button
+        onClick={dismissDwell}
+        className="flex min-h-11 min-w-11 items-center justify-center rounded-full border border-srf-navy/10 bg-warm-cream text-srf-navy/40 shadow-sm transition-colors hover:border-srf-navy/30 hover:text-srf-navy/70"
+        aria-label={t("dwellExit")}
+        data-testid="dwell-dismiss"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M4 4l8 8M12 4l-8 8"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
       </button>
     </div>
   );

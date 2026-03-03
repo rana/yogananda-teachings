@@ -12,7 +12,8 @@
     "browse": "Browse",
     "privacy": "Privacy",
     "legal": "Legal",
-    "bookmarks": "Bookmarks"
+    "bookmarks": "Bookmarks",
+    "library": "My Library"
   },
   "footer": {
     "copyright": "© Self-Realization Fellowship",
@@ -75,7 +76,11 @@
     "resultCount": "{count, plural, one {# result} other {# results}} in {duration}ms ({mode})",
     "fallbackLanguage": "No results in {language}. Showing English results.",
     "readInContext": "Read in context",
-    "language": "Language"
+    "language": "Language",
+    "suggestionsHeading": "Explore the teachings",
+    "suggestionsSubtitle": "Not sure where to begin? Try one of these doorways:",
+    "recentSearches": "Your recent searches",
+    "clearRecent": "Clear"
   },
   "books": {
     "heading": "Books",
@@ -85,7 +90,8 @@
     "bookstoreLink": "Also available at the SRF Bookstore",
     "chapters": "{count, plural, one {# chapter} other {# chapters}}",
     "readBook": "Read this book",
-    "bookstoreSignpost": "Own the print edition"
+    "bookstoreSignpost": "Own the print edition",
+    "chaptersRead": "{read} of {total} chapters explored"
   },
   "reader": {
     "breadcrumbBooks": "Books",
@@ -125,7 +131,10 @@
     "keyHelp_bookmark": "Toggle bookmark",
     "keyHelp_escape": "Exit current mode",
     "keyHelp_help": "Show this help",
-    "keyHelp_close": "Close"
+    "keyHelp_close": "Close",
+    "sharePassage": "Share this passage",
+    "shared": "Shared",
+    "copiedToClipboard": "Copied"
   },
   "quiet": {
     "heading": "The Quiet Corner",
@@ -230,6 +239,17 @@
     "removeChapterBookmark": "Remove chapter bookmark",
     "chapter": "Chapter {number}",
     "savedOn": "Saved {date}"
+  },
+  "library": {
+    "heading": "My Library",
+    "subtitle": "Books you've been reading — a quiet map of your journey",
+    "empty": "Your library is empty",
+    "emptyHint": "Start reading any chapter and it will appear here — no action needed.",
+    "browseBooks": "Browse books",
+    "chaptersVisited": "{count, plural, one {# chapter explored} other {# chapters explored}}",
+    "progressLabel": "{read} chapters explored",
+    "continueChapter": "Ch. {number}: {title}",
+    "viewBookmarks": "View your bookmarks"
   },
   "partingWord": {
     "label": "A parting word"

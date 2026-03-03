@@ -11,6 +11,7 @@
 
 import { useEffect } from "react";
 import { setLastRead } from "@/lib/reading-journey";
+import { markChapterVisited } from "@/lib/visited-chapters";
 
 interface ReadingJourneyProps {
   bookSlug: string;
@@ -35,6 +36,7 @@ export function ReadingJourney({
       chapterNumber,
       chapterTitle,
     });
+    markChapterVisited(bookSlug, chapterNumber);
   }, [bookSlug, bookTitle, bookAuthor, chapterNumber, chapterTitle]);
 
   return null;

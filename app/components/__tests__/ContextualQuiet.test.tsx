@@ -111,6 +111,47 @@ describe("ContextualQuiet", () => {
     expect(btn).toHaveAttribute("aria-label", "reader.pauseWithThis");
   });
 
+  it("shows dismiss button alongside 'Pause with this' when dwell is active", async () => {
+    render(<ContextualQuiet {...defaultProps} />);
+
+    act(() => {
+      activateDwell(article);
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 50));
+    });
+
+    const dismissBtn = screen.getByTestId("dwell-dismiss");
+    expect(dismissBtn).toBeInTheDocument();
+    expect(dismissBtn).toHaveAttribute("aria-label", "reader.dwellExit");
+    // 44px touch target via canonical Tailwind class
+    expect(dismissBtn.className).toContain("min-h-11");
+    expect(dismissBtn.className).toContain("min-w-11");
+  });
+
+  it("dispatches srf:dwell-exit when dismiss button is clicked", async () => {
+    render(<ContextualQuiet {...defaultProps} />);
+
+    act(() => {
+      activateDwell(article);
+    });
+
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 50));
+    });
+
+    const handler = vi.fn();
+    window.addEventListener("srf:dwell-exit", handler);
+
+    act(() => {
+      fireEvent.click(screen.getByTestId("dwell-dismiss"));
+    });
+
+    expect(handler).toHaveBeenCalledTimes(1);
+    window.removeEventListener("srf:dwell-exit", handler);
+  });
+
   it("enters quiet mode on button click", async () => {
     render(<ContextualQuiet {...defaultProps} />);
 

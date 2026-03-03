@@ -33,6 +33,9 @@ export function Footer() {
           <Link href="/quiet" className="hover:text-srf-navy transition-colors">
             {nav("quiet")}
           </Link>
+          <Link href="/library" className="hover:text-srf-navy transition-colors">
+            {nav("library")}
+          </Link>
           <Link href="/bookmarks" className="hover:text-srf-navy transition-colors">
             {nav("bookmarks")}
           </Link>

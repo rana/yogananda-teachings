@@ -32,6 +32,8 @@ import { ResonanceWatcher } from "@/app/components/ResonanceWatcher";
 import { PassageArrival } from "@/app/components/PassageArrival";
 import { ThreadReturnBar } from "@/app/components/ThreadReturnBar";
 import { ReadingJourney } from "@/app/components/ReadingJourney";
+import { SharePassage } from "@/app/components/SharePassage";
+import { BookFigure } from "@/app/components/BookFigure";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -309,21 +311,60 @@ export default async function ChapterPage({
           {/* Reading content — M2b-4 typography: drop caps, paper texture */}
           <article className="reader-texture max-w-[38rem] px-4 py-8 md:py-12">
             <div className="reader-content space-y-6">
-              {content.paragraphs.map((para, i) => (
-                <p
-                  key={para.id}
-                  id={`p-${i}`}
-                  data-paragraph={i}
-                  className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
-                >
-                  <RichText
-                    text={para.content}
-                    formatting={para.formatting}
-                    footnotes={content.footnotes}
-                    dropCap={i === 0}
-                  />
-                </p>
-              ))}
+              {(() => {
+                // Interleave images into the paragraph flow by page number.
+                // Images are sorted by pageNumber and inserted before the first
+                // paragraph whose pageNumber >= image.pageNumber.
+                const sortedImages = [...content.images].sort(
+                  (a, b) => a.pageNumber - b.pageNumber,
+                );
+                let imageIdx = 0;
+                const elements: React.ReactNode[] = [];
+
+                for (let i = 0; i < content.paragraphs.length; i++) {
+                  const para = content.paragraphs[i];
+                  // Insert any images that belong before this paragraph
+                  while (
+                    imageIdx < sortedImages.length &&
+                    para.pageNumber !== null &&
+                    sortedImages[imageIdx].pageNumber <= para.pageNumber
+                  ) {
+                    elements.push(
+                      <BookFigure
+                        key={`img-${sortedImages[imageIdx].pageNumber}`}
+                        image={sortedImages[imageIdx]}
+                      />,
+                    );
+                    imageIdx++;
+                  }
+                  elements.push(
+                    <p
+                      key={para.id}
+                      id={`p-${i}`}
+                      data-paragraph={i}
+                      className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
+                    >
+                      <RichText
+                        text={para.content}
+                        formatting={para.formatting}
+                        footnotes={content.footnotes}
+                        dropCap={i === 0}
+                      />
+                    </p>,
+                  );
+                }
+                // Append any remaining images after the last paragraph
+                while (imageIdx < sortedImages.length) {
+                  elements.push(
+                    <BookFigure
+                      key={`img-${sortedImages[imageIdx].pageNumber}`}
+                      image={sortedImages[imageIdx]}
+                    />,
+                  );
+                  imageIdx++;
+                }
+                return elements;
+              })()}
             </div>
 
             {/* Print-only citation */}
@@ -347,6 +388,21 @@ export default async function ChapterPage({
           />
         </div>
       </ChapterBreath>
+
+      {/* Share passage — paragraph-level sharing with full attribution */}
+      <SharePassage
+        paragraphs={content.paragraphs.map((p) => ({
+          id: p.id,
+          content: p.content,
+          pageNumber: p.pageNumber ?? undefined,
+        }))}
+        bookTitle={content.book.title}
+        bookAuthor={content.book.author}
+        bookSlug={bookSlug}
+        chapterNumber={chapterNumber}
+        chapterTitle={content.chapter.title}
+        locale={locale}
+      />
 
       {/* Ephemeral highlights — M3c-6 (double-tap/click gold border) */}
       <EphemeralHighlights />

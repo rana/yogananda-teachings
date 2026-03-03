@@ -3,7 +3,7 @@
  *
  * Long-press (mobile, 500ms) or click a hover-revealed dwell icon (desktop)
  * on any paragraph dims surrounding text to 15% opacity, passage remains vivid.
- * Exit via Escape, click/touch outside, or 'd' key toggle.
+ * Exit via Escape, click/tap anywhere, or 'd' key toggle.
  * Screen reader announcements on enter/exit.
  * prefers-reduced-motion: instant transitions, no haptic.
  *
@@ -79,6 +79,17 @@ export function DwellMode() {
       window.removeEventListener("srf:dwell-toggle", handleDwellToggle);
   }, [active, activateDwell, deactivateDwell]);
 
+  // ── External exit event (from ContextualQuiet dismiss button) ──
+
+  useEffect(() => {
+    function handleDwellExit() {
+      if (active) deactivateDwell();
+    }
+
+    window.addEventListener("srf:dwell-exit", handleDwellExit);
+    return () => window.removeEventListener("srf:dwell-exit", handleDwellExit);
+  }, [active, deactivateDwell]);
+
   // ── Apply/remove data attributes on the DOM ──────────────────────
 
   useEffect(() => {
@@ -123,15 +134,15 @@ export function DwellMode() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [active, deactivateDwell]);
 
-  // ── Click/touch outside target paragraph exits dwell mode ────────
+  // ── Click/tap anywhere exits dwell mode ─────────────────────────
 
   useEffect(() => {
     if (!active || targetIndex === null) return;
 
     function handleClick(e: MouseEvent | TouchEvent) {
       const target = e.target as HTMLElement;
-      // Let links and buttons within the passage work normally
-      if (target.closest("a, button")) return;
+      // Let links within the passage work normally (footnotes, etc.)
+      if (target.closest("a")) return;
       deactivateDwell();
     }
 

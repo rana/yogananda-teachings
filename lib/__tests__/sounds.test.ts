@@ -125,9 +125,9 @@ describe("sounds", () => {
     it("creates gain envelope with bloom (attack → peak → decay)", () => {
       singingBowl();
 
-      // Each oscillator has its own gain node (skip the master gain at index 0)
-      // Gain nodes: [master, partial0a, partial0b, partial1a, ...]
-      const partialGain = gainNodes[1];
+      // Each oscillator has its own gain node (skip master and curtain)
+      // Gain nodes: [master, curtain, partial0a, partial0b, partial1a, ...]
+      const partialGain = gainNodes[2];
       expect(partialGain.gain.setValueAtTime).toHaveBeenCalled();
       expect(partialGain.gain.linearRampToValueAtTime).toHaveBeenCalledTimes(2);
       expect(partialGain.gain.setTargetAtTime).toHaveBeenCalled();
@@ -157,7 +157,7 @@ describe("sounds", () => {
       singingBowl();
 
       expect(mockClose).not.toHaveBeenCalled();
-      vi.advanceTimersByTime(6000);
+      vi.advanceTimersByTime(8500); // 8s duration + 0.5s buffer
       expect(mockClose).toHaveBeenCalled();
     });
 

@@ -37,6 +37,15 @@ export interface Footnote {
   pageNumber: number;
 }
 
+export interface ChapterImage {
+  pageNumber: number;
+  imagePath: string;
+  alt: string;
+  caption: string | null;
+  width: number;
+  height: number;
+}
+
 export interface ChapterContent {
   chapter: Chapter;
   book: Book;
@@ -48,6 +57,7 @@ export interface ChapterContent {
     paragraphIndex: number | null;
   }[];
   footnotes: Footnote[];
+  images: ChapterImage[];
   prevChapter: { id: string; chapterNumber: number; title: string } | null;
   nextChapter: { id: string; chapterNumber: number; title: string } | null;
 }
@@ -258,7 +268,7 @@ export async function getChapterContent(
 ): Promise<ChapterContent | null> {
   // Get chapter (with footnotes)
   const chResult = await pool.query(
-    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order, c.footnotes,
+    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order, c.footnotes, c.images,
             b.slug as book_slug, b.title as book_title, b.author as book_author,
             b.language, b.publication_year, b.cover_image_url, b.bookstore_url
      FROM chapters c
@@ -317,6 +327,14 @@ export async function getChapterContent(
       paragraphIndex: r.paragraph_index,
     })),
     footnotes: ch.footnotes || [],
+    images: (ch.images || []).map((img: ChapterImage) => ({
+      pageNumber: img.pageNumber,
+      imagePath: img.imagePath,
+      alt: img.alt,
+      caption: img.caption,
+      width: img.width,
+      height: img.height,
+    })),
     prevChapter: prev
       ? { id: prev.id, chapterNumber: prev.chapter_number, title: prev.title }
       : null,

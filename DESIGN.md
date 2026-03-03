@@ -52,6 +52,7 @@
 | [DES-039: Infrastructure and Deployment](design/search/DES-039-infrastructure-and-deployment.md) | 1 | design/search/ |
 | [DES-042: Glossary Architecture](design/editorial/DES-042-glossary-architecture.md) | 3b+ | design/editorial/ |
 | [DES-044: Additional New UI Pages](design/experience/DES-044-additional-new-ui-pages.md) | 2a+ | design/experience/ |
+| &emsp;[`/library` — Personal Library](design/experience/DES-044-additional-new-ui-pages.md#library-personal-library) | **Implemented** | design/experience/ |
 | &emsp;[DES-045: `/journeys` — Calendar Reading Journeys](design/experience/DES-044-additional-new-ui-pages.md#des-045-journeys-calendar-reading-journeys) | 3b+ | design/experience/ |
 | &emsp;[DES-047: `/browse` — The Complete Index](design/experience/DES-044-additional-new-ui-pages.md#des-047-browse-the-complete-index) | 2a+ | design/experience/ |
 | &emsp;[DES-048: `/guide` — The Spiritual Guide](design/experience/DES-044-additional-new-ui-pages.md#des-048-guide-the-spiritual-guide) | 3b+ | design/experience/ |

@@ -23,6 +23,7 @@ export function Header() {
   const navItems = [
     { href: "/search" as const, label: t("search") },
     { href: "/books" as const, label: t("books") },
+    { href: "/library" as const, label: t("library") },
     { href: "/quiet" as const, label: t("quiet") },
     { href: "/about" as const, label: t("about") },
   ];
@@ -54,7 +55,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative rounded-md px-2 py-1.5 text-xs sm:text-sm transition-colors min-h-[44px] inline-flex items-center ${
+                className={`relative rounded-md px-2 py-1.5 text-xs sm:text-sm transition-colors min-h-11 inline-flex items-center ${
                   isActive
                     ? "text-srf-navy font-medium"
                     : "text-srf-navy/60 hover:text-srf-navy"

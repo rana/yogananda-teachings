@@ -12,7 +12,8 @@
     "browse": "Explorar",
     "privacy": "Privacidad",
     "legal": "Legal",
-    "bookmarks": "Marcadores"
+    "bookmarks": "Marcadores",
+    "library": "Mi Biblioteca"
   },
   "footer": {
     "copyright": "© Self-Realization Fellowship",
@@ -75,7 +76,11 @@
     "resultCount": "{count, plural, one {# resultado} other {# resultados}} en {duration}ms ({mode})",
     "fallbackLanguage": "Sin resultados en {language}. Mostrando resultados en inglés.",
     "readInContext": "Leer en contexto",
-    "language": "Idioma"
+    "language": "Idioma",
+    "suggestionsHeading": "Explora las enseñanzas",
+    "suggestionsSubtitle": "¿No sabes por dónde empezar? Prueba con uno de estos:",
+    "recentSearches": "Tus búsquedas recientes",
+    "clearRecent": "Borrar"
   },
   "books": {
     "heading": "Libros",
@@ -85,7 +90,8 @@
     "bookstoreLink": "También disponible en la Librería de SRF",
     "chapters": "{count, plural, one {# capítulo} other {# capítulos}}",
     "readBook": "Leer este libro",
-    "bookstoreSignpost": "Adquirir la edición impresa"
+    "bookstoreSignpost": "Adquirir la edición impresa",
+    "chaptersRead": "{read} de {total} capítulos explorados"
   },
   "reader": {
     "breadcrumbBooks": "Libros",
@@ -125,7 +131,10 @@
     "keyHelp_bookmark": "Alternar marcador",
     "keyHelp_escape": "Salir del modo actual",
     "keyHelp_help": "Mostrar esta ayuda",
-    "keyHelp_close": "Cerrar"
+    "keyHelp_close": "Cerrar",
+    "sharePassage": "Compartir este pasaje",
+    "shared": "Compartido",
+    "copiedToClipboard": "Copiado"
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
@@ -230,6 +239,17 @@
     "removeChapterBookmark": "Eliminar marcador del capítulo",
     "chapter": "Capítulo {number}",
     "savedOn": "Guardado el {date}"
+  },
+  "library": {
+    "heading": "Mi Biblioteca",
+    "subtitle": "Libros que has estado leyendo — un mapa silencioso de tu camino",
+    "empty": "Tu biblioteca está vacía",
+    "emptyHint": "Comienza a leer cualquier capítulo y aparecerá aquí — no se necesita ninguna acción.",
+    "browseBooks": "Explorar libros",
+    "chaptersVisited": "{count, plural, one {# capítulo explorado} other {# capítulos explorados}}",
+    "progressLabel": "{read} capítulos explorados",
+    "continueChapter": "Cap. {number}: {title}",
+    "viewBookmarks": "Ver tus marcadores"
   },
   "partingWord": {
     "label": "Una palabra de despedida"

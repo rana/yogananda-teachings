@@ -14,8 +14,27 @@ import NextLink from "next/link";
 import { locales, localeNames } from "@/i18n/config";
 import type { CrisisInfo } from "@/lib/services/crisis";
 import { SearchCombobox } from "@/app/components/SearchCombobox";
+import { HighlightedText } from "@/app/components/HighlightedText";
 import { sendResonance } from "@/lib/resonance-beacon";
+import { addRecentSearch, getRecentSearches, clearRecentSearches } from "@/lib/search-history";
 import { PORTAL } from "@/lib/config/srf-links";
+
+/**
+ * Curated search invitations — editorially chosen doorways into the corpus.
+ * Bilingual: display text matches the search language (not just UI locale)
+ * so queries produce relevant results. Different from homepage thematic doors
+ * (which are broader) — these are search-tuned.
+ */
+const CURATED_SUGGESTIONS = [
+  { en: "Inner peace", es: "Paz interior" },
+  { en: "Divine love", es: "Amor divino" },
+  { en: "Overcoming fear", es: "Superar el miedo" },
+  { en: "Cosmic consciousness", es: "Conciencia cósmica" },
+  { en: "The soul", es: "El alma" },
+  { en: "Willpower", es: "Fuerza de voluntad" },
+  { en: "God-realization", es: "Realización de Dios" },
+  { en: "Meditation", es: "Meditación" },
+] as const;
 
 interface Citation {
   bookId: string;
@@ -167,12 +186,18 @@ function SearchPageInner() {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState(locale === "es" ? "es" : "en");
   const [results, setResults] = useState<SearchResult[]>([]);
   const [meta, setMeta] = useState<SearchMeta | null>(null);
   const [crisis, setCrisis] = useState<CrisisInfo>({ detected: false });
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Load recent searches on mount
+  useEffect(() => {
+    setRecentSearches(getRecentSearches());
+  }, []);
 
   // Engineering debug mode — ?debug query param or localStorage flag.
   // Readers see clean result counts; engineers see timing, mode, scores.
@@ -190,6 +215,10 @@ function SearchPageInner() {
 
       setLoading(true);
       setSearched(true);
+
+      // Record in recent searches (DELTA-compliant: localStorage only)
+      addRecentSearch(q.trim());
+      setRecentSearches(getRecentSearches());
 
       const encoded = encodeURIComponent(q.trim());
 
@@ -321,6 +350,76 @@ function SearchPageInner() {
       <div className="mx-auto max-w-3xl px-4 py-6" aria-live="polite">
         <CrisisBanner crisis={crisis} />
 
+        {/* Empty state: recent searches + curated suggestions */}
+        {!searched && !loading && (
+          <div className="py-8 space-y-10">
+            {/* Recent searches — returning seeker's trail */}
+            {recentSearches.length > 0 && (
+              <section aria-label={t("recentSearches")}>
+                <div className="mb-4 flex items-center justify-center gap-3">
+                  <h2 className="text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
+                    {t("recentSearches")}
+                  </h2>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      clearRecentSearches();
+                      setRecentSearches([]);
+                    }}
+                    className="text-xs text-srf-navy/30 hover:text-srf-navy/50 transition-colors"
+                  >
+                    {t("clearRecent")}
+                  </button>
+                </div>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {recentSearches.map((recent) => (
+                    <button
+                      key={recent}
+                      type="button"
+                      onClick={() => {
+                        setQuery(recent);
+                        doSearch(recent, language);
+                      }}
+                      className="inline-flex min-h-11 items-center rounded-full border border-srf-navy/10 px-4 py-2 text-sm text-srf-navy/60 transition-all hover:border-srf-navy/30 hover:text-srf-navy"
+                    >
+                      {recent}
+                    </button>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Curated suggestions — editorial doorways */}
+            <section aria-label={t("suggestionsHeading")}>
+              <h2 className="mb-2 text-center text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
+                {t("suggestionsHeading")}
+              </h2>
+              <p className="mb-6 text-center text-sm text-srf-navy/50">
+                {t("suggestionsSubtitle")}
+              </p>
+              <div className="flex flex-wrap justify-center gap-2.5">
+                {CURATED_SUGGESTIONS.map((suggestion) => {
+                  const label =
+                    suggestion[language as "en" | "es"] || suggestion.en;
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => {
+                        setQuery(label);
+                        doSearch(label, language);
+                      }}
+                      className="inline-flex min-h-11 items-center rounded-full border border-srf-gold/25 px-4 py-2 text-sm text-srf-navy/70 transition-all hover:border-srf-gold/60 hover:bg-srf-gold/5 hover:text-srf-navy"
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          </div>
+        )}
+
         {meta && (
           <div className="mb-4">
             <p className="text-sm text-srf-navy/50">
@@ -356,7 +455,12 @@ function SearchPageInner() {
                 role="listitem"
               >
                 <blockquote className="mb-3 text-base leading-relaxed text-srf-navy md:text-lg md:leading-relaxed">
-                  &ldquo;{result.content}&rdquo;
+                  &ldquo;
+                  <HighlightedText
+                    text={result.content}
+                    query={meta?.query || query}
+                  />
+                  &rdquo;
                 </blockquote>
                 <footer className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-srf-navy/60">
                   {isFallback && (

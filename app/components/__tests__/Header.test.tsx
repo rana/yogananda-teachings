@@ -104,12 +104,12 @@ describe("Header", () => {
     expect(booksLink).not.toHaveAttribute("aria-current");
   });
 
-  it("all navigation links have min-h-[44px] for touch targets", () => {
+  it("all navigation links have min-h-11 for touch targets", () => {
     render(<Header />);
-    const navLinks = ["nav.search", "nav.books", "nav.quiet", "nav.about"];
+    const navLinks = ["nav.search", "nav.books", "nav.library", "nav.quiet", "nav.about"];
     for (const label of navLinks) {
       const link = screen.getByText(label).closest("a");
-      expect(link?.className).toContain("min-h-[44px]");
+      expect(link?.className).toContain("min-h-11");
     }
   });
 
