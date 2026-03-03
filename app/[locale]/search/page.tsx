@@ -14,6 +14,7 @@ import NextLink from "next/link";
 import { locales, localeNames } from "@/i18n/config";
 import type { CrisisInfo } from "@/lib/services/crisis";
 import { SearchCombobox } from "@/app/components/SearchCombobox";
+import { sendResonance } from "@/lib/resonance-beacon";
 import { PORTAL } from "@/lib/config/srf-links";
 
 interface Citation {
@@ -104,10 +105,12 @@ function InlineShareButton({
   passage,
   citation,
   url,
+  chunkId,
 }: {
   passage: string;
   citation: Citation;
   url: string;
+  chunkId?: string;
 }) {
   const t = useTranslations("share");
   const [copied, setCopied] = useState(false);
@@ -119,6 +122,7 @@ function InlineShareButton({
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share({ title: shareTitle, text: shareText, url });
+        if (chunkId) sendResonance(chunkId, "share");
         return;
       } catch {
         /* User cancelled — fall through */
@@ -128,10 +132,11 @@ function InlineShareButton({
       await navigator.clipboard.writeText(`${shareText}\n\n${url}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      if (chunkId) sendResonance(chunkId, "share");
     } catch {
       /* Clipboard unavailable */
     }
-  }, [shareText, shareTitle, url]);
+  }, [shareText, shareTitle, url, chunkId]);
 
   return (
     <button
@@ -384,6 +389,7 @@ function SearchPageInner() {
                     passage={result.content}
                     citation={result.citation}
                     url={`${PORTAL.canonical}/${locale}/passage/${result.id}`}
+                    chunkId={result.id}
                   />
                   {debugMode && (
                     <span className="ml-auto font-mono text-xs text-srf-navy/25">

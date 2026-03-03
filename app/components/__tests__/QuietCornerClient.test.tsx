@@ -25,31 +25,16 @@ vi.mock("@/i18n/navigation", () => ({
   ),
 }));
 
-// Mock AudioContext for playTone
-vi.stubGlobal(
-  "AudioContext",
-  vi.fn(() => ({
-    createOscillator: () => ({
-      type: "sine",
-      frequency: { value: 0 },
-      connect: vi.fn(),
-      start: vi.fn(),
-      stop: vi.fn(),
-      onended: null as (() => void) | null,
-    }),
-    createGain: () => ({
-      gain: { value: 0, setTargetAtTime: vi.fn() },
-      connect: vi.fn(),
-    }),
-    destination: {},
-    currentTime: 0,
-    close: vi.fn(),
-  })),
-);
+// Mock meditative sounds module
+vi.mock("@/lib/sounds", () => ({
+  singingBowl: vi.fn(),
+  templeBell: vi.fn(),
+}));
 
 // ── Import after mocks ───────────────────────────────────────────
 
 import { QuietCornerClient } from "../QuietCornerClient";
+import { singingBowl, templeBell } from "@/lib/sounds";
 import type { DailyPassage } from "@/lib/services/passages";
 
 // ── Helpers ──────────────────────────────────────────────────────
@@ -360,14 +345,28 @@ describe("QuietCornerClient", () => {
 
   // ── Audio ──────────────────────────────────────────────────────
 
-  it("creates AudioContext when timer starts (singing bowl)", () => {
+  it("plays singing bowl when timer starts", () => {
     render(<QuietCornerClient passage={samplePassage} />);
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
     });
 
-    expect(AudioContext).toHaveBeenCalled();
+    expect(singingBowl).toHaveBeenCalled();
+  });
+
+  it("plays temple bell when timer completes", () => {
+    render(<QuietCornerClient passage={samplePassage} />);
+
+    act(() => {
+      fireEvent.click(screen.getByText("quiet.timer1"));
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(61000);
+    });
+
+    expect(templeBell).toHaveBeenCalled();
   });
 
   // ── Cleanup ────────────────────────────────────────────────────

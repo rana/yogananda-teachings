@@ -367,7 +367,7 @@ export function ReaderSettings() {
           </fieldset>
 
           {/* ── Language ─────────────────────────────────────────── */}
-          <div>
+          <div className="mb-4">
             <label
               htmlFor="reader-language"
               className="mb-2 block text-sm font-medium text-srf-navy"
@@ -386,6 +386,34 @@ export function ReaderSettings() {
                 </option>
               ))}
             </select>
+          </div>
+
+          {/* ── Keyboard shortcuts ────────────────────────────────── */}
+          <div className="border-t border-srf-navy/10 pt-3">
+            <p className="mb-2 text-sm font-medium text-srf-navy">
+              {t2("keyboardHelp")}
+            </p>
+            <p className="mb-2 text-[11px] text-srf-navy/40">
+              {t("keyboardNote")}
+            </p>
+            <dl className="space-y-1 text-xs text-srf-navy/70">
+              {[
+                ["j / k", t2("keyHelp_paragraph")],
+                ["\u2190 / \u2192", t2("keyHelp_chapter")],
+                ["/", t2("keyHelp_search")],
+                ["d", t2("keyHelp_dwell")],
+                ["b", t2("keyHelp_bookmark")],
+                ["Esc", t2("keyHelp_escape")],
+                ["?", t2("keyHelp_help")],
+              ].map(([key, desc]) => (
+                <div key={key} className="flex items-baseline gap-2">
+                  <dt className="w-12 shrink-0 text-end font-mono text-[10px] text-srf-navy/40">
+                    {key}
+                  </dt>
+                  <dd>{desc}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       )}

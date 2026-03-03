@@ -216,7 +216,8 @@
     "lineSpacing": "Line spacing",
     "spacingDefault": "Default",
     "spacingRelaxed": "Relaxed",
-    "spacingSpacious": "Spacious"
+    "spacingSpacious": "Spacious",
+    "keyboardNote": "Available while reading"
   },
   "bookmarks": {
     "heading": "Your Bookmarks",

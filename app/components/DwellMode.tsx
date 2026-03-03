@@ -3,11 +3,12 @@
  *
  * Long-press (mobile, 500ms) or click a hover-revealed dwell icon (desktop)
  * on any paragraph dims surrounding text to 15% opacity, passage remains vivid.
- * Escape exits. Screen reader announcements on enter/exit.
+ * Exit via Escape, click/touch outside, or 'd' key toggle.
+ * Screen reader announcements on enter/exit.
  * prefers-reduced-motion: instant transitions, no haptic.
  *
- * Desktop: hover over paragraph for 1.5s reveals a small dwell activation icon
- * at inline-start margin (12px circle, gold at 40% opacity).
+ * Desktop: hover over paragraph for 0.8s reveals a small dwell activation icon
+ * at inline-start margin (12px circle, gold at 60% opacity, 100% on icon hover).
  *
  * 44x44px minimum touch target on dwell icon (PRI-07).
  * DELTA-compliant: no tracking, no analytics (PRI-09).
@@ -24,7 +25,7 @@ import { useTranslations } from "next-intl";
 const LONG_PRESS_MS = 500;
 
 /** Hover duration before dwell icon appears on desktop (ms) */
-const HOVER_REVEAL_MS = 1500;
+const HOVER_REVEAL_MS = 800;
 
 // ── Component ─────────────────────────────────────────────────────
 
@@ -50,6 +51,10 @@ export function DwellMode() {
       const motionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (motionOk) navigator.vibrate(10);
     }
+    // M3a-7: Dispatch resonance event for anonymous dwell counting
+    window.dispatchEvent(
+      new CustomEvent("srf:dwell-resonance", { detail: { index: paragraphIndex } }),
+    );
   }, []);
 
   const deactivateDwell = useCallback(() => {
@@ -117,6 +122,32 @@ export function DwellMode() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [active, deactivateDwell]);
+
+  // ── Click/touch outside target paragraph exits dwell mode ────────
+
+  useEffect(() => {
+    if (!active || targetIndex === null) return;
+
+    function handleClick(e: MouseEvent | TouchEvent) {
+      const target = e.target as HTMLElement;
+      // If the click is on the dwell-target paragraph or inside it, stay in dwell
+      const dwellTarget = document.querySelector("[data-dwell-target]");
+      if (dwellTarget && dwellTarget.contains(target)) return;
+      deactivateDwell();
+    }
+
+    // Small delay so the activation click/touch doesn't immediately deactivate
+    const timerId = setTimeout(() => {
+      document.addEventListener("click", handleClick);
+      document.addEventListener("touchend", handleClick);
+    }, 100);
+
+    return () => {
+      clearTimeout(timerId);
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("touchend", handleClick);
+    };
+  }, [active, targetIndex, deactivateDwell]);
 
   // ── Mobile: long-press detection ─────────────────────────────────
 
@@ -207,6 +238,8 @@ export function DwellMode() {
     dwellIcon.appendChild(innerCircle);
 
     let iconAttached = false;
+    let iconHovered = false;
+    let hideTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
     function getParagraphIndex(el: HTMLElement): number | null {
       const para = el.closest("[data-paragraph]");
@@ -215,11 +248,31 @@ export function DwellMode() {
       return attr !== null ? parseInt(attr, 10) : null;
     }
 
+    function cancelHide() {
+      if (hideTimeoutId) {
+        clearTimeout(hideTimeoutId);
+        hideTimeoutId = null;
+      }
+    }
+
+    function hideIcon(fromPara: HTMLElement) {
+      cancelHide();
+      dwellIcon.style.opacity = "0";
+      hideTimeoutId = setTimeout(() => {
+        if (dwellIcon.parentElement === fromPara) {
+          fromPara.removeChild(dwellIcon);
+          iconAttached = false;
+        }
+        hideTimeoutId = null;
+      }, 200);
+    }
+
     function handleMouseEnter(e: MouseEvent) {
       const target = e.target as HTMLElement;
       if (!target.matches("[data-paragraph]")) return;
 
       hoveredParaRef.current = target;
+      cancelHide();
 
       hoverTimerRef.current = setTimeout(() => {
         if (hoveredParaRef.current !== target) return;
@@ -232,7 +285,7 @@ export function DwellMode() {
 
         target.appendChild(dwellIcon);
         iconAttached = true;
-        dwellIcon.style.opacity = "0.4";
+        dwellIcon.style.opacity = "0.6";
       }, HOVER_REVEAL_MS);
     }
 
@@ -249,15 +302,32 @@ export function DwellMode() {
         hoverTimerRef.current = null;
       }
 
+      // Don't hide if the mouse moved onto the dwell icon itself
+      if (iconHovered) return;
+
       if (iconAttached && dwellIcon.parentElement === target) {
-        dwellIcon.style.opacity = "0";
-        // Delay removal so the fade-out can complete
-        setTimeout(() => {
-          if (dwellIcon.parentElement === target) {
-            target.removeChild(dwellIcon);
-            iconAttached = false;
-          }
-        }, 200);
+        hideIcon(target);
+      }
+    }
+
+    function handleIconMouseEnter() {
+      iconHovered = true;
+      cancelHide();
+      dwellIcon.style.opacity = "1";
+    }
+
+    function handleIconMouseLeave() {
+      iconHovered = false;
+      const para = dwellIcon.parentElement;
+      if (!para) return;
+      // Check if mouse went back to the parent paragraph
+      if (hoveredParaRef.current === para) {
+        dwellIcon.style.opacity = "0.6";
+        return;
+      }
+      // Mouse left both icon and paragraph — hide
+      if (iconAttached) {
+        hideIcon(para);
       }
     }
 
@@ -278,6 +348,8 @@ export function DwellMode() {
       p.addEventListener("mouseleave", handleMouseLeave as EventListener);
     });
 
+    dwellIcon.addEventListener("mouseenter", handleIconMouseEnter);
+    dwellIcon.addEventListener("mouseleave", handleIconMouseLeave);
     dwellIcon.addEventListener("click", handleIconClick);
 
     return () => {
@@ -285,10 +357,13 @@ export function DwellMode() {
         p.removeEventListener("mouseenter", handleMouseEnter as EventListener);
         p.removeEventListener("mouseleave", handleMouseLeave as EventListener);
       });
+      dwellIcon.removeEventListener("mouseenter", handleIconMouseEnter);
+      dwellIcon.removeEventListener("mouseleave", handleIconMouseLeave);
       dwellIcon.removeEventListener("click", handleIconClick);
       if (iconAttached && dwellIcon.parentElement) {
         dwellIcon.parentElement.removeChild(dwellIcon);
       }
+      cancelHide();
       if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
     };
   }, [activateDwell, t]);

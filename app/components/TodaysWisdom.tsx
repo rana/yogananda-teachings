@@ -10,6 +10,7 @@
 import { useState, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import NextLink from "next/link";
+import { sendResonance } from "@/lib/resonance-beacon";
 import type { DailyPassage } from "@/lib/services/passages";
 
 interface Props {
@@ -23,6 +24,8 @@ export function TodaysWisdom({ passage: initial }: Props) {
   const [loading, setLoading] = useState(false);
 
   const fetchAnother = useCallback(async () => {
+    // M3a-7: record skip resonance for the passage being dismissed
+    if (passage?.id) sendResonance(passage.id, "skip");
     setLoading(true);
     try {
       const res = await fetch("/api/v1/passages/random");
@@ -45,7 +48,7 @@ export function TodaysWisdom({ passage: initial }: Props) {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [passage?.id]);
 
   if (!passage) {
     return (

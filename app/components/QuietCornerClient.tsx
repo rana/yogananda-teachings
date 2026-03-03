@@ -11,6 +11,7 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { singingBowl, templeBell } from "@/lib/sounds";
 import type { DailyPassage } from "@/lib/services/passages";
 
 const TIMER_OPTIONS = [
@@ -44,15 +45,15 @@ export function QuietCornerClient({ passage: initial }: Props) {
     setTimerComplete(false);
     setSecondsRemaining(seconds);
 
-    // Singing bowl at start (M2a-14) — Web Audio API
-    playTone(220, 0.15, 1.5); // A3, gentle singing bowl approximation
+    // Singing bowl at start (M2a-14) — warm, shimmering
+    singingBowl();
 
     intervalRef.current = setInterval(() => {
       setSecondsRemaining((prev) => {
         if (prev <= 1) {
           if (intervalRef.current) clearInterval(intervalRef.current);
-          // Chime at end — higher, shorter
-          playTone(523, 0.15, 0.8); // C5, gentle chime
+          // Temple bell at end — clear, hopeful
+          templeBell();
           setTimerActive(false);
           setTimerComplete(true);
           return 0;
@@ -183,46 +184,3 @@ export function QuietCornerClient({ passage: initial }: Props) {
   );
 }
 
-/**
- * Play a singing bowl or chime sound via Web Audio API.
- * Uses layered harmonics for a richer, more meditative tone.
- * Fixed 15% max volume per M2a-14.
- */
-function playTone(frequency: number, volume: number, duration: number) {
-  try {
-    const ctx = new AudioContext();
-    const masterGain = ctx.createGain();
-    masterGain.gain.value = volume;
-    masterGain.connect(ctx.destination);
-
-    // Singing bowl harmonics: fundamental + partial overtones
-    const harmonics = [
-      { ratio: 1, gain: 1.0 },     // Fundamental
-      { ratio: 2.76, gain: 0.4 },   // Singing bowl partial
-      { ratio: 4.72, gain: 0.2 },   // Upper partial
-    ];
-
-    harmonics.forEach(({ ratio, gain: hGain }) => {
-      const osc = ctx.createOscillator();
-      const oscGain = ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.value = frequency * ratio;
-      oscGain.gain.value = hGain;
-
-      // Natural decay — fast attack, slow release
-      oscGain.gain.setTargetAtTime(0, ctx.currentTime + duration * 0.1, duration * 0.4);
-
-      osc.connect(oscGain);
-      oscGain.connect(masterGain);
-      osc.start();
-      osc.stop(ctx.currentTime + duration);
-
-      osc.onended = () => {
-        if (ratio === 1) ctx.close();
-      };
-    });
-  } catch {
-    // Web Audio not available — degrade silently
-  }
-}

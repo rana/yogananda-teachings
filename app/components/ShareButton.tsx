@@ -9,6 +9,7 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { sendResonance } from "@/lib/resonance-beacon";
 
 interface ShareButtonProps {
   /** Passage text for citation-based sharing (search results) */
@@ -24,9 +25,11 @@ interface ShareButtonProps {
   url?: string;
   text?: string;
   title?: string;
+  /** Chunk ID for resonance tracking (M3a-7) */
+  chunkId?: string;
 }
 
-export function ShareButton({ passage, citation, url, text, title }: ShareButtonProps) {
+export function ShareButton({ passage, citation, url, text, title, chunkId }: ShareButtonProps) {
   const t = useTranslations("share");
   const [copied, setCopied] = useState(false);
 
@@ -49,6 +52,8 @@ export function ShareButton({ passage, citation, url, text, title }: ShareButton
           text: shareText,
           url: shareUrl,
         });
+        // M3a-7: record share resonance
+        if (chunkId) sendResonance(chunkId, "share");
         return;
       } catch {
         // User cancelled or API failed — fall through to clipboard
@@ -60,10 +65,12 @@ export function ShareButton({ passage, citation, url, text, title }: ShareButton
       await navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      // M3a-7: record share resonance (copy counts as share)
+      if (chunkId) sendResonance(chunkId, "share");
     } catch {
       // Clipboard API unavailable
     }
-  }, [shareText, shareTitle, url]);
+  }, [shareText, shareTitle, url, chunkId]);
 
   return (
     <button

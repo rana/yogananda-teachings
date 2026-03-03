@@ -28,6 +28,7 @@ import { ReadingProgress } from "@/app/components/ReadingProgress";
 import { RichText } from "@/app/components/RichText";
 import { ChapterNotes } from "@/app/components/ChapterNotes";
 import { EphemeralHighlights } from "@/app/components/EphemeralHighlights";
+import { ResonanceWatcher } from "@/app/components/ResonanceWatcher";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -261,6 +262,9 @@ export default async function ChapterPage({
 
       {/* Dwell contemplation — M2b-1 */}
       <DwellMode />
+
+      {/* Resonance watcher — M3a-7 (ADR-052): maps dwell events to chunk IDs */}
+      <ResonanceWatcher paragraphChunkIds={content.paragraphs.map((p) => p.id)} />
 
       {/* Contextual Quiet Corner — M2b-7 */}
       <ContextualQuiet

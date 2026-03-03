@@ -22,33 +22,11 @@ vi.mock("@/lib/services/bookmarks", () => ({
   addPassageBookmark: (...args: unknown[]) => mockAddPassageBookmark(...args),
 }));
 
-// Mock AudioContext for playTone
-const mockOscillator = {
-  type: "sine",
-  frequency: { value: 0 },
-  connect: vi.fn(),
-  start: vi.fn(),
-  stop: vi.fn(),
-  onended: null as (() => void) | null,
-};
-const mockGainNode = {
-  gain: { value: 0, setTargetAtTime: vi.fn() },
-  connect: vi.fn(),
-};
-
-vi.stubGlobal(
-  "AudioContext",
-  vi.fn(() => ({
-    createOscillator: () => ({ ...mockOscillator }),
-    createGain: () => ({
-      gain: { value: 0, setTargetAtTime: vi.fn() },
-      connect: vi.fn(),
-    }),
-    destination: {},
-    currentTime: 0,
-    close: vi.fn(),
-  })),
-);
+// Mock meditative sounds module
+vi.mock("@/lib/sounds", () => ({
+  singingBowl: vi.fn(),
+  templeBell: vi.fn(),
+}));
 
 // ── Import after mocks ───────────────────────────────────────────
 

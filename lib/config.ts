@@ -134,6 +134,17 @@ export const SUGGEST_FUZZY_THRESHOLD = 3;
 export const SUGGEST_FUZZY_MIN_CHARS = 3;
 // Trigram similarity needs ≥3 chars for meaningful results. Evaluate: never change this.
 
+// ── Resonance — Passage Resonance Instrumentation (M3a-7, ADR-052) ──
+
+/** Rate limit window for resonance increments (ms). */
+export const RESONANCE_RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+// 1 increment per IP per hour per chunk per type. DELTA-compliant (PRI-09).
+// Evaluate: lower if counters grow too slowly; raise if abuse detected.
+
+/** Top resonating passages limit for editorial view. */
+export const RESONANCE_TOP_LIMIT = 50;
+// Default editorial view. Evaluate: increase when corpus grows past 10K chunks.
+
 // ── Contentful ─────────────────────────────────────────────────
 
 /** Delay between Contentful Management API calls (ms). */

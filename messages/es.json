@@ -216,7 +216,8 @@
     "lineSpacing": "Interlineado",
     "spacingDefault": "Normal",
     "spacingRelaxed": "Relajado",
-    "spacingSpacious": "Amplio"
+    "spacingSpacious": "Amplio",
+    "keyboardNote": "Disponible durante la lectura"
   },
   "bookmarks": {
     "heading": "Tus Marcadores",

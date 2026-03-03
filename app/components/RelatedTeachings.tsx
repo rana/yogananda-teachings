@@ -22,6 +22,7 @@ import {
   type ReactNode,
 } from "react";
 import NextLink from "next/link";
+import { sendResonance } from "@/lib/resonance-beacon";
 import {
   SETTLED_PARAGRAPH_DEBOUNCE_MS,
   FOCUS_ZONE_ROOT_MARGIN,
@@ -185,6 +186,7 @@ function PassageCard({
         <NextLink
           href={`/${locale}/books/${passage.bookTitle}/${passage.chapterNumber}`}
           className="ml-auto text-srf-gold/70 transition-colors hover:text-srf-gold min-h-[44px] inline-flex items-center"
+          onClick={() => sendResonance(passage.id, "traverse")}
         >
           Read
         </NextLink>
