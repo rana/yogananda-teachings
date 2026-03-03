@@ -76,13 +76,19 @@ jobs:
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Deployed to: $URL"
 
+      - name: Alias to dev environment
+        if: success()
+        run: |
+          vercel alias ${{ steps.deploy.outputs.url }} dev.teachings.yogananda.tech --token=$VERCEL_TOKEN
+          echo "Aliased to: https://dev.teachings.yogananda.tech"
+
       - name: Notify platform (deployment sync)
         if: success()
         run: |
           curl -sf -X POST https://yogananda.tech/api/webhooks/deploy \
             -H "Content-Type: application/json" \
             -H "Authorization: Bearer ${{ secrets.WEBHOOK_SECRET }}" \
-            -d "{\"project\":\"teachings\",\"commit_sha\":\"${GITHUB_SHA::7}\",\"source\":\"ci\"}" \
+            -d "{\"project\":\"teachings\",\"commit_sha\":\"${GITHUB_SHA::7}\",\"vercel_url\":\"${{ steps.deploy.outputs.url }}\",\"source\":\"ci\"}" \
             || echo "Platform sync skipped (PRI-06 fallback)"
 
       - name: Summary
@@ -90,9 +96,10 @@ jobs:
           echo "### Vercel Deployment" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "Preview: ${{ steps.deploy.outputs.url }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Dev: https://dev.teachings.yogananda.tech" >> "$GITHUB_STEP_SUMMARY"
           echo "Commit: \`${GITHUB_SHA::7}\`" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "Promote via platform: \`promote teachings\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "Promote to production: \`promote teachings\`" >> "$GITHUB_STEP_SUMMARY"
 
   doc-validate:
     name: Document Integrity
