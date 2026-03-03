@@ -52,15 +52,15 @@
     "startHere": {
       "heading": "Start Here",
       "curious": {
-        "title": "The Curious Reader",
+        "title": "A Place to Begin",
         "description": "New to Yogananda? Begin with the most beloved spiritual classic of the 20th century."
       },
       "need": {
-        "title": "A Person in Need",
+        "title": "Light for Dark Hours",
         "description": "Seeking comfort, healing, or hope? These passages speak directly to the heart."
       },
       "seeker": {
-        "title": "The Meditation Seeker",
+        "title": "Exploring Meditation?",
         "description": "Ready to explore the science of meditation? Start with Yogananda's practical guidance."
       }
     }

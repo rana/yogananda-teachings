@@ -75,6 +75,7 @@ export function BookmarkButton({
         viewBox="0 0 33 23"
         className="h-6 w-6 transition-all duration-200"
         aria-hidden="true"
+        data-ui
         style={{
           color: bookmarked ? "var(--color-srf-gold)" : "var(--color-srf-navy)",
           opacity: bookmarked ? 1 : 0.35,

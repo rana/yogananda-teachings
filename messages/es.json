@@ -52,15 +52,15 @@
     "startHere": {
       "heading": "Empieza Aquí",
       "curious": {
-        "title": "El Lector Curioso",
+        "title": "Un Lugar para Empezar",
         "description": "¿Nuevo con Yogananda? Comienza con el clásico espiritual más querido del siglo XX."
       },
       "need": {
-        "title": "Una Persona que Necesita Ayuda",
+        "title": "Luz para las Horas Oscuras",
         "description": "¿Buscas consuelo, sanación o esperanza? Estos pasajes hablan directamente al corazón."
       },
       "seeker": {
-        "title": "El Buscador de Meditación",
+        "title": "¿Explorando la Meditación?",
         "description": "¿Listo para explorar la ciencia de la meditación? Comienza con la guía práctica de Yogananda."
       }
     }

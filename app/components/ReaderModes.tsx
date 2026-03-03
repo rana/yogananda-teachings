@@ -125,6 +125,7 @@ export function ReaderModes() {
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
+          data-ui
         >
           <circle cx="8" cy="8" r="5" />
           <circle cx="8" cy="8" r="1.5" />
@@ -160,6 +161,7 @@ export function ReaderModes() {
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
+          data-ui
         >
           <polyline points="1,5 1,1 5,1" />
           <polyline points="11,1 15,1 15,5" />

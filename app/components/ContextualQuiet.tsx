@@ -333,6 +333,7 @@ export function ContextualQuiet({
           viewBox="0 0 16 16"
           fill="none"
           aria-hidden="true"
+          data-ui
         >
           <path
             d="M4 4l8 8M12 4l-8 8"

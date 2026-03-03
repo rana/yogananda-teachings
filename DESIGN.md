@@ -1198,7 +1198,11 @@ The portal's personas are **need-based, not demographic**. A 16-year-old in care
 
 **The portal intentionally does not design for passive consumption.** There is no algorithmic feed, no infinite scroll, no "recommended for you" engine, no engagement optimization. Every interaction is seeker-initiated. This is not a limitation — it is the Calm Technology principle (CLAUDE.md constraint #3) applied to the entire product. The portal is a library, not a feed. Seekers come with intent; the portal meets that intent and then lets go. (Relates to ADR-095 DELTA-compliant analytics, ADR-071 Quiet Corner.)
 
+**Inhabit, don't label.** When the portal addresses seekers directly in UI copy, use their language — questions they'd ask, feelings they'd name, actions they'd describe. Reserve persona taxonomy ("The curious reader," "The meditation seeker") for internal design documents. The seeker should never read a label they wouldn't apply to themselves. A person in grief is not "A Person in Need" — they're someone for whom light exists in dark hours. A newcomer is not "The Curious Reader" — they're someone looking for a place to begin. This principle follows from PRI-03 (the technology disappears) and PRI-08 (calm technology meets you without naming you).
+
 ### Seeker Personas (External)
+
+Persona names below are **internal design vocabulary** — used in design documents, code comments, and team discussion. UI-facing copy follows the "Inhabit, don't label" principle above: the homepage Start Here section uses "A Place to Begin," "Light for Dark Hours," and "Exploring Meditation?" rather than surfacing these taxonomy labels.
 
 | Persona | Entry Pattern | Primary Section | Key ADRs |
 |---|---|---|---|
@@ -1328,6 +1332,7 @@ These questions are tracked in CONTEXT.md § Open Questions (Stakeholder) and re
 4. **Operational role assignment** — portal coordinator, book ingestion operator, VLD coordinator. (Line 85–86)
 5. **"Who *shouldn't* use this portal?"** — The seeker searching for Kriya technique instructions should be redirected to SRF Lessons, not shown Autobiography excerpts that might be misinterpreted as instruction. The Practice Bridge (ADR-104) addresses this, but the persona of "the seeker who needs what we don't offer" could be more explicitly designed for.
 6. **Abuse and misuse patterns** — Automated corpus extraction, quote weaponization, SEO parasitism. (CONTEXT.md technical open question)
+7. **"Seeking..." and Start Here section overlap** — The homepage's "What are you seeking?" section (first-person empathic entry) and "Start Here" section (navigational cards) map to three of the same personas and route to overlapping search queries. Consider whether these earn separate screen weight or should merge into a single section that combines the Seeking section's first-person warmth with Start Here's richer card format (title + description + specific destination). Low priority — the current experience works — but worth revisiting when the homepage evolves.
 
 ---
 

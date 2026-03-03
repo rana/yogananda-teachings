@@ -85,6 +85,7 @@ export function ThreadReturnBar({ locale }: ThreadReturnBarProps) {
             fill="currentColor"
             className="h-3 w-3"
             aria-hidden="true"
+            data-ui
           >
             <path
               fillRule="evenodd"

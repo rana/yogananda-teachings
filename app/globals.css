@@ -244,7 +244,7 @@ body {
 
 /* ── Text-only mode — M1c-13 (ADR-006 §1) ─────────────────────── */
 .text-only img,
-.text-only svg:not([role="img"]),
+.text-only svg:not([role="img"]):not([data-ui]),
 .text-only [data-decorative] {
   display: none !important;
 }

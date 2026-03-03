@@ -238,15 +238,15 @@ export function ReaderSettings() {
       <button
         ref={triggerRef}
         onClick={toggleOpen}
-        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md text-srf-navy/60 transition-colors hover:text-srf-navy"
+        className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-md text-srf-navy/70 transition-colors hover:text-srf-navy"
         aria-expanded={open}
         aria-haspopup="dialog"
         aria-label={t("label")}
       >
         {/* Gear icon — minimal, calm (PRI-08) */}
         <svg
-          width="16"
-          height="16"
+          width="18"
+          height="18"
           viewBox="0 0 16 16"
           fill="none"
           stroke="currentColor"
@@ -254,6 +254,7 @@ export function ReaderSettings() {
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
+          data-ui
         >
           <circle cx="8" cy="8" r="2.5" />
           <path d="M13.3 10.2a1.1 1.1 0 0 0 .2 1.2l.04.04a1.33 1.33 0 1 1-1.88 1.88l-.04-.04a1.1 1.1 0 0 0-1.2-.22 1.1 1.1 0 0 0-.67 1.01v.11a1.33 1.33 0 1 1-2.67 0v-.06a1.1 1.1 0 0 0-.72-1.01 1.1 1.1 0 0 0-1.2.22l-.04.04a1.33 1.33 0 1 1-1.88-1.88l.04-.04a1.1 1.1 0 0 0 .22-1.2 1.1 1.1 0 0 0-1.01-.67h-.11a1.33 1.33 0 1 1 0-2.67h.06a1.1 1.1 0 0 0 1.01-.72 1.1 1.1 0 0 0-.22-1.2l-.04-.04A1.33 1.33 0 1 1 5.1 3.26l.04.04a1.1 1.1 0 0 0 1.2.22h.05a1.1 1.1 0 0 0 .67-1.01v-.11a1.33 1.33 0 1 1 2.67 0v.06a1.1 1.1 0 0 0 .67 1.01 1.1 1.1 0 0 0 1.2-.22l.04-.04a1.33 1.33 0 1 1 1.88 1.88l-.04.04a1.1 1.1 0 0 0-.22 1.2v.05a1.1 1.1 0 0 0 1.01.67h.11a1.33 1.33 0 0 1 0 2.67h-.06a1.1 1.1 0 0 0-1.01.67Z" />
