@@ -74,9 +74,12 @@ jobs:
         run: |
           URL=$(vercel deploy --token=$VERCEL_TOKEN)
           echo "url=$URL" >> "$GITHUB_OUTPUT"
-          DEPLOY_ID=$(vercel inspect "$URL" --token=$VERCEL_TOKEN 2>&1 | awk '/^\s+id\s/{print $2}')
-          echo "deployment_id=$DEPLOY_ID" >> "$GITHUB_OUTPUT"
-          echo "Deployed to: $URL (id: $DEPLOY_ID)"
+          # Extract deployment ID via Vercel REST API (stable JSON, not CLI parsing)
+          URL_HOST=${URL#https://}
+          DEPLOY_ID=$(curl -sf -H "Authorization: Bearer $VERCEL_TOKEN" \
+            "https://api.vercel.com/v13/deployments/$URL_HOST" | jq -r '.id // empty')
+          echo "deployment_id=${DEPLOY_ID}" >> "$GITHUB_OUTPUT"
+          echo "Deployed to: $URL (id: ${DEPLOY_ID:-UNKNOWN})"
 
       - name: Alias to dev environment
         if: success()
