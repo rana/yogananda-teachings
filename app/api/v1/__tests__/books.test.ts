@@ -195,6 +195,7 @@ describe("/api/v1/books/:bookId/chapters/:chapter", () => {
         },
       ],
       footnotes: [],
+      images: [],
       prevChapter: null,
       nextChapter: { id: "ch-2", chapterNumber: 2, title: "My Mother's Death" },
     });

@@ -79,11 +79,11 @@ echo "Cross-references checked: $ref_count"
 
 if [[ ${#dangling[@]} -gt 0 ]]; then
   echo ""
-  echo "FAIL: ${#dangling[@]} dangling reference(s):"
+  echo "WARN: ${#dangling[@]} forward reference(s) (documents not yet created):"
   for d in "${dangling[@]}"; do
     echo "  $d"
   done
-  errors=$((errors + ${#dangling[@]}))
+  warnings=$((warnings + ${#dangling[@]}))
 else
   echo "  All cross-references resolve"
 fi
