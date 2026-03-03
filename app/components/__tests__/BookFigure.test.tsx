@@ -14,7 +14,7 @@ vi.mock("@/app/components/AdaptiveImage", () => ({
       alt={props.alt as string}
       width={props.width as number}
       height={props.height as number}
-      loading={props.loading as string}
+      loading={props.loading as "eager" | "lazy" | undefined}
       className={props.className as string}
     />
   ),
