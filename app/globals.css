@@ -699,6 +699,76 @@ body {
   }
 }
 
+/* ── Golden thread accents — Related Teachings (ADR-050) ──────── */
+/* Paragraphs with cross-chapter connections get a subtle gold left
+ * accent — a literal golden thread in the margin. CSS-only visual,
+ * no JavaScript positioning required. box-shadow avoids layout shift
+ * so all paragraph text stays perfectly aligned. */
+
+.golden-thread-passage {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 22%, transparent);
+  transition: box-shadow 0.4s ease;
+}
+
+/* Desktop: settled paragraph (whose relations show in the side panel)
+ * gets a stronger accent, visually connecting text to panel */
+@media (min-width: 1024px) {
+  .golden-thread-passage[data-thread-active] {
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 55%, transparent);
+  }
+}
+
+/* Mobile/tablet: tappable left-margin zone opens the bottom sheet */
+@media (hover: none) and (pointer: coarse) {
+  .golden-thread-passage {
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 30%, transparent);
+  }
+  .golden-thread-passage:active {
+    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 65%, transparent);
+  }
+}
+
+/* Side panel content transition — gentle fade when settled paragraph changes */
+@keyframes thread-panel-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.thread-panel-fade {
+  animation: thread-panel-in 0.3s ease-out;
+}
+
+/* Bottom sheet entrance — slide up from bottom */
+@keyframes thread-sheet-up {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+.thread-sheet-enter {
+  animation: thread-sheet-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Backdrop fade */
+@keyframes thread-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.thread-backdrop-enter {
+  animation: thread-backdrop-in 0.2s ease-out;
+}
+
+/* Hide golden thread accents in focus/present/quiet modes — calm technology */
+[data-mode="focus"] .golden-thread-passage,
+[data-mode="present"] .golden-thread-passage,
+[data-mode="quiet"] .golden-thread-passage {
+  box-shadow: none !important;
+}
+
+/* Print: hide golden thread accents */
+@media print {
+  .golden-thread-passage {
+    box-shadow: none !important;
+  }
+}
+
 /* ── Reduced motion — M2a-8 (ADR-003) ─────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

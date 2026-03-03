@@ -337,12 +337,14 @@ export default async function ChapterPage({
                     );
                     imageIdx++;
                   }
+                  const hasThread = (chapterRelations.paragraphs[para.id]?.length ?? 0) > 0;
                   elements.push(
                     <p
                       key={para.id}
                       id={`p-${i}`}
                       data-paragraph={i}
-                      className="text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]"
+                      data-has-thread={hasThread || undefined}
+                      className={`text-base leading-[1.8] text-srf-navy md:text-[1.125rem] md:leading-[1.85]${hasThread ? ' golden-thread-passage' : ''}`}
                     >
                       <RichText
                         text={para.content}

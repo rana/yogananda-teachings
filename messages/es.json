@@ -27,7 +27,7 @@
   "home": {
     "todaysWisdom": "Sabiduría de Hoy",
     "showAnother": "Mostrar otra",
-    "readInContext": "Leer en contexto",
+    "readInContext": "Leer en el capítulo",
     "continueReading": "Continúa donde lo dejaste",
     "searchPrompt": "¿Qué dijo Yogananda sobre...?",
     "searchButton": "Buscar",
@@ -185,7 +185,7 @@
   },
   "passage": {
     "fromBook": "De {book}",
-    "readInContext": "Leer en contexto",
+    "readInContext": "Leer en el capítulo",
     "bookInvitation": "Este pasaje es de {book} — explore el texto completo libremente.",
     "exploreBook": "Explorar el libro",
     "searchTeachings": "Buscar en las enseñanzas"

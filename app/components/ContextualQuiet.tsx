@@ -74,12 +74,9 @@ export function ContextualQuiet({
           targetTextRef.current = target.textContent || "";
           targetIdRef.current = target.id || "";
         }
-      } else {
-        // If dwell deactivated while in quiet mode, exit quiet mode
-        if (!isActive) {
-          exitQuietMode();
-        }
       }
+      // Quiet mode manages its own lifecycle — dwell deactivation
+      // should not force-exit quiet mode (the user chose to pause).
     });
 
     observer.observe(article, {
@@ -136,6 +133,8 @@ export function ContextualQuiet({
     setTimerActive(false);
     setTimerComplete(false);
     setBookmarked(false);
+    // Cleanly transition out of dwell — quiet mode takes over
+    window.dispatchEvent(new CustomEvent("srf:dwell-exit"));
   }, []);
 
   // ── Exit quiet mode ────────────────────────────────────────────
@@ -226,23 +225,11 @@ export function ContextualQuiet({
         role="dialog"
         aria-label={t("pauseWithThis")}
         data-testid="contextual-quiet"
-        className="fixed inset-0 z-40 flex items-center justify-center px-4"
+        data-dwell-ui
+        className={`fixed inset-0 z-40 flex items-center justify-center px-4${timerActive ? " cursor-pointer" : ""}`}
         style={{ background: "var(--color-warm-cream)" }}
-        onClick={(e) => {
-          // Clicking the overlay background exits quiet mode during active timer
-          if (timerActive && e.target === e.currentTarget) {
-            exitQuietMode();
-          } else {
-            e.stopPropagation();
-          }
-        }}
-        onTouchEnd={(e) => {
-          if (timerActive && e.target === e.currentTarget) {
-            exitQuietMode();
-          } else {
-            e.stopPropagation();
-          }
-        }}
+        onClick={timerActive ? exitQuietMode : (e) => e.stopPropagation()}
+        onTouchEnd={timerActive ? () => exitQuietMode() : (e) => e.stopPropagation()}
       >
         <div className="mx-auto max-w-xl text-center">
           {/* The dwelled passage as affirmation */}
@@ -252,9 +239,8 @@ export function ContextualQuiet({
 
           {/* Timer section */}
           {timerActive ? (
-            <button
-              onClick={exitQuietMode}
-              className="mt-12 cursor-pointer border-none bg-transparent p-4"
+            <div
+              className="mt-12 p-4"
               role="timer"
               aria-live="off"
               aria-label={formatTime(secondsRemaining)}
@@ -266,7 +252,7 @@ export function ContextualQuiet({
                 {formatTime(secondsRemaining)}
               </p>
               <p className="mt-3 text-xs text-srf-navy/20">{t("quietTapToEnd")}</p>
-            </button>
+            </div>
           ) : timerComplete ? (
             <div
               className="mt-12 space-y-4"
@@ -322,6 +308,7 @@ export function ContextualQuiet({
     <div
       className="fixed inset-x-0 bottom-8 z-30 flex items-center justify-center gap-3"
       data-testid="pause-with-this-container"
+      data-dwell-ui
       onClick={(e) => e.stopPropagation()}
       onTouchEnd={(e) => e.stopPropagation()}
     >

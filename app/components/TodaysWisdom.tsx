@@ -64,37 +64,37 @@ export function TodaysWisdom({ passage: initial }: Props) {
     <section aria-label={t("todaysWisdom")}>
       <div className="py-8 md:py-12">
         {/* Passage */}
-        <blockquote className="text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
+        <blockquote className="font-serif text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
           &ldquo;{passage.content.trim()}&rdquo;
         </blockquote>
 
         {/* Attribution (PRI-02) */}
-        <footer className="mt-4 text-sm text-srf-navy/60">
+        <footer className="mt-4 font-serif text-sm leading-normal text-srf-navy/50">
           <cite className="not-italic">
             — {passage.bookAuthor},{" "}
             <NextLink
-              href={`/${locale}/books/${passage.bookSlug}`}
-              className="underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"
+              href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
+              className="underline decoration-srf-navy/20 underline-offset-2 transition-colors hover:text-srf-navy hover:decoration-srf-gold/40"
             >
               <em>{passage.bookTitle}</em>
+              {passage.pageNumber && `, p. ${passage.pageNumber}`}
             </NextLink>
-            {passage.pageNumber && `, p. ${passage.pageNumber}`}
           </cite>
         </footer>
 
         {/* Actions */}
-        <div className="mt-6 flex items-center gap-4">
+        <div className="mt-8 flex items-center justify-center gap-6">
           <button
             onClick={fetchAnother}
             disabled={loading}
-            className="min-h-11 min-w-11 rounded px-3 py-1.5 text-sm text-srf-navy/50 transition-colors hover:text-srf-navy disabled:opacity-50"
+            className="min-h-11 min-w-11 font-sans text-sm text-srf-navy/40 transition-colors hover:text-srf-navy/60 disabled:opacity-50"
             aria-label={t("showAnother")}
           >
             {loading ? "..." : t("showAnother")}
           </button>
           <NextLink
             href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
-            className="min-h-11 inline-flex items-center rounded px-3 py-1.5 text-sm text-srf-gold/70 transition-colors hover:text-srf-gold"
+            className="min-h-11 inline-flex items-center font-sans text-sm text-srf-navy/40 transition-colors hover:text-srf-navy/60"
           >
             {t("readInContext")}
           </NextLink>

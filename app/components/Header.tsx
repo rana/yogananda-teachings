@@ -12,7 +12,7 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import { ReaderSettings } from "./ReaderSettings";
-import { SrfLotus } from "./SrfLotus";
+import { SrfEmblem } from "./SrfEmblem";
 import { NewBooksIndicator } from "./NewBooksIndicator";
 
 export function Header() {
@@ -39,8 +39,8 @@ export function Header() {
           className="font-serif text-lg text-srf-navy transition-colors hover:text-srf-gold"
           aria-label={t("home")}
         >
-          {/* Lotus mark — minimal wordmark */}
-          <SrfLotus className="inline-block w-5 h-5 text-srf-gold" />
+          {/* SRF tri-lotus star — brand mark */}
+          <SrfEmblem className="inline-block h-6 w-auto text-srf-gold" />
           <span className="ml-1.5 hidden text-sm font-normal sm:inline">
             Teachings
           </span>

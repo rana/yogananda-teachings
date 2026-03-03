@@ -143,6 +143,8 @@ export function DwellMode() {
       const target = e.target as HTMLElement;
       // Let links within the passage work normally (footnotes, etc.)
       if (target.closest("a")) return;
+      // Don't deactivate when clicking dwell UI (e.g., "Pause with this")
+      if (target.closest("[data-dwell-ui]")) return;
       deactivateDwell();
     }
 

@@ -5,13 +5,17 @@
  *
  * The golden thread: surfaces cross-chapter connections as you read.
  * Desktop: sticky side panel that updates as you settle into a passage.
- * Mobile: golden lotus indicators in paragraph margins, bottom sheet on tap.
+ * Mobile: golden thread left-accents on paragraphs, bottom sheet on tap.
  *
  * Design principles:
  * - Settle, don't scan (1.2s debounce — spiritual design choice, not performance)
  * - Silence when appropriate (empty state is intentional white space)
  * - The technology disappears (batch-prefetched, zero client-side fetching)
  * - Surprise over similarity (contextual labels honor the spirit)
+ *
+ * Golden thread accents are CSS-only (server-rendered via page.tsx).
+ * This component adds: settled-paragraph marking (desktop), tap handling
+ * (mobile), side panel transitions, and bottom sheet interaction.
  */
 
 import {
@@ -136,6 +140,8 @@ function PassageCard({
     settledChunkId: string | null;
   };
 }) {
+  const [navigating, setNavigating] = useState(false);
+
   // Truncate content for display
   const displayContent =
     passage.content.length > 160
@@ -143,6 +149,7 @@ function PassageCard({
       : passage.content;
 
   const handleReadClick = useCallback(() => {
+    setNavigating(true);
     sendResonance(passage.id, "traverse");
     // Push current position to thread stack so the seeker can return
     if (currentContext.settledChunkId) {
@@ -156,7 +163,7 @@ function PassageCard({
   }, [passage.id, currentContext]);
 
   return (
-    <div className="group rounded-lg border border-srf-navy/8 bg-(--theme-surface) p-3 transition-colors hover:border-srf-gold/30">
+    <div className={`group rounded-lg border p-3 transition-all duration-200 ${navigating ? 'border-srf-gold/50 bg-srf-gold/5' : 'border-srf-navy/8 bg-(--theme-surface) hover:border-srf-gold/30'}`}>
       {/* Contextual label — the soul of Related Teachings */}
       {passage.relationLabel && (
         <p className="mb-1.5 text-xs font-medium text-srf-gold/80 italic">
@@ -169,7 +176,7 @@ function PassageCard({
         &ldquo;{displayContent}&rdquo;
       </blockquote>
 
-      {/* Citation */}
+      {/* Citation + Read link */}
       <footer className="flex items-center gap-1.5 text-xs text-srf-navy/45">
         <span>Ch. {passage.chapterNumber}</span>
         {passage.pageNumber && (
@@ -180,10 +187,10 @@ function PassageCard({
         )}
         <NextLink
           href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
-          className="ml-auto text-srf-gold/70 transition-colors hover:text-srf-gold min-h-[44px] inline-flex items-center"
+          className={`ml-auto transition-colors min-h-[44px] inline-flex items-center ${navigating ? 'text-srf-gold font-medium' : 'text-srf-gold/70 hover:text-srf-gold'}`}
           onClick={handleReadClick}
         >
-          Read
+          {navigating ? "Opening\u2026" : "Read"}
         </NextLink>
       </footer>
     </div>
@@ -249,9 +256,12 @@ function SidePanel({
       {/* Continue the Thread — chapter-level connections */}
       {thread.length > 0 && (
         <div className="border-t border-srf-navy/8 pt-4">
-          <h4 className="mb-2 text-xs font-semibold tracking-wide text-srf-navy/40 uppercase">
+          <h4 className="mb-0.5 text-xs font-semibold tracking-wide text-srf-navy/40 uppercase">
             Continue the Thread
           </h4>
+          <p className="mb-2 text-[11px] leading-snug text-srf-navy/30">
+            Chapters where these ideas continue
+          </p>
           <ul className="space-y-1.5">
             {thread.map((t) => (
               <li key={`${t.bookSlug}-${t.chapterNumber}`}>
@@ -259,7 +269,11 @@ function SidePanel({
                   href={`/${locale}/books/${t.bookSlug}/${t.chapterNumber}`}
                   className="flex items-baseline gap-2 rounded-md px-2 py-1.5 text-sm text-srf-navy/60 transition-colors hover:bg-srf-gold/5 hover:text-srf-navy min-h-[44px]"
                 >
-                  <span className="shrink-0 text-xs text-srf-gold/50">
+                  <span
+                    className="shrink-0 text-xs text-srf-gold/50"
+                    title={`${t.connectionCount} shared ${t.connectionCount === 1 ? 'theme' : 'themes'}`}
+                    aria-label={`${t.connectionCount} shared ${t.connectionCount === 1 ? 'theme' : 'themes'}`}
+                  >
                     {t.connectionCount}
                   </span>
                   <span className="line-clamp-2">
@@ -312,19 +326,19 @@ function BottomSheet({
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — animated fade */}
       <div
-        className="fixed inset-0 z-40 bg-srf-navy/20 backdrop-blur-[1px] transition-opacity"
+        className="thread-backdrop-enter fixed inset-0 z-40 bg-srf-navy/20 backdrop-blur-[1px]"
         onClick={onClose}
         aria-hidden="true"
       />
-      {/* Sheet */}
+      {/* Sheet — animated slide up */}
       <div
         ref={sheetRef}
         role="dialog"
         aria-modal="true"
         aria-label="Related Teachings"
-        className="fixed inset-x-0 bottom-0 z-50 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-srf-gold/20 bg-(--theme-surface) px-4 pb-8 pt-3 shadow-lg"
+        className="thread-sheet-enter fixed inset-x-0 bottom-0 z-50 max-h-[80vh] overflow-y-auto rounded-t-2xl border-t border-srf-gold/20 bg-(--theme-surface) px-4 pb-8 pt-3 shadow-lg"
       >
         {/* Drag handle visual */}
         <div className="mx-auto mb-4 h-1 w-10 rounded-full bg-srf-navy/15" />
@@ -337,70 +351,67 @@ function BottomSheet({
   );
 }
 
-// ── Golden Thread Indicators ────────────────────────────────────
+// ── Thread Tap Zone (Mobile/Tablet) ─────────────────────────────
 
 /**
- * Renders golden lotus bud indicators in the paragraph margin
- * for paragraphs that have related teachings.
- * Visible on mobile/tablet only (hidden on desktop where side panel shows).
+ * Event delegation for mobile/tablet paragraph taps.
+ * Replaces the old ThreadIndicators (floating fixed-position dots).
+ *
+ * The golden thread left-accents are CSS-only (server-rendered via
+ * .golden-thread-passage class in page.tsx). This component adds the
+ * tap interaction: tapping the left ~40px zone of an accented paragraph
+ * opens the bottom sheet.
+ *
+ * Zero scroll listeners. Zero getBoundingClientRect(). Zero fixed positioning.
  */
-function ThreadIndicators({
-  paragraphChunkIds,
-  relations,
+function ThreadTapZone({
   onTap,
 }: {
-  paragraphChunkIds: string[];
-  relations: Record<string, RelatedPassage[]>;
   onTap: (paragraphIndex: number) => void;
 }) {
-  const [positions, setPositions] = useState<
-    { index: number; top: number }[]
-  >([]);
+  const onTapRef = useRef(onTap);
+  onTapRef.current = onTap;
 
   useEffect(() => {
-    const update = () => {
-      const newPositions: { index: number; top: number }[] = [];
-      paragraphChunkIds.forEach((chunkId, i) => {
-        if (!relations[chunkId] || relations[chunkId].length === 0) return;
-        const el = document.querySelector(`[data-paragraph="${i}"]`);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        newPositions.push({
-          index: i,
-          top: rect.top + window.scrollY + 4, // 4px from top of paragraph
-        });
-      });
-      setPositions(newPositions);
+    // Only attach on touch devices (mobile/tablet)
+    const mql = window.matchMedia("(max-width: 1023px)");
+    if (!mql.matches) return;
+
+    const handleClick = (e: MouseEvent) => {
+      // Walk up from target to find an accented paragraph
+      const target = (e.target as HTMLElement).closest(
+        "[data-has-thread]",
+      ) as HTMLElement | null;
+      if (!target) return;
+
+      // Only trigger on the left margin zone (near the golden thread accent)
+      const rect = target.getBoundingClientRect();
+      const xInElement = e.clientX - rect.left;
+      if (xInElement > 40) return;
+
+      const idx = parseInt(target.dataset.paragraph || "-1", 10);
+      if (idx < 0) return;
+
+      e.preventDefault();
+      onTapRef.current(idx);
     };
 
-    update();
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update, { passive: true });
+    document.addEventListener("click", handleClick);
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!e.matches) {
+        document.removeEventListener("click", handleClick);
+      }
+    };
+    mql.addEventListener("change", handleChange);
+
     return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update);
+      document.removeEventListener("click", handleClick);
+      mql.removeEventListener("change", handleChange);
     };
-  }, [paragraphChunkIds, relations]);
+  }, []);
 
-  if (positions.length === 0) return null;
-
-  return (
-    <div className="pointer-events-none fixed left-0 top-0 z-10 lg:hidden" aria-hidden="true">
-      {positions.map((pos) => (
-        <button
-          key={pos.index}
-          type="button"
-          onClick={() => onTap(pos.index)}
-          className="pointer-events-auto absolute left-1 h-6 w-6 rounded-full"
-          style={{ top: pos.top }}
-          aria-label={`Related teachings for paragraph ${pos.index + 1}`}
-        >
-          {/* Golden lotus bud — 8px circle */}
-          <span className="block mx-auto h-2 w-2 rounded-full bg-srf-gold/60 transition-transform hover:scale-150" />
-        </button>
-      ))}
-    </div>
-  );
+  return null; // Pure behavior — no DOM
 }
 
 // ── Main Component ──────────────────────────────────────────────
@@ -417,6 +428,7 @@ export function RelatedTeachings({
   const settledIdx = useSettledParagraph();
   const [sheetOpen, setSheetOpen] = useState(false);
   const [sheetIdx, setSheetIdx] = useState<number | null>(null);
+  const prevSettledRef = useRef<number | null>(null);
 
   // Get the chunk ID and text for the settled paragraph
   const settledChunkId =
@@ -436,6 +448,26 @@ export function RelatedTeachings({
     if (el) {
       setSourceText(el.textContent?.slice(0, 100) ?? null);
     }
+  }, [settledIdx]);
+
+  // Mark the settled paragraph on desktop — visual connection to side panel.
+  // Adds/removes data-thread-active which CSS strengthens the gold accent.
+  useEffect(() => {
+    // Clear previous
+    if (prevSettledRef.current !== null) {
+      const prev = document.querySelector(
+        `[data-paragraph="${prevSettledRef.current}"]`,
+      );
+      if (prev) delete (prev as HTMLElement).dataset.threadActive;
+    }
+    // Set current
+    if (settledIdx !== null) {
+      const el = document.querySelector(
+        `[data-paragraph="${settledIdx}"]`,
+      );
+      if (el) (el as HTMLElement).dataset.threadActive = "";
+    }
+    prevSettledRef.current = settledIdx;
   }, [settledIdx]);
 
   // Bottom sheet: get passages for the tapped paragraph
@@ -472,23 +504,22 @@ export function RelatedTeachings({
         <h3 className="mb-4 text-xs font-semibold tracking-wide text-srf-navy/40 uppercase">
           Related Teachings
         </h3>
-        <SidePanel
-          passages={settledPassages}
-          thread={hasAnyRelations ? thread : []}
-          sourceText={sourceText}
-          locale={locale}
-          currentContext={currentContext}
-        />
+        {/* Key change triggers CSS fade animation on content swap */}
+        <div key={settledChunkId ?? "empty"} className="thread-panel-fade">
+          <SidePanel
+            passages={settledPassages}
+            thread={hasAnyRelations ? thread : []}
+            sourceText={sourceText}
+            locale={locale}
+            currentContext={currentContext}
+          />
+        </div>
       </aside>
 
-      {/* Mobile/tablet: golden thread indicators + bottom sheet */}
+      {/* Mobile/tablet: tap zone + bottom sheet */}
       {hasAnyRelations && (
         <>
-          <ThreadIndicators
-            paragraphChunkIds={paragraphChunkIds}
-            relations={relations}
-            onTap={handleIndicatorTap}
-          />
+          <ThreadTapZone onTap={handleIndicatorTap} />
           <BottomSheet
             isOpen={sheetOpen}
             onClose={() => setSheetOpen(false)}

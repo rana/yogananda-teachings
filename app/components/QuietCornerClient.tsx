@@ -132,8 +132,9 @@ export function QuietCornerClient({ passage: initial }: Props) {
   return (
     <main
       id="main-content"
-      className="flex min-h-screen flex-col items-center justify-center px-4"
+      className={`flex min-h-screen flex-col items-center justify-center px-4${timerActive ? " cursor-pointer" : ""}`}
       data-mode={timerActive ? "quiet" : undefined}
+      onClick={timerActive ? stopTimer : undefined}
     >
       <div className="mx-auto max-w-xl text-center">
         {/* Title — fades when timer active */}
@@ -164,9 +165,8 @@ export function QuietCornerClient({ passage: initial }: Props) {
 
         {/* Timer */}
         {timerActive ? (
-          <button
-            onClick={stopTimer}
-            className="mt-12 cursor-pointer border-none bg-transparent p-4"
+          <div
+            className="mt-12 p-4"
             role="timer"
             aria-live="off"
             aria-label={t("timerRunning")}
@@ -175,7 +175,7 @@ export function QuietCornerClient({ passage: initial }: Props) {
               {formatTime(secondsRemaining)}
             </p>
             <p className="mt-3 text-xs text-srf-navy/20">{t("tapToEnd")}</p>
-          </button>
+          </div>
         ) : timerComplete ? (
           <div className="mt-12 space-y-4" role="status" aria-live="polite">
             <p className="text-sm text-srf-gold">{t("timerComplete")}</p>

@@ -329,6 +329,27 @@ describe("QuietCornerClient", () => {
     expect(timer.textContent).toContain("4:05");
   });
 
+  // ── Tap anywhere to end ───────────────────────────────────────
+
+  it("clicking anywhere on the page stops the timer", () => {
+    render(<QuietCornerClient passage={samplePassage} />);
+
+    act(() => {
+      fireEvent.click(screen.getByText("quiet.timer1"));
+    });
+
+    expect(screen.getByRole("timer")).toBeInTheDocument();
+
+    // Click the main element (not the timer specifically)
+    act(() => {
+      fireEvent.click(screen.getByRole("main"));
+    });
+
+    // Timer should be stopped, back to initial state with timer options
+    expect(screen.queryByRole("timer")).toBeNull();
+    expect(screen.getByText("quiet.timer1")).toBeInTheDocument();
+  });
+
   // ── Heading visibility ─────────────────────────────────────────
 
   it("hides heading when timer is active", () => {
