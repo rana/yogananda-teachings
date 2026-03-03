@@ -3,9 +3,12 @@
  *
  * On first visit per browser session, the homepage displays a brief
  * lotus threshold before content appears:
- * - Warm cream background with SRF lotus SVG (~40px, gold at 30% opacity)
+ * - Warm cream background with detailed SRF lotus (gold at 20% opacity)
  * - After 800ms, lotus fades out over 400ms while content fades in
  * - Total: ~1.2 seconds. No text, no logo, no loading message. Just a breath.
+ *
+ * Uses the detailed member-portal lotus (18KB SVG, CDN-cached, preloaded
+ * in root layout) for a more reverent "entering the temple" moment.
  *
  * Constraints:
  * - First visit only per session (sessionStorage)
@@ -18,7 +21,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { SrfLotus } from "./SrfLotus";
+import { SrfLotusDetailed } from "./SrfLotusDetailed";
 
 const SESSION_KEY = "srf-threshold-shown";
 
@@ -93,7 +96,7 @@ export function OpeningMoment({ children }: { children: React.ReactNode }) {
           pointerEvents: "none",
         }}
       >
-        <SrfLotus className="w-10 h-10 text-srf-gold opacity-30" />
+        <SrfLotusDetailed className="w-32 text-srf-gold opacity-25" />
       </div>
       {/* Content behind the overlay, fading in */}
       <div

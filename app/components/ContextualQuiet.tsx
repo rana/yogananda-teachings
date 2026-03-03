@@ -228,8 +228,21 @@ export function ContextualQuiet({
         data-testid="contextual-quiet"
         className="fixed inset-0 z-40 flex items-center justify-center px-4"
         style={{ background: "var(--color-warm-cream)" }}
-        onClick={(e) => e.stopPropagation()}
-        onTouchEnd={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          // Clicking the overlay background exits quiet mode during active timer
+          if (timerActive && e.target === e.currentTarget) {
+            exitQuietMode();
+          } else {
+            e.stopPropagation();
+          }
+        }}
+        onTouchEnd={(e) => {
+          if (timerActive && e.target === e.currentTarget) {
+            exitQuietMode();
+          } else {
+            e.stopPropagation();
+          }
+        }}
       >
         <div className="mx-auto max-w-xl text-center">
           {/* The dwelled passage as affirmation */}
@@ -239,8 +252,9 @@ export function ContextualQuiet({
 
           {/* Timer section */}
           {timerActive ? (
-            <div
-              className="mt-12"
+            <button
+              onClick={exitQuietMode}
+              className="mt-12 cursor-pointer border-none bg-transparent p-4"
               role="timer"
               aria-live="off"
               aria-label={formatTime(secondsRemaining)}
@@ -251,7 +265,8 @@ export function ContextualQuiet({
               >
                 {formatTime(secondsRemaining)}
               </p>
-            </div>
+              <p className="mt-3 text-xs text-srf-navy/20">{t("quietTapToEnd")}</p>
+            </button>
           ) : timerComplete ? (
             <div
               className="mt-12 space-y-4"

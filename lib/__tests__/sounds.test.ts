@@ -96,11 +96,11 @@ describe("sounds", () => {
   });
 
   describe("singingBowl", () => {
-    it("creates detuned partial pairs (8 oscillators for 4 partials)", () => {
+    it("creates detuned partial pairs (12 oscillators for 6 partials)", () => {
       singingBowl();
 
-      // 4 partials × 2 detuned oscillators each = 8
-      expect(oscillators).toHaveLength(8);
+      // 6 partials × 2 detuned oscillators each = 12
+      expect(oscillators).toHaveLength(12);
     });
 
     it("uses sine wave oscillators", () => {
@@ -111,15 +111,15 @@ describe("sounds", () => {
       }
     });
 
-    it("sets G3 base frequency (196 Hz) for the fundamental pair", () => {
+    it("sets OM frequency base (136.1 Hz) for the fundamental pair", () => {
       singingBowl();
 
-      // First two oscillators are the fundamental pair, detuned ±0.25 Hz
+      // First two oscillators are the fundamental pair, detuned ±0.15 Hz
       const fundamentalFreqs = oscillators
         .slice(0, 2)
         .map((o) => o.frequency.value);
-      expect(fundamentalFreqs[0]).toBeCloseTo(196 - 0.25, 1);
-      expect(fundamentalFreqs[1]).toBeCloseTo(196 + 0.25, 1);
+      expect(fundamentalFreqs[0]).toBeCloseTo(136.1 - 0.15, 1);
+      expect(fundamentalFreqs[1]).toBeCloseTo(136.1 + 0.15, 1);
     });
 
     it("creates gain envelope with bloom (attack → peak → decay)", () => {
@@ -157,7 +157,7 @@ describe("sounds", () => {
       singingBowl();
 
       expect(mockClose).not.toHaveBeenCalled();
-      vi.advanceTimersByTime(8500); // 8s duration + 0.5s buffer
+      vi.advanceTimersByTime(14500); // 14s duration + 0.5s buffer
       expect(mockClose).toHaveBeenCalled();
     });
 
@@ -176,36 +176,39 @@ describe("sounds", () => {
   });
 
   describe("templeBell", () => {
-    it("creates 4 bell partials (primary, octave, grace note, undertone)", () => {
+    it("creates detuned partial pairs (16 oscillators for 8 partials)", () => {
       templeBell();
 
-      // 4 single oscillators (no detuned pairs — clean bell ring)
-      expect(oscillators).toHaveLength(4);
+      // 8 partials × 2 detuned oscillators each = 16
+      expect(oscillators).toHaveLength(16);
     });
 
-    it("uses E5 (659 Hz) as primary frequency", () => {
+    it("uses 528 Hz Solfeggio as fundamental frequency", () => {
       templeBell();
 
-      expect(oscillators[0].frequency.value).toBeCloseTo(659.3, 0);
+      // The undertone (264 Hz) pair is first, then the 528 Hz fundamental pair
+      // Fundamental pair: oscillators at indices 2 and 3, detuned ±0.2 Hz
+      const fundamentalFreqs = oscillators
+        .slice(2, 4)
+        .map((o) => o.frequency.value);
+      expect(fundamentalFreqs[0]).toBeCloseTo(528 - 0.2, 0);
+      expect(fundamentalFreqs[1]).toBeCloseTo(528 + 0.2, 0);
     });
 
-    it("includes grace note at major third above (G#5)", () => {
+    it("includes grace note at 639 Hz (Solfeggio Connection frequency)", () => {
       templeBell();
 
-      const graceNoteFreq = 659.3 * 1.25;
       const freqs = oscillators.map((o) => o.frequency.value);
-      const hasGraceNote = freqs.some((f) => Math.abs(f - graceNoteFreq) < 1);
+      // 639 Hz pair, detuned ±0.25
+      const hasGraceNote = freqs.some((f) => Math.abs(f - 639) < 1);
       expect(hasGraceNote).toBe(true);
     });
 
-    it("includes warm undertone at octave below (E4)", () => {
+    it("includes warm undertone at octave below (264 Hz)", () => {
       templeBell();
 
-      const undertoneFreq = 659.3 / 2;
       const freqs = oscillators.map((o) => o.frequency.value);
-      const hasUndertone = freqs.some(
-        (f) => Math.abs(f - undertoneFreq) < 1,
-      );
+      const hasUndertone = freqs.some((f) => Math.abs(f - 264) < 1);
       expect(hasUndertone).toBe(true);
     });
 
@@ -220,6 +223,14 @@ describe("sounds", () => {
       templeBell();
 
       expect(gainNodes[0].gain.value).toBe(0.15);
+    });
+
+    it("schedules AudioContext cleanup", () => {
+      templeBell();
+
+      expect(mockClose).not.toHaveBeenCalled();
+      vi.advanceTimersByTime(12500); // 12s duration + 0.5s buffer
+      expect(mockClose).toHaveBeenCalled();
     });
   });
 });

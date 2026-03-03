@@ -14,6 +14,9 @@
  * Volume capped at 15% per M2a-14 (ADR-074).
  * Progressive enhancement: silent if Web Audio unavailable (PRI-05).
  * Respects prefers-reduced-motion (PRI-07).
+ *
+ * Solfeggio tuning: temple bell rooted at 528 Hz ("Love Frequency"),
+ * singing bowl at 136.1 Hz (OM frequency / "cosmic keynote").
  */
 
 // ── Singing bowl ──────────────────────────────────────────────────
@@ -27,7 +30,11 @@
  * its partner, producing the characteristic slow amplitude
  * modulation — the "shimmer" that makes bowls sound alive.
  *
- * G3 (196 Hz) fundamental: warm and grounding without muddiness.
+ * 136.1 Hz fundamental (C#3): the "OM frequency" — the cosmic
+ * keynote used in Indian classical tuning (sa). Deep, grounding,
+ * resonant without muddiness. Lower than the previous G3 (196 Hz)
+ * for a more meditative, oceanic quality.
+ *
  * Higher partials decay faster than the fundamental, creating
  * a natural thinning — brightness at the strike, warmth in the tail.
  */
@@ -37,17 +44,17 @@ export function singingBowl(volume = 0.15): void {
   try {
     const ctx = new AudioContext();
     const now = ctx.currentTime;
-    const duration = 8; // Room for fundamental (τ=2.2s) to decay naturally
+    const duration = 14; // Long, oceanic sustain
 
     const master = ctx.createGain();
     master.gain.value = volume;
 
     // Fade curtain — smooth ending regardless of partial decay state.
-    // Holds at full volume, then fades over the final 1.5s so the
+    // Holds at full volume, then fades over the final 2.5s so the
     // ringing gradually subsides rather than clipping at the boundary.
     const curtain = ctx.createGain();
     curtain.gain.setValueAtTime(1, now);
-    curtain.gain.setValueAtTime(1, now + duration - 1.5);
+    curtain.gain.setValueAtTime(1, now + duration - 2.5);
     curtain.gain.linearRampToValueAtTime(0, now + duration);
     curtain.connect(ctx.destination);
     master.connect(curtain);
@@ -56,13 +63,15 @@ export function singingBowl(volume = 0.15): void {
     // [freq ratio, amplitude, decay τ (s), beat rate (Hz)]
     // Beat rate = frequency difference between the detuned pair.
     const partials: [number, number, number, number][] = [
-      [1, 0.50, 2.2, 0.5], // Fundamental — deep, slow shimmer
-      [2.71, 0.25, 1.6, 1.0], // 1st overtone — warm
-      [4.78, 0.12, 1.0, 1.5], // 2nd overtone — gentle brightness
-      [5.35, 0.06, 0.7, 2.0], // 3rd overtone — air
+      [1, 0.40, 4.5, 0.3], // Fundamental — deep, very slow shimmer
+      [2.71, 0.18, 3.0, 0.7], // 1st overtone — warm body
+      [3.56, 0.08, 2.2, 1.0], // 2nd overtone — midrange presence
+      [4.78, 0.10, 1.8, 1.2], // 3rd overtone — gentle brightness
+      [5.35, 0.05, 1.2, 1.5], // 4th overtone — air
+      [7.12, 0.03, 0.8, 2.0], // 5th overtone — high shimmer
     ];
 
-    const baseFreq = 196; // G3
+    const baseFreq = 136.1; // OM frequency (C#3)
 
     for (const [ratio, amp, decay, beat] of partials) {
       const freq = baseFreq * ratio;
@@ -99,18 +108,26 @@ export function singingBowl(volume = 0.15): void {
 // ── Temple bell ────────────────────────────────────────────────────
 
 /**
- * Temple bell (ghanta) — clear, hopeful, with gentle resonance.
+ * Temple bell (ghanta) — luminous, resonant, with rich harmonics.
  * Used to close a meditation timer.
  *
- * Warmer and more consonant than a Western church bell.
- * The "hope" comes from three acoustic choices:
- * 1. A grace note at the major third above, entering slightly
- *    after the primary strike — an ascending interval that lifts.
- * 2. A soft undertone an octave below that grounds the brightness.
- * 3. Clean harmonic overtones (not inharmonic like the bowl) —
- *    the clarity reads as resolution after the bowl's complexity.
+ * Rooted at 528 Hz — the Solfeggio "Love Frequency" (Miracle Tone).
+ * Associated with DNA repair, cortisol reduction, and deep inner
+ * peace. The choice is both acoustically warm and spiritually aligned
+ * with the portal's contemplative purpose.
  *
- * E5 (659 Hz) primary: bright enough to signal, not harsh.
+ * Rich harmonic structure with 8 partials (detuned pairs for shimmer)
+ * modeled on real temple bell acoustics:
+ * - Inharmonic partial ratios characteristic of bell metal
+ * - Each partial is a detuned pair for natural beating/shimmer
+ * - Grace note at 639 Hz (Solfeggio "Connection" frequency) enters
+ *   slightly after the primary strike — an ascending lift
+ * - Deep undertone at 264 Hz (octave below) grounds the brightness
+ * - Duration: 12s for full, unhurried ring-out
+ *
+ * Previous version used pure sine waves at exact harmonic ratios
+ * with no shimmer. This version brings the bell alive with the same
+ * detuned-pair technique that makes the singing bowl organic.
  */
 export function templeBell(volume = 0.15): void {
   if (prefersQuiet()) return;
@@ -118,33 +135,66 @@ export function templeBell(volume = 0.15): void {
   try {
     const ctx = new AudioContext();
     const now = ctx.currentTime;
-    const duration = 6; // Room for undertone (τ=2.0s) to decay naturally
+    const duration = 12; // Full, unhurried ring-out
 
     const master = ctx.createGain();
     master.gain.value = volume;
 
-    // Fade curtain — smooth ending so the bell ring subsides naturally
+    // Fade curtain — smooth ending so the bell ring subsides naturally.
+    // Longer fade (2s) prevents any clipping at the tail boundary.
     const curtain = ctx.createGain();
     curtain.gain.setValueAtTime(1, now);
-    curtain.gain.setValueAtTime(1, now + duration - 1.0);
+    curtain.gain.setValueAtTime(1, now + duration - 2.0);
     curtain.gain.linearRampToValueAtTime(0, now + duration);
     curtain.connect(ctx.destination);
     master.connect(curtain);
 
-    const primary = 659.3; // E5
+    // Bell partials — detuned pairs for natural shimmer.
+    // [frequency (Hz), amplitude, decay τ (s), beat rate (Hz), delay (s)]
+    // Based on temple bell (ghanta) measured spectra with Solfeggio tuning.
+    const bellPartials: [number, number, number, number, number][] = [
+      // Deep undertone — octave below, grounds the brightness
+      [264, 0.10, 4.0, 0.2, 0],
+      // Fundamental — 528 Hz "Love Frequency", warm and present
+      [528, 0.30, 3.5, 0.4, 0],
+      // Grace note — 639 Hz Solfeggio "Connection", enters a breath later
+      // The ascending interval from 528→639 is the heart of the hopeful quality
+      [639, 0.12, 2.5, 0.5, 0.06],
+      // First overtone — warm body (inharmonic bell ratio ~2.09)
+      [1103, 0.08, 2.0, 0.8, 0],
+      // Second overtone — bright presence (ratio ~2.56)
+      [1352, 0.05, 1.5, 1.0, 0],
+      // Third overtone — shimmer (ratio ~3.0)
+      [1584, 0.03, 1.0, 1.2, 0.01],
+      // High sparkle — very soft, adds air
+      [2112, 0.015, 0.7, 1.5, 0],
+      // Highest partial — ghost of the strike
+      [2640, 0.008, 0.4, 2.0, 0],
+    ];
 
-    // Primary bell strike — clear and present
-    bellPartial(ctx, master, now, primary, 0.40, 1.8, duration);
+    for (const [freq, amp, decay, beat, delay] of bellPartials) {
+      const startTime = now + delay;
 
-    // Octave shimmer — soft sparkle above
-    bellPartial(ctx, master, now, primary * 2, 0.06, 0.8, duration);
+      // Each partial is a detuned pair for natural beating/shimmer
+      for (const offset of [-beat / 2, beat / 2]) {
+        const osc = ctx.createOscillator();
+        const env = ctx.createGain();
 
-    // Grace note — major third above (G#5), enters a breath later.
-    // This ascending interval is the heart of the hopeful quality.
-    bellPartial(ctx, master, now + 0.06, primary * 1.25, 0.15, 1.3, duration);
+        osc.type = "sine";
+        osc.frequency.value = freq + offset;
 
-    // Warm undertone — octave below (E4), very soft, grounds the sound
-    bellPartial(ctx, master, now, primary / 2, 0.10, 2.0, duration);
+        // Bell envelope: silence → crisp strike → ring → exponential decay
+        env.gain.setValueAtTime(0.001, startTime);
+        env.gain.linearRampToValueAtTime(amp, startTime + 0.005); // crisp strike
+        env.gain.linearRampToValueAtTime(amp * 0.85, startTime + 0.04); // slight dip after strike
+        env.gain.setTargetAtTime(0, startTime + 0.05, decay); // ring and fade
+
+        osc.connect(env);
+        env.connect(master);
+        osc.start(startTime);
+        osc.stop(startTime + duration);
+      }
+    }
 
     scheduleCleanup(ctx, duration);
   } catch {
@@ -153,33 +203,6 @@ export function templeBell(volume = 0.15): void {
 }
 
 // ── Internals ─────────────────────────────────────────────────────
-
-/** Single bell partial with crisp-strike → ring → decay envelope. */
-function bellPartial(
-  ctx: AudioContext,
-  destination: AudioNode,
-  startTime: number,
-  frequency: number,
-  amplitude: number,
-  decayTau: number,
-  duration: number,
-): void {
-  const osc = ctx.createOscillator();
-  const env = ctx.createGain();
-
-  osc.type = "sine";
-  osc.frequency.value = frequency;
-
-  // Bell envelope: instant strike → ring → exponential decay
-  env.gain.setValueAtTime(0.001, startTime);
-  env.gain.linearRampToValueAtTime(amplitude, startTime + 0.008); // crisp strike
-  env.gain.setTargetAtTime(0, startTime + 0.01, decayTau); // ring and fade
-
-  osc.connect(env);
-  env.connect(destination);
-  osc.start(startTime);
-  osc.stop(startTime + duration);
-}
 
 function prefersQuiet(): boolean {
   if (typeof window === "undefined") return false;

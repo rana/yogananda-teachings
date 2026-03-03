@@ -26,6 +26,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang={locale} dir="ltr">
       <head>
+        {/* Preload detailed lotus SVG for Opening Moment threshold */}
+        <link rel="preload" href="/brand/srf-lotus-detailed.svg" as="image" type="image/svg+xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

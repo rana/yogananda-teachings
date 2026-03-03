@@ -131,12 +131,7 @@ export default async function BooksPage({
                       {localeNames[book.language as Locale] || book.language}
                     </span>
                   </div>
-                  {book.bookstoreUrl && (
-                    <p className="mt-2 text-xs text-srf-gold">
-                      {t("bookstoreLink")}
-                    </p>
-                  )}
-                </Link>
+                  </Link>
               ))}
             </div>
 

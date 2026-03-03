@@ -40,6 +40,23 @@ export function QuietCornerClient({ passage: initial }: Props) {
     };
   }, []);
 
+  // Escape key stops active timer
+  useEffect(() => {
+    if (!timerActive) return;
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        intervalRef.current = null;
+        setTimerActive(false);
+        setSecondsRemaining(0);
+      }
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [timerActive]);
+
   const startTimer = useCallback((seconds: number) => {
     setTimerActive(true);
     setTimerComplete(false);
@@ -61,6 +78,13 @@ export function QuietCornerClient({ passage: initial }: Props) {
         return prev - 1;
       });
     }, 1000);
+  }, []);
+
+  const stopTimer = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = null;
+    setTimerActive(false);
+    setSecondsRemaining(0);
   }, []);
 
   const fetchAnother = useCallback(async () => {
@@ -124,21 +148,34 @@ export function QuietCornerClient({ passage: initial }: Props) {
           &ldquo;{passage.content.trim()}&rdquo;
         </blockquote>
 
-        {/* Attribution (PRI-02) */}
+        {/* Attribution (PRI-02) — links to book chapter for context */}
         <footer className="mt-4 text-sm text-srf-navy/50">
           <cite className="not-italic">
-            — {passage.bookAuthor}, <em>{passage.bookTitle}</em>
-            {passage.pageNumber && `, p. ${passage.pageNumber}`}
+            — {passage.bookAuthor},{" "}
+            <Link
+              href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
+              className="underline decoration-srf-navy/20 underline-offset-2 transition-colors hover:text-srf-navy hover:decoration-srf-gold/40"
+            >
+              <em>{passage.bookTitle}</em>
+              {passage.pageNumber && `, p. ${passage.pageNumber}`}
+            </Link>
           </cite>
         </footer>
 
         {/* Timer */}
         {timerActive ? (
-          <div className="mt-12" role="timer" aria-live="off" aria-label={t("timerRunning")}>
+          <button
+            onClick={stopTimer}
+            className="mt-12 cursor-pointer border-none bg-transparent p-4"
+            role="timer"
+            aria-live="off"
+            aria-label={t("timerRunning")}
+          >
             <p className="font-sans text-3xl tabular-nums text-srf-navy/30" aria-label={`${Math.floor(secondsRemaining / 60)} minutes ${secondsRemaining % 60} seconds remaining`}>
               {formatTime(secondsRemaining)}
             </p>
-          </div>
+            <p className="mt-3 text-xs text-srf-navy/20">{t("tapToEnd")}</p>
+          </button>
         ) : timerComplete ? (
           <div className="mt-12 space-y-4" role="status" aria-live="polite">
             <p className="text-sm text-srf-gold">{t("timerComplete")}</p>

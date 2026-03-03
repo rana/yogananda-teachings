@@ -44,10 +44,10 @@
     },
     "seeking": {
       "heading": "¿Qué estás buscando?",
-      "comfort": "Necesito consuelo ahora",
-      "meaning": "Busco un sentido a la vida",
-      "practice": "Quiero aprender a meditar",
-      "curiosity": "Tengo curiosidad sobre Yogananda"
+      "comfort": "Algo a qué aferrarme ahora",
+      "meaning": "Tiene que haber algo más que esto",
+      "practice": "Quiero aquietar mi mente",
+      "curiosity": "¿Quién fue Yogananda?"
     },
     "startHere": {
       "heading": "Empieza Aquí",
@@ -109,6 +109,7 @@
     "presentModeOff": "Salir del modo presentación",
     "pauseWithThis": "Pausa con esto",
     "quietReturn": "Volver a la lectura",
+    "quietTapToEnd": "Toca en cualquier lugar para terminar",
     "quietBookmark": "Guardar este pasaje",
     "colorTheme": "Tema de color",
     "theme_auto": "Auto",
@@ -138,7 +139,7 @@
   },
   "quiet": {
     "heading": "El Rincón de Quietud",
-    "subtitle": "Un momento de quietud con las palabras del Maestro",
+    "subtitle": "Un momento de quietud",
     "timer1": "1 min",
     "timer5": "5 min",
     "timer15": "15 min",
@@ -146,7 +147,8 @@
     "timerRunning": "Temporizador de meditación en marcha",
     "timerComplete": "Tiempo de quietud completado",
     "showAnother": "Otra reflexión",
-    "backToPortal": "Volver al portal"
+    "backToPortal": "Volver al portal",
+    "tapToEnd": "Toca en cualquier lugar para terminar"
   },
   "about": {
     "heading": "Acerca de",

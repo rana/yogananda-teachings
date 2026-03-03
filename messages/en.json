@@ -44,10 +44,10 @@
     },
     "seeking": {
       "heading": "What are you seeking?",
-      "comfort": "I need comfort right now",
-      "meaning": "I'm searching for meaning",
-      "practice": "I want to learn to meditate",
-      "curiosity": "I'm curious about Yogananda"
+      "comfort": "Something to hold onto right now",
+      "meaning": "There must be more than this",
+      "practice": "I want to quiet my mind",
+      "curiosity": "Who was Yogananda?"
     },
     "startHere": {
       "heading": "Start Here",
@@ -109,6 +109,7 @@
     "presentModeOff": "Exit presentation mode",
     "pauseWithThis": "Pause with this",
     "quietReturn": "Return to reading",
+    "quietTapToEnd": "Tap anywhere to end",
     "quietBookmark": "Bookmark this passage",
     "colorTheme": "Color theme",
     "theme_auto": "Auto",
@@ -138,7 +139,7 @@
   },
   "quiet": {
     "heading": "The Quiet Corner",
-    "subtitle": "A moment of stillness with the Master's words",
+    "subtitle": "A moment of stillness",
     "timer1": "1 min",
     "timer5": "5 min",
     "timer15": "15 min",
@@ -146,7 +147,8 @@
     "timerRunning": "Meditation timer running",
     "timerComplete": "Time of stillness complete",
     "showAnother": "Another reflection",
-    "backToPortal": "Return to the portal"
+    "backToPortal": "Return to the portal",
+    "tapToEnd": "Tap anywhere to end"
   },
   "about": {
     "heading": "About",

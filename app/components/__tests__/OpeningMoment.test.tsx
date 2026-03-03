@@ -124,9 +124,9 @@ describe("OpeningMoment", () => {
     // Overlay with lotus should be present
     const overlay = container.querySelector("[aria-hidden='true']");
     expect(overlay).toBeInTheDocument();
-    // Lotus SVG should be inside
-    const svg = overlay?.querySelector("svg");
-    expect(svg).toBeInTheDocument();
+    // Lotus element should be inside (div with data-ui for CSS-masked lotus)
+    const lotus = overlay?.querySelector("[data-ui]");
+    expect(lotus).toBeInTheDocument();
   });
 
   it("completes full fade cycle in ~1.2 seconds", () => {
