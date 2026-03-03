@@ -14,6 +14,7 @@ import NextLink from "next/link";
 import { locales, localeNames } from "@/i18n/config";
 import type { CrisisInfo } from "@/lib/services/crisis";
 import { SearchCombobox } from "@/app/components/SearchCombobox";
+import { PORTAL } from "@/lib/config/srf-links";
 
 interface Citation {
   bookId: string;
@@ -382,7 +383,7 @@ function SearchPageInner() {
                   <InlineShareButton
                     passage={result.content}
                     citation={result.citation}
-                    url={`/${locale}/passage/${result.id}`}
+                    url={`${PORTAL.canonical}/${locale}/passage/${result.id}`}
                   />
                   {debugMode && (
                     <span className="ml-auto font-mono text-xs text-srf-navy/25">

@@ -68,6 +68,7 @@ export async function getRandomPassage(
     `${PASSAGE_SELECT}
     WHERE bc.language = $1
       AND length(bc.content) BETWEEN $2 AND $3
+      AND bc.content !~ '^\\d{1,3}\\s'
     ORDER BY random()
     LIMIT 1`,
     [language, PASSAGE_MIN_LENGTH, PASSAGE_MAX_LENGTH],
@@ -90,6 +91,7 @@ export async function getReflectionPassage(
     `${PASSAGE_SELECT}
     WHERE bc.language = $1
       AND length(bc.content) BETWEEN $2 AND $3
+      AND bc.content !~ '^\\d{1,3}\\s'
     ORDER BY random()
     LIMIT 1`,
     [language, PASSAGE_MIN_LENGTH, REFLECTION_MAX_LENGTH],

@@ -67,7 +67,7 @@ export async function getRelatedPassages(
       c.chapter_number as "chapterNumber",
       bc.page_number as "pageNumber",
       cr.similarity,
-      cr.rank,
+      ROW_NUMBER() OVER (ORDER BY cr.similarity DESC) as rank,
       cr.relation_type as "relationType",
       cr.relation_label as "relationLabel"
     FROM chunk_relations cr
@@ -76,7 +76,8 @@ export async function getRelatedPassages(
     JOIN books b ON b.id = bc.book_id
     WHERE cr.source_chunk_id = $1
       AND cr.similarity >= $2
-    ORDER BY cr.rank
+      AND COALESCE(cr.relation_type, '') NOT IN ('translation', 'same_chapter')
+    ORDER BY cr.similarity DESC
     LIMIT $3`,
     [chunkId, RELATIONS_MIN_SIMILARITY, limit],
   );
@@ -114,10 +115,27 @@ export async function getChapterRelations(
 
   const chunkIds = chunkRows.map((r: { id: string }) => r.id);
 
-  // Batch query: top N relations for each chunk in the chapter
+  // Batch query: top N relations for each chunk in the chapter.
+  // Re-rank after filtering out translations and same-chapter relations,
+  // since stored ranks were computed before type classification.
   const { rows } = await pool.query(
-    `SELECT
-      cr.source_chunk_id as "sourceChunkId",
+    `WITH filtered AS (
+      SELECT
+        cr.source_chunk_id,
+        cr.target_chunk_id,
+        cr.similarity,
+        cr.relation_type,
+        cr.relation_label,
+        ROW_NUMBER() OVER (
+          PARTITION BY cr.source_chunk_id ORDER BY cr.similarity DESC
+        ) as display_rank
+      FROM chunk_relations cr
+      WHERE cr.source_chunk_id = ANY($1)
+        AND cr.similarity >= $2
+        AND COALESCE(cr.relation_type, '') NOT IN ('translation', 'same_chapter')
+    )
+    SELECT
+      f.source_chunk_id as "sourceChunkId",
       bc.id,
       LEFT(bc.content, 200) as content,
       b.title as "bookTitle",
@@ -125,18 +143,16 @@ export async function getChapterRelations(
       ch.title as "chapterTitle",
       ch.chapter_number as "chapterNumber",
       bc.page_number as "pageNumber",
-      cr.similarity,
-      cr.rank,
-      cr.relation_type as "relationType",
-      cr.relation_label as "relationLabel"
-    FROM chunk_relations cr
-    JOIN book_chunks bc ON bc.id = cr.target_chunk_id
+      f.similarity,
+      f.display_rank as rank,
+      f.relation_type as "relationType",
+      f.relation_label as "relationLabel"
+    FROM filtered f
+    JOIN book_chunks bc ON bc.id = f.target_chunk_id
     JOIN chapters ch ON ch.id = bc.chapter_id
     JOIN books b ON b.id = bc.book_id
-    WHERE cr.source_chunk_id = ANY($1)
-      AND cr.similarity >= $2
-      AND cr.rank <= $3
-    ORDER BY cr.source_chunk_id, cr.rank`,
+    WHERE f.display_rank <= $3
+    ORDER BY f.source_chunk_id, f.display_rank`,
     [chunkIds, RELATIONS_MIN_SIMILARITY, limit],
   );
 
@@ -179,6 +195,7 @@ export async function getChapterRelations(
     WHERE cr.source_chunk_id = ANY($1)
       AND cr.similarity >= $2
       AND ch.chapter_number != $3
+      AND COALESCE(cr.relation_type, '') NOT IN ('translation', 'same_chapter')
     GROUP BY ch.chapter_number, ch.title, b.title, b.id
     ORDER BY COUNT(*) DESC
     LIMIT 5`,

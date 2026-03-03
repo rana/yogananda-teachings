@@ -301,6 +301,22 @@ describe("/api/v1/search", () => {
       expect.objectContaining({ query: "meditation" }),
     );
   });
+
+  it("sets edge Cache-Control header on successful responses", async () => {
+    mockSearch.mockResolvedValue({
+      results: [],
+      query: "yoga",
+      mode: "fts_only",
+      totalResults: 0,
+      durationMs: 5,
+    });
+
+    const req = makeRequest("http://localhost:3000/api/v1/search?q=yoga");
+    const res = await searchGET(req);
+    expect(res.headers.get("Cache-Control")).toBe(
+      "public, s-maxage=60, stale-while-revalidate=300",
+    );
+  });
 });
 
 // ── /api/v1/search/suggest ──────────────────────────────────────

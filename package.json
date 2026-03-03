@@ -29,6 +29,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.1000.0",
     "@axe-core/react": "^4.11.1",
     "@eslint/eslintrc": "^3.3.4",
     "@playwright/test": "^1.58.2",
@@ -41,6 +42,7 @@
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^5.1.4",
     "axe-core": "^4.11.1",
+    "contentful-management": "^11.73.1",
     "eslint": "^9.22.0",
     "eslint-config-next": "^15.3.4",
     "jsdom": "^28.1.0",

@@ -276,6 +276,63 @@ describe("search", () => {
     expect(result.results[0].score).toBe(0.99);
   });
 
+  // ── Embedding cache (L2 optimization) ────────────────────────────
+
+  it("caches embeddings across identical queries", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    // First call: Voyage API returns embedding
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: () =>
+        Promise.resolve({ data: [{ embedding: new Array(1024).fill(0.1) }] }),
+    });
+
+    const pool = mockPool([sampleRow]);
+
+    await search(pool, { query: "meditation" });
+
+    // Second call: same query, should use cache — no additional Voyage fetch
+    await search(pool, { query: "meditation" });
+
+    // Voyage API called only once (first search), not twice
+    const voyageCalls = mockFetch.mock.calls.filter(
+      (call) =>
+        typeof call[0] === "string" && call[0].includes("voyageai.com"),
+    );
+    expect(voyageCalls).toHaveLength(1);
+  });
+
+  it("embedding cache respects different queries", async () => {
+    process.env.VOYAGE_API_KEY = "test-key";
+    mockFetch
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            data: [{ embedding: new Array(1024).fill(0.1) }],
+          }),
+      })
+      .mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            data: [{ embedding: new Array(1024).fill(0.2) }],
+          }),
+      });
+
+    const pool = mockPool([sampleRow]);
+
+    await search(pool, { query: "meditation" });
+    await search(pool, { query: "cosmic consciousness" });
+
+    // Two different queries = two Voyage calls
+    const voyageCalls = mockFetch.mock.calls.filter(
+      (call) =>
+        typeof call[0] === "string" && call[0].includes("voyageai.com"),
+    );
+    expect(voyageCalls).toHaveLength(2);
+  });
+
   it("does not activate enhancements without enhance option", async () => {
     process.env.VOYAGE_API_KEY = "test-key";
     mockFetch.mockResolvedValueOnce({

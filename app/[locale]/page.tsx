@@ -14,6 +14,7 @@ import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
 import { TodaysWisdom } from "@/app/components/TodaysWisdom";
 import { OpeningMoment } from "@/app/components/OpeningMoment";
+import { HomeSearchEnhanced } from "@/app/components/HomeSearchEnhanced";
 import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
@@ -64,13 +65,10 @@ export default async function HomePage({
               {t("searchPrompt")}
             </label>
             <div className="flex gap-2">
-              <input
-                id="home-search-input"
-                name="q"
-                type="search"
+              <HomeSearchEnhanced
+                locale={locale}
                 placeholder={t("searchPrompt")}
-                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
-                maxLength={500}
+                ariaLabel={t("searchPrompt")}
               />
               <button
                 type="submit"
