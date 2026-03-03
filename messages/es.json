@@ -36,19 +36,19 @@
     "srfLessons": "Lecciones de SRF",
     "thematicDoors": {
       "heading": "Puertas de Entrada",
-      "peace": "Paz",
-      "courage": "Valor",
+      "innerPeace": "Paz Interior",
+      "love": "Amor",
+      "lastingHappiness": "Felicidad Duradera",
+      "lifePurpose": "Propósito de Vida",
       "healing": "Sanación",
-      "joy": "Alegría",
-      "purpose": "Propósito",
-      "love": "Amor"
+      "overcomingFear": "Vencer el Miedo"
     },
     "seeking": {
       "heading": "¿Qué estás buscando?",
-      "comfort": "Algo a qué aferrarme ahora",
-      "meaning": "Tiene que haber algo más que esto",
-      "practice": "Quiero aquietar mi mente",
-      "curiosity": "¿Quién fue Yogananda?"
+      "comfort": "Necesito fuerza para hoy",
+      "meaning": "Sé que hay más que esto",
+      "practice": "Enséñame a estar en calma",
+      "curiosity": "Algo me trajo aquí"
     },
     "startHere": {
       "heading": "Empieza Aquí",
@@ -62,7 +62,7 @@
       },
       "seeker": {
         "title": "Aquiétate Y...",
-        "description": "La paz que buscas no está lejos. Las palabras de Yogananda iluminan el camino interior."
+        "description": "...te das cuenta de que siempre hubo algo tremendo dentro de ti, y no lo sabías."
       }
     }
   },

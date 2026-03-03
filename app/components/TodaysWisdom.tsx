@@ -62,7 +62,7 @@ export function TodaysWisdom({ passage: initial }: Props) {
 
   return (
     <section aria-label={t("todaysWisdom")}>
-      <div className="py-8 md:py-12">
+      <div className="mx-auto max-w-3xl py-8 md:py-12">
         {/* Passage */}
         <blockquote className="font-serif text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
           &ldquo;{passage.content.trim()}&rdquo;

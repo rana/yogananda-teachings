@@ -36,19 +36,19 @@
     "srfLessons": "SRF Lessons",
     "thematicDoors": {
       "heading": "Doors of Entry",
-      "peace": "Peace",
-      "courage": "Courage",
+      "innerPeace": "Inner Peace",
+      "love": "Love",
+      "lastingHappiness": "Lasting Happiness",
+      "lifePurpose": "Life's Purpose",
       "healing": "Healing",
-      "joy": "Joy",
-      "purpose": "Purpose",
-      "love": "Love"
+      "overcomingFear": "Overcoming Fear"
     },
     "seeking": {
       "heading": "What are you seeking?",
-      "comfort": "Something to hold onto right now",
-      "meaning": "There must be more than this",
-      "practice": "I want to quiet my mind",
-      "curiosity": "Who was Yogananda?"
+      "comfort": "I need strength for today",
+      "meaning": "I know there's more than this",
+      "practice": "Teach me to be still",
+      "curiosity": "Something brought me here"
     },
     "startHere": {
       "heading": "Start Here",
@@ -62,7 +62,7 @@
       },
       "seeker": {
         "title": "Be Still And...",
-        "description": "The peace you're looking for isn't far away. Yogananda's words light the path within."
+        "description": "...you realize that all along there was something tremendous within you, and you did not know it."
       }
     }
   },

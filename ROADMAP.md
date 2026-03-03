@@ -596,6 +596,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 | PRO-041 | Documents as Executable Specifications | Enhancement |
 | PRO-042 | Feature Lifecycle Portal — Calm Operations for Engineering Leadership | Feature |
 | PRO-044 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) |
+| PRO-046 | Circadian as Independent Behavior Modifier | Enhancement (Experience) |
 
 *PRO-035 (Release Tagging), PRO-036 (Operational Health), PRO-037 (Document Integrity CI), PRO-039 (Design-Artifact Traceability) adopted 2026-03-01 → DES-060, ROADMAP deliverables M1a-9–M1a-11, M1c-16–M1c-18, 2a.*
 

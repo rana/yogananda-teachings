@@ -8,7 +8,7 @@ import "@testing-library/jest-dom/vitest";
 
 // jsdom does not implement window.matchMedia — stub it globally.
 // Components like lib/sounds.ts (prefers-reduced-motion), ThemeProvider,
-// CircadianProvider, and ChapterBreath all rely on matchMedia.
+// and ChapterBreath all rely on matchMedia.
 // Individual test files can override this with vi.stubGlobal or
 // Object.defineProperty for specific return values.
 Object.defineProperty(window, "matchMedia", {

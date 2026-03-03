@@ -21,19 +21,19 @@ import { SRF_PRACTICE } from "@/lib/config/srf-links";
 export const dynamic = "force-dynamic";
 
 const THEMATIC_DOORS = [
-  { key: "peace", query: "peace" },
-  { key: "courage", query: "courage" },
-  { key: "healing", query: "healing" },
-  { key: "joy", query: "joy" },
-  { key: "purpose", query: "purpose" },
-  { key: "love", query: "love" },
+  { key: "innerPeace", query: "inner peace calm stillness" },
+  { key: "love", query: "love divine human heart" },
+  { key: "lastingHappiness", query: "happiness joy bliss lasting" },
+  { key: "lifePurpose", query: "purpose life meaning why" },
+  { key: "healing", query: "healing health strength" },
+  { key: "overcomingFear", query: "fear anxiety worry courage overcome" },
 ] as const;
 
 const SEEKING_ENTRIES = [
-  { key: "comfort", query: "comfort hope healing" },
-  { key: "meaning", query: "meaning purpose life" },
-  { key: "practice", query: "meditation technique practice" },
-  { key: "curiosity", query: "Yogananda autobiography" },
+  { key: "comfort", query: "strength courage hope trials" },
+  { key: "meaning", query: "meaning purpose life truth" },
+  { key: "practice", query: "stillness peace meditation calm" },
+  { key: "curiosity", query: "Yogananda spiritual truth divine" },
 ] as const;
 
 export default async function HomePage({
@@ -50,7 +50,7 @@ export default async function HomePage({
   return (
     <OpeningMoment>
     <main id="main-content" className="min-h-screen">
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-16">
+      <div className="mx-auto max-w-4xl px-4 py-8 md:py-16">
         {/* Continue Reading — returning seekers see where they left off */}
         <ContinueReading locale={locale} />
 

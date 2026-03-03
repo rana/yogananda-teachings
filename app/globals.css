@@ -94,7 +94,7 @@
 /* ── Tailwind theme configuration ──────────────────────────────── */
 /* Color tokens resolve through the CSS theme system below.
  * This makes ALL Tailwind classes (text-srf-navy, bg-warm-cream, etc.)
- * automatically adapt to the active color theme — dark, sepia, circadian.
+ * automatically adapt to the active color theme — dark, sepia, earth, meditate.
  * Zero component changes required. */
 @theme {
   --font-serif: "Merriweather", "Lora", Georgia, "Times New Roman", serif;
@@ -196,25 +196,6 @@
     --theme-border: #888888;
   }
 }
-
-/* ── Circadian color temperature — DES-011 ───────────────────── */
-/* Subtle background warmth shifts based on time of day.
- * data-time-band set by CircadianProvider only in light mode. */
-
-/* Morning: cooler cream (5:00–9:59) */
-[data-time-band="morning"] {
-  --theme-bg: #FDFBF8;
-  --theme-bg-secondary: #f2eee6;
-}
-
-/* Evening: warmer cream (16:00–20:59) */
-[data-time-band="evening"] {
-  --theme-bg: #F7F2EC;
-  --theme-bg-secondary: #ebe5db;
-}
-
-/* Midday (10:00–15:59) uses default palette — no override needed */
-/* Night (21:00–4:59): attribute removed by JS, dark theme applies */
 
 /* ── "Breath Between Chapters" — DES-012 ─────────────────────── */
 
