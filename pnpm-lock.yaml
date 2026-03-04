@@ -14,6 +14,9 @@ importers:
       '@vercel/og':
         specifier: ^0.9.0
         version: 0.9.0
+      contentful:
+        specifier: ^11.10.5
+        version: 11.10.5
       next:
         specifier: ^15.3.4
         version: 15.5.12(@babel/core@7.29.0)(@playwright/test@1.58.2)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -387,6 +390,9 @@ packages:
   '@bramus/specificity@2.4.2':
     resolution: {integrity: sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw==}
     hasBin: true
+
+  '@contentful/content-source-maps@0.11.44':
+    resolution: {integrity: sha512-tu1gfmZI59hQ7qKhmGOV0dA5brxhsc+LOfPwBsQQMDAVy5kVpTrKf/AGlL2y9QhKHu/NtCrwX/ZrmRFgtGEtIA==}
 
   '@contentful/rich-text-types@16.8.5':
     resolution: {integrity: sha512-q18RJuJCOuYveGiCIjE5xLCQc5lZ3L2Qgxrlg/H2YEobDFqdtmklazRi1XwEWaK3tMg6yVXBzKKkQfLB4qW14A==}
@@ -1798,6 +1804,9 @@ packages:
     resolution: {integrity: sha512-0BErl/dln19LMVEk2OF3BRQ44yYlKexILnZ5OuVS5Tmxe4xCl3Lpuv2VD2vyfRK4QwJDVJNOSRBIF2nw6OjHwg==}
     engines: {node: '>=16'}
 
+  '@vercel/stega@0.1.2':
+    resolution: {integrity: sha512-P7mafQXjkrsoyTRppnt0N21udKS9wUmLXHRyP9saLXLHw32j/FgUJ3FscSWgvSqRs4cj7wKZtwqJEvWJ2jbGmA==}
+
   '@vitejs/plugin-react@5.1.4':
     resolution: {integrity: sha512-VIcFLdRi/VYRU8OL/puL7QXMYafHmqOnwTZY50U1JPlCNj30PxCMx65c494b1K9be9hX83KVt0+gTEwTWLqToA==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -2029,8 +2038,16 @@ packages:
     resolution: {integrity: sha512-wawsSVkiCqf0bTwbv8EfEigBVaF8zlUYqCMmeUTMNLC5tdtdcQMof5aFr8SCcXnFFuYsz2O2VjunLOhaN0j0Zw==}
     engines: {node: '>=18'}
 
+  contentful-resolve-response@1.9.6:
+    resolution: {integrity: sha512-ymXze1OM0Yc7azlK244CU/1qR1FQBvb5hS5i6WRscuLkGBgOIXU/1SLSr9YP++XFs7wejSPQeSg8X1B4V8Fo0Q==}
+    engines: {node: '>=4.7.2'}
+
   contentful-sdk-core@9.4.4:
     resolution: {integrity: sha512-61MfMyMU23dqCEOTHaHGys16tK2D0tbDe67GPcl6JkfbCcnhtmgTMLUbBnimW5wQse1mNmwS7lK2BNsz+rlFjA==}
+    engines: {node: '>=18'}
+
+  contentful@11.10.5:
+    resolution: {integrity: sha512-5VtIrJ7X6209Yn25PfFRSz51eAtKJtxXSMSYG8loNMYVd+1lfAFRcw+dMVgnOQLv/TmYRSh1KKjtbwxlzHBm4g==}
     engines: {node: '>=18'}
 
   convert-source-map@2.0.0:
@@ -2406,6 +2423,9 @@ packages:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
     engines: {node: '>= 0.4'}
 
+  foreach@2.0.6:
+    resolution: {integrity: sha512-k6GAGDyqLe9JaebCsFCoudPPWfihKu8pylYXRlqP1J7ms39iPoTtk2fviNglIeQEwdh0bQeKJ01ZPyuyQvKzwg==}
+
   form-data@4.0.5:
     resolution: {integrity: sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==}
     engines: {node: '>= 6'}
@@ -2697,6 +2717,9 @@ packages:
   json-buffer@3.0.1:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
 
+  json-pointer@0.6.2:
+    resolution: {integrity: sha512-vLWcKbOaXlO+jvRy4qNd+TI1QUPZzfJj1tpJ3vAXDych5XJf93ftpUKe5pKCrzyIIwgBJcOcCVRUfqQP25afBw==}
+
   json-schema-to-ts@3.1.1:
     resolution: {integrity: sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==}
     engines: {node: '>=16'}
@@ -2706,6 +2729,9 @@ packages:
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
+
+  json-stringify-safe@5.0.1:
+    resolution: {integrity: sha512-ZClg6AaYvamvYEE82d3Iyd3vSSIjQ+odgjaTzRuO3s7toCdFKczob2i0zCh7JE8kWn17yvAWhUVxvqGwUalsRA==}
 
   json5@1.0.2:
     resolution: {integrity: sha512-g1MWMLBiz8FKi1e4w0UyVL3w+iJceWAFBAaBnnGKOpNa5f8TLktkbre1+s6oICydWAm+HRUGTmI+//xv2hvXYA==}
@@ -3445,6 +3471,10 @@ packages:
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
+
+  type-fest@4.41.0:
+    resolution: {integrity: sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA==}
+    engines: {node: '>=16'}
 
   typed-array-buffer@1.0.3:
     resolution: {integrity: sha512-nAYYwfY3qnzX30IkA6AQZjVbtK6duGontcQm1WSG1MD94YLqK0515GNApXkoxKOWMusVssAHWLh9SeaoefYFGw==}
@@ -4303,6 +4333,11 @@ snapshots:
   '@bramus/specificity@2.4.2':
     dependencies:
       css-tree: 3.1.0
+
+  '@contentful/content-source-maps@0.11.44':
+    dependencies:
+      '@vercel/stega': 0.1.2
+      json-pointer: 0.6.2
 
   '@contentful/rich-text-types@16.8.5': {}
 
@@ -5618,6 +5653,8 @@ snapshots:
       '@resvg/resvg-wasm': 2.4.0
       satori: 0.19.2
 
+  '@vercel/stega@0.1.2': {}
+
   '@vitejs/plugin-react@5.1.4(vite@7.3.1(@types/node@22.19.13)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0))':
     dependencies:
       '@babel/core': 7.29.0
@@ -5889,6 +5926,10 @@ snapshots:
     transitivePeerDependencies:
       - debug
 
+  contentful-resolve-response@1.9.6:
+    dependencies:
+      fast-copy: 3.0.2
+
   contentful-sdk-core@9.4.4:
     dependencies:
       fast-copy: 3.0.2
@@ -5897,6 +5938,19 @@ snapshots:
       qs: 6.15.0
     optionalDependencies:
       '@rollup/rollup-linux-x64-gnu': 4.59.0
+
+  contentful@11.10.5:
+    dependencies:
+      '@contentful/content-source-maps': 0.11.44
+      '@contentful/rich-text-types': 16.8.5
+      axios: 1.13.6
+      contentful-resolve-response: 1.9.6
+      contentful-sdk-core: 9.4.4
+      json-stringify-safe: 5.0.1
+      tslib: 2.8.1
+      type-fest: 4.41.0
+    transitivePeerDependencies:
+      - debug
 
   convert-source-map@2.0.0: {}
 
@@ -6413,6 +6467,8 @@ snapshots:
     dependencies:
       is-callable: 1.2.7
 
+  foreach@2.0.6: {}
+
   form-data@4.0.5:
     dependencies:
       asynckit: 0.4.0
@@ -6734,6 +6790,10 @@ snapshots:
 
   json-buffer@3.0.1: {}
 
+  json-pointer@0.6.2:
+    dependencies:
+      foreach: 2.0.6
+
   json-schema-to-ts@3.1.1:
     dependencies:
       '@babel/runtime': 7.28.6
@@ -6742,6 +6802,8 @@ snapshots:
   json-schema-traverse@0.4.1: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
+
+  json-stringify-safe@5.0.1: {}
 
   json5@1.0.2:
     dependencies:
@@ -7532,6 +7594,8 @@ snapshots:
   type-check@0.4.0:
     dependencies:
       prelude-ls: 1.2.1
+
+  type-fest@4.41.0: {}
 
   typed-array-buffer@1.0.3:
     dependencies:

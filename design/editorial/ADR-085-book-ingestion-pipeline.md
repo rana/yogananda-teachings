@@ -16,17 +16,19 @@ Kindle Cloud Reader
        ▼  (3) assemble.ts — Chapter Assembly
   Chapter JSON + Book Manifest
        │
-       ├──▶ (4) import-contentful.ts — Contentful Management API
-       │         Contentful (editorial source of truth)
+       ▼  (4) import-contentful.ts — Contentful Management API
+  Contentful (editorial source of truth)
        │
        ├──▶ (5) classify-rasa.ts — Claude API
-       │         Rasa classification per chapter
+       │         Rasa classification per chapter → Neon
        │
-       └──▶ (6) ingest.ts — Neon PostgreSQL
+       └──▶ (6) sync-contentful-to-neon.ts — Contentful CDA → Neon PostgreSQL
               Neon (derived searchable cache)
 ```
 
-The canonical data flow is **Contentful → Neon** (ADR-010). The local JSON intermediary exists because extraction is expensive (Claude Vision API calls per page) and must be checkpointed. Contentful is the editorial source of truth; Neon is the derived, searchable, embedding-enriched cache.
+The canonical data flow is **Contentful → Neon** (ADR-010). Stage 6 (`sync-contentful-to-neon.ts`) reads from the Contentful Content Delivery API and writes to Neon, honoring the canonical direction. The local JSON intermediary exists because extraction is expensive (Claude Vision API calls per page) and must be checkpointed. Contentful is the editorial source of truth; Neon is the derived, searchable, embedding-enriched cache.
+
+**Development shortcut:** `ingest.ts` can write directly from local JSON to Neon (bypassing Contentful). Use for development iteration only; production flow always goes through Contentful.
 
 ### Stage 1: Capture (`scripts/book-ingest/src/capture.ts`)
 
@@ -139,13 +141,13 @@ Photographs in the captured page screenshots are not individually cropped. The r
 
 ### Idempotency
 
-The pipeline is currently **append-only** — `ingest.ts` uses INSERT, not UPSERT. Re-ingestion requires manual deletion of existing data (respecting foreign key cascades). Future improvement: ON CONFLICT UPDATE keyed on `(book_id, chapter_id, sort_order)`.
+Both `ingest.ts` and `sync-contentful-to-neon.ts` support `--replace` for idempotent re-ingestion — deletes existing book data (respecting FK cascades) before inserting.
 
 ### Running the Pipeline
 
 ```bash
 # Prerequisites: .env.local with NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY,
-#   CONTENTFUL_SPACE_ID, CONTENTFUL_MANAGEMENT_TOKEN
+#   CONTENTFUL_SPACE_ID, CONTENTFUL_MANAGEMENT_TOKEN, CONTENTFUL_ACCESS_TOKEN
 
 # 1. Capture (requires manual Kindle login first)
 npx tsx scripts/book-ingest/src/capture.ts --book autobiography-of-a-yogi
@@ -156,14 +158,17 @@ npx tsx scripts/book-ingest/src/extract.ts --book autobiography-of-a-yogi
 # 3. Assemble
 npx tsx scripts/book-ingest/src/assemble.ts --book autobiography-of-a-yogi
 
-# 4. Import to Contentful
+# 4. Import to Contentful (source of truth)
 npx tsx scripts/ingest/import-contentful.ts --book autobiography-of-a-yogi [--dry-run]
 
 # 5. Classify rasa
 npx tsx scripts/book-ingest/src/classify-rasa.ts --book autobiography-of-a-yogi
 
-# 6. Ingest to Neon
-npx tsx scripts/ingest/ingest.ts --book autobiography-of-a-yogi [--skip-embeddings] [--dry-run]
+# 6. Sync Contentful → Neon (canonical flow — ADR-010)
+npx tsx scripts/ingest/sync-contentful-to-neon.ts --book autobiography-of-a-yogi [--replace] [--skip-embeddings] [--dry-run]
+
+# 6-alt. Direct ingest from local JSON (development shortcut — bypasses Contentful)
+npx tsx scripts/ingest/ingest.ts --book autobiography-of-a-yogi [--replace] [--skip-embeddings] [--dry-run]
 ```
 
 ### Design System Vocabulary Loop
