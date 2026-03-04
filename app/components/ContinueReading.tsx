@@ -27,9 +27,12 @@ export function ContinueReading({ locale }: ContinueReadingProps) {
 
   if (!entry) return null;
 
+  // Link to exact scroll position if available, otherwise chapter start
+  const fragment = entry.lastPassageId ? `#passage-${entry.lastPassageId}` : "";
+
   return (
     <a
-      href={`/${locale}/books/${entry.bookSlug}/${entry.chapterNumber}`}
+      href={`/${locale}/books/${entry.bookSlug}/${entry.chapterNumber}${fragment}`}
       className="continue-reading"
     >
       <span className="continue-reading-label">Continue reading</span>

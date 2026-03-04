@@ -21,6 +21,8 @@ export interface ReadingJourneyEntry {
   chapterTitle: string;
   /** Timestamp in ms — when the seeker last read this chapter */
   timestamp: number;
+  /** Passage UUID of the topmost visible paragraph — for scroll restoration */
+  lastPassageId?: string;
 }
 
 /**
@@ -37,6 +39,25 @@ export function setLastRead(entry: Omit<ReadingJourneyEntry, "timestamp">): void
     localStorage.setItem(STORAGE_KEY, JSON.stringify(full));
   } catch {
     // Storage full or unavailable — silent fail
+  }
+}
+
+/**
+ * Update the scroll position within the current reading session.
+ * Called on debounced scroll events — updates only the passage ID
+ * and timestamp, preserving the rest of the entry.
+ */
+export function updateScrollPosition(passageId: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return;
+    const entry = JSON.parse(raw) as ReadingJourneyEntry;
+    entry.lastPassageId = passageId;
+    entry.timestamp = Date.now();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entry));
+  } catch {
+    // silent
   }
 }
 
