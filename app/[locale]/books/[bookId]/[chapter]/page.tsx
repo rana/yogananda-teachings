@@ -183,6 +183,7 @@ export default async function ChapterPage({
       <ChapterReader
         content={content}
         threadParagraphs={threadParagraphs}
+        publication={bookSlug}
       />
     </>
   );
