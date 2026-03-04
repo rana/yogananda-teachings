@@ -18,7 +18,7 @@ const QuietCornerClient = dynamic(
   {
     ssr: false,
     loading: () => (
-      <main id="main-content" className="quiet-layout">
+      <div className="quiet-layout">
         <div className="quiet-content">
           <div className="pulse" style={{ blockSize: "1.75rem", inlineSize: "10rem", marginInline: "auto", marginBlockEnd: "var(--space-generous)", borderRadius: "4px" }} />
           <div className="stack-tight">
@@ -27,7 +27,7 @@ const QuietCornerClient = dynamic(
             <div className="pulse" style={{ blockSize: "1.5rem", inlineSize: "75%", marginInline: "auto", borderRadius: "4px" }} />
           </div>
         </div>
-      </main>
+      </div>
     ),
   },
 );

@@ -6,12 +6,16 @@
  * Affirmation display with optional timer and audio cues.
  * Self-contained: minimal chrome, no nav clutter.
  * Timer completion: chime -> 3s stillness -> crossfade to parting passage.
+ *
+ * Uses DesignProvider's setMode("quiet") when timer is active —
+ * the design system's CSS hides header/footer/nav for full immersion.
  */
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { singingBowl, templeBell } from "@/lib/sounds";
+import { useDesign } from "@/app/components/design/DesignProvider";
 import type { DailyPassage } from "@/lib/services/passages";
 
 const TIMER_OPTIONS = [
@@ -26,6 +30,7 @@ interface Props {
 
 export function QuietCornerClient({ passage: initial }: Props) {
   const t = useTranslations("quiet");
+  const { setMode } = useDesign();
   const [passage, setPassage] = useState(initial);
   const [timerActive, setTimerActive] = useState(false);
   const [timerComplete, setTimerComplete] = useState(false);
@@ -33,12 +38,18 @@ export function QuietCornerClient({ passage: initial }: Props) {
   const [loading, setLoading] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Clean up timer on unmount
+  // Clean up timer and mode on unmount
   useEffect(() => {
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
+      setMode("normal");
     };
-  }, []);
+  }, [setMode]);
+
+  // Sync quiet mode with DesignProvider
+  useEffect(() => {
+    setMode(timerActive ? "quiet" : "normal");
+  }, [timerActive, setMode]);
 
   // Escape key stops active timer
   useEffect(() => {
@@ -123,24 +134,22 @@ export function QuietCornerClient({ passage: initial }: Props) {
 
   if (!passage) {
     return (
-      <main id="main-content" className="quiet-layout">
+      <div className="quiet-layout">
         <p style={{ color: "var(--color-text-secondary)", opacity: 0.4, fontStyle: "italic" }}>
           No reflections available yet.
         </p>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main
-      id="main-content"
+    <div
       className="quiet-layout"
-      data-mode={timerActive ? "quiet" : undefined}
       style={timerActive ? { cursor: "pointer" } : undefined}
       onClick={timerActive ? stopTimer : undefined}
     >
       <div className="quiet-content">
-        {/* Title — fades when timer active */}
+        {/* Title — hidden when timer active */}
         {!timerActive && (
           <h1 style={{
             marginBlockEnd: "var(--space-generous)",
@@ -243,6 +252,6 @@ export function QuietCornerClient({ passage: initial }: Props) {
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }
