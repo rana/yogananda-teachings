@@ -1,767 +1,392 @@
-@import "tailwindcss";
+/* ══════════════════════════════════════════════════════════════════
+   Yogananda Teachings — Global Stylesheet
+   ══════════════════════════════════════════════════════════════════
+   Three layers:
+     1. Design system (yogananda-design) — all visual expression
+     2. App layout — structural utilities
+     3. App chrome — navigation, page transitions
 
-/* ── Self-hosted fonts — M2a-19 (ADR-099) ─────────────────────── */
-/* Zero requests to fonts.googleapis.com (German GDPR compliance) */
+   The design system provides: colors, typography, themes, spacing,
+   motion, attention gradients, registers, motifs, reader features,
+   print, preferences, accessibility, calm technology.
 
-/* Merriweather — primary reading font */
-@font-face {
-  font-family: "Merriweather";
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src:
-    url("/fonts/merriweather-latin-ext-300-normal.woff2") format("woff2"),
-    url("/fonts/merriweather-latin-300-normal.woff2") format("woff2");
-  unicode-range: U+0000-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F, U+2150-218F, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "Merriweather";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src:
-    url("/fonts/merriweather-latin-ext-400-normal.woff2") format("woff2"),
-    url("/fonts/merriweather-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F, U+2150-218F, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "Merriweather";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/merriweather-latin-400-italic.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Merriweather";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src:
-    url("/fonts/merriweather-latin-ext-700-normal.woff2") format("woff2"),
-    url("/fonts/merriweather-latin-700-normal.woff2") format("woff2");
-  unicode-range: U+0000-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F, U+2150-218F, U+2C60-2C7F, U+A720-A7FF;
+   This file adds only what the portal needs beyond the design
+   language: layout grid, navigation chrome, and page transitions.
+   ══════════════════════════════════════════════════════════════════ */
+
+
+/* ── Layer 1: Design System ───────────────────────────────────── */
+/* Complete design language including reading surface patterns.
+   Source: yogananda-design v1.0.0 */
+
+@import "yogananda-design/css/reading.css";
+
+
+/* ── Layer 2: App Layout ──────────────────────────────────────── */
+/* Structural utilities — flex, grid, responsive.
+   Uses design system spacing tokens. */
+
+.stack {
+  display: flex;
+  flex-direction: column;
 }
 
-/* Lora — display/heading accent font */
-@font-face {
-  font-family: "Lora";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src:
-    url("/fonts/lora-latin-ext-400-normal.woff2") format("woff2"),
-    url("/fonts/lora-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F, U+2150-218F, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "Lora";
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/lora-latin-400-italic.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Lora";
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: url("/fonts/lora-latin-700-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+.stack > * + * {
+  margin-block-start: var(--space-default);
 }
 
-/* Open Sans — UI/system font */
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src:
-    url("/fonts/open-sans-latin-ext-400-normal.woff2") format("woff2"),
-    url("/fonts/open-sans-latin-400-normal.woff2") format("woff2");
-  unicode-range: U+0000-024F, U+0259, U+1E00-1EFF, U+2000-206F, U+2070-209F, U+20A0-20CF, U+2100-214F, U+2150-218F, U+2C60-2C7F, U+A720-A7FF;
-}
-@font-face {
-  font-family: "Open Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-  src: url("/fonts/open-sans-latin-600-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+.stack-tight > * + * {
+  margin-block-start: var(--space-compact);
 }
 
-/* ── Tailwind theme configuration ──────────────────────────────── */
-/* Color tokens resolve through the CSS theme system below.
- * This makes ALL Tailwind classes (text-srf-navy, bg-warm-cream, etc.)
- * automatically adapt to the active color theme — dark, sepia, earth, meditate.
- * Zero component changes required. */
-@theme {
-  --font-serif: "Merriweather", "Lora", Georgia, "Times New Roman", serif;
-  --font-sans: "Open Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Lora", "Merriweather", Georgia, serif;
-
-  --color-srf-gold: var(--theme-gold);
-  --color-srf-navy: var(--theme-text);
-  --color-warm-cream: var(--theme-bg);
-  --color-warm-cream-dark: var(--theme-bg-secondary);
+.stack-generous > * + * {
+  margin-block-start: var(--space-generous);
 }
 
-/* ── Color theme tokens ───────────────────────────────────────── */
-/* Theme-aware custom properties — consumed by all components
- * and resolved through Tailwind token aliases above.
- * Light is the default. data-theme on <html> overrides.
- * "auto" uses prefers-color-scheme to switch between light and dark. */
-
-:root {
-  --theme-bg: #FAF8F5;
-  --theme-bg-secondary: #f0ece4;
-  --theme-text: #1a2744;
-  --theme-text-secondary: color-mix(in srgb, #1a2744 70%, transparent);
-  --theme-border: color-mix(in srgb, #1a2744 12%, transparent);
-  --theme-gold: #dcbd23;
-  --theme-surface: white;
+.stack-spacious > * + * {
+  margin-block-start: var(--space-spacious);
 }
 
-/* Sepia — warm antique paper */
-[data-theme="sepia"] {
-  --theme-bg: #f5e6c8;
-  --theme-bg-secondary: #ecdbb2;
-  --theme-text: #3d2e1c;
-  --theme-text-secondary: #5c4a35;
-  --theme-border: #c8b591;
-  --theme-gold: #b89a2a;
-  --theme-surface: #f0dfc2;
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-default);
+  align-items: center;
 }
 
-/* Earth — warm clay, terracotta accent (YSS-inspired, PRO-043 proof-of-concept) */
-[data-theme="earth"] {
-  --theme-bg: #f2e8de;
-  --theme-bg-secondary: #e6dacf;
-  --theme-text: #3a2518;
-  --theme-text-secondary: #6b5240;
-  --theme-border: #c4a988;
-  --theme-gold: #bb4f27;
-  --theme-surface: #ede3d8;
+.center {
+  box-sizing: content-box;
+  margin-inline: auto;
+  max-inline-size: var(--register-measure, 42em);
+  padding-inline: var(--space-default);
 }
 
-/* Dark — deep navy, respects the brand */
-[data-theme="dark"] {
-  --theme-bg: #0f1923;
-  --theme-bg-secondary: #1a2744;
-  --theme-text: #e8e4dc;
-  --theme-text-secondary: #a9a49a;
-  --theme-border: #2d3a4f;
-  --theme-gold: #e8cf4a;
-  --theme-surface: #162030;
-}
-
-/* Meditate — deeper dark for contemplation (DES-011) */
-[data-theme="meditate"] {
-  --theme-bg: #0a1633;
-  --theme-bg-secondary: #111e3a;
-  --theme-text: #d4cfc7;
-  --theme-text-secondary: #9a9590;
-  --theme-border: #253050;
-  --theme-gold: color-mix(in srgb, #e8cf4a 60%, transparent);
-  --theme-surface: #0e1a30;
-}
-
-/* Auto: dark when system prefers dark */
-@media (prefers-color-scheme: dark) {
-  [data-theme="auto"] {
-    --theme-bg: #0f1923;
-    --theme-bg-secondary: #1a2744;
-    --theme-text: #e8e4dc;
-    --theme-text-secondary: #a9a49a;
-    --theme-border: #2d3a4f;
-    --theme-gold: #e8cf4a;
-    --theme-surface: #162030;
+/* Responsive padding — more breathing room on larger screens */
+@media (min-width: 768px) {
+  .center {
+    padding-inline: var(--space-expansive);
   }
 }
 
-/* High contrast — prefers-contrast: more */
-@media (prefers-contrast: more) {
-  :root {
-    --theme-text: #000000;
-    --theme-text-secondary: #333333;
-    --theme-border: #666666;
-  }
-
-  [data-theme="dark"],
-  [data-theme="auto"],
-  [data-theme="meditate"] {
-    --theme-text: #ffffff;
-    --theme-text-secondary: #cccccc;
-    --theme-border: #888888;
+@media (min-width: 1024px) {
+  .center {
+    padding-inline: var(--space-vast);
   }
 }
 
-/* ── "Breath Between Chapters" — DES-012 ─────────────────────── */
-
-@keyframes chapterFadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.sidebar-layout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-generous);
 }
 
-/* ── Base styles ───────────────────────────────────────────────── */
-body {
-  font-family: var(--font-serif);
-  color: var(--theme-text);
-  background-color: var(--theme-bg);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.sidebar-layout > :first-child {
+  flex: 1 1 65%;
+  min-inline-size: 0;
 }
 
-/* ── Focus indicators — M2a-8 (ADR-003) ───────────────────────── */
-:focus-visible {
-  outline: 2px solid var(--color-srf-gold);
-  outline-offset: 2px;
+.sidebar-layout > :last-child {
+  flex: 1 1 18rem;
+  min-inline-size: 18rem;
 }
 
-/* ── Text-only mode — M1c-13 (ADR-006 §1) ─────────────────────── */
-.text-only img,
-.text-only svg:not([role="img"]):not([data-ui]),
-.text-only [data-decorative] {
-  display: none !important;
-}
-.text-only * {
-  font-family: Georgia, "Times New Roman", serif !important;
-  background-image: none !important;
+/* Full-bleed utility for elements that break out of center */
+.full-bleed {
+  inline-size: 100vw;
+  margin-inline: calc(50% - 50vw);
 }
 
-/* ── Font size preferences — M2a-11 ───────────────────────────── */
-.font-large {
-  font-size: 112.5%; /* 18px base */
-}
-.font-larger {
-  font-size: 125%; /* 20px base */
-}
-
-/* ── Line spacing preferences — M2b success criteria ─────────── */
-/* Target paragraphs directly to override their inline leading-* classes */
-.line-relaxed .reader-content [data-paragraph] {
-  line-height: 2.1 !important;
-}
-.line-spacious .reader-content [data-paragraph] {
-  line-height: 2.4 !important;
-}
-
-/* ── Screen reader only utility ────────────────────────────────── */
-.sr-only {
-  position: absolute;
-  width: 1px;
+.visually-hidden {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   height: 1px;
-  padding: 0;
-  margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  position: absolute;
   white-space: nowrap;
-  border-width: 0;
+  width: 1px;
 }
 
-/* ── Print stylesheet — M2a-10, DES-049 ──────────────────────────── */
-@media print {
-  header, footer, nav,
-  [data-no-print],
-  .low-bandwidth-banner,
-  .scroll-indicator,
-  .dwell-icon {
-    display: none !important;
-  }
 
-  body {
-    background: white !important;
-    color: black !important;
-    font-family: "Merriweather", Georgia, serif !important;
-    font-size: 12pt !important;
-    line-height: 1.6 !important;
-  }
+/* ── Layer 3: App Chrome ──────────────────────────────────────── */
+/* Navigation, page transitions, and portal-specific styling. */
 
-  /* Page layout (DES-049) */
-  @page { margin: 2cm; }
-  @page :first { margin-top: 3cm; }
-
-  main {
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  article {
-    max-width: 42em !important;
-    margin: 0 auto !important;
-  }
-
-  a {
-    color: black !important;
-    text-decoration: none !important;
-  }
-
-  /* Show citation URLs in print */
-  a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 9pt;
-    color: #666;
-  }
-
-  /* Internal links don't need URL display */
-  a[href^="/"]::after {
-    content: none;
-  }
-
-  blockquote {
-    border-inline-start: 2px solid #999;
-    padding-inline-start: 1em;
-    margin-inline-start: 0;
-  }
-
-  /* Page breaks: never inside a passage, always before chapter titles */
-  .passage-card { break-inside: avoid; }
-  h2 { break-before: page; }
-
-  /* Citations: always visible, never truncated */
-  .reader-citation {
-    font-size: 10pt !important;
-    font-style: italic;
-  }
-
-  /* Footer citation */
-  .print-citation {
-    display: block !important;
-    margin-top: 2em;
-    padding-top: 1em;
-    border-top: 1px solid #ccc;
-    font-size: 9pt;
-    color: #666;
-  }
-
-  /* Remove reader texture background in print */
-  .reader-texture {
-    background-image: none !important;
-  }
+/* Root layout: full-height flex column */
+body {
+  display: flex;
+  flex-direction: column;
+  min-block-size: 100dvh;
 }
 
-/* Hide print-only elements on screen */
+/* Main content area fills remaining space */
+main {
+  flex: 1;
+}
+
+/* App header */
+.app-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-raised);
+  background-color: var(--color-bg);
+  border-block-end: 1px solid var(--color-border);
+  padding-block: var(--space-compact);
+  padding-inline: var(--space-default);
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-inline-size: 80rem;
+  margin-inline: auto;
+}
+
+/* Site name in header */
+.app-site-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+/* App footer */
+.app-footer {
+  border-block-start: 1px solid var(--color-border);
+  padding-block: var(--space-spacious);
+  padding-inline: var(--space-default);
+  color: var(--color-text-secondary);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  text-align: center;
+}
+
+/* Links — gold accent with appropriate transitions */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-gold);
+}
+
+/* ── Chapter Reading Surface ─────────────────────────────────── */
+/* Styles specific to the chapter reader layout.
+   The design system handles register typography, spacing, and color.
+   These are structural — positioning and layout only. */
+
+.chapter-header {
+  text-align: center;
+  padding-block: var(--space-spacious) var(--space-generous);
+  border-block-end: 1px solid var(--color-border);
+  margin-block-end: var(--space-generous);
+}
+
+.chapter-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-compact);
+}
+
+.chapter-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.chapter-body {
+  padding-block: var(--space-default);
+}
+
+.chapter-body p {
+  font-family: var(--register-font, var(--font-reading));
+  font-size: var(--register-size, 1.125rem);
+  line-height: var(--register-line-height, 1.8);
+  max-inline-size: var(--register-measure, 42em);
+  margin-block: 0;
+}
+
+.chapter-body p + p {
+  margin-block-start: var(--space-default);
+}
+
+/* Golden thread indicator — subtle gold left border on connected paragraphs */
+.chapter-body p[data-has-thread] {
+  border-inline-start: 2px solid var(--color-gold-interactive, var(--color-gold));
+  padding-inline-start: var(--space-default);
+}
+
+.chapter-figure {
+  margin-block: var(--space-generous);
+  text-align: center;
+}
+
+.chapter-figure img {
+  max-inline-size: 100%;
+  height: auto;
+  border-radius: var(--radius-gentle, 4px);
+}
+
+.chapter-figure figcaption {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin-block-start: var(--space-compact);
+}
+
+/* Attribution — ambient register, centered below title */
+.attribution {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-block-start: var(--space-compact);
+}
+
+.attribution-book {
+  font-style: italic;
+}
+
+/* Chapter navigation */
+.chapter-nav {
+  justify-content: space-between;
+  padding-block: var(--space-generous);
+  border-block-start: 1px solid var(--color-border);
+  margin-block-start: var(--space-spacious);
+}
+
+.chapter-nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-compact);
+  padding: var(--space-compact);
+  border-radius: var(--radius-gentle, 4px);
+  transition: background-color var(--motion-ui);
+  min-height: 44px;
+}
+
+.chapter-nav-link:hover {
+  background-color: var(--color-surface-raised, rgba(0,0,0,0.03));
+}
+
+.chapter-nav-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.chapter-nav-number {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.chapter-nav-title {
+  font-family: var(--font-reading);
+  font-size: 0.9375rem;
+}
+
+.chapter-nav-next {
+  text-align: end;
+  margin-inline-start: auto;
+}
+
+.chapter-nav-next .chapter-nav-label {
+  align-items: flex-end;
+}
+
+.chapter-nav-direction {
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+}
+
+/* Footnote list */
+.footnote-list {
+  padding-block: var(--space-generous);
+  border-block-start: 1px solid var(--color-border);
+  margin-block-start: var(--space-generous);
+}
+
+.footnote-list h2 {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-default);
+}
+
+.footnote-list ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footnote-item {
+  display: flex;
+  gap: var(--space-compact);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.footnote-item + .footnote-item {
+  margin-block-start: var(--space-compact);
+}
+
+.footnote-marker {
+  flex-shrink: 0;
+  font-weight: 600;
+  min-inline-size: 1.5em;
+}
+
+.footnote-backlink {
+  margin-inline-start: var(--space-compact);
+  color: var(--color-gold);
+  font-size: 0.75rem;
+}
+
+/* Print citation — visible only in print */
 .print-citation {
   display: none;
 }
 
-/* ── Rich text formatting — PRI-01 verbatim fidelity ─────────── */
-
-/* Small caps for chapter labels and proper nouns */
-.small-caps {
-  font-variant: small-caps;
-  letter-spacing: 0.05em;
-}
-
-/* ── Footnote markers — DPUB-ARIA, pure HTML ─────────────────── */
-
-/* Inline superscript footnote references */
-.footnote-ref a {
-  text-decoration: none;
-  color: var(--theme-gold);
-  font-size: 0.75em;
-  vertical-align: super;
-  line-height: 0; /* prevent affecting paragraph line height */
-  padding: 0 0.1em;
-  transition: color 150ms ease;
-}
-.footnote-ref a:hover {
-  text-decoration: underline;
-  color: color-mix(in srgb, var(--theme-gold) 80%, var(--theme-text));
-}
-.footnote-ref a:focus-visible {
-  outline: 2px solid var(--theme-gold);
-  outline-offset: 1px;
-  border-radius: 2px;
-}
-
-/* Chapter notes section at end of chapter */
-.chapter-notes {
-  border-top: 1px solid var(--theme-border);
-  margin-top: 2rem;
-  padding-top: 1.5rem;
-}
-
-/* Back-link arrow */
-.footnote-backlink {
-  text-decoration: none;
-  color: var(--theme-gold);
-  font-size: 0.875em;
-  padding-inline-start: 0.25em;
-  opacity: 0.6;
-  transition: opacity 150ms ease;
-}
-.footnote-backlink:hover {
-  opacity: 1;
-}
-
-/* Print: always show footnotes, remove interactive styling */
 @media print {
-  .chapter-notes {
-    border-top: 1px solid #ccc;
-    margin-top: 1.5em;
-    padding-top: 1em;
-  }
-  .footnote-ref a {
-    color: black !important;
-  }
-  .footnote-backlink {
-    display: none; /* back-links meaningless on paper */
+  .print-citation {
+    display: block;
+    margin-block-start: 2rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid #999;
+    font-size: 0.75rem;
+    color: #666;
   }
 }
 
-/* ── Reader typography — M2b-4 (DES-008) ─────────────────────── */
-
-/* Drop capital at chapter starts — explicit span, not ::first-letter.
-   Avoids ::first-letter grabbing superscript footnote markers. */
-.drop-cap {
-  font-family: var(--font-serif);
-  font-weight: 700;
-  color: var(--theme-text);
-  float: inline-start;
-  font-size: 3.5em;
-  line-height: 0.8;
-  padding-inline-end: 0.08em;
-  margin-block-start: 0.05em;
+/* View Transitions — prāṇa breath rhythm */
+@view-transition {
+  navigation: auto;
 }
 
-/* Decorative gold quotation mark for epigraph blocks */
-.reader-epigraph {
-  position: relative;
-  text-align: center;
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-style: italic;
-  color: var(--theme-text);
-  opacity: 0.8;
-  padding-block: 1.5rem;
-  padding-inline: 2.5rem;
-  margin-block: 2rem;
-}
-.reader-epigraph::before {
-  content: "\201C";
-  font-family: var(--font-serif);
-  font-weight: 700;
-  font-size: 48px;
-  color: var(--theme-gold);
-  opacity: 0.4;
-  position: absolute;
-  inset-block-start: -0.2em;
-  inset-inline-start: 0.5rem;
-  line-height: 1;
+::view-transition-old(root) {
+  animation: fade-out var(--motion-contemplative) var(--easing-accelerate);
 }
 
-/* ── Book figures — PRI-01 photographs, PRI-07 accessibility ──── */
-
-.book-figure {
-  margin-block: 2rem;
-  text-align: center;
-  break-inside: avoid;
+::view-transition-new(root) {
+  animation: fade-in var(--motion-content) var(--easing-decelerate);
 }
 
-.book-figure-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  max-height: 70vh;
-  margin-inline: auto;
-  border-radius: 2px;
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
 }
 
-.book-caption {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--theme-text-secondary);
-  margin-block-start: 0.75rem;
-  max-width: 30rem;
-  margin-inline: auto;
-}
-
-/* Dwell mode: dim figures alongside paragraphs */
-[data-dwell-active] .book-figure {
-  opacity: 0.15;
-  transition: opacity 300ms ease;
-}
-
-/* Text-only mode: hide figures */
-.text-only .book-figure {
-  display: none !important;
-}
-
-/* Print: keep figures together, scale appropriately */
-@media print {
-  .book-figure {
-    break-inside: avoid;
-    margin-block: 1.5em;
-  }
-  .book-figure-img {
-    max-height: 40vh;
-  }
-  .book-caption {
-    color: #444 !important;
-    font-size: 10pt;
-  }
-}
-
-/* Optical margin alignment — progressive enhancement */
-.reader-content {
-  hanging-punctuation: first allow-end;
-}
-
-/* Citation em-dash formatting */
-.reader-citation {
-  font-family: var(--font-serif);
-  font-weight: 300;
-  font-size: 0.875rem;
-  color: var(--theme-text-secondary);
-  margin-block-start: 0.5rem;
-}
-.reader-citation::before {
-  content: "\2014\00a0";
-}
-
-/* CSS-only paper texture — subtle SVG noise */
-.reader-texture {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-/* Scroll position indicator — M2b-5 */
-.scroll-indicator {
-  position: fixed;
-  inset-block-start: 0;
-  inset-inline-start: 0;
-  block-size: 2px;
-  background-color: var(--theme-gold);
-  opacity: 0.3;
-  z-index: 50;
-  transition: inline-size 100ms ease-out;
-}
-
-/* Keyboard paragraph focus — M2b-2 (DES-013) */
-[data-paragraph].kb-focus {
-  background-color: color-mix(in srgb, var(--theme-gold) 6%, transparent);
-  border-radius: 4px;
-  outline: 1px solid color-mix(in srgb, var(--theme-gold) 20%, transparent);
-  outline-offset: 4px;
-  padding-inline: 0.5rem;
-  margin-inline: -0.5rem;
-}
-
-/* ── Dwell contemplation mode — M2b-1 (DES-009) ──────────────── */
-
-/* Dim all paragraphs when dwell is active */
-[data-dwell-active] [data-paragraph] {
-  opacity: 0.15;
-  transition: opacity 300ms ease;
-}
-
-/* Keep the focused paragraph vivid; pointer hint that tap/click exits */
-[data-dwell-active] [data-paragraph][data-dwell-target] {
-  opacity: 1;
-  cursor: pointer;
-}
-
-/* ── Focus reading mode — M2b-8 ──────────────────────────────── */
-
-/* Suppress all chrome except reading column + next chapter nav */
-[data-mode="focus"] header,
-[data-mode="focus"] footer,
-[data-mode="focus"] [data-no-focus] {
-  display: none !important;
-}
-
-/* ── Presentation mode — M2b-15 ──────────────────────────────── */
-
-/* Theme background fills viewport */
-[data-mode="present"] {
-  background: var(--theme-bg) !important;
-}
-
-/* Hide all chrome: header, footer, nav, and explicitly tagged elements */
-[data-mode="present"] header,
-[data-mode="present"] footer,
-[data-mode="present"] nav,
-[data-mode="present"] [data-no-present] {
-  display: none !important;
-}
-
-/* Responsive presentation mode sizing (DES-049) */
-/* Mobile: 24px+ */
-[data-mode="present"] article {
-  font-size: 1.5rem !important;
-  line-height: 1.9 !important;
-  max-inline-size: 48rem !important;
-  margin-inline: auto !important;
-}
-/* Tablet: 28px+ */
-@media (min-width: 640px) {
-  [data-mode="present"] article {
-    font-size: 1.75rem !important;
-  }
-}
-/* Desktop: 32px+ */
-@media (min-width: 1024px) {
-  [data-mode="present"] article {
-    font-size: 2rem !important;
-  }
-}
-/* Wide: 36px+ */
-@media (min-width: 1280px) {
-  [data-mode="present"] article {
-    font-size: 2.25rem !important;
-  }
-}
-
-/* ── Contextual Quiet Corner — M2b-7 ────────────────────────── */
-
-/* Hide all chrome when contextual quiet is active */
-[data-mode="quiet"] header,
-[data-mode="quiet"] footer,
-[data-mode="quiet"] nav,
-[data-mode="quiet"] [data-no-quiet] {
-  display: none !important;
-}
-
-[data-mode="quiet"] {
-  background: var(--theme-bg) !important;
-}
-
-/* In quiet mode, article content hidden — the fixed overlay takes over */
-[data-mode="quiet"] article {
-  opacity: 0.05;
-  pointer-events: none;
-}
-
-/* ── Interaction modality — DES-049 ─────────────────────────────── */
-
-/* Touch-primary: larger tap targets for key interactive elements */
-@media (hover: none) and (pointer: coarse) {
-  .reader-content [data-paragraph] {
-    /* Extra inline padding for comfortable touch selection */
-    padding-inline: 0.25rem;
-  }
-}
-
-/* Desktop-class: subtle hover affordances on reader paragraphs */
-@media (hover: hover) and (pointer: fine) {
-  .reader-content [data-paragraph]:hover {
-    background-color: color-mix(in srgb, var(--theme-gold) 3%, transparent);
-    border-radius: 2px;
-  }
-}
-
-/* ── Tablet reader margins — DES-049 ──────────────────────────── */
-/* Wider than mobile but narrower than desktop for comfortable reading */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .reader-content {
-    padding-inline: 3rem; /* 48px at 768px width */
-  }
-}
-@media (min-width: 768px) and (max-width: 1023px) {
-  .reader-content {
-    padding-inline: 4rem; /* 64px approaching desktop */
-  }
-}
-
-/* ── Orientation handling — DES-049 ──────────────────────────── */
-/* Phone landscape: cap line length to prevent excessively long lines */
-@media (max-width: 639px) and (orientation: landscape) {
-  .reader-content {
-    max-inline-size: 36rem;
-    margin-inline: auto;
-  }
-}
-
-/* ── Golden thread accents — Related Teachings (ADR-050) ──────── */
-/* Paragraphs with cross-chapter connections get a subtle gold left
- * accent — a literal golden thread in the margin. CSS-only visual,
- * no JavaScript positioning required. box-shadow avoids layout shift
- * so all paragraph text stays perfectly aligned. */
-
-.golden-thread-passage {
-  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 22%, transparent);
-  padding-inline-start: 1rem;
-  transition: box-shadow 0.4s ease;
-}
-
-/* Desktop: settled paragraph (whose relations show in the side panel)
- * gets a stronger accent, visually connecting text to panel */
-@media (min-width: 1024px) {
-  .golden-thread-passage[data-thread-active] {
-    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 55%, transparent);
-  }
-}
-
-/* Mobile/tablet: tappable left-margin zone opens the bottom sheet */
-@media (hover: none) and (pointer: coarse) {
-  .golden-thread-passage {
-    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 30%, transparent);
-  }
-  .golden-thread-passage:active {
-    box-shadow: inset 3px 0 0 color-mix(in srgb, var(--theme-gold) 65%, transparent);
-  }
-}
-
-/* Side panel content transition — gentle fade when settled paragraph changes */
-@keyframes thread-panel-in {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.thread-panel-fade {
-  animation: thread-panel-in 0.3s ease-out;
-}
-
-/* Bottom sheet entrance — slide up from bottom */
-@keyframes thread-sheet-up {
-  from { transform: translateY(100%); }
-  to { transform: translateY(0); }
-}
-.thread-sheet-enter {
-  animation: thread-sheet-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Backdrop fade */
-@keyframes thread-backdrop-in {
+@keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
-}
-.thread-backdrop-enter {
-  animation: thread-backdrop-in 0.2s ease-out;
-}
-
-/* Hide golden thread accents in focus/present/quiet modes — calm technology */
-[data-mode="focus"] .golden-thread-passage,
-[data-mode="present"] .golden-thread-passage,
-[data-mode="quiet"] .golden-thread-passage {
-  box-shadow: none !important;
-}
-
-/* Print: hide golden thread accents */
-@media print {
-  .golden-thread-passage {
-    box-shadow: none !important;
-  }
-}
-
-/* ── Reduced motion — M2a-8 (ADR-003) ─────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  /* Instant dwell transitions for reduced motion */
-  [data-dwell-active] [data-paragraph] {
-    transition: none !important;
-  }
 }

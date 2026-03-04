@@ -1,16 +1,18 @@
 /**
- * Root layout — M2a-9, M2a-19 (ADR-075, ADR-099).
+ * Root layout — locale-agnostic shell.
  *
- * Locale-agnostic shell. Sets up fonts, global CSS, JSON-LD,
- * and utilities that work across all locales.
- * Header and Footer are in the [locale] layout (locale-aware).
+ * Sets up global CSS (design system), DesignProvider (org/theme/mode),
+ * JSON-LD structured data, and the skip navigation link.
+ *
+ * The design system's calm.css provides body defaults (font-family,
+ * antialiased rendering, smooth scroll). The design system's
+ * foundations.css provides all custom properties.
  */
 
 import type { Viewport } from "next";
 import { getLocale } from "next-intl/server";
 import "./globals.css";
-import { ServiceWorkerRegistration } from "@/app/components/ServiceWorkerRegistration";
-import { ThemeProvider } from "@/app/components/ThemeProvider";
+import { DesignProvider } from "@/app/components/design/DesignProvider";
 import { SRF, SRF_SOCIAL, SRF_SAME_AS, PORTAL } from "@/lib/config/srf-links";
 
 export const viewport: Viewport = {
@@ -23,10 +25,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const locale = await getLocale();
 
   return (
-    <html lang={locale} dir="ltr">
+    <html lang={locale} dir="ltr" data-org="srf" data-theme="light">
       <head>
-        {/* Preload detailed lotus SVG for Opening Moment threshold */}
-        <link rel="preload" href="/brand/srf-lotus-detailed.svg" as="image" type="image/svg+xml" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -91,16 +91,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           }}
         />
       </head>
-      <body className="flex min-h-screen flex-col font-serif text-srf-navy bg-warm-cream">
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-srf-navy focus:px-4 focus:py-2 focus:text-warm-cream"
-        >
+      <body>
+        <a href="#main-content" className="skip-nav">
           Skip to main content
         </a>
-        <ThemeProvider />
-        {children}
-        <ServiceWorkerRegistration />
+        <DesignProvider>
+          {children}
+        </DesignProvider>
       </body>
     </html>
   );

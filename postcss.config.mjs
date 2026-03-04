@@ -1,6 +1,8 @@
+/** PostCSS config — resolves @import from node_modules (yogananda-design). */
 const config = {
   plugins: {
-    "@tailwindcss/postcss": {},
+    "postcss-import": {},
+    autoprefixer: {},
   },
 };
 

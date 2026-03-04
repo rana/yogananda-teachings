@@ -1,8 +1,10 @@
 /**
- * Locale layout — M2a-9 (ADR-075, ADR-076).
+ * Locale layout — provides next-intl context and page shell.
  *
- * Provides next-intl translation context and sets lang attribute.
- * Wraps all locale-aware pages.
+ * Server Component. Uses design system tokens for styling.
+ * Header and footer are minimal — the reading surface is the focus.
+ *
+ * Governed by: global-first rendering (docs/global-first-rendering.md)
  */
 
 import { NextIntlClientProvider, hasLocale } from "next-intl";
@@ -10,10 +12,8 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { PORTAL } from "@/lib/config/srf-links";
-import { Header } from "@/app/components/Header";
-import { Footer } from "@/app/components/Footer";
-import { LowBandwidthBanner } from "@/app/components/LowBandwidthBanner";
+import { PORTAL, SRF } from "@/lib/config/srf-links";
+import { Surface } from "@/app/components/design/Surface";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -75,10 +75,33 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <LowBandwidthBanner />
-      <Header />
-      <div className="flex-1">{children}</div>
-      <Footer />
+      {/* Site header — functional register, minimal chrome */}
+      <Surface as="header" register="functional" className="app-header">
+        <div className="app-header-inner">
+          <a href={`/${locale}`} className="app-site-name">
+            SRF Teachings
+          </a>
+          <nav className="cluster" aria-label="Site navigation">
+            <a href={`/${locale}/books`}>Library</a>
+            <a href={`/${locale}/search`}>Search</a>
+          </nav>
+        </div>
+      </Surface>
+
+      {/* Main content — the bindu */}
+      <main id="main-content">
+        {children}
+      </main>
+
+      {/* Site footer — ambient register */}
+      <Surface as="footer" register="ambient" className="app-footer">
+        <div className="center">
+          <p>
+            Teachings of Paramahansa Yogananda ·{" "}
+            <a href={SRF.home}>Self-Realization Fellowship</a>
+          </p>
+        </div>
+      </Surface>
     </NextIntlClientProvider>
   );
 }
