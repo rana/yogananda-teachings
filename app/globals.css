@@ -368,6 +368,416 @@ a:hover {
   }
 }
 
+/* ── Page Components ─────────────────────────────────────────── */
+/* Shared patterns across portal pages. Each uses design system
+   tokens directly — no parallel design language. */
+
+/* Section heading — small caps label above content sections */
+.section-label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-block-end: var(--space-default);
+}
+
+/* Page header — display typography for page titles */
+.page-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 400;
+  line-height: 1.2;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.page-subtitle {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-block-start: var(--space-compact);
+}
+
+/* Card — bordered container with hover state */
+.card {
+  display: block;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-gentle, 4px);
+  padding: var(--space-generous);
+  transition: border-color var(--motion-ui);
+}
+
+.card:hover {
+  border-color: var(--color-gold);
+}
+
+/* Pill — inline tag / thematic door */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid color-mix(in oklch, var(--color-gold), transparent 70%);
+  border-radius: 999px;
+  padding: var(--space-compact) var(--space-default);
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  transition: border-color var(--motion-ui), color var(--motion-ui);
+  min-height: 44px;
+}
+
+.pill:hover {
+  border-color: var(--color-gold);
+  color: var(--color-text);
+}
+
+/* Button — primary action */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-weight: 600;
+  background-color: var(--color-text);
+  color: var(--color-bg);
+  border: none;
+  border-radius: var(--radius-gentle, 4px);
+  padding: var(--space-compact) var(--space-generous);
+  min-height: 44px;
+  cursor: pointer;
+  transition: opacity var(--motion-ui);
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+  color: var(--color-bg);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button — secondary/outline */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  border: 1px solid color-mix(in oklch, var(--color-gold), transparent 70%);
+  border-radius: var(--radius-gentle, 4px);
+  padding: var(--space-compact) var(--space-default);
+  color: var(--color-text);
+  background: transparent;
+  min-height: 44px;
+  cursor: pointer;
+  transition: border-color var(--motion-ui), background-color var(--motion-ui);
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-gold);
+  background-color: color-mix(in oklch, var(--color-gold), transparent 95%);
+  color: var(--color-text);
+}
+
+/* Input — form fields */
+.input {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-gentle, 4px);
+  padding: var(--space-compact) var(--space-default);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  min-height: 44px;
+  transition: border-color var(--motion-ui);
+}
+
+.input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-gold), transparent 70%);
+}
+
+/* Passage blockquote — featured teaching quotation */
+.passage-quote {
+  font-family: var(--font-reading);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  line-height: 1.8;
+  color: var(--color-text);
+  max-inline-size: 38em;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.passage-citation {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-block-start: var(--space-default);
+}
+
+/* Breadcrumb navigation */
+.breadcrumb {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-generous);
+}
+
+.breadcrumb a:hover {
+  color: var(--color-text);
+}
+
+/* Chapter list — book detail page */
+.chapter-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.chapter-list-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-default);
+  padding: var(--space-compact) var(--space-default);
+  border-radius: var(--radius-gentle, 4px);
+  transition: background-color var(--motion-ui);
+  min-height: 44px;
+}
+
+.chapter-list-item:hover {
+  background-color: color-mix(in oklch, var(--color-gold), transparent 95%);
+}
+
+.chapter-list-number {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-secondary);
+  min-inline-size: 2rem;
+  text-align: end;
+}
+
+.chapter-list-title {
+  flex: 1;
+}
+
+/* Signpost — quiet external link (SRF bookstore, lessons, etc.) */
+.signpost {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.signpost a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklch, var(--color-gold), transparent 60%);
+  text-underline-offset: 0.15em;
+}
+
+.signpost a:hover {
+  color: var(--color-text);
+}
+
+/* Empty state — centered message for zero-content pages */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 50vh;
+  text-align: center;
+  padding: var(--space-spacious);
+}
+
+/* Grid layouts */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-default);
+}
+
+@media (min-width: 640px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-default);
+}
+
+@media (min-width: 640px) {
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Pill cluster — flex-wrap centered group of pills */
+.pill-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-compact);
+}
+
+/* Search result card */
+.search-result {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-gentle, 4px);
+  padding: var(--space-generous);
+}
+
+.search-result blockquote {
+  font-family: var(--font-reading);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: var(--color-text);
+  margin: 0 0 var(--space-default) 0;
+}
+
+.search-result footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-compact);
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+}
+
+/* Pulse animation for loading */
+@keyframes gentle-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.pulse {
+  animation: gentle-pulse 2s var(--easing-standard) infinite;
+}
+
+/* ── Prose Content ───────────────────────────────────────────── */
+/* Long-form text sections: legal, privacy, about. */
+
+.section-heading {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--color-text);
+  margin-block-end: var(--space-default);
+}
+
+.prose-section {
+  max-inline-size: 42em;
+}
+
+.prose-text {
+  font-family: var(--font-reading);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.prose-text + .prose-text {
+  margin-block-start: var(--space-default);
+}
+
+.prose-list {
+  list-style: disc inside;
+  padding: 0;
+  margin: var(--space-default) 0 0;
+  font-family: var(--font-reading);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.prose-list li + li {
+  margin-block-start: var(--space-compact);
+}
+
+/* ── Data Tables ─────────────────────────────────────────────── */
+/* Technical data display: integrity hashes, etc. */
+
+.data-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-gentle, 4px);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+}
+
+.data-table th {
+  padding: var(--space-compact) var(--space-default);
+  text-align: start;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  border-block-end: 1px solid var(--color-border);
+}
+
+.data-table td {
+  padding: var(--space-compact) var(--space-default);
+  border-block-end: 1px solid color-mix(in oklch, var(--color-border), transparent 50%);
+}
+
+.data-table tr:last-child td {
+  border-block-end: none;
+}
+
+/* ── About Page ──────────────────────────────────────────────── */
+
+.guru-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-generous);
+  margin-block-start: var(--space-generous);
+}
+
+@media (min-width: 640px) {
+  .guru-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.guru-portrait-placeholder {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: color-mix(in oklch, var(--color-text), transparent 95%);
+  margin-inline: auto;
+  margin-block-end: var(--space-default);
+}
+
+/* ── Crisis Banner ───────────────────────────────────────────── */
+/* Compassionate crisis interstitial for search distress signals. */
+
+.crisis-banner {
+  border: 1px solid color-mix(in oklch, var(--color-gold), transparent 70%);
+  border-radius: var(--radius-gentle, 4px);
+  background-color: color-mix(in oklch, var(--color-gold), transparent 95%);
+  padding: var(--space-generous);
+  margin-block-end: var(--space-generous);
+}
+
 /* View Transitions — prāṇa breath rhythm */
 @view-transition {
   navigation: auto;

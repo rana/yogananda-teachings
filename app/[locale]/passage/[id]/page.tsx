@@ -1,9 +1,11 @@
 /**
- * Passage detail page — M2a-6, M2b-10 (ADR-022, ADR-067, ADR-068).
+ * Passage detail page — shareable single teaching.
  *
- * Single passage with full citation, OG meta tags for rich
- * link previews, share functionality, framing context, and
- * book invitation for non-search visitors.
+ * Full citation, OG meta tags for rich link previews,
+ * share functionality, framing context, book invitation.
+ * Server Component.
+ *
+ * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -13,7 +15,8 @@ import pool from "@/lib/db";
 import { resolvePassage } from "@/lib/services/books";
 import { PORTAL } from "@/lib/config/srf-links";
 import { ShareButton } from "@/app/components/ShareButton";
-import { PartingWord } from "@/app/components/PartingWord";
+import { Surface } from "@/app/components/design/Surface";
+import { Motif } from "@/app/components/design/Motif";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -40,18 +43,18 @@ export async function generateMetadata({
   })}`;
 
   return {
-    title: `"${truncated}" — ${passage.bookAuthor}`,
-    description: `${truncated} — ${citation}`,
+    title: `\u201c${truncated}\u201d \u2014 ${passage.bookAuthor}`,
+    description: `${truncated} \u2014 ${citation}`,
     openGraph: {
       type: "article",
-      title: `"${truncated}"`,
+      title: `\u201c${truncated}\u201d`,
       description: citation,
       siteName: "SRF Teachings Portal",
       images: [{ url: ogImageUrl, width: 1200, height: 630, alt: truncated }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `"${truncated}"`,
+      title: `\u201c${truncated}\u201d`,
       description: citation,
       images: [ogImageUrl],
     },
@@ -77,7 +80,6 @@ export default async function PassagePage({
   const passage = await resolvePassage(pool, id);
   if (!passage) notFound();
 
-  // Use slug for canonical URL (human-readable, shareable)
   const passageUrl = `${PORTAL.canonical}/${locale}/passage/${passage.slug}`;
   const citation = `${passage.bookAuthor}, ${passage.bookTitle}, Ch. ${passage.chapterNumber}: ${passage.chapterTitle}${passage.pageNumber ? `, p. ${passage.pageNumber}` : ""}`;
 
@@ -98,74 +100,73 @@ export default async function PassagePage({
   };
 
   return (
-    <main id="main-content" className="min-h-screen">
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="mx-auto max-w-[38rem] px-4 py-8 md:py-16">
-        {/* Framing context for external arrivals — M2b-10 (ADR-067) */}
-        <p className="mb-6 text-sm text-srf-navy/50">
+      <div className="center" style={{ maxInlineSize: "38em" }}>
+        {/* Framing context for external arrivals */}
+        <p className="page-subtitle">
           {t("fromBook", { book: passage.bookTitle })}
         </p>
+      </div>
 
-        {/* The passage */}
-        <blockquote className="mb-6 border-l-2 border-srf-gold/40 pl-6 text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
-          &ldquo;{passage.content}&rdquo;
-        </blockquote>
+      {/* The passage */}
+      <div className="center" style={{ maxInlineSize: "38em" }}>
+        <Surface as="section" register="sacred" rasa="shanta">
+          <blockquote className="passage-quote" style={{ textAlign: "start" }}>
+            &ldquo;{passage.content}&rdquo;
+          </blockquote>
+          <p className="passage-citation" style={{ textAlign: "start" }}>
+            &mdash; {citation}
+          </p>
+        </Surface>
+      </div>
 
-        {/* Citation */}
-        <p className="mb-8 text-sm text-srf-navy/60">&mdash; {citation}</p>
+      {/* Actions */}
+      <div className="center cluster" style={{ maxInlineSize: "38em" }}>
+        <Link
+          href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
+          className="btn-secondary"
+        >
+          {t("readInContext")}
+        </Link>
+        <ShareButton
+          url={passageUrl}
+          text={`\u201c${passage.content.slice(0, 100)}...\u201d \u2014 ${passage.bookAuthor}`}
+          title={passage.bookTitle}
+        />
+      </div>
 
-        {/* Actions */}
-        <div className="flex flex-wrap items-center gap-3">
-          <Link
-            href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
-            className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-(--theme-surface)"
-          >
-            {t("readInContext")}
-          </Link>
-          <ShareButton
-            url={passageUrl}
-            text={`"${passage.content.slice(0, 100)}..." — ${passage.bookAuthor}`}
-            title={passage.bookTitle}
-          />
-        </div>
+      <Motif role="breath" voice="sacred" />
 
-        {/* Book invitation — M2b-10 */}
-        <div className="mt-10 rounded-lg border border-srf-gold/20 bg-(--theme-surface) p-6">
-          <p className="mb-3 text-sm font-medium text-srf-navy">
+      {/* Book invitation */}
+      <div className="center" style={{ maxInlineSize: "38em" }}>
+        <Surface as="section" register="instructional">
+          <p style={{ fontSize: "0.875rem", fontWeight: 500, marginBlockEnd: "var(--space-default)" }}>
             {t("bookInvitation", { book: passage.bookTitle })}
           </p>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/books/${passage.bookSlug}`}
-              className="inline-flex min-h-11 items-center rounded-lg bg-srf-navy px-4 py-2 text-sm text-warm-cream transition-colors hover:bg-srf-navy/90"
-            >
+          <div className="cluster">
+            <Link href={`/books/${passage.bookSlug}`} className="btn-primary">
               {t("exploreBook")}
             </Link>
-            <Link
-              href="/search"
-              className="inline-flex min-h-11 items-center rounded-lg border border-srf-navy/15 px-4 py-2 text-sm text-srf-navy transition-colors hover:bg-warm-cream"
-            >
+            <Link href="/search" className="btn-secondary">
               {t("searchTeachings")}
             </Link>
           </div>
-        </div>
+        </Surface>
+      </div>
 
-        {/* Parting word — M2b-9 */}
-        <div className="mt-10">
-          <PartingWord locale={locale} />
-        </div>
-
-        {/* Copyright notice */}
-        <p className="mt-12 text-xs text-srf-navy/30">
+      {/* Copyright notice */}
+      <div className="center" style={{ maxInlineSize: "38em" }}>
+        <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", opacity: 0.5, marginBlockStart: "var(--space-spacious)" }}>
           All content is the verbatim published work of{" "}
           {passage.bookAuthor} and is copyrighted by Self-Realization
           Fellowship. Made freely accessible for reading and personal study.
         </p>
       </div>
-    </main>
+    </div>
   );
 }

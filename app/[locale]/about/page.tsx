@@ -1,9 +1,8 @@
 /**
- * About page — M2a-4.
+ * About page — who Yogananda was, what SRF is, where to go deeper.
  *
- * Yogananda biography, line of gurus, SRF overview,
- * "Go Deeper" links to SRF Lessons, center locator,
- * Online Meditation Center, bookstore, app.
+ * Biography, line of gurus, SRF overview, external links.
+ * Contemplative register. Server Component.
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -14,12 +13,14 @@ import {
   SRF_BOOKSTORE,
   SRF_SOCIAL,
 } from "@/lib/config/srf-links";
+import { Surface } from "@/app/components/design/Surface";
+import { Motif } from "@/app/components/design/Motif";
 
 const GURUS = [
   { name: "Mahavatar Babaji", role: "The deathless guru" },
-  { name: "Lahiri Mahasaya", role: "1828–1895" },
-  { name: "Swami Sri Yukteswar", role: "1855–1936" },
-  { name: "Paramahansa Yogananda", role: "1893–1952" },
+  { name: "Lahiri Mahasaya", role: "1828\u20131895" },
+  { name: "Swami Sri Yukteswar", role: "1855\u20131936" },
+  { name: "Paramahansa Yogananda", role: "1893\u20131952" },
 ];
 
 const GO_DEEPER_LINKS = [
@@ -41,75 +42,67 @@ export default async function AboutPage({
   const t = await getTranslations("about");
 
   return (
-    <main id="main-content" className="min-h-screen">
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <h1 className="mb-8 font-display text-2xl text-srf-navy md:text-3xl">
-          {t("heading")}
-        </h1>
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
 
-        {/* Yogananda biography */}
-        <section className="mb-12">
-          <h2 className="mb-4 font-display text-xl text-srf-navy">
-            {t("yoganandaTitle")}
-          </h2>
-          <p className="leading-relaxed text-srf-navy/80">
-            {t("yoganandaBio")}
-          </p>
-        </section>
+      <Surface as="section" register="reverential" className="center">
+        <h1 className="page-title">{t("heading")}</h1>
+      </Surface>
 
-        {/* Self-Realization Fellowship */}
-        <section className="mb-12">
-          <h2 className="mb-4 font-display text-xl text-srf-navy">
-            {t("srfTitle")}
-          </h2>
-          <p className="leading-relaxed text-srf-navy/80">
-            {t("srfDescription")}
-          </p>
-        </section>
+      {/* Yogananda biography */}
+      <Surface as="section" register="reverential" className="center prose-section">
+        <h2 className="section-heading">{t("yoganandaTitle")}</h2>
+        <p className="prose-text">{t("yoganandaBio")}</p>
+      </Surface>
 
-        {/* Line of Gurus */}
-        <section className="mb-12">
-          <h2 className="mb-6 font-display text-xl text-srf-navy">
-            {t("lineOfGurus")}
-          </h2>
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            {GURUS.map((guru) => (
-              <div key={guru.name} className="text-center">
-                {/* Placeholder for official portraits */}
-                <div
-                  className="mx-auto mb-3 h-24 w-24 rounded-full bg-srf-navy/5"
-                  data-decorative
-                  aria-hidden="true"
-                />
-                <p className="text-sm font-semibold text-srf-navy">
-                  {guru.name}
-                </p>
-                <p className="text-xs text-srf-navy/50">{guru.role}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+      <Motif role="breath" voice="sacred" />
 
-        {/* Go Deeper */}
-        <section>
-          <h2 className="mb-6 font-display text-xl text-srf-navy">
-            {t("goDeeper")}
-          </h2>
-          <div className="space-y-3">
-            {GO_DEEPER_LINKS.map((link) => (
-              <a
-                key={link.key}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block rounded-lg border border-srf-navy/10 bg-(--theme-surface) px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
-              >
-                {t(link.key)}
-              </a>
-            ))}
-          </div>
-        </section>
-      </div>
-    </main>
+      {/* Self-Realization Fellowship */}
+      <Surface as="section" register="instructional" className="center prose-section">
+        <h2 className="section-heading">{t("srfTitle")}</h2>
+        <p className="prose-text">{t("srfDescription")}</p>
+      </Surface>
+
+      {/* Line of Gurus */}
+      <Surface as="section" register="reverential" className="center">
+        <h2 className="section-heading" style={{ textAlign: "center" }}>{t("lineOfGurus")}</h2>
+        <div className="guru-grid">
+          {GURUS.map((guru) => (
+            <div key={guru.name} style={{ textAlign: "center" }}>
+              <div
+                className="guru-portrait-placeholder"
+                aria-hidden="true"
+              />
+              <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>
+                {guru.name}
+              </p>
+              <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)" }}>
+                {guru.role}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Surface>
+
+      <Motif role="breath" voice="sacred" />
+
+      {/* Go Deeper */}
+      <Surface as="section" register="instructional" className="center">
+        <h2 className="section-heading">{t("goDeeper")}</h2>
+        <div className="stack-tight">
+          {GO_DEEPER_LINKS.map((link) => (
+            <a
+              key={link.key}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="card"
+              style={{ fontSize: "0.875rem" }}
+            >
+              {t(link.key)}
+            </a>
+          ))}
+        </div>
+      </Surface>
+    </div>
   );
 }

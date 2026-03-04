@@ -1,15 +1,12 @@
 /**
  * Personal Library — a quiet map of the seeker's journey.
  *
- * Aggregates reading progress, bookmarks, and last-read positions
- * into a single view. Books appear automatically when the seeker
- * visits a chapter — no explicit "add" action needed.
+ * Aggregates reading progress, bookmarks, and last-read positions.
+ * Books appear automatically when the seeker visits a chapter.
+ * No time tracking. No streaks. Just where you've been.
  *
- * No time tracking. No streaks. No minutes spent.
- * Just where you've been and a door back in.
- *
- * DELTA-compliant: all data stays on-device (PRI-09).
- * Calm technology: remembers without measuring (PRI-08).
+ * DELTA-compliant: all data stays on-device.
+ * Server Component wraps client island.
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -43,19 +40,13 @@ export default async function LibraryPage({
   const t = await getTranslations("library");
 
   return (
-    <main id="main-content" className="min-h-screen">
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <header className="mb-8">
-          <h1 className="font-display text-2xl text-srf-navy md:text-3xl">
-            {t("heading")}
-          </h1>
-          <p className="mt-2 text-sm text-srf-navy/50">
-            {t("subtitle")}
-          </p>
-        </header>
+    <div className="center" style={{ paddingBlock: "var(--space-spacious)" }}>
+      <header style={{ marginBlockEnd: "var(--space-generous)" }}>
+        <h1 className="page-title">{t("heading")}</h1>
+        <p className="page-subtitle">{t("subtitle")}</p>
+      </header>
 
-        <LibraryView locale={locale} />
-      </div>
-    </main>
+      <LibraryView locale={locale} />
+    </div>
   );
 }

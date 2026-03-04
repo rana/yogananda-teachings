@@ -1,13 +1,17 @@
 /**
- * Content integrity page — M2a-15 (ADR-039).
+ * Content integrity page — verification hashes.
  *
- * Lists all books and chapter hashes with verification instructions.
- * SHA-256 per chapter computed at ingestion time.
+ * Lists all books and chapter SHA-256 hashes.
+ * Ensures verbatim fidelity is independently verifiable.
+ * Server Component.
+ *
+ * Governed by: PRI-01 (verbatim fidelity)
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import pool from "@/lib/db";
 import { getBooks } from "@/lib/services/books";
+import { Surface } from "@/app/components/design/Surface";
 
 export const revalidate = 86400; // 24 hours
 
@@ -22,10 +26,8 @@ export default async function IntegrityPage({
 
   const books = await getBooks(pool);
 
-  // Get chapters with content hashes for each book
   const booksWithHashes = await Promise.all(
     books.map(async (book) => {
-      // Get content hashes from book_chunks
       const { rows } = await pool.query(
         `SELECT c.chapter_number, c.title,
                 encode(sha256(string_agg(bc.content, '' ORDER BY bc.paragraph_index)::bytea), 'hex') as content_hash
@@ -48,48 +50,38 @@ export default async function IntegrityPage({
   );
 
   return (
-    <main id="main-content" className="min-h-screen">
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <h1 className="mb-2 font-display text-2xl text-srf-navy md:text-3xl">
-          {t("heading")}
-        </h1>
-        <p className="mb-2 text-sm text-srf-navy/60">{t("subtitle")}</p>
-        <p className="mb-8 text-xs text-srf-navy/40">{t("description")}</p>
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
 
+      <Surface as="header" register="instructional" className="center">
+        <h1 className="page-title">{t("heading")}</h1>
+        <p className="page-subtitle">{t("subtitle")}</p>
+        <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", opacity: 0.6, marginBlockStart: "var(--space-compact)" }}>
+          {t("description")}
+        </p>
+      </Surface>
+
+      <div className="center stack-generous">
         {booksWithHashes.map((book) => (
-          <section key={book.id} className="mb-8">
-            <h2 className="mb-3 font-display text-lg text-srf-navy">
-              {book.title}
-            </h2>
-            <div className="overflow-x-auto rounded-lg border border-srf-navy/10 bg-(--theme-surface)">
-              <table className="w-full text-xs">
+          <section key={book.id}>
+            <h2 className="section-heading">{book.title}</h2>
+            <div className="data-table-wrapper">
+              <table className="data-table">
                 <thead>
-                  <tr className="border-b border-srf-navy/5">
-                    <th className="px-3 py-2 text-start font-sans font-semibold text-srf-navy/60">
-                      Ch.
-                    </th>
-                    <th className="px-3 py-2 text-start font-sans font-semibold text-srf-navy/60">
-                      Title
-                    </th>
-                    <th className="px-3 py-2 text-start font-sans font-semibold text-srf-navy/60">
-                      SHA-256
-                    </th>
+                  <tr>
+                    <th>Ch.</th>
+                    <th>Title</th>
+                    <th>SHA-256</th>
                   </tr>
                 </thead>
                 <tbody>
                   {book.chapters.map((ch) => (
-                    <tr
-                      key={ch.chapterNumber}
-                      className="border-b border-srf-navy/5 last:border-0"
-                    >
-                      <td className="px-3 py-1.5 tabular-nums text-srf-navy/50">
+                    <tr key={ch.chapterNumber}>
+                      <td style={{ fontVariantNumeric: "tabular-nums" }}>
                         {ch.chapterNumber}
                       </td>
-                      <td className="px-3 py-1.5 text-srf-navy/80">
-                        {ch.title}
-                      </td>
-                      <td className="px-3 py-1.5 font-mono text-srf-navy/40">
-                        {ch.hash === "pending" ? "—" : ch.hash.slice(0, 16) + "..."}
+                      <td>{ch.title}</td>
+                      <td style={{ fontFamily: "monospace", opacity: 0.5 }}>
+                        {ch.hash === "pending" ? "\u2014" : ch.hash.slice(0, 16) + "..."}
                       </td>
                     </tr>
                   ))}
@@ -99,6 +91,6 @@ export default async function IntegrityPage({
           </section>
         ))}
       </div>
-    </main>
+    </div>
   );
 }

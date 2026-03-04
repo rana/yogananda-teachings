@@ -1,8 +1,11 @@
 /**
- * Book landing page — M2a-2.
+ * Book landing page — table of contents.
  *
- * Cover, metadata, editorial description, and full chapter list.
- * Warm, unhurried design with SRF Bookstore signpost.
+ * Book title, attribution, and full chapter list.
+ * Warm, unhurried. The threshold to deep reading.
+ * Server Component.
+ *
+ * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -12,7 +15,8 @@ import pool from "@/lib/db";
 import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
-import { ChapterProgress, ChapterVisitedDot } from "@/app/components/ChapterProgress";
+import { Surface } from "@/app/components/design/Surface";
+import { Motif } from "@/app/components/design/Motif";
 
 export async function generateMetadata({
   params,
@@ -103,81 +107,67 @@ export default async function BookLandingPage({
   ];
 
   return (
-    <main id="main-content" className="min-h-screen">
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        {/* Breadcrumb */}
-        <nav className="mb-6 text-sm text-srf-navy/50" aria-label="Breadcrumb">
-          <Link href="/books" className="hover:text-srf-navy/80">
-            {rt("breadcrumbBooks")}
-          </Link>
-          <span className="mx-2" aria-hidden="true">/</span>
-          <span className="text-srf-navy/80">{book.title}</span>
+
+      {/* Breadcrumb */}
+      <nav className="breadcrumb center" aria-label="Breadcrumb">
+        <Link href="/books">{rt("breadcrumbBooks")}</Link>
+        <span aria-hidden="true"> / </span>
+        <span>{book.title}</span>
+      </nav>
+
+      {/* Book header */}
+      <Surface as="header" register="reverential" className="center">
+        <h1 className="page-title">{book.title}</h1>
+        <p className="page-subtitle">
+          {book.author}
+          {book.publicationYear && ` (${book.publicationYear})`}
+        </p>
+      </Surface>
+
+      <Motif role="breath" voice="sacred" />
+
+      {/* Chapter list */}
+      {chapters.length === 0 ? (
+        <div className="empty-state">
+          <p className="page-subtitle">No chapters available yet.</p>
+        </div>
+      ) : (
+        <nav className="center">
+          <ol className="chapter-list" aria-label="Chapters">
+            {chapters.map((ch) => (
+              <li key={ch.id}>
+                <Link
+                  href={`/books/${book.slug}/${ch.chapterNumber}`}
+                  className="chapter-list-item"
+                >
+                  <span className="chapter-list-number">{ch.chapterNumber}</span>
+                  <span className="chapter-list-title">{ch.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ol>
         </nav>
+      )}
 
-        {/* Book header */}
-        <header className="mb-8">
-          <h1 className="mb-1 font-display text-2xl text-srf-navy md:text-3xl">
-            {book.title}
-          </h1>
-          <p className="text-sm text-srf-navy/60">
-            {book.author}
-            {book.publicationYear && ` (${book.publicationYear})`}
-          </p>
-        </header>
-
-        {/* Chapter list */}
-        {chapters.length === 0 ? (
-          <p className="py-12 text-center text-srf-navy/50">
-            No chapters available yet.
-          </p>
-        ) : (
-          <>
-            {/* Reading progress — subtle gold bar for returning seekers */}
-            <ChapterProgress
-              bookSlug={book.slug}
-              totalChapters={chapters.length}
-            />
-
-            <ol className="space-y-0.5" aria-label="Chapters">
-              {chapters.map((ch) => (
-                <li key={ch.id}>
-                  <Link
-                    href={`/books/${book.slug}/${ch.chapterNumber}`}
-                    className="flex items-center gap-3 rounded-lg px-4 py-3 transition-colors hover:bg-(--theme-surface) min-h-[44px]"
-                  >
-                    <span className="min-w-8 text-end text-sm tabular-nums text-srf-navy/40">
-                      {ch.chapterNumber}
-                    </span>
-                    <span className="flex-1 text-srf-navy">{ch.title}</span>
-                    <ChapterVisitedDot
-                      bookSlug={book.slug}
-                      chapterNumber={ch.chapterNumber}
-                    />
-                  </Link>
-                </li>
-              ))}
-            </ol>
-          </>
-        )}
-
-        {/* Bookstore signpost */}
-        {book.bookstoreUrl && (
-          <p className="mt-8 text-center text-sm">
+      {/* Bookstore signpost */}
+      {book.bookstoreUrl && (
+        <div className="signpost">
+          <p>
             <a
               href={book.bookstoreUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-srf-navy/50 underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"
             >
               {t("bookstoreSignpost")}
             </a>
           </p>
-        )}
-      </div>
-    </main>
+        </div>
+      )}
+    </div>
   );
 }

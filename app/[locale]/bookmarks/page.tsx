@@ -1,9 +1,9 @@
 /**
- * Bookmarks page — M2b-3 (ADR-066).
+ * Bookmarks page — saved teachings.
  *
  * Lists all saved bookmarks grouped by book.
- * localStorage-only, no server interaction (PRI-09).
- * Server component wraps a client component for interactivity.
+ * localStorage-only, no server interaction.
+ * Server Component wraps client island.
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -37,19 +37,13 @@ export default async function BookmarksPage({
   const t = await getTranslations("bookmarks");
 
   return (
-    <main id="main-content" className="min-h-screen bg-warm-cream">
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <header className="mb-8">
-          <h1 className="font-display text-2xl text-srf-navy md:text-3xl">
-            {t("heading")}
-          </h1>
-          <p className="mt-2 text-sm text-srf-navy/50">
-            {t("subtitle")}
-          </p>
-        </header>
+    <div className="center" style={{ paddingBlock: "var(--space-spacious)" }}>
+      <header style={{ marginBlockEnd: "var(--space-generous)" }}>
+        <h1 className="page-title">{t("heading")}</h1>
+        <p className="page-subtitle">{t("subtitle")}</p>
+      </header>
 
-        <BookmarksList />
-      </div>
-    </main>
+      <BookmarksList />
+    </div>
   );
 }

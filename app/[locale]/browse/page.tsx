@@ -1,11 +1,10 @@
 /**
- * Browse — The Complete Index — M2a-18 (DES-047).
+ * Browse — The Complete Index.
  *
  * High-density text page listing all navigable content.
- * Milestone 2a: books only (by language, with chapter counts).
- * Designed text-first — semantic HTML, zero JavaScript, zero images.
- * Auto-generated from database at build time (ISR).
- * < 20KB total. Ideal screen reader experience.
+ * Books grouped by language with chapter counts.
+ * Designed text-first. Zero JavaScript. Ideal screen reader experience.
+ * Server Component.
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -14,6 +13,7 @@ import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
 import { localeNames } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
+import { Surface } from "@/app/components/design/Surface";
 
 export const revalidate = 86400; // 24 hours
 
@@ -40,48 +40,39 @@ export default async function BrowsePage({
   }
 
   return (
-    <main
-      id="main-content"
-      className="min-h-screen"
-      aria-label={t("heading")}
-    >
-      <div className="mx-auto max-w-3xl px-4 py-8 md:py-12">
-        <h1 className="mb-2 font-display text-2xl text-srf-navy md:text-3xl">
-          {t("heading")}
-        </h1>
-        <p className="mb-8 text-sm text-srf-navy/60">{t("subtitle")}</p>
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }} aria-label={t("heading")}>
 
-        {/* Books section */}
-        <section>
-          <h2 className="mb-4 font-display text-lg text-srf-navy">
-            {t("booksSection")}
-          </h2>
+      <Surface as="section" register="instructional" className="center">
+        <h1 className="page-title">{t("heading")}</h1>
+        <p className="page-subtitle">{t("subtitle")}</p>
+      </Surface>
 
-          {Object.entries(booksByLanguage).map(([lang, langBooks]) => (
-            <div key={lang} className="mb-6">
-              <h3 className="mb-2 text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
-                {localeNames[lang as Locale] || lang}
-              </h3>
-              <ul className="space-y-1">
-                {langBooks.map((book) => (
-                  <li key={book.id}>
-                    <Link
-                      href={`/books/${book.slug}`}
-                      className="inline text-sm text-srf-navy hover:text-srf-gold"
-                    >
-                      {book.title}
-                    </Link>
-                    <span className="text-xs text-srf-navy/40">
-                      {" "}
-                      — {book.author} ({book.chapterCount} ch.)
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
-      </div>
-    </main>
+      <section className="center">
+        <h2 className="section-heading">{t("booksSection")}</h2>
+
+        {Object.entries(booksByLanguage).map(([lang, langBooks]) => (
+          <div key={lang} style={{ marginBlockEnd: "var(--space-generous)" }}>
+            <h3 className="section-label" style={{ textAlign: "start" }}>
+              {localeNames[lang as Locale] || lang}
+            </h3>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {langBooks.map((book) => (
+                <li key={book.id} style={{ marginBlockStart: "var(--space-compact)" }}>
+                  <Link
+                    href={`/books/${book.slug}`}
+                    style={{ fontSize: "0.875rem" }}
+                  >
+                    {book.title}
+                  </Link>
+                  <span style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)" }}>
+                    {" "}&mdash; {book.author} ({book.chapterCount} ch.)
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </section>
+    </div>
   );
 }

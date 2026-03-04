@@ -1,10 +1,8 @@
 /**
- * The Quiet Corner — M2a-3 (ADR-072).
+ * The Quiet Corner — micro-sanctuary.
  *
- * Single-page micro-sanctuary: random affirmation,
- * optional gentle timer (1/5/15 min), chime at completion.
- * No tracking, no accounts.
- * Header collapses to lotus mark only, footer suppressed.
+ * Random affirmation, optional gentle timer, chime at completion.
+ * No tracking, no accounts. Server Component wraps client island.
  */
 
 import { setRequestLocale } from "next-intl/server";

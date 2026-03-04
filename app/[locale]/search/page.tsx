@@ -1,10 +1,13 @@
 "use client";
 
 /**
- * Search page — M2a-1 (ADR-130, ADR-122).
+ * Search page — hybrid search with crisis detection.
  *
- * Hybrid search with crisis detection, language toggle,
- * and cross-language fallback. All UI strings from next-intl.
+ * Conditional hybrid search: FTS first (~40ms), semantic only
+ * when sparse (saves Voyage API calls). Crisis interstitial
+ * for distress signals. Client Component — interactive.
+ *
+ * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  */
 
 import { Suspense, useState, useCallback, useEffect } from "react";
@@ -23,8 +26,7 @@ import { SEARCH_PLACEHOLDERS } from "@/lib/config/search-prompts";
 /**
  * Curated search invitations — editorially chosen doorways into the corpus.
  * Bilingual: display text matches the search language (not just UI locale)
- * so queries produce relevant results. Different from homepage thematic doors
- * (which are broader) — these are search-tuned.
+ * so queries produce relevant results.
  */
 const CURATED_SUGGESTIONS = [
   { en: "Peace of mind", es: "Paz mental" },
@@ -33,8 +35,8 @@ const CURATED_SUGGESTIONS = [
   { en: "The miraculous", es: "Lo milagroso" },
   { en: "Life's purpose", es: "El propósito de la vida" },
   { en: "Willpower", es: "Fuerza de voluntad" },
-  { en: "Where do they go?", es: "¿A dónde van?" },
-  { en: "Healing", es: "Sanación" },
+  { en: "Where do they go?", es: "\u00bfA d\u00f3nde van?" },
+  { en: "Healing", es: "Sanaci\u00f3n" },
 ] as const;
 
 interface Citation {
@@ -76,40 +78,40 @@ export default function SearchPage() {
 
 function SearchSkeleton() {
   return (
-    <main id="main-content" className="min-h-screen">
-      <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
-        <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
-          <div className="h-8 w-48 animate-pulse rounded bg-srf-navy/10" />
-        </div>
-      </div>
-    </main>
+    <div className="center" style={{ paddingBlock: "var(--space-spacious)" }}>
+      <div className="pulse" style={{
+        height: "2rem",
+        width: "12rem",
+        borderRadius: "var(--radius-gentle, 4px)",
+        backgroundColor: "color-mix(in oklch, var(--color-text), transparent 90%)",
+      }} />
+    </div>
   );
 }
 
 /**
- * Inline crisis interstitial — M1c-9 (ADR-122).
- * Inlined to avoid separate module import overhead (PRI-07).
+ * Inline crisis interstitial — compassionate response to distress signals.
  */
 function CrisisBanner({ crisis }: { crisis: CrisisInfo }) {
   if (!crisis.detected || !crisis.helpline) return null;
   return (
     <div
       role="alert"
-      className="mb-6 rounded-lg border border-srf-gold/30 bg-srf-gold/5 p-4 md:p-5"
+      className="crisis-banner"
     >
-      <p className="text-sm font-medium text-srf-navy">
+      <p style={{ fontSize: "0.875rem", fontWeight: 500 }}>
         If you or someone you know is struggling, help is available.
       </p>
-      <p className="mt-2 text-sm text-srf-navy/80">
+      <p style={{ fontSize: "0.875rem", marginBlockStart: "var(--space-compact)" }}>
         <strong>{crisis.helpline.action}</strong> — {crisis.helpline.name}
       </p>
-      <p className="mt-1 text-xs text-srf-navy/50">
+      <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", marginBlockStart: "var(--space-compact)" }}>
         {crisis.helpline.available} &middot;{" "}
         <a
           href={crisis.helpline.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"
+          style={{ textDecoration: "underline", textUnderlineOffset: "0.15em" }}
         >
           {crisis.helpline.url}
         </a>
@@ -119,9 +121,7 @@ function CrisisBanner({ crisis }: { crisis: CrisisInfo }) {
 }
 
 /**
- * Inline share button — M2a-6 (DES-006, PRI-02).
- * Web Share API with clipboard fallback. Inlined to avoid
- * next/dynamic overhead (PRI-07).
+ * Inline share button — Web Share API with clipboard fallback.
  */
 function InlineShareButton({
   passage,
@@ -137,8 +137,8 @@ function InlineShareButton({
   const t = useTranslations("share");
   const [copied, setCopied] = useState(false);
 
-  const shareText = `"${passage}"\n\n— ${citation.author}, ${citation.book}, Ch. ${citation.chapterNumber}: ${citation.chapter}${citation.page ? `, p. ${citation.page}` : ""}`;
-  const shareTitle = `${citation.book} — ${citation.chapter}`;
+  const shareText = `"${passage}"\n\n\u2014 ${citation.author}, ${citation.book}, Ch. ${citation.chapterNumber}: ${citation.chapter}${citation.page ? `, p. ${citation.page}` : ""}`;
+  const shareTitle = `${citation.book} \u2014 ${citation.chapter}`;
 
   const handleShare = useCallback(async () => {
     if (typeof navigator !== "undefined" && navigator.share) {
@@ -165,14 +165,25 @@ function InlineShareButton({
       type="button"
       onClick={handleShare}
       data-no-print
-      className="min-h-11 inline-flex items-center gap-1 text-sm text-srf-navy/60 transition-colors hover:text-srf-navy"
+      style={{
+        minHeight: "44px",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "4px",
+        fontSize: "0.875rem",
+        color: "var(--color-text-secondary)",
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        padding: 0,
+      }}
       aria-label={t("button")}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="h-3.5 w-3.5"
+        style={{ width: "0.875rem", height: "0.875rem" }}
         aria-hidden="true"
       >
         <path d="M13 4.5a2.5 2.5 0 1 1 .702 1.737L6.97 9.604a2.518 2.518 0 0 1 0 .799l6.732 3.365a2.5 2.5 0 1 1-.671 1.341l-6.732-3.365a2.5 2.5 0 1 1 0-3.482l6.732-3.365A2.52 2.52 0 0 1 13 4.5Z" />
@@ -195,13 +206,10 @@ function SearchPageInner() {
   const [searched, setSearched] = useState(false);
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
 
-  // Load recent searches on mount
   useEffect(() => {
     setRecentSearches(getRecentSearches());
   }, []);
 
-  // Engineering debug mode — ?debug query param or localStorage flag.
-  // Readers see clean result counts; engineers see timing, mode, scores.
   const [debugMode] = useState(() => {
     if (typeof window === "undefined") return false;
     return (
@@ -217,21 +225,10 @@ function SearchPageInner() {
       setLoading(true);
       setSearched(true);
 
-      // Record in recent searches (DELTA-compliant: localStorage only)
       addRecentSearch(q.trim());
       setRecentSearches(getRecentSearches());
 
       const encoded = encodeURIComponent(q.trim());
-
-      // Conditional hybrid search:
-      //
-      // 1. Fire FTS-only + crisis detection in parallel (~40ms warm).
-      //    Renders results immediately — seeker sees content fast.
-      // 2. If FTS returned sparse results (< threshold), fire hybrid
-      //    for semantic recall via Voyage embeddings (~350ms).
-      //    Otherwise skip — FTS was sufficient, no Voyage cost.
-      //
-      // This eliminates Voyage API calls on common keyword queries entirely.
 
       const crisisPromise = fetch(
         `/api/v1/search/crisis?q=${encoded}&language=${lang}`,
@@ -245,7 +242,6 @@ function SearchPageInner() {
         return { data: data.data || [], meta: data.meta || null };
       }).catch(() => ({ data: [], meta: null }));
 
-      // Phase 1: render FTS results + crisis
       const [crisisData, ftsData] = await Promise.all([
         crisisPromise,
         ftsPromise,
@@ -256,7 +252,6 @@ function SearchPageInner() {
       setMeta(ftsData.meta);
       setLoading(false);
 
-      // Phase 2: only fire hybrid if FTS results are sparse
       const HYBRID_THRESHOLD = 5;
       const HYBRID_TIMEOUT = 4000;
 
@@ -293,7 +288,6 @@ function SearchPageInner() {
     [query, language, doSearch],
   );
 
-  // Auto-search from URL params
   useEffect(() => {
     const q = searchParams.get("q");
     if (q && !searched) {
@@ -303,31 +297,35 @@ function SearchPageInner() {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <main id="main-content" className="min-h-screen">
+    <div style={{ paddingBlock: "var(--space-spacious)" }}>
       {/* Search header */}
-      <div className="border-b border-srf-gold/20 bg-(--theme-surface)">
-        <div className="mx-auto max-w-4xl px-4 py-8 md:py-12">
-          <h1 className="mb-2 font-display text-2xl text-srf-navy md:text-3xl">
-            {t("heading")}
-          </h1>
-          <p className="mb-6 text-sm text-srf-navy/60">{t("subtitle")}</p>
+      <div data-register="instructional" style={{
+        borderBlockEnd: "1px solid var(--color-border)",
+        paddingBlock: "var(--space-generous)",
+      }}>
+        <div className="center" style={{ maxInlineSize: "48em" }}>
+          <h1 className="page-title">{t("heading")}</h1>
+          <p className="page-subtitle" style={{ marginBlockEnd: "var(--space-generous)" }}>{t("subtitle")}</p>
 
           <form onSubmit={handleSearch} role="search">
-            <div className="flex gap-2">
-              <SearchCombobox
-                value={query}
-                onChange={setQuery}
-                onSubmit={(q) => doSearch(q, language)}
-                language={language}
-                placeholder={t("placeholder")}
-                placeholders={SEARCH_PLACEHOLDERS[language] ?? SEARCH_PLACEHOLDERS.en}
-                ariaLabel={t("heading")}
-                className="min-h-11 flex-1 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-4 py-2.5 text-srf-navy placeholder:text-srf-navy/35 focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
-              />
+            <div className="cluster" style={{ gap: "var(--space-compact)" }}>
+              <div style={{ flex: 1 }}>
+                <SearchCombobox
+                  value={query}
+                  onChange={setQuery}
+                  onSubmit={(q) => doSearch(q, language)}
+                  language={language}
+                  placeholder={t("placeholder")}
+                  placeholders={SEARCH_PLACEHOLDERS[language] ?? SEARCH_PLACEHOLDERS.en}
+                  ariaLabel={t("heading")}
+                  className="input"
+                />
+              </div>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="min-h-11 min-w-11 rounded-lg border border-srf-navy/15 bg-(--theme-surface) px-2 py-2.5 text-sm text-srf-navy focus:border-srf-gold/60 focus:outline-none focus:ring-1 focus:ring-srf-gold/30"
+                className="input"
+                style={{ minWidth: "44px" }}
                 aria-label={t("language")}
               >
                 {locales.map((loc) => (
@@ -339,7 +337,7 @@ function SearchPageInner() {
               <button
                 type="submit"
                 disabled={loading || !query.trim()}
-                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-5 py-2.5 text-sm font-sans font-semibold text-warm-cream transition-colors hover:bg-srf-navy/90 disabled:opacity-50"
+                className="btn-primary"
               >
                 {loading ? t("loading") : t("button")}
               </button>
@@ -349,17 +347,16 @@ function SearchPageInner() {
       </div>
 
       {/* Results */}
-      <div className="mx-auto max-w-3xl px-4 py-6" aria-live="polite">
+      <div className="center" style={{ paddingBlock: "var(--space-generous)" }} aria-live="polite">
         <CrisisBanner crisis={crisis} />
 
         {/* Empty state: recent searches + curated suggestions */}
         {!searched && !loading && (
-          <div className="py-8 space-y-10">
-            {/* Recent searches — returning seeker's trail */}
+          <div className="stack-spacious" style={{ paddingBlock: "var(--space-generous)" }}>
             {recentSearches.length > 0 && (
               <section aria-label={t("recentSearches")}>
-                <div className="mb-4 flex items-center justify-center gap-3">
-                  <h2 className="text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
+                <div className="cluster" style={{ justifyContent: "center", marginBlockEnd: "var(--space-default)" }}>
+                  <h2 className="section-label" style={{ margin: 0 }}>
                     {t("recentSearches")}
                   </h2>
                   <button
@@ -368,12 +365,20 @@ function SearchPageInner() {
                       clearRecentSearches();
                       setRecentSearches([]);
                     }}
-                    className="text-xs text-srf-navy/30 hover:text-srf-navy/50 transition-colors"
+                    style={{
+                      fontSize: "0.75rem",
+                      color: "var(--color-text-secondary)",
+                      opacity: 0.6,
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      padding: 0,
+                    }}
                   >
                     {t("clearRecent")}
                   </button>
                 </div>
-                <div className="flex flex-wrap justify-center gap-2">
+                <div className="pill-cluster">
                   {recentSearches.map((recent) => (
                     <button
                       key={recent}
@@ -382,7 +387,8 @@ function SearchPageInner() {
                         setQuery(recent);
                         doSearch(recent, language);
                       }}
-                      className="inline-flex min-h-11 items-center rounded-full border border-srf-navy/10 px-4 py-2 text-sm text-srf-navy/60 transition-all hover:border-srf-navy/30 hover:text-srf-navy"
+                      className="pill"
+                      style={{ cursor: "pointer", background: "none" }}
                     >
                       {recent}
                     </button>
@@ -391,15 +397,12 @@ function SearchPageInner() {
               </section>
             )}
 
-            {/* Curated suggestions — editorial doorways */}
             <section aria-label={t("suggestionsHeading")}>
-              <h2 className="mb-2 text-center text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
-                {t("suggestionsHeading")}
-              </h2>
-              <p className="mb-6 text-center text-sm text-srf-navy/50">
+              <h2 className="section-label">{t("suggestionsHeading")}</h2>
+              <p className="page-subtitle" style={{ textAlign: "center", marginBlockEnd: "var(--space-generous)" }}>
                 {t("suggestionsSubtitle")}
               </p>
-              <div className="flex flex-wrap justify-center gap-2.5">
+              <div className="pill-cluster">
                 {CURATED_SUGGESTIONS.map((suggestion) => {
                   const label =
                     suggestion[language as "en" | "es"] || suggestion.en;
@@ -411,7 +414,8 @@ function SearchPageInner() {
                         setQuery(label);
                         doSearch(label, language);
                       }}
-                      className="inline-flex min-h-11 items-center rounded-full border border-srf-gold/25 px-4 py-2 text-sm text-srf-navy/70 transition-all hover:border-srf-gold/60 hover:bg-srf-gold/5 hover:text-srf-navy"
+                      className="pill"
+                      style={{ cursor: "pointer", background: "none" }}
                     >
                       {label}
                     </button>
@@ -423,15 +427,15 @@ function SearchPageInner() {
         )}
 
         {meta && (
-          <div className="mb-4">
+          <div style={{ marginBlockEnd: "var(--space-default)" }}>
             <p
-              className="text-sm text-srf-navy/50"
-              title={`${meta.durationMs}ms · ${meta.mode}`}
+              style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)" }}
+              title={`${meta.durationMs}ms \u00b7 ${meta.mode}`}
             >
               {meta.totalResults} result{meta.totalResults !== 1 ? "s" : ""}
             </p>
             {meta.fallbackLanguage && (
-              <p className="mt-1 text-sm text-srf-gold">
+              <p style={{ fontSize: "0.875rem", color: "var(--color-gold)", marginBlockStart: "var(--space-compact)" }}>
                 Showing English results.
               </p>
             )}
@@ -439,22 +443,22 @@ function SearchPageInner() {
         )}
 
         {searched && !loading && results.length === 0 && (
-          <p className="py-12 text-center text-srf-navy/50">
-            {t("noResults")}
-          </p>
+          <div className="empty-state" style={{ minBlockSize: "30vh" }}>
+            <p style={{ color: "var(--color-text-secondary)" }}>{t("noResults")}</p>
+          </div>
         )}
 
-        <div className="space-y-4" role="list" aria-label={t("heading")}>
+        <div className="stack" role="list" aria-label={t("heading")}>
           {results.map((result) => {
             const isFallback =
               meta?.fallbackLanguage && result.language !== language;
             return (
               <article
                 key={result.id}
-                className="rounded-lg border border-srf-navy/10 bg-(--theme-surface) p-4 md:p-6"
+                className="search-result"
                 role="listitem"
               >
-                <blockquote className="mb-3 text-base leading-relaxed text-srf-navy md:text-lg md:leading-relaxed">
+                <blockquote>
                   &ldquo;
                   <HighlightedText
                     text={result.content}
@@ -462,13 +466,19 @@ function SearchPageInner() {
                   />
                   &rdquo;
                 </blockquote>
-                <footer className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-srf-navy/60">
+                <footer>
                   {isFallback && (
-                    <span className="rounded bg-srf-navy/10 px-1.5 py-0.5 text-xs font-medium text-srf-navy/70">
+                    <span style={{
+                      fontSize: "0.75rem",
+                      fontWeight: 500,
+                      backgroundColor: "color-mix(in oklch, var(--color-text), transparent 90%)",
+                      padding: "1px 6px",
+                      borderRadius: "var(--radius-gentle, 4px)",
+                    }}>
                       [EN]
                     </span>
                   )}
-                  <span className="font-medium text-srf-navy/80">
+                  <span style={{ fontWeight: 500 }}>
                     {result.citation.author}
                   </span>
                   <span aria-hidden="true">&middot;</span>
@@ -486,7 +496,7 @@ function SearchPageInner() {
                   )}
                   <NextLink
                     href={`/${locale}/books/${result.citation.bookSlug}/${result.citation.chapterNumber}#passage-${result.id}`}
-                    className="text-srf-gold hover:text-srf-navy transition-colors min-h-11 inline-flex items-center"
+                    style={{ color: "var(--color-gold)", minHeight: "44px", display: "inline-flex", alignItems: "center" }}
                   >
                     {t("readChapter")}
                   </NextLink>
@@ -497,8 +507,8 @@ function SearchPageInner() {
                     chunkId={result.id}
                   />
                   {debugMode && (
-                    <span className="ml-auto font-mono text-xs text-srf-navy/25">
-                      {result.score.toFixed(3)} · {result.sources.join("+")}
+                    <span style={{ marginInlineStart: "auto", fontFamily: "monospace", fontSize: "0.75rem", opacity: 0.3 }}>
+                      {result.score.toFixed(3)} &middot; {result.sources.join("+")}
                     </span>
                   )}
                 </footer>
@@ -507,6 +517,6 @@ function SearchPageInner() {
           })}
         </div>
       </div>
-    </main>
+    </div>
   );
 }

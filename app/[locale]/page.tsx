@@ -1,21 +1,19 @@
 /**
- * Homepage — "The Living Library" — M2a-1, M2a-13.
- *
- * Today's Wisdom hero, search bar, thematic doors,
- * "Seeking..." empathic entry points, Start Here newcomer path,
- * Practice Bridge.
+ * Homepage — the threshold.
  *
  * The portal speaks first — a passage, not a product pitch.
+ * The featured teaching is the bindu (still center). Search,
+ * thematic doors, and newcomer paths orbit at increasing distance.
+ *
+ * Server Component. Zero JavaScript for content.
+ * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import NextLink from "next/link";
 import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
-import { TodaysWisdom } from "@/app/components/TodaysWisdom";
-import { OpeningMoment } from "@/app/components/OpeningMoment";
-import { HomeSearchEnhanced } from "@/app/components/HomeSearchEnhanced";
-import { ContinueReading } from "@/app/components/ContinueReading";
+import { Surface } from "@/app/components/design/Surface";
+import { Motif } from "@/app/components/design/Motif";
 import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
@@ -48,136 +46,138 @@ export default async function HomePage({
   const passage = await getRandomPassage(pool, locale === "es" ? "es" : "en");
 
   return (
-    <OpeningMoment>
-    <main id="main-content" className="min-h-screen">
-      <div className="mx-auto max-w-4xl px-4 py-8 md:py-16">
-        {/* Continue Reading — returning seekers see where they left off */}
-        <ContinueReading locale={locale} />
+    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
 
-        {/* Today's Wisdom — hero position */}
-        <TodaysWisdom passage={passage} />
-
-        {/* Search — server-rendered form, zero JS (PRI-05, PRI-07) */}
-        <section className="mt-12">
-          <form
-            action={`/${locale}/search`}
-            method="get"
-            role="search"
-            aria-label={t("searchPrompt")}
-          >
-            <label htmlFor="home-search-input" className="sr-only">
-              {t("searchPrompt")}
-            </label>
-            <div className="flex gap-2">
-              <HomeSearchEnhanced
-                locale={locale}
-                placeholder={t("searchPrompt")}
-                ariaLabel={t("searchPrompt")}
-              />
-              <button
-                type="submit"
-                className="min-h-11 min-w-11 rounded-lg bg-srf-navy px-4 py-2.5 text-sm font-sans font-semibold text-warm-cream transition-colors hover:bg-srf-navy/90"
-              >
-                {t("searchButton")}
-              </button>
-            </div>
-          </form>
-        </section>
-
-        {/* Thematic doors — M2a-1 */}
-        <section className="mt-16" aria-label={t("thematicDoors.heading")}>
-          <h2 className="mb-4 text-center text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
-            {t("thematicDoors.heading")}
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {THEMATIC_DOORS.map((door) => (
-              <NextLink
-                key={door.key}
-                href={`/${locale}/search?q=${encodeURIComponent(door.query)}`}
-                className="rounded-full border border-srf-gold/30 px-4 py-2 text-sm text-srf-navy/70 transition-all hover:border-srf-gold hover:bg-(--theme-surface) hover:text-srf-navy min-h-11 inline-flex items-center"
-              >
-                {t(`thematicDoors.${door.key}`)}
-              </NextLink>
-            ))}
-          </div>
-        </section>
-
-        {/* "Seeking..." empathic entry points — M2a-1 */}
-        <section className="mt-16" aria-label={t("seeking.heading")}>
-          <h2 className="mb-4 text-center text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
-            {t("seeking.heading")}
-          </h2>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {SEEKING_ENTRIES.map((entry) => (
-              <NextLink
-                key={entry.key}
-                href={`/${locale}/search?q=${encodeURIComponent(entry.query)}`}
-                className="rounded-lg border border-srf-navy/10 bg-(--theme-surface) px-4 py-3 text-sm text-srf-navy/70 transition-colors hover:border-srf-gold/40 hover:text-srf-navy min-h-11"
-              >
-                {t(`seeking.${entry.key}`)}
-              </NextLink>
-            ))}
-          </div>
-        </section>
-
-        {/* Start Here — M2a-13: Three newcomer entry paths */}
-        <section className="mt-16" aria-label={t("startHere.heading")}>
-          <h2 className="mb-6 text-center text-xs font-sans font-semibold uppercase tracking-widest text-srf-navy/40">
-            {t("startHere.heading")}
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <NextLink
-              href={`/${locale}/books`}
-              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
-            >
-              <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
-                {t("startHere.curious.title")}
-              </h3>
-              <p className="text-xs leading-relaxed text-srf-navy/60">
-                {t("startHere.curious.description")}
-              </p>
-            </NextLink>
-            <NextLink
-              href={`/${locale}/search?q=${encodeURIComponent("comfort hope healing")}`}
-              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
-            >
-              <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
-                {t("startHere.need.title")}
-              </h3>
-              <p className="text-xs leading-relaxed text-srf-navy/60">
-                {t("startHere.need.description")}
-              </p>
-            </NextLink>
-            <NextLink
-              href={`/${locale}/search?q=${encodeURIComponent("meditation technique practice")}`}
-              className="group rounded-lg border border-srf-navy/5 bg-(--theme-surface) p-5 text-center transition-all hover:border-srf-gold/30 hover:shadow-sm"
-            >
-              <h3 className="mb-2 font-display text-sm font-semibold text-srf-navy group-hover:text-srf-gold transition-colors">
-                {t("startHere.seeker.title")}
-              </h3>
-              <p className="text-xs leading-relaxed text-srf-navy/60">
-                {t("startHere.seeker.description")}
-              </p>
-            </NextLink>
-          </div>
-        </section>
-
-        {/* Practice Bridge — quiet signpost (PRI-04) */}
-        <section className="mt-16 text-center">
-          <p className="text-sm text-srf-navy/50">
-            {t("practiceBridge")}{" "}
-            <a
-              href={SRF_PRACTICE.lessons}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-srf-navy/70 underline decoration-srf-gold/40 underline-offset-2 hover:text-srf-navy"
-            >
-              {t("srfLessons")}
-            </a>
+      {/* ── The Bindu: Today's Wisdom ── */}
+      <Surface as="section" register="sacred" rasa="shanta" className="center">
+        {passage ? (
+          <>
+            <blockquote className="passage-quote">
+              &ldquo;{passage.content}&rdquo;
+            </blockquote>
+            <p className="passage-citation">
+              — {passage.bookAuthor},{" "}
+              <cite>{passage.bookTitle}</cite>
+              {passage.chapterTitle && `, ${passage.chapterTitle}`}
+            </p>
+          </>
+        ) : (
+          <p className="passage-quote" style={{ fontStyle: "italic" }}>
+            {t("wisdomFallback", { defaultValue: "The teachings await you." })}
           </p>
-        </section>
+        )}
+      </Surface>
+
+      <Motif role="breath" voice="sacred" />
+
+      {/* ── Search ── */}
+      <section className="center" style={{ maxInlineSize: "36em" }}>
+        <form
+          action={`/${locale}/search`}
+          method="get"
+          role="search"
+          aria-label={t("searchPrompt")}
+        >
+          <label htmlFor="home-search" className="visually-hidden">
+            {t("searchPrompt")}
+          </label>
+          <div className="cluster" style={{ gap: "var(--space-compact)" }}>
+            <input
+              id="home-search"
+              type="search"
+              name="q"
+              placeholder={t("searchPrompt")}
+              className="input"
+              style={{ flex: 1 }}
+              autoComplete="off"
+            />
+            <button type="submit" className="btn-primary">
+              {t("searchButton")}
+            </button>
+          </div>
+        </form>
+      </section>
+
+      {/* ── Thematic Doors ── */}
+      <Surface as="section" register="reverential" className="center">
+        <h2 className="section-label">{t("thematicDoors.heading")}</h2>
+        <div className="pill-cluster">
+          {THEMATIC_DOORS.map((door) => (
+            <a
+              key={door.key}
+              href={`/${locale}/search?q=${encodeURIComponent(door.query)}`}
+              className="pill"
+            >
+              {t(`thematicDoors.${door.key}`)}
+            </a>
+          ))}
+        </div>
+      </Surface>
+
+      {/* ── Seeking... ── */}
+      <Surface as="section" register="instructional" className="center">
+        <h2 className="section-label">{t("seeking.heading")}</h2>
+        <div className="grid-2">
+          {SEEKING_ENTRIES.map((entry) => (
+            <a
+              key={entry.key}
+              href={`/${locale}/search?q=${encodeURIComponent(entry.query)}`}
+              className="card"
+            >
+              {t(`seeking.${entry.key}`)}
+            </a>
+          ))}
+        </div>
+      </Surface>
+
+      {/* ── Start Here ── */}
+      <Surface as="section" register="instructional" className="center">
+        <h2 className="section-label">{t("startHere.heading")}</h2>
+        <div className="grid-3">
+          <a href={`/${locale}/books`} className="card stack-tight" style={{ textAlign: "center" }}>
+            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
+              {t("startHere.curious.title")}
+            </strong>
+            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
+              {t("startHere.curious.description")}
+            </span>
+          </a>
+          <a
+            href={`/${locale}/search?q=${encodeURIComponent("comfort hope healing")}`}
+            className="card stack-tight"
+            style={{ textAlign: "center" }}
+          >
+            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
+              {t("startHere.need.title")}
+            </strong>
+            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
+              {t("startHere.need.description")}
+            </span>
+          </a>
+          <a
+            href={`/${locale}/search?q=${encodeURIComponent("meditation technique practice")}`}
+            className="card stack-tight"
+            style={{ textAlign: "center" }}
+          >
+            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
+              {t("startHere.seeker.title")}
+            </strong>
+            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
+              {t("startHere.seeker.description")}
+            </span>
+          </a>
+        </div>
+      </Surface>
+
+      {/* ── Practice Bridge ── */}
+      <div className="signpost" style={{ paddingBlock: "var(--space-generous)" }}>
+        <p>
+          {t("practiceBridge")}{" "}
+          <a href={SRF_PRACTICE.lessons} target="_blank" rel="noopener noreferrer">
+            {t("srfLessons")}
+          </a>
+        </p>
       </div>
-    </main>
-    </OpeningMoment>
+    </div>
   );
 }
