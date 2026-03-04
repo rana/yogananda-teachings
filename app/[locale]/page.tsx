@@ -11,7 +11,7 @@
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import pool from "@/lib/db";
-import { getRandomPassage } from "@/lib/services/passages";
+import { getDailyPassage } from "@/lib/services/passages";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
 import { ContinueReading } from "@/app/components/ContinueReading";
@@ -44,7 +44,7 @@ export default async function HomePage({
   setRequestLocale(locale);
   const t = await getTranslations("home");
 
-  const passage = await getRandomPassage(pool, locale === "es" ? "es" : "en");
+  const passage = await getDailyPassage(pool, locale === "es" ? "es" : "en");
 
   return (
     <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>

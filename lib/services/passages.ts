@@ -85,6 +85,32 @@ export async function getRandomPassage(
 }
 
 /**
+ * Get today's passage — deterministic by day.
+ *
+ * Every visitor sees the same passage on the same day.
+ * The md5 hash of passage ID + current date creates a stable,
+ * well-distributed ordering that cycles through all passages
+ * over time. A shared daily experience — like a daily reading.
+ */
+export async function getDailyPassage(
+  pool: pg.Pool,
+  language: string = "en",
+): Promise<DailyPassage | null> {
+  const { rows } = await pool.query(
+    `${PASSAGE_SELECT}
+    WHERE bc.language = $1
+      AND length(bc.content) BETWEEN $2 AND $3
+      AND bc.content !~ '^\\d{1,3}\\s'
+    ORDER BY md5(bc.id::text || CURRENT_DATE::text)
+    LIMIT 1`,
+    [language, PASSAGE_MIN_LENGTH, PASSAGE_MAX_LENGTH],
+  );
+
+  if (rows.length === 0) return null;
+  return rowToPassage(rows[0]);
+}
+
+/**
  * Get a random passage for Quiet Corner contemplation.
  * Shorter than Today's Wisdom — passages under 500 characters
  * are more suitable for quiet reflection (PRI-08: calm technology).
