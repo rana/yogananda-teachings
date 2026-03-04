@@ -79,6 +79,7 @@ export function ChapterReader({
                 id={`p-${i}`}
                 data-paragraph={i}
                 data-has-thread={hasThread || undefined}
+                className={hasThread ? "golden-thread-passage" : undefined}
               >
                 <RichText
                   text={para.content}

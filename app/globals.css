@@ -226,11 +226,9 @@ a:hover {
   margin-block-start: var(--space-default);
 }
 
-/* Golden thread indicator — subtle gold left border on connected paragraphs */
-.chapter-body p[data-has-thread] {
-  border-inline-start: 2px solid var(--color-gold-interactive, var(--color-gold));
-  padding-inline-start: var(--space-default);
-}
+/* Golden thread — uses design system's .golden-thread-passage class
+   (reading-surface.css) for box-shadow treatment. The data-has-thread
+   attribute is retained for JS hooks; visual styling comes from the class. */
 
 .chapter-figure {
   margin-block: var(--space-generous);
