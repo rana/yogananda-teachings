@@ -22,6 +22,8 @@ import { getChapterRelations } from "@/lib/services/relations";
 import { ChapterReader } from "@/app/components/reading/ChapterReader";
 import { ReadingImmersion } from "@/app/components/design/ReadingImmersion";
 import { ReadingModes } from "@/app/components/design/ReadingModes";
+import { ReadingTracker } from "@/app/components/design/ReadingTracker";
+import { ChapterBookmark } from "@/app/components/design/ChapterBookmark";
 import { GoldenThread } from "@/app/components/design/GoldenThread";
 import type { RelatedPassage } from "@/lib/services/relations";
 import type { Metadata } from "next";
@@ -197,9 +199,24 @@ export default async function ChapterPage({
         publication={bookSlug}
       />
 
-      {/* Phase 2: client islands for immersive reading */}
+      {/* Client islands: reading journey + immersive features */}
+      <ReadingTracker
+        bookSlug={bookSlug}
+        bookTitle={content.book.title}
+        bookAuthor={content.book.author}
+        chapterNumber={chapterNumber}
+        chapterTitle={content.chapter.title}
+      />
       <ReadingImmersion />
       <ReadingModes />
+      <ChapterBookmark
+        bookId={content.book.id}
+        bookSlug={bookSlug}
+        bookTitle={content.book.title}
+        bookAuthor={content.book.author}
+        chapterNumber={chapterNumber}
+        chapterTitle={content.chapter.title}
+      />
       {Object.keys(threadByParagraph).length > 0 && (
         <GoldenThread
           paragraphs={threadByParagraph}

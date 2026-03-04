@@ -128,7 +128,7 @@ export default async function PassagePage({
       {/* Actions */}
       <div className="center cluster" style={{ maxInlineSize: "38em" }}>
         <Link
-          href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
+          href={`/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}
           className="btn-secondary"
         >
           {t("readInContext")}

@@ -1440,6 +1440,70 @@ a:hover {
 }
 
 
+/* ── Chapter Bookmark ──────────────────────────────────────── */
+/* Fixed bookmark button, positioned just above reading modes.
+   Same visual language: translucent pill, gold when active.
+   Calm technology: no toast, no animation — just the fill. */
+
+.chapter-bookmark-btn {
+  position: fixed;
+  inset-block-end: calc(var(--space-generous) + 52px);
+  inset-inline-end: var(--space-generous);
+  z-index: var(--z-raised);
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity var(--motion-interaction), color var(--motion-interaction);
+}
+
+.chapter-bookmark-btn:hover,
+.chapter-bookmark-btn:focus-visible {
+  opacity: 1;
+}
+
+.chapter-bookmark-btn[aria-pressed="true"] {
+  color: var(--color-gold);
+  opacity: 0.7;
+}
+
+.chapter-bookmark-btn[aria-pressed="true"]:hover {
+  opacity: 1;
+}
+
+.chapter-bookmark-btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+@media (max-width: 639px) {
+  .chapter-bookmark-btn {
+    inset-block-end: calc(var(--space-compact) + 52px);
+    inset-inline-end: var(--space-compact);
+  }
+}
+
+/* Hide in focus/present/quiet modes and print */
+[data-mode="focus"] .chapter-bookmark-btn,
+[data-mode="present"] .chapter-bookmark-btn,
+[data-mode="quiet"] .chapter-bookmark-btn {
+  display: none;
+}
+
+@media print {
+  .chapter-bookmark-btn {
+    display: none;
+  }
+}
+
+
 /* ── Theme Switcher ──────────────────────────────────────────── */
 /* Atmosphere selector. Each theme is a place, not a setting.
    Functional register. Calm technology: no decorative animation. */
