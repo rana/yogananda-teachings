@@ -96,6 +96,9 @@ describe("/api/v1/books", () => {
         chapterNumber: 1,
         title: "My Parents and Early Life",
         sortOrder: 1,
+        epigraph: null,
+        epigraphAttribution: null,
+        rasa: null,
       },
       {
         id: "ch-2",
@@ -103,6 +106,9 @@ describe("/api/v1/books", () => {
         chapterNumber: 2,
         title: "My Mother's Death and the Mystic Amulet",
         sortOrder: 2,
+        epigraph: null,
+        epigraphAttribution: null,
+        rasa: null,
       },
     ]);
 
@@ -174,6 +180,9 @@ describe("/api/v1/books/:bookId/chapters/:chapter", () => {
         chapterNumber: 1,
         title: "My Parents and Early Life",
         sortOrder: 1,
+        epigraph: null,
+        epigraphAttribution: null,
+        rasa: null,
       },
       book: {
         id: "book-1",
@@ -192,6 +201,10 @@ describe("/api/v1/books/:bookId/chapters/:chapter", () => {
           formatting: [],
           pageNumber: 1,
           paragraphIndex: 0,
+          contentType: "prose" as const,
+          sectionIndex: 0,
+          sortOrder: 0,
+          rasa: null,
         },
       ],
       footnotes: [],

@@ -13,7 +13,7 @@ import path from 'path';
 import { getBookPaths, getPipelineConfig } from './config.js';
 import {
   PageExtraction, CaptureMeta, Chapter, ChapterSection, ChapterParagraph,
-  ChapterImage, Footnote, ContentBlock, TocEntry
+  ChapterImage, Footnote, ContentBlock, ContentType, TocEntry
 } from './types.js';
 import {
   ensureDir, readJson, writeJson, padPage, slugify, log, fileExists
@@ -87,6 +87,34 @@ function buildChapterRanges(
   return ranges;
 }
 
+/** Map extraction block types to design system content types.
+ *  Headings/subheadings are structural (create section boundaries), not content types. */
+function mapContentType(blockType: string): ContentType | null {
+  switch (blockType) {
+    case 'paragraph': return 'prose';
+    case 'verse': return 'verse';
+    case 'epigraph': return 'epigraph';
+    case 'caption': return 'caption';
+    // Headings create section boundaries — handled separately
+    case 'heading':
+    case 'subheading':
+    case 'chapter-label':
+      return null;
+    default: return 'prose';
+  }
+}
+
+/** Try to split an epigraph into text and attribution.
+ *  Common pattern: "Quote text here.\n\n— Attribution" */
+function splitEpigraph(text: string): { text: string; attribution?: string } {
+  // Match attribution lines: starts with — or - or ~
+  const match = text.match(/^([\s\S]+?)\n+\s*[—–\-~]\s*(.+)$/);
+  if (match) {
+    return { text: match[1].trim(), attribution: match[2].trim() };
+  }
+  return { text: text.trim() };
+}
+
 /** Assemble a single chapter from its page extractions */
 function assembleChapter(
   chapterNumber: number,
@@ -102,6 +130,14 @@ function assembleChapter(
   const allSanskritTerms = new Set<string>();
   const allEntities = new Set<string>();
   let sequenceCounter = 0;
+  let sectionIndex = 0;
+  let currentSectionHeading: string | null = null;
+  let chapterEpigraph: { text: string; attribution?: string } | null = null;
+  let seenNonEpigraphContent = false;
+
+  // Build sections list for structured output
+  const sections: ChapterSection[] = [];
+  let currentSection: ChapterSection = { heading: null, paragraphs: [] };
 
   for (let p = startPage; p <= endPage; p++) {
     const extraction = extractions.get(p);
@@ -109,9 +145,26 @@ function assembleChapter(
 
     for (const block of extraction.content) {
       // Skip non-content blocks
-      if (['running-header', 'page-number', 'decorative'].includes(block.type)) {
+      if (['running-header', 'page-number', 'publisher-info'].includes(block.type)) {
         continue;
       }
+
+      // Decorative elements are scene break markers in the physical book.
+      // ———•———, ———❀———, ———※———, ——❖——, etc. — the book's own breath marks.
+      // Each one creates a section boundary → renders as .reader-scene-break
+      // (the swelled gold rule from css/typography/features.css).
+      if (block.type === 'decorative') {
+        seenNonEpigraphContent = true;
+        if (currentSection.paragraphs.length > 0) {
+          sections.push(currentSection);
+          sectionIndex++;
+          currentSection = { heading: null, paragraphs: [] };
+        }
+        continue;
+      }
+
+      // Skip footnote references (inline markers, not the footnotes themselves)
+      if (block.type === 'footnote-ref') continue;
 
       // Handle footnotes
       if (block.type === 'footnote') {
@@ -123,37 +176,90 @@ function assembleChapter(
         continue;
       }
 
-      // Handle paragraphs and other text content
-      if (['paragraph', 'heading', 'subheading', 'chapter-label', 'epigraph', 'verse', 'caption'].includes(block.type)) {
-        // Check if this continues from previous page
-        if (block.continuedFromPreviousPage && paragraphs.length > 0) {
-          // Merge with the last paragraph
-          const last = paragraphs[paragraphs.length - 1];
-          // Add space if needed between the continuation
-          const separator = last.text.endsWith('-') ? '' : ' ';
-          if (last.text.endsWith('-')) {
-            // Remove hyphen for word continuation
-            last.text = last.text.slice(0, -1);
-          }
-          last.text += separator + block.text;
-          // Adjust formatting spans (offset by the length of existing text)
-          const offset = last.text.length - block.text.length;
-          for (const span of block.formatting) {
-            last.formatting.push({
-              start: span.start + offset,
-              end: span.end + offset,
-              style: span.style
-            });
-          }
+      // Handle chapter-label: skip (redundant with chapter metadata)
+      if (block.type === 'chapter-label') continue;
+
+      // Handle epigraph: extract as chapter epigraph if it's the first content
+      if (block.type === 'epigraph' && !seenNonEpigraphContent) {
+        const parsed = splitEpigraph(block.text);
+        if (!chapterEpigraph) {
+          chapterEpigraph = parsed;
         } else {
-          sequenceCounter++;
-          paragraphs.push({
-            text: block.text,
-            pageNumber: p,
-            formatting: [...block.formatting],
-            sequenceInChapter: sequenceCounter
+          // Multiple epigraphs before body — append to first
+          chapterEpigraph.text += '\n\n' + parsed.text;
+          if (parsed.attribution) {
+            chapterEpigraph.attribution = parsed.attribution;
+          }
+        }
+        // Also add to paragraph stream with content_type = 'epigraph'
+        sequenceCounter++;
+        const para: ChapterParagraph = {
+          text: block.text,
+          pageNumber: p,
+          formatting: [...block.formatting],
+          sequenceInChapter: sequenceCounter,
+          contentType: 'epigraph',
+          sectionIndex
+        };
+        paragraphs.push(para);
+        currentSection.paragraphs.push(para);
+        continue;
+      }
+
+      // Handle headings/subheadings: create section boundaries.
+      // Note: the chapter title heading at the start does NOT count as
+      // "non-epigraph content" — epigraphs legitimately follow the title
+      // before any body text. Only set seenNonEpigraphContent if we've
+      // already seen actual body paragraphs.
+      if (block.type === 'heading' || block.type === 'subheading') {
+        if (paragraphs.length > 0) {
+          seenNonEpigraphContent = true;
+        }
+
+        // Close current section and start a new one
+        if (currentSection.paragraphs.length > 0) {
+          sections.push(currentSection);
+        }
+        sectionIndex++;
+        currentSectionHeading = block.text;
+        currentSection = { heading: block.text, paragraphs: [] };
+        continue;
+      }
+
+      // All remaining content types: paragraph, verse, caption, etc.
+      seenNonEpigraphContent = true;
+      const contentType = mapContentType(block.type) || 'prose';
+
+      // Check if this continues from previous page
+      if (block.continuedFromPreviousPage && paragraphs.length > 0) {
+        // Merge with the last paragraph
+        const last = paragraphs[paragraphs.length - 1];
+        const separator = last.text.endsWith('-') ? '' : ' ';
+        if (last.text.endsWith('-')) {
+          last.text = last.text.slice(0, -1);
+        }
+        last.text += separator + block.text;
+        // Adjust formatting spans
+        const offset = last.text.length - block.text.length;
+        for (const span of block.formatting) {
+          last.formatting.push({
+            start: span.start + offset,
+            end: span.end + offset,
+            style: span.style
           });
         }
+      } else {
+        sequenceCounter++;
+        const para: ChapterParagraph = {
+          text: block.text,
+          pageNumber: p,
+          formatting: [...block.formatting],
+          sequenceInChapter: sequenceCounter,
+          contentType,
+          sectionIndex
+        };
+        paragraphs.push(para);
+        currentSection.paragraphs.push(para);
       }
     }
 
@@ -175,7 +281,16 @@ function assembleChapter(
     }
   }
 
-  // Count words
+  // Close final section
+  if (currentSection.paragraphs.length > 0) {
+    sections.push(currentSection);
+  }
+
+  // Fallback: if no sections were created, wrap all paragraphs
+  if (sections.length === 0 && paragraphs.length > 0) {
+    sections.push({ heading: null, paragraphs });
+  }
+
   const wordCount = paragraphs.reduce((sum, p) => sum + p.text.split(/\s+/).length, 0);
 
   return {
@@ -183,10 +298,9 @@ function assembleChapter(
     title,
     slug,
     pageRange: { start: startPage, end: endPage },
-    sections: [{
-      heading: null,
-      paragraphs
-    }],
+    epigraphText: chapterEpigraph?.text,
+    epigraphAttribution: chapterEpigraph?.attribution,
+    sections,
     images,
     footnotes,
     metadata: {
@@ -214,14 +328,17 @@ function assembleFrontMatter(
     if (!extraction) continue;
 
     for (const block of extraction.content) {
-      if (['running-header', 'page-number', 'decorative'].includes(block.type)) continue;
+      if (['running-header', 'page-number', 'decorative', 'publisher-info', 'footnote-ref'].includes(block.type)) continue;
 
+      const contentType = mapContentType(block.type) || 'prose';
       seq++;
       paragraphs.push({
         text: block.text,
         pageNumber: p,
         formatting: [...block.formatting],
-        sequenceInChapter: seq
+        sequenceInChapter: seq,
+        contentType,
+        sectionIndex: 0
       });
     }
   }

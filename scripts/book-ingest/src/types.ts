@@ -127,6 +127,10 @@ export interface Chapter {
   slug: string;
   pageRange: { start: number; end: number };
   epigraph?: ContentBlock;
+  /** Extracted epigraph text for database storage */
+  epigraphText?: string;
+  /** Extracted epigraph attribution (e.g., "— Bhagavad Gita") */
+  epigraphAttribution?: string;
   sections: ChapterSection[];
   images: ChapterImage[];
   footnotes: Footnote[];
@@ -144,11 +148,19 @@ export interface ChapterSection {
   paragraphs: ChapterParagraph[];
 }
 
+/** Content type vocabulary — closed loop with the design system.
+ *  Same word flows: extraction → assembly → database → HTML data attribute → CSS selector */
+export type ContentType = 'prose' | 'verse' | 'epigraph' | 'dialogue' | 'caption';
+
 export interface ChapterParagraph {
   text: string;
   pageNumber: number;
   formatting: FormattingSpan[];
   sequenceInChapter: number;
+  /** Content type from extraction — determines visual treatment */
+  contentType: ContentType;
+  /** Section index within chapter — changes trigger scene breaks */
+  sectionIndex: number;
 }
 
 export interface ChapterImage {

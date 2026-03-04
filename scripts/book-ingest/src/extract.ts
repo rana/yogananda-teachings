@@ -69,7 +69,7 @@ function buildSystemPrompt(bookTitle: string, bookAuthor: string, language: stri
 
   return `You are extracting text from a high-resolution page image of a published book (${bookTitle} by ${bookAuthor}).
 
-Your job is to produce a perfectly faithful transcription with structural markup as a JSON object.
+Your job is to produce a perfectly faithful transcription with structural and aesthetic markup as a JSON object. The output feeds a contemplative reading surface — every classification you make determines how this text will be typeset and experienced.
 
 CRITICAL RULES:
 1. Transcribe EXACTLY what you see. Do not correct, improve, or modernize any text.
@@ -79,7 +79,7 @@ CRITICAL RULES:
 5. Identify the page type accurately.
 6. Detect chapter boundaries (chapter label + title = isChapterStart: true).
 7. Distinguish body text from running headers, page numbers, footnotes, and captions.
-8. For photographs: describe the image, capture any caption text.
+8. For photographs: describe the image, capture any caption text, and note which content block the photograph relates to.
 9. If text is cut off at page top, set continuedFromPreviousPage: true on the first content block.
 10. If text is cut off at page bottom, set continuesOnNextPage: true on the last content block.
 11. Rate your confidence 1-5 for this page (5 = perfect, 1 = major uncertainty).
@@ -114,16 +114,27 @@ CONTENT BLOCK TYPES:
 - "heading": Chapter title (large text)
 - "chapter-label": "CHAPTER 1" or similar label above the heading
 - "subheading": Section heading within a chapter
-- "paragraph": Regular prose paragraph
+- "paragraph": Regular prose paragraph (narrative, exposition)
+- "dialogue": A paragraph that is predominantly direct speech — more than half the text is within quotation marks. The guru's words, conversations, reported speech. Do NOT use for paragraphs that merely contain a brief quote embedded in narrative.
 - "epigraph": Opening quote/verse at chapter start (often italic, indented)
-- "verse": Poetry or verse (preserve line breaks with \\n)
+- "verse": Poetry or verse (preserve line breaks with \\n). Add "verseSource" to indicate origin: "scripture" (Bible, Gita, Upanishads, Sutras), "poetry" (literary poetry — Tagore, Tennyson, Omar Khayyám, etc.), "original" (author's own composition), or "unknown".
 - "footnote": Footnote text at bottom of page
 - "footnote-ref": Just the footnote number/marker
 - "caption": Photo or illustration caption
 - "running-header": Header text at top of page (chapter title, author name)
 - "page-number": Printed page number on the page
-- "decorative": Ornamental dividers, SRF logos, decorative elements
+- "decorative": Ornamental dividers (———•———, ❀, ※, etc.), SRF logos, decorative elements
 - "publisher-info": Publisher name, address, website
+
+AESTHETIC DIMENSION (rasa):
+For each page, classify the dominant emotional flavor from the Indian aesthetic tradition. This determines the atmospheric treatment in the reading surface. Choose ONE:
+- "shanta": Peace, stillness, meditative calm. The default for teaching passages.
+- "adbhuta": Wonder, amazement, the miraculous. Supernatural events, visions, encounters with the divine.
+- "karuna": Compassion, tenderness, poignancy. Separations, deaths, suffering, empathy.
+- "vira": Courage, determination, spiritual heroism. Confrontations, tests, fierce resolve.
+- "bhakti": Devotion, love, surrender. Prayer, worship, the guru-disciple relationship at its most tender.
+
+Rate your confidence 1-5 (5 = clearly dominant, 1 = ambiguous/mixed).
 
 OUTPUT: Return a single JSON object matching this schema. Do NOT wrap in markdown code fences. Pure JSON only.
 
@@ -140,7 +151,8 @@ OUTPUT: Return a single JSON object matching this schema. Do NOT wrap in markdow
         { "start": <number>, "end": <number>, "style": "<style>" }
       ],
       "continuedFromPreviousPage": <boolean>,
-      "continuesOnNextPage": <boolean>
+      "continuesOnNextPage": <boolean>,
+      "verseSource": "<scripture|poetry|original|unknown — only for type=verse>"
     }
   ],
   "images": [
@@ -148,6 +160,7 @@ OUTPUT: Return a single JSON object matching this schema. Do NOT wrap in markdow
       "description": "<what the image shows>",
       "caption": "<caption text if any>",
       "position": "<top-center|full-page|etc>",
+      "nearestContentIndex": <0-based index of the content block this image relates to, or null>,
       "isPhotograph": <boolean>,
       "isIllustration": <boolean>,
       "isDecorative": <boolean>,
@@ -159,12 +172,18 @@ OUTPUT: Return a single JSON object matching this schema. Do NOT wrap in markdow
     "hasSanskrit": <boolean>,
     "sanskritTerms": ["<term1>", "<term2>"],
     "hasPoetry": <boolean>,
+    "hasDialogue": <boolean>,
     "hasItalics": <boolean>,
     "isChapterStart": <boolean>,
     "isChapterEnd": <boolean>,
     "runningHeader": "<string|null>",
     "continuedFromPrevious": <boolean>,
     "continuesOnNext": <boolean>
+  },
+  "rasa": {
+    "dominant": "<shanta|adbhuta|karuna|vira|bhakti>",
+    "confidence": <1-5>,
+    "secondary": "<optional second rasa if the page has a clear blend, else null>"
   },
   "validation": {
     "confidence": <1-5>,

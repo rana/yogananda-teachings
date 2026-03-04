@@ -27,6 +27,8 @@ interface SurfaceProps {
   as?: Element;
   className?: string;
   id?: string;
+  /** Content language (BCP 47). Sets the `lang` attribute for :lang() CSS. */
+  lang?: string;
 }
 
 export function Surface({
@@ -38,12 +40,14 @@ export function Surface({
   as: Tag = "div",
   className,
   id,
+  lang,
 }: SurfaceProps) {
   const attrs: Record<string, string | undefined> = {};
   if (register) attrs["data-register"] = register;
   if (voice) attrs["data-voice"] = voice;
   if (rasa) attrs["data-rasa"] = rasa;
   if (publication) attrs["data-publication"] = publication;
+  if (lang) attrs["lang"] = lang;
 
   return (
     <Tag {...attrs} className={className} id={id}>

@@ -1,9 +1,14 @@
 /**
- * Contentful import: book.json → Contentful Management API (DES-005 Step 3.5)
+ * Contentful import: assembled chapters → Contentful Management API
  *
- * Creates Book → Chapter → Section → TextBlock entries in Contentful,
- * one TextBlock per paragraph. Outputs a mapping file linking Contentful
- * entry IDs to paragraph sequence numbers for use by ingest.ts.
+ * Creates Book → Chapter → Section → TextBlock entries in Contentful.
+ * Each assembly section becomes a Contentful Section (scene breaks preserved).
+ * Each paragraph becomes one TextBlock with its contentType.
+ *
+ * Greenfield data model (content structure vocabulary):
+ *   Chapter   → epigraph, epigraphAttribution (new fields)
+ *   Section   → one per assembly section (was: one per chapter)
+ *   TextBlock → contentType (prose|verse|epigraph|dialogue|caption)
  *
  * Usage:
  *   npx tsx scripts/ingest/import-contentful.ts --book <slug> [--dry-run] [--resume-from-chapter <N>]
@@ -17,10 +22,10 @@ import { readFileSync, writeFileSync, existsSync } from "fs";
 import { join } from "path";
 import contentful from "contentful-management";
 
-// ── Configuration (ADR-123) ──────────────────────────────────────
+// ── Configuration ────────────────────────────────────────────────
 
 const CONTENTFUL_ENVIRONMENT = "master";
-const API_DELAY_MS = 150; // Contentful rate limit: 7 req/s. 150ms ≈ 6.7/s
+const API_DELAY_MS = 150; // Contentful rate limit: 7 req/s → 150ms ≈ 6.7/s
 
 // Book metadata not in book.json (shared with ingest.ts)
 const BOOK_EXTRAS: Record<
@@ -69,6 +74,16 @@ interface Paragraph {
   pageNumber: number;
   formatting: { start: number; end: number; style: string }[];
   sequenceInChapter: number;
+  /** Content type from assembly — design system vocabulary */
+  contentType?: string;
+  /** Section index within chapter */
+  sectionIndex?: number;
+}
+
+interface FootnoteJson {
+  marker: string;
+  text: string;
+  pageNumber: number;
 }
 
 interface ChapterJson {
@@ -77,7 +92,9 @@ interface ChapterJson {
   slug: string;
   pageRange: { start: number; end: number } | [number, number];
   sections: { heading: string | null; paragraphs: Paragraph[] }[];
-  footnotes: Record<string, string>;
+  footnotes: FootnoteJson[] | Record<string, string>;
+  epigraphText?: string;
+  epigraphAttribution?: string;
   metadata: Record<string, unknown>;
 }
 
@@ -86,14 +103,22 @@ interface ContentfulMap {
   chapters: ChapterMapping[];
 }
 
+interface SectionMapping {
+  sectionIndex: number;
+  heading: string | null;
+  contentfulId: string;
+}
+
 interface ChapterMapping {
   chapterNumber: number;
   contentfulId: string;
-  sectionContentfulId: string;
+  sections: SectionMapping[];
   textBlocks: {
     sequenceInChapter: number;
     pageNumber: number;
     contentfulId: string;
+    contentType: string;
+    sectionIndex: number;
   }[];
 }
 
@@ -136,7 +161,6 @@ function styleToMarks(style: string): RichTextMark[] {
     case "underline":
       return [{ type: "underline" }];
     default:
-      // small-caps, quote, reciprocity, empty string — no Rich Text equivalent
       return [];
   }
 }
@@ -151,7 +175,6 @@ function paragraphToRichText(paragraph: Paragraph): RichTextDocument {
   const textNodes: RichTextTextNode[] = [];
 
   if (formatting.length === 0) {
-    // No applicable formatting — single text node
     textNodes.push({
       nodeType: "text",
       value: text,
@@ -159,14 +182,12 @@ function paragraphToRichText(paragraph: Paragraph): RichTextDocument {
       data: {},
     });
   } else {
-    // Split text at formatting boundaries
     let cursor = 0;
 
     for (const fmt of formatting) {
       const start = Math.max(fmt.start, 0);
       const end = Math.min(fmt.end, text.length);
 
-      // Text before this formatting range
       if (cursor < start) {
         textNodes.push({
           nodeType: "text",
@@ -176,7 +197,6 @@ function paragraphToRichText(paragraph: Paragraph): RichTextDocument {
         });
       }
 
-      // Formatted text
       if (start < end) {
         textNodes.push({
           nodeType: "text",
@@ -189,7 +209,6 @@ function paragraphToRichText(paragraph: Paragraph): RichTextDocument {
       cursor = end;
     }
 
-    // Remaining text after last formatting
     if (cursor < text.length) {
       textNodes.push({
         nodeType: "text",
@@ -200,7 +219,6 @@ function paragraphToRichText(paragraph: Paragraph): RichTextDocument {
     }
   }
 
-  // Filter out empty text nodes
   const filteredNodes = textNodes.filter((n) => n.value.length > 0);
 
   return {
@@ -226,7 +244,9 @@ function delay(ms: number): Promise<void> {
 }
 
 function makeLink(entryId: string) {
-  return { sys: { type: "Link" as const, linkType: "Entry" as const, id: entryId } };
+  return {
+    sys: { type: "Link" as const, linkType: "Entry" as const, id: entryId },
+  };
 }
 
 /** Resolve the locale code for a book language from the Contentful space */
@@ -234,17 +254,16 @@ function resolveLocale(
   locales: { code: string; default: boolean }[],
   bookLanguage: string,
 ): string {
-  // Exact match first (e.g., "en" → "en")
   const exact = locales.find((l) => l.code === bookLanguage);
   if (exact) return exact.code;
 
-  // Prefix match (e.g., "en" → "en-US")
-  const prefix = locales.find((l) => l.code.startsWith(bookLanguage + "-"));
+  const prefix = locales.find((l) =>
+    l.code.startsWith(bookLanguage + "-"),
+  );
   if (prefix) return prefix.code;
 
-  // For non-default locale, try finding it
-  const match = locales.find(
-    (l) => l.code.toLowerCase().startsWith(bookLanguage.toLowerCase()),
+  const match = locales.find((l) =>
+    l.code.toLowerCase().startsWith(bookLanguage.toLowerCase()),
   );
   if (match) return match.code;
 
@@ -253,13 +272,25 @@ function resolveLocale(
   );
 }
 
+/** Resolve footnotes: handle both array and object formats from assembly */
+function resolveFootnote(
+  footnotes: FootnoteJson[] | Record<string, string> | undefined,
+  marker: string,
+): string | null {
+  if (!footnotes) return null;
+  if (Array.isArray(footnotes)) {
+    const fn = footnotes.find((f) => f.marker === marker);
+    return fn?.text ?? null;
+  }
+  return footnotes[marker] ?? null;
+}
+
 // ── Main ─────────────────────────────────────────────────────────
 
 async function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes("--dry-run");
 
-  // Parse --book <slug>
   const bookIdx = args.indexOf("--book");
   if (bookIdx === -1 || !args[bookIdx + 1]) {
     console.error(
@@ -269,11 +300,14 @@ async function main() {
   }
   const bookSlug = args[bookIdx + 1];
 
-  // Parse --resume-from-chapter <N>
   const resumeIdx = args.indexOf("--resume-from-chapter");
-  const resumeFromChapter = resumeIdx !== -1 ? parseInt(args[resumeIdx + 1]) : 0;
+  const resumeFromChapter =
+    resumeIdx !== -1 ? parseInt(args[resumeIdx + 1]) : 0;
 
-  const dataDir = join(import.meta.dirname, `../../data/book-ingest/${bookSlug}`);
+  const dataDir = join(
+    import.meta.dirname,
+    `../../data/book-ingest/${bookSlug}`,
+  );
   const extras = BOOK_EXTRAS[bookSlug];
   if (!extras) {
     console.error(`Unknown book slug: ${bookSlug}`);
@@ -283,7 +317,9 @@ async function main() {
   const spaceId = process.env.CONTENTFUL_SPACE_ID;
   const managementToken = process.env.CONTENTFUL_MANAGEMENT_TOKEN;
   if (!spaceId || !managementToken) {
-    console.error("CONTENTFUL_SPACE_ID and CONTENTFUL_MANAGEMENT_TOKEN must be set.");
+    console.error(
+      "CONTENTFUL_SPACE_ID and CONTENTFUL_MANAGEMENT_TOKEN must be set.",
+    );
     process.exit(1);
   }
 
@@ -302,24 +338,44 @@ async function main() {
   }
 
   if (dryRun) {
-    // Count entries that would be created
     let totalTextBlocks = 0;
+    let totalSections = 0;
+    let chaptersWithEpigraph = 0;
+    const contentTypes = new Map<string, number>();
+
     for (const chInfo of structure.chapters) {
       const chData: ChapterJson = JSON.parse(
         readFileSync(join(dataDir, chInfo.dataFile), "utf-8"),
       );
+      totalSections += chData.sections.length;
+      if (chData.epigraphText) chaptersWithEpigraph++;
+
       for (const section of chData.sections) {
         totalTextBlocks += section.paragraphs.length;
+        for (const para of section.paragraphs) {
+          const ct = para.contentType || "prose";
+          contentTypes.set(ct, (contentTypes.get(ct) || 0) + 1);
+        }
       }
     }
+
     console.log(`\nWould create:`);
-    console.log(`  1 Book entry`);
-    console.log(`  ${structure.chapters.length} Chapter entries`);
-    console.log(`  ${structure.chapters.length} Section entries`);
-    console.log(`  ${totalTextBlocks} TextBlock entries`);
-    console.log(`  Total: ${1 + structure.chapters.length * 2 + totalTextBlocks} entries`);
     console.log(
-      `  Estimated time: ${Math.ceil((1 + structure.chapters.length * 2 + totalTextBlocks) * API_DELAY_MS / 60000)} minutes`,
+      `  1 Book entry`,
+    );
+    console.log(
+      `  ${structure.chapters.length} Chapter entries (${chaptersWithEpigraph} with epigraph)`,
+    );
+    console.log(`  ${totalSections} Section entries`);
+    console.log(`  ${totalTextBlocks} TextBlock entries`);
+    console.log(
+      `  Content types: ${[...contentTypes.entries()].map(([k, v]) => `${k}=${v}`).join(", ")}`,
+    );
+    const totalEntries =
+      1 + structure.chapters.length + totalSections + totalTextBlocks;
+    console.log(`  Total: ${totalEntries} entries`);
+    console.log(
+      `  Estimated time: ${Math.ceil((totalEntries * API_DELAY_MS) / 60000)} minutes`,
     );
     return;
   }
@@ -337,14 +393,18 @@ async function main() {
   }));
   const locale = resolveLocale(locales, book.language);
   console.log(`  Contentful locale: ${locale}`);
-  console.log(`  Available locales: ${locales.map((l) => l.code).join(", ")}\n`);
+  console.log(
+    `  Available locales: ${locales.map((l) => l.code).join(", ")}\n`,
+  );
 
   // Load or initialize mapping
   const mapPath = join(dataDir, "contentful-map.json");
   let contentfulMap: ContentfulMap;
   if (resumeFromChapter > 0 && existsSync(mapPath)) {
     contentfulMap = JSON.parse(readFileSync(mapPath, "utf-8"));
-    console.log(`  Loaded existing mapping with ${contentfulMap.chapters.length} chapters.\n`);
+    console.log(
+      `  Loaded existing mapping with ${contentfulMap.chapters.length} chapters.\n`,
+    );
   } else {
     contentfulMap = {
       book: { slug: bookSlug, contentfulId: "" },
@@ -352,15 +412,10 @@ async function main() {
     };
   }
 
-  // Track all entry IDs for batch publish
   const allEntryIds: string[] = [];
   let totalCreated = 0;
 
-  // Content model uses parent references (child → parent links):
-  //   Book ← Chapter.book ← Section.chapter ← TextBlock.section
-  // Creation order: top-down (Book → Chapter → Section → TextBlocks)
-
-  // 1. Create Book entry first (parent of everything)
+  // 1. Create Book entry
   let bookEntryId = contentfulMap.book.contentfulId;
   if (!bookEntryId) {
     console.log(`Creating Book entry...`);
@@ -388,16 +443,17 @@ async function main() {
     allEntryIds.push(bookEntryId);
   }
 
-  // 2. Process each chapter top-down
+  // 2. Process each chapter
   for (const chInfo of structure.chapters) {
     if (chInfo.number < resumeFromChapter) {
-      // Skip already-imported chapters — collect their IDs for publish
       const existing = contentfulMap.chapters.find(
         (c) => c.chapterNumber === chInfo.number,
       );
       if (existing) {
         allEntryIds.push(existing.contentfulId);
-        allEntryIds.push(existing.sectionContentfulId);
+        for (const sec of existing.sections) {
+          allEntryIds.push(sec.contentfulId);
+        }
         for (const tb of existing.textBlocks) {
           allEntryIds.push(tb.contentfulId);
         }
@@ -411,57 +467,74 @@ async function main() {
 
     console.log(`Chapter ${chInfo.number}: ${chInfo.title}`);
 
-    // 2a. Create Chapter entry (with book parent link)
+    // 2a. Create Chapter entry (with epigraph if present)
+    const chapterFields: Record<string, Record<string, unknown>> = {
+      title: { [locale]: chInfo.title },
+      chapterNumber: { [locale]: chInfo.number },
+      book: { [locale]: makeLink(bookEntryId) },
+      sortOrder: { [locale]: chInfo.number },
+    };
+
+    if (chData.epigraphText) {
+      chapterFields.epigraph = { [locale]: chData.epigraphText };
+    }
+    if (chData.epigraphAttribution) {
+      chapterFields.epigraphAttribution = {
+        [locale]: chData.epigraphAttribution,
+      };
+    }
+
     const chapterEntry = await environment.createEntry("chapter", {
-      fields: {
-        title: { [locale]: chInfo.title },
-        chapterNumber: { [locale]: chInfo.number },
-        book: { [locale]: makeLink(bookEntryId) },
-        sortOrder: { [locale]: chInfo.number },
-      },
+      fields: chapterFields,
     });
     allEntryIds.push(chapterEntry.sys.id);
     totalCreated++;
     await delay(API_DELAY_MS);
 
-    // 2b. Create Section entry (with chapter parent link)
-    const sectionEntry = await environment.createEntry("section", {
-      fields: {
-        heading: {
-          [locale]: chData.sections[0]?.heading || `Chapter ${chInfo.number}`,
-        },
-        chapter: { [locale]: makeLink(chapterEntry.sys.id) },
-        sortOrder: { [locale]: 1 },
-      },
-    });
-    allEntryIds.push(sectionEntry.sys.id);
-    totalCreated++;
-    await delay(API_DELAY_MS);
-
-    // 2c. Create TextBlock entries (with section parent link)
+    // 2b. Create Section entries — one per assembly section
+    const sectionMappings: SectionMapping[] = [];
     const textBlockMappings: ChapterMapping["textBlocks"] = [];
 
-    for (const section of chData.sections) {
+    for (let sIdx = 0; sIdx < chData.sections.length; sIdx++) {
+      const section = chData.sections[sIdx];
+
+      const sectionEntry = await environment.createEntry("section", {
+        fields: {
+          heading: {
+            [locale]:
+              section.heading ||
+              `Chapter ${chInfo.number} Section ${sIdx + 1}`,
+          },
+          chapter: { [locale]: makeLink(chapterEntry.sys.id) },
+          sortOrder: { [locale]: sIdx + 1 },
+        },
+      });
+      allEntryIds.push(sectionEntry.sys.id);
+      sectionMappings.push({
+        sectionIndex: sIdx,
+        heading: section.heading,
+        contentfulId: sectionEntry.sys.id,
+      });
+      totalCreated++;
+      await delay(API_DELAY_MS);
+
+      // 2c. Create TextBlock entries within this section
       for (const para of section.paragraphs) {
         const richText = paragraphToRichText(para);
+        const contentType = para.contentType || "prose";
 
         // Build footnote metadata
         const footnoteMetadata: { marker: string; text: string }[] = [];
-        if (chData.footnotes) {
-          for (const fmt of para.formatting) {
-            if (fmt.style === "superscript") {
-              const marker = para.text.slice(fmt.start, fmt.end);
-              if (chData.footnotes[marker]) {
-                footnoteMetadata.push({
-                  marker,
-                  text: chData.footnotes[marker],
-                });
-              }
+        for (const fmt of para.formatting) {
+          if (fmt.style === "superscript") {
+            const marker = para.text.slice(fmt.start, fmt.end);
+            const fnText = resolveFootnote(chData.footnotes, marker);
+            if (fnText) {
+              footnoteMetadata.push({ marker, text: fnText });
             }
           }
         }
 
-        // Truncate for internalTitle (Contentful UI label)
         const plainSnippet = para.text.slice(0, 60).replace(/\n/g, " ");
         const internalTitle = `Ch${chInfo.number} P${para.sequenceInChapter}: ${plainSnippet}`;
 
@@ -471,6 +544,7 @@ async function main() {
           section: { [locale]: makeLink(sectionEntry.sys.id) },
           pageNumber: { [locale]: para.pageNumber },
           sortOrder: { [locale]: para.sequenceInChapter },
+          contentType: { [locale]: contentType },
         };
 
         if (footnoteMetadata.length > 0) {
@@ -482,6 +556,8 @@ async function main() {
           sequenceInChapter: para.sequenceInChapter,
           pageNumber: para.pageNumber,
           contentfulId: entry.sys.id,
+          contentType,
+          sectionIndex: sIdx,
         });
         allEntryIds.push(entry.sys.id);
         totalCreated++;
@@ -494,14 +570,18 @@ async function main() {
     contentfulMap.chapters.push({
       chapterNumber: chInfo.number,
       contentfulId: chapterEntry.sys.id,
-      sectionContentfulId: sectionEntry.sys.id,
+      sections: sectionMappings,
       textBlocks: textBlockMappings,
     });
     writeFileSync(mapPath, JSON.stringify(contentfulMap, null, 2));
 
-    console.log(
-      `  → 1 Chapter + 1 Section + ${textBlockMappings.length} TextBlocks (total: ${totalCreated})`,
+    const contentTypes = new Set(
+      textBlockMappings.map((tb) => tb.contentType),
     );
+    console.log(
+      `  → 1 Chapter + ${sectionMappings.length} Sections + ${textBlockMappings.length} TextBlocks (types: ${[...contentTypes].join(",")})`,
+    );
+    console.log(`  Total entries created: ${totalCreated}`);
   }
 
   // 3. Publish all entries

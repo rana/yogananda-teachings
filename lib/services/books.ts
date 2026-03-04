@@ -17,12 +17,18 @@ export interface Book {
   bookstoreUrl: string | null;
 }
 
+export type ContentType = "prose" | "verse" | "epigraph" | "dialogue" | "caption";
+export type Rasa = "shanta" | "adbhuta" | "karuna" | "vira" | "bhakti";
+
 export interface Chapter {
   id: string;
   bookId: string;
   chapterNumber: number;
   title: string;
   sortOrder: number;
+  epigraph: string | null;
+  epigraphAttribution: string | null;
+  rasa: Rasa | null;
 }
 
 export interface FormattingSpan {
@@ -46,16 +52,22 @@ export interface ChapterImage {
   height: number;
 }
 
+export interface ChapterParagraph {
+  id: string;
+  content: string;
+  formatting: FormattingSpan[];
+  pageNumber: number | null;
+  paragraphIndex: number | null;
+  contentType: ContentType;
+  sectionIndex: number;
+  sortOrder: number | null;
+  rasa: Rasa | null;
+}
+
 export interface ChapterContent {
   chapter: Chapter;
   book: Book;
-  paragraphs: {
-    id: string;
-    content: string;
-    formatting: FormattingSpan[];
-    pageNumber: number | null;
-    paragraphIndex: number | null;
-  }[];
+  paragraphs: ChapterParagraph[];
   footnotes: Footnote[];
   images: ChapterImage[];
   prevChapter: { id: string; chapterNumber: number; title: string } | null;
@@ -130,7 +142,8 @@ export async function getChapters(
   }
 
   const { rows } = await pool.query(
-    `SELECT id, book_id, chapter_number, title, sort_order
+    `SELECT id, book_id, chapter_number, title, sort_order,
+            epigraph, epigraph_attribution, rasa
      FROM chapters WHERE ${conditions.join(" AND ")} ORDER BY sort_order`,
     params,
   );
@@ -140,6 +153,9 @@ export async function getChapters(
     chapterNumber: r.chapter_number,
     title: r.title,
     sortOrder: r.sort_order,
+    epigraph: r.epigraph ?? null,
+    epigraphAttribution: r.epigraph_attribution ?? null,
+    rasa: r.rasa ?? null,
   }));
 }
 
@@ -266,9 +282,10 @@ export async function getChapterContent(
   bookId: string,
   chapterNumber: number,
 ): Promise<ChapterContent | null> {
-  // Get chapter (with footnotes)
+  // Get chapter (with footnotes, epigraph, rasa)
   const chResult = await pool.query(
-    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order, c.footnotes, c.images,
+    `SELECT c.id, c.book_id, c.chapter_number, c.title, c.sort_order,
+            c.footnotes, c.images, c.epigraph, c.epigraph_attribution, c.rasa,
             b.slug as book_slug, b.title as book_title, b.author as book_author,
             b.language, b.publication_year, b.cover_image_url, b.bookstore_url
      FROM chapters c
@@ -280,12 +297,15 @@ export async function getChapterContent(
   if (chResult.rows.length === 0) return null;
   const ch = chResult.rows[0];
 
-  // Get paragraphs with formatting (chunks ordered by paragraph_index)
+  // Get paragraphs with content structure fields.
+  // sort_order is the canonical ordering (gapless within chapter).
+  // Falls back to paragraph_index for data ingested before migration 008.
   const paraResult = await pool.query(
-    `SELECT id, content, formatting, page_number, paragraph_index
+    `SELECT id, content, formatting, page_number, paragraph_index,
+            content_type, section_index, sort_order, rasa
      FROM book_chunks
      WHERE chapter_id = $1
-     ORDER BY paragraph_index, created_at`,
+     ORDER BY COALESCE(sort_order, paragraph_index), created_at`,
     [ch.id],
   );
 
@@ -308,6 +328,9 @@ export async function getChapterContent(
       chapterNumber: ch.chapter_number,
       title: ch.title,
       sortOrder: ch.sort_order,
+      epigraph: ch.epigraph ?? null,
+      epigraphAttribution: ch.epigraph_attribution ?? null,
+      rasa: ch.rasa ?? null,
     },
     book: {
       id: ch.book_id,
@@ -325,6 +348,10 @@ export async function getChapterContent(
       formatting: r.formatting || [],
       pageNumber: r.page_number,
       paragraphIndex: r.paragraph_index,
+      contentType: (r.content_type as ContentType) || "prose",
+      sectionIndex: r.section_index ?? 0,
+      sortOrder: r.sort_order ?? null,
+      rasa: (r.rasa as Rasa) ?? null,
     })),
     footnotes: ch.footnotes || [],
     images: (ch.images || []).map((img: ChapterImage) => ({
