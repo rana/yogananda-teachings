@@ -1098,7 +1098,7 @@ Tailwind CSS supports logical properties via the `ms-*` (margin-start), `me-*` (
 ### Consequences
 
 - Developers must be trained/reminded to use logical properties (Tailwind's `ms-*`/`me-*`/`ps-*`/`pe-*` instead of `ml-*`/`mr-*`/`pl-*`/`pr-*`)
-- ESLint or Stylelint rules can enforce logical property usage
+- **CI enforces logical property usage.** A grep-based CI check scans all `.tsx`, `.ts`, and `.css` files for physical property patterns (`ml-`, `mr-`, `pl-`, `pr-`, `margin-left`, `margin-right`, `padding-left`, `padding-right`, `text-align: left`, `text-align: right`, `float: left`, `float: right`, `border-left`, `border-right`) and fails the build if any are found outside explicitly allowlisted exceptions (e.g., third-party overrides). This replaces the earlier aspiration of "can enforce" with a concrete gate. Implementation: shell script in CI (`scripts/lint-logical-properties.sh`) or an ESLint custom rule.
 - Adding `dir="rtl"` to an RTL locale "just works" for layout — only typography and some edge cases need special attention
 
 ---

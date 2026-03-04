@@ -50,6 +50,8 @@ The other ten principles prevent bad decisions. This principle demands great one
 
 The test is specific: the distance between adequate and amazing. Not just typography that renders the text, but typography that honors its rhythm. Not just search that returns relevant results, but search that feels curated by a wise librarian. Not just error handling that recovers, but error handling that guides gently. When a grieving seeker finds Yogananda's words on the immortality of the soul at 2 AM, the passage should feel like receiving a gift, not reading a database output.
 
+The portal's execution quality should match the spiritual depth of the content it holds — **in every medium the seeker encounters it**: color screens, grayscale displays, e-ink readers, print, screen readers, and braille. A passage read on a monochrome Kindle should feel as honored as one rendered in gold on cream. The visual hierarchy must survive the absence of color; the emotional quality must survive the absence of vision. Display-medium resilience is not a separate concern — it is PRI-03 applied to the full range of human access (see DES-025 § Display Resilience for requirements and grayscale palette verification).
+
 What is amazing: considered simplicity. Typography that honors the text's rhythm. Search results that feel curated. Error messages that guide gently. Loading states that feel like stillness rather than brokenness. Restraint as a form of excellence — the portal that does fewer things with more care is better than one that does more things with less. This aligns with Calm Technology: the technology disappears and the teachings shine.
 
 ---

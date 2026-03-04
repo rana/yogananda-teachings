@@ -62,6 +62,7 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] IAST diacritics rendering verification: Merriweather and Lora at all font sizes, particularly 15px. Include in Milestone 2a design QA. (ADR-080, ADR-003)
 - [ ] Circadian content choreography: solar-position awareness vs. fixed clock hours? Browser timezone maps to coordinates for DELTA-compliant calculation. (DES-011, DES-028, ADR-095)
 - [ ] AI citation monitoring: should the portal track whether AI systems (ChatGPT, Perplexity, Gemini, etc.) cite Yogananda correctly when quoting from portal content? Not surveillance — web mention monitoring to evaluate whether `llms.txt` and `ai.txt` citation guidance is effective. Could inform future citation guidance improvements. (ADR-081, Milestone 2b+)
+- [ ] E-ink and grayscale display testing: should the portal include specific CSS adaptations for e-ink devices (Kindle Experimental Browser, BOOX), or is the existing progressive enhancement sufficient? Gold-on-cream decorative elements (~26% luminance difference) may vanish on grayscale/e-ink. Seekers reading sacred text on e-ink devices is a devotional use case, not an edge case. (DES-025, ADR-006, PRI-03)
 
 **Stakeholder**
 - [ ] SRF temple singing bowl recordings for Quiet Corner audio. (Milestone 2a)

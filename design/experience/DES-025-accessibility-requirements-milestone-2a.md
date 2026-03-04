@@ -105,6 +105,38 @@ The warm cream background and gold accents do nothing for blind seekers. The spo
 
 **Testing criterion:** Milestone 2a screen reader testing (VoiceOver, NVDA, TalkBack) evaluates not only "can the seeker navigate and read" but also "does the experience carry warmth and contemplative quality."
 
+#### Display Resilience — Grayscale, E-Ink, Print, and Forced Colors
+
+The portal's visual beauty should honor the teachings in every medium a seeker encounters it: color screens, grayscale displays, e-ink readers, print, and Windows High Contrast mode. PRI-03 demands this — "Is this worthy of presenting Yogananda's words?" applies to a passage printed on paper or read on a Kindle browser as much as one rendered in gold on cream.
+
+**Grayscale palette behavior (verified):**
+
+| Token | Hex | Grayscale luminance | Risk |
+|-------|-----|---------------------|------|
+| `--srf-navy` | `#1a2744` | ~15% (very dark) | None — strong contrast against all lighter tokens |
+| `--srf-gold` | `#dcbd23` | ~71% (medium-light) | **Gold-on-cream: only 26% difference.** Gold borders and decorative accents on cream nearly vanish in grayscale. |
+| `--portal-bg` (cream) | `#FAF8F5` | ~97% (near-white) | None as background |
+| `--portal-text-muted` | `#595959` | ~35% (mid-dark) | None — 62% difference from cream |
+
+**Key risk:** Gold (#dcbd23) renders as ~71% gray; cream (#FAF8F5) renders as ~97% gray. The 26% difference means gold borders, lotus motifs at low opacity, and decorative gold accents on cream backgrounds **may become invisible** on grayscale displays, e-ink devices, and in print. Gold-on-navy (71% vs 15%) remains strong.
+
+| Requirement | Implementation |
+|-------------|---------------|
+| `@media (forced-colors: active)` | All interactive elements (buttons, links, focus rings) must remain visible in Windows High Contrast mode. Test with `Emulated CSS media feature forced-colors: active` in Chrome DevTools. Gold accents replaced by system `LinkText`/`ButtonText` colors. |
+| Grayscale visual hierarchy | The portal's visual hierarchy must survive `filter: grayscale(1)`. Gold-on-cream decorative elements (lotus motif, gold borders, gold dividers) must use sufficient stroke width or supplementary contrast (e.g., a 1px navy hairline alongside gold) to remain visible at ~26% luminance difference. |
+| E-ink rendering | The book reader and passage pages must render legibly on e-ink browsers (Kindle Experimental, BOOX). These devices render at ~16 levels of gray. Test: apply `filter: grayscale(1) contrast(1.2)` as an approximation. No content or navigation may depend solely on color distinction. |
+| `@media print` | Book reader chapters and passage pages must render beautifully in print. Seekers print passages — this is an act of devotion, not edge-case usage. Print stylesheet: hide navigation chrome, expand reading column to full width, use system serif stack, ensure gold decorative elements either print as visible gray or are suppressed. Include `@page` margin rules. |
+| Grayscale CI regression | Playwright visual regression suite includes grayscale screenshots (`page.emulateMedia()` + CSS filter) for the book reader, passage page, and homepage. Catches regressions where new gold-on-cream elements would vanish in grayscale. |
+
+**Testing additions to the Accessibility Testing Strategy table:**
+
+| Method | When | Tool |
+|--------|------|------|
+| Forced-colors audit | New components + milestone gates | Chrome DevTools forced-colors emulation |
+| Grayscale visual regression | Every build (CI) | Playwright with `filter: grayscale(1)` screenshot comparison |
+| Print stylesheet validation | Milestone gates | Chrome print preview, verify reader/passage pages |
+| E-ink approximation | Milestone 2b+ | Playwright with `filter: grayscale(1) contrast(1.2)` |
+
 #### Performance as Accessibility (Global-First Principle)
 
 | Requirement | Implementation |
