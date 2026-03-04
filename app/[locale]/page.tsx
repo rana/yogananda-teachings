@@ -57,7 +57,7 @@ export default async function HomePage({
             </blockquote>
             <p className="passage-citation">
               — {passage.bookAuthor},{" "}
-              <a href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}`}>
+              <a href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}>
                 <cite>{passage.bookTitle}</cite>
                 {passage.chapterTitle && `, ${passage.chapterTitle}`}
               </a>

@@ -191,6 +191,25 @@ a:hover {
   margin-block-end: var(--space-generous);
 }
 
+.chapter-breadcrumb {
+  margin-block-end: var(--space-compact);
+}
+
+.chapter-breadcrumb a {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  opacity: 0.5;
+  transition: opacity var(--motion-micro);
+}
+
+.chapter-breadcrumb a:hover {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .chapter-label {
   display: block;
   font-family: var(--font-ui);
@@ -1545,4 +1564,43 @@ a:hover {
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+
+/* ── Passage Target Highlight ─────────────────────────────────── */
+/* When a reader arrives via #passage-UUID (from search, homepage,
+   or shared link), the gold glow guides the eye to the exact
+   teaching they sought. Fades after 3s — the portal welcomes,
+   then recedes. A sahṛdaya feature: the reader's intention
+   is honored. */
+
+[data-paragraph]:target {
+  animation: passage-arrive var(--motion-contemplative, 600ms) var(--easing-decelerate, ease-out) forwards,
+             passage-settle 1s 3s ease-out forwards;
+  border-radius: 2px;
+}
+
+@keyframes passage-arrive {
+  from {
+    background-color: transparent;
+    box-shadow: none;
+  }
+  to {
+    background-color: color-mix(in oklch, var(--color-gold) 8%, transparent);
+    box-shadow: inset 3px 0 0 var(--color-gold);
+  }
+}
+
+@keyframes passage-settle {
+  to {
+    background-color: transparent;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-paragraph]:target {
+    animation: none;
+    box-shadow: inset 3px 0 0 var(--color-gold);
+  }
 }

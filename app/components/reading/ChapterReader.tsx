@@ -46,6 +46,9 @@ export function ChapterReader({
     >
       {/* Chapter header */}
       <header className="chapter-header">
+        <nav className="chapter-breadcrumb" aria-label="Breadcrumb">
+          <a href={`/books/${book.slug}`}>{book.title}</a>
+        </nav>
         <span className="chapter-label">
           Chapter {chapter.chapterNumber}
         </span>
@@ -76,7 +79,7 @@ export function ChapterReader({
                 </figure>
               )}
               <p
-                id={`p-${i}`}
+                id={`passage-${para.id}`}
                 data-paragraph={i}
                 data-has-thread={hasThread || undefined}
                 className={hasThread ? "golden-thread-passage" : undefined}
