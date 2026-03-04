@@ -17,6 +17,7 @@ import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
+import { ChapterProgress } from "@/app/components/ChapterProgress";
 
 export async function generateMetadata({
   params,
@@ -153,6 +154,9 @@ export default async function BookLandingPage({
           </ol>
         </nav>
       )}
+
+      {/* Client island: mark visited chapters from localStorage */}
+      <ChapterProgress bookSlug={book.slug} />
 
       {/* Bookstore signpost */}
       {book.bookstoreUrl && (

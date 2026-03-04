@@ -14,6 +14,7 @@ import pool from "@/lib/db";
 import { getRandomPassage } from "@/lib/services/passages";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
+import { ContinueReading } from "@/app/components/ContinueReading";
 import { SRF_PRACTICE } from "@/lib/config/srf-links";
 
 export const dynamic = "force-dynamic";
@@ -47,6 +48,9 @@ export default async function HomePage({
 
   return (
     <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
+
+      {/* ── Continue Reading (returning seekers) ── */}
+      <ContinueReading locale={locale} />
 
       {/* ── The Bindu: Today's Wisdom ── */}
       <Surface as="section" register="sacred" rasa="shanta" className="center">

@@ -534,6 +534,44 @@ a:hover {
   box-shadow: 0 0 0 1px color-mix(in oklch, var(--color-gold), transparent 70%);
 }
 
+/* Continue Reading — a warm return for the seeker.
+   Appears only when returning visitors have reading history.
+   Ambient register: present but never demanding. */
+
+.continue-reading {
+  display: block;
+  max-inline-size: 28em;
+  margin-inline: auto;
+  padding: var(--space-compact) var(--space-default);
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-gentle, 6px);
+  transition: border-color var(--motion-interaction), color var(--motion-interaction);
+}
+
+.continue-reading:hover {
+  border-color: var(--color-gold);
+  color: var(--color-text);
+}
+
+.continue-reading-label {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-block-end: 2px;
+}
+
+.continue-reading-chapter {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+}
+
 /* Passage blockquote — featured teaching quotation */
 .passage-quote {
   font-family: var(--font-reading);
@@ -597,6 +635,15 @@ a:hover {
 
 .chapter-list-title {
   flex: 1;
+}
+
+/* Visited chapter — quiet gold checkmark after the number.
+   Applied by ChapterProgress client island from localStorage. */
+.chapter-list-item.chapter-visited .chapter-list-number::after {
+  content: " \2713";
+  color: var(--color-gold);
+  opacity: var(--gold-ambient, 0.3);
+  font-size: 0.75em;
 }
 
 /* Signpost — quiet external link (SRF bookstore, lessons, etc.) */
