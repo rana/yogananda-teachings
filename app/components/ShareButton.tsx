@@ -77,16 +77,14 @@ export function ShareButton({ passage, citation, url, text, title, chunkId }: Sh
       type="button"
       onClick={handleShare}
       data-no-print
-      className="min-h-11 inline-flex items-center gap-1 text-sm text-srf-navy/60 transition-colors hover:text-srf-navy"
+      className="share-btn"
       aria-label={t("button")}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 20 20"
         fill="currentColor"
-        className="h-3.5 w-3.5"
         aria-hidden="true"
-        data-ui
       >
         <path d="M13 4.5a2.5 2.5 0 1 1 .702 1.737L6.97 9.604a2.518 2.518 0 0 1 0 .799l6.732 3.365a2.5 2.5 0 1 1-.671 1.341l-6.732-3.365a2.5 2.5 0 1 1 0-3.482l6.732-3.365A2.52 2.52 0 0 1 13 4.5Z" />
       </svg>

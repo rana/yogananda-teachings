@@ -4,7 +4,7 @@
  * LibraryView — client component rendering the seeker's personal library.
  *
  * Shows books the seeker has engaged with, each as a card with:
- * - Chapter progress (visited / total shown as a gold bar)
+ * - Chapter progress (visited count)
  * - Last-read position with "continue" link
  * - Bookmark count
  *
@@ -18,7 +18,7 @@ import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { getLibrary, type LibraryBook } from "@/lib/personal-library";
-import { SrfLotus } from "@/app/components/SrfLotus";
+import { Motif } from "@/app/components/design/Motif";
 
 interface LibraryViewProps {
   locale: string;
@@ -39,18 +39,21 @@ export function LibraryView({ locale }: LibraryViewProps) {
 
   if (books.length === 0) {
     return (
-      <div className="flex flex-col items-center py-16 text-center">
-        <SrfLotus className="h-12 w-12 text-srf-gold/30" />
-        <p className="mt-4 font-display text-lg text-srf-navy/60">
+      <div className="empty-state">
+        <Motif role="breath" voice="sacred" />
+        <p className="page-subtitle" style={{ marginBlockStart: "var(--space-default)" }}>
           {t("empty")}
         </p>
-        <p className="mt-2 max-w-sm text-sm text-srf-navy/40">
+        <p style={{
+          maxInlineSize: "24rem",
+          fontSize: "0.875rem",
+          color: "var(--color-text-secondary)",
+          opacity: 0.4,
+          marginBlockStart: "var(--space-compact)",
+        }}>
           {t("emptyHint")}
         </p>
-        <Link
-          href="/books"
-          className="mt-6 rounded-lg bg-srf-navy px-5 py-2.5 text-sm font-sans font-semibold text-warm-cream transition-colors hover:bg-srf-navy/90 min-h-11 inline-flex items-center"
-        >
+        <Link href="/books" className="btn-primary" style={{ marginBlockStart: "var(--space-generous)" }}>
           {t("browseBooks")}
         </Link>
       </div>
@@ -58,7 +61,7 @@ export function LibraryView({ locale }: LibraryViewProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="stack">
       {books.map((book) => (
         <LibraryBookCard
           key={book.bookSlug}
@@ -66,8 +69,6 @@ export function LibraryView({ locale }: LibraryViewProps) {
           locale={locale}
         />
       ))}
-
-      {/* Future: Videos section, Audio section, etc. */}
     </div>
   );
 }
@@ -89,25 +90,30 @@ function LibraryBookCard({ book, locale }: LibraryBookCardProps) {
     : null;
 
   return (
-    <div className="rounded-lg border border-srf-navy/10 bg-(--theme-surface) p-5 transition-colors hover:border-srf-gold/20">
+    <div className="library-card">
       {/* Book header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "0.75rem" }}>
+        <div style={{ minInlineSize: 0 }}>
           <Link
             href={`/books/${book.bookSlug}`}
-            className="font-display text-lg text-srf-navy hover:text-srf-gold transition-colors"
+            style={{ fontFamily: "var(--font-display)", fontSize: "1.125rem" }}
           >
             {book.bookTitle || book.bookSlug}
           </Link>
           {book.bookAuthor && (
-            <p className="text-sm text-srf-navy/50 mt-0.5">{book.bookAuthor}</p>
+            <p style={{
+              fontSize: "0.875rem",
+              color: "var(--color-text-secondary)",
+              marginBlockStart: "0.125rem",
+            }}>
+              {book.bookAuthor}
+            </p>
           )}
         </div>
 
         {/* Bookmark count badge */}
         {book.bookmarkCount > 0 && (
-          <span className="shrink-0 flex items-center gap-1 rounded-full bg-srf-gold/10 px-2 py-0.5 text-xs text-srf-gold/80">
-            <SrfLotus className="h-3 w-3" />
+          <span className="badge-gold">
             {book.bookmarkCount}
           </span>
         )}
@@ -115,7 +121,13 @@ function LibraryBookCard({ book, locale }: LibraryBookCardProps) {
 
       {/* Chapter progress — count only (no bar; total is server-side data) */}
       {chaptersRead > 0 && (
-        <p className="mt-3 text-xs text-srf-navy/40 tabular-nums">
+        <p style={{
+          marginBlockStart: "var(--space-compact)",
+          fontSize: "0.75rem",
+          color: "var(--color-text-secondary)",
+          opacity: 0.4,
+          fontVariantNumeric: "tabular-nums",
+        }}>
           {t("chaptersVisited", { count: chaptersRead })}
         </p>
       )}
@@ -124,9 +136,16 @@ function LibraryBookCard({ book, locale }: LibraryBookCardProps) {
       {book.lastChapter && book.lastChapterTitle && (
         <Link
           href={`/books/${book.bookSlug}/${book.lastChapter}`}
-          className="mt-3 flex items-center gap-2 text-sm text-srf-navy/60 hover:text-srf-navy transition-colors group"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            marginBlockStart: "var(--space-compact)",
+            fontSize: "0.875rem",
+            color: "var(--color-text-secondary)",
+          }}
         >
-          <span className="text-srf-gold/50 group-hover:text-srf-gold transition-colors" aria-hidden="true">
+          <span style={{ color: "var(--color-gold)", opacity: 0.5 }} aria-hidden="true">
             &rsaquo;
           </span>
           <span>
@@ -140,7 +159,14 @@ function LibraryBookCard({ book, locale }: LibraryBookCardProps) {
 
       {/* Last active timestamp */}
       {lastActive && (
-        <p className="mt-2 text-xs text-srf-navy/25">{lastActive}</p>
+        <p style={{
+          marginBlockStart: "0.5rem",
+          fontSize: "0.75rem",
+          color: "var(--color-text-secondary)",
+          opacity: 0.25,
+        }}>
+          {lastActive}
+        </p>
       )}
     </div>
   );

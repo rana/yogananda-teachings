@@ -37,7 +37,7 @@ export function HighlightedText({ text, query }: HighlightedTextProps) {
         i % 2 === 1 ? (
           <mark
             key={i}
-            className="bg-srf-gold/15 text-inherit rounded-sm"
+            className="search-highlight"
           >
             {part}
           </mark>

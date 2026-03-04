@@ -18,16 +18,13 @@ const QuietCornerClient = dynamic(
   {
     ssr: false,
     loading: () => (
-      <main
-        id="main-content"
-        className="flex min-h-screen flex-col items-center justify-center px-4"
-      >
-        <div className="mx-auto max-w-xl text-center">
-          <div className="mb-8 h-7 w-40 mx-auto animate-pulse rounded bg-srf-navy/10" />
-          <div className="space-y-3">
-            <div className="h-6 animate-pulse rounded bg-srf-navy/5" />
-            <div className="h-6 animate-pulse rounded bg-srf-navy/5" />
-            <div className="h-6 w-3/4 mx-auto animate-pulse rounded bg-srf-navy/5" />
+      <main id="main-content" className="quiet-layout">
+        <div className="quiet-content">
+          <div className="pulse" style={{ blockSize: "1.75rem", inlineSize: "10rem", marginInline: "auto", marginBlockEnd: "var(--space-generous)", borderRadius: "4px" }} />
+          <div className="stack-tight">
+            <div className="pulse" style={{ blockSize: "1.5rem", borderRadius: "4px" }} />
+            <div className="pulse" style={{ blockSize: "1.5rem", borderRadius: "4px" }} />
+            <div className="pulse" style={{ blockSize: "1.5rem", inlineSize: "75%", marginInline: "auto", borderRadius: "4px" }} />
           </div>
         </div>
       </main>

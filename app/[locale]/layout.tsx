@@ -14,6 +14,7 @@ import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { PORTAL, SRF } from "@/lib/config/srf-links";
 import { Surface } from "@/app/components/design/Surface";
+import { ThemeSwitcher } from "@/app/components/design/ThemeSwitcher";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -84,6 +85,7 @@ export default async function LocaleLayout({
           <nav className="cluster" aria-label="Site navigation">
             <a href={`/${locale}/books`}>Library</a>
             <a href={`/${locale}/search`}>Search</a>
+            <ThemeSwitcher />
           </nav>
         </div>
       </Surface>
@@ -100,6 +102,12 @@ export default async function LocaleLayout({
             Teachings of Paramahansa Yogananda ·{" "}
             <a href={SRF.home}>Self-Realization Fellowship</a>
           </p>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <a href={`/${locale}/about`}>About</a>
+            <a href={`/${locale}/legal`}>Legal</a>
+            <a href={`/${locale}/privacy`}>Privacy</a>
+            <a href={`/${locale}/integrity`}>Integrity</a>
+          </nav>
         </div>
       </Surface>
     </NextIntlClientProvider>

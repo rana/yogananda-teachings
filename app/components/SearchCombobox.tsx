@@ -364,7 +364,7 @@ export function SearchCombobox({
   const effectivePlaceholder = showOverlay ? "" : (placeholder || rotatingText);
 
   return (
-    <div className="relative flex-1">
+    <div className="combobox-wrapper">
       <input
         ref={inputRef}
         id={id}
@@ -390,7 +390,7 @@ export function SearchCombobox({
       {showOverlay && (
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-srf-navy/35 transition-opacity duration-500 ease-in-out"
+          className="combobox-placeholder-overlay"
           style={{ opacity: fading ? 0 : 1 }}
         >
           {rotatingText}
@@ -403,11 +403,11 @@ export function SearchCombobox({
           id={listboxId}
           role="listbox"
           aria-label={ariaLabel}
-          className="absolute inset-x-0 top-full z-50 mt-1 max-h-80 overflow-auto rounded-lg border border-srf-navy/10 bg-(--theme-surface) shadow-lg"
+          className="combobox-dropdown"
         >
           {/* Zero-state chips */}
           {chips.length > 0 && (
-            <li className="flex flex-wrap gap-2 px-3 py-3" role="presentation">
+            <li className="combobox-chips" role="presentation">
               {chips.map((chip, i) => (
                 <button
                   key={chip}
@@ -416,11 +416,7 @@ export function SearchCombobox({
                   aria-selected={activeIndex === i}
                   type="button"
                   onClick={() => selectSuggestion(chip)}
-                  className={`inline-flex min-h-11 items-center rounded-full border px-3 py-1.5 text-sm transition-colors ${
-                    activeIndex === i
-                      ? "border-srf-gold bg-srf-gold/10 text-srf-navy"
-                      : "border-srf-gold/30 text-srf-navy/70 hover:border-srf-gold hover:bg-srf-gold/5 hover:text-srf-navy"
-                  }`}
+                  className="combobox-chip"
                 >
                   {chip}
                 </button>
@@ -438,11 +434,7 @@ export function SearchCombobox({
                 role="option"
                 aria-selected={activeIndex === idx}
                 onClick={() => selectSuggestion(suggestion.text)}
-                className={`min-h-11 cursor-pointer px-4 py-2.5 text-sm transition-colors ${
-                  activeIndex === idx
-                    ? "bg-srf-gold/10 text-srf-navy"
-                    : "text-srf-navy/80 hover:bg-srf-gold/5"
-                }`}
+                className="combobox-suggestion"
               >
                 {suggestion.text}
               </li>
@@ -452,7 +444,7 @@ export function SearchCombobox({
       )}
 
       {/* Live region for screen readers */}
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
+      <div className="visually-hidden" aria-live="polite" aria-atomic="true">
         {hasItems &&
           (suggestions.length > 0
             ? `${suggestions.length} suggestion${suggestions.length !== 1 ? "s" : ""} available`

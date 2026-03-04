@@ -5,7 +5,7 @@
  *
  * Affirmation display with optional timer and audio cues.
  * Self-contained: minimal chrome, no nav clutter.
- * Timer completion: chime → 3s stillness → crossfade to parting passage.
+ * Timer completion: chime -> 3s stillness -> crossfade to parting passage.
  */
 
 import { useState, useCallback, useRef, useEffect } from "react";
@@ -123,8 +123,10 @@ export function QuietCornerClient({ passage: initial }: Props) {
 
   if (!passage) {
     return (
-      <main id="main-content" className="flex min-h-screen items-center justify-center">
-        <p className="text-srf-navy/40 italic">No reflections available yet.</p>
+      <main id="main-content" className="quiet-layout">
+        <p style={{ color: "var(--color-text-secondary)", opacity: 0.4, fontStyle: "italic" }}>
+          No reflections available yet.
+        </p>
       </main>
     );
   }
@@ -132,31 +134,35 @@ export function QuietCornerClient({ passage: initial }: Props) {
   return (
     <main
       id="main-content"
-      className={`flex min-h-screen flex-col items-center justify-center px-4${timerActive ? " cursor-pointer" : ""}`}
+      className="quiet-layout"
       data-mode={timerActive ? "quiet" : undefined}
+      style={timerActive ? { cursor: "pointer" } : undefined}
       onClick={timerActive ? stopTimer : undefined}
     >
-      <div className="mx-auto max-w-xl text-center">
+      <div className="quiet-content">
         {/* Title — fades when timer active */}
         {!timerActive && (
-          <h1 className="mb-8 font-display text-lg text-srf-navy/40">
+          <h1 style={{
+            marginBlockEnd: "var(--space-generous)",
+            fontFamily: "var(--font-display)",
+            fontSize: "1.125rem",
+            color: "var(--color-text-secondary)",
+            opacity: 0.4,
+          }}>
             {t("heading")}
           </h1>
         )}
 
         {/* Affirmation */}
-        <blockquote className="text-lg leading-relaxed text-srf-navy md:text-xl md:leading-relaxed">
+        <blockquote className="passage-quote" style={{ fontSize: "1.125rem" }}>
           &ldquo;{passage.content.trim()}&rdquo;
         </blockquote>
 
         {/* Attribution (PRI-02) — links to book chapter for context */}
-        <footer className="mt-4 text-sm text-srf-navy/50">
-          <cite className="not-italic">
+        <footer className="passage-citation" style={{ marginBlockStart: "var(--space-default)" }}>
+          <cite style={{ fontStyle: "normal" }}>
             — {passage.bookAuthor},{" "}
-            <Link
-              href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}
-              className="underline decoration-srf-navy/20 underline-offset-2 transition-colors hover:text-srf-navy hover:decoration-srf-gold/40"
-            >
+            <Link href={`/books/${passage.bookSlug}/${passage.chapterNumber}`}>
               <em>{passage.bookTitle}</em>
               {passage.pageNumber && `, p. ${passage.pageNumber}`}
             </Link>
@@ -166,44 +172,54 @@ export function QuietCornerClient({ passage: initial }: Props) {
         {/* Timer */}
         {timerActive ? (
           <div
-            className="mt-12 p-4"
+            style={{ marginBlockStart: "var(--space-spacious)", padding: "var(--space-default)" }}
             role="timer"
             aria-live="off"
             aria-label={t("timerRunning")}
           >
-            <p className="font-sans text-3xl tabular-nums text-srf-navy/30" aria-label={`${Math.floor(secondsRemaining / 60)} minutes ${secondsRemaining % 60} seconds remaining`}>
+            <p
+              className="quiet-timer-display"
+              aria-label={`${Math.floor(secondsRemaining / 60)} minutes ${secondsRemaining % 60} seconds remaining`}
+            >
               {formatTime(secondsRemaining)}
             </p>
-            <p className="mt-3 text-xs text-srf-navy/20">{t("tapToEnd")}</p>
+            <p style={{
+              marginBlockStart: "var(--space-compact)",
+              fontSize: "0.75rem",
+              color: "var(--color-text-secondary)",
+              opacity: 0.2,
+            }}>
+              {t("tapToEnd")}
+            </p>
           </div>
         ) : timerComplete ? (
-          <div className="mt-12 space-y-4" role="status" aria-live="polite">
-            <p className="text-sm text-srf-gold">{t("timerComplete")}</p>
-            <div className="flex justify-center gap-4">
-              <button
-                onClick={fetchAnother}
-                disabled={loading}
-                className="min-h-11 rounded-lg border border-srf-navy/10 px-4 py-2 text-sm text-srf-navy/60 transition-colors hover:border-srf-gold/40 hover:text-srf-navy"
-              >
+          <div
+            className="stack-tight"
+            role="status"
+            aria-live="polite"
+            style={{ marginBlockStart: "var(--space-spacious)" }}
+          >
+            <p style={{ fontSize: "0.875rem", color: "var(--color-gold)" }}>{t("timerComplete")}</p>
+            <div className="cluster" style={{ justifyContent: "center" }}>
+              <button onClick={fetchAnother} disabled={loading} className="btn-secondary">
                 {loading ? "..." : t("showAnother")}
               </button>
-              <Link
-                href="/"
-                className="min-h-11 inline-flex items-center rounded-lg border border-srf-navy/10 px-4 py-2 text-sm text-srf-navy/60 transition-colors hover:border-srf-gold/40 hover:text-srf-navy"
-              >
+              <Link href="/" className="btn-secondary">
                 {t("backToPortal")}
               </Link>
             </div>
           </div>
         ) : (
-          <div className="mt-12 space-y-4">
-            <p className="text-xs text-srf-navy/30">{t("subtitle")}</p>
-            <div className="flex justify-center gap-3">
+          <div className="stack-tight" style={{ marginBlockStart: "var(--space-spacious)" }}>
+            <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", opacity: 0.3 }}>
+              {t("subtitle")}
+            </p>
+            <div className="cluster" style={{ justifyContent: "center" }}>
               {TIMER_OPTIONS.map((opt) => (
                 <button
                   key={opt.seconds}
                   onClick={() => startTimer(opt.seconds)}
-                  className="min-h-11 rounded-lg border border-srf-navy/10 px-4 py-2 text-sm text-srf-navy/60 transition-colors hover:border-srf-gold/40 hover:text-srf-navy"
+                  className="btn-secondary"
                 >
                   {t(opt.label)}
                 </button>
@@ -212,7 +228,15 @@ export function QuietCornerClient({ passage: initial }: Props) {
             <button
               onClick={fetchAnother}
               disabled={loading}
-              className="min-h-11 text-sm text-srf-navy/40 hover:text-srf-navy/60"
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                fontSize: "0.875rem",
+                color: "var(--color-text-secondary)",
+                opacity: 0.4,
+                cursor: "pointer",
+              }}
             >
               {loading ? "..." : t("showAnother")}
             </button>
@@ -222,4 +246,3 @@ export function QuietCornerClient({ passage: initial }: Props) {
     </main>
   );
 }
-

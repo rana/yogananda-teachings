@@ -17,7 +17,7 @@ import {
   subscribe,
   type Bookmark,
 } from "@/lib/services/bookmarks";
-import { SrfLotus } from "@/app/components/SrfLotus";
+import { Motif } from "@/app/components/design/Motif";
 
 interface BookGroup {
   bookId: string;
@@ -62,12 +62,18 @@ export function BookmarksList() {
 
   if (bookmarks.length === 0) {
     return (
-      <div className="flex flex-col items-center py-16 text-center">
-        <SrfLotus className="h-12 w-12 text-srf-gold/30" />
-        <p className="mt-4 font-display text-lg text-srf-navy/60">
+      <div className="empty-state">
+        <Motif role="breath" voice="sacred" />
+        <p className="page-subtitle" style={{ marginBlockStart: "var(--space-default)" }}>
           {t("empty")}
         </p>
-        <p className="mt-2 max-w-sm text-sm text-srf-navy/40">
+        <p style={{
+          maxInlineSize: "24rem",
+          fontSize: "0.875rem",
+          color: "var(--color-text-secondary)",
+          opacity: 0.4,
+          marginBlockStart: "var(--space-compact)",
+        }}>
           {t("emptyHint")}
         </p>
       </div>
@@ -77,33 +83,24 @@ export function BookmarksList() {
   const groups = groupByBook(bookmarks);
 
   return (
-    <div className="space-y-8">
+    <div className="stack-generous">
       {groups.map((group) => (
         <section key={group.bookId}>
-          <h2 className="mb-3 font-display text-lg text-srf-navy">
-            <Link
-              href={`/books/${group.bookUrlId}`}
-              className="hover:text-srf-gold transition-colors"
-            >
+          <h2 className="section-heading">
+            <Link href={`/books/${group.bookUrlId}`}>
               {group.bookTitle}
             </Link>
           </h2>
 
-          <ul className="space-y-2">
+          <div className="stack-tight" style={{ marginBlockStart: "var(--space-compact)" }}>
             {group.bookmarks.map((bm) => (
-              <li
-                key={bm.id}
-                className="group flex items-start gap-3 rounded-lg border border-srf-navy/5 bg-(--theme-surface) px-4 py-3 transition-colors hover:border-srf-gold/20"
-              >
-                {/* Lotus indicator */}
-                <SrfLotus className="mt-0.5 h-4 w-4 shrink-0 text-srf-gold" />
-
+              <div key={bm.id} className="bookmark-item">
                 {/* Content */}
-                <div className="min-w-0 flex-1">
+                <div style={{ minInlineSize: 0, flex: 1 }}>
                   {bm.type === "chapter" ? (
                     <Link
                       href={`/books/${bm.bookSlug ?? bm.bookId}/${bm.chapterNumber}`}
-                      className="block text-sm font-medium text-srf-navy hover:text-srf-gold transition-colors"
+                      style={{ fontSize: "0.875rem", fontWeight: 500 }}
                     >
                       {t("chapter", { number: bm.chapterNumber })}
                       {": "}
@@ -113,13 +110,18 @@ export function BookmarksList() {
                     <div>
                       <Link
                         href={`/passage/${bm.passageSlug ?? bm.passageId}`}
-                        className="block text-sm text-srf-navy/80 leading-relaxed hover:text-srf-navy transition-colors"
+                        style={{ fontSize: "0.875rem", lineHeight: 1.6 }}
                       >
                         &ldquo;{bm.content}
                         {bm.content.length >= 200 ? "..." : ""}
                         &rdquo;
                       </Link>
-                      <p className="mt-1 text-xs text-srf-navy/40">
+                      <p style={{
+                        marginBlockStart: "0.25rem",
+                        fontSize: "0.75rem",
+                        color: "var(--color-text-secondary)",
+                        opacity: 0.4,
+                      }}>
                         {t("chapter", { number: bm.chapterNumber })}
                         {": "}
                         {bm.chapterTitle}
@@ -127,7 +129,12 @@ export function BookmarksList() {
                     </div>
                   )}
 
-                  <p className="mt-1 text-xs text-srf-navy/30">
+                  <p style={{
+                    marginBlockStart: "0.25rem",
+                    fontSize: "0.75rem",
+                    color: "var(--color-text-secondary)",
+                    opacity: 0.3,
+                  }}>
                     {t("savedOn", {
                       date: new Date(bm.createdAt).toLocaleDateString(),
                     })}
@@ -139,20 +146,15 @@ export function BookmarksList() {
                   type="button"
                   onClick={() => removeBookmark(bm.id)}
                   aria-label={t("removeBookmark")}
-                  className="inline-flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-md text-srf-navy/20 transition-colors hover:bg-srf-navy/5 hover:text-srf-navy/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-srf-gold"
+                  className="btn-icon"
                 >
-                  <svg
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-4 w-4"
-                    aria-hidden="true"
-                  >
+                  <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
                   </svg>
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         </section>
       ))}
     </div>

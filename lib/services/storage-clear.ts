@@ -9,10 +9,18 @@
 import { clearRecentSearches } from "@/lib/search-history";
 import { clearLastRead } from "@/lib/reading-journey";
 import { clearVisitedChapters } from "@/lib/visited-chapters";
-import { clearReadingProgress } from "@/app/components/ReadingProgress";
 import { clearBookmarks } from "@/lib/services/bookmarks";
 import { resetPreferences } from "@/lib/services/preferences";
 import { clearNewBooks } from "@/lib/new-books";
+
+function clearReadingProgress(): void {
+  if (typeof window === "undefined") return;
+  try {
+    localStorage.removeItem("srf-reading-progress");
+  } catch {
+    // silent
+  }
+}
 
 /** Clear recent search queries. */
 export function clearSearchData(): void {
