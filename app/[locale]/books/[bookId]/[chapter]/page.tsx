@@ -22,6 +22,8 @@ import { getChapterRelations } from "@/lib/services/relations";
 import { ChapterReader } from "@/app/components/reading/ChapterReader";
 import { ReadingImmersion } from "@/app/components/design/ReadingImmersion";
 import { ReadingModes } from "@/app/components/design/ReadingModes";
+import { GoldenThread } from "@/app/components/design/GoldenThread";
+import type { RelatedPassage } from "@/lib/services/relations";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -91,11 +93,16 @@ export default async function ChapterPage({
     chapterNumber,
   );
 
-  // Build set of paragraph indices that have golden thread connections
+  // Build set of paragraph indices that have golden thread connections,
+  // and a parallel map of paragraph index → related passages for the
+  // GoldenThread client island (SSR'd, zero client-side fetching).
   const threadParagraphs = new Set<number>();
+  const threadByParagraph: Record<number, RelatedPassage[]> = {};
   content.paragraphs.forEach((para, i) => {
-    if ((chapterRelations.paragraphs[para.id]?.length ?? 0) > 0) {
+    const relations = chapterRelations.paragraphs[para.id];
+    if (relations && relations.length > 0) {
       threadParagraphs.add(i);
+      threadByParagraph[i] = relations;
     }
   });
 
@@ -193,6 +200,13 @@ export default async function ChapterPage({
       {/* Phase 2: client islands for immersive reading */}
       <ReadingImmersion />
       <ReadingModes />
+      {Object.keys(threadByParagraph).length > 0 && (
+        <GoldenThread
+          paragraphs={threadByParagraph}
+          thread={chapterRelations.thread}
+          locale={locale}
+        />
+      )}
     </>
   );
 }

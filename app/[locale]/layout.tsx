@@ -77,10 +77,6 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <a href="#main-content" className="skip-nav">
-        Skip to content
-      </a>
-
       {/* Site header — functional register, minimal chrome */}
       <Surface as="header" register="functional" className="app-header">
         <div className="app-header-inner">

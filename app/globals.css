@@ -1123,6 +1123,234 @@ a:hover {
 }
 
 
+/* ── Golden Thread Panel ─────────────────────────────────────── */
+/* Cross-chapter connection panel. Desktop: side panel beside the
+   reading column. Mobile: bottom sheet. Animation classes from
+   the design system (thread-panel-fade, thread-sheet-enter,
+   thread-backdrop-enter). This CSS adds layout and appearance. */
+
+/* Desktop: side panel */
+.thread-panel {
+  position: fixed;
+  inset-block-start: var(--space-expansive);
+  inset-inline-end: 0;
+  inline-size: min(22rem, 35vw);
+  block-size: calc(100dvh - var(--space-expansive) * 2);
+  padding: var(--space-generous);
+  background: var(--color-bg);
+  border-inline-start: 1px solid var(--color-border);
+  box-shadow: var(--shadow-elevated);
+  overflow-y: auto;
+  z-index: var(--z-overlay);
+}
+
+.thread-panel:focus {
+  outline: none;
+}
+
+/* Mobile: backdrop */
+.thread-backdrop {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-text) 40%, transparent);
+  z-index: var(--z-overlay);
+}
+
+/* Mobile: bottom sheet */
+.thread-sheet {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  max-block-size: 70dvh;
+  padding: var(--space-generous);
+  padding-block-start: var(--space-compact);
+  background: var(--color-bg);
+  border-start-start-radius: 12px;
+  border-start-end-radius: 12px;
+  box-shadow: var(--shadow-elevated);
+  overflow-y: auto;
+  z-index: calc(var(--z-overlay) + 1);
+}
+
+.thread-sheet:focus {
+  outline: none;
+}
+
+/* Drag handle indicator */
+.thread-sheet-handle {
+  inline-size: 2rem;
+  block-size: 3px;
+  margin-inline: auto;
+  margin-block-end: var(--space-default);
+  background: var(--color-text-secondary);
+  opacity: 0.2;
+  border-radius: var(--radius-pill);
+}
+
+/* Shared content layout */
+.thread-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-default);
+}
+
+.thread-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.thread-heading {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-gold);
+}
+
+.thread-close {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  border-radius: var(--radius-default);
+  transition: color var(--motion-interaction);
+}
+
+.thread-close:hover {
+  color: var(--color-text);
+}
+
+.thread-close:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Individual related passage */
+.thread-passages {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-compact);
+}
+
+.thread-passage {
+  display: block;
+  padding: var(--space-compact);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-default);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color var(--motion-interaction);
+}
+
+.thread-passage:hover {
+  border-color: var(--color-gold);
+}
+
+.thread-label {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-gold);
+  margin-block-end: var(--space-tight);
+  font-style: italic;
+}
+
+.thread-quote {
+  font-family: var(--font-reading);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.thread-cite {
+  display: block;
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  color: var(--color-text-secondary);
+  margin-block-start: var(--space-tight);
+  font-style: normal;
+}
+
+/* Chapter-level thread suggestions */
+.thread-suggestions {
+  border-block-start: 1px solid var(--color-border);
+  padding-block-start: var(--space-default);
+}
+
+.thread-subheading {
+  font-family: var(--font-ui);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-block-end: var(--space-compact);
+}
+
+.thread-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-compact);
+  border-radius: var(--radius-default);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color var(--motion-interaction);
+}
+
+.thread-suggestion:hover {
+  background: color-mix(in srgb, var(--color-gold) 6%, transparent);
+}
+
+.thread-suggestion-title {
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.thread-suggestion-label {
+  font-size: 0.6875rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+.thread-suggestion-count {
+  font-family: var(--font-ui);
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+}
+
+/* Hide thread panel in focus/present/quiet modes */
+[data-mode="focus"] .thread-panel,
+[data-mode="present"] .thread-panel,
+[data-mode="quiet"] .thread-panel,
+[data-mode="focus"] .thread-sheet,
+[data-mode="present"] .thread-sheet,
+[data-mode="quiet"] .thread-sheet,
+[data-mode="focus"] .thread-backdrop,
+[data-mode="present"] .thread-backdrop,
+[data-mode="quiet"] .thread-backdrop {
+  display: none !important;
+}
+
+/* Print: hide thread panel */
+@media print {
+  .thread-panel,
+  .thread-sheet,
+  .thread-backdrop {
+    display: none !important;
+  }
+}
+
+
 /* ── Reading Modes ──────────────────────────────────────────── */
 /* Focus and present mode controls. Fixed bottom-right so they
    remain visible when modes hide header/footer. Functional register.
