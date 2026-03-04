@@ -1125,29 +1125,73 @@ a:hover {
 }
 
 
-/* ── Skip Navigation ─────────────────────────────────────────── */
-/* Visible only on focus. Functional register. */
+/* ── Reading Modes ──────────────────────────────────────────── */
+/* Focus and present mode controls. Fixed bottom-right so they
+   remain visible when modes hide header/footer. Functional register.
+   Calm technology: no decorative animation. Fade in on hover. */
 
-.skip-nav {
-  position: absolute;
-  top: -100%;
-  left: var(--space-default);
-  z-index: 9999;
-  padding: var(--space-compact) var(--space-default);
-  background: var(--color-bg);
-  color: var(--color-text);
+.reading-modes {
+  position: fixed;
+  inset-block-end: var(--space-generous);
+  inset-inline-end: var(--space-generous);
+  z-index: var(--z-raised);
+  display: flex;
+  gap: 2px;
+  background: color-mix(in srgb, var(--color-bg) 90%, transparent);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-default, 4px);
-  font-family: var(--font-ui);
-  font-size: 0.875rem;
-  text-decoration: none;
-  opacity: 0;
+  border-radius: var(--radius-pill);
+  padding: 2px;
+  opacity: 0.3;
   transition: opacity var(--motion-interaction);
 }
 
-.skip-nav:focus {
-  top: var(--space-compact);
+.reading-modes:hover,
+.reading-modes:focus-within {
   opacity: 1;
+}
+
+.reading-mode-btn {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: color var(--motion-interaction), background-color var(--motion-interaction);
+}
+
+.reading-mode-btn:hover {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-gold) 8%, transparent);
+}
+
+.reading-mode-btn[aria-pressed="true"] {
+  color: var(--color-gold);
+  background: color-mix(in srgb, var(--color-gold) 12%, transparent);
+}
+
+.reading-mode-btn:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* Hide reading modes on small screens — keyboard nav is the primary interface */
+@media (max-width: 639px) {
+  .reading-modes {
+    inset-block-end: var(--space-compact);
+    inset-inline-end: var(--space-compact);
+  }
+}
+
+/* Print: hide mode controls */
+@media print {
+  .reading-modes {
+    display: none;
+  }
 }
 
 

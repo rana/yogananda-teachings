@@ -4,9 +4,11 @@
  * Server Component. Fetches chapter content and renders the full
  * reading experience via ChapterReader. Zero JavaScript for content.
  *
- * Preserves: metadata, JSON-LD, speculation rules, cross-language redirect.
- * Deferred to Phase 2: interactive enhancements (dwell, keyboard nav,
- * scroll indicator, reader modes, bookmarks, sharing).
+ * Phase 1: Server-rendered chapter with sacred register, attribution,
+ *          publication voice, golden thread, motifs, chapter nav.
+ * Phase 2: Client islands for immersion — scroll indicator, keyboard
+ *          paragraph nav (j/k), dwell contemplation, reading modes
+ *          (focus/present). All CSS from reading-surface.css.
  *
  * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  * Source pattern: patterns/reading-surface.pattern.json
@@ -18,6 +20,8 @@ import pool from "@/lib/db";
 import { getEquivalentBook, resolveChapterContent } from "@/lib/services/books";
 import { getChapterRelations } from "@/lib/services/relations";
 import { ChapterReader } from "@/app/components/reading/ChapterReader";
+import { ReadingImmersion } from "@/app/components/design/ReadingImmersion";
+import { ReadingModes } from "@/app/components/design/ReadingModes";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 
@@ -185,6 +189,10 @@ export default async function ChapterPage({
         threadParagraphs={threadParagraphs}
         publication={bookSlug}
       />
+
+      {/* Phase 2: client islands for immersive reading */}
+      <ReadingImmersion />
+      <ReadingModes />
     </>
   );
 }
