@@ -6,47 +6,19 @@ description: Idea backlog and exploration workspace. Processed by `/scratch` ski
 # Scratch Pad
 
 ---
-
-Think slowly, carefully, thoroughly, and deeply.
-
-How would you design for a world-class amazing experience?
+Think deeply, slowly, carefully, and thoroughly.
 
 Think generatively and imaginatively.
 
+You have complete design autonomy.
+
 Be proactive.
+
+How would you design for a world-class amazing experience?
 
 Resonate at the highest octaves of expression.
 
-You have complete design autonomy. 
-
----
-
-
-Consider an ability to progress a tested environment from dev to staging. How to do it? Do we have tagging? What is world-class amazing experience? Imagine an operational portal as dashboard able to see each environment, promote from one environment to the next. Can see all per environment (metrics, errors, logs, features, readme, updates, tests, etc and so on). Could see service stats DB, Sentry, New Relic, CloudWatch, S3, Vercel, etc). Maybe have links out to services and not rebuild there products. Or, sometimes make calls to service APIs for inclusion into operational dashboard? Also Health states, SLIs, SLOs, SLAs definition and runtime metrics. Visit counts etc. Continuous delivery of features?
-For each proposed, What do you see for, against, and through?
-Think through creating Claude Code skills as CI hooks? What could be done that would serve that CI may not be doing? Or simply CI script hooks for supporting needs as well. `/updates` page may have section overview of new features and section for all features to enable different approach to understanding current environment deploy capabilities. Summary description of each feature, rationale, value proposition, possibly estimate population count served (N million per feature if relevant, ie Spanish support, Read-to-me feature, etc). Let's also consider a shared section of markdown docs that all can download, view via the ops portal. Perhaps each docs, ADR, DES, may be references with release for audit purposes and viewable online through operational dashboard. Could build tests to validate inclusion, correctness, etc viewable from Ops portal. Markdown as some form of design and development record as well as validation and stakeholder transparency + automated testing. Whole life-cycle inclusion. What would offer world class amazing experience? Also consider 10 year design horizon, rapid evolution and continuous delivery.
-
-Consider for operational portal, someone types in a dreamed of feature prompt. Using Claude Code Opus, perhaps PRO is generated, and a branch feature is developed, and deployed side-by-side to a micro environment (Think Neon DB per branch versioning, but for the portal). Independent and isolated, reviewable, experimental, changeable. If accepted, it could be merged into integration branch or similar. PRO could flow to DES or similar for greater.
-
-Consider Google Gemini feature which is similar without or domain focus.
-```
-Gemini can build apps directly through dedicated features in Google AppSheet and Google AI Studio. Using natural language prompts, you can describe an app idea, and Gemini will generate a working prototype, data schema, or full-stack application code.
-
-Key Ways to Build Apps with Gemini:
-AppSheet (No-Code): Navigate to "Create > App > Start with Gemini" on AppSheet.com to generate a business app from a text description.
-Google AI Studio (Prototyping): Use the "Build" mode to generate code for apps, including UI and logic, and deploy directly to Cloud Run.
-Gemini Canvas: A tool to turn ideas into prototypes, allowing you to build, test, and refine applications in a single space. 
-Google Gemini +5
-
-How It Works:
-Describe the App: 	3a: CorpusType a detailed description of your app idea.
-Generate: Gemini creates the data structure, UI, and functionality.
-Refine & Deploy: Edit the code in real-time within AI Studio or preview in the browser. 
-Google Cloud +4
-
-This functionality focuses on rapid prototyping, enabling you to build, test, and deploy, even with limited technical knowledge.
-```
-
+How holographically crystalline is the design?
 
 ---
 Would you remove or thin anything from the project? Nothing is also fine.

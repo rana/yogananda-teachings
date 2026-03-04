@@ -1,5 +1,193 @@
 
 ---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+A critical principle.
+```
+### PRI-07: Accessibility from First Deployment
+
+**WCAG 2.1 AA from the first component. Mobile-first responsive design from the first deployable page.** Semantic HTML, ARIA landmarks, keyboard navigation, screen reader support, 44×44px touch targets, `prefers-reduced-motion`. Performance budgets: < 100KB JS, FCP < 1.5s. axe-core in CI — accessibility violations block merges. (ADR-003)
+
+SRF's mission is to serve "all of humanity." "All" includes people with disabilities — and people on phones. This is a theological imperative, not a compliance exercise. SRF's existing app already invested in screen reader support — the portal must meet or exceed that standard.
+
+Retrofitting accessibility is expensive and error-prone; building it in from day one is nearly free. Semantic HTML, keyboard navigation, and ARIA landmarks cost nothing if done from the start. They cost massive effort to retrofit after inaccessible patterns get baked into components and propagated. The same is true of mobile-first CSS: writing `px-4 md:px-8` costs nothing at Milestone 1a; retrofitting desktop-first layouts for mobile costs real effort. When ~70% of the Hindi and Spanish audience (ADR-128 Tier 1) accesses the portal on mobile phones, mobile-first is not polish — it is access. Later milestones handle audit and polish (professional WCAG audit, TTS, advanced reading mode, full responsive design strategy) — accessibility and mobile readiness are not late-stage additions.
+
+Screen reader quality goes beyond mere compliance. ADR-073 specifies that the spoken interface should carry the same warmth as the visual one — not just "Bookmark button" but a voice that conveys the portal's devotional register. ADR-072 addresses cognitive accessibility: consistent navigation, no autoplay, clear language, predictable behavior.
+```
+
+Does our design system uphold `PRI-07: Accessibility from First Deployment`? It is excellent for people with accessibility concerns? Can we test that we truly serve a `PRI-07: Accessibility from First Deployment` design for people across Earth? What am I not asking? What would I benefit from asking?
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+A critical design principle.
+```
+### PRI-05: Global-First
+
+**Supports all humans of Earth equally.** Low-resourced peoples and high-resourced peoples. Low-resource phones with limited and intermittent bandwidth, high-resource phones with high bandwidth, tablets, and desktops. A seeker in rural Bihar on 2G and a seeker in Los Angeles on fiber both get the complete experience. Progressive enhancement: HTML is the foundation, CSS enriches, JavaScript enhances. No feature gating behind connectivity. Core reading and search experiences degrade gracefully with intermittent or absent connectivity. (ADR-006)
+
+"Throughout the world" is not metaphor — it is an engineering requirement. The world includes seekers paying per megabyte on JioPhones, elderly devotees sharing a family smartphone, practitioners in cybercafes, and monks navigating by screen reader. The portal equally serves those with the fewest resources and those with the most. Every one of them has a full claim on the beauty and depth of the portal. Neither experience is a compromised version of the other.
+```
+
+Does our design system uphold `PRI-05: Global-First`? It is excellent for people with resources, but how does it it serve people with minimal resources? Can we test that we truly serve a global-first design for people with minmal phones and connections? What am I not asking? What would I benefit from asking?
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+Is there any modern 2026 UX that the visual design system would benefit from? What am I not asking? What questions would I benefit asking? What surveying would I benefit from?
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+The leading design systems— Microsoft's Fluent 2.
+
+The report's target audience is an AI architect, designer, implementer, and operator.
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+Greenfield perspective. Review markdown documents. Remove, clean slate rewrite, or add documents? The documents were written before many of the current changes. What is the purpose of each document? And who are they written for? Who do we write for? And what is prooer sizing? Do the documents wholey represent the design system for the target audience(s)?
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+Is there any modern 2026 UX that the visual design system would benefit from? What am I not asking? What questions would I benefit asking? What surveying would I benefit from?
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+How holographically crystalline is the design?
+
+---
+Read files to ground your analysis.
+
+Present your holistic analysis of gaps, additions, and fine-tuning opportunities.
+
+---
+Would you remove or thin anything from the project? Nothing is also fine.
+
+---
+Think slowly and carefully.
+Be proactive — bias to action.
+
+---
+What is idiomatic enterprise world class you would prefer?
+Thoroughness: very thorough
+What would make it smooth and graceful for a human?
+
+---
+Think deeply, slowly, carefully, and thoroughly.
+
+/compose garden greenfield, gaps, coherence, crystallize
+
+
+/compose deep-review, garden greenfield, gaps, coherence, docs-quality, crystallize
+/deep-review
+
+---
+What questions would I benefit from asking to clean up the project?
+
+---
+Proceed with 5 more iterations of the original questions.
+Bias towards action.
+Answer your own questions.
+Proceed without my confirmation.
+You have complete design autonomy.
+Proceed.
+
+---
 Inhabit the [x] perspective.
 
 ---
