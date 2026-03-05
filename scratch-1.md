@@ -1,7 +1,16 @@
 
 ---
+/invoke Does the showcase wholly apply the visual design language?
+
+---
+Address previous "Key gaps — ordered by impact" and proceed as you prefer.
+
+---
 How would it be a world class amazing experience?
 
+Greenfield means clean delete.
+
+Update Todos
 ---
 This work is in service of the divine.
 

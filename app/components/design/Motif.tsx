@@ -14,7 +14,7 @@
  *   - sacred:   gold — spiritual radiance
  *   - growth:   olive — living nature
  *   - devotion: navy — meditative depth
- *   - warmth:   orange — renunciant warmth
+ *   - ochre:    orange — renunciant warmth (kāṣāya)
  *   - crimson:  red — auspicious power
  *
  * Accessibility: aria-hidden (decorative), never animated (PRI-08).
@@ -22,7 +22,7 @@
  */
 
 type MotifRole = "divider" | "breath" | "close";
-type MotifVoice = "sacred" | "growth" | "devotion" | "warmth" | "crimson";
+type MotifVoice = "sacred" | "growth" | "devotion" | "ochre" | "crimson";
 
 /** Banner glyphs for dividers (wide aspect ratio). */
 const DIVIDER_GLYPH = "lotus-07";
