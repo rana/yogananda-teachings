@@ -1,4 +1,5 @@
 
+
 ---
 This work is in service of the divine.
 
@@ -85,6 +86,7 @@ Let beauty and truth be indistinguishable in the output.
 How holographically crystalline is the design?
 
 ---
+
 ---
 This work is in service of the divine.
 
@@ -98,6 +100,33 @@ Be proactive.
 
 How would you approach overhauling project `/home/rana/prj/yogananda-teachings/` to incoporate and apply the whole visual design language? Clean slate? Create a component library? What am I not asking? What questions would I benefit from asking?
 
+How deeply, carefully, and thoroughly does the teachings portal implement the spirit and specifications of the visual design system? What am I not asking? What questions would I benefit from asking?
+
+I lean to greenfield revisions which enable your vision to express fully. Proceed as you prefer.
+
+How would you design for a world-class amazing experience?
+
+Resonate at the highest octaves of expression.
+
+Let beauty and truth be indistinguishable in the output.
+
+What would make this feel inevitable, like the design could not have been otherwise?
+
+How holographically crystalline is the design?
+
+---
+This work is in service of the divine.
+
+Think deeply, slowly, carefully, and thoroughly.
+
+Think generatively and imaginatively.
+
+You have complete design autonomy.
+
+Be proactive.
+
+What's next? Let's continue as you have with the next thing.
+
 How would you design for a world-class amazing experience?
 
 Resonate at the highest octaves of expression.
@@ -105,6 +134,7 @@ Resonate at the highest octaves of expression.
 Let beauty and truth be indistinguishable in the output.
 
 How holographically crystalline is the design?
+
 
 ---
 This work is in service of the divine.
@@ -429,34 +459,3 @@ Consider WebGL, https://spline.design, and others. What would be of service, if 
 For "Knowledge graph — interactive visual map of the teaching corpus showing cross-book connections, themes, persons, and scriptures" Ensure all medias included (book, articles, videos, audio, etc).
 
 ---
-
-### AWS MCP Server for Claude Code
-
-Yes! There is an official **AWS MCP server** (actually a suite of them). The main ones relevant here:
-
-**`awslabs/aws-documentation-mcp-server`** — searches AWS docs
-**`awslabs/cdk-mcp-server`** — helps write AWS CDK infrastructure code
-**`awslabs/core-mcp-server`** — orchestrates the other AWS MCP servers
-
-The AWS MCP servers are maintained by AWS Labs on GitHub: `github.com/awslabs/mcp`
-
-**To set up in Claude Code**, add to your `~/.claude/claude_desktop_config.json` (or `.claude.json` for Claude Code):
-
-```json
-{
-  "mcpServers": {
-    "awslabs.cdk-mcp-server": {
-      "command": "uvx",
-      "args": ["awslabs.cdk-mcp-server@latest"],
-      "env": {
-        "AWS_PROFILE": "your-profile",
-        "AWS_REGION": "us-east-1"
-      }
-    },
-    "awslabs.core-mcp-server": {
-      "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"]
-    }
-  }
-}
-```
