@@ -29,58 +29,49 @@ describe("SrfLotus", () => {
 
   it("uses default size (md) when no size prop is given", () => {
     const { container } = render(<SrfLotus />);
-    const svg = container.querySelector("svg");
-    expect(svg?.className.baseVal || svg?.getAttribute("class")).toContain(
-      "w-5",
-    );
-    expect(svg?.className.baseVal || svg?.getAttribute("class")).toContain(
-      "h-5",
-    );
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.style.inlineSize).toBe("1.25rem");
+    expect(svg.style.blockSize).toBe("1.25rem");
   });
 
-  it("applies sm size classes", () => {
+  it("applies sm size via inline style", () => {
     const { container } = render(<SrfLotus size="sm" />);
-    const svg = container.querySelector("svg");
-    const cls = svg?.className.baseVal || svg?.getAttribute("class") || "";
-    expect(cls).toContain("w-4");
-    expect(cls).toContain("h-4");
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.style.inlineSize).toBe("1rem");
+    expect(svg.style.blockSize).toBe("1rem");
   });
 
-  it("applies md size classes", () => {
+  it("applies md size via inline style", () => {
     const { container } = render(<SrfLotus size="md" />);
-    const svg = container.querySelector("svg");
-    const cls = svg?.className.baseVal || svg?.getAttribute("class") || "";
-    expect(cls).toContain("w-5");
-    expect(cls).toContain("h-5");
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.style.inlineSize).toBe("1.25rem");
+    expect(svg.style.blockSize).toBe("1.25rem");
   });
 
-  it("applies lg size classes", () => {
+  it("applies lg size via inline style", () => {
     const { container } = render(<SrfLotus size="lg" />);
-    const svg = container.querySelector("svg");
-    const cls = svg?.className.baseVal || svg?.getAttribute("class") || "";
-    expect(cls).toContain("w-8");
-    expect(cls).toContain("h-8");
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.style.inlineSize).toBe("2rem");
+    expect(svg.style.blockSize).toBe("2rem");
   });
 
-  it("applies xl size classes", () => {
+  it("applies xl size via inline style", () => {
     const { container } = render(<SrfLotus size="xl" />);
-    const svg = container.querySelector("svg");
-    const cls = svg?.className.baseVal || svg?.getAttribute("class") || "";
-    expect(cls).toContain("w-12");
-    expect(cls).toContain("h-12");
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    expect(svg.style.inlineSize).toBe("3rem");
+    expect(svg.style.blockSize).toBe("3rem");
   });
 
-  it("uses className override instead of size classes when className is provided", () => {
+  it("uses className override instead of inline style when className is provided", () => {
     const { container } = render(
       <SrfLotus className="custom-class text-red-500" />,
     );
-    const svg = container.querySelector("svg");
-    const cls = svg?.className.baseVal || svg?.getAttribute("class") || "";
+    const svg = container.querySelector("svg") as SVGSVGElement;
+    const cls = svg.className.baseVal || svg.getAttribute("class") || "";
     expect(cls).toContain("custom-class");
     expect(cls).toContain("text-red-500");
-    // When className is provided, size classes should NOT be applied
-    expect(cls).not.toContain("w-5");
-    expect(cls).not.toContain("h-5");
+    // When className is provided, inline style should NOT be applied
+    expect(svg.style.inlineSize).toBe("");
   });
 
   it("has correct viewBox", () => {

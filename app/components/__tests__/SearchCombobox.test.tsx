@@ -243,17 +243,17 @@ describe("SearchCombobox", () => {
   });
 
   describe("touch targets", () => {
-    it("chip buttons have min-h-11 class for 44px targets", async () => {
+    it("chip buttons have combobox-chip class for touch targets", async () => {
       const { input } = renderCombobox();
       await act(async () => fireEvent.focus(input));
 
       await waitFor(() => {
         const chipButton = screen.getByText("meditation");
-        expect(chipButton.className).toContain("min-h-11");
+        expect(chipButton.className).toContain("combobox-chip");
       });
     });
 
-    it("suggestion items have min-h-11 class", async () => {
+    it("suggestion items have combobox-suggestion class", async () => {
       const { input } = renderCombobox({ value: "Kriya" });
       await act(async () => fireEvent.focus(input));
       await act(async () => {
@@ -262,7 +262,7 @@ describe("SearchCombobox", () => {
 
       await waitFor(() => {
         const item = screen.getByText("The Science of Kriya Yoga");
-        expect(item.className).toContain("min-h-11");
+        expect(item.className).toContain("combobox-suggestion");
       });
     });
   });
