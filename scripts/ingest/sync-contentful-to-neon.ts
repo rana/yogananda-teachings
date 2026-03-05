@@ -67,7 +67,7 @@ interface ContentfulChapter {
   sortOrder: number;
   epigraph?: string;
   epigraphAttribution?: string;
-  rasa?: string;
+  // Rasa lives in Neon only (AI-derived, classify-rasa.ts)
 }
 
 interface ContentfulSection {
@@ -636,6 +636,9 @@ async function main() {
       contentfulId: chapterEntry.sys.id,
       epigraphText: chFields.epigraph as string | undefined,
       epigraphAttribution: chFields.epigraphAttribution as string | undefined,
+      // Rasa is AI-derived — not synced from Contentful.
+      // Contentful = editorial fact; Neon = computational judgment.
+      // Rasa populated separately by classify-rasa.ts.
       sections: chapterSections,
     });
   }

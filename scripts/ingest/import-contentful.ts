@@ -6,7 +6,7 @@
  * Each paragraph becomes one TextBlock with its contentType.
  *
  * Greenfield data model (content structure vocabulary):
- *   Chapter   → epigraph, epigraphAttribution (new fields)
+ *   Chapter   → epigraph, epigraphAttribution, rasa (new fields)
  *   Section   → one per assembly section (was: one per chapter)
  *   TextBlock → contentType (prose|verse|epigraph|dialogue|caption)
  *
@@ -337,6 +337,9 @@ async function main() {
     console.log(`  Resuming from chapter: ${resumeFromChapter}`);
   }
 
+  // Rasa is AI-derived metadata — lives in Neon only (classify-rasa.ts).
+  // Contentful holds editorial facts; Neon holds computational judgments.
+
   if (dryRun) {
     let totalTextBlocks = 0;
     let totalSections = 0;
@@ -392,10 +395,24 @@ async function main() {
     default: l.default,
   }));
   const locale = resolveLocale(locales, book.language);
+  const defaultLocale =
+    locales.find((l) => l.default)?.code || "en-US";
   console.log(`  Contentful locale: ${locale}`);
+  console.log(`  Default locale: ${defaultLocale}`);
   console.log(
     `  Available locales: ${locales.map((l) => l.code).join(", ")}\n`,
   );
+
+  // Contentful requires the default locale (en-US) for all required fields.
+  // For localized text, we write to both the default locale and the target locale.
+  // For non-localized fields (links, numbers), we write to the default locale only.
+  const localized = <T>(value: T): Record<string, T> =>
+    locale === defaultLocale
+      ? { [defaultLocale]: value }
+      : { [defaultLocale]: value, [locale]: value };
+  const nonLocalized = <T>(value: T): Record<string, T> => ({
+    [defaultLocale]: value,
+  });
 
   // Load or initialize mapping
   const mapPath = join(dataDir, "contentful-map.json");
@@ -421,14 +438,14 @@ async function main() {
     console.log(`Creating Book entry...`);
     const bookEntry = await environment.createEntry("book", {
       fields: {
-        title: { [locale]: book.title },
-        author: { [locale]: book.author },
-        authorTier: { [locale]: book.authorTier || "guru" },
-        publicationYear: { [locale]: extras.publicationYear },
-        isbn: { [locale]: book.asin },
-        language: { [locale]: book.language },
-        slug: { [locale]: bookSlug },
-        bookstoreUrl: { [locale]: extras.bookstoreUrl },
+        title: localized(book.title),
+        author: localized(book.author),
+        authorTier: nonLocalized(book.authorTier || "guru"),
+        publicationYear: nonLocalized(extras.publicationYear),
+        isbn: nonLocalized(book.asin),
+        language: nonLocalized(book.language),
+        slug: nonLocalized(bookSlug),
+        bookstoreUrl: localized(extras.bookstoreUrl),
       },
     });
     bookEntryId = bookEntry.sys.id;
@@ -469,20 +486,23 @@ async function main() {
 
     // 2a. Create Chapter entry (with epigraph if present)
     const chapterFields: Record<string, Record<string, unknown>> = {
-      title: { [locale]: chInfo.title },
-      chapterNumber: { [locale]: chInfo.number },
-      book: { [locale]: makeLink(bookEntryId) },
-      sortOrder: { [locale]: chInfo.number },
+      title: localized(chInfo.title),
+      chapterNumber: nonLocalized(chInfo.number),
+      book: nonLocalized(makeLink(bookEntryId)),
+      sortOrder: nonLocalized(chInfo.number),
     };
 
     if (chData.epigraphText) {
-      chapterFields.epigraph = { [locale]: chData.epigraphText };
+      chapterFields.epigraph = localized(chData.epigraphText);
     }
     if (chData.epigraphAttribution) {
-      chapterFields.epigraphAttribution = {
-        [locale]: chData.epigraphAttribution,
-      };
+      chapterFields.epigraphAttribution = localized(
+        chData.epigraphAttribution,
+      );
     }
+
+    // Rasa is AI-derived metadata — lives in Neon only (classify-rasa.ts).
+    // Contentful = editorial fact; Neon = computational judgment.
 
     const chapterEntry = await environment.createEntry("chapter", {
       fields: chapterFields,
@@ -500,13 +520,12 @@ async function main() {
 
       const sectionEntry = await environment.createEntry("section", {
         fields: {
-          heading: {
-            [locale]:
-              section.heading ||
+          heading: localized(
+            section.heading ||
               `Chapter ${chInfo.number} Section ${sIdx + 1}`,
-          },
-          chapter: { [locale]: makeLink(chapterEntry.sys.id) },
-          sortOrder: { [locale]: sIdx + 1 },
+          ),
+          chapter: nonLocalized(makeLink(chapterEntry.sys.id)),
+          sortOrder: nonLocalized(sIdx + 1),
         },
       });
       allEntryIds.push(sectionEntry.sys.id);
@@ -539,16 +558,16 @@ async function main() {
         const internalTitle = `Ch${chInfo.number} P${para.sequenceInChapter}: ${plainSnippet}`;
 
         const fields: Record<string, Record<string, unknown>> = {
-          internalTitle: { [locale]: internalTitle },
-          content: { [locale]: richText },
-          section: { [locale]: makeLink(sectionEntry.sys.id) },
-          pageNumber: { [locale]: para.pageNumber },
-          sortOrder: { [locale]: para.sequenceInChapter },
-          contentType: { [locale]: contentType },
+          internalTitle: localized(internalTitle),
+          content: localized(richText),
+          section: nonLocalized(makeLink(sectionEntry.sys.id)),
+          pageNumber: nonLocalized(para.pageNumber),
+          sortOrder: nonLocalized(para.sequenceInChapter),
+          contentType: nonLocalized(contentType),
         };
 
         if (footnoteMetadata.length > 0) {
-          fields.metadata = { [locale]: { footnotes: footnoteMetadata } };
+          fields.metadata = nonLocalized({ footnotes: footnoteMetadata });
         }
 
         const entry = await environment.createEntry("textBlock", { fields });
