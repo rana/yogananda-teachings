@@ -44,7 +44,7 @@ export const EMBEDDING_DIMENSIONS = 1024; // voyage-3-large output size.
 
 // ── HyDE — Hypothetical Document Embedding (M2b-12, ADR-119) ────
 
-/** Bedrock model for HyDE generation. Haiku for speed + cost. */
+/** Bedrock model for HyDE generation. COG-2 Sync → Haiku (DES-062). */
 export const HYDE_BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
 // Evaluate: switch to open-source (Mistral via Bedrock) when quality comparable.
 

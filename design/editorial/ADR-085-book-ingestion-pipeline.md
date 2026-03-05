@@ -19,11 +19,11 @@ Kindle Cloud Reader
        ▼  (4) import-contentful.ts — Contentful Management API
   Contentful (editorial source of truth)
        │
-       ├──▶ (5) classify-rasa.ts — Claude API
-       │         Rasa classification per chapter → Neon
-       │
-       └──▶ (6) sync-contentful-to-neon.ts — Contentful CDA → Neon PostgreSQL
+       └──▶ (5) sync-contentful-to-neon.ts — Contentful CDA → Neon PostgreSQL
               Neon (derived searchable cache)
+                     │
+                     ▼  (6) classify-rasa.ts — Claude Opus API
+              Neon chapters.rasa (AI enrichment — DES-061)
 ```
 
 The canonical data flow is **Contentful → Neon** (ADR-010). Stage 6 (`sync-contentful-to-neon.ts`) reads from the Contentful Content Delivery API and writes to Neon, honoring the canonical direction. The local JSON intermediary exists because extraction is expensive (Claude Vision API calls per page) and must be checkpointed. Contentful is the editorial source of truth; Neon is the derived, searchable, embedding-enriched cache.
@@ -94,9 +94,9 @@ Creates Contentful entries matching the editorial data model:
 
 **One Section per assembly section** (not one per chapter). Scene breaks in the physical book become Section boundaries in Contentful. This preserves the book's interior rhythm.
 
-### Stage 5: Rasa Classification (`scripts/book-ingest/src/classify-rasa.ts`)
+### Stage 6: Rasa Classification (`scripts/book-ingest/src/classify-rasa.ts`)
 
-Classifies the prevailing aesthetic flavor (rasa) per chapter using Claude API.
+AI enrichment step (DES-061 Phase 3d). Classifies the prevailing aesthetic flavor (rasa) per chapter using Claude Opus.
 
 | Rasa | Sanskrit | Aesthetic Quality | CSS Effect |
 |------|----------|------------------|------------|
@@ -106,9 +106,9 @@ Classifies the prevailing aesthetic flavor (rasa) per chapter using Claude API.
 | vīra | वीर | Courage, discipline | `--rasa-whitespace-scale: 0.95` |
 | bhakti | भक्ति | Devotion, surrender | `--rasa-whitespace-scale: 1.15`, `line-height: 1.9` |
 
-**Method:** Feed first ~2000 tokens of each chapter to Claude with the five rasa definitions. Classification stored on `chapters.rasa` in Neon and on Chapter entry in Contentful.
+**Method:** Feed first ~2000 tokens of each chapter to Claude Opus with the five rasa definitions. Classification stored on `chapters.rasa` in Neon only — rasa is AI-derived metadata (computational judgment), not editorial fact. The Contentful Chapter content type has a rasa field but it is not populated by the pipeline. See DES-061 (Epistemic Data Boundary) for the governing principle.
 
-### Stage 6: Ingest to Neon (`scripts/ingest/ingest.ts`)
+### Stage 5: Sync to Neon (`scripts/ingest/sync-contentful-to-neon.ts`)
 
 Reads assembled chapter JSON and writes to Neon PostgreSQL (migration 008 schema).
 
@@ -158,16 +158,16 @@ npx tsx scripts/book-ingest/src/extract.ts --book autobiography-of-a-yogi
 # 3. Assemble
 npx tsx scripts/book-ingest/src/assemble.ts --book autobiography-of-a-yogi
 
-# 4. Import to Contentful (source of truth)
+# 4. Import to Contentful — editorial facts (DES-061 Phase 2)
 npx tsx scripts/ingest/import-contentful.ts --book autobiography-of-a-yogi [--dry-run]
 
-# 5. Classify rasa
-npx tsx scripts/book-ingest/src/classify-rasa.ts --book autobiography-of-a-yogi
-
-# 6. Sync Contentful → Neon (canonical flow — ADR-010)
+# 5. Sync Contentful → Neon — editorial facts (DES-061 Phase 3a)
 npx tsx scripts/ingest/sync-contentful-to-neon.ts --book autobiography-of-a-yogi [--replace] [--skip-embeddings] [--dry-run]
 
-# 6-alt. Direct ingest from local JSON (development shortcut — bypasses Contentful)
+# 6. Classify rasa — AI enrichment (DES-061 Phase 3d, Claude Opus)
+npx tsx scripts/book-ingest/src/classify-rasa.ts --book autobiography-of-a-yogi
+
+# Alt. Direct ingest from local JSON (development shortcut — bypasses Contentful)
 npx tsx scripts/ingest/ingest.ts --book autobiography-of-a-yogi [--replace] [--skip-embeddings] [--dry-run]
 ```
 
@@ -192,6 +192,8 @@ Same closed loop for: prose, epigraph, caption, dialogue. Same for section bound
 - **ADR-010** — Contentful as editorial source of truth
 - **ADR-048** — Chunking strategy (token ranges, content-type-aware merging)
 - **ADR-080** — Latin-only drop capitals (Devanagari shirorekha conflict)
+- **DES-061** — Epistemic data boundary (Contentful = editorial fact, Neon = computational judgment)
+- **DES-062** — Cognitive task classification (COG-NN model selection framework)
 - **Migration 008** — Content structure schema additions (content_type, section_index, sort_order, rasa, formatting)
 
 ### Books Processed
