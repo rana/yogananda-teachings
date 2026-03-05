@@ -211,21 +211,10 @@ function renderParagraph(
       );
 
     case "caption":
-      return (
-        <p
-          id={`passage-${para.id}`}
-          data-paragraph={globalIdx}
-          data-content-type="caption"
-          className={cn("book-caption", threadProps.className)}
-          {...(hasThread ? { "data-has-thread": true } : {})}
-        >
-          <RichText
-            text={para.content}
-            formatting={para.formatting}
-            footnotes={footnotes}
-          />
-        </p>
-      );
+      // Captions without paired images are hidden — they appear orphaned
+      // without visual context. Will render when chapters.images is populated
+      // with SRF-authorized photographs (content pipeline task, not code).
+      return null;
 
     case "dialogue":
       return (

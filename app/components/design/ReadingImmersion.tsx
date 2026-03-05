@@ -3,27 +3,35 @@
 /**
  * ReadingImmersion — Phase 2 reading surface enhancements.
  *
- * Client island for chapter pages. Activates three sahṛdaya features:
+ * Client island for chapter pages. Two sahṛdaya features:
  *
- *   1. Scroll position indicator — 2px gold bar, ambient attention.
- *   2. Keyboard paragraph navigation — j/k moves focus, gold highlight.
- *   3. Dwell contemplation — 1.2s settled dims surroundings, holds focus.
+ *   1. Dwell mode — click a paragraph to focus it. The paragraph
+ *      zooms/expands, everything else recedes. Intentional, explicit.
+ *      If the paragraph has related teachings, a small indicator
+ *      appears (injected as a DOM element) — click it to open the
+ *      Golden Thread panel.
+ *
+ *   2. Keyboard paragraph navigation — j/k moves focus between
+ *      paragraphs. Activates dwell on the target paragraph.
+ *
+ * Dwell activation:
+ *   - Click on a paragraph → dwell on it
+ *   - j/k keyboard → dwell on target
+ *   - Click same paragraph, click outside, or Escape → exit dwell
  *
  * All visual treatment lives in the design system (reading-surface.css).
- * This component is pure behavior — the only DOM output is the scroll
- * indicator div. Everything else is data attributes and class toggles.
+ * This component is pure behavior — data attributes and class toggles.
  *
- * Calm technology: respects prefers-reduced-motion (disables dwell).
- * No decorative animation. All state changes serve the reader's focus.
+ * Calm technology: respects prefers-reduced-motion.
+ * No auto-activation. The reader chooses to dwell.
  *
- * CSS dependencies: .scroll-indicator, [data-paragraph].kb-focus,
+ * CSS dependencies: [data-paragraph].kb-focus,
  * [data-dwell-active], [data-dwell-target] — all in reading-surface.css.
  */
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export function ReadingImmersion() {
-  const indicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const article = document.querySelector("article");
@@ -35,69 +43,25 @@ export function ReadingImmersion() {
     if (paragraphs.length === 0) return;
 
     let currentIndex = -1;
-    let dwellTimer: ReturnType<typeof setTimeout> | null = null;
     let dwellActive = false;
+    let dwellIndex = -1;
+    let threadIndicator: HTMLButtonElement | null = null;
 
-    // Respect reduced-motion: disable dwell (opacity transitions)
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-
-    // ── Scroll indicator ────────────────────────────────────────
-    // CSS handles appearance (.scroll-indicator in reading-surface.css).
-    // We update inline-size as a percentage; CSS transitions smooth it.
-
-    const indicator = indicatorRef.current;
-
-    function updateScrollProgress() {
-      if (!indicator) return;
-      const scrollHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const progress = scrollHeight > 0 ? window.scrollY / scrollHeight : 0;
-      indicator.style.inlineSize = `${progress * 100}%`;
-    }
-
-    // ── Dwell contemplation ─────────────────────────────────────
-    // After 1200ms of scroll stillness (--reading-settled-debounce),
-    // find the paragraph nearest the viewport's focus zone (35% from
-    // top) and dim everything else. The portal waits, then responds.
-
-    function startDwellTimer() {
-      clearDwellTimer();
-      if (reducedMotion) return;
-
-      dwellTimer = setTimeout(() => {
-        const focusZone = window.innerHeight * 0.35;
-        let closest = -1;
-        let closestDist = Infinity;
-
-        paragraphs.forEach((p, i) => {
-          const rect = p.getBoundingClientRect();
-          const mid = rect.top + rect.height / 2;
-          const dist = Math.abs(mid - focusZone);
-          if (dist < closestDist) {
-            closestDist = dist;
-            closest = i;
-          }
-        });
-
-        // Only activate when a paragraph is well within the focus zone
-        if (closest >= 0 && closestDist < window.innerHeight * 0.25) {
-          activateDwell(closest);
-        }
-      }, 1200);
-    }
-
-    function clearDwellTimer() {
-      if (dwellTimer) {
-        clearTimeout(dwellTimer);
-        dwellTimer = null;
-      }
-    }
+    // ── Dwell mode ────────────────────────────────────────────────
+    // Click a paragraph to focus it. Everything else dims.
+    // The reader chooses to dwell — no auto-activation.
 
     function activateDwell(index: number) {
+      // Already dwelling on this paragraph — toggle off
+      if (dwellActive && dwellIndex === index) {
+        deactivateDwell();
+        return;
+      }
+
       dwellActive = true;
+      dwellIndex = index;
       article!.setAttribute("data-dwell-active", "");
+
       paragraphs.forEach((p, i) => {
         if (i === index) {
           p.setAttribute("data-dwell-target", "");
@@ -105,27 +69,69 @@ export function ReadingImmersion() {
           p.removeAttribute("data-dwell-target");
         }
       });
+
+      // Show "Related Teachings" indicator if this paragraph has connections
+      showThreadIndicator(index);
     }
 
     function deactivateDwell() {
       if (!dwellActive) return;
       dwellActive = false;
+      dwellIndex = -1;
       article!.removeAttribute("data-dwell-active");
       paragraphs.forEach((p) => p.removeAttribute("data-dwell-target"));
+      removeThreadIndicator();
+
+      // Close Golden Thread panel
+      window.dispatchEvent(
+        new CustomEvent("paragraph:focus", { detail: { index: -1 } }),
+      );
+    }
+
+    // ── Thread indicator ──────────────────────────────────────────
+    // Small button injected into the focused paragraph when it has
+    // golden thread connections. Click → opens the panel.
+
+    function showThreadIndicator(index: number) {
+      removeThreadIndicator();
+
+      const para = paragraphs[index];
+      if (!para.hasAttribute("data-has-thread")) return;
+
+      threadIndicator = document.createElement("button");
+      threadIndicator.className = "thread-indicator";
+      threadIndicator.setAttribute("aria-label", "Related teachings");
+      threadIndicator.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg><span>Related teachings</span>`;
+
+      threadIndicator.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const paraIndex = parseInt(para.getAttribute("data-paragraph") ?? "-1", 10);
+        if (paraIndex >= 0) {
+          window.dispatchEvent(
+            new CustomEvent("paragraph:focus", { detail: { index: paraIndex } }),
+          );
+        }
+      });
+
+      para.style.position = "relative";
+      para.appendChild(threadIndicator);
+    }
+
+    function removeThreadIndicator() {
+      if (threadIndicator && threadIndicator.parentNode) {
+        threadIndicator.parentNode.removeChild(threadIndicator);
+        threadIndicator = null;
+      }
     }
 
     // ── Keyboard paragraph navigation ───────────────────────────
-    // j/k moves focus between paragraphs. The gold highlight (.kb-focus)
-    // and smooth scroll create a reading rhythm the seeker controls.
+    // j/k moves focus between paragraphs. Activates dwell on target.
 
     function moveFocus(delta: number) {
-      deactivateDwell();
-
       const next = Math.max(
         0,
         Math.min(paragraphs.length - 1, currentIndex + delta),
       );
-      // Already at boundary — don't re-scroll
       if (next === currentIndex && currentIndex >= 0) return;
 
       // Clear previous
@@ -139,10 +145,12 @@ export function ReadingImmersion() {
         behavior: "smooth",
         block: "center",
       });
+
+      // Activate dwell on the navigated paragraph
+      activateDwell(currentIndex);
     }
 
     function handleKeyDown(e: KeyboardEvent) {
-      // Don't intercept when typing in form elements
       const tag = (e.target as HTMLElement)?.tagName;
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
       if (e.ctrlKey || e.metaKey || e.altKey) return;
@@ -157,7 +165,7 @@ export function ReadingImmersion() {
           moveFocus(-1);
           break;
         case "Escape":
-          if (dwellActive) deactivateDwell();
+          deactivateDwell();
           if (currentIndex >= 0) {
             paragraphs[currentIndex].classList.remove("kb-focus");
             currentIndex = -1;
@@ -166,34 +174,45 @@ export function ReadingImmersion() {
       }
     }
 
-    // ── Scroll handler ──────────────────────────────────────────
-    // Updates progress bar and resets dwell timer on every scroll.
+    // ── Click handler ─────────────────────────────────────────────
+    // Click on a paragraph → dwell on it.
+    // Click outside paragraphs → exit dwell.
 
-    function handleScroll() {
-      updateScrollProgress();
-      deactivateDwell();
-      startDwellTimer();
-    }
+    function handleClick(e: MouseEvent) {
+      const target = (e.target as HTMLElement).closest<HTMLElement>(
+        "[data-paragraph]",
+      );
 
-    // ── Click to exit dwell ─────────────────────────────────────
-    function handleClick() {
-      if (dwellActive) deactivateDwell();
+      if (!target) {
+        // Clicked outside any paragraph — exit dwell
+        if (dwellActive) deactivateDwell();
+        return;
+      }
+
+      // Stop propagation so GoldenThread's document listener doesn't
+      // also fire and auto-open the panel
+      e.stopPropagation();
+
+      // Find the index of the clicked paragraph
+      const idx = Array.from(paragraphs).indexOf(target);
+      if (idx < 0) return;
+
+      // Update keyboard nav index to match
+      if (currentIndex >= 0) {
+        paragraphs[currentIndex].classList.remove("kb-focus");
+      }
+      currentIndex = idx;
+
+      activateDwell(idx);
     }
 
     // ── Attach ──────────────────────────────────────────────────
-    window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("keydown", handleKeyDown);
     article.addEventListener("click", handleClick);
 
-    // Initial state
-    updateScrollProgress();
-    startDwellTimer();
-
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("keydown", handleKeyDown);
       article.removeEventListener("click", handleClick);
-      clearDwellTimer();
       deactivateDwell();
       if (currentIndex >= 0) {
         paragraphs[currentIndex].classList.remove("kb-focus");
@@ -201,12 +220,5 @@ export function ReadingImmersion() {
     };
   }, []);
 
-  return (
-    <div
-      ref={indicatorRef}
-      className="scroll-indicator"
-      aria-hidden="true"
-      style={{ inlineSize: "0%" }}
-    />
-  );
+  return null;
 }

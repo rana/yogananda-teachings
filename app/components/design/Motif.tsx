@@ -43,15 +43,14 @@ export function Motif({
   className = "",
 }: MotifProps) {
   const resolvedGlyph = glyph || (role === "divider" ? DIVIDER_GLYPH : BALANCED_GLYPH);
-  const svgPath = `/motifs/srf/glyphs/${resolvedGlyph}.svg`;
 
   const roleClass = `motif-${role}`;
   const voiceClass = `motif-${voice}`;
+  const glyphClass = `motif-${resolvedGlyph}`;
 
   return (
     <div
-      className={`motif ${roleClass} ${voiceClass} ${className}`.trim()}
-      style={{ maskImage: `url(${svgPath})` }}
+      className={`motif ${glyphClass} ${roleClass} ${voiceClass} ${className}`.trim()}
       aria-hidden="true"
       role="separator"
     />

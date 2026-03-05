@@ -101,6 +101,7 @@ export async function getChapterRelations(
   pool: pg.Pool,
   bookId: string,
   chapterNumber: number,
+  language?: string,
   limit: number = RELATIONS_DISPLAY_LIMIT,
 ): Promise<ChapterRelations> {
   // Get all chunk IDs for this chapter
@@ -159,8 +160,11 @@ export async function getChapterRelations(
     JOIN chapters ch ON ch.id = bc.chapter_id
     JOIN books b ON b.id = bc.book_id
     WHERE f.display_rank <= $3
+      ${language ? "AND b.language = $4" : ""}
     ORDER BY f.source_chunk_id, f.display_rank`,
-    [chunkIds, RELATIONS_MIN_SIMILARITY, limit],
+    language
+      ? [chunkIds, RELATIONS_MIN_SIMILARITY, limit, language]
+      : [chunkIds, RELATIONS_MIN_SIMILARITY, limit],
   );
 
   // Group by source chunk
@@ -206,10 +210,13 @@ export async function getChapterRelations(
       AND cr.similarity >= $2
       AND ch.chapter_number != $3
       AND COALESCE(cr.relation_type, '') NOT IN ('translation', 'same_chapter')
+      ${language ? "AND b.language = $4" : ""}
     GROUP BY ch.chapter_number, ch.title, b.title, b.id, b.slug
     ORDER BY COUNT(*) DESC
     LIMIT 5`,
-    [chunkIds, RELATIONS_MIN_SIMILARITY, chapterNumber],
+    language
+      ? [chunkIds, RELATIONS_MIN_SIMILARITY, chapterNumber, language]
+      : [chunkIds, RELATIONS_MIN_SIMILARITY, chapterNumber],
   );
 
   return { paragraphs, thread: threadRows };

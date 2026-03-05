@@ -56,6 +56,9 @@
 | PRO-044 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) | Proposed | PRI-04, ADR-104, ADR-122, DES-029, DES-042, DES-054 | Ecosystem exploration 2026-03-02 |
 | PRO-045 | Visual Design Language System — AI-First Design Tokens | Feature (Platform) | Proposed | PRI-03, PRI-07, PRI-08, PRI-10, PRI-12, ADR-065, ADR-080, PRO-043, PRO-044 | Design exploration 2026-03-02 |
 | PRO-046 | Circadian as Independent Behavior Modifier | Enhancement (Experience) | Proposed | PRI-08, DES-011, PRO-045 | Design review 2026-03-03 |
+| PRO-047 | Offline-First Sacred Reading — Proactive Chapter Download | Enhancement (Experience) | Proposed | PRI-05, ADR-073 | Explore-act analysis 2026-03-03 |
+| PRO-048 | Platform Operations Dashboard — Batch Job Visibility | Feature (Platform) | Proposed | PRO-036, PRO-042, DES-060, ADR-095 | Greenfield UX session 2026-03-04 |
+| PRO-049 | Parting Word — Contemplative Chapter Closure | Enhancement (Experience) | Deferred | PRI-01, PRI-02, PRI-08 | Greenfield UX session 2026-03-04 |
 
 ---
 
@@ -384,6 +387,8 @@ Defer the decision. Build Milestone 3b editorial portal in `/admin`. At Mileston
 **"I want to practice" — the Practice Bridge door.** The most delicate. Explicitly not about reading. Acknowledges the seeker's readiness to move. Leads to Yogananda's own published words about meditation and the path, followed by the quiet signpost to SRF Lessons and local centers. PRI-04 (Signpost, Not Destination) becomes architecture.
 
 **Origin:** External design review (docs/reference/Claude-Teachings-Portal-Suggestions.md, 2026-03-01)
+
+**Current state (2026-03-04):** A lightweight "seeking paths" implementation exists on the homepage — four italic whispered links ("for when the world is too much", etc.) completing the phrase "These teachings are here..." Format and CSS are solid (italic serif, hover-reveal gold border). Copy needs human voice — three AI iterations approached but didn't land. Deferred: the copy requires the Vocabulary Bridge (ADR-129) to be genuinely recognition-based rather than cosmetic self-help language. Without the bridge, the doors are labels over generic search queries.
 
 ---
 
@@ -2224,6 +2229,74 @@ Medium. The Service Worker infrastructure exists. The main work is UI (download 
 **Re-evaluate At:** M3a completion (multi-book corpus provides realistic test), Arc 2 planning
 **Decision Required From:** Architecture (storage strategy, client-side search approach), Human principal (whether offline-first aligns with the portal's identity or over-engineers for a minority use case)
 **Origin:** Explore-act analysis of PRI-05 offline posture gap, 2026-03-03
+
+---
+
+### PRO-048: Platform Operations Dashboard — Batch Job Visibility
+
+**Status:** Proposed
+**Type:** Feature (Platform)
+**Governing Refs:** PRO-036 (Operational Health Surface), PRO-042 (Feature Lifecycle Portal), DES-060 (Platform Architecture), ADR-095 (Observability)
+**Origin:** Greenfield UX session, 2026-03-04 — recognized during Golden Thread enrichment that batch operations have no visibility surface.
+
+#### Problem
+
+The portal relies on several batch enrichment operations with no operational visibility:
+
+1. **Embedding generation** — compute vector embeddings for all book chunks
+2. **Similarity computation** (M3c-1) — cosine similarity across all chunk pairs, populate `chunk_relations`
+3. **Relation labeling** (`generate-labels.ts`) — Claude Opus classifies and labels each relation
+4. **Rasa classification** (DES-061) — AI-derived aesthetic flavor per chapter
+5. **Future:** theme extraction, people tagging, external reference linking
+
+These jobs run from CLI scripts with console output only. No progress tracking, no historical record, no way to know if they completed or failed without SSH access.
+
+#### Proposal
+
+A **Platform Operations** page (within yogananda-platform or as an admin route) that surfaces:
+
+- **Job registry** — all known batch operations with last-run timestamp, status, duration
+- **Live progress** — for running jobs: items processed / total, estimated completion, current rate
+- **History** — past runs with success/failure, items affected, errors encountered
+- **Trigger controls** — ability to start/restart jobs with parameters (e.g., `--incremental`, `--book-id`, `--dry-run`)
+- **Dependencies** — visual indication of job ordering (embeddings before similarity, similarity before labels)
+
+#### Architecture Sketch
+
+- **Job metadata table** in Neon: `batch_jobs(id, job_type, status, started_at, completed_at, progress_current, progress_total, error, parameters)`
+- **Progress reporting** — each script writes progress to the table at intervals (every N items or every 10s)
+- **API routes** — `GET /api/v1/ops/jobs` (list), `POST /api/v1/ops/jobs/:type/run` (trigger)
+- **SSE or polling** — live progress updates to the dashboard
+- **Auth required** — admin-only access (ties into whatever auth solution is adopted)
+
+#### Relationship to Existing Proposals
+
+- **PRO-036** (Operational Health Surface) covers SLIs, uptime, error rates — this proposal covers *batch job* visibility specifically
+- **PRO-042** (Feature Lifecycle Portal) is broader (spec-to-deploy traceability) — this is the narrow operational slice for data enrichment
+- Could be a tab or section within the platform operations surface envisioned by PRO-036
+
+#### Open Questions
+
+- Should this live in yogananda-platform (separate admin surface) or as a protected route in yogananda-teachings?
+- pg_cron (PRO-006) could schedule recurring enrichment — should this dashboard also manage schedules?
+- How much job orchestration is needed? Simple sequential scripts vs. a lightweight job queue?
+
+**Re-evaluate At:** When M3c-1 (similarity computation) is built, or when any batch job fails silently in production.
+**Decision Required From:** Architecture (where the ops surface lives, job storage approach)
+
+### PRO-049: Parting Word — Contemplative Chapter Closure
+
+**Status:** Deferred
+**Type:** Enhancement (Experience)
+**Governing Refs:** PRI-01 (verbatim fidelity), PRI-02 (attribution), PRI-08 (calm technology)
+
+**Concept:** A curated Yogananda quotation shown at the bottom of each chapter as a contemplative farewell — a brief moment of stillness before the reader moves on. Date-seeded for SSR determinism (same passage for all readers on a given day). Ten verbatim passages from *Autobiography of a Yogi* with full attribution.
+
+**Why Deferred:** During greenfield UX review, the bottom-of-chapter quote was experienced as distracting — pulling attention away from the chapter's own content rather than adding closure. The reading surface should end with the author's own words, not an editorially selected quotation.
+
+**Component:** `app/components/PartingWord.tsx` (implemented, removed from chapter page, retained for future use).
+
+**Re-activate When:** The reading journey has a natural multi-chapter flow where a contemplative pause between chapters serves the reader's rhythm — e.g., after implementing chapter-to-chapter navigation or a "reading session" concept.
 
 ---
 

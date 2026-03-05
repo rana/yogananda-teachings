@@ -14,6 +14,7 @@ import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
 import { PORTAL, SRF } from "@/lib/config/srf-links";
 import { Surface } from "@/app/components/design/Surface";
+import { Motif } from "@/app/components/design/Motif";
 import { ThemeSwitcher } from "@/app/components/design/ThemeSwitcher";
 import { ReaderPreferences } from "@/app/components/design/ReaderPreferences";
 
@@ -100,6 +101,7 @@ export default async function LocaleLayout({
       {/* Site footer — ambient register */}
       <Surface as="footer" register="ambient" className="app-footer">
         <div className="center">
+          <Motif role="close" voice="sacred" glyph="lotus-03" />
           <p>
             Teachings of Paramahansa Yogananda ·{" "}
             <a href={SRF.home}>Self-Realization Fellowship</a>

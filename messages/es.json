@@ -44,11 +44,11 @@
       "overcomingFear": "Vencer el Miedo"
     },
     "seeking": {
-      "heading": "¿Qué estás buscando?",
-      "comfort": "Necesito fuerza para hoy",
-      "meaning": "Sé que hay más que esto",
-      "practice": "Enséñame a estar en calma",
-      "curiosity": "Algo me trajo aquí"
+      "heading": "Estas enseñanzas están aquí\u2026",
+      "comfort": "para cuando el mundo pesa demasiado",
+      "meaning": "para las preguntas que no se callan",
+      "practice": "para aprender a estar en quietud",
+      "curiosity": "para lo que sentiste pero no supiste nombrar"
     },
     "startHere": {
       "heading": "Empieza Aquí",
@@ -166,7 +166,15 @@
     "yoganandaBio": "Paramahansa Yogananda (1893–1952) es ampliamente considerado como una de las figuras espirituales más importantes de nuestro tiempo. Nacido en Gorakhpur, India, llegó a Estados Unidos en 1920 y dedicó las siguientes tres décadas a introducir a millones de buscadores en la antigua ciencia de la meditación Kriya Yoga y el arte de una vida espiritual equilibrada.",
     "srfTitle": "Self-Realization Fellowship",
     "srfDescription": "Fundada en 1920 por Paramahansa Yogananda, Self-Realization Fellowship se dedica a continuar su obra espiritual y humanitaria — fomentando un espíritu de mayor comprensión y buena voluntad entre los diversos pueblos y naciones de nuestra familia global, y ayudando a personas de todas las culturas y nacionalidades a realizar y expresar más plenamente en sus vidas la belleza, nobleza y divinidad del espíritu humano.",
-    "lineOfGurus": "La Línea de Gurús",
+    "lineage": "El Linaje",
+    "lineageNames": {
+      "lahiriMahasaya": "Lahiri Mahasaya",
+      "babaji": "Mahavatar Babaji",
+      "christ": "Jesucristo",
+      "krishna": "Bhagavan Krishna",
+      "yogananda": "Paramahansa Yogananda",
+      "sriYukteswar": "Swami Sri Yukteswar"
+    },
     "goDeeper": "Profundizar",
     "lessons": "Lecciones de SRF — Las técnicas de meditación para estudio en el hogar enseñadas por Paramahansa Yogananda",
     "centers": "Encontrar un Centro — Grupos de meditación y templos en todo el mundo",

@@ -245,9 +245,49 @@ a:hover {
   margin-block-start: var(--space-default);
 }
 
-/* Golden thread — uses design system's .golden-thread-passage class
-   (reading-surface.css) for box-shadow treatment. The data-has-thread
-   attribute is retained for JS hooks; visual styling comes from the class. */
+/* Golden thread — left accent bar hidden by default.
+   Only appears when a paragraph has the reader's focus (dwell or
+   keyboard navigation). The bar signals "this paragraph has
+   connections" — a discovery, not persistent decoration. */
+.golden-thread-passage {
+  box-shadow: none;
+}
+.golden-thread-passage[data-dwell-target],
+.golden-thread-passage[data-thread-active],
+.golden-thread-passage.kb-focus {
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-gold) 55%, transparent);
+}
+
+/* Thread indicator — "Related teachings" button injected by ReadingImmersion
+   into a focused paragraph that has golden thread connections. */
+.thread-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-block-start: 0.75em;
+  padding: 0.4em 0.75em;
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--color-gold);
+  background: color-mix(in oklch, var(--color-gold), transparent 92%);
+  border: 1px solid color-mix(in oklch, var(--color-gold), transparent 75%);
+  border-radius: var(--radius-gentle, 4px);
+  cursor: pointer;
+  width: fit-content;
+  opacity: 0;
+  animation: thread-indicator-appear 400ms ease forwards;
+  transition: background 200ms ease, opacity 200ms ease;
+}
+.thread-indicator:hover {
+  background: color-mix(in oklch, var(--color-gold), transparent 85%);
+}
+.thread-indicator span {
+  letter-spacing: 0.02em;
+}
+@keyframes thread-indicator-appear {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 .chapter-figure {
   margin-block: var(--space-generous);
@@ -446,12 +486,12 @@ a:hover {
   align-items: center;
   border: 1px solid color-mix(in oklch, var(--color-gold), transparent 70%);
   border-radius: 999px;
-  padding: var(--space-compact) var(--space-default);
+  padding: var(--space-tight, 4px) var(--space-compact);
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--color-text-secondary);
   transition: border-color var(--motion-ui), color var(--motion-ui);
-  min-height: 44px;
+  min-height: 36px;
 }
 
 .pill:hover {
@@ -508,6 +548,29 @@ a:hover {
   border-color: var(--color-gold);
   background-color: color-mix(in oklch, var(--color-gold), transparent 95%);
   color: var(--color-text);
+}
+
+/* Button — ghost (minimal, text-like) */
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  background: none;
+  border: none;
+  padding: var(--space-tight, 4px) var(--space-compact);
+  cursor: pointer;
+  transition: color var(--motion-ui);
+}
+
+.btn-ghost:hover {
+  color: var(--color-text);
+}
+
+.btn-ghost:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* Input — form fields */
@@ -575,10 +638,10 @@ a:hover {
 /* Passage blockquote — featured teaching quotation */
 .passage-quote {
   font-family: var(--font-reading);
-  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  font-size: clamp(1rem, 1.8vw, 1.125rem);
   line-height: 1.8;
   color: var(--color-text);
-  max-inline-size: 38em;
+  max-inline-size: 36em;
   margin-inline: auto;
   text-align: center;
 }
@@ -706,6 +769,30 @@ a:hover {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-compact);
+}
+
+/* Seeking paths — whispered invitations, not survey cards.
+   Dhvani: these are the seeker's own thoughts, recognized. */
+.seeking-paths {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.seeking-path {
+  display: block;
+  font-family: var(--font-reading);
+  font-size: 0.9375rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  padding-block: var(--space-compact);
+  border-block-end: 1px solid transparent;
+  transition: color var(--motion-ui), border-color var(--motion-ui);
+}
+
+.seeking-path:hover {
+  color: var(--color-text);
+  border-block-end-color: color-mix(in oklch, var(--color-gold), transparent 60%);
 }
 
 /* Search result card */
@@ -1675,6 +1762,24 @@ a:hover {
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+
+/* ── Page Arrival ────────────────────────────────────────────── */
+/* Gentle fade-in for page content on load. The threshold lotus
+   arrives first; content follows. Prāṇa: approach (pūraka). */
+
+.page-arrive {
+  animation: fade-in 1.6s var(--easing-decelerate, ease-out) both;
+}
+
+/* ── Welcome Lotus ───────────────────────────────────────────── */
+/* Generous welcoming presence at the homepage threshold.
+   Overrides the divider role's 24px default. */
+
+.welcome-lotus {
+  height: 72px;
+  opacity: 0.5;
 }
 
 

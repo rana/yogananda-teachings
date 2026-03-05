@@ -1,7 +1,7 @@
 /**
  * About page — who Yogananda was, what SRF is, where to go deeper.
  *
- * Biography, line of gurus, SRF overview, external links.
+ * Biography, lineage, SRF overview, external links.
  * Contemplative register. Server Component.
  */
 
@@ -16,12 +16,15 @@ import {
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
 
-const GURUS = [
-  { name: "Mahavatar Babaji", role: "The deathless guru" },
-  { name: "Lahiri Mahasaya", role: "1828\u20131895" },
-  { name: "Swami Sri Yukteswar", role: "1855\u20131936" },
-  { name: "Paramahansa Yogananda", role: "1893\u20131952" },
-];
+/* SRF photograph order: the arrangement seen in SRF altars and publications. */
+const LINEAGE = [
+  "lahiriMahasaya",
+  "babaji",
+  "christ",
+  "krishna",
+  "yogananda",
+  "sriYukteswar",
+] as const;
 
 const GO_DEEPER_LINKS = [
   { key: "lessons", url: SRF_PRACTICE.lessons },
@@ -42,11 +45,11 @@ export default async function AboutPage({
   const t = await getTranslations("about");
 
   return (
-    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
+    <div className="stack-generous" style={{ paddingBlock: "var(--space-generous)" }}>
 
-      <Surface as="section" register="reverential" className="center">
+      <section className="center">
         <h1 className="page-title">{t("heading")}</h1>
-      </Surface>
+      </section>
 
       {/* Yogananda biography */}
       <Surface as="section" register="reverential" className="center prose-section">
@@ -54,39 +57,36 @@ export default async function AboutPage({
         <p className="prose-text">{t("yoganandaBio")}</p>
       </Surface>
 
-      <Motif role="breath" voice="sacred" />
-
       {/* Self-Realization Fellowship */}
       <Surface as="section" register="instructional" className="center prose-section">
         <h2 className="section-heading">{t("srfTitle")}</h2>
         <p className="prose-text">{t("srfDescription")}</p>
       </Surface>
 
-      {/* Line of Gurus */}
-      <Surface as="section" register="reverential" className="center">
-        <h2 className="section-heading" style={{ textAlign: "center" }}>{t("lineOfGurus")}</h2>
+      <Motif role="breath" voice="sacred" />
+
+      {/* Lineage — SRF photograph order */}
+      <section className="center">
+        <h2 className="section-heading" style={{ textAlign: "center" }}>{t("lineage")}</h2>
         <div className="guru-grid">
-          {GURUS.map((guru) => (
-            <div key={guru.name} style={{ textAlign: "center" }}>
+          {LINEAGE.map((key) => (
+            <div key={key} style={{ textAlign: "center" }}>
               <div
                 className="guru-portrait-placeholder"
                 aria-hidden="true"
               />
               <p style={{ fontSize: "0.875rem", fontWeight: 600 }}>
-                {guru.name}
-              </p>
-              <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)" }}>
-                {guru.role}
+                {t(`lineageNames.${key}`)}
               </p>
             </div>
           ))}
         </div>
-      </Surface>
+      </section>
 
       <Motif role="breath" voice="sacred" />
 
       {/* Go Deeper */}
-      <Surface as="section" register="instructional" className="center">
+      <section className="center">
         <h2 className="section-heading">{t("goDeeper")}</h2>
         <div className="stack-tight">
           {GO_DEEPER_LINKS.map((link) => (
@@ -102,7 +102,7 @@ export default async function AboutPage({
             </a>
           ))}
         </div>
-      </Surface>
+      </section>
     </div>
   );
 }

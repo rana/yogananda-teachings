@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "postinstall": "node scripts/sync-motifs.mjs",
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "node scripts/sync-motifs.mjs && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",

@@ -3,21 +3,27 @@
 /**
  * GoldenThread — cross-chapter connection panel.
  *
- * When a reader taps/clicks a threaded paragraph (one with
- * .golden-thread-passage), this component reveals related teachings
- * from other chapters. The coherence of the teaching becomes visible.
+ * When a reader dwells on a paragraph with connections, this component
+ * reveals related teachings from other chapters. The coherence of the
+ * teaching becomes visible without any explicit action.
  *
- * Desktop (≥1024px): side panel slides in beside the reading column.
- * Mobile: bottom sheet slides up from below.
+ * Desktop (≥1024px): side panel auto-reveals on dwell/keyboard focus.
+ * Mobile: bottom sheet on tap (auto-show too intrusive for sheets).
  *
  * All relations data is SSR'd — zero client-side fetching. The panel
  * opens instantly because the data is already in the page.
  *
+ * Activation:
+ *   - Dwell mode: click paragraph → "Related teachings" indicator appears
+ *     → click indicator → panel opens (via paragraph:focus event)
+ *   - Mobile: tap on threaded paragraph opens bottom sheet
+ *   - Escape / exit dwell: closes panel
+ *
  * Animation classes from design system (reading-surface.css):
  *   .thread-panel-fade, .thread-sheet-enter, .thread-backdrop-enter
  *
- * Calm technology: no auto-open, no tracking, no gamification.
- * The reader chooses to explore connections — we respond.
+ * Calm technology: no tracking, no gamification. Connections surface
+ * naturally as the reader settles into a passage.
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
@@ -54,8 +60,39 @@ export function GoldenThread({ paragraphs, thread, locale }: GoldenThreadProps) 
       .forEach((el) => el.removeAttribute("data-thread-active"));
   }, []);
 
-  // Listen for clicks on threaded paragraphs
+  // Open/close via paragraph:focus event from ReadingImmersion's thread indicator
   useEffect(() => {
+    function handleParagraphFocus(e: Event) {
+      const { index } = (e as CustomEvent).detail;
+
+      // index -1 = dwell ended or explicit close
+      if (index < 0) {
+        close();
+        return;
+      }
+
+      // Only open if this paragraph has relations
+      if (!paragraphs[index]) return;
+
+      // Mark the focused paragraph
+      document
+        .querySelectorAll("[data-thread-active]")
+        .forEach((el) => el.removeAttribute("data-thread-active"));
+      const el = document.querySelector(`[data-paragraph="${index}"]`);
+      if (el) el.setAttribute("data-thread-active", "");
+
+      setActiveIndex(index);
+    }
+
+    window.addEventListener("paragraph:focus", handleParagraphFocus);
+    return () => window.removeEventListener("paragraph:focus", handleParagraphFocus);
+  }, [paragraphs, close]);
+
+  // Click on threaded paragraphs — mobile only.
+  // Desktop uses the dwell indicator button (via paragraph:focus event).
+  useEffect(() => {
+    if (!isMobile) return;
+
     function handleClick(e: MouseEvent) {
       const target = (e.target as HTMLElement).closest<HTMLElement>(
         "[data-has-thread]",

@@ -80,18 +80,16 @@ export default async function BooksPage({
   };
 
   return (
-    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
+    <div className="stack-generous" style={{ paddingBlock: "var(--space-generous)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <Surface as="section" register="reverential" className="center">
+      <section className="center">
         <h1 className="page-title">{t("heading")}</h1>
         <p className="page-subtitle">{t("subtitle")}</p>
-      </Surface>
-
-      <Motif role="breath" voice="sacred" />
+      </section>
 
       {booksWithChapters.length === 0 ? (
         <div className="empty-state">
@@ -107,8 +105,23 @@ export default async function BooksPage({
                 href={`/books/${book.slug}`}
                 className="card"
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "var(--space-default)" }}>
-                  <div>
+                <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-default)" }}>
+                  {book.coverImageUrl && (
+                    <img
+                      src={book.coverImageUrl}
+                      alt=""
+                      width={64}
+                      height={96}
+                      loading="lazy"
+                      style={{
+                        flexShrink: 0,
+                        borderRadius: "var(--radius-gentle, 4px)",
+                        objectFit: "cover",
+                        boxShadow: "0 1px 4px color-mix(in oklch, var(--color-text), transparent 90%)",
+                      }}
+                    />
+                  )}
+                  <div style={{ flex: 1 }}>
                     <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
                       {book.title}
                     </strong>
@@ -118,18 +131,18 @@ export default async function BooksPage({
                     </p>
                     <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", opacity: 0.6, marginBlockStart: "2px" }}>
                       {book.chapterCount} chapters
+                      <span style={{
+                        marginInlineStart: "var(--space-compact)",
+                        fontSize: "0.75rem",
+                        color: "var(--color-text-secondary)",
+                        backgroundColor: "color-mix(in oklch, var(--color-text), transparent 95%)",
+                        padding: "2px 8px",
+                        borderRadius: "var(--radius-gentle, 4px)",
+                      }}>
+                        {localeNames[book.language as Locale] || book.language}
+                      </span>
                     </p>
                   </div>
-                  <span style={{
-                    flexShrink: 0,
-                    fontSize: "0.75rem",
-                    color: "var(--color-text-secondary)",
-                    backgroundColor: "color-mix(in oklch, var(--color-text), transparent 95%)",
-                    padding: "2px 8px",
-                    borderRadius: "var(--radius-gentle, 4px)",
-                  }}>
-                    {localeNames[book.language as Locale] || book.language}
-                  </span>
                 </div>
               </Link>
             ))}

@@ -14,6 +14,7 @@
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { locales, localeNames, type Locale } from "@/i18n/config";
 
 type FontSize = "normal" | "large" | "larger";
 type LineSpacing = "normal" | "relaxed" | "spacious";
@@ -163,6 +164,51 @@ export function ReaderPreferences() {
               ))}
             </div>
           </fieldset>
+
+          {/* Language */}
+          <fieldset className="reader-prefs-group">
+            <legend className="reader-prefs-legend">Language</legend>
+            <div className="reader-prefs-options">
+              {locales.map((loc) => {
+                const current = window.location.pathname.split("/")[1];
+                const isActive = current === loc;
+                return (
+                  <button
+                    key={loc}
+                    className={`reader-prefs-line-btn${isActive ? " active" : ""}`}
+                    onClick={() => {
+                      if (isActive) return;
+                      const path = window.location.pathname;
+                      const newPath = path.replace(/^\/[a-z]{2}(\/|$)/, `/${loc}$1`);
+                      window.location.href = newPath || `/${loc}`;
+                    }}
+                    aria-pressed={isActive}
+                  >
+                    {localeNames[loc as Locale] || loc}
+                  </button>
+                );
+              })}
+            </div>
+          </fieldset>
+
+          {/* Reset */}
+          <div className="reader-prefs-group" style={{ borderBlockStart: "1px solid color-mix(in oklch, var(--color-text), transparent 90%)", paddingBlockStart: "var(--space-compact)" }}>
+            <button
+              className="reader-prefs-line-btn"
+              onClick={() => {
+                try {
+                  localStorage.clear();
+                  setFontSize("normal");
+                  setLineSpacing("normal");
+                  applyToDOM("normal", "normal");
+                  setOpen(false);
+                } catch { /* noop */ }
+              }}
+              style={{ fontSize: "0.75rem", opacity: 0.6 }}
+            >
+              Reset all preferences
+            </button>
+          </div>
         </div>
       )}
     </div>

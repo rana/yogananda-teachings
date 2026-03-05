@@ -25,6 +25,9 @@ import { ReadingModes } from "@/app/components/design/ReadingModes";
 import { ReadingTracker } from "@/app/components/design/ReadingTracker";
 import { ChapterBookmark } from "@/app/components/design/ChapterBookmark";
 import { GoldenThread } from "@/app/components/design/GoldenThread";
+import { PassageArrival } from "@/app/components/PassageArrival";
+import { ChapterProgress } from "@/app/components/design/ChapterProgress";
+
 import type { RelatedPassage } from "@/lib/services/relations";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
@@ -93,6 +96,7 @@ export default async function ChapterPage({
     pool,
     content.book.id,
     chapterNumber,
+    content.book.language,
   );
 
   // Build set of paragraph indices that have golden thread connections,
@@ -193,11 +197,21 @@ export default async function ChapterPage({
         />
       )}
 
+      <ChapterProgress
+        bookTitle={content.book.title}
+        chapterNumber={chapterNumber}
+        chapterTitle={content.chapter.title}
+        bookSlug={bookSlug}
+        locale={locale}
+      />
+
       <ChapterReader
         content={content}
         threadParagraphs={threadParagraphs}
         publication={bookSlug}
       />
+
+      {/* PartingWord deferred → PRO-049 */}
 
       {/* Client islands: reading journey + immersive features */}
       <ReadingTracker
@@ -224,6 +238,9 @@ export default async function ChapterPage({
           locale={locale}
         />
       )}
+      <PassageArrival
+        paragraphChunkIds={content.paragraphs.map((p) => p.id)}
+      />
     </>
   );
 }

@@ -29,6 +29,9 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Synced design assets (derived from yogananda-design dependency)
+public/motifs/
+
 # Ingestion data (large binaries — top-level only)
 /data/
 

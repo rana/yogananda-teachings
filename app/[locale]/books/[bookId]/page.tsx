@@ -123,6 +123,23 @@ export default async function BookLandingPage({
 
       {/* Book header */}
       <Surface as="header" register="reverential" className="center">
+        {book.coverImageUrl && (
+          <img
+            src={book.coverImageUrl}
+            alt={`${book.title} cover`}
+            width={160}
+            height={240}
+            loading="eager"
+            style={{
+              display: "block",
+              marginInline: "auto",
+              marginBlockEnd: "var(--space-default)",
+              borderRadius: "var(--radius-gentle, 4px)",
+              boxShadow: "0 2px 12px color-mix(in oklch, var(--color-text), transparent 85%)",
+              objectFit: "cover",
+            }}
+          />
+        )}
         <h1 className="page-title">{book.title}</h1>
         <p className="page-subtitle">
           {book.author}
