@@ -1,7 +1,7 @@
 /**
  * Generate contextual labels for top chunk relations — M3c-4.
  *
- * Uses Claude Haiku via AWS Bedrock to create brief, evocative labels
+ * Uses Claude Opus via AWS Bedrock to create brief, evocative labels
  * for the top-ranked relations. These labels are the soul of the
  * Related Teachings side panel — they tell the reader *why* two
  * passages are connected, not just *that* they are.
@@ -16,7 +16,8 @@ import pg from "pg";
 
 // ── Configuration ────────────────────────────────────────────────
 
-const BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
+// COG-3 Batch → Opus (DES-062: evocative labels require weighing connection quality)
+const BEDROCK_MODEL = "us.anthropic.claude-opus-4-6-v1";
 const BEDROCK_REGION = "us-east-1";
 const MAX_TOKENS = 60;
 const BATCH_SIZE = 10; // Concurrent Bedrock calls per batch
@@ -130,7 +131,7 @@ async function main() {
           if (label) {
             await pool.query(
               `UPDATE chunk_relations
-               SET relation_label = $1, tagged_by = 'haiku-4.5'
+               SET relation_label = $1, tagged_by = 'opus-4.6'
                WHERE source_chunk_id = $2 AND target_chunk_id = $3`,
               [label, row.source_chunk_id, row.target_chunk_id],
             );

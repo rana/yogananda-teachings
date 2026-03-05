@@ -17,11 +17,12 @@
  *   npx tsx src/classify-rasa.ts --book autobiography-of-a-yogi --dry-run
  *   npx tsx src/classify-rasa.ts --book autobiography-of-a-yogi --chapter 14
  *
- * Requires: ANTHROPIC_API_KEY (or CLAUDE_API_KEY), NEON_DATABASE_URL_DIRECT
+ * Requires: AWS credentials (Bedrock), NEON_DATABASE_URL_DIRECT
  */
 
 import path from 'path';
 import { readFileSync } from 'fs';
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 import { getBookPaths } from './config.js';
 import { log } from './utils.js';
 
@@ -106,37 +107,40 @@ function extractChapterText(chapter: ChapterJson): string {
   return parts.join('\n\n');
 }
 
+// COG-3 Batch → Opus (DES-062: aesthetic judgment across five experiential qualities)
+const BEDROCK_MODEL = 'us.anthropic.claude-opus-4-6-v1';
+
+function createBedrockClient(): BedrockRuntimeClient {
+  const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-west-2';
+  return new BedrockRuntimeClient({ region });
+}
+
 async function classifyWithClaude(
   chapterTitle: string,
   chapterText: string,
-  apiKey: string,
+  client: BedrockRuntimeClient,
 ): Promise<{ rasa: Rasa; confidence: number; reasoning: string }> {
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 200,
-      messages: [
-        {
-          role: 'user',
-          content: `${CLASSIFICATION_PROMPT}\n\n---\n\nChapter: "${chapterTitle}"\n\n${chapterText}`,
-        },
-      ],
-    }),
+  const body = JSON.stringify({
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: 200,
+    messages: [
+      {
+        role: 'user',
+        content: `${CLASSIFICATION_PROMPT}\n\n---\n\nChapter: "${chapterTitle}"\n\n${chapterText}`,
+      },
+    ],
   });
 
-  if (!response.ok) {
-    const err = await response.text();
-    throw new Error(`Claude API error: ${response.status} ${err}`);
-  }
+  const command = new InvokeModelCommand({
+    modelId: BEDROCK_MODEL,
+    contentType: 'application/json',
+    accept: 'application/json',
+    body: new TextEncoder().encode(body),
+  });
 
-  const data = await response.json() as { content: { type: string; text: string }[] };
-  const text = data.content[0]?.text || '';
+  const response = await client.send(command);
+  const result = JSON.parse(new TextDecoder().decode(response.body));
+  const text = result.content?.[0]?.type === 'text' ? result.content[0].text : '';
 
   // Parse JSON from response (may be wrapped in markdown code blocks)
   const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -173,12 +177,8 @@ async function main() {
   const chapterIdx = args.indexOf('--chapter');
   const singleChapter = chapterIdx !== -1 ? parseInt(args[chapterIdx + 1]) : null;
 
-  // API key
-  const apiKey = process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_API_KEY;
-  if (!apiKey) {
-    console.error('ANTHROPIC_API_KEY or CLAUDE_API_KEY not set.');
-    process.exit(1);
-  }
+  // Bedrock client (uses AWS credential provider chain — profile, role, env vars)
+  const bedrockClient = createBedrockClient();
 
   // Database (unless dry-run)
   const dbUrl = process.env.NEON_DATABASE_URL_DIRECT;
@@ -206,7 +206,7 @@ async function main() {
     const text = extractChapterText(chapter);
 
     try {
-      const result = await classifyWithClaude(chapter.title, text, apiKey);
+      const result = await classifyWithClaude(chapter.title, text, bedrockClient);
       classifications.push({
         chapterNumber: chapter.chapterNumber,
         title: chapter.title,
