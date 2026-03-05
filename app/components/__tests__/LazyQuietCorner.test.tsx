@@ -22,14 +22,13 @@ vi.mock("next/dynamic", () => ({
 describe("LazyQuietCorner", () => {
   it("renders loading skeleton while component loads", () => {
     const { container } = render(<LazyQuietCorner passage={null} />);
-    // The loading skeleton has animate-pulse elements
-    const pulseElements = container.querySelectorAll(".animate-pulse");
+    const pulseElements = container.querySelectorAll(".pulse");
     expect(pulseElements.length).toBeGreaterThan(0);
   });
 
-  it("renders main content landmark in loading state", () => {
+  it("renders quiet-layout container in loading state", () => {
     const { container } = render(<LazyQuietCorner passage={null} />);
-    const main = container.querySelector("main#main-content");
-    expect(main).toBeTruthy();
+    const layout = container.querySelector(".quiet-layout");
+    expect(layout).toBeTruthy();
   });
 });

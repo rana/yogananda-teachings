@@ -34,8 +34,15 @@ vi.mock("@/lib/sounds", () => ({
 // ── Import after mocks ───────────────────────────────────────────
 
 import { QuietCornerClient } from "../QuietCornerClient";
+import { DesignProvider } from "../design/DesignProvider";
 import { singingBowl, templeBell } from "@/lib/sounds";
 import type { DailyPassage } from "@/lib/services/passages";
+import type { ReactNode } from "react";
+
+/** Wrap component under test with DesignProvider */
+function Wrapper({ children }: { children: ReactNode }) {
+  return <DesignProvider>{children}</DesignProvider>;
+}
 
 // ── Helpers ──────────────────────────────────────────────────────
 
@@ -73,7 +80,7 @@ describe("QuietCornerClient", () => {
   // ── Passage rendering ──────────────────────────────────────────
 
   it("renders passage content in blockquote", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     const blockquote = screen.getByRole("blockquote");
     expect(blockquote).toBeInTheDocument();
@@ -81,7 +88,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("shows null state when no passage is provided", () => {
-    render(<QuietCornerClient passage={null} />);
+    render(<QuietCornerClient passage={null} />, { wrapper: Wrapper });
 
     expect(screen.getByText("No reflections available yet.")).toBeInTheDocument();
     // Timer buttons should not be present
@@ -89,7 +96,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("shows attribution with author, book title, and page number", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     expect(screen.getByText(/Paramahansa Yogananda/)).toBeInTheDocument();
     expect(screen.getByText(/Autobiography of a Yogi/)).toBeInTheDocument();
@@ -97,7 +104,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("omits page number from attribution when pageNumber is null", () => {
-    render(<QuietCornerClient passage={passageWithoutPage} />);
+    render(<QuietCornerClient passage={passageWithoutPage} />, { wrapper: Wrapper });
 
     expect(screen.getByText(/Paramahansa Yogananda/)).toBeInTheDocument();
     expect(screen.queryByText(/p\./)).toBeNull();
@@ -106,7 +113,7 @@ describe("QuietCornerClient", () => {
   // ── Timer options ──────────────────────────────────────────────
 
   it("shows 3 timer option buttons", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     expect(screen.getByText("quiet.timer1")).toBeInTheDocument();
     expect(screen.getByText("quiet.timer5")).toBeInTheDocument();
@@ -116,7 +123,7 @@ describe("QuietCornerClient", () => {
   // ── Timer lifecycle ────────────────────────────────────────────
 
   it("starting timer shows countdown display", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -128,7 +135,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("timer countdown decrements each second", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -144,7 +151,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("timer completion shows completion state", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -166,32 +173,31 @@ describe("QuietCornerClient", () => {
 
   // ── data-mode attribute ────────────────────────────────────────
 
-  it("sets data-mode='quiet' on main when timer is active", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+  it("sets data-mode='quiet' on html when timer is active", () => {
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer5"));
     });
 
-    const main = screen.getByRole("main");
-    expect(main).toHaveAttribute("data-mode", "quiet");
+    expect(document.documentElement.getAttribute("data-mode")).toBe("quiet");
   });
 
   it("removes data-mode when timer completes", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
     });
 
-    expect(screen.getByRole("main")).toHaveAttribute("data-mode", "quiet");
+    expect(document.documentElement.getAttribute("data-mode")).toBe("quiet");
 
     // Complete the timer
     act(() => {
       vi.advanceTimersByTime(61000);
     });
 
-    expect(screen.getByRole("main")).not.toHaveAttribute("data-mode");
+    expect(document.documentElement.hasAttribute("data-mode")).toBe(false);
   });
 
   // ── "Show another" fetch ───────────────────────────────────────
@@ -219,7 +225,7 @@ describe("QuietCornerClient", () => {
     });
     vi.stubGlobal("fetch", mockFetch);
 
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     // Start and complete a timer to reach completion state
     act(() => {
@@ -274,7 +280,7 @@ describe("QuietCornerClient", () => {
     });
     vi.stubGlobal("fetch", mockFetch);
 
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     // The "Show another" button in the initial state (below timer options)
     await act(async () => {
@@ -288,7 +294,7 @@ describe("QuietCornerClient", () => {
   // ── formatTime ─────────────────────────────────────────────────
 
   it("formats time correctly for 5 minutes (5:00)", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer5"));
@@ -299,7 +305,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("formats time correctly for sub-minute values (0:59)", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -314,7 +320,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("formats time with zero-padded seconds (e.g., 4:05)", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer5"));
@@ -332,7 +338,7 @@ describe("QuietCornerClient", () => {
   // ── Tap anywhere to end ───────────────────────────────────────
 
   it("clicking anywhere on the page stops the timer", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    const { container } = render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -340,9 +346,9 @@ describe("QuietCornerClient", () => {
 
     expect(screen.getByRole("timer")).toBeInTheDocument();
 
-    // Click the main element (not the timer specifically)
+    // Click the container (not the timer specifically)
     act(() => {
-      fireEvent.click(screen.getByRole("main"));
+      fireEvent.click(container.querySelector(".quiet-layout")!);
     });
 
     // Timer should be stopped, back to initial state with timer options
@@ -353,7 +359,7 @@ describe("QuietCornerClient", () => {
   // ── Heading visibility ─────────────────────────────────────────
 
   it("hides heading when timer is active", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     // Heading visible before timer
     expect(screen.getByText("quiet.heading")).toBeInTheDocument();
@@ -369,7 +375,7 @@ describe("QuietCornerClient", () => {
   // ── Audio ──────────────────────────────────────────────────────
 
   it("plays singing bowl when timer starts", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -379,7 +385,7 @@ describe("QuietCornerClient", () => {
   });
 
   it("plays temple bell when timer completes", () => {
-    render(<QuietCornerClient passage={samplePassage} />);
+    render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));
@@ -395,7 +401,7 @@ describe("QuietCornerClient", () => {
   // ── Cleanup ────────────────────────────────────────────────────
 
   it("clears interval on unmount", () => {
-    const { unmount } = render(<QuietCornerClient passage={samplePassage} />);
+    const { unmount } = render(<QuietCornerClient passage={samplePassage} />, { wrapper: Wrapper });
 
     act(() => {
       fireEvent.click(screen.getByText("quiet.timer1"));

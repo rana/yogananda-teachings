@@ -78,12 +78,12 @@ describe("HighlightedText", () => {
     expect(marks[1].textContent).toBe("peace");
   });
 
-  it("applies gold highlight styling", () => {
+  it("applies search-highlight class", () => {
     const { container } = render(
       <HighlightedText text="The soul awakens." query="soul" />,
     );
     const mark = container.querySelector("mark");
     expect(mark).not.toBeNull();
-    expect(mark!.className).toContain("bg-srf-gold/15");
+    expect(mark!.className).toContain("search-highlight");
   });
 });
