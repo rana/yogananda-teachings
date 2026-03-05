@@ -12,8 +12,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
-import { localeNames } from "@/i18n/config";
-import type { Locale } from "@/i18n/config";
 import type { Metadata } from "next";
 import { PORTAL, SRF_BOOKSTORE } from "@/lib/config/srf-links";
 import { Surface } from "@/app/components/design/Surface";
@@ -110,13 +108,12 @@ export default async function BooksPage({
                     <img
                       src={book.coverImageUrl}
                       alt=""
-                      width={64}
-                      height={96}
                       loading="lazy"
                       style={{
                         flexShrink: 0,
+                        width: "auto",
+                        height: "120px",
                         borderRadius: "var(--radius-gentle, 4px)",
-                        objectFit: "cover",
                         boxShadow: "0 1px 4px color-mix(in oklch, var(--color-text), transparent 90%)",
                       }}
                     />
@@ -130,17 +127,7 @@ export default async function BooksPage({
                       {book.publicationYear && ` (${book.publicationYear})`}
                     </p>
                     <p style={{ fontSize: "0.75rem", color: "var(--color-text-secondary)", opacity: 0.6, marginBlockStart: "2px" }}>
-                      {book.chapterCount} chapters
-                      <span style={{
-                        marginInlineStart: "var(--space-compact)",
-                        fontSize: "0.75rem",
-                        color: "var(--color-text-secondary)",
-                        backgroundColor: "color-mix(in oklch, var(--color-text), transparent 95%)",
-                        padding: "2px 8px",
-                        borderRadius: "var(--radius-gentle, 4px)",
-                      }}>
-                        {localeNames[book.language as Locale] || book.language}
-                      </span>
+                      {t("chapters", { count: book.chapterCount })}
                     </p>
                   </div>
                 </div>

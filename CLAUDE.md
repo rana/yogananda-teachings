@@ -103,6 +103,8 @@ Twelve principles define the project's identity and directly constrain code gene
 /docs/reference/ — Background research (not active project docs)
 ```
 
+**Book cover images.** Stored as optimized WebP in `public/book-images/covers/{slug}.webp` (240px wide, ~15–25KB). Database `books.cover_image_url` stores the public path (e.g., `/book-images/covers/autobiography-of-a-yogi.webp`). English source: `data/book-ingest/autobiography-of-a-yogi/assets/front-cover.png`. Spanish source: Amazon product image (no local source asset). When adding a new book: resize source to 240px wide WebP, place in covers directory, UPDATE the database row. Display uses `height: 120px; width: auto` to preserve native aspect ratio without clipping.
+
 **Design tokens:** Merriweather + Lora + Open Sans (Latin); Noto Serif Devanagari (Hindi reading) + Noto Sans Devanagari (Hindi UI/verses). Hindi body text at 20px / 1.9 line height (ADR-080). SRF Gold `#dcbd23`, SRF Navy `#1a2744`, Warm Cream `#FAF8F5`. Full palette in DESIGN.md § Visual Identity.
 
 **MCP servers (PRI-12: every managed service integral to routine operations requires MCP or equivalent API access):**
