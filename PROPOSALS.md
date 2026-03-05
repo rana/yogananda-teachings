@@ -59,6 +59,7 @@
 | PRO-047 | Offline-First Sacred Reading — Proactive Chapter Download | Enhancement (Experience) | Proposed | PRI-05, ADR-073 | Explore-act analysis 2026-03-03 |
 | PRO-048 | Platform Operations Dashboard — Batch Job Visibility | Feature (Platform) | Proposed | PRO-036, PRO-042, DES-060, ADR-095 | Greenfield UX session 2026-03-04 |
 | PRO-049 | Parting Word — Contemplative Chapter Closure | Enhancement (Experience) | Deferred | PRI-01, PRI-02, PRI-08 | Greenfield UX session 2026-03-04 |
+| PRO-050 | Unified Identifier System — FTR Replaces ADR + DES + PRO | Governance | Proposed | ADR-098, PRI-12, PRI-08 | Principal-directed exploration 2026-03-05 |
 
 ---
 
@@ -220,7 +221,7 @@
 **Type:** Policy
 **Governing Refs:** ADR-081, ADR-099, ADR-003, ADR-001
 **Dependencies:** None architectural. Requires SRF legal counsel review before implementation.
-**Scheduling Notes:** Milestone 1c prerequisite — the copyright communication layer must ship before public deployment. The portal's full crawlability posture (ADR-081, CONTEXT.md Resolved Question #15) requires explicit, multi-layered copyright communication so openness is paired with clear terms. Two concerns: (1) **Copyright communication** — establish multi-layered messaging (legal pages, JSON endpoints, HTTP headers, `llms.txt` copyright section, `ai.txt` permissions file) that signals SRF retains all rights while welcoming citation and reference. Treat "freely available" as a theological stance, not legal status. The library model: freely accessible for reading, reference, and citation while remaining under copyright. (2) **Legal liability audit** — 12 categories of risk identified: copyright authorization, content licensing, accessibility compliance, crisis resource liability, AI system transparency, volunteer agreements, international data handling, terms of service, and more. Pre-implementation legal review recommended for categories 1–4 (copyright, licensing, accessibility, crisis). Remaining categories can be addressed incrementally. Principle-check: the portal's generous accessibility posture aligns with SRF's mission of making teachings available worldwide — copyright retention and open access are not contradictory. Validated 2026-02-25: architectural review confirms alignment with ADR-081 full crawlability, Global-First (PRI-05), and accessibility (PRI-07). The No Content Gating policy (ADR-081 §3a) establishes that content gating is architecturally prohibited, making the copyright communication layer the correct mechanism for rights assertion — not technology walls.
+**Scheduling Notes:** Milestone 1c prerequisite — the copyright communication layer must ship before public deployment. The portal's full crawlability posture (ADR-081, CONTEXT.md Resolved Question #15) requires explicit, multi-layered copyright communication so openness is paired with clear terms. Two concerns: (1) **Copyright communication** — establish multi-layered messaging (legal pages, JSON endpoints, HTTP headers, `llms.txt` copyright section) that signals SRF retains all rights while welcoming citation, reference, and AI training. Treat "freely available" as a theological stance, not legal status. The library model: freely accessible for reading, reference, and citation while remaining under copyright. (2) **Legal liability audit** — 12 categories of risk identified: copyright authorization, content licensing, accessibility compliance, crisis resource liability, AI system transparency, volunteer agreements, international data handling, terms of service, and more. Pre-implementation legal review recommended for categories 1–4 (copyright, licensing, accessibility, crisis). Remaining categories can be addressed incrementally. Principle-check: the portal's generous accessibility posture aligns with SRF's mission of making teachings available worldwide — copyright retention and open access are not contradictory. Validated 2026-02-25: architectural review confirms alignment with ADR-081 full crawlability, Global-First (PRI-05), and accessibility (PRI-07). The No Content Gating policy (ADR-081 §3a) establishes that content gating is architecturally prohibited, making the copyright communication layer the correct mechanism for rights assertion — not technology walls.
 **Re-evaluate At:** Milestone 1c (before public deployment)
 **Decision Required From:** SRF legal counsel + architecture
 **Source Explorations:** `clarify-copyright-stance-srf-makes-it-feel-available-to-all.md`, `what-are-the-legal-liabilities-if-any.md`
@@ -2297,6 +2298,344 @@ A **Platform Operations** page (within yogananda-platform or as an admin route) 
 **Component:** `app/components/PartingWord.tsx` (implemented, removed from chapter page, retained for future use).
 
 **Re-activate When:** The reading journey has a natural multi-chapter flow where a contemplative pause between chapters serves the reader's rhythm — e.g., after implementing chapter-to-chapter navigation or a "reading session" concept.
+
+---
+
+### PRO-050: Unified Identifier System — FTR Replaces ADR + DES + PRO
+
+**Status:** Proposed
+**Type:** Governance (Documentation Architecture)
+**Governing Refs:** ADR-098 (Documentation Architecture), PRI-12 (AI-Native Development), PRI-08 (Calm Technology)
+**Origin:** Principal-directed design exploration 2026-03-05
+**Decision required from:** Human principal (governance change to institutional memory)
+
+#### Problem Statement
+
+The project uses three identifier types — ADR (Architecture Decision Records), DES (Design Sections), and PRO (Proposals) — inherited from a conventional multi-role team model where architects decide, designers specify, and developers implement. PRI-12 collapsed these roles: the AI is architect, designer, implementer, and operator. The human principal directs strategy, stakeholder decisions, and editorial judgment.
+
+The three-type system creates measurable friction:
+
+1. **Dual-homing.** Some ADRs have content in both DECISIONS-*.md body files AND design/ specification files (e.g., ADR-048 lives in DECISIONS-core.md AND design/search/ADR-048-chunking-strategy-specification.md). CLAUDE.md explicitly mandates "titles must match between locations" — synchronization debt by design.
+
+2. **Cross-referencing overhead.** A single concept like chunking spans ADR-048 (decision) + DES-004 (data model it shapes) + comments in code. PRO entries reference governing ADRs and DES sections. The graph is many-to-many.
+
+3. **Cognitive load.** CLAUDE.md devotes ~150 lines to explaining three identifier systems, dual-homing rules, body file routing, and PRO graduation protocol. This is institutional overhead, not institutional memory.
+
+4. **File sprawl.** 4 DECISIONS files (index + 3 body) + DESIGN.md (index + cross-cutting sections) + PROPOSALS.md + 33 design files + bodies spread across body files = documentation architecture that requires a map to navigate.
+
+5. **Role-document mismatch.** The human principal thinks in features and status: "What are we building? Why? What's the status?" They don't think in document types. The AI holds all roles simultaneously — it doesn't need role-specific containers.
+
+**Current scale:** 127 unique ADR identifiers (ADR-001 through ADR-132, with gaps), 56 unique DES identifiers (DES-001 through DES-063, with gaps), 49 unique PRO identifiers (PRO-001 through PRO-049) = **232 total identifiers across 3 namespaces.** 87 markdown files + 73 code files in yogananda-teachings, plus 11 in yogananda-platform, 4 in yogananda-design, 9 in yogananda-skills.
+
+#### 1. Unified Identifier: FTR-NNN
+
+Replace ADR, DES, and PRO with a single identifier type: **FTR** (Feature).
+
+**Why FTR:**
+- Unambiguous in grep (zero false positives for `FTR-\d{3}`)
+- Maps to the natural conversational word "feature" — the human says "what's the chunking feature?" not "what's the chunking decision record?"
+- Inclusive scope: a "feature" is a feature of the architecture — capabilities, conventions, constraints, and policies all qualify
+- 3 characters, matching PRI (visual parity between the two identifier types)
+- Phonetically functional: "FTR-forty-eight" or simply "feature forty-eight"
+
+**What survives unchanged:** PRI-NN (Principles, 01–12). Principles are immutable commitments, not features. They stay in PRINCIPLES.md.
+
+**AI readability analysis — FTR vs ADR.** ADR is an industry-standard pattern present in AI training data (Martin Fowler, adr-tools, engineering blogs). An AI seeing "ADR" activates a pre-trained mental model: immutable decision record, alternatives considered, "superseded by" chains. This is real semantic freight the identifier carries without project documentation. However, this project's ADRs diverge significantly from the industry pattern — they're mutable (no supersession chains), carry maturity markers, split across three body files, and dual-home with design files. An AI bringing standard ADR expectations is partially *misled* and must override pre-trained conventions with CLAUDE.md's definitions. The pre-trained model creates friction as often as it helps.
+
+FTR has zero pre-trained association. An AI seeing FTR-048 without CLAUDE.md would have nothing to work with. But CLAUDE.md is always loaded (system prompt), and the AI already successfully works with DES and PRO — two identifiers that are entirely project-specific with zero pre-trained association. Two of the three current identifiers are already learned from scratch each session.
+
+The semantic freight doesn't disappear — it moves from the identifier prefix to the section headers. `ADR-048` encoded "this is a decision" in the prefix; `FTR-048 → ## Rationale` encodes the same meaning in a section header that every AI understands deeply. The type information becomes more explicit and more granular. Net: one clearly-defined identifier with self-describing sections, learned from a ~10-line CLAUDE.md definition, replacing three identifiers (one with misleading pre-trained associations, two with none) requiring ~150 lines of conventions. The AI reader is equally effective on individual FTRs and more effective on the system as a whole.
+
+#### 2. FTR Lifecycle States
+
+```
+proposed ──→ approved ──→ implemented
+    │            │
+    ├──→ declined │
+    │            │
+    └──→ deferred ←┘
+            │
+            └──→ proposed  (reactivated)
+```
+
+Five states:
+- **Proposed** — Idea documented, not yet committed to. (Absorbs PRO "Proposed"/"Validated" states)
+- **Approved** — Committed to as architectural direction. (Absorbs ADR "Accepted" status)
+- **Implemented** — Validated through code. (Absorbs ADR "Implemented" and DES "Status: Implemented")
+- **Deferred** — Architecturally sound but not scheduled. (Absorbs PRO "Suspended"/"Deferred" and ADR "Provisional")
+- **Declined** — Evaluated and rejected. (New — currently no explicit "rejected" state; decisions just don't get ADRs)
+
+**Maturity markers (optional, from ADR-098):**
+- `Approved (Foundational)` — Defines project identity, change requires full deliberation
+- `Approved` — Standard active direction
+- `Deferred (Arc N+)` — Thorough direction for future arcs
+
+#### 3. FTR File Anatomy
+
+```markdown
+# FTR-NNN: Title
+
+**State:** Approved
+**Domain:** search | experience | editorial | foundation | operations
+**Arc:** 1a
+**Governs:** FTR-XXX, FTR-YYY (optional — for hub features)
+**Governed by:** PRI-NN, FTR-ZZZ (optional)
+
+## Rationale                           <- absorbs the ADR function
+[Why this direction was chosen. Alternatives considered. Tradeoffs.]
+
+## Specification                       <- absorbs the DES function
+[How to build it. Data models, API shapes, algorithms, parameters.]
+
+## Notes                               <- absorbs the PRO history function
+[Origin, evolution, related explorations. Lightweight.]
+```
+
+**Section rules:**
+- **Rationale** is always present (every feature has a "why")
+- **Specification** is present when the feature has implementation detail
+- **Notes** is optional — for provenance and evolution context
+- A proposed FTR may have only Rationale. An implemented FTR has all sections.
+- Cross-cutting conventions (like API pagination) may have only Rationale — the convention IS the specification.
+- The file grows as the feature progresses through its lifecycle.
+
+#### 4. File Structure
+
+```
+features/                              <- replaces design/ + DECISIONS body files + PROPOSALS.md bodies
+├── FEATURES.md                        <- single index (replaces DECISIONS.md + DESIGN.md nav + PROPOSALS.md index)
+├── foundation/                        <- cross-cutting constraints, infrastructure, conventions
+│   ├── FTR-001-direct-quotes-only.md
+│   ├── FTR-002-design-philosophy.md
+│   └── ...
+├── search/                            <- search, data model, ingestion, AI pipeline
+│   ├── FTR-020-hybrid-search.md
+│   ├── FTR-021-data-model.md
+│   └── ...
+├── experience/                        <- frontend, UX, pages, accessibility, i18n
+│   ├── FTR-040-frontend-design.md
+│   ├── FTR-041-accessibility.md
+│   └── ...
+├── editorial/                         <- staff tools, content intelligence, curation
+│   ├── FTR-060-editorial-system.md
+│   └── ...
+└── operations/                        <- CI/CD, observability, testing, governance
+    ├── FTR-080-testing-strategy.md
+    └── ...
+```
+
+**Domain numbering ranges (guideline, not enforced):**
+- foundation: FTR-001–019
+- search: FTR-020–039
+- experience: FTR-040–059
+- editorial: FTR-060–079
+- operations: FTR-080–099
+- overflow/new: FTR-100+
+
+This is a **starting allocation**, not a hard partition. New features append after the current max within their domain range. If a range fills, overflow into FTR-100+.
+
+#### 5. FEATURES.md Index
+
+Single table, replaces three separate indexes:
+
+```markdown
+# SRF Online Teachings Portal — Features
+
+| FTR | Title | Domain | State | Arc | Notes |
+|-----|-------|--------|-------|-----|-------|
+| 001 | Direct Quotes Only | foundation | Approved (Foundational) | — | PRI-01 |
+| 002 | Design Philosophy | foundation | Approved | — | |
+| 020 | Hybrid Search | search | Implemented | 1a | |
+| 040 | Frontend Design | experience | Approved | 2a | |
+| 090 | SRF Corpus MCP | operations | Deferred (Arc 3+) | — | ex-PRO-001 |
+```
+
+**Always-load features** (the cross-cutting sections currently always-loaded from DESIGN.md) are marked in the index. The implementing session determines which ~10-12 features carry this marker.
+
+#### 6. Documents Replaced
+
+| Current Document | Disposition |
+|-----------------|-------------|
+| DECISIONS.md | **Deleted.** Replaced by FEATURES.md index. |
+| DECISIONS-core.md | **Deleted.** ADR bodies migrate into individual FTR files. |
+| DECISIONS-experience.md | **Deleted.** ADR bodies migrate into individual FTR files. |
+| DECISIONS-operations.md | **Deleted.** ADR bodies migrate into individual FTR files. |
+| DESIGN.md | **Deleted.** Cross-cutting sections become FTR files in features/foundation/. Nav table replaced by FEATURES.md. |
+| PROPOSALS.md | **Deleted.** PRO bodies migrate into individual FTR files (state: proposed/deferred/declined). |
+| design/ directory | **Deleted.** All 33 files migrate into features/{domain}/ with new FTR filenames. |
+
+**Documents preserved unchanged:**
+- PRINCIPLES.md (PRI identifiers unchanged)
+- CONTEXT.md (cross-references updated)
+- ROADMAP.md (cross-references updated)
+- CLAUDE.md (simplified — see § 8)
+- README.md (cross-references updated)
+
+#### 7. Numbering: Clean Start
+
+New FTR numbers are assigned from 001. No attempt to preserve old ADR/DES/PRO numbers.
+
+**Rationale:** The old numbers carry implicit associations with document types (ADR-048 "feels like" a decision). Clean numbering breaks that association and establishes FTR as the singular identity. The migration mapping (old → new) is recorded once in the migration commit message and in a `features/MIGRATION.md` reference file, then never consulted again.
+
+**Assignment strategy:**
+1. The implementing session creates a complete mapping table: every old identifier → its new FTR number
+2. Numbers are assigned by domain, using the ranges in § 4 as starting allocation
+3. Within each domain, features are ordered roughly by importance/chronology
+4. Subsection identifiers (e.g., DES-007 through DES-016 within DES-006) become subsections within their parent FTR — they do NOT get their own FTR numbers
+5. The mapping table is reviewed by the human principal before execution
+
+#### 8. CLAUDE.md Simplification
+
+The ~150 lines of identifier conventions in CLAUDE.md § Identifier Conventions collapse to approximately:
+
+```markdown
+## Identifiers
+
+**PRI-NN** — Principles (01–12). Immutable commitments. PRINCIPLES.md.
+
+**FTR-NNN** — Features. One file per concept in `features/{domain}/`.
+Five states: proposed → approved → implemented | deferred | declined.
+Each FTR contains Rationale (why), Specification (how), and Notes (history)
+as needed. FEATURES.md is the single index.
+File naming: `FTR-NNN-{slug}.md`. Cross-reference by bare identifier: "See FTR-048."
+Domain directories: foundation/, search/, experience/, editorial/, operations/.
+```
+
+The Document Maintenance table in CLAUDE.md is also simplified — rows about DECISIONS/DESIGN/PROPOSALS body files, dual-homing, and PRO graduation collapse into "Update the FTR file" and "Update FEATURES.md index."
+
+#### 9. Merge Rules
+
+When an old ADR and an old DES cover the same concept, they merge into one FTR:
+
+| Pattern | Example | Result |
+|---------|---------|--------|
+| ADR has a dual-homed design file | ADR-048 + design/search/ADR-048-*.md | 1 FTR with Rationale + Specification |
+| ADR governs a DES on the same concept | ADR-044 (hybrid search decision) + DES-003 (search architecture) | Analyze overlap. If >70% shared concept: merge. If distinct: 2 FTRs. |
+| PRO adopted → became ADR | PRO-014 → ADR-001 updates | 1 FTR. PRO history in Notes section. |
+| PRO not adopted (proposed/deferred) | PRO-018 (Four Doors) | 1 FTR with state: proposed. |
+| ADR suspended → became PRO | ADR-096 → PRO-027 | 1 FTR with state: deferred. |
+| DES subsection inside parent DES | DES-007–016 inside DES-006 | Subsections within parent FTR. No standalone numbers. |
+| Cross-cutting section in DESIGN.md | DES-001, DES-019, DES-024, etc. | Individual FTR files in features/foundation/. |
+
+**Judgment calls:** The implementing session will encounter ambiguous cases. The principle: **one concept, one FTR.** If two old identifiers are about the same architectural concept (even if one captures "why" and the other "how"), they merge. If they're genuinely different concepts that happen to be related, they stay separate and cross-reference.
+
+#### 10. Code Comment Updates
+
+73 code files reference ADR/DES/PRO identifiers, primarily in comments like:
+```typescript
+// ADR-001: Direct quotes only — no AI synthesis
+// DES-003: Search architecture
+// See PRO-012 for copyright framework
+```
+
+These are updated mechanically using the mapping table. A sed/awk script processes the mapping. The implementing session generates the script from the mapping table and applies it in a single commit.
+
+#### 11. Sibling Repository Updates
+
+Four repositories reference teachings portal identifiers:
+
+| Repository | Files | Update Strategy |
+|------------|-------|-----------------|
+| yogananda-teachings | 87 markdown + 73 code = 160 files | Primary migration (this proposal) |
+| yogananda-platform | 11 files | Update cross-references using mapping table |
+| yogananda-design | 4 files | Update cross-references using mapping table |
+| yogananda-skills | 9 files | Update skills that reference ADR/DES/PRO identifiers + update skill workflows for FTR |
+
+**Skills impact:**
+- `proposal-merge` — Graduates PRO → ADR/DES. Replaced by simpler FTR state transitions.
+- `dedup-proposals` — Consolidates explorations into PROs. Adapted to consolidate into FTR (state: proposed).
+- `theme-integrate` — Creates ADR/DES entries. Adapted to create FTR entries.
+- `garden` — Audits identifier systems. Simplified for single-namespace FTR.
+- `coherence` — Cross-document consistency. Simplified for single-index FEATURES.md.
+- `verify` — Post-implementation check against DES. Adapted for FTR Specification section.
+
+#### 12. Migration Execution Plan
+
+The migration is a **documentation refactor**, not a code refactor. No runtime behavior changes. The implementing session follows these phases:
+
+**Phase 1: Mapping (read-only)**
+1. Read all 127 ADR bodies from DECISIONS-core/experience/operations.md
+2. Read all 56 DES sections from design/ files and DESIGN.md
+3. Read all 49 PRO bodies from PROPOSALS.md
+4. Identify merge candidates (dual-homed ADR+DES, ADR→PRO suspensions, PRO→ADR adoptions)
+5. Assign FTR numbers using domain ranges
+6. Produce the complete mapping table: `{old_id} → {FTR-NNN, domain, state, merge_notes}`
+7. Present mapping table to human principal for review
+
+**Phase 2: File Creation (write)**
+1. Create `features/` directory structure (5 domain subdirectories)
+2. For each FTR: create the file by merging content from its source identifiers
+   - Rationale section: from ADR body (alternatives, tradeoffs, context)
+   - Specification section: from DES body (data models, algorithms, parameters)
+   - Notes section: from PRO body (origin, evolution) if applicable
+   - State: derived from current ADR/DES/PRO status
+3. Create FEATURES.md index table
+4. Create features/MIGRATION.md (mapping table for historical reference)
+
+**Phase 3: Cross-Reference Update (write)**
+1. Generate sed mapping: `s/ADR-048/FTR-023/g` (etc.) for all 232 old identifiers
+2. Apply to all markdown files in yogananda-teachings
+3. Apply to all code comments in yogananda-teachings
+4. Apply to CLAUDE.md (+ manual rewrite of § Identifier Conventions, § Document Maintenance)
+5. Apply to CONTEXT.md, ROADMAP.md, README.md, PRINCIPLES.md
+6. Apply to yogananda-platform (11 files)
+7. Apply to yogananda-design (4 files)
+8. Apply to yogananda-skills (9 files + skill rewrite for proposal-merge, dedup-proposals, theme-integrate)
+
+**Phase 4: Cleanup (delete)**
+1. Delete DECISIONS.md, DECISIONS-core.md, DECISIONS-experience.md, DECISIONS-operations.md
+2. Delete DESIGN.md (after extracting cross-cutting sections to FTR files)
+3. Delete PROPOSALS.md
+4. Delete design/ directory (all 33 files migrated to features/)
+5. Update .claude/skills/ to reference FTR system
+
+**Phase 5: Verification**
+1. Grep for any remaining ADR-/DES-/PRO- references (should be zero outside MIGRATION.md)
+2. Verify FEATURES.md index matches actual files in features/
+3. Verify all FTR files have required fields (Title, State, Domain)
+4. Run existing CI to ensure no code breakage
+5. Run coherence skill to verify cross-document integrity
+
+#### 13. Commit Strategy
+
+The migration should be a **single atomic commit** in the teachings repo, with coordinated commits in sibling repos:
+
+1. `yogananda-teachings`: "Unify ADR/DES/PRO into FTR identifier system (PRO-050)"
+2. `yogananda-platform`: "Update cross-references for FTR identifier migration"
+3. `yogananda-design`: "Update cross-references for FTR identifier migration"
+4. `yogananda-skills`: "Adapt skills for FTR identifier system"
+
+#### 14. Risk Assessment
+
+| Risk | Mitigation |
+|------|-----------|
+| Stale references missed | Phase 5 grep verification catches stragglers |
+| Mapping errors (wrong FTR number) | Phase 1 human review of mapping table before execution |
+| Lost content during merge | Every FTR file must account for ALL content from its source identifiers |
+| Sibling repo desync | Coordinated commits, same mapping table |
+| Context window pressure | Phase 2 may require multiple sessions; mapping table is the coordination artifact |
+| Skill breakage | Skills updated in Phase 3; tested in Phase 5 |
+
+#### 15. What This Enables
+
+1. **Feature-level conversation.** "What's the status of FTR-023?" returns one file with everything — rationale, specification, state. No assembly required.
+
+2. **State-driven views.** `grep "State: Proposed" features/` shows all proposed features. `grep "State: Implemented" features/search/` shows implemented search features. The index in FEATURES.md is the canonical view, but the files are self-describing.
+
+3. **Simpler skills.** proposal-merge becomes "change FTR state from proposed to approved." theme-integrate creates one FTR file, not three artifacts. garden audits one namespace.
+
+4. **Git-native lifecycle.** Each FTR file's git history IS the feature's history. No need for separate "Notes" about when things changed — `git log features/search/FTR-023-chunking.md` shows the full evolution.
+
+5. **Calm documentation.** Two identifier types (PRI, FTR) instead of four (PRI, ADR, DES, PRO). The documentation system becomes as calm as the technology it describes.
+
+#### Implementation Scope
+
+- **Estimated FTR count:** 130–170 (after merges, before new features)
+- **Files modified:** ~160 in teachings, ~24 across sibling repos
+- **Files created:** ~140 FTR files + FEATURES.md + MIGRATION.md
+- **Files deleted:** ~40 (DECISIONS*, DESIGN.md, PROPOSALS.md, design/ directory)
+- **Sessions required:** 2–3 (mapping + creation, cross-references + cleanup, sibling repos + skills)
+- **Code behavior change:** None. Documentation-only refactor.
 
 ---
 

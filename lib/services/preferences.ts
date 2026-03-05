@@ -25,8 +25,8 @@ export interface ReaderPreferences {
   "font-size": FontSize;
   /** Preferred reading language (locale code, e.g. 'en', 'es'). */
   "reading-language": string;
-  /** Focus reading mode: suppresses chrome, keeps reading column + Next Chapter only. */
-  "focus-mode": boolean;
+  /** Immerse reading mode: hides chrome, scales text to viewport (DES-063 §2). */
+  "immerse-mode": boolean;
   /** Color theme: auto follows system prefers-color-scheme. */
   "color-theme": ColorTheme;
   /** Line spacing preference for reading content. */
@@ -46,7 +46,7 @@ const DEFAULTS: Readonly<ReaderPreferences> = {
   "text-only-mode": false,
   "font-size": "default",
   "reading-language": "en",
-  "focus-mode": false,
+  "immerse-mode": false,
   "color-theme": "auto",
   "line-spacing": "default",
 };
@@ -106,10 +106,24 @@ function isValidLanguage(value: unknown): value is string {
 }
 
 /**
+ * Migrates legacy preference keys to their current names.
+ * Called before sanitize to ensure old keys map to new ones.
+ */
+function migrateKeys(raw: Record<string, unknown>): Record<string, unknown> {
+  // focus-mode → immerse-mode (DES-063)
+  if ("focus-mode" in raw && !("immerse-mode" in raw)) {
+    raw["immerse-mode"] = raw["focus-mode"];
+    delete raw["focus-mode"];
+  }
+  return raw;
+}
+
+/**
  * Validates and sanitizes a raw parsed object into safe ReaderPreferences.
  * Unknown keys are dropped. Invalid values revert to defaults.
  */
 function sanitize(raw: Record<string, unknown>): ReaderPreferences {
+  raw = migrateKeys(raw);
   return {
     "text-only-mode":
       typeof raw["text-only-mode"] === "boolean"
@@ -121,10 +135,10 @@ function sanitize(raw: Record<string, unknown>): ReaderPreferences {
     "reading-language": isValidLanguage(raw["reading-language"])
       ? raw["reading-language"]
       : DEFAULTS["reading-language"],
-    "focus-mode":
-      typeof raw["focus-mode"] === "boolean"
-        ? raw["focus-mode"]
-        : DEFAULTS["focus-mode"],
+    "immerse-mode":
+      typeof raw["immerse-mode"] === "boolean"
+        ? raw["immerse-mode"]
+        : DEFAULTS["immerse-mode"],
     "color-theme": isValidColorTheme(raw["color-theme"])
       ? raw["color-theme"]
       : DEFAULTS["color-theme"],

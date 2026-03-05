@@ -61,6 +61,7 @@ export function ChapterBookmark({
     <button
       type="button"
       className="chapter-bookmark-btn"
+      data-no-print
       aria-pressed={saved}
       aria-label={saved ? "Remove bookmark" : "Bookmark this chapter"}
       title={saved ? "Remove bookmark" : "Bookmark this chapter"}

@@ -29,7 +29,7 @@ type SRFTheme = "light" | "sepia" | "earth" | "dark" | "meditate" | "gathering";
 type YSSTheme = "ashram" | "sandstone" | "earth" | "night" | "devotion";
 type ThemeName = SRFTheme | YSSTheme;
 
-type ReaderMode = "normal" | "focus" | "present" | "quiet" | "dwell";
+type ReaderMode = "normal" | "immerse" | "quiet";
 
 interface DesignState {
   org: Org;

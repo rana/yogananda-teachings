@@ -52,15 +52,18 @@ function savePrefs(fontSize: FontSize, lineSpacing: LineSpacing) {
 }
 
 function applyToDOM(fontSize: FontSize, lineSpacing: LineSpacing) {
-  const html = document.documentElement;
+  // Scope to .chapter-body only — reader preferences affect only the
+  // reading surface, not search results, homepage, or theme pages (DES-063 §6).
+  const target = document.querySelector<HTMLElement>(".chapter-body");
+  if (!target) return;
   // Font size
-  html.classList.remove("font-large", "font-larger");
-  if (fontSize === "large") html.classList.add("font-large");
-  if (fontSize === "larger") html.classList.add("font-larger");
+  target.classList.remove("font-large", "font-larger");
+  if (fontSize === "large") target.classList.add("font-large");
+  if (fontSize === "larger") target.classList.add("font-larger");
   // Line spacing
-  html.classList.remove("line-relaxed", "line-spacious");
-  if (lineSpacing === "relaxed") html.classList.add("line-relaxed");
-  if (lineSpacing === "spacious") html.classList.add("line-spacious");
+  target.classList.remove("line-relaxed", "line-spacious");
+  if (lineSpacing === "relaxed") target.classList.add("line-relaxed");
+  if (lineSpacing === "spacious") target.classList.add("line-spacious");
 }
 
 export function ReaderPreferences() {

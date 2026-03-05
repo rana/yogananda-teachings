@@ -184,6 +184,10 @@ a:hover {
    The design system handles register typography, spacing, and color.
    These are structural — positioning and layout only. */
 
+.chapter-progress a:hover {
+  opacity: 0.85 !important;
+}
+
 .chapter-header {
   text-align: center;
   padding-block: var(--space-spacious) var(--space-generous);
@@ -245,17 +249,28 @@ a:hover {
   margin-block-start: var(--space-default);
 }
 
+/* Paragraph hover — subtle left bar appears on mouseover.
+   Rounded corners echo the passage-arrive highlight language.
+   Calm technology: no motion, just quiet presence. */
+.chapter-body [data-paragraph]:hover {
+  box-shadow: inset 3px 0 0 color-mix(in oklch, var(--color-gold) 25%, transparent);
+  border-radius: 3px;
+}
+
 /* Golden thread — left accent bar hidden by default.
    Only appears when a paragraph has the reader's focus (dwell or
    keyboard navigation). The bar signals "this paragraph has
    connections" — a discovery, not persistent decoration. */
 .golden-thread-passage {
   box-shadow: none;
+  padding-inline-start: 0;
 }
-.golden-thread-passage[data-dwell-target],
+.golden-thread-passage[data-zoom-target],
 .golden-thread-passage[data-thread-active],
 .golden-thread-passage.kb-focus {
   box-shadow: inset 3px 0 0 color-mix(in srgb, var(--color-gold) 55%, transparent);
+  padding-inline-start: 1rem;
+  margin-inline-start: -1rem;
 }
 
 /* Thread indicator — "Related teachings" button injected by ReadingImmersion
@@ -418,20 +433,9 @@ a:hover {
   font-size: 0.75rem;
 }
 
-/* Print citation — visible only in print */
+/* Print citation — visible only in print (see consolidated @media print below) */
 .print-citation {
   display: none;
-}
-
-@media print {
-  .print-citation {
-    display: block;
-    margin-block-start: 2rem;
-    padding-block-start: 1rem;
-    border-block-start: 1px solid #999;
-    font-size: 0.75rem;
-    color: #666;
-  }
 }
 
 /* ── Page Components ─────────────────────────────────────────── */
@@ -1457,15 +1461,43 @@ a:hover {
   opacity: 0.6;
 }
 
-/* Hide thread panel in focus/present/quiet modes */
-[data-mode="focus"] .thread-panel,
-[data-mode="present"] .thread-panel,
+/* ── Immerse Mode — DES-063 §2.1 ─────────────────────────────── */
+/* Chrome disappears, text scales to viewport.
+   Temporary: these rules live here until design system v1.2.0
+   is tagged and installed (they exist in reading-surface.css). */
+
+[data-mode="immerse"] {
+  background: var(--color-bg) !important;
+}
+
+[data-mode="immerse"] header,
+[data-mode="immerse"] footer,
+[data-mode="immerse"] nav:not(.chapter-nav),
+[data-mode="immerse"] [data-no-immerse] {
+  display: none !important;
+}
+
+[data-mode="immerse"] article {
+  box-sizing: border-box;
+  font-size: clamp(1.125rem, 2vw + 0.5rem, 2.25rem);
+  line-height: 1.9;
+  max-inline-size: min(50ch, 100vw);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 5vw, 4rem);
+}
+
+@media (min-width: 1024px) {
+  [data-mode="immerse"] article {
+    line-height: 2.0;
+  }
+}
+
+/* Hide thread panel in immerse/quiet modes */
+[data-mode="immerse"] .thread-panel,
 [data-mode="quiet"] .thread-panel,
-[data-mode="focus"] .thread-sheet,
-[data-mode="present"] .thread-sheet,
+[data-mode="immerse"] .thread-sheet,
 [data-mode="quiet"] .thread-sheet,
-[data-mode="focus"] .thread-backdrop,
-[data-mode="present"] .thread-backdrop,
+[data-mode="immerse"] .thread-backdrop,
 [data-mode="quiet"] .thread-backdrop {
   display: none !important;
 }
@@ -1481,7 +1513,7 @@ a:hover {
 
 
 /* ── Reading Modes ──────────────────────────────────────────── */
-/* Focus and present mode controls. Fixed bottom-right so they
+/* Reader toolbar controls. Fixed bottom-right so they
    remain visible when modes hide header/footer. Functional register.
    Calm technology: no decorative animation. Fade in on hover. */
 
@@ -1600,9 +1632,8 @@ a:hover {
   }
 }
 
-/* Hide in focus/present/quiet modes and print */
-[data-mode="focus"] .chapter-bookmark-btn,
-[data-mode="present"] .chapter-bookmark-btn,
+/* Hide in immerse/quiet modes and print */
+[data-mode="immerse"] .chapter-bookmark-btn,
 [data-mode="quiet"] .chapter-bookmark-btn {
   display: none;
 }
@@ -1794,5 +1825,257 @@ a:hover {
   [data-paragraph]:target {
     animation: none;
     box-shadow: inset 3px 0 0 var(--color-gold);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   Print — The Teachings on Paper
+   ══════════════════════════════════════════════════════════════════
+   A printed chapter should feel like an excerpt from a well-made
+   book, not a web page captured on paper. Justified text, indented
+   continuation paragraphs, proper orphan/widow control, centered
+   title treatment, and full provenance (PRI-02).
+
+   The design system's print.css handles base chrome removal,
+   page layout, link treatment, and figure handling. This section
+   adds the book-quality typographic treatment.
+   ══════════════════════════════════════════════════════════════════ */
+
+@media print {
+
+  /* ── Chapter title page treatment ──────────────────────────── */
+
+  .chapter-header {
+    display: block !important;  /* Override design system header{display:none} */
+    text-align: center;
+    padding-block: 0 1em;
+    margin-inline: 0;
+    break-after: avoid;
+  }
+
+  .chapter-breadcrumb {
+    display: none;
+  }
+
+  .chapter-label {
+    font-size: 10pt;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #666;
+    display: block;
+    margin-block-end: 0.3em;
+  }
+
+  .chapter-title {
+    font-size: 18pt;
+    line-height: 1.3;
+    margin-block: 0.3em;
+    font-family: "Merriweather", Georgia, serif;
+    color: black !important;
+  }
+
+  .attribution {
+    font-size: 10pt;
+    color: #666;
+    font-style: italic;
+  }
+
+  /* ── Body typography — book-quality ────────────────────────── */
+
+  .chapter-body p {
+    orphans: 3;
+    widows: 3;
+    font-size: 11pt;
+    line-height: 1.65;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .chapter-body p + p {
+    text-indent: 1.5em;
+    margin-block-start: 0;
+  }
+
+  /* Drop cap: explicit print sizing */
+  .drop-cap-letter {
+    font-size: 3.2em;
+    line-height: 0.8;
+    float: inline-start;
+    margin-inline-end: 0.08em;
+    color: black !important;
+  }
+
+  /* ── Content type treatments ───────────────────────────────── */
+
+  .reader-verse {
+    margin-inline: 1.5em !important;
+    padding-inline: 0 !important;
+    font-size: 10pt !important;
+    line-height: 1.6 !important;
+    white-space: pre-wrap;
+    break-inside: avoid;
+  }
+
+  .reader-epigraph {
+    margin-inline: 1.5em 1em;
+    font-size: 10.5pt;
+    font-style: italic;
+    border-inline-start: 1.5pt solid #ccc;
+    padding-inline-start: 1em;
+    break-inside: avoid;
+  }
+
+  /* Dialogue: same alignment as prose — no extra indent */
+  .reader-dialogue {
+    margin-inline-start: 0;
+  }
+
+  /* ── Scene breaks ──────────────────────────────────────────── */
+
+  .reader-scene-break {
+    border: none;
+    text-align: center;
+    overflow: visible;
+    height: auto;
+    margin-block: 1.5em;
+    break-after: avoid;
+  }
+
+  .reader-scene-break::before {
+    content: "\B7\A0\A0\B7\A0\A0\B7";
+    color: #999;
+    font-size: 10pt;
+    letter-spacing: 0.3em;
+  }
+
+  /* ── Footnotes ─────────────────────────────────────────────── */
+
+  .footnote-list {
+    break-before: avoid;
+    margin-block-start: 2em;
+    padding-block-start: 1em;
+    border-block-start: 0.5pt solid #ccc;
+  }
+
+  .footnote-list h2 {
+    font-size: 10pt;
+    font-weight: normal;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #666;
+    margin-block-end: 0.5em;
+  }
+
+  .footnote-item {
+    font-size: 9pt;
+    line-height: 1.5;
+    break-inside: avoid;
+    color: #333;
+  }
+
+  .footnote-marker {
+    font-weight: normal;
+    color: #333;
+  }
+
+  .footnote-backlink {
+    display: none; /* back-links meaningless on paper */
+  }
+
+  .footnote-ref a {
+    color: black !important;
+    text-decoration: none !important;
+  }
+
+  /* Footnote numbers from extraction arrive as <strong> — normalize for print */
+  .footnote-list strong,
+  .footnote-item strong,
+  .chapter-body strong {
+    font-weight: normal;
+  }
+
+  /* ── Print citation — hidden (browser header provides provenance) */
+
+  .print-citation {
+    display: none !important;
+  }
+
+  /* ── Hide all interactive chrome ───────────────────────────── */
+
+  /* Nuclear approach: Chrome ignores `display:none !important` on elements
+     with inline `position:fixed` styles (React components). Layer defenses:
+     1. Zero dimensions + clip to collapse
+     2. Static position to break out of fixed layer
+     3. Visibility hidden as final guard */
+
+  .chapter-progress,
+  .reading-modes,
+  .chapter-bookmark-btn,
+  .reader-prefs-panel,
+  .reader-prefs-trigger,
+  .theme-switcher,
+  .theme-switcher-trigger,
+  .thread-indicator,
+  .thread-panel,
+  .thread-sheet,
+  .thread-backdrop,
+  .chapter-nav,
+  .app-header,
+  .app-footer,
+  .motif,
+  [data-no-print] {
+    display: none !important;
+    position: static !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    opacity: 0 !important;
+  }
+
+  /* Catch any remaining fixed/sticky elements by inline style */
+  [style*="position: fixed"],
+  [style*="position:fixed"],
+  [style*="position: sticky"],
+  [style*="position:sticky"] {
+    display: none !important;
+    position: static !important;
+    width: 0 !important;
+    height: 0 !important;
+    clip: rect(0, 0, 0, 0) !important;
+    clip-path: inset(50%) !important;
+    opacity: 0 !important;
+  }
+
+  /* Remove hover/focus effects */
+  .chapter-body [data-paragraph]:hover {
+    box-shadow: none !important;
+  }
+
+  .golden-thread-passage {
+    box-shadow: none !important;
+  }
+
+  /* ── Layout cleanup — page margins handle spacing ─────────── */
+
+  .center {
+    max-inline-size: 100% !important;
+    padding-inline: 0 !important;
+  }
+
+  article {
+    max-inline-size: 42em !important;
+    margin-inline: auto !important;
+  }
+
+  /* ── Page control ──────────────────────────────────────────── */
+
+  @page {
+    margin: 2cm 2.5cm;
   }
 }

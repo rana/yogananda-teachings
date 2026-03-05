@@ -6,9 +6,9 @@
  *
  * Phase 1: Server-rendered chapter with sacred register, attribution,
  *          publication voice, golden thread, motifs, chapter nav.
- * Phase 2: Client islands for immersion — scroll indicator, keyboard
- *          paragraph nav (j/k), dwell contemplation, reading modes
- *          (focus/present). All CSS from reading-surface.css.
+ * Phase 2: Client islands — scroll progress, keyboard paragraph nav
+ *          (j/k), zoom paragraph, immerse mode, reader toolbar.
+ *          All CSS from reading-surface.css.
  *
  * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
  * Source pattern: patterns/reading-surface.pattern.json
@@ -21,7 +21,7 @@ import { getEquivalentBook, resolveChapterContent } from "@/lib/services/books";
 import { getChapterRelations } from "@/lib/services/relations";
 import { ChapterReader } from "@/app/components/reading/ChapterReader";
 import { ReadingImmersion } from "@/app/components/design/ReadingImmersion";
-import { ReadingModes } from "@/app/components/design/ReadingModes";
+import { ReaderToolbar } from "@/app/components/design/ReaderToolbar";
 import { ReadingTracker } from "@/app/components/design/ReadingTracker";
 import { ChapterBookmark } from "@/app/components/design/ChapterBookmark";
 import { GoldenThread } from "@/app/components/design/GoldenThread";
@@ -203,6 +203,8 @@ export default async function ChapterPage({
         chapterTitle={content.chapter.title}
         bookSlug={bookSlug}
         locale={locale}
+        prevChapter={content.prevChapter?.chapterNumber ?? null}
+        nextChapter={content.nextChapter?.chapterNumber ?? null}
       />
 
       <ChapterReader
@@ -222,7 +224,7 @@ export default async function ChapterPage({
         chapterTitle={content.chapter.title}
       />
       <ReadingImmersion />
-      <ReadingModes />
+      <ReaderToolbar />
       <ChapterBookmark
         bookId={content.book.id}
         bookSlug={bookSlug}

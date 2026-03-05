@@ -150,6 +150,18 @@ export function ChapterReader({
         <FootnoteList footnotes={footnotes} />
       )}
 
+      {/* Print-only: full provenance at chapter end (PRI-02) */}
+      <div className="print-citation" aria-hidden="true">
+        <p>
+          {book.author}, <cite>{book.title}</cite>
+          {book.publicationYear && ` (${book.publicationYear})`}
+        </p>
+        <p>
+          Chapter {chapter.chapterNumber}: &ldquo;{chapter.title}&rdquo;
+        </p>
+        <p>Self-Realization Fellowship &middot; yogananda.tech</p>
+      </div>
+
       {/* Chapter navigation */}
       <ChapterNav
         bookSlug={book.slug}

@@ -11,7 +11,7 @@
  * This component owns the progress bar; ReadingImmersion owns
  * dwell + keyboard navigation.
  *
- * CSS: inline styles for the progress bar (2px gold).
+ * CSS: inline styles for the progress bar (2px crimson — DES-063 §4).
  * Position tracking uses the chapter header's bottom as threshold.
  */
 
@@ -23,7 +23,23 @@ interface ChapterProgressProps {
   chapterTitle: string;
   bookSlug: string;
   locale: string;
+  prevChapter: number | null;
+  nextChapter: number | null;
 }
+
+const chevronStyle: React.CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "1.5rem",
+  height: "1.5rem",
+  color: "inherit",
+  textDecoration: "none",
+  opacity: 0.35,
+  fontSize: "0.875rem",
+  transition: "opacity 150ms ease",
+  flexShrink: 0,
+};
 
 export function ChapterProgress({
   bookTitle,
@@ -31,6 +47,8 @@ export function ChapterProgress({
   chapterTitle,
   bookSlug,
   locale,
+  prevChapter,
+  nextChapter,
 }: ChapterProgressProps) {
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -75,23 +93,24 @@ export function ChapterProgress({
     <div
       className="chapter-progress"
       aria-hidden="true"
+      data-no-print
       style={{
         position: "fixed",
         top: headerHeight,
         left: 0,
         right: 0,
         zIndex: 99,
-        transform: visible ? "translateY(0)" : "translateY(-100%)",
+        transform: visible ? "translateY(0)" : `translateY(calc(-100% - ${headerHeight}px))`,
         transition: "transform 300ms ease",
         backgroundColor: "var(--color-surface)",
         borderBlockEnd: "1px solid color-mix(in oklch, var(--color-text), transparent 90%)",
       }}
     >
-      {/* Book + chapter info */}
+      {/* Book + chapter info with prev/next navigation */}
       <div
         style={{
           display: "flex",
-          alignItems: "baseline",
+          alignItems: "center",
           gap: "var(--space-compact)",
           padding: "var(--space-compact) var(--space-default)",
           maxInlineSize: "var(--reading-measure, 65ch)",
@@ -101,20 +120,50 @@ export function ChapterProgress({
           fontFamily: "var(--font-ui)",
         }}
       >
+        {prevChapter !== null ? (
+          <a
+            href={`/${locale}/books/${bookSlug}/${prevChapter}`}
+            aria-label={`Previous chapter (${prevChapter})`}
+            style={chevronStyle}
+          >
+            ‹
+          </a>
+        ) : (
+          <span style={{ ...chevronStyle, opacity: 0.12 }}>‹</span>
+        )}
+
         <a
           href={`/${locale}/books/${bookSlug}`}
           style={{
             color: "inherit",
             textDecoration: "none",
-            opacity: 0.7,
+            opacity: 0.6,
           }}
         >
           {bookTitle}
         </a>
-        <span style={{ opacity: 0.4 }}>/</span>
-        <span>
-          Ch. {chapterNumber}{chapterTitle ? `: ${chapterTitle}` : ""}
+        <span style={{ opacity: 0.3 }}>/</span>
+        <span style={{ color: "var(--color-crimson)", fontVariant: "small-caps", letterSpacing: "0.05em" }}>
+          Ch. {chapterNumber}
         </span>
+        {chapterTitle && (
+          <span style={{ color: "var(--color-crimson)", opacity: 0.7 }}>
+            {chapterTitle}
+          </span>
+        )}
+
+        <span style={{ marginInlineStart: "auto" }} />
+        {nextChapter !== null ? (
+          <a
+            href={`/${locale}/books/${bookSlug}/${nextChapter}`}
+            aria-label={`Next chapter (${nextChapter})`}
+            style={chevronStyle}
+          >
+            ›
+          </a>
+        ) : (
+          <span style={{ ...chevronStyle, opacity: 0.12 }}>›</span>
+        )}
       </div>
 
       {/* Progress bar */}
@@ -122,8 +171,7 @@ export function ChapterProgress({
         ref={barRef}
         style={{
           height: "2px",
-          backgroundColor: "var(--color-gold)",
-          opacity: 0.5,
+          backgroundColor: "var(--color-progress, #8B2252)",
           inlineSize: `${progress * 100}%`,
           transition: "inline-size 100ms linear",
         }}

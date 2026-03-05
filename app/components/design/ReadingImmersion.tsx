@@ -1,32 +1,28 @@
 "use client";
 
 /**
- * ReadingImmersion — Phase 2 reading surface enhancements.
+ * ReadingImmersion — reading surface interaction layer.
  *
- * Client island for chapter pages. Two sahṛdaya features:
+ * Client island for chapter pages. Two interaction levels:
  *
- *   1. Dwell mode — click a paragraph to focus it. The paragraph
- *      zooms/expands, everything else recedes. Intentional, explicit.
- *      If the paragraph has related teachings, a small indicator
- *      appears (injected as a DOM element) — click it to open the
- *      Golden Thread panel.
+ *   1. Paragraph focus — click/tap a paragraph to show a subtle
+ *      left accent bar and warm background. Light attention.
  *
- *   2. Keyboard paragraph navigation — j/k moves focus between
- *      paragraphs. Activates dwell on the target paragraph.
+ *   2. Zoom Paragraph — double-click, long-press (500ms), zoom icon,
+ *      or Enter/Space on a focused paragraph to zoom it. Everything
+ *      else dims. If the paragraph has related teachings, a thread
+ *      indicator appears. Scroll exits zoom.
  *
- * Dwell activation:
- *   - Click on a paragraph → dwell on it
- *   - j/k keyboard → dwell on target
- *   - Click same paragraph, click outside, or Escape → exit dwell
+ * Keyboard paragraph navigation — j/k moves focus between paragraphs.
  *
- * All visual treatment lives in the design system (reading-surface.css).
+ * All visual treatment lives in CSS (reading-surface.css + globals.css).
  * This component is pure behavior — data attributes and class toggles.
  *
  * Calm technology: respects prefers-reduced-motion.
- * No auto-activation. The reader chooses to dwell.
+ * No auto-activation. The reader chooses to engage.
  *
- * CSS dependencies: [data-paragraph].kb-focus,
- * [data-dwell-active], [data-dwell-target] — all in reading-surface.css.
+ * CSS dependencies: [data-paragraph].focused, [data-paragraph].kb-focus,
+ * [data-zoom-active], [data-zoom-target] — in reading-surface.css / globals.css.
  */
 
 import { useEffect } from "react";
@@ -43,43 +39,93 @@ export function ReadingImmersion() {
     if (paragraphs.length === 0) return;
 
     let currentIndex = -1;
-    let dwellActive = false;
-    let dwellIndex = -1;
+    let zoomActive = false;
+    let zoomIndex = -1;
     let threadIndicator: HTMLButtonElement | null = null;
+    let zoomIcon: HTMLButtonElement | null = null;
+    let longPressTimer: ReturnType<typeof setTimeout> | null = null;
 
-    // ── Dwell mode ────────────────────────────────────────────────
-    // Click a paragraph to focus it. Everything else dims.
-    // The reader chooses to dwell — no auto-activation.
+    // ── Paragraph focus ──────────────────────────────────────────
+    // Light attention: left bar + warm background.
 
-    function activateDwell(index: number) {
-      // Already dwelling on this paragraph — toggle off
-      if (dwellActive && dwellIndex === index) {
-        deactivateDwell();
+    function focusParagraph(index: number) {
+      // Clear previous focus
+      paragraphs.forEach((p) => p.classList.remove("focused"));
+
+      if (index >= 0 && index < paragraphs.length) {
+        paragraphs[index].classList.add("focused");
+        showZoomIcon(index);
+      } else {
+        removeZoomIcon();
+      }
+    }
+
+    // ── Zoom icon ────────────────────────────────────────────────
+    // Small expand icon in top-right of focused paragraph.
+
+    function showZoomIcon(index: number) {
+      removeZoomIcon();
+      const para = paragraphs[index];
+
+      zoomIcon = document.createElement("button");
+      zoomIcon.className = "zoom-icon";
+      zoomIcon.setAttribute("aria-label", "Zoom paragraph");
+      zoomIcon.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>`;
+
+      zoomIcon.addEventListener("click", (e) => {
+        e.stopPropagation();
+        activateZoom(index);
+      });
+
+      para.style.position = "relative";
+      para.appendChild(zoomIcon);
+    }
+
+    function removeZoomIcon() {
+      if (zoomIcon && zoomIcon.parentNode) {
+        zoomIcon.parentNode.removeChild(zoomIcon);
+        zoomIcon = null;
+      }
+    }
+
+    // ── Zoom Paragraph ───────────────────────────────────────────
+    // Deep contemplation: everything else dims, paragraph comes forward.
+
+    function activateZoom(index: number) {
+      // Already zoomed on this paragraph — toggle off
+      if (zoomActive && zoomIndex === index) {
+        deactivateZoom();
         return;
       }
 
-      dwellActive = true;
-      dwellIndex = index;
-      article!.setAttribute("data-dwell-active", "");
+      zoomActive = true;
+      zoomIndex = index;
+      article!.setAttribute("data-zoom-active", "");
 
       paragraphs.forEach((p, i) => {
         if (i === index) {
-          p.setAttribute("data-dwell-target", "");
+          p.setAttribute("data-zoom-target", "");
         } else {
-          p.removeAttribute("data-dwell-target");
+          p.removeAttribute("data-zoom-target");
         }
       });
+
+      // Haptic feedback (calm: minimal pulse)
+      if (navigator.vibrate) {
+        const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+        if (!mq.matches) navigator.vibrate(10);
+      }
 
       // Show "Related Teachings" indicator if this paragraph has connections
       showThreadIndicator(index);
     }
 
-    function deactivateDwell() {
-      if (!dwellActive) return;
-      dwellActive = false;
-      dwellIndex = -1;
-      article!.removeAttribute("data-dwell-active");
-      paragraphs.forEach((p) => p.removeAttribute("data-dwell-target"));
+    function deactivateZoom() {
+      if (!zoomActive) return;
+      zoomActive = false;
+      zoomIndex = -1;
+      article!.removeAttribute("data-zoom-active");
+      paragraphs.forEach((p) => p.removeAttribute("data-zoom-target"));
       removeThreadIndicator();
 
       // Close Golden Thread panel
@@ -89,7 +135,7 @@ export function ReadingImmersion() {
     }
 
     // ── Thread indicator ──────────────────────────────────────────
-    // Small button injected into the focused paragraph when it has
+    // Small button injected into the zoomed paragraph when it has
     // golden thread connections. Click → opens the panel.
 
     function showThreadIndicator(index: number) {
@@ -125,7 +171,7 @@ export function ReadingImmersion() {
     }
 
     // ── Keyboard paragraph navigation ───────────────────────────
-    // j/k moves focus between paragraphs. Activates dwell on target.
+    // j/k moves focus between paragraphs.
 
     function moveFocus(delta: number) {
       const next = Math.max(
@@ -134,7 +180,7 @@ export function ReadingImmersion() {
       );
       if (next === currentIndex && currentIndex >= 0) return;
 
-      // Clear previous
+      // Clear previous keyboard focus
       if (currentIndex >= 0) {
         paragraphs[currentIndex].classList.remove("kb-focus");
       }
@@ -146,8 +192,8 @@ export function ReadingImmersion() {
         block: "center",
       });
 
-      // Activate dwell on the navigated paragraph
-      activateDwell(currentIndex);
+      // Set paragraph focus (light level)
+      focusParagraph(currentIndex);
     }
 
     function handleKeyDown(e: KeyboardEvent) {
@@ -164,10 +210,23 @@ export function ReadingImmersion() {
           e.preventDefault();
           moveFocus(-1);
           break;
-        case "Escape":
-          deactivateDwell();
+        case "Enter":
+        case " ":
+          // Zoom the focused paragraph (if one is focused via j/k)
           if (currentIndex >= 0) {
+            e.preventDefault();
+            activateZoom(currentIndex);
+          }
+          break;
+        case "Escape":
+          if (zoomActive) {
+            e.preventDefault();
+            deactivateZoom();
+          } else if (currentIndex >= 0) {
+            e.preventDefault();
             paragraphs[currentIndex].classList.remove("kb-focus");
+            paragraphs[currentIndex].classList.remove("focused");
+            removeZoomIcon();
             currentIndex = -1;
           }
           break;
@@ -175,8 +234,8 @@ export function ReadingImmersion() {
     }
 
     // ── Click handler ─────────────────────────────────────────────
-    // Click on a paragraph → dwell on it.
-    // Click outside paragraphs → exit dwell.
+    // Single click → focus (light). Double-click → zoom (deep).
+    // Click outside → exit focus/zoom.
 
     function handleClick(e: MouseEvent) {
       const target = (e.target as HTMLElement).closest<HTMLElement>(
@@ -184,8 +243,9 @@ export function ReadingImmersion() {
       );
 
       if (!target) {
-        // Clicked outside any paragraph — exit dwell
-        if (dwellActive) deactivateDwell();
+        // Clicked outside any paragraph — exit zoom and focus
+        if (zoomActive) deactivateZoom();
+        focusParagraph(-1);
         return;
       }
 
@@ -193,7 +253,6 @@ export function ReadingImmersion() {
       // also fire and auto-open the panel
       e.stopPropagation();
 
-      // Find the index of the clicked paragraph
       const idx = Array.from(paragraphs).indexOf(target);
       if (idx < 0) return;
 
@@ -203,19 +262,82 @@ export function ReadingImmersion() {
       }
       currentIndex = idx;
 
-      activateDwell(idx);
+      // Single click = focus (light level)
+      focusParagraph(idx);
+    }
+
+    // ── Double-click handler ──────────────────────────────────────
+    // Double-click on a paragraph → zoom it.
+
+    function handleDblClick(e: MouseEvent) {
+      const target = (e.target as HTMLElement).closest<HTMLElement>(
+        "[data-paragraph]",
+      );
+      if (!target) return;
+
+      e.preventDefault();
+      e.stopPropagation();
+
+      const idx = Array.from(paragraphs).indexOf(target);
+      if (idx < 0) return;
+
+      activateZoom(idx);
+    }
+
+    // ── Long-press handler (mobile) ───────────────────────────────
+    // 500ms press on a paragraph → zoom it.
+
+    function handlePointerDown(e: PointerEvent) {
+      const target = (e.target as HTMLElement).closest<HTMLElement>(
+        "[data-paragraph]",
+      );
+      if (!target) return;
+
+      const idx = Array.from(paragraphs).indexOf(target);
+      if (idx < 0) return;
+
+      longPressTimer = setTimeout(() => {
+        longPressTimer = null;
+        activateZoom(idx);
+      }, 500);
+    }
+
+    function cancelLongPress() {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+    }
+
+    // ── Scroll exits zoom ─────────────────────────────────────────
+    function handleScroll() {
+      if (zoomActive) deactivateZoom();
     }
 
     // ── Attach ──────────────────────────────────────────────────
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     article.addEventListener("click", handleClick);
+    article.addEventListener("dblclick", handleDblClick);
+    article.addEventListener("pointerdown", handlePointerDown);
+    article.addEventListener("pointerup", cancelLongPress);
+    article.addEventListener("pointermove", cancelLongPress);
+    article.addEventListener("pointercancel", cancelLongPress);
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("scroll", handleScroll);
       article.removeEventListener("click", handleClick);
-      deactivateDwell();
+      article.removeEventListener("dblclick", handleDblClick);
+      article.removeEventListener("pointerdown", handlePointerDown);
+      article.removeEventListener("pointerup", cancelLongPress);
+      article.removeEventListener("pointermove", cancelLongPress);
+      article.removeEventListener("pointercancel", cancelLongPress);
+      cancelLongPress();
+      deactivateZoom();
       if (currentIndex >= 0) {
         paragraphs[currentIndex].classList.remove("kb-focus");
+        paragraphs[currentIndex].classList.remove("focused");
       }
     };
   }, []);

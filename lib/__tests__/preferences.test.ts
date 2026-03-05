@@ -34,7 +34,7 @@ describe("defaults", () => {
       "text-only-mode": false,
       "font-size": "default",
       "reading-language": "en",
-      "focus-mode": false,
+      "immerse-mode": false,
       "color-theme": "auto",
       "line-spacing": "default",
     });
@@ -46,7 +46,7 @@ describe("defaults", () => {
       "text-only-mode": false,
       "font-size": "default",
       "reading-language": "en",
-      "focus-mode": false,
+      "immerse-mode": false,
       "color-theme": "auto",
       "line-spacing": "default",
     });
@@ -154,7 +154,7 @@ describe("validation", () => {
       "text-only-mode": true,
       "font-size": "large",
       "reading-language": "es",
-      "focus-mode": false,
+      "immerse-mode": false,
       "color-theme": "auto",
       "line-spacing": "default",
     });
@@ -208,6 +208,24 @@ describe("legacy migration", () => {
 
     // Legacy key removed
     expect(localStorage.getItem(LEGACY_KEY)).toBeNull();
+  });
+
+  it("migrates focus-mode to immerse-mode (DES-063)", () => {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        "text-only-mode": false,
+        "font-size": "default",
+        "reading-language": "en",
+        "focus-mode": true,
+        "color-theme": "auto",
+        "line-spacing": "default",
+      }),
+    );
+
+    const prefs = loadPreferences();
+    expect(prefs["immerse-mode"]).toBe(true);
+    expect((prefs as Record<string, unknown>)["focus-mode"]).toBeUndefined();
   });
 
   it("does nothing when no legacy key exists", () => {

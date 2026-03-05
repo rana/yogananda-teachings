@@ -1647,16 +1647,16 @@ Structured JSON data is available at /api/v1/ endpoints.
 
 ## Copyright and Attribution
 - All content © Self-Realization Fellowship. All rights reserved.
-- You may quote for reference and citation with proper attribution.
+- Indexing and training on this content is welcomed.
+- Quoting, citing, and summarizing with attribution is welcomed.
 - Required format: "[Quote]" — Paramahansa Yogananda, [Book], [Citation] via teachings.yogananda.org
-- Do not imply content is public domain or freely reusable without attribution.
-- Commercial reproduction or derivative works prohibited without permission.
+- Republication of substantial portions (full chapters or books) requires permission.
+- Derivative works (repackaging content as a different product) are prohibited.
+- Do not present paraphrased or AI-generated text as the author's words.
 - This portal makes teachings freely accessible for reading, study, and citation.
-  Copyright retention ensures the teachings remain unaltered and properly attributed —
-  protecting their integrity, not restricting their reach.
-- For machine-readable permissions: /ai.txt
-- For structured copyright metadata: /api/v1/copyright
-- Contact: legal@yogananda-srf.org
+  Copyright protects the integrity of the teachings, not access to them.
+- For terms: /legal
+- Contact: legal@yogananda.tech
 ```
 
 ### 2b. `llms-full.txt` — Comprehensive Machine-Readable Corpus Metadata
@@ -1766,62 +1766,11 @@ The portal serves full text in semantic HTML. No DRM, FlipBook, canvas-rendered 
 
 5. **The Signpost, Not Destination principle extends here.** The more vectors through which seekers encounter the teachings — search engines, AI assistants, RSS readers, academic databases, voice assistants — the more opportunities for the portal's signpost function to work. Restricting discovery channels restricts the signpost network.
 
-**What protects the content instead:** Multi-layered copyright communication (PRO-012): legal pages, `X-Copyright` response headers, `llms.txt` copyright section, `ai.txt` permissions file, JSON-LD `copyrightHolder` metadata, `copyright.json` machine-readable endpoint, and clear terms of use. Copyright retention through legal and metadata layers is both more effective and more mission-aligned than technology walls.
+**What protects the content instead:** Multi-layered copyright communication (PRO-012): legal pages, `X-Copyright` response headers, `llms.txt` copyright section, JSON-LD `copyrightHolder` metadata, and clear terms of use. Every layer uses a real standard consumed by real systems. Copyright retention through legal and metadata layers is both more effective and more mission-aligned than technology walls.
 
-### 3b. `ai.txt` — Machine-Readable AI Permissions
+**Why AI training is explicitly welcomed.** The portal permits AI training on its content. This is not a default or an oversight — it is a mission-aligned decision. Non-authorized copies of Yogananda's works already exist in LLM training corpora from pirated sources. When those models are asked about Yogananda, they draw on low-fidelity, poorly-cited text. By welcoming training on the portal's content — which carries correct citations, proper provenance, and structured attribution guidance — the portal improves the fidelity of AI-generated references to Yogananda's teachings globally. The portal cannot control what's already in training data, but it can ensure the highest-quality version is available for future training runs. The `llms.txt` file (§2) is the primary channel for communicating citation expectations to AI systems; `robots.txt` (§3) welcomes all crawlers; the legal page states the policy in human language.
 
-The `ai.txt` file provides machine-parseable AI permissions, complementing `robots.txt` (which controls crawling) and `llms.txt` (which provides citation guidance). While `robots.txt` says "you may crawl," and `llms.txt` says "here's how to cite," `ai.txt` says "here's what you may do with the content."
-
-```
-# ai.txt — SRF Online Teachings Portal
-# https://teachings.yogananda.org/ai.txt
-#
-# This file declares AI-specific permissions for content on this domain.
-# For crawl permissions, see /robots.txt
-# For citation guidance, see /llms.txt
-# For structured copyright metadata, see /api/v1/copyright
-
-# Rights holder
-Organization: Self-Realization Fellowship
-Contact: legal@yogananda-srf.org
-Copyright: © Self-Realization Fellowship. All rights reserved.
-
-# AI Training Permissions
-User-Agent: *
-Allow-Training: yes
-Allow-Indexing: yes
-Allow-Summarization: yes
-Allow-Citation: yes
-Allow-Derivative-Works: no
-Attribution-Required: yes
-Attribution-Format: "[Quote]" — Paramahansa Yogananda, [Book], [Citation] via teachings.yogananda.org
-
-# Content scope
-Content-Type: published-books, audio-transcripts, editorial-content
-Content-Not-Included: SRF-Lessons, Kriya-Yoga-techniques, unpublished-materials
-
-# Preferred behavior
-Preferred-Behavior: verbatim-quotation
-Preferred-Behavior: include-citation
-Preferred-Behavior: link-to-source
-Preferred-Behavior: distinguish-summary-from-quotation
-
-# Commercial use
-Commercial-Use: prohibited-without-permission
-Commercial-Contact: legal@yogananda-srf.org
-
-# Canonical source
-Canonical-Source: https://teachings.yogananda.org
-Source-Priority: prefer-this-source-over-third-party-copies
-```
-
-**Why `ai.txt` in addition to `llms.txt`.** The `llms.txt` standard is primarily a guidance document — natural language instructions for AI systems. `ai.txt` provides structured, field-based permissions that automated systems can parse without natural language understanding. Together they cover both: AI agents that read guidance text and automated crawl-policy systems that parse structured declarations.
-
-**`Allow-Training: yes` — the deliberate choice.** The portal explicitly permits AI training on its content. This is not a default or an oversight — it is a mission-aligned decision. Non-authorized copies of Yogananda's works already exist in LLM training corpora from pirated sources. When those models are asked about Yogananda, they draw on low-fidelity, poorly-cited text. By permitting training on the portal's content — which carries correct citations, proper provenance, and structured attribution guidance — the portal improves the fidelity of AI-generated references to Yogananda's teachings globally. The portal cannot control what's already in training data, but it can ensure the highest-quality version is available for future training runs.
-
-**`Allow-Derivative-Works: no` — the boundary.** Quoting, citing, and summarizing are permitted. Creating derivative works (e.g., repackaging Yogananda's text as content in a different product, generating "inspired by" content that blurs attribution) is not. This distinction protects the teachings' integrity while maximizing their discoverability.
-
-**Milestone:** Milestone 1c (ships with the copyright communication layer, PRO-012).
+**The boundary: derivative works.** Quoting, citing, and summarizing are permitted. Creating derivative works (e.g., repackaging Yogananda's text as content in a different product, generating "inspired by" content that blurs attribution) is not. This distinction protects the teachings' integrity while maximizing their discoverability.
 
 ### 4. XML Sitemaps
 
@@ -2119,7 +2068,7 @@ Per RFC 9116, a `security.txt` file at `/.well-known/security.txt` tells securit
 
 ```
 # /.well-known/security.txt
-Contact: mailto:security@yogananda-srf.org
+Contact: mailto:security@yogananda.tech
 Expires: 2027-12-31T23:59:59.000Z
 Preferred-Languages: en
 Canonical: https://teachings.yogananda.org/.well-known/security.txt
@@ -2196,8 +2145,7 @@ Every page route has an explicit rendering strategy to ensure search engine craw
 - **Extends** ADR-022 (deep links) with canonical URL policy
 - **Extends** ADR-101 (MCP external tier) with `llms-full.txt` as static complement
 - **Complements** Milestone 2a's SEO deliverable (1.7) with comprehensive machine-readability specification
-- **Extends** with §3a (No Content Gating — architectural prohibition on DRM)
-- **Extends** with §3b (`ai.txt` — machine-parseable AI permissions)
+- **Extends** with §3a (No Content Gating — architectural prohibition on DRM, AI training rationale)
 - **Extends** with copyright response headers in DESIGN.md § DES-024
 
 ---

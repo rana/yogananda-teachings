@@ -68,6 +68,9 @@
 | [DES-058: Search Quality Evaluation Harness](design/search/DES-058-search-quality-evaluation-harness.md) | 1 | design/search/ |
 | [DES-059: Vocabulary Bridge](design/search/DES-059-vocabulary-bridge.md) | 1+ | design/search/ |
 | [DES-060: Operational Surface — Health, Deployment, and Traceability](design/search/DES-060-operational-surface.md) | 1a, 1c, 2a | design/search/ |
+| [DES-061: Epistemic Data Boundary — Three-Phase Pipeline](design/editorial/DES-061-epistemic-data-boundary.md) | 1+ | design/editorial/ |
+| [DES-062: Cognitive Task Classification (COG-NN)](design/search/DES-062-cognitive-task-classification.md) | 2b+ | design/search/ |
+| [DES-063: Book Reader — The Reading Surface](design/experience/DES-063-book-reader.md) | 2+ | design/experience/ |
 
 *DES numbers are stable identifiers, not sequence counters — gaps at 018, 030, 032, 040, 043, 046 exist from restructuring; do not renumber to fill them.*
 
@@ -772,12 +775,11 @@ X-License-URL: https://teachings.yogananda.org/legal
 
 ```
 X-Citation-Format: "[Quote]" — Paramahansa Yogananda, [Book], [Citation] via teachings.yogananda.org
-X-AI-Permissions: https://teachings.yogananda.org/ai.txt
 ```
 
 **Implementation:** Next.js middleware in `/lib/middleware/copyright-headers.ts`. Applied to all routes except `/api/v1/health` and static assets. Milestone 1c (ships with the copyright communication layer, PRO-012).
 
-**Rationale:** The portal's No Content Gating policy (ADR-081 §3a) means copyright is asserted through metadata and legal layers, not technology walls. HTTP headers are the lowest-friction mechanism for machine consumers to discover copyright status — they don't need to parse HTML or visit a separate page. Combined with `llms.txt` copyright section, `ai.txt` permissions file, JSON-LD `copyrightHolder`, and the `/legal` page, this creates a comprehensive, multi-layered copyright communication strategy.
+**Rationale:** The portal's No Content Gating policy (ADR-081 §3a) means copyright is asserted through metadata and legal layers, not technology walls. HTTP headers are the lowest-friction mechanism for machine consumers to discover copyright status — they don't need to parse HTML or visit a separate page. Combined with `llms.txt` copyright section, JSON-LD `copyrightHolder`, and the `/legal` page, this creates a multi-layered copyright communication strategy where every layer uses a real standard consumed by real systems.
 
 ### ADR-099: Sub-Processor Inventory
 
