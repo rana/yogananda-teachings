@@ -228,7 +228,6 @@ describe("navigation accessibility", () => {
           <a href="/search">Search</a>
           <a href="/books">Books</a>
           <a href="/quiet">Quiet Corner</a>
-          <a href="/about">About</a>
         </nav>
       </header>
       <main><h1>Page</h1></main>

@@ -4,18 +4,20 @@
     "description": "Paramahansa Yogananda's published teachings — freely accessible worldwide"
   },
   "nav": {
+    "siteName": "Teachings",
     "home": "Home",
     "search": "Search",
     "books": "Books",
     "quiet": "Quiet Corner",
-    "about": "About",
     "browse": "Browse",
     "privacy": "Privacy",
     "legal": "Legal",
     "bookmarks": "Bookmarks",
-    "library": "My Library"
+    "library": "My Library",
+    "integrity": "Integrity"
   },
   "footer": {
+    "tagline": "Teachings of Paramahansa Yogananda",
     "copyright": "© Self-Realization Fellowship",
     "yoganandaOrg": "yogananda.org",
     "bookstore": "SRF Bookstore",
@@ -159,29 +161,6 @@
     "showAnother": "Another reflection",
     "backToPortal": "Return to the portal",
     "tapToEnd": "Tap anywhere to end"
-  },
-  "about": {
-    "heading": "About",
-    "yoganandaTitle": "Paramahansa Yogananda",
-    "yoganandaBio": "Paramahansa Yogananda (1893–1952) is widely regarded as one of the preeminent spiritual figures of our time. Born in Gorakhpur, India, he came to America in 1920 and spent the next three decades introducing millions of seekers to the ancient science of Kriya Yoga meditation and the art of balanced spiritual living.",
-    "srfTitle": "Self-Realization Fellowship",
-    "srfDescription": "Founded in 1920 by Paramahansa Yogananda, Self-Realization Fellowship is dedicated to carrying on his spiritual and humanitarian work — fostering a spirit of greater understanding and goodwill among the diverse peoples and nations of our global family, and helping those of all cultures and nationalities to realize and express more fully in their lives the beauty, nobility, and divinity of the human spirit.",
-    "lineage": "The Lineage",
-    "lineageNames": {
-      "lahiriMahasaya": "Lahiri Mahasaya",
-      "babaji": "Mahavatar Babaji",
-      "christ": "Jesus Christ",
-      "krishna": "Bhagavan Krishna",
-      "yogananda": "Paramahansa Yogananda",
-      "sriYukteswar": "Swami Sri Yukteswar"
-    },
-    "goDeeper": "Go Deeper",
-    "lessons": "SRF Lessons — The home-study meditation techniques taught by Paramahansa Yogananda",
-    "centers": "Find a Center — Meditation groups and temples worldwide",
-    "meditation": "Online Meditation Center — Guided meditations and inspiration",
-    "app": "SRF App — Daily inspiration on your mobile device",
-    "bookstore": "SRF Bookstore — Yogananda's complete published works",
-    "youtube": "YouTube — Talks, music, and guided meditations"
   },
   "browse": {
     "heading": "Browse All Teachings",

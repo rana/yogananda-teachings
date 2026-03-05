@@ -8,7 +8,7 @@
  */
 
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
@@ -75,6 +75,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   const messages = await getMessages();
+  const t = await getTranslations("nav");
+  const f = await getTranslations("footer");
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
@@ -82,11 +84,11 @@ export default async function LocaleLayout({
       <Surface as="header" register="functional" className="app-header">
         <div className="app-header-inner">
           <a href={`/${locale}`} className="app-site-name">
-            SRF Teachings
+            {t("siteName")}
           </a>
           <nav className="cluster" aria-label="Site navigation">
-            <a href={`/${locale}/books`}>Library</a>
-            <a href={`/${locale}/search`}>Search</a>
+            <a href={`/${locale}/books`}>{t("books")}</a>
+            <a href={`/${locale}/search`}>{t("search")}</a>
             <ReaderPreferences />
             <ThemeSwitcher />
           </nav>
@@ -103,14 +105,13 @@ export default async function LocaleLayout({
         <div className="center">
           <Motif role="close" voice="sacred" glyph="lotus-03" />
           <p>
-            Teachings of Paramahansa Yogananda ·{" "}
+            {f("tagline")} ·{" "}
             <a href={SRF.home}>Self-Realization Fellowship</a>
           </p>
           <nav className="footer-links" aria-label="Footer navigation">
-            <a href={`/${locale}/about`}>About</a>
-            <a href={`/${locale}/legal`}>Legal</a>
-            <a href={`/${locale}/privacy`}>Privacy</a>
-            <a href={`/${locale}/integrity`}>Integrity</a>
+            <a href={`/${locale}/legal`}>{t("legal")}</a>
+            <a href={`/${locale}/privacy`}>{t("privacy")}</a>
+            <a href={`/${locale}/integrity`}>{t("integrity")}</a>
           </nav>
         </div>
       </Surface>

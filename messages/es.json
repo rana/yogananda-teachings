@@ -4,18 +4,20 @@
     "description": "Las enseñanzas publicadas de Paramahansa Yogananda — accesibles gratuitamente en todo el mundo"
   },
   "nav": {
+    "siteName": "Enseñanzas",
     "home": "Inicio",
     "search": "Buscar",
     "books": "Libros",
     "quiet": "Rincón de Quietud",
-    "about": "Acerca de",
     "browse": "Explorar",
     "privacy": "Privacidad",
     "legal": "Legal",
     "bookmarks": "Marcadores",
-    "library": "Mi Biblioteca"
+    "library": "Mi Biblioteca",
+    "integrity": "Integridad"
   },
   "footer": {
+    "tagline": "Enseñanzas de Paramahansa Yogananda",
     "copyright": "© Self-Realization Fellowship",
     "yoganandaOrg": "yogananda.org",
     "bookstore": "Librería de SRF",
@@ -159,29 +161,6 @@
     "showAnother": "Otra reflexión",
     "backToPortal": "Volver al portal",
     "tapToEnd": "Toca en cualquier lugar para terminar"
-  },
-  "about": {
-    "heading": "Acerca de",
-    "yoganandaTitle": "Paramahansa Yogananda",
-    "yoganandaBio": "Paramahansa Yogananda (1893–1952) es ampliamente considerado como una de las figuras espirituales más importantes de nuestro tiempo. Nacido en Gorakhpur, India, llegó a Estados Unidos en 1920 y dedicó las siguientes tres décadas a introducir a millones de buscadores en la antigua ciencia de la meditación Kriya Yoga y el arte de una vida espiritual equilibrada.",
-    "srfTitle": "Self-Realization Fellowship",
-    "srfDescription": "Fundada en 1920 por Paramahansa Yogananda, Self-Realization Fellowship se dedica a continuar su obra espiritual y humanitaria — fomentando un espíritu de mayor comprensión y buena voluntad entre los diversos pueblos y naciones de nuestra familia global, y ayudando a personas de todas las culturas y nacionalidades a realizar y expresar más plenamente en sus vidas la belleza, nobleza y divinidad del espíritu humano.",
-    "lineage": "El Linaje",
-    "lineageNames": {
-      "lahiriMahasaya": "Lahiri Mahasaya",
-      "babaji": "Mahavatar Babaji",
-      "christ": "Jesucristo",
-      "krishna": "Bhagavan Krishna",
-      "yogananda": "Paramahansa Yogananda",
-      "sriYukteswar": "Swami Sri Yukteswar"
-    },
-    "goDeeper": "Profundizar",
-    "lessons": "Lecciones de SRF — Las técnicas de meditación para estudio en el hogar enseñadas por Paramahansa Yogananda",
-    "centers": "Encontrar un Centro — Grupos de meditación y templos en todo el mundo",
-    "meditation": "Centro de Meditación en Línea — Meditaciones guiadas e inspiración",
-    "app": "Aplicación de SRF — Inspiración diaria en tu dispositivo móvil",
-    "bookstore": "Librería de SRF — Las obras completas publicadas de Yogananda",
-    "youtube": "YouTube — Charlas, música y meditaciones guiadas"
   },
   "browse": {
     "heading": "Explorar Todas las Enseñanzas",

@@ -831,7 +831,7 @@ a:hover {
 }
 
 /* ── Prose Content ───────────────────────────────────────────── */
-/* Long-form text sections: legal, privacy, about. */
+/* Long-form text sections: legal, privacy, integrity. */
 
 .section-heading {
   font-family: var(--font-display);
@@ -901,30 +901,6 @@ a:hover {
 
 .data-table tr:last-child td {
   border-block-end: none;
-}
-
-/* ── About Page ──────────────────────────────────────────────── */
-
-.guru-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-generous);
-  margin-block-start: var(--space-generous);
-}
-
-@media (min-width: 640px) {
-  .guru-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.guru-portrait-placeholder {
-  width: 6rem;
-  height: 6rem;
-  border-radius: 50%;
-  background-color: color-mix(in oklch, var(--color-text), transparent 95%);
-  margin-inline: auto;
-  margin-block-end: var(--space-default);
 }
 
 /* ── Crisis Banner ───────────────────────────────────────────── */

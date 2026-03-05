@@ -59,14 +59,6 @@ test.describe("Quiet Corner", () => {
   });
 });
 
-test.describe("About", () => {
-  test("about page loads", async ({ page }) => {
-    await page.goto("/en/about");
-    await expect(page.getByRole("heading", { name: "About" })).toBeVisible();
-    await expect(page.getByText("Paramahansa Yogananda")).toBeVisible();
-  });
-});
-
 test.describe("Navigation", () => {
   test("header navigation works", async ({ page }) => {
     await page.goto("/en");
@@ -315,7 +307,7 @@ test.describe("404", () => {
 
 test.describe("Accessibility", () => {
   test("all pages have main-content landmark", async ({ page }) => {
-    const pages = ["/en", "/en/search", "/en/books", "/en/about", "/en/quiet"];
+    const pages = ["/en", "/en/search", "/en/books", "/en/quiet"];
     for (const url of pages) {
       await page.goto(url);
       await expect(page.locator("#main-content")).toBeVisible();
