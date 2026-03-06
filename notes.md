@@ -1,6 +1,18 @@
 # Notes
 
 ---
+Saved at proposals/ftr-yaml-frontmatter-migration.md.
+
+What you're getting:
+
+162 FTR files gain structured YAML frontmatter with standardized fields (ftr, title, state, domain, arc, governed-by, always-load, etc.)
+Three inconsistent metadata formats (plain/bulleted/blockquoted bold-text) replaced by one
+Conservative approach: only format changes, no state semantics changes (Deferred stays deferred, Archived lifecycle is a separate decision)
+Execution plan is a single-session batch with dry-run-first verification
+Designed for Claude to execute in yogananda-teachings — read the proposal, then go
+To run it later, open a session in yogananda-teachings and point at the proposal. The heading simplification (dropping subtitles from # FTR-NNN: headings) is the one judgment call worth eyeballing in the dry run — some subtitles carry real value beyond what the frontmatter title captures.
+
+---
 /compose (invoke, review, converge) ~3, land :
 Integrity page allows paste text to validate integrity. If not integrity, show close match for real. Change text for non-technical readers. Explain it simply for all to understand, operate and trust. Help explain why. What is the sacred mission of the masters? Are there direct quotes to convey the importance of verbatim transmission?
 
