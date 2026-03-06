@@ -4,7 +4,7 @@ description: Reading and seeker experience review focused on world-class accessi
 argument-hint: "[optional scenario or feature to focus on]"
 ---
 
-Read CONTEXT.md, DESIGN.md, DECISIONS.md, and ROADMAP.md to ground in the project's actual state.
+Read CONTEXT.md, FEATURES.md, and ROADMAP.md to ground in the project's actual state.
 
 ## Seeker Experience Review
 
@@ -43,8 +43,7 @@ Present as an action list. No changes to files — document only.
 
 **Document reading strategy:**
 - CONTEXT.md and ROADMAP.md: read fully (short documents).
-- DESIGN.md: read UX, typography, and interaction sections relevant to the focused dimension(s). Skip infrastructure sections.
-- DECISIONS.md: read the index first. Only read specific ADRs relevant to the focused dimension(s).
+- FEATURES.md: read the index first. Only read specific FTR files relevant to the focused dimension(s).
 
 What questions would I benefit from asking?
 

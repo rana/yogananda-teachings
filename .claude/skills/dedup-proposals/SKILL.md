@@ -1,26 +1,26 @@
 ---
 name: dedup-proposals
-description: Consolidate raw explorations from .elmer/proposals/ into curated PRO-NNN entries in PROPOSALS.md. Without arguments, scans all explorations and reports variant clusters. With a PRO-NNN or filename, finds related explorations and synthesizes them.
-argument-hint: "[optional PRO-NNN or exploration-filename.md]"
+description: Consolidate raw explorations from .elmer/proposals/ into curated FTR files (state: proposed). Without arguments, scans all explorations and reports variant clusters. With an FTR-NNN or filename, finds related explorations and synthesizes them.
+argument-hint: "[optional FTR-NNN or exploration-filename.md]"
 ---
 
-## Exploration Deduplication and Proposal Curation
+## Exploration Deduplication and Feature Curation
 
 ### Context
 
-Raw explorations in `.elmer/proposals/` are unvetted AI ideation — not project documents. This skill consolidates them into curated PRO-NNN entries in PROPOSALS.md, the project's proposal registry. See ADR-098 for the three-tier maturity model (explorations → proposals → decisions).
+Raw explorations in `.elmer/proposals/` are unvetted AI ideation — not project documents. This skill consolidates them into curated FTR files with state `proposed` in `features/{domain}/`. See FTR-084 for the documentation architecture.
 
 ### Mode Selection
 
-**No arguments** (`/dedup-proposals`): Triage mode — scan all explorations, report clusters, recommend PRO-NNN entries.
+**No arguments** (`/dedup-proposals`): Triage mode — scan all explorations, report clusters, recommend FTR entries.
 
-**With argument** (`/dedup-proposals <PRO-NNN>` or `/dedup-proposals <filename>`): Synthesis mode — find all related explorations of the named topic, merge them into one PRO-NNN entry.
+**With argument** (`/dedup-proposals <FTR-NNN>` or `/dedup-proposals <filename>`): Synthesis mode — find all related explorations of the named topic, merge them into one FTR file.
 
 ---
 
 ### Triage Mode (no arguments)
 
-Read PROPOSALS.md to determine the current max PRO number and existing entries.
+Read `features/FEATURES.md` to determine the current max FTR number per domain and existing entries.
 
 Read all `.md` files in `.elmer/proposals/`. For each file, extract:
 - The `elmer:archive` metadata block (topic, id, archetype, status)
@@ -37,20 +37,20 @@ For each cluster, report:
 - Which file is more developed (word count, section completeness)
 - Unique ideas in each file not present in the other(s)
 - Contradictions between files (if any)
-- Recommended PRO-NNN entry: title, type (Feature/Theme/Policy/Enhancement), and which exploration to use as canonical base
-- Cross-references to existing ADR/DES identifiers mentioned in the explorations
+- Recommended FTR entry: title, domain, and which exploration to use as canonical base
+- Cross-references to existing FTR identifiers mentioned in the explorations
 
-For non-clustered explorations, report as standalone candidates for individual PRO-NNN entries.
+For non-clustered explorations, report as standalone candidates for individual FTR files.
 
-Classify each cluster/standalone by proposal type:
+Classify each cluster/standalone by type:
 - **Feature** — New capability (word graph, read-to-me mode, focused reader)
 - **Theme** — Content theme for taxonomy integration (self-worth, vibration/AUM, extra-solar life)
 - **Policy** — Governance, legal, or process change (copyright, AI automation)
 - **Enhancement** — Improvement to existing feature (visual design, reader mode)
-- **Retrospective** — Design review findings (cognitive load, resonance analysis) — these may not need PRO-NNN entries; they inform design revisions
+- **Retrospective** — Design review findings (cognitive load, resonance analysis) — these may not need FTR files; they inform design revisions
 
 Present the full report. Offer three actions:
-1. Auto-resolve all clusters and create PRO-NNN entries in PROPOSALS.md
+1. Auto-resolve all clusters and create FTR files
 2. Resolve cluster-by-cluster with approval
 3. Show side-by-side comparison for a specific cluster
 
@@ -60,14 +60,14 @@ Present the full report. Offer three actions:
 
 **Step 1: Find related explorations**
 
-If argument is a PRO-NNN, read its entry in PROPOSALS.md and identify the topic and origin files.
+If argument is an FTR-NNN, find the file in `features/` and identify the topic and origin files.
 
 If argument is a filename, read the named file from `.elmer/proposals/`. Extract its `topic` field from the `elmer:archive` metadata block.
 
 Scan all other `.md` files in `.elmer/proposals/`:
 - Check for exact topic match (same elmer topic string)
 - Check for near topic match (3+ shared significant words in topic)
-- Check for content overlap (>40% of referenced ADRs/DES sections are the same)
+- Check for content overlap (>40% of referenced FTR identifiers are the same)
 
 Report what was found:
 ```
@@ -75,7 +75,7 @@ Found N related exploration(s):
   → filename.md (topic match: exact|near|content, overlap: NN%)
 ```
 
-If no related explorations found, report and proceed to create a standalone PRO-NNN entry.
+If no related explorations found, report and proceed to create a standalone FTR file.
 
 **Step 2: Structural alignment**
 
@@ -88,44 +88,43 @@ For each section present in any source file (Summary, Analysis, Proposed Changes
 
 Present the alignment table to the user.
 
-**Step 3: Synthesize and create PRO entry**
+**Step 3: Synthesize and create FTR file**
 
 On approval, produce:
 
-1. **A PRO-NNN entry in PROPOSALS.md** with:
-   - Next available PRO number (after current max in PROPOSALS.md index)
-   - Status: Proposed
-   - Type: Feature/Theme/Policy/Enhancement (as classified)
-   - Governing Refs: ADR/DES identifiers mentioned in the explorations
-   - A curated summary (scheduling-focused, not raw exploration prose)
-   - Origin: list of source exploration filenames
+1. **An FTR file in `features/{domain}/FTR-NNN-{slug}.md`** with:
+   - Next available FTR number in the appropriate domain's overflow range
+   - State: Proposed
+   - Domain: determined by topic (search, experience, editorial, operations, or foundation)
+   - FTR file anatomy: `# FTR-NNN: Title` → metadata → `## Rationale` → `## Specification` → `## Notes`
+   - Notes section includes origin exploration filenames
 
-2. **Update the PROPOSALS.md index table** with the new entry.
+2. **Update `features/FEATURES.md` index** with the new entry.
 
-3. **Update ROADMAP.md § Unscheduled Features** — add a row to the "Proposed — Awaiting Evaluation" table with the PRO-NNN reference.
+3. **Update ROADMAP.md § Unscheduled Features** — add a row to the "Proposed — Awaiting Evaluation" table with the FTR-NNN reference.
 
 4. **Archive source explorations** — move superseded files to `.elmer/proposals/archived/` (create directory if needed). Add a synthesis note to the archived files:
 
 ```markdown
-<!-- Consolidated into PRO-NNN in PROPOSALS.md on [date] -->
+<!-- Consolidated into FTR-NNN on [date] -->
 ```
 
 **Step 4: Report**
 
-Report the synthesis: PRO-NNN assigned, word counts, unique ideas preserved, contradictions flagged, files archived.
+Report the synthesis: FTR-NNN assigned, word counts, unique ideas preserved, contradictions flagged, files archived.
 
 ---
 
 ### Quality Standards
 
-- **Lossless on ideas, lossy on phrasing.** Every distinct insight from every source must appear in the PRO entry or be noted as a cross-reference. Redundant prose is collapsed.
+- **Lossless on ideas, lossy on phrasing.** Every distinct insight from every source must appear in the FTR file or be noted as a cross-reference. Redundant prose is collapsed.
 - **Parallax is signal.** When two explorations reach the same conclusion independently, that's stronger evidence than either alone. Mark it.
 - **Don't resolve tensions.** If Source A says "defer Neptune" and Source B says "keep Neptune but simplify," present both. Synthesis combines perspectives — it doesn't make decisions.
 - **Preserve the "What's Not Being Asked" sections fully.** These contain the highest-value insights and are the most likely to differ between explorations.
-- **PRO entries are scheduling-focused.** The PRO body in PROPOSALS.md captures: what is proposed, what type it is, what it depends on, what ADR/DES it relates to, and when to re-evaluate. It does not duplicate the full exploration analysis.
+- **FTR files are scheduling-focused.** The FTR body captures: what is proposed, what it depends on, what other FTRs it relates to, and when to re-evaluate. It does not duplicate the full exploration analysis.
 
 ## Output Management
 
-Present the structural alignment before writing anything. The user approves, edits, or rejects the synthesis plan before PRO entries are created.
+Present the structural alignment before writing anything. The user approves, edits, or rejects the synthesis plan before FTR files are created.
 
 If multiple clusters need deduplication, segment into groups. Present each cluster's synthesis plan for approval. After each approved synthesis is executed, proceed immediately to present the next cluster. Continue until all clusters are processed. State the total count when complete.

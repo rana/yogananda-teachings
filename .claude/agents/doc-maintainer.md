@@ -13,13 +13,11 @@ Your audience is the project maintainer performing periodic document hygiene.
 Read all documents in one pass — do not re-read between phases:
 
 1. **CLAUDE.md** — identifier conventions, document maintenance table, file structure (read fully)
-2. **DECISIONS.md** — navigational index with group summaries (read fully for identifier inventory)
+2. **features/FEATURES.md** — unified index of all FTR files across 5 domains (read fully)
 3. **ROADMAP.md** — milestone deliverables, success criteria, current arc status (read fully)
-4. **DESIGN.md** — navigation table mapping DES/ADR to files, cross-cutting sections (read fully)
-5. **CONTEXT.md** — current state, open questions with resolution status (read fully)
-6. **PRINCIPLES.md** — PRI-NN identifiers and dependency map (read fully)
-7. **PROPOSALS.md** — PRO-NNN entries, adoption status, suspension lifecycle (read fully)
-8. **DECISIONS body files** — spot-check ADRs referenced by findings, not exhaustive reading
+4. **CONTEXT.md** — current state, open questions with resolution status (read fully)
+5. **PRINCIPLES.md** — PRI-NN identifiers and dependency map (read fully)
+6. **FTR files** — spot-check FTRs referenced by findings, not exhaustive reading
 
 Build the picture incrementally. Note findings as you read — don't wait for a separate analysis pass.
 
@@ -29,17 +27,17 @@ Three phases, threading findings forward:
 
 ### Phase 1: Identifier Audit
 
-1. **Inventory** — count identifiers per prefix (PRI, ADR, DES, PRO), note gaps in numbering, find highest allocated per prefix
+1. **Inventory** — count FTR identifiers per domain, note gaps in numbering, find highest allocated per domain
 2. **Safe deletion candidates** — superseded, reversed, absorbed, orphaned (no cross-references), vestigial (govern cut features), or reconstructible from code
 3. **Merge candidates** — overlapping territory that could consolidate without information loss
-4. **Cross-reference integrity** — every identifier reference resolves to its canonical home. Bidirectional: if A references B, does B reference A where it should? Dangling references. Missing back-references.
-5. **Category coherence** — are identifiers in the right group? Does the DECISIONS.md index grouping match the actual content?
+4. **Cross-reference integrity** — every identifier reference resolves to its canonical file. Bidirectional: if A references B, does B reference A where it should? Dangling references. Missing back-references.
+5. **FEATURES.md alignment** — does the index match the actual files on disk? Are states consistent?
 
 *Thread forward: orphaned identifiers and broken references inform what Phase 2 looks for.*
 
 ### Phase 2: Omission Search
 
-1. **Missing decisions** — implicit assumptions that should be ADRs
+1. **Missing decisions** — implicit assumptions that should be FTRs
 2. **Unaddressed scenarios** — edge cases, failure modes not specified
 3. **Dependency gaps** — service contracts or infrastructure assumed but not documented
 4. **Phase transition gaps** — prerequisites for next milestone not documented
@@ -52,8 +50,8 @@ Three phases, threading findings forward:
 1. **Stated vs. actual** — do descriptions match current reality? Milestone statuses accurate?
 2. **Terminology** — same concepts use same terms everywhere; no silent synonyms
 3. **Narrative coherence** — do documents tell a unified story or contradict?
-4. **Status alignment** — ADR maturity markers match reality; DES sections marked implemented have code
-5. **Table alignment** — roadmap deliverables match design sections; credential tables match tech stack
+4. **Status alignment** — FTR state markers match reality; implemented FTRs have code
+5. **Table alignment** — roadmap deliverables match FTR files; credential tables match tech stack
 
 ### Synthesis
 
@@ -71,7 +69,7 @@ For every finding:
 
 End with:
 - **Health summary** — overall document health assessment
-- **Identifier statistics** — count per prefix, gap count, orphan count
+- **Identifier statistics** — FTR count per domain, gap count, orphan count
 - **Recommended actions** — ordered list of highest-value fixes
 
 ## Output Management

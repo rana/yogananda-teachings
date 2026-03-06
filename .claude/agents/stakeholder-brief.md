@@ -17,8 +17,8 @@ Read in this order:
 1. **CLAUDE.md** — project rules and conventions (read fully)
 2. **CONTEXT.md** — project background, stakeholders, methodology, open questions (read fully)
 3. **ROADMAP.md** — find the specific arc or milestone you're briefing. Read its deliverables and success criteria.
-4. **DESIGN.md** — read only the DES sections relevant to this arc's deliverables. Skip unrelated modules. This file is large — use Grep to find relevant sections.
-5. **DECISIONS.md** — skim the domain index to identify ADRs relevant to this arc. Read only those. This file is large — use Grep to find relevant ADRs.
+4. **features/FEATURES.md** — unified index of all FTR files. Read the domain tables relevant to this arc's deliverables.
+5. **FTR files** — read only the FTR files relevant to this arc. Use Grep to find relevant features by identifier.
 
 ## PROPOSAL.md Structure
 

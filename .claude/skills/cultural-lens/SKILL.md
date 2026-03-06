@@ -4,7 +4,7 @@ description: Inhabit a specific cultural, spiritual, or demographic perspective 
 argument-hint: "[culture, perspective, or demographic]"
 ---
 
-Read CONTEXT.md, DESIGN.md, DECISIONS.md, and ROADMAP.md to ground in the project's actual state.
+Read CONTEXT.md, FEATURES.md, and ROADMAP.md to ground in the project's actual state.
 
 ## Cultural Perspective Audit
 
@@ -25,7 +25,7 @@ For every finding:
 1. The specific concern or opportunity
 2. Where it manifests (design element, content decision, UX flow)
 3. The proposed change or consideration
-4. Where it should be documented (DESIGN.md section, ADR, CONTEXT.md)
+4. Where it should be documented (FTR file, CONTEXT.md)
 
 Present as an action list. No changes to files — document only.
 
@@ -41,8 +41,7 @@ Present as an action list. No changes to files — document only.
 
 **Document reading strategy:**
 - CONTEXT.md and ROADMAP.md: read fully (short documents).
-- DESIGN.md: read sections relevant to the cultural dimension — visual design, content strategy, accessibility. Skip API and infrastructure sections.
-- DECISIONS.md: read the index first. Only read specific ADRs touching internationalization, accessibility, or content policy.
+- FEATURES.md: read the index first. Only read specific FTR files relevant to the cultural dimension — visual design, content strategy, accessibility, internationalization, or content policy.
 
 What questions would I benefit from asking?
 

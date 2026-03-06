@@ -14,7 +14,7 @@ Start with operational infrastructure, then broaden:
 
 1. **CLAUDE.md** — project stack, code layout, operational tooling (read fully)
 2. **ROADMAP.md** — find the target phase/milestone, read its success criteria and deliverables
-3. **DES-060** (`design/search/DES-060-operational-surface.md`) — health endpoint, scripts, SLI/SLO targets (ops dashboard moved to platform)
+3. **FTR-096** (`design/search/FTR-096-operational-surface.md`) — health endpoint, scripts, SLI/SLO targets (ops dashboard moved to platform)
 4. **Deployment config** — Terraform files, CI/CD workflows (`.github/workflows/`), Vercel config, environment setup
 5. **Monitoring** — Sentry config, logging setup, any dashboard definitions
 6. **Existing runbooks** — `docs/operations/` if present
@@ -86,7 +86,7 @@ Evaluate each dimension. A single critical gap in dimensions 1-5 is a no-go.
 - Manual accessibility testing performed? (Screen reader, keyboard-only)
 - Legal pages in place? (Privacy policy, terms)
 - Privacy implementation matches stated policy?
-- DELTA compliance verified for analytics? (ADR-095)
+- DELTA compliance verified for analytics? (FTR-082)
 
 ### 9. Documentation & Operability
 
