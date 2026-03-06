@@ -1,6 +1,10 @@
 # Notes
 
 ---
+/compose (invoke, review, converge) ~3, land :
+Integrity page allows paste text to validate integrity. If not integrity, show close match for real. Change text for non-technical readers. Explain it simply for all to understand, operate and trust. Help explain why. What is the sacred mission of the masters? Are there direct quotes to convey the importance of verbatim transmission?
+
+---
 /compose archaeology --layers F2,F7, reframe, invoke, review, land : Executable specification verification architecture — how should FTR design documents be verified against code? FTR-158 proposes deterministic regex parsing for quantitative assertions. But AI agents (builder, architect, operator, verify skill) can verify structural, architectural, and qualitative assertions that regex can't reach. Design the full verification architecture: which assertion types get deterministic CI checks vs agent-based verification vs on-demand AI review? How do differently configured agents (builder verifying as it implements, operator checking compliance periodically, architect validating at phase gates) compose into a layered verification system? Consider cost, coverage, CI integration, the boundary between deterministic and AI-assisted, and how the FTR corpus (163 specs across 5 domains) feeds each layer. Ground in the actual portal architecture (Next.js + Vitest + Playwright + Claude via Bedrock). The goal is a system where no FTR assertion goes unverified — cheap checks run always, deep checks run at the right moments.
 
 ---
