@@ -1,9 +1,12 @@
-# FTR-147: Offline-First Sacred Reading
+---
+ftr: 147
+title: Offline-First Sacred Reading
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-147
+# FTR-147: Offline-First Sacred Reading
 
 ## Rationale
 

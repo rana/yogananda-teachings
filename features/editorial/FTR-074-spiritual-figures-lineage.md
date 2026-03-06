@@ -1,9 +1,13 @@
-# FTR-074: Spiritual Figures and Lineage
+---
+ftr: 74
+title: Spiritual Figures and Lineage
+state: approved
+domain: editorial
+arc: 3c+
+governed-by: [PRI-01, PRI-02]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 3c+
-**Governed by:** PRI-01, PRI-02
+# FTR-074: Spiritual Figures and Lineage
 
 ## Rationale
 

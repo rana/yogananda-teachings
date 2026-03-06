@@ -1,9 +1,13 @@
-# FTR-135: AI-Assisted Translation Workflow
+---
+ftr: 135
+title: AI-Assisted Translation Workflow
+state: approved-provisional
+domain: experience
+arc: "2"
+governed-by: [PRI-01, PRI-06]
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** PRI-01, PRI-06
+# FTR-135: AI-Assisted Translation Workflow
 
 ## Rationale
 

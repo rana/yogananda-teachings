@@ -233,6 +233,8 @@ CI/CD, observability, testing, governance, operational tooling.
 
 ## Always-Load FTRs
 
+> **Source of truth for always-load is now the `always-load: true` field in each FTR's YAML frontmatter.** This table is maintained for human navigation.
+
 These FTRs carry content that was previously in DESIGN.md's always-loaded sections. Load them for any task:
 
 | FTR | Title | Reason |

@@ -1,10 +1,13 @@
-# FTR-153: Design Tooling
+---
+ftr: 153
+title: Design Tooling
+state: deferred
+domain: operations
+arc: Unscheduled
+suspended: 2026-02-28
+---
 
-> **State:** Deferred
-> **Domain:** operations
-> **Arc:** Unscheduled
-> **Governed by:** FTR-153 (deleted), DES-040 (deleted)
-> **Replaces:** FTR-153 (absorbs suspended FTR-153)
+# FTR-153: Design Tooling
 
 ## Proposal
 

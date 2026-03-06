@@ -1,10 +1,13 @@
-# FTR-086: Outbound Webhooks
+---
+ftr: 86
+title: Outbound Webhooks
+state: approved
+domain: operations
+arc: 5a+
+governed-by: [PRI-11]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 5a+
-> **Governed by:** PRI-11
-> **Replaces:** FTR-086, FTR-086
+# FTR-086: Outbound Webhooks
 
 ## Rationale
 

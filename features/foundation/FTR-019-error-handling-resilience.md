@@ -1,9 +1,14 @@
-# FTR-019: Error Handling and Resilience
+---
+ftr: 19
+title: Error Handling and Resilience
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-05, PRI-08]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05, PRI-08
+# FTR-019: Error Handling and Resilience
 
 ## Rationale
 

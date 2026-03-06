@@ -1,9 +1,13 @@
-# FTR-003: Accessibility Foundation
+---
+ftr: 3
+title: Accessibility Foundation
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-07]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-07
+# FTR-003: Accessibility Foundation
 
 ## Rationale
 

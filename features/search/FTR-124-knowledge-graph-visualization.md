@@ -1,9 +1,13 @@
-# FTR-124: Knowledge Graph Visualization
+---
+ftr: 124
+title: Knowledge Graph Visualization
+state: approved-provisional
+domain: search
+arc: 3d+
+governed-by: [PRI-03, PRI-08]
+---
 
-**State:** Approved (Provisional)
-**Domain:** search
-**Arc:** 3d+
-**Governed by:** PRI-03, PRI-08
+# FTR-124: Knowledge Graph Visualization
 
 ## Rationale
 

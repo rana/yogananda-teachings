@@ -1,9 +1,13 @@
-# FTR-024: Embedding Model -- Voyage voyage-3-large, Versioning, and Multilingual Quality
+---
+ftr: 24
+title: "Embedding Model -- Voyage voyage-3-large, Versioning, and Multilingual Quality"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-05, PRI-06]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-05, PRI-06
+# FTR-024: Embedding Model
 
 ## Rationale
 

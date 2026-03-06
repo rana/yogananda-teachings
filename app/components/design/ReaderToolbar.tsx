@@ -3,17 +3,18 @@
 /**
  * ReaderToolbar — minimal fixed controls for the reading surface.
  *
- * Two buttons, bottom-right corner:
- *   Immerse (i) — hides chrome, scales text to viewport.
- *   Print       — triggers browser print dialog.
+ * Three controls, bottom-right corner:
+ *   Reader preferences — text size, line spacing (reading comfort).
+ *   Immerse (i)        — hides chrome, scales text to viewport.
+ *   Print              — triggers browser print dialog.
  *
- * Replaces the former ReadingModes dual-button pill (focus/present).
  * FTR-041 §3. Calm technology: functional, not decorative.
  * Touch targets: 44×44px minimum (WCAG 2.5.8).
  */
 
 import { useCallback, useEffect } from "react";
 import { useDesign } from "./DesignProvider";
+import { ReaderPreferences } from "./ReaderPreferences";
 
 export function ReaderToolbar() {
   const { mode, setMode } = useDesign();
@@ -86,6 +87,7 @@ export function ReaderToolbar() {
       aria-label="Reader toolbar"
       data-no-print
     >
+      <ReaderPreferences />
       <button
         className="reading-mode-btn"
         aria-pressed={isImmersed}

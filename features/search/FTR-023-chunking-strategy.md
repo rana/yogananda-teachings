@@ -1,9 +1,13 @@
-# FTR-023: Chunking Strategy Specification
+---
+ftr: 23
+title: Chunking Strategy Specification
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-03]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-03
+# FTR-023: Chunking Strategy Specification
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-002: Personalization with Restraint — DELTA-Aligned Feature Boundaries
+---
+ftr: 2
+title: Personalization with Restraint — DELTA-Aligned Feature Boundaries
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-08, PRI-09]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-08, PRI-09
+# FTR-002: Personalization with Restraint
 
 ## Rationale
 

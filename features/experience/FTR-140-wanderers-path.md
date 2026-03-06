@@ -1,9 +1,12 @@
-# FTR-140: The Wanderer's Path — Depth-Weighted Passage Discovery
+---
+ftr: 140
+title: "The Wanderer's Path — Depth-Weighted Passage Discovery"
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-140
+# FTR-140: The Wanderer's Path
 
 ## Rationale
 

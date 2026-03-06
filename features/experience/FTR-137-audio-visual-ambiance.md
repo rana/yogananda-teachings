@@ -1,9 +1,12 @@
-# FTR-137: Audio-Visual Ambiance Toggle
+---
+ftr: 137
+title: Audio-Visual Ambiance Toggle
+state: proposed
+domain: experience
+arc: unscheduled
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** unscheduled
-- **Governed by:** FTR-137
+# FTR-137: Audio-Visual Ambiance Toggle
 
 ## Rationale
 

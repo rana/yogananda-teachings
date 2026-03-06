@@ -1,9 +1,13 @@
-# FTR-005: Claude AI Usage Policy — Permitted Roles, Prohibited Uses, and Expansion Roadmap
+---
+ftr: 5
+title: Claude AI Usage Policy — Permitted Roles, Prohibited Uses, and Expansion Roadmap
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-04]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-04
+# FTR-005: Claude AI Usage Policy
 
 ## Rationale
 

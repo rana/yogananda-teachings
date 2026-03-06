@@ -1,10 +1,13 @@
-# FTR-093: AI-Native Operations
+---
+ftr: 93
+title: AI-Native Operations
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-12
-> **Replaces:** FTR-093
+# FTR-093: AI-Native Operations
 
 ## Rationale
 

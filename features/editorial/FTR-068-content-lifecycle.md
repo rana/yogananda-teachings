@@ -1,8 +1,12 @@
-# FTR-068: Content Lifecycle Management
+---
+ftr: 68
+title: Content Lifecycle Management
+state: approved-provisional
+domain: editorial
+arc: 3b+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b+
+# FTR-068: Content Lifecycle Management
 
 ## Rationale
 

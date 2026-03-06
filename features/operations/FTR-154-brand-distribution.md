@@ -1,10 +1,13 @@
-# FTR-154: Brand Distribution
+---
+ftr: 154
+title: Brand Distribution
+state: deferred
+domain: operations
+arc: Post-Arc 3
+suspended: 2026-03-01
+---
 
-> **State:** Deferred
-> **Domain:** operations
-> **Arc:** Post-Arc 3
-> **Governed by:** FTR-154, FTR-154, FTR-154
-> **Replaces:** FTR-154 (absorbs suspended FTR-154, FTR-154, FTR-154)
+# FTR-154: Brand Distribution
 
 ## Proposal
 

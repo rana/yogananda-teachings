@@ -1,9 +1,12 @@
-# FTR-054: Micro-Copy as Ministry
+---
+ftr: 54
+title: Micro-Copy as Ministry
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-054
+# FTR-054: Micro-Copy as Ministry
 
 ## Rationale
 

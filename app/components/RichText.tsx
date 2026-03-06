@@ -119,16 +119,21 @@ export function RichText({ text, formatting, footnotes, dropCap }: RichTextProps
 
   /** Wrap the first letter of a plain text string in a drop-cap span. */
   function renderDropCap(str: string): React.ReactNode {
-    // Find first actual letter (skip whitespace, digits, punctuation)
-    const match = str.match(/^(\s*)([\p{L}])(.*)/su);
+    // Find first actual letter, capturing any leading punctuation (quotes,
+    // guillemets, dashes). Traditional typography renders opening punctuation
+    // smaller alongside the enlarged drop cap letter.
+    const match = str.match(/^(\s*)(["\u201C\u201D\u2018\u2019\u00AB\u00BB\u2014\u2013]*)(\p{L})(.*)/su);
     if (!match) return str;
-    const [, leading, letter, rest] = match;
+    const [, leading, punct, letter, rest] = match;
     return (
       <>
         {leading}
-        <span className="drop-cap" aria-hidden="true">{letter}</span>
+        <span className="drop-cap" aria-hidden="true">
+          {punct && <span className="drop-cap-punct">{punct}</span>}
+          {letter}
+        </span>
         {/* Screen readers get the full text naturally; drop-cap is visual only */}
-        <span className="sr-only">{letter}</span>
+        <span className="sr-only">{punct}{letter}</span>
         {rest}
       </>
     );

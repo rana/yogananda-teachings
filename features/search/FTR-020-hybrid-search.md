@@ -1,9 +1,13 @@
-# FTR-020: Hybrid Search (Vector + Full-Text)
+---
+ftr: 20
+title: Hybrid Search (Vector + Full-Text)
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-03]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-03
+# FTR-020: Hybrid Search
 
 ## Rationale
 

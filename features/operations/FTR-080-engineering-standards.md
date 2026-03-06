@@ -1,10 +1,13 @@
-# FTR-080: Engineering Standards
+---
+ftr: 80
+title: Engineering Standards
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-10, PRI-12
-> **Replaces:** FTR-080
+# FTR-080: Engineering Standards
 
 ## Rationale
 

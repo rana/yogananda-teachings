@@ -1,9 +1,13 @@
-# FTR-121: Teaching Topics — Curated Thematic Entry Points and Multi-Category Taxonomy
+---
+ftr: 121
+title: "Teaching Topics — Curated Thematic Entry Points and Multi-Category Taxonomy"
+state: approved
+domain: search
+arc: 3b+
+governed-by: [PRI-03, PRI-08, PRI-09]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 3b+
-**Governed by:** PRI-03, PRI-08, PRI-09
+# FTR-121: Teaching Topics
 
 ## Rationale
 

@@ -1,9 +1,14 @@
-# FTR-016: Security Considerations
+---
+ftr: 16
+title: Security Considerations
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-09]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-09
+# FTR-016: Security Considerations
 
 ## Rationale
 

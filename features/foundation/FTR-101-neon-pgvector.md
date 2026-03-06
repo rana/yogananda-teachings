@@ -1,9 +1,13 @@
-# FTR-101: Neon + pgvector for Vector Search
+---
+ftr: 101
+title: Neon + pgvector for Vector Search
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-101: Neon + pgvector for Vector Search
 
 ## Rationale
 

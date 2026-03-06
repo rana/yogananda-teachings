@@ -1,9 +1,14 @@
-# FTR-114: Neon Auth as Auth0 Alternative
+---
+ftr: 114
+title: Neon Auth as Auth0 Alternative
+state: proposed
+domain: foundation
+arc: 7+
+governed-by: [FTR-094]
+re-evaluate-at: Milestone 7a scoping
+---
 
-**State:** Proposed
-**Domain:** foundation
-**Arc:** 7+
-**Governed by:** FTR-094
+# FTR-114: Neon Auth as Auth0 Alternative
 
 ## Rationale
 

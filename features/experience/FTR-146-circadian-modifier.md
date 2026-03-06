@@ -1,9 +1,12 @@
-# FTR-146: Circadian as Independent Behavior Modifier
+---
+ftr: 146
+title: Circadian as Independent Behavior Modifier
+state: proposed
+domain: experience
+arc: "1"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 1
-- **Governed by:** FTR-146
+# FTR-146: Circadian as Independent Behavior Modifier
 
 ## Rationale
 

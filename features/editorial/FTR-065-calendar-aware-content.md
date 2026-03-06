@@ -1,8 +1,12 @@
-# FTR-065: Calendar-Aware Content Surfacing
+---
+ftr: 65
+title: Calendar-Aware Content Surfacing
+state: approved-provisional
+domain: editorial
+arc: 3b+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b+
+# FTR-065: Calendar-Aware Content Surfacing
 
 ## Rationale
 

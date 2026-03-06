@@ -1,9 +1,13 @@
-# FTR-071: Epistemic Data Boundary — Three-Phase Pipeline
+---
+ftr: 71
+title: Epistemic Data Boundary — Three-Phase Pipeline
+state: approved
+domain: editorial
+arc: 1+
+governed-by: [PRI-03, PRI-10]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 1+
-**Governed by:** PRI-03, PRI-10
+# FTR-071: Epistemic Data Boundary
 
 ## Rationale
 

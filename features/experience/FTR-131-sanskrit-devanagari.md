@@ -1,9 +1,12 @@
-# FTR-131: Sanskrit Display, Search Normalization, and Devanāgarī Typography
+---
+ftr: 131
+title: Sanskrit Display, Search Normalization, and Devanāgarī Typography
+state: approved
+domain: experience
+arc: "1"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 1
-- **Governed by:** FTR-131
+# FTR-131: Sanskrit Display
 
 ## Rationale
 

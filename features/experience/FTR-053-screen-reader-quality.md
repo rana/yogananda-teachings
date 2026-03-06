@@ -1,9 +1,12 @@
-# FTR-053: Screen Reader Quality
+---
+ftr: 53
+title: Screen Reader Quality
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-053
+# FTR-053: Screen Reader Quality
 
 ## Rationale
 

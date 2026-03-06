@@ -1,9 +1,12 @@
-# FTR-144: Cross-Site Harmony — yogananda.org Ecosystem Integration
+---
+ftr: 144
+title: Cross-Site Harmony — yogananda.org Ecosystem Integration
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-144
+# FTR-144: Cross-Site Harmony
 
 ## Rationale
 

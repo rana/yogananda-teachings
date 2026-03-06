@@ -61,6 +61,24 @@ export function getVisitedCount(bookSlug: string): number {
 }
 
 /**
+ * Clear visited chapter data for a single book.
+ */
+export function clearBookVisited(bookSlug: string): void {
+  if (typeof window === "undefined") return;
+  try {
+    const data = readData();
+    delete data[bookSlug];
+    if (Object.keys(data).length === 0) {
+      localStorage.removeItem(STORAGE_KEY);
+    } else {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+  } catch {
+    // localStorage unavailable — skip silently
+  }
+}
+
+/**
  * Clear all visited chapter data.
  * Used by the "Your Data" settings section.
  */

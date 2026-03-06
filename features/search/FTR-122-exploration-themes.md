@@ -1,9 +1,13 @@
-# FTR-122: Exploration Theme Categories — Persons, Principles, Scriptures, Practices, Yoga Paths
+---
+ftr: 122
+title: "Exploration Theme Categories — Persons, Principles, Scriptures, Practices, Yoga Paths"
+state: approved
+domain: search
+arc: 3c+
+governed-by: [PRI-03]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 3c+
-**Governed by:** PRI-03
+# FTR-122: Exploration Theme Categories
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-118: Cloudflare Re-evaluation for SRF Domain Routing
+---
+ftr: 118
+title: Cloudflare Re-evaluation for SRF Domain Routing
+state: proposed
+domain: foundation
+arc: 1+
+governed-by: [FTR-097, FTR-106]
+---
 
-**State:** Proposed
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** FTR-097, FTR-106
+# FTR-118: Cloudflare Re-evaluation
 
 ## Rationale
 

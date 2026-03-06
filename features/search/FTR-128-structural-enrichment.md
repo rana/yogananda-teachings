@@ -1,9 +1,13 @@
-# FTR-128: Structural Enrichment Tier — Whole-Context AI Understanding for Navigation
+---
+ftr: 128
+title: "Structural Enrichment Tier — Whole-Context AI Understanding for Navigation"
+state: proposed
+domain: search
+arc: 3b+
+governed-by: [FTR-026, FTR-034, FTR-105, FTR-028, FTR-039]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 3b+
-**Governed by:** FTR-026, FTR-034, FTR-105, FTR-028, FTR-039
+# FTR-128: Structural Enrichment Tier
 
 ## Rationale
 

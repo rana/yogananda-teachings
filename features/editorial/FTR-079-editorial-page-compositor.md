@@ -1,8 +1,12 @@
-# FTR-079: Editorial Page Compositor — Data-Driven Layout Curation
+---
+ftr: 79
+title: Editorial Page Compositor — Data-Driven Layout Curation
+state: proposed
+domain: editorial
+arc: 3b+
+---
 
-**State:** Proposed
-**Domain:** editorial
-**Arc:** 3b+
+# FTR-079: Editorial Page Compositor
 
 ## Rationale
 

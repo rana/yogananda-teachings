@@ -1,9 +1,12 @@
-# FTR-045: Platform Parity Mobile
+---
+ftr: 45
+title: Platform Parity Mobile
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-045
+# FTR-045: Platform Parity Mobile
 
 ## Rationale
 

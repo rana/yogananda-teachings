@@ -1,10 +1,14 @@
-# FTR-081: Testing Strategy
+---
+ftr: 81
+title: Testing Strategy
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-01, PRI-07, PRI-10]
+always-load: true
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-01, PRI-07, PRI-10
-> **Replaces:** FTR-081, FTR-081
+# FTR-081: Testing Strategy
 
 ## Rationale
 

@@ -1,20 +1,17 @@
 "use client";
 
 /**
- * ReaderPreferences — accessibility-first reading comfort controls.
+ * ReaderPreferences — reading comfort controls.
  *
- * Font size (normal, large, larger) and line spacing (normal, relaxed,
- * spacious) applied via CSS classes on <html>. The design system's
- * preferences.css does the work; this component just toggles classes.
+ * Font size (normal, large, larger) and line spacing (tight, relaxed,
+ * spacious) applied via CSS classes on .chapter-body. Lives in the
+ * ReaderToolbar — a book-reader-only experience, not site-wide chrome.
  *
  * Calm technology: functional register, no decorative animation.
  * Persists to localStorage. Client island — ~1 kB.
- *
- * Source CSS: yogananda-design/css/patterns/preferences.css
  */
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { locales, localeNames, type Locale } from "@/i18n/config";
 
 type FontSize = "normal" | "large" | "larger";
 type LineSpacing = "normal" | "relaxed" | "spacious";
@@ -52,15 +49,11 @@ function savePrefs(fontSize: FontSize, lineSpacing: LineSpacing) {
 }
 
 function applyToDOM(fontSize: FontSize, lineSpacing: LineSpacing) {
-  // Scope to .chapter-body only — reader preferences affect only the
-  // reading surface, not search results, homepage, or theme pages (FTR-041 §6).
   const target = document.querySelector<HTMLElement>(".chapter-body");
   if (!target) return;
-  // Font size
   target.classList.remove("font-large", "font-larger");
   if (fontSize === "large") target.classList.add("font-large");
   if (fontSize === "larger") target.classList.add("font-larger");
-  // Line spacing
   target.classList.remove("line-relaxed", "line-spacious");
   if (lineSpacing === "relaxed") target.classList.add("line-relaxed");
   if (lineSpacing === "spacious") target.classList.add("line-spacious");
@@ -115,14 +108,27 @@ export function ReaderPreferences() {
     <div className="reader-prefs" ref={containerRef}>
       <button
         ref={triggerRef}
-        className="reader-prefs-trigger"
+        className="reading-mode-btn"
         onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
         aria-haspopup="dialog"
         aria-label="Reading preferences"
+        title="Text preferences"
       >
-        <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path d="M3 4a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Zm0 6a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Zm1 5a1 1 0 1 0 0 2h8a1 1 0 1 0 0-2H4Z" />
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7V4h16v3" />
+          <path d="M9 20h6" />
+          <path d="M12 4v16" />
         </svg>
       </button>
 
@@ -167,51 +173,6 @@ export function ReaderPreferences() {
               ))}
             </div>
           </fieldset>
-
-          {/* Language */}
-          <fieldset className="reader-prefs-group">
-            <legend className="reader-prefs-legend">Language</legend>
-            <div className="reader-prefs-options">
-              {locales.map((loc) => {
-                const current = window.location.pathname.split("/")[1];
-                const isActive = current === loc;
-                return (
-                  <button
-                    key={loc}
-                    className={`reader-prefs-line-btn${isActive ? " active" : ""}`}
-                    onClick={() => {
-                      if (isActive) return;
-                      const path = window.location.pathname;
-                      const newPath = path.replace(/^\/[a-z]{2}(\/|$)/, `/${loc}$1`);
-                      window.location.href = newPath || `/${loc}`;
-                    }}
-                    aria-pressed={isActive}
-                  >
-                    {localeNames[loc as Locale] || loc}
-                  </button>
-                );
-              })}
-            </div>
-          </fieldset>
-
-          {/* Reset */}
-          <div className="reader-prefs-group" style={{ borderBlockStart: "1px solid color-mix(in oklch, var(--color-text), transparent 90%)", paddingBlockStart: "var(--space-compact)" }}>
-            <button
-              className="reader-prefs-line-btn"
-              onClick={() => {
-                try {
-                  localStorage.clear();
-                  setFontSize("normal");
-                  setLineSpacing("normal");
-                  applyToDOM("normal", "normal");
-                  setOpen(false);
-                } catch { /* noop */ }
-              }}
-              style={{ fontSize: "0.75rem", opacity: 0.6 }}
-            >
-              Reset all preferences
-            </button>
-          </div>
         </div>
       )}
     </div>

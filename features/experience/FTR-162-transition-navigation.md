@@ -1,9 +1,13 @@
-# FTR-162: Transition-Based Navigation — Emotional State-Pair Journeys
+---
+ftr: 162
+title: Transition-Based Navigation — Emotional State-Pair Journeys
+state: proposed
+domain: experience
+arc: 3b+
+governed-by: [PRI-03, PRI-04, FTR-038, FTR-028, FTR-034]
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 3b+
-- **Governed by:** PRI-03 (Honoring the Spirit), PRI-04 (Signpost, not destination), FTR-038 (Cognitive Task Classification), FTR-028 (Vocabulary Bridge), FTR-034 (Knowledge Graph)
+# FTR-162: Transition-Based Navigation
 
 ## Rationale
 

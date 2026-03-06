@@ -1,9 +1,12 @@
-# FTR-138: Four Doors — Recognition-Based Emotional Entry
+---
+ftr: 138
+title: Four Doors — Recognition-Based Emotional Entry
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-138
+# FTR-138: Four Doors
 
 ## Rationale
 

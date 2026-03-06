@@ -1,9 +1,12 @@
-# FTR-143: Study & Community Tools
+---
+ftr: 143
+title: Study & Community Tools
+state: deferred
+domain: experience
+arc: 3+
+---
 
-- **State:** Deferred
-- **Domain:** experience
-- **Arc:** 3+
-- **Governed by:** FTR-143 (absorbs FTR-143, FTR-143, FTR-143)
+# FTR-143: Study & Community Tools
 
 ## Rationale
 

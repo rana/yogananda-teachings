@@ -1,10 +1,13 @@
-# FTR-152: Human Review Gate
+---
+ftr: 152
+title: Human Review Gate
+state: proposed
+domain: operations
+arc: 2+
+governed-by: [FTR-005, FTR-121, FTR-135, FTR-154, FTR-060]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 2+
-> **Governed by:** FTR-005, FTR-121, FTR-135, FTR-154, FTR-060
-> **Replaces:** FTR-152
+# FTR-152: Human Review Gate
 
 ## Proposal
 

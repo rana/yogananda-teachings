@@ -1,9 +1,13 @@
-# FTR-113: Vercel OIDC Federation — Zero Long-Lived AWS Credentials
+---
+ftr: 113
+title: Vercel OIDC Federation — Zero Long-Lived AWS Credentials
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-113: Vercel OIDC Federation
 
 ## Rationale
 

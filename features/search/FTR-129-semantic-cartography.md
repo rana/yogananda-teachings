@@ -1,9 +1,13 @@
-# FTR-129: Semantic Cartography — Meaningful Spatial Navigation
+---
+ftr: 129
+title: "Semantic Cartography — Meaningful Spatial Navigation"
+state: proposed
+domain: search
+arc: 3d+
+governed-by: [FTR-124, FTR-034, FTR-039]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 3d+
-**Governed by:** FTR-124, FTR-034, FTR-039
+# FTR-129: Semantic Cartography
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-029: Search Suggestions — Corpus-Derived, Not Behavior-Derived
+---
+ftr: 29
+title: "Search Suggestions — Corpus-Derived, Not Behavior-Derived"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-05, PRI-08, PRI-09]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-05, PRI-08, PRI-09
+# FTR-029: Search Suggestions
 
 ## Rationale
 

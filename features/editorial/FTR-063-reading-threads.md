@@ -1,8 +1,12 @@
-# FTR-063: Editorial Reading Threads — "Teachings in Conversation"
+---
+ftr: 63
+title: "Editorial Reading Threads — Teachings in Conversation"
+state: approved-provisional
+domain: editorial
+arc: 3c+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3c+
+# FTR-063: Editorial Reading Threads
 
 ## Rationale
 

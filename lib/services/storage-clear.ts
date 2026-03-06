@@ -55,6 +55,8 @@ export function clearAllData(): void {
   if (typeof window === "undefined") return;
   try {
     localStorage.removeItem("srf-lowbw-dismissed");
+    localStorage.removeItem("yogananda-design");
+    localStorage.removeItem("yogananda-reader-prefs");
   } catch {
     // silent
   }

@@ -1,9 +1,12 @@
-# FTR-041: Book Reader
+---
+ftr: 41
+title: Book Reader
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-041
+# FTR-041: Book Reader
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-011: Reachable Population — Quantitative Prioritization Framework
+---
+ftr: 11
+title: Reachable Population — Quantitative Prioritization Framework
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-05]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05
+# FTR-011: Reachable Population
 
 ## Rationale
 

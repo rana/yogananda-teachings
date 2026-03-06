@@ -1,10 +1,13 @@
-# FTR-094: Neon Platform Governance
+---
+ftr: 94
+title: Neon Platform Governance
+state: approved
+domain: operations
+arc: 1a+
+governed-by: [PRI-10, PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1a+
-> **Governed by:** PRI-10, PRI-12
-> **Replaces:** FTR-094
+# FTR-094: Neon Platform Governance
 
 ## Rationale
 

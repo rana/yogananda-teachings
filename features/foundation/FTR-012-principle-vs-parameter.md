@@ -1,9 +1,13 @@
-# FTR-012: Principle vs. Parameter — Decision Classification and Governance Flexibility
+---
+ftr: 12
+title: Principle vs. Parameter — Decision Classification and Governance Flexibility
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-012: Principle vs. Parameter
 
 ## Rationale
 

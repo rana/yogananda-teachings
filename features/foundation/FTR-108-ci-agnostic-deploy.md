@@ -1,9 +1,13 @@
-# FTR-108: CI-Agnostic Deployment Scripts
+---
+ftr: 108
+title: CI-Agnostic Deployment Scripts
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-108: CI-Agnostic Deployment Scripts
 
 ## Rationale
 

@@ -1,10 +1,13 @@
-# FTR-090: Content Versioning
+---
+ftr: 90
+title: Content Versioning
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-01, PRI-02, PRI-10]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-01, PRI-02, PRI-10
-> **Replaces:** FTR-090
+# FTR-090: Content Versioning
 
 ## Rationale
 

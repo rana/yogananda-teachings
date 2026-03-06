@@ -1,9 +1,13 @@
-# FTR-109: Database Backup and Recovery Strategy
+---
+ftr: 109
+title: Database Backup and Recovery Strategy
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-109: Database Backup and Recovery Strategy
 
 ## Rationale
 

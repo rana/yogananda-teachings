@@ -1,9 +1,13 @@
-# FTR-125: Scientific-Spiritual Bridge Themes
+---
+ftr: 125
+title: Scientific-Spiritual Bridge Themes
+state: proposed
+domain: search
+arc: 2a+
+governed-by: [FTR-121, FTR-028, FTR-122, FTR-056, FTR-034, FTR-026]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 2a+
-**Governed by:** FTR-121, FTR-028, FTR-122, FTR-056, FTR-034, FTR-026
+# FTR-125: Scientific-Spiritual Bridge Themes
 
 ## Rationale
 

@@ -1,9 +1,12 @@
-# FTR-040: Frontend Design
+---
+ftr: 40
+title: Frontend Design
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-040 (includes FTR-040, FTR-040, FTR-040, FTR-040, FTR-040, FTR-040, FTR-040, FTR-040, FTR-040, FTR-040)
+# FTR-040: Frontend Design
 
 ## Rationale
 

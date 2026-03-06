@@ -1,9 +1,13 @@
-# FTR-062: Living Glossary — Spiritual Terminology as User-Facing Feature
+---
+ftr: 62
+title: Living Glossary — Spiritual Terminology as User-Facing Feature
+state: approved
+domain: editorial
+arc: 2b+
+governed-by: [PRI-01, PRI-02]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 2b+
-**Governed by:** PRI-01, PRI-02
+# FTR-062: Living Glossary
 
 ## Rationale
 

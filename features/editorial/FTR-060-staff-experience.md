@@ -1,9 +1,13 @@
-# FTR-060: Staff Experience Architecture — Five-Layer Editorial System
+---
+ftr: 60
+title: Staff Experience Architecture — Five-Layer Editorial System
+state: approved-provisional
+domain: editorial
+arc: 3b+
+governed-by: [PRI-03, PRI-08, PRI-12]
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b+
-**Governed by:** PRI-03, PRI-08, PRI-12
+# FTR-060: Staff Experience Architecture
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-075: Magazine Integration — Self-Realization Magazine as First-Class Content
+---
+ftr: 75
+title: Magazine Integration — Self-Realization Magazine as First-Class Content
+state: approved
+domain: editorial
+arc: "4"
+governed-by: [PRI-01, PRI-02]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 4
-**Governed by:** PRI-01, PRI-02
+# FTR-075: Magazine Integration
 
 ## Rationale
 

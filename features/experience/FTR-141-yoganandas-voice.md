@@ -1,9 +1,12 @@
-# FTR-141: Yogananda's Voice — Primary Source Audio Presence
+---
+ftr: 141
+title: "Yogananda's Voice — Primary Source Audio Presence"
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-141
+# FTR-141: Yogananda's Voice
 
 ## Rationale
 

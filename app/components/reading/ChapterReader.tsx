@@ -60,6 +60,9 @@ export function ChapterReader({
   // Each group renders as a unit; scene breaks appear between groups.
   const sections = groupBySections(paragraphs);
 
+  // Pre-compute image positions (paragraph index → image).
+  const imageMap = buildImageMap(images, paragraphs);
+
   // Track whether we've seen the first prose paragraph (for drop cap).
   let firstProseRendered = false;
 
@@ -102,7 +105,7 @@ export function ChapterReader({
             {section.paragraphs.map((para, paraLocalIdx) => {
               const globalIdx = para._globalIndex;
               const hasThread = threadParagraphs?.has(globalIdx);
-              const image = findImageForPosition(images, para.pageNumber, globalIdx, paragraphs.length);
+              const image = imageMap.get(globalIdx);
 
               // Drop cap: only on the first prose paragraph in the chapter,
               // only for scripts with clear initial letters (Latin, etc.).
@@ -124,7 +127,13 @@ export function ChapterReader({
                         loading="lazy"
                       />
                       {image.caption && (
-                        <figcaption className="book-caption">{image.caption}</figcaption>
+                        <figcaption className="book-caption">
+                          {image.caption.split("\n").map((line, i) => (
+                            <span key={i} className={i === 0 ? "book-caption-name" : "book-caption-desc"}>
+                              {line}
+                            </span>
+                          ))}
+                        </figcaption>
                       )}
                     </figure>
                   )}
@@ -142,13 +151,13 @@ export function ChapterReader({
         ))}
       </div>
 
-      {/* Chapter close motif */}
-      <Motif role="close" voice={isPublished ? "crimson" : "sacred"} />
-
-      {/* Footnotes */}
+      {/* Footnotes — still chapter content, before the closing ornament */}
       {footnotes.length > 0 && (
         <FootnoteList footnotes={footnotes} />
       )}
+
+      {/* Chapter close motif — the terminal ornament, after all content */}
+      <Motif role="close" voice={isPublished ? "crimson" : "sacred"} />
 
       {/* Print-only: full provenance at chapter end (PRI-02) */}
       <div className="print-citation" aria-hidden="true">
@@ -303,23 +312,39 @@ function groupBySections(paragraphs: ChapterParagraph[]): Section[] {
 }
 
 /**
- * Find an image that should appear before the given paragraph position.
- * Images are sorted by page number and inserted at the paragraph closest
- * to their original page position.
+ * Build a map from paragraph globalIndex → image for that position.
+ *
+ * Each image appears before the first paragraph whose page number
+ * meets or exceeds the image's page number. Images without a matching
+ * paragraph are placed proportionally.
  */
-function findImageForPosition(
+function buildImageMap(
   images: ChapterContent["images"],
-  paraPageNumber: number | null,
-  paraIndex: number,
-  totalParagraphs: number,
-): ChapterContent["images"][number] | undefined {
-  if (!images || images.length === 0) return undefined;
-  // Simple heuristic: show each image before the paragraph at proportional position
+  paragraphs: ChapterParagraph[],
+): Map<number, ChapterContent["images"][number]> {
+  const map = new Map<number, ChapterContent["images"][number]>();
+  if (!images || images.length === 0) return map;
+
   for (const img of images) {
-    const imgPosition = Math.round(
-      (img.pageNumber / (images[images.length - 1].pageNumber + 1)) * totalParagraphs,
-    );
-    if (imgPosition === paraIndex) return img;
+    // Find the first paragraph at or after the image's page
+    let targetIdx = -1;
+    for (let i = 0; i < paragraphs.length; i++) {
+      if (paragraphs[i].pageNumber != null && paragraphs[i].pageNumber! >= img.pageNumber) {
+        targetIdx = i;
+        break;
+      }
+    }
+    // Fallback: proportional placement
+    if (targetIdx === -1) {
+      targetIdx = Math.min(
+        Math.round((img.pageNumber / (images[images.length - 1].pageNumber + 1)) * paragraphs.length),
+        paragraphs.length - 1,
+      );
+    }
+    // Don't overwrite — first image at a position wins
+    if (!map.has(targetIdx)) {
+      map.set(targetIdx, img);
+    }
   }
-  return undefined;
+  return map;
 }

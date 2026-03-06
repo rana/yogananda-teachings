@@ -1,9 +1,14 @@
-# FTR-115: pg_cron for In-Database Scheduling
+---
+ftr: 115
+title: pg_cron for In-Database Scheduling
+state: proposed
+domain: foundation
+arc: 3+
+governed-by: [FTR-094, FTR-107]
+re-evaluate-at: Milestone 3a
+---
 
-**State:** Proposed
-**Domain:** foundation
-**Arc:** 3+
-**Governed by:** FTR-094, FTR-107
+# FTR-115: pg_cron for In-Database Scheduling
 
 ## Rationale
 

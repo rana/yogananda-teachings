@@ -1,9 +1,12 @@
-# FTR-057: YouTube Video Integration
+---
+ftr: 57
+title: YouTube Video Integration
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-057, FTR-057
+# FTR-057: YouTube Video Integration
 
 ## Rationale
 

@@ -1,10 +1,13 @@
-# FTR-095: Infrastructure and Deployment
+---
+ftr: 95
+title: Infrastructure and Deployment
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-10, PRI-12
-> **Replaces:** FTR-095
+# FTR-095: Infrastructure and Deployment
 
 ## Specification
 

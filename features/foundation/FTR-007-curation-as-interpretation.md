@@ -1,9 +1,14 @@
-# FTR-007: Curation as Interpretation — The Fidelity Boundary and Editorial Proximity Standard
+---
+ftr: 7
+title: Curation as Interpretation — The Fidelity Boundary and Editorial Proximity Standard
+state: approved-foundational
+domain: foundation
+arc: cross-cutting
+governed-by: [PRI-01, PRI-02, PRI-03]
+always-load: true
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** — (cross-cutting)
-**Governed by:** PRI-01, PRI-02, PRI-03
+# FTR-007: Curation as Interpretation
 
 ## Rationale
 

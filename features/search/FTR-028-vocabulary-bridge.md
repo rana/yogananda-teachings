@@ -1,9 +1,13 @@
-# FTR-028: Vocabulary Bridge -- Semantic Infrastructure for State-Aware Retrieval
+---
+ftr: 28
+title: "Vocabulary Bridge -- Semantic Infrastructure for State-Aware Retrieval"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-03, PRI-05, PRI-06]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-03, PRI-05, PRI-06
+# FTR-028: Vocabulary Bridge
 
 ## Rationale
 

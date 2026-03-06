@@ -1,9 +1,14 @@
-# FTR-018: Unified Content Pipeline Pattern
+---
+ftr: 18
+title: Unified Content Pipeline Pattern
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-02]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-02
+# FTR-018: Unified Content Pipeline Pattern
 
 ## Rationale
 

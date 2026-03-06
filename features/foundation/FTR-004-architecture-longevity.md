@@ -1,9 +1,14 @@
-# FTR-004: Architecture Longevity — 10-Year Design Horizon
+---
+ftr: 4
+title: Architecture Longevity — 10-Year Design Horizon
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+always-load: true
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-004: Architecture Longevity
 
 ## Rationale
 

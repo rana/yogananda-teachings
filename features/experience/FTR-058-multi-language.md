@@ -1,9 +1,12 @@
-# FTR-058: Multi-Language Architecture
+---
+ftr: 58
+title: Multi-Language Architecture
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-058, FTR-058, FTR-058, FTR-058, FTR-058
+# FTR-058: Multi-Language Architecture
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-061: DELTA-Compliant Seeker Feedback Mechanism
+---
+ftr: 61
+title: DELTA-Compliant Seeker Feedback Mechanism
+state: approved-provisional
+domain: editorial
+arc: 3b
+governed-by: [PRI-08, PRI-09]
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b
-**Governed by:** PRI-08, PRI-09
+# FTR-061: DELTA-Compliant Seeker Feedback Mechanism
 
 ## Rationale
 

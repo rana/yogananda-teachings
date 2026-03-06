@@ -1,9 +1,13 @@
-# FTR-034: Knowledge Graph — Structured Spiritual Ontology and Postgres-Native Graph Intelligence
+---
+ftr: 34
+title: "Knowledge Graph — Structured Spiritual Ontology and Postgres-Native Graph Intelligence"
+state: approved
+domain: search
+arc: 3b+
+governed-by: [PRI-03, PRI-10]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 3b+
-**Governed by:** PRI-03, PRI-10
+# FTR-034: Knowledge Graph
 
 ## Rationale
 

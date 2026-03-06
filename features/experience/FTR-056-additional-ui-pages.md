@@ -1,9 +1,12 @@
-# FTR-056: Additional UI Pages
+---
+ftr: 56
+title: Additional UI Pages
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-056 (subsections: FTR-056, FTR-056, FTR-056)
+# FTR-056: Additional UI Pages
 
 ## Rationale
 

@@ -1,9 +1,12 @@
-# FTR-139: Multi-Lens Homepage
+---
+ftr: 139
+title: Multi-Lens Homepage
+state: proposed
+domain: experience
+arc: "2"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-139
+# FTR-139: Multi-Lens Homepage
 
 ## Rationale
 

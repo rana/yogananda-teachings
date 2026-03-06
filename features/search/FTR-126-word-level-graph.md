@@ -1,9 +1,13 @@
-# FTR-126: Word-Level Graph Navigation
+---
+ftr: 126
+title: Word-Level Graph Navigation
+state: proposed
+domain: search
+arc: 3c+
+governed-by: [FTR-034, FTR-033, FTR-029, FTR-030]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 3c+
-**Governed by:** FTR-034, FTR-034, FTR-033, FTR-029, FTR-030
+# FTR-126: Word-Level Graph Navigation
 
 ## Rationale
 

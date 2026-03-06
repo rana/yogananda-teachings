@@ -1,8 +1,12 @@
-# FTR-064: Reverse Bibliography — "What Yogananda Read"
+---
+ftr: 64
+title: "Reverse Bibliography — What Yogananda Read"
+state: approved-provisional
+domain: editorial
+arc: 3c+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3c+
+# FTR-064: Reverse Bibliography
 
 ## Rationale
 

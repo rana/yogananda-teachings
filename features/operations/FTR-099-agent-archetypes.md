@@ -1,10 +1,14 @@
-# FTR-099: Agent Archetypes
+---
+ftr: 99
+title: Agent Archetypes
+state: proposed
+domain: operations
+arc: 3+
+governed-by: [PRI-01, PRI-12]
+re-evaluate-at: Arc 3 boundary
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** 3+
-> **Governed by:** PRI-01, PRI-12
-> **Replaces:** FTR-099
+# FTR-099: Agent Archetypes
 
 ## Rationale
 

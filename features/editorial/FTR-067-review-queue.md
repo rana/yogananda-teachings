@@ -1,8 +1,12 @@
-# FTR-067: Unified Review Queue Abstraction
+---
+ftr: 67
+title: Unified Review Queue Abstraction
+state: approved-provisional
+domain: editorial
+arc: 3b+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b+
+# FTR-067: Unified Review Queue Abstraction
 
 ## Rationale
 

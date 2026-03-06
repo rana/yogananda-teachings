@@ -1,9 +1,13 @@
-# FTR-161: Practice Signals — Anonymous Practice Engagement Without Surveillance
+---
+ftr: 161
+title: Practice Signals — Anonymous Practice Engagement Without Surveillance
+state: proposed
+domain: experience
+arc: 3b+
+governed-by: [PRI-04, PRI-08, PRI-09, FTR-031, FTR-055]
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 3b+
-- **Governed by:** PRI-04 (Signpost, not destination), PRI-08 (Calm Technology), PRI-09 (DELTA), FTR-031 (Passage Resonance), FTR-055 (Practice Bridge)
+# FTR-161: Practice Signals
 
 ## Rationale
 

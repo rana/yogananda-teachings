@@ -1,9 +1,13 @@
-# FTR-001: Direct Quotes Only — No AI Synthesis
+---
+ftr: 1
+title: Direct Quotes Only — No AI Synthesis
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-02]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-02
+# FTR-001: Direct Quotes Only
 
 ## Rationale
 

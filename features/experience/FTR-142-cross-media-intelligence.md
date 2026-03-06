@@ -1,9 +1,14 @@
-# FTR-142: Cross-Media Intelligence
+---
+ftr: 142
+title: Cross-Media Intelligence
+state: deferred
+domain: experience
+arc: 3+
+suspended: 2026-03-01
+re-evaluate-at: Arc 3 boundary
+---
 
-- **State:** Deferred
-- **Domain:** experience
-- **Arc:** 3+
-- **Governed by:** FTR-142 (absorbs FTR-142–060)
+# FTR-142: Cross-Media Intelligence
 
 ## Rationale
 

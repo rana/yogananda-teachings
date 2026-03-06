@@ -1,9 +1,13 @@
-# FTR-038: Cognitive Task Classification (COG-NN)
+---
+ftr: 38
+title: Cognitive Task Classification (COG-NN)
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-12]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-12
+# FTR-038: Cognitive Task Classification
 
 ## Rationale
 

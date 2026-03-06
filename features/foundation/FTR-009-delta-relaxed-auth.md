@@ -1,9 +1,13 @@
-# FTR-009: DELTA-Relaxed Authenticated Experience
+---
+ftr: 9
+title: DELTA-Relaxed Authenticated Experience
+state: approved
+domain: foundation
+arc: 7a+
+governed-by: [PRI-08, PRI-09]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 7a+
-**Governed by:** PRI-08, PRI-09
+# FTR-009: DELTA-Relaxed Authenticated Experience
 
 ## Rationale
 

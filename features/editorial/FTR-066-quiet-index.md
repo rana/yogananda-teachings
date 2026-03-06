@@ -1,8 +1,12 @@
-# FTR-066: The Quiet Index — Browsable Contemplative Taxonomy
+---
+ftr: 66
+title: The Quiet Index — Browsable Contemplative Taxonomy
+state: approved-provisional
+domain: editorial
+arc: 3b
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b
+# FTR-066: The Quiet Index
 
 ## Rationale
 

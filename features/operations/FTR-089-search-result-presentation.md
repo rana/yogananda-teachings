@@ -1,10 +1,13 @@
-# FTR-089: Search Result Presentation
+---
+ftr: 89
+title: Search Result Presentation
+state: approved
+domain: operations
+arc: 1a+
+governed-by: [PRI-01, PRI-02, PRI-03]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1a+
-> **Governed by:** PRI-01, PRI-02, PRI-03
-> **Replaces:** FTR-089
+# FTR-089: Search Result Presentation
 
 ## Rationale
 

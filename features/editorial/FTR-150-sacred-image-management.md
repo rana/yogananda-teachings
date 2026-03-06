@@ -1,8 +1,13 @@
-# FTR-150: Sacred Image Management — Watermarking and Multi-Size Serving
+---
+ftr: 150
+title: Sacred Image Management — Watermarking and Multi-Size Serving
+state: deferred
+domain: editorial
+arc: 3+
+suspended: 2026-03-01
+---
 
-**State:** Deferred
-**Domain:** editorial
-**Arc:** 3+
+# FTR-150: Sacred Image Management
 
 ## Rationale
 

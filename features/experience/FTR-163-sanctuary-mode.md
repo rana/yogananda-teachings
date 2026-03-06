@@ -1,9 +1,13 @@
-# FTR-163: Sanctuary Mode — Crisis-State Environmental Adaptation
+---
+ftr: 163
+title: Sanctuary Mode — Crisis-State Environmental Adaptation
+state: proposed
+domain: experience
+arc: 3a+
+governed-by: [PRI-03, PRI-05, PRI-08, PRI-09, FTR-051, FTR-042]
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 3a+
-- **Governed by:** PRI-03 (Honoring the Spirit), PRI-05 (Global-First), PRI-08 (Calm Technology), PRI-09 (DELTA), FTR-051 (Crisis Support), FTR-042 (Design System)
+# FTR-163: Sanctuary Mode
 
 ## Rationale
 

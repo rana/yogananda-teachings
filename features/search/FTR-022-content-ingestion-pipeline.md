@@ -1,9 +1,13 @@
-# FTR-022: Content Ingestion Pipeline
+---
+ftr: 22
+title: Content Ingestion Pipeline
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-06, PRI-12]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-06, PRI-12
+# FTR-022: Content Ingestion Pipeline
 
 ## Rationale
 

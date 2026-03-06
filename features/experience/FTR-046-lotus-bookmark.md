@@ -1,9 +1,12 @@
-# FTR-046: Lotus Bookmark
+---
+ftr: 46
+title: Lotus Bookmark
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-046
+# FTR-046: Lotus Bookmark
 
 ## Rationale
 

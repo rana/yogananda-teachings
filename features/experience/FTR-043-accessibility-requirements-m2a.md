@@ -1,9 +1,12 @@
-# FTR-043: Accessibility Requirements M2a
+---
+ftr: 43
+title: Accessibility Requirements M2a
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-043
+# FTR-043: Accessibility Requirements M2a
 
 ## Rationale
 

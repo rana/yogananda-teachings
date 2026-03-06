@@ -1,9 +1,13 @@
-# FTR-025: pg_search / ParadeDB BM25 for Full-Text Search
+---
+ftr: 25
+title: pg_search / ParadeDB BM25 for Full-Text Search
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-06, PRI-10]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-06, PRI-10
+# FTR-025: pg_search / ParadeDB BM25 for Full-Text Search
 
 ## Rationale
 

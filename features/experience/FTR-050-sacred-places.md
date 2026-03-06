@@ -1,9 +1,12 @@
-# FTR-050: Sacred Places
+---
+ftr: 50
+title: Sacred Places
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-050, FTR-050
+# FTR-050: Sacred Places
 
 ## Rationale
 

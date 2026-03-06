@@ -87,14 +87,15 @@
   },
   "books": {
     "heading": "Libros",
-    "subtitle": "Las obras publicadas de Paramahansa Yogananda — accesibles gratuitamente en todo el mundo",
+    "subtitle": "Las obras publicadas de Paramahansa Yogananda — accesibles gratuitamente para el mundo",
     "noBooks": "Aún no hay libros disponibles.",
     "moreComingSoon": "Se están añadiendo más libros a la biblioteca.",
     "bookstoreLink": "También disponible en la Librería de SRF",
     "chapters": "{count, plural, one {# capítulo} other {# capítulos}}",
     "readBook": "Leer este libro",
     "bookstoreSignpost": "Adquirir la edición impresa",
-    "chaptersRead": "{read} de {total} capítulos explorados"
+    "chaptersRead": "{read} de {total} capítulos explorados",
+    "visitedLegend": "Visitado anteriormente"
   },
   "reader": {
     "breadcrumbBooks": "Libros",
@@ -257,6 +258,7 @@
     "spacingDefault": "Normal",
     "spacingRelaxed": "Relajado",
     "spacingSpacious": "Amplio",
+    "atmosphere": "Atmósfera",
     "keyboardNote": "Disponible durante la lectura",
     "yourData": "Tus datos",
     "yourDataNote": "Todo permanece en tu dispositivo",

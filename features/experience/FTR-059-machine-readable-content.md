@@ -1,9 +1,12 @@
-# FTR-059: Machine-Readable Content and AI Citation Strategy
+---
+ftr: 59
+title: Machine-Readable Content and AI Citation Strategy
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-059
+# FTR-059: Machine-Readable Content
 
 ## Rationale
 

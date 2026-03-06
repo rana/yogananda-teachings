@@ -1,8 +1,12 @@
-# FTR-070: Feature Catalog (RAG Architecture Proposal)
+---
+ftr: 70
+title: Feature Catalog (RAG Architecture Proposal)
+state: approved-provisional
+domain: editorial
+arc: 3a+
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3a+
+# FTR-070: Feature Catalog (RAG Architecture Proposal)
 
 ## Rationale
 

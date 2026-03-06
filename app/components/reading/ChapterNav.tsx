@@ -13,7 +13,7 @@ export function ChapterNav({ bookSlug, prev, next }: ChapterNavProps) {
   if (!prev && !next) return null;
 
   return (
-    <nav className="chapter-nav cluster" aria-label="Chapter navigation" data-register="functional">
+    <nav className="chapter-nav" aria-label="Chapter navigation" data-register="functional">
       {prev ? (
         <a href={`/books/${bookSlug}/${prev.chapterNumber}`} className="chapter-nav-link chapter-nav-prev">
           <span className="chapter-nav-direction" aria-hidden="true">&larr;</span>

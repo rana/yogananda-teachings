@@ -1,9 +1,13 @@
-# FTR-021: Data Model
+---
+ftr: 21
+title: Data Model
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-06, PRI-10]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-06, PRI-10
+# FTR-021: Data Model
 
 ## Rationale
 

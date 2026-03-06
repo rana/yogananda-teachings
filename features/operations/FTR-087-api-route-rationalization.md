@@ -1,10 +1,13 @@
-# FTR-087: API Route Rationalization
+---
+ftr: 87
+title: API Route Rationalization
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-11]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-11
-> **Replaces:** FTR-087, FTR-087
+# FTR-087: API Route Rationalization
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-127: Passage Depth Signatures — Opus-Classified Contemplative Quality
+---
+ftr: 127
+title: "Passage Depth Signatures — Opus-Classified Contemplative Quality"
+state: proposed
+domain: search
+arc: 1c+
+governed-by: [FTR-105, FTR-026, FTR-028]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 1c+
-**Governed by:** FTR-105, FTR-026, FTR-028
+# FTR-127: Passage Depth Signatures
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-111: Redundancy, Failover, and Regional Distribution Strategy
+---
+ftr: 111
+title: Redundancy, Failover, and Regional Distribution Strategy
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-05, PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05, PRI-10
+# FTR-111: Redundancy, Failover, and Regional Distribution Strategy
 
 ## Rationale
 

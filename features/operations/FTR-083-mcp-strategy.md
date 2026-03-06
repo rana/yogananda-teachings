@@ -1,10 +1,13 @@
-# FTR-083: MCP Strategy
+---
+ftr: 83
+title: MCP Strategy
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-12
-> **Replaces:** FTR-083, FTR-083
+# FTR-083: MCP Strategy
 
 ## Rationale
 

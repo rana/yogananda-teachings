@@ -1,9 +1,12 @@
-# FTR-051: Crisis Support
+---
+ftr: 51
+title: Crisis Support
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-051, FTR-051
+# FTR-051: Crisis Support
 
 ## Rationale
 

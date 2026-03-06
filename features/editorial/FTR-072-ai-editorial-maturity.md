@@ -1,9 +1,13 @@
-# FTR-072: AI Editorial Workflow Maturity — Trust Graduation and Feedback Loops
+---
+ftr: 72
+title: AI Editorial Workflow Maturity — Trust Graduation and Feedback Loops
+state: approved-provisional
+domain: editorial
+arc: 3b+
+governed-by: [PRI-01, PRI-12]
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 3b+
-**Governed by:** PRI-01, PRI-12
+# FTR-072: AI Editorial Workflow Maturity
 
 ## Rationale
 

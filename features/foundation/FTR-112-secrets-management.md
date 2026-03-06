@@ -1,9 +1,13 @@
-# FTR-112: Secrets Management Strategy — Two-Tier Model with AWS Secrets Manager
+---
+ftr: 112
+title: Secrets Management Strategy — Two-Tier Model with AWS Secrets Manager
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-12
+# FTR-112: Secrets Management Strategy
 
 ## Rationale
 

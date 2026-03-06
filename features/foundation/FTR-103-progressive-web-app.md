@@ -1,9 +1,13 @@
-# FTR-103: Progressive Web App
+---
+ftr: 103
+title: Progressive Web App
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-05, PRI-07]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05, PRI-07
+# FTR-103: Progressive Web App
 
 ## Rationale
 

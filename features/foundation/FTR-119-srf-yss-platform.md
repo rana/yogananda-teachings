@@ -1,9 +1,13 @@
-# FTR-119: Teachings Platform — Shared Foundation for SRF and YSS
+---
+ftr: 119
+title: Teachings Platform — Shared Foundation for SRF and YSS
+state: proposed
+domain: foundation
+arc: 1+
+governed-by: [FTR-058, FTR-135, FTR-011, FTR-015]
+---
 
-**State:** Proposed
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** FTR-058, FTR-058, FTR-135, FTR-011, FTR-015
+# FTR-119: Teachings Platform
 
 ## Rationale
 

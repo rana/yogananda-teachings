@@ -1,10 +1,13 @@
-# FTR-151: AWS SES
+---
+ftr: 151
+title: AWS SES
+state: proposed
+domain: operations
+arc: 5+
+governed-by: [FTR-154, FTR-085, FTR-106]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 5+
-> **Governed by:** FTR-154, FTR-085, FTR-106
-> **Replaces:** FTR-151
+# FTR-151: AWS SES
 
 ## Proposal
 

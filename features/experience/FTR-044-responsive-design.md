@@ -1,9 +1,12 @@
-# FTR-044: Responsive Design
+---
+ftr: 44
+title: Responsive Design
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-044
+# FTR-044: Responsive Design
 
 ## Rationale
 

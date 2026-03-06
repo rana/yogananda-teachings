@@ -1,9 +1,12 @@
-# FTR-049: Events Signpost
+---
+ftr: 49
+title: Events Signpost
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-049, FTR-049
+# FTR-049: Events Signpost
 
 ## Rationale
 

@@ -1,9 +1,12 @@
-# FTR-136: Spoken Teachings — Human Narration Program
+---
+ftr: 136
+title: Spoken Teachings — Human Narration Program
+state: proposed
+domain: experience
+arc: unscheduled
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** unscheduled
-- **Governed by:** FTR-136
+# FTR-136: Spoken Teachings
 
 ## Rationale
 

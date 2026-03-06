@@ -1,9 +1,13 @@
-# FTR-110: Multi-Environment Infrastructure Design
+---
+ftr: 110
+title: Multi-Environment Infrastructure Design
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-12
+# FTR-110: Multi-Environment Infrastructure Design
 
 ## Rationale
 

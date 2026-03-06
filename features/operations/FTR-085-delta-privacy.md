@@ -1,10 +1,13 @@
-# FTR-085: DELTA Privacy
+---
+ftr: 85
+title: DELTA Privacy
+state: approved
+domain: operations
+arc: 2a+
+governed-by: [PRI-08, PRI-09]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 2a+
-> **Governed by:** PRI-08, PRI-09
-> **Replaces:** FTR-085
+# FTR-085: DELTA Privacy
 
 ## Rationale
 

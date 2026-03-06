@@ -1,9 +1,13 @@
-# FTR-105: AWS Bedrock for Claude API Access
+---
+ftr: 105
+title: AWS Bedrock for Claude API Access
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-10
+# FTR-105: AWS Bedrock for Claude API Access
 
 ## Rationale
 

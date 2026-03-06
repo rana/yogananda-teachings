@@ -1,10 +1,14 @@
-# FTR-082: Observability
+---
+ftr: 82
+title: Observability
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-08, PRI-09, PRI-12]
+always-load: true
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-08, PRI-09, PRI-12
-> **Replaces:** FTR-082, FTR-082
+# FTR-082: Observability
 
 ## Rationale
 

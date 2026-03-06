@@ -1,9 +1,13 @@
-# FTR-123: Content Integrity Verification
+---
+ftr: 123
+title: Content Integrity Verification
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-02, PRI-03, PRI-05, PRI-07, PRI-09]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-02, PRI-03, PRI-05, PRI-07, PRI-09
+# FTR-123: Content Integrity Verification
 
 ## Rationale
 

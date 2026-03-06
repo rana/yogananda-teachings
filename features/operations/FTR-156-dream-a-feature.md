@@ -1,10 +1,13 @@
-# FTR-156: Dream a Feature
+---
+ftr: 156
+title: Dream a Feature
+state: proposed
+domain: operations
+arc: 2+
+governed-by: [FTR-110, FTR-094, FTR-098, FTR-095, FTR-159]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 2+
-> **Governed by:** FTR-110, FTR-094, FTR-098, FTR-095, FTR-159
-> **Replaces:** FTR-156
+# FTR-156: Dream a Feature
 
 ## Proposal
 

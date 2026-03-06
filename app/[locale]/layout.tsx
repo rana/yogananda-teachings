@@ -15,8 +15,7 @@ import type { Metadata } from "next";
 import { PORTAL, SRF } from "@/lib/config/srf-links";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
-import { ThemeSwitcher } from "@/app/components/design/ThemeSwitcher";
-import { ReaderPreferences } from "@/app/components/design/ReaderPreferences";
+import { SitePreferences } from "@/app/components/design/SitePreferences";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -89,8 +88,7 @@ export default async function LocaleLayout({
           <nav className="cluster" aria-label="Site navigation">
             <a href={`/${locale}/books`}>{t("books")}</a>
             <a href={`/${locale}/search`}>{t("search")}</a>
-            <ReaderPreferences />
-            <ThemeSwitcher />
+            <SitePreferences />
           </nav>
         </div>
       </Surface>

@@ -1,10 +1,13 @@
-# FTR-159: Feature Lifecycle Portal
+---
+ftr: 159
+title: Feature Lifecycle Portal
+state: proposed
+domain: operations
+arc: 2+
+governed-by: [FTR-156, FTR-096, FTR-082, FTR-085, FTR-084, PRI-08]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 2+
-> **Governed by:** FTR-156, FTR-096, FTR-096, FTR-082, FTR-085, FTR-084, PRI-08
-> **Replaces:** FTR-159
+# FTR-159: Feature Lifecycle Portal
 
 ## Proposal
 

@@ -1,9 +1,13 @@
-# FTR-069: AI-Assisted Editorial Workflows
+---
+ftr: 69
+title: AI-Assisted Editorial Workflows
+state: approved-provisional
+domain: editorial
+arc: 1+
+governed-by: [PRI-01, PRI-12]
+---
 
-**State:** Approved (Provisional)
-**Domain:** editorial
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-12
+# FTR-069: AI-Assisted Editorial Workflows
 
 ## Rationale
 

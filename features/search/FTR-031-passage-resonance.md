@@ -1,9 +1,13 @@
-# FTR-031: Passage Resonance Signals -- Content Intelligence Without Surveillance
+---
+ftr: 31
+title: "Passage Resonance Signals -- Content Intelligence Without Surveillance"
+state: approved
+domain: search
+arc: 2a+
+governed-by: [PRI-08, PRI-09]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 2a+
-**Governed by:** PRI-08, PRI-09
+# FTR-031: Passage Resonance Signals
 
 ## Rationale
 

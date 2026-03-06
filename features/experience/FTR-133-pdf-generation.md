@@ -1,9 +1,12 @@
-# FTR-133: PDF Generation Strategy
+---
+ftr: 133
+title: PDF Generation Strategy
+state: approved
+domain: experience
+arc: "4"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 4
-- **Governed by:** FTR-133
+# FTR-133: PDF Generation Strategy
 
 ## Rationale
 

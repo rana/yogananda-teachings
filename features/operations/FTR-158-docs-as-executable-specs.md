@@ -1,9 +1,13 @@
-# FTR-158: Spec Fidelity System
+---
+ftr: 158
+title: Spec Fidelity System
+state: proposed
+domain: operations
+arc: 3a+
+governed-by: [FTR-084, FTR-081, FTR-096]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 3a+
-> **Governed by:** FTR-084, FTR-081, FTR-096
+# FTR-158: Spec Fidelity System
 
 ## Rationale
 

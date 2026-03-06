@@ -1,9 +1,13 @@
-# FTR-027: Advanced Search Pipeline -- Pure Hybrid Primary, AI-Enhanced Optional
+---
+ftr: 27
+title: "Advanced Search Pipeline -- Pure Hybrid Primary, AI-Enhanced Optional"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-05, PRI-03]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-05, PRI-03
+# FTR-027: Advanced Search Pipeline
 
 ## Rationale
 

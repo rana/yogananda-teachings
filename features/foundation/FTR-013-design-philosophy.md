@@ -1,9 +1,14 @@
-# FTR-013: Design Philosophy
+---
+ftr: 13
+title: Design Philosophy
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-03]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-03
+# FTR-013: Design Philosophy
 
 ## Rationale
 

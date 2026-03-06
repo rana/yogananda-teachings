@@ -1,9 +1,14 @@
-# FTR-015: API-First Architecture for Platform Parity
+---
+ftr: 15
+title: API-First Architecture for Platform Parity
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-11]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-11
+# FTR-015: API-First Architecture
 
 ## Rationale
 

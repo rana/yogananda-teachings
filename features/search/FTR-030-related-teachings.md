@@ -1,9 +1,13 @@
-# FTR-030: Related Teachings -- Pre-Computed Chunk Relations and Graph Traversal
+---
+ftr: 30
+title: "Related Teachings -- Pre-Computed Chunk Relations and Graph Traversal"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-03, PRI-05]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-03, PRI-05
+# FTR-030: Related Teachings
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-106: Platform-Managed Infrastructure
+---
+ftr: 106
+title: Platform-Managed Infrastructure
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-12
+# FTR-106: Platform-Managed Infrastructure
 
 ## Rationale
 

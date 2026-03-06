@@ -1,9 +1,13 @@
-# FTR-130: Cross-Tradition Concordance as Primary Search Lens
+---
+ftr: 130
+title: Cross-Tradition Concordance as Primary Search Lens
+state: proposed
+domain: search
+arc: 3c+
+governed-by: [FTR-028, FTR-039, FTR-030]
+---
 
-**State:** Proposed
-**Domain:** search
-**Arc:** 3c+
-**Governed by:** FTR-028, FTR-039, FTR-030
+# FTR-130: Cross-Tradition Concordance as Primary Search Lens
 
 ## Rationale
 

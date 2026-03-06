@@ -1,9 +1,13 @@
-# FTR-008: Verbatim Media Fidelity — Cross-Modal Content Integrity
+---
+ftr: 8
+title: Verbatim Media Fidelity — Cross-Modal Content Integrity
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-01, PRI-02, PRI-03]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-01, PRI-02, PRI-03
+# FTR-008: Verbatim Media Fidelity
 
 ## Rationale
 

@@ -1,9 +1,13 @@
-# FTR-033: Canonical Entity Registry and Sanskrit Normalization
+---
+ftr: 33
+title: Canonical Entity Registry and Sanskrit Normalization
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-06]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-06
+# FTR-033: Canonical Entity Registry and Sanskrit Normalization
 
 ## Rationale
 

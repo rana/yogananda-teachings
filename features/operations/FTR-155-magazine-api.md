@@ -1,10 +1,13 @@
-# FTR-155: Magazine API
+---
+ftr: 155
+title: Magazine API
+state: deferred
+domain: operations
+arc: Post-Arc 3
+suspended: 2026-03-01
+---
 
-> **State:** Deferred
-> **Domain:** operations
-> **Arc:** Post-Arc 3
-> **Governed by:** FTR-155
-> **Replaces:** FTR-155 (absorbs suspended FTR-155)
+# FTR-155: Magazine API
 
 ## Proposal
 

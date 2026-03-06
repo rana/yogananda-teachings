@@ -1,8 +1,12 @@
-# FTR-149: Retool vs. Portal Admin for Staff Dashboards
+---
+ftr: 149
+title: Retool vs. Portal Admin for Staff Dashboards
+state: proposed
+domain: editorial
+arc: 3d
+---
 
-**State:** Proposed
-**Domain:** editorial
-**Arc:** 3d
+# FTR-149: Retool vs. Portal Admin for Staff Dashboards
 
 ## Rationale
 

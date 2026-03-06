@@ -1,9 +1,13 @@
-# FTR-077: "The Librarian" — AI Search Brand Identity
+---
+ftr: 77
+title: "The Librarian — AI Search Brand Identity"
+state: approved
+domain: editorial
+arc: 2a+
+governed-by: [PRI-01]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 2a+
-**Governed by:** PRI-01
+# FTR-077: The Librarian
 
 ## Rationale
 

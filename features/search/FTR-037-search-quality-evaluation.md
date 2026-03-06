@@ -1,9 +1,13 @@
-# FTR-037: Search Quality Evaluation Harness
+---
+ftr: 37
+title: Search Quality Evaluation Harness
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-03]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-03
+# FTR-037: Search Quality Evaluation Harness
 
 ## Rationale
 

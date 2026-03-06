@@ -1,9 +1,12 @@
-# FTR-052: Cognitive Accessibility
+---
+ftr: 52
+title: Cognitive Accessibility
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-052
+# FTR-052: Cognitive Accessibility
 
 ## Rationale
 

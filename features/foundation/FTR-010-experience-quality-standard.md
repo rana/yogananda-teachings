@@ -1,9 +1,13 @@
-# FTR-010: Experience Quality Standard — Honoring the Spirit of the Teachings
+---
+ftr: 10
+title: Experience Quality Standard — Honoring the Spirit of the Teachings
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-03]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-03
+# FTR-010: Experience Quality Standard
 
 ## Rationale
 

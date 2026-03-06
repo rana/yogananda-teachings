@@ -1,9 +1,13 @@
-# FTR-035: Knowledge Graph Cross-Media Evolution -- All Content Types as Graph Nodes
+---
+ftr: 35
+title: "Knowledge Graph Cross-Media Evolution -- All Content Types as Graph Nodes"
+state: approved-provisional
+domain: search
+arc: 4+
+governed-by: [PRI-03, PRI-10]
+---
 
-**State:** Approved (Provisional)
-**Domain:** search
-**Arc:** 4+
-**Governed by:** PRI-03, PRI-10
+# FTR-035: Knowledge Graph Cross-Media Evolution
 
 ## Rationale
 

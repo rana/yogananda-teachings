@@ -1,9 +1,12 @@
-# FTR-145: Visual Design Language System
+---
+ftr: 145
+title: Visual Design Language System
+state: proposed
+domain: experience
+arc: "1"
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 1
-- **Governed by:** FTR-145
+# FTR-145: Visual Design Language System
 
 ## Rationale
 

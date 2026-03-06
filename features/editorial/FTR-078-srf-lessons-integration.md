@@ -1,8 +1,12 @@
-# FTR-078: SRF Lessons Integration
+---
+ftr: 78
+title: SRF Lessons Integration
+state: deferred
+domain: editorial
+arc: Unscheduled
+---
 
-**State:** Deferred
-**Domain:** editorial
-**Arc:** Unscheduled
+# FTR-078: SRF Lessons Integration
 
 ## Rationale
 

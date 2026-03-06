@@ -1,9 +1,12 @@
-# FTR-134: Low-Tech and Messaging Channel Strategy
+---
+ftr: 134
+title: Low-Tech and Messaging Channel Strategy
+state: approved
+domain: experience
+arc: "5"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 5
-- **Governed by:** FTR-134
+# FTR-134: Low-Tech Channels
 
 ## Rationale
 

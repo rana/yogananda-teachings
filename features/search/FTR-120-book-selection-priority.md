@@ -1,9 +1,13 @@
-# FTR-120: Book Selection and Ingestion Priority
+---
+ftr: 120
+title: Book Selection and Ingestion Priority
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-03, PRI-05]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-03, PRI-05
+# FTR-120: Book Selection and Ingestion Priority
 
 ## Rationale
 

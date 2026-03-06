@@ -1,9 +1,14 @@
-# FTR-017: Seeker & User Persona Index
+---
+ftr: 17
+title: Seeker & User Persona Index
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-05, PRI-08]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05, PRI-08
+# FTR-017: Seeker & User Persona Index
 
 ## Rationale
 

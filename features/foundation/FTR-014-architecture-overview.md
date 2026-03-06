@@ -1,9 +1,14 @@
-# FTR-014: Architecture Overview
+---
+ftr: 14
+title: Architecture Overview
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-11, PRI-12]
+always-load: true
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-11, PRI-12
+# FTR-014: Architecture Overview
 
 ## Rationale
 

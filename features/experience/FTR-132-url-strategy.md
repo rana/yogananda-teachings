@@ -1,9 +1,12 @@
-# FTR-132: URL Strategy
+---
+ftr: 132
+title: URL Strategy
+state: implemented
+domain: experience
+arc: "1"
+---
 
-- **State:** Implemented
-- **Domain:** experience
-- **Arc:** 1
-- **Governed by:** FTR-132, FTR-132
+# FTR-132: URL Strategy
 
 ## Rationale
 

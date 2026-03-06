@@ -9,7 +9,6 @@
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
 import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
@@ -108,46 +107,32 @@ export default async function BookLandingPage({
   ];
 
   return (
-    <div className="stack-spacious" style={{ paddingBlock: "var(--space-spacious)" }}>
+    <div className="stack" style={{ paddingBlock: "var(--space-generous)" }}>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="breadcrumb center" aria-label="Breadcrumb">
-        <Link href="/books">{rt("breadcrumbBooks")}</Link>
-        <span aria-hidden="true"> / </span>
-        <span>{book.title}</span>
-      </nav>
-
       {/* Book header */}
-      <Surface as="header" register="reverential" className="center">
+      <Surface as="header" register="reverential" className="center book-header">
         {book.coverImageUrl && (
           <img
             src={book.coverImageUrl}
             alt={`${book.title} cover`}
-            width={160}
-            height={240}
+            width={120}
+            height={180}
             loading="eager"
-            style={{
-              display: "block",
-              marginInline: "auto",
-              marginBlockEnd: "var(--space-default)",
-              borderRadius: "var(--radius-gentle, 4px)",
-              boxShadow: "0 2px 12px color-mix(in oklch, var(--color-text), transparent 85%)",
-              objectFit: "cover",
-            }}
+            className="book-header-cover"
           />
         )}
-        <h1 className="page-title">{book.title}</h1>
-        <p className="page-subtitle">
-          {book.author}
-          {book.publicationYear && ` (${book.publicationYear})`}
-        </p>
+        <div className="book-header-text">
+          <h1 className="page-title">{book.title}</h1>
+          <p className="page-subtitle">
+            {book.author}
+            {book.publicationYear && ` (${book.publicationYear})`}
+          </p>
+        </div>
       </Surface>
-
-      <Motif role="breath" voice="sacred" />
 
       {/* Chapter list */}
       {chapters.length === 0 ? (
@@ -159,20 +144,20 @@ export default async function BookLandingPage({
           <ol className="chapter-list" aria-label="Chapters">
             {chapters.map((ch) => (
               <li key={ch.id}>
-                <Link
-                  href={`/books/${book.slug}/${ch.chapterNumber}`}
+                <a
+                  href={`/${locale}/books/${book.slug}/${ch.chapterNumber}`}
                   className="chapter-list-item"
                 >
                   <span className="chapter-list-number">{ch.chapterNumber}</span>
                   <span className="chapter-list-title">{ch.title}</span>
-                </Link>
+                </a>
               </li>
             ))}
           </ol>
         </nav>
       )}
 
-      {/* Client island: mark visited chapters from localStorage */}
+      {/* Client island: visited markers + legend + clear */}
       <ChapterProgress bookSlug={book.slug} />
 
       {/* Bookstore signpost */}

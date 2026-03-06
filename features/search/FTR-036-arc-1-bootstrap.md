@@ -1,9 +1,13 @@
-# FTR-036: Arc 1 Bootstrap
+---
+ftr: 36
+title: Arc 1 Bootstrap
+state: approved
+domain: search
+arc: 1a
+governed-by: [PRI-10, PRI-12]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a
-**Governed by:** PRI-10, PRI-12
+# FTR-036: Arc 1 Bootstrap
 
 ## Rationale
 

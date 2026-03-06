@@ -1,10 +1,13 @@
-# FTR-092: Portal Updates
+---
+ftr: 92
+title: Portal Updates
+state: approved
+domain: operations
+arc: 3b+
+governed-by: [PRI-03, PRI-08]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 3b+
-> **Governed by:** PRI-03, PRI-08
-> **Replaces:** FTR-092, FTR-092
+# FTR-092: Portal Updates
 
 ## Rationale
 

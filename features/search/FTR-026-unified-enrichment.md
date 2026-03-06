@@ -1,9 +1,13 @@
-# FTR-026: Unified Enrichment Pipeline — Single Index-Time Pass per Chunk
+---
+ftr: 26
+title: "Unified Enrichment Pipeline — Single Index-Time Pass per Chunk"
+state: approved
+domain: search
+arc: 1a+
+governed-by: [PRI-01, PRI-03, PRI-12]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 1a+
-**Governed by:** PRI-01, PRI-03, PRI-12
+# FTR-026: Unified Enrichment Pipeline
 
 ## Rationale
 

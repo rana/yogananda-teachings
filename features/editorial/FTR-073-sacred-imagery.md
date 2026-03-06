@@ -1,9 +1,13 @@
-# FTR-073: Sacred Imagery Strategy
+---
+ftr: 73
+title: Sacred Imagery Strategy
+state: approved
+domain: editorial
+arc: 3c+
+governed-by: [PRI-01, PRI-03]
+---
 
-**State:** Approved
-**Domain:** editorial
-**Arc:** 3c+
-**Governed by:** PRI-01, PRI-03
+# FTR-073: Sacred Imagery Strategy
 
 ## Rationale
 

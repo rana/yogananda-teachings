@@ -1,10 +1,13 @@
-# FTR-157: Living Golden Set
+---
+ftr: 157
+title: Living Golden Set
+state: proposed
+domain: operations
+arc: 2+
+governed-by: [FTR-037, FTR-082, FTR-085, FTR-032]
+---
 
-> **State:** Proposed
-> **Domain:** operations
-> **Arc:** Arc 2+
-> **Governed by:** FTR-037, FTR-082, FTR-085, FTR-032
-> **Replaces:** FTR-157
+# FTR-157: Living Golden Set
 
 ## Proposal
 

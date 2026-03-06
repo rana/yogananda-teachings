@@ -1,10 +1,13 @@
-# FTR-084: Documentation Architecture
+---
+ftr: 84
+title: Documentation Architecture
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-12
-> **Replaces:** FTR-084
+# FTR-084: Documentation Architecture
 
 ## Rationale
 

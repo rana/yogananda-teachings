@@ -1,8 +1,12 @@
-# FTR-148: Proactive Editorial AI Agent
+---
+ftr: 148
+title: Proactive Editorial AI Agent
+state: proposed
+domain: editorial
+arc: 3b+
+---
 
-**State:** Proposed
-**Domain:** editorial
-**Arc:** 3b+
+# FTR-148: Proactive Editorial AI Agent
 
 ## Rationale
 

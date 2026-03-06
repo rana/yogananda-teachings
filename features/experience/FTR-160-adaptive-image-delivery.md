@@ -1,9 +1,13 @@
-# FTR-160: Adaptive Image Delivery — Network and Device-Aware Image Optimization
+---
+ftr: 160
+title: Adaptive Image Delivery — Network and Device-Aware Image Optimization
+state: proposed
+domain: experience
+arc: 3a+
+governed-by: [PRI-05, PRI-07, PRI-03, FTR-006, FTR-044, FTR-073]
+---
 
-- **State:** Proposed
-- **Domain:** experience
-- **Arc:** 3a+
-- **Governed by:** PRI-05 (Global-First), PRI-07 (Accessibility), PRI-03 (Honoring the Spirit), FTR-006, FTR-044, FTR-073
+# FTR-160: Adaptive Image Delivery
 
 ## Rationale
 

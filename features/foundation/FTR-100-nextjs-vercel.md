@@ -1,9 +1,13 @@
-# FTR-100: Next.js + Vercel for Frontend
+---
+ftr: 100
+title: Next.js + Vercel for Frontend
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-100: Next.js + Vercel for Frontend
 
 ## Rationale
 

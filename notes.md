@@ -1,6 +1,35 @@
 # Notes
 
 ---
+/compose (invoke, review, converge) ~3, land :
+Site preferences panel in header. Configure language, theme (include all YSS themes), clear all local storage. What questions would I benefit from asking? What am I not asking?
+
+
+---
+How would you design prompt(s) to implement `/home/rana/prj/yogananda-teachings/proposals/ftr-yaml-frontmatter-migration.md`?
+
+---
+/compose (invoke, review, converge) ~5, propose :
+
+Greenfield perspective. Overhaul front page. Think generatively and imaginitvely. What is a world-class amazing experience?
+
+Who is visiting the site? Why are they visiting? What is the site's core missions? What am I attempting to achieve?
+
+Consider: 
+- Consider wholesale revision
+- Okay to move search bar. What is idiomatic? What is world-class amazing experience?
+- Okay to consider removing "Start Here"
+- Adding portrait photo of Yogananda?
+- Continue using motif images artfully placed and sized?
+- Revise layout- refine quality and visual language adherence
+- Use space wisely and aesthetically
+
+What questions would I benefit from asking? What am I not asking?
+
+---
+Implement autosuggestion. It was already implemented and has FTR. 
+
+---
 Saved at proposals/ftr-yaml-frontmatter-migration.md.
 
 What you're getting:

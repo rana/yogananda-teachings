@@ -1,9 +1,12 @@
-# FTR-047: Non-Search Journeys
+---
+ftr: 47
+title: Non-Search Journeys
+state: approved-provisional
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved (Provisional)
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-047
+# FTR-047: Non-Search Journeys
 
 ## Rationale
 

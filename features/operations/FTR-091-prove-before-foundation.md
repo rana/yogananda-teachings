@@ -1,10 +1,13 @@
-# FTR-091: Prove Before Foundation
+---
+ftr: 91
+title: Prove Before Foundation
+state: approved
+domain: operations
+arc: "1"
+governed-by: [PRI-10]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1
-> **Governed by:** PRI-10
-> **Replaces:** FTR-091
+# FTR-091: Prove Before Foundation
 
 ## Rationale
 

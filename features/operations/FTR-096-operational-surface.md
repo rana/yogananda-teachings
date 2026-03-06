@@ -1,10 +1,13 @@
-# FTR-096: Operational Surface
+---
+ftr: 96
+title: Operational Surface
+state: approved
+domain: operations
+arc: 1a+
+governed-by: [PRI-12]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1a+
-> **Governed by:** PRI-12
-> **Replaces:** FTR-096
+# FTR-096: Operational Surface
 
 ## Specification
 

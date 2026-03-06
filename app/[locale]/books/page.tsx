@@ -9,7 +9,6 @@
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
 import type { Metadata } from "next";
@@ -98,9 +97,9 @@ export default async function BooksPage({
         <>
           <div className="center stack">
             {booksWithChapters.map((book) => (
-              <Link
+              <a
                 key={book.id}
-                href={`/books/${book.slug}`}
+                href={`/${locale}/books/${book.slug}`}
                 className="card"
               >
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-default)" }}>
@@ -119,7 +118,7 @@ export default async function BooksPage({
                     />
                   )}
                   <div style={{ flex: 1 }}>
-                    <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
+                    <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500, color: "var(--color-crimson)" }}>
                       {book.title}
                     </strong>
                     <p style={{ fontSize: "0.875rem", color: "var(--color-text-secondary)", marginBlockStart: "var(--space-compact)" }}>
@@ -131,7 +130,7 @@ export default async function BooksPage({
                     </p>
                   </div>
                 </div>
-              </Link>
+              </a>
             ))}
           </div>
 

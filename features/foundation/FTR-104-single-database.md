@@ -1,9 +1,13 @@
-# FTR-104: Single Database Architecture
+---
+ftr: 104
+title: Single Database Architecture
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10
+# FTR-104: Single Database Architecture
 
 ## Rationale
 

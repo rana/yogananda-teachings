@@ -1,9 +1,13 @@
-# FTR-006: Global-First — Serving Earth's Underserved Seekers
+---
+ftr: 6
+title: Global-First — Serving Earth's Underserved Seekers
+state: approved-foundational
+domain: foundation
+arc: 1+
+governed-by: [PRI-05, PRI-06, PRI-07]
+---
 
-**State:** Approved (Foundational)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-05, PRI-06, PRI-07
+# FTR-006: Global-First
 
 ## Rationale
 

@@ -1,10 +1,13 @@
-# FTR-097: Rate Limiting
+---
+ftr: 97
+title: Rate Limiting
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-05, PRI-08]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-05, PRI-08
-> **Replaces:** FTR-097
+# FTR-097: Rate Limiting
 
 ## Rationale
 

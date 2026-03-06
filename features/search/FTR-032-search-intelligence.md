@@ -1,9 +1,13 @@
-# FTR-032: "What Is Humanity Seeking?" -- Anonymized Search Intelligence
+---
+ftr: 32
+title: "\"What Is Humanity Seeking?\" -- Anonymized Search Intelligence"
+state: approved
+domain: search
+arc: 3d+
+governed-by: [PRI-09, PRI-08]
+---
 
-**State:** Approved
-**Domain:** search
-**Arc:** 3d+
-**Governed by:** PRI-09, PRI-08
+# FTR-032: "What Is Humanity Seeking?"
 
 ## Rationale
 

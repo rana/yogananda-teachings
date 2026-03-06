@@ -1,9 +1,12 @@
-# FTR-048: Passage Sharing
+---
+ftr: 48
+title: Passage Sharing
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-048, FTR-048
+# FTR-048: Passage Sharing
 
 ## Rationale
 

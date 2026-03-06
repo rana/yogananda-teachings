@@ -1,9 +1,12 @@
-# FTR-055: Practice Bridge
+---
+ftr: 55
+title: Practice Bridge
+state: approved
+domain: experience
+arc: "2"
+---
 
-- **State:** Approved
-- **Domain:** experience
-- **Arc:** 2
-- **Governed by:** FTR-055
+# FTR-055: Practice Bridge
 
 ## Rationale
 

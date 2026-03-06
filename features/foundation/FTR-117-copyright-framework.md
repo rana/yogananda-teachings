@@ -1,9 +1,14 @@
-# FTR-117: Copyright and Legal Framework
+---
+ftr: 117
+title: Copyright and Legal Framework
+state: proposed
+domain: foundation
+arc: 1+
+governed-by: [FTR-059, FTR-085, FTR-003, FTR-001]
+re-evaluate-at: Milestone 1c
+---
 
-**State:** Proposed (Validated)
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** FTR-059, FTR-085, FTR-003, FTR-001
+# FTR-117: Copyright and Legal Framework
 
 ## Rationale
 

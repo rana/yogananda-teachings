@@ -1,10 +1,13 @@
-# FTR-088: API Response Conventions
+---
+ftr: 88
+title: API Response Conventions
+state: approved
+domain: operations
+arc: 1+
+governed-by: [PRI-10, PRI-11]
+---
 
-> **State:** Approved
-> **Domain:** operations
-> **Arc:** 1+
-> **Governed by:** PRI-10, PRI-11
-> **Replaces:** FTR-088
+# FTR-088: API Response Conventions
 
 ## Rationale
 

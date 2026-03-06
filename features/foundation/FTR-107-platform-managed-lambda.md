@@ -1,9 +1,13 @@
-# FTR-107: Platform-Managed Lambda for Batch Compute
+---
+ftr: 107
+title: Platform-Managed Lambda for Batch Compute
+state: approved
+domain: foundation
+arc: 1+
+governed-by: [PRI-10, PRI-12]
+---
 
-**State:** Approved
-**Domain:** foundation
-**Arc:** 1+
-**Governed by:** PRI-10, PRI-12
+# FTR-107: Platform-Managed Lambda for Batch Compute
 
 ## Rationale
 

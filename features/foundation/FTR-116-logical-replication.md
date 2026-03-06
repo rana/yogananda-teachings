@@ -1,9 +1,14 @@
-# FTR-116: Logical Replication for Analytics CDC
+---
+ftr: 116
+title: Logical Replication for Analytics CDC
+state: proposed
+domain: foundation
+arc: 3+
+governed-by: [FTR-094, FTR-082, FTR-085]
+re-evaluate-at: Arc 3 boundary
+---
 
-**State:** Proposed
-**Domain:** foundation
-**Arc:** 3+
-**Governed by:** FTR-094, FTR-082, FTR-085
+# FTR-116: Logical Replication for Analytics CDC
 
 ## Rationale
 

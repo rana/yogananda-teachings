@@ -1,9 +1,13 @@
-# FTR-039: Recognition-First Information Architecture
+---
+ftr: 39
+title: Recognition-First Information Architecture
+state: approved-provisional
+domain: search
+arc: 2a+
+governed-by: [PRI-03, PRI-08]
+---
 
-**State:** Approved (Provisional)
-**Domain:** search
-**Arc:** 2a+
-**Governed by:** PRI-03, PRI-08
+# FTR-039: Recognition-First Information Architecture
 
 ## Rationale
 

@@ -1,10 +1,14 @@
-# FTR-098: SRF Corpus MCP
+---
+ftr: 98
+title: SRF Corpus MCP
+state: deferred
+domain: operations
+arc: 3+
+governed-by: [PRI-12]
+re-evaluate-at: Arc 3 boundary
+---
 
-> **State:** Deferred
-> **Domain:** operations
-> **Arc:** 3+
-> **Governed by:** PRI-12
-> **Replaces:** FTR-098
+# FTR-098: SRF Corpus MCP
 
 ## Rationale
 
