@@ -592,7 +592,7 @@ See CONTEXT.md § Open Questions for the consolidated list of technical and stak
 | FTR-130 | Cross-Tradition Concordance as Primary Search Lens | Feature |
 | FTR-156 | Dream a Feature — AI-Driven Prototyping Workflow | Feature |
 | FTR-157 | Living Golden Set — Seeker-Fed Search Quality | Enhancement |
-| FTR-158 | Documents as Executable Specifications | Enhancement |
+| FTR-158 | Spec Fidelity System | Enhancement |
 | FTR-159 | Feature Lifecycle Portal — Calm Operations for Engineering Leadership | Feature |
 | FTR-144 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) |
 | FTR-146 | Circadian as Independent Behavior Modifier | Enhancement (Experience) |

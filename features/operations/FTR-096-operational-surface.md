@@ -201,24 +201,19 @@ Orchestrates the full deployment:
 
 ---
 
-### Layer 4: Design-Artifact Traceability (FTR-096)
+### Layer 4: Spec Fidelity and Traceability
 
-**Convention established Milestone 1a. CI roll-up Milestone 2a.**
+**Convention established organically from Milestone 1a. Formalized as the Spec Fidelity System (FTR-158).**
 
-Source files carry `@implements` comments; test files carry `@validates` comments. See FTR-096 for the full specification with examples.
+Traceability uses two lightweight mechanisms:
 
-**CI traceability step (Milestone 2a):** A GitHub Actions step greps the codebase for `@implements` and `@validates` annotations, cross-references against the identifier registry from `doc-validate.sh`, and produces a coverage report:
+1. **FTR/PRI references in test comments.** Test files reference their governing specifications in file-level or test-level comments (e.g., `// M2b-3 (FTR-046)`, `// PRI-02`). This convention emerged organically and is already present across the test suite. No formal annotation syntax (`@implements`/`@validates`) is needed — the existing pattern is sufficient.
 
-```
-Identifier Coverage Report (v1a.3)
-─────────────────────────────────
-FTR-021  Data Model           ██████████ implemented ✓  tested ✓  deployed v1a.1
-FTR-037  Search Quality       ████████░░ implemented ✓  tested ✓  deployed v1a.3
-FTR-023  Chunking Strategy    ██████░░░░ implemented ✓  tested ○  not deployed
-FTR-058  Homepage             ░░░░░░░░░░ not started
-```
+2. **Fitness function test file.** `tests/fitness/spec-fidelity.test.ts` (FTR-158) contains deterministic checks for structural, architectural, and prohibition assertions drawn from FTR files. Each test block references its governing FTR/PRI. The file serves as both the verification mechanism and the traceability manifest — you read it to see what's verified.
 
-Advisory in Arc 1 — no enforcement gate. Arc 2+ may add minimum coverage thresholds.
+**Coverage reporting (M3a+):** A CI step greps the test suite for `FTR-\d{3}` and `PRI-\d{2}` references, cross-references against the FTR registry from `doc-validate.sh`, and reports which FTRs have test coverage. Advisory — no enforcement gate.
+
+See FTR-158 for the full 3-layer verification architecture (Sentinels, Fitness Functions, Deep Verification).
 
 ---
 
@@ -254,7 +249,7 @@ Advisory in Arc 1 — no enforcement gate. Arc 2+ may add minimum coverage thres
 - **FTR-095** (Infrastructure and Deployment) — FTR-096 adds the operational *surface* (health endpoint, dashboard, deploy ceremony) to FTR-095's infrastructure *foundation* (Platform MCP, CI, bootstrap)
 - **FTR-082** (Observability) — FTR-096's SLI/SLO targets complement FTR-082's logging and error tracking
 - **FTR-081** (Testing Strategy) — Design-artifact traceability (Layer 4) links tests back to governing specs
-- **FTR-158** (Docs as Executable Specs) — Extracts testable assertions from design prose; FTR-096/FTR-096 links existing tests back to design identifiers. Complementary directions.
+- **FTR-158** (Spec Fidelity System) — 3-layer verification architecture (Sentinels, Fitness Functions, Deep Verification) that ensures FTR assertions are enforced. Layer 4 above is the traceability mechanism; FTR-158 is the full verification design.
 
 ## Notes
 

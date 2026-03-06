@@ -226,7 +226,7 @@ CI/CD, observability, testing, governance, operational tooling.
 | [155](operations/FTR-155-magazine-api.md) | Magazine API | Deferred |
 | [156](operations/FTR-156-dream-a-feature.md) | Dream a Feature | Proposed |
 | [157](operations/FTR-157-living-golden-set.md) | Living Golden Set | Proposed |
-| [158](operations/FTR-158-docs-as-executable-specs.md) | Docs as Executable Specs | Proposed |
+| [158](operations/FTR-158-docs-as-executable-specs.md) | Spec Fidelity System | Proposed |
 | [159](operations/FTR-159-feature-lifecycle-portal.md) | Feature Lifecycle Portal | Proposed |
 
 ---
