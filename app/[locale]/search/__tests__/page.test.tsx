@@ -33,6 +33,16 @@ vi.mock("next/navigation", () => ({
   useSearchParams: () => mockSearchParams,
 }));
 
+// Mock i18n/navigation to avoid next-intl ESM resolution issues
+vi.mock("@/i18n/navigation", () => ({
+  Link: ({ href, children, ...props }: { href: string; children: React.ReactNode; [key: string]: unknown }) => (
+    <a href={href} {...props}>{children}</a>
+  ),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn() }),
+  usePathname: () => "/search",
+  redirect: vi.fn(),
+}));
+
 // Mock SearchCombobox (heavy component with its own tests)
 vi.mock("@/app/components/SearchCombobox", () => ({
   SearchCombobox: ({
