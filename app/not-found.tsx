@@ -7,27 +7,26 @@
 
 import Link from "next/link";
 import { Motif } from "@/app/components/design/Motif";
+import { getDailyQuote } from "@/lib/quotes";
 
 export default function GlobalNotFound() {
+  const quote = getDailyQuote("en");
+
   return (
     <div className="empty-state">
       <Motif role="breath" voice="sacred" />
-      <h1 className="page-title" style={{ marginBlockStart: "var(--space-generous)" }}>
+      <h1 className="page-title">
         This page could not be found
       </h1>
-      <p className="page-subtitle" style={{ maxInlineSize: "28em" }}>
-        The path you followed may have changed. The teachings await you at any
-        of these places:
-      </p>
-      <nav
-        className="cluster"
-        aria-label="Helpful links"
-        style={{ marginBlockStart: "var(--space-spacious)" }}
-      >
+      <nav aria-label="Helpful links" className="error-nav">
         <Link href="/en" className="btn-secondary">Home</Link>
         <Link href="/en/search" className="btn-secondary">Search</Link>
         <Link href="/en/books" className="btn-secondary">Books</Link>
       </nav>
+      <blockquote className="reader-epigraph" style={{ maxInlineSize: "32em" }}>
+        {quote.text}
+      </blockquote>
+      <p className="reader-citation">{quote.source}</p>
     </div>
   );
 }

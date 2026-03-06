@@ -8,12 +8,16 @@ Site preferences panel in header. Configure language, theme (include all YSS the
 ---
 How would you design prompt(s) to implement `/home/rana/prj/yogananda-teachings/proposals/ftr-yaml-frontmatter-migration.md`?
 
+How would you design prompt(s) to implement `/home/rana/prj/yogananda-teachings/proposals/front-page-overhaul.md`? Help me to call each prompt. Write a markdown document with human workflow for me to call in a different session.
+
 ---
 /compose (invoke, review, converge) ~5, propose :
 
 Greenfield perspective. Overhaul front page. Think generatively and imaginitvely. What is a world-class amazing experience?
 
 Who is visiting the site? Why are they visiting? What is the site's core missions? What am I attempting to achieve?
+
+Draw upon Yogananda visual design language at `/home/rana/prj/yogananda-design/`. How would the front page benefit from applying the Yogananda visual design language? Would applying the visual design language thoroughly benefit the front page?
 
 Consider: 
 - Consider wholesale revision

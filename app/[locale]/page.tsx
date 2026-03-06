@@ -1,36 +1,34 @@
 /**
  * Homepage — the threshold.
  *
- * The portal speaks first — a passage, not a product pitch.
- * The featured teaching is the bindu (still center). Search,
- * thematic doors, and newcomer paths orbit at increasing distance.
+ * A front page that feels like walking into a temple library —
+ * not a homepage, a threshold. The visitor receives words first,
+ * then sees the book, and finds their way.
  *
- * Dhvani: suggestion over statement. The page whispers.
- * Bindu: the passage is the still center; everything else orbits.
- * Prāṇa: sections breathe with varying rhythm, not uniform spacing.
+ * Composition: passage hero (with lotus watermark) → book presentation
+ * (cover + title) → continue reading.
  *
  * Server Component. Zero JavaScript for content.
- * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution)
+ * Governed by: PRI-01 (verbatim fidelity), PRI-02 (attribution), PRI-03 (honoring the spirit)
  */
 
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import pool from "@/lib/db";
 import { getDailyPassage } from "@/lib/services/passages";
+import { getBooks, getChapters } from "@/lib/services/books";
+import { Link } from "@/i18n/navigation";
+
 import { ContinueReading } from "@/app/components/ContinueReading";
 import { ShowAnother } from "@/app/components/ShowAnother";
 import { Motif } from "@/app/components/design/Motif";
-import { SRF_PRACTICE } from "@/lib/config/srf-links";
+
 
 export const dynamic = "force-dynamic";
 
-const THEMATIC_DOORS = [
-  { key: "innerPeace", query: "inner peace calm stillness" },
-  { key: "love", query: "love divine human heart" },
-  { key: "lastingHappiness", query: "happiness joy bliss lasting" },
-  { key: "lifePurpose", query: "purpose life meaning why" },
-  { key: "healing", query: "healing health strength" },
-  { key: "overcomingFear", query: "fear anxiety worry courage overcome" },
-] as const;
+const COVER_IMAGES: Record<string, string> = {
+  en: "/book-images/covers/autobiography-of-a-yogi.webp",
+  es: "/book-images/covers/autobiografia-de-un-yogui.webp",
+};
 
 export default async function HomePage({
   params,
@@ -43,118 +41,75 @@ export default async function HomePage({
 
   const passage = await getDailyPassage(pool, locale === "es" ? "es" : "en");
 
-  return (
-    <div className="page-arrive" style={{ display: "flex", flexDirection: "column", gap: "var(--space-spacious)", paddingBlock: "var(--space-generous)" }}>
+  // Fetch book data for the book presentation section
+  let books = await getBooks(pool, locale);
+  if (books.length === 0) {
+    books = await getBooks(pool);
+  }
+  const book = books[0] ?? null;
+  const chapterCount = book ? (await getChapters(pool, book.id)).length : 0;
 
-      {/* ── Welcoming threshold — lotus as first breath ── */}
-      <div className="center" style={{ paddingBlock: "var(--space-tight, 0.5rem)" }}>
-        <Motif role="divider" voice="sacred" glyph="lotus-03" className="welcome-lotus" />
+  const coverSrc = COVER_IMAGES[locale] ?? COVER_IMAGES.en;
+
+  return (
+    <div className="page-arrive" style={{ display: "flex", flexDirection: "column", paddingBlockEnd: "var(--space-spacious)" }}>
+
+      {/* ── Section I: Passage Hero ── */}
+      <div className="passage-hero">
+        <Motif role="divider" voice="sacred" glyph="lotus-03" className="passage-hero-motif" />
+        {passage ? (
+          <ShowAnother initial={passage} />
+        ) : (
+          <section className="center" style={{ maxInlineSize: "36em" }}>
+            <p className="reader-epigraph">
+              {t("wisdomFallback", { defaultValue: "The teachings await you." })}
+            </p>
+          </section>
+        )}
       </div>
 
-      {/* ── The Bindu: Today's Wisdom ── */}
-      {passage ? (
-        <ShowAnother initial={passage} />
-      ) : (
-        <section className="center" style={{ maxInlineSize: "36em" }}>
-          <p className="reader-epigraph">
-            {t("wisdomFallback", { defaultValue: "The teachings await you." })}
+      <Motif role="breath" voice="sacred" glyph="lotus-07" />
+
+      {/* ── Section II: Book Presentation (cover + title) ── */}
+      {book && (
+        <section
+          aria-label={t("bookPresentation.begin")}
+          className="book-presentation"
+        >
+          <Link href={`/books/${book.slug}`}>
+            <img
+              src={coverSrc}
+              alt={t("bookPresentation.coverAlt")}
+              className="bindu-cover"
+              width={240}
+              height={360}
+              fetchPriority="high"
+              loading="eager"
+              style={{ viewTransitionName: "book-cover" }}
+            />
+          </Link>
+          <p className="book-title">{book.title}</p>
+          <p className="book-author">{book.author}</p>
+          <p className="book-meta">
+            {t("bookPresentation.chapters", { count: chapterCount })}
+            {" \u00B7 "}
+            {t("bookPresentation.free")}
           </p>
+          <Link
+            href={`/books/${book.slug}`}
+            className="btn-ghost"
+            style={{ fontSize: "0.875rem" }}
+          >
+            {t("bookPresentation.begin")}
+          </Link>
         </section>
       )}
 
-      <Motif role="divider" voice="sacred" glyph="lotus-05" />
+      <Motif role="breath" voice="sacred" glyph="lotus-07" />
 
-      {/* ── Search + Thematic Doors (navigation zone) ── */}
-      <section className="center" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "var(--space-default)" }}>
-        <form
-          action={`/${locale}/search`}
-          method="get"
-          role="search"
-          aria-label={t("searchPrompt")}
-          style={{ maxInlineSize: "28em", inlineSize: "100%" }}
-        >
-          <label htmlFor="home-search" className="visually-hidden">
-            {t("searchPrompt")}
-          </label>
-          <div className="cluster" style={{ gap: "var(--space-compact)" }}>
-            <input
-              id="home-search"
-              type="search"
-              name="q"
-              placeholder={t("searchPrompt")}
-              className="input"
-              style={{ flex: 1 }}
-              autoComplete="off"
-            />
-            <button type="submit" className="btn-primary">
-              {t("searchButton")}
-            </button>
-          </div>
-        </form>
-        <div className="pill-cluster">
-          {THEMATIC_DOORS.map((door) => (
-            <a
-              key={door.key}
-              href={`/${locale}/search?q=${encodeURIComponent(door.query)}`}
-              className="pill"
-            >
-              {t(`thematicDoors.${door.key}`)}
-            </a>
-          ))}
-        </div>
-      </section>
+      {/* ── Section III: Continue Reading (returning seekers) ── */}
+      <ContinueReading />
 
-      {/* ── Start Here ── */}
-      <section className="center">
-        <h2 className="section-label">{t("startHere.heading")}</h2>
-        <div className="grid-3">
-          <a href={`/${locale}/books`} className="card stack-tight" style={{ textAlign: "center", display: "flex", flexDirection: "column" }}>
-            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
-              {t("startHere.curious.title")}
-            </strong>
-            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
-              {t("startHere.curious.description")}
-            </span>
-          </a>
-          <a
-            href={`/${locale}/search?q=${encodeURIComponent("comfort hope healing")}`}
-            className="card stack-tight"
-            style={{ textAlign: "center", display: "flex", flexDirection: "column" }}
-          >
-            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
-              {t("startHere.need.title")}
-            </strong>
-            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
-              {t("startHere.need.description")}
-            </span>
-          </a>
-          <a
-            href={`/${locale}/search?q=${encodeURIComponent("meditation technique practice")}`}
-            className="card stack-tight"
-            style={{ textAlign: "center", display: "flex", flexDirection: "column" }}
-          >
-            <strong style={{ fontFamily: "var(--font-display)", fontWeight: 500 }}>
-              {t("startHere.seeker.title")}
-            </strong>
-            <span style={{ fontSize: "0.8125rem", color: "var(--color-text-secondary)" }}>
-              {t("startHere.seeker.description")}
-            </span>
-          </a>
-        </div>
-      </section>
-
-      {/* ── Practice Bridge ── */}
-      <div className="signpost">
-        <p>
-          {t("practiceBridge")}{" "}
-          <a href={SRF_PRACTICE.lessons} target="_blank" rel="noopener noreferrer">
-            {t("srfLessons")}
-          </a>
-        </p>
-      </div>
-
-      {/* ── Continue Reading (returning seekers — quiet anchor at bottom) ── */}
-      <ContinueReading locale={locale} />
     </div>
   );
 }

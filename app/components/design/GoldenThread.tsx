@@ -27,6 +27,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from "react";
+import { Link } from "@/i18n/navigation";
 import type { RelatedPassage, ThreadSuggestion } from "@/lib/services/relations";
 
 interface GoldenThreadProps {
@@ -242,9 +243,9 @@ function ThreadContent({
 
       <div className="thread-passages">
         {passages.map((p) => (
-          <a
+          <Link
             key={p.id}
-            href={`/${locale}/books/${p.bookSlug}/${p.chapterNumber}`}
+            href={`/books/${p.bookSlug}/${p.chapterNumber}`}
             className="thread-passage"
           >
             {p.relationLabel && (
@@ -257,7 +258,7 @@ function ThreadContent({
               {p.bookTitle}, Ch. {p.chapterNumber}
               {p.chapterTitle && `: ${p.chapterTitle}`}
             </cite>
-          </a>
+          </Link>
         ))}
       </div>
 
@@ -266,9 +267,9 @@ function ThreadContent({
         <div className="thread-suggestions">
           <p className="thread-subheading">Continue the Thread</p>
           {thread.map((s) => (
-            <a
+            <Link
               key={`${s.bookSlug}-${s.chapterNumber}`}
-              href={`/${locale}/books/${s.bookSlug}/${s.chapterNumber}`}
+              href={`/books/${s.bookSlug}/${s.chapterNumber}`}
               className="thread-suggestion"
             >
               <span className="thread-suggestion-title">
@@ -280,7 +281,7 @@ function ThreadContent({
               <span className="thread-suggestion-count">
                 {s.connectionCount} connection{s.connectionCount !== 1 ? "s" : ""}
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       )}

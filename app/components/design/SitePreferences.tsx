@@ -15,6 +15,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
 import { useDesign } from "./DesignProvider";
 import { locales, localeNames, type Locale } from "@/i18n/config";
 import { clearAllData } from "@/lib/services/storage-clear";
@@ -96,16 +97,7 @@ export function SitePreferences() {
     window.location.reload();
   }
 
-  /* ── Language path builder ───────────────────────────────────── */
-  function localePath(targetLocale: Locale): string {
-    if (typeof window === "undefined") return `/${targetLocale}`;
-    const path = window.location.pathname;
-    // Strip current locale prefix if present
-    const stripped = path.replace(/^\/(en|es)(\/|$)/, "/");
-    const clean = stripped === "" ? "/" : stripped;
-    if (targetLocale === "en") return clean;
-    return `/${targetLocale}${clean === "/" ? "" : clean}`;
-  }
+  const pathname = usePathname();
 
   return (
     <div className="site-prefs" ref={containerRef}>
@@ -149,14 +141,15 @@ export function SitePreferences() {
             <legend className="site-prefs-legend">{t("language")}</legend>
             <div className="site-prefs-languages">
               {locales.map((loc) => (
-                <a
+                <Link
                   key={loc}
-                  href={localePath(loc)}
+                  href={pathname}
+                  locale={loc}
                   className={`site-prefs-lang${locale === loc ? " active" : ""}`}
                   aria-current={locale === loc ? "true" : undefined}
                 >
                   {localeNames[loc]}
-                </a>
+                </Link>
               ))}
             </div>
           </fieldset>

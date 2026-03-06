@@ -12,7 +12,8 @@
  */
 
 import { useState, useCallback } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import type { DailyPassage } from "@/lib/services/passages";
 
 interface Props {
@@ -21,7 +22,6 @@ interface Props {
 
 export function ShowAnother({ initial }: Props) {
   const t = useTranslations("home");
-  const locale = useLocale();
   const [passage, setPassage] = useState(initial);
   const [loading, setLoading] = useState(false);
 
@@ -59,10 +59,10 @@ export function ShowAnother({ initial }: Props) {
       </blockquote>
       <p className="reader-citation" style={{ textAlign: "center" }}>
         {passage.bookAuthor},{" "}
-        <a href={`/${locale}/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}>
+        <Link href={`/books/${passage.bookSlug}/${passage.chapterNumber}#passage-${passage.id}`}>
           <cite>{passage.bookTitle}</cite>
           {passage.chapterTitle && `, ${passage.chapterTitle}`}
-        </a>
+        </Link>
       </p>
       <div style={{ textAlign: "center", marginBlockStart: "var(--space-default)" }}>
         <button

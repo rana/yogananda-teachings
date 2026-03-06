@@ -8,10 +8,11 @@
 import { test, expect } from "@playwright/test";
 
 test.describe("Homepage", () => {
-  test("loads and shows Today's Wisdom", async ({ page }) => {
+  test("loads and shows passage with book cover", async ({ page }) => {
     await page.goto("/en");
     await expect(page.locator("main")).toBeVisible();
-    await expect(page.locator("h1, blockquote")).toBeVisible();
+    await expect(page.locator("blockquote")).toBeVisible();
+    await expect(page.locator(".bindu-cover")).toBeVisible();
   });
 
   test("has skip link for accessibility", async ({ page }) => {
@@ -20,9 +21,22 @@ test.describe("Homepage", () => {
     await expect(skipLink).toBeAttached();
   });
 
-  test("shows thematic doors", async ({ page }) => {
+  test("shows thematic door pills", async ({ page }) => {
     await page.goto("/en");
-    await expect(page.getByText("Doors of Entry")).toBeVisible();
+    await expect(page.locator(".pill-cluster")).toBeVisible();
+    await expect(page.getByText("Inner Peace")).toBeVisible();
+  });
+
+  test("shows seeking lines section", async ({ page }) => {
+    await page.goto("/en");
+    await expect(page.getByText("These teachings are here")).toBeVisible();
+    await expect(page.getByText("for when the world is too much")).toBeVisible();
+  });
+
+  test("shows book presentation", async ({ page }) => {
+    await page.goto("/en");
+    await expect(page.locator(".book-presentation")).toBeVisible();
+    await expect(page.getByText("Begin reading")).toBeVisible();
   });
 });
 

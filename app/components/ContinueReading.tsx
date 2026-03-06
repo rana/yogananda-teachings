@@ -12,13 +12,10 @@
  */
 
 import { useState, useEffect } from "react";
+import { Link } from "@/i18n/navigation";
 import { getLastRead, type ReadingJourneyEntry } from "@/lib/reading-journey";
 
-interface ContinueReadingProps {
-  locale: string;
-}
-
-export function ContinueReading({ locale }: ContinueReadingProps) {
+export function ContinueReading() {
   const [entry, setEntry] = useState<ReadingJourneyEntry | null>(null);
 
   useEffect(() => {
@@ -31,14 +28,14 @@ export function ContinueReading({ locale }: ContinueReadingProps) {
   const fragment = entry.lastPassageId ? `#passage-${entry.lastPassageId}` : "";
 
   return (
-    <a
-      href={`/${locale}/books/${entry.bookSlug}/${entry.chapterNumber}${fragment}`}
+    <Link
+      href={`/books/${entry.bookSlug}/${entry.chapterNumber}${fragment}`}
       className="continue-reading"
     >
       <span className="continue-reading-label">Continue reading</span>
       <span className="continue-reading-chapter">
         {entry.bookTitle} &mdash; Chapter {entry.chapterNumber}: {entry.chapterTitle}
       </span>
-    </a>
+    </Link>
   );
 }

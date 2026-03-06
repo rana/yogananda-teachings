@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import { Link } from "@/i18n/navigation";
 
 interface ChapterProgressProps {
   bookTitle: string;
@@ -121,19 +122,19 @@ export function ChapterProgress({
         }}
       >
         {prevChapter !== null ? (
-          <a
-            href={`/${locale}/books/${bookSlug}/${prevChapter}`}
+          <Link
+            href={`/books/${bookSlug}/${prevChapter}`}
             aria-label={`Previous chapter (${prevChapter})`}
             style={chevronStyle}
           >
             ‹
-          </a>
+          </Link>
         ) : (
           <span style={{ ...chevronStyle, opacity: 0.12 }}>‹</span>
         )}
 
-        <a
-          href={`/${locale}/books/${bookSlug}`}
+        <Link
+          href={`/books/${bookSlug}`}
           style={{
             color: "inherit",
             textDecoration: "none",
@@ -141,7 +142,7 @@ export function ChapterProgress({
           }}
         >
           {bookTitle}
-        </a>
+        </Link>
         <span style={{ opacity: 0.3 }}>/</span>
         <span style={{ color: "var(--color-crimson)", fontVariant: "small-caps", letterSpacing: "0.05em" }}>
           Ch. {chapterNumber}
@@ -154,13 +155,13 @@ export function ChapterProgress({
 
         <span style={{ marginInlineStart: "auto" }} />
         {nextChapter !== null ? (
-          <a
-            href={`/${locale}/books/${bookSlug}/${nextChapter}`}
+          <Link
+            href={`/books/${bookSlug}/${nextChapter}`}
             aria-label={`Next chapter (${nextChapter})`}
             style={chevronStyle}
           >
             ›
-          </a>
+          </Link>
         ) : (
           <span style={{ ...chevronStyle, opacity: 0.12 }}>›</span>
         )}

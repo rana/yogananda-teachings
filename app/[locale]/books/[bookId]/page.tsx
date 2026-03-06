@@ -14,6 +14,7 @@ import pool from "@/lib/db";
 import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
+import { Link } from "@/i18n/navigation";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
 import { ChapterProgress } from "@/app/components/ChapterProgress";
@@ -123,6 +124,7 @@ export default async function BookLandingPage({
             height={180}
             loading="eager"
             className="book-header-cover"
+            style={{ viewTransitionName: "book-cover" }}
           />
         )}
         <div className="book-header-text">
@@ -144,13 +146,13 @@ export default async function BookLandingPage({
           <ol className="chapter-list" aria-label="Chapters">
             {chapters.map((ch) => (
               <li key={ch.id}>
-                <a
-                  href={`/${locale}/books/${book.slug}/${ch.chapterNumber}`}
+                <Link
+                  href={`/books/${book.slug}/${ch.chapterNumber}`}
                   className="chapter-list-item"
                 >
                   <span className="chapter-list-number">{ch.chapterNumber}</span>
                   <span className="chapter-list-title">{ch.title}</span>
-                </a>
+                </Link>
               </li>
             ))}
           </ol>

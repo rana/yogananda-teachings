@@ -12,10 +12,13 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import type { Metadata } from "next";
-import { PORTAL, SRF } from "@/lib/config/srf-links";
+import { PORTAL, SRF, SRF_PRACTICE } from "@/lib/config/srf-links";
+import { Link } from "@/i18n/navigation";
+import { defaultLocale } from "@/i18n/config";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
 import { SitePreferences } from "@/app/components/design/SitePreferences";
+import { HeaderSearch } from "@/app/components/HeaderSearch";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -82,12 +85,12 @@ export default async function LocaleLayout({
       {/* Site header — functional register, minimal chrome */}
       <Surface as="header" register="functional" className="app-header">
         <div className="app-header-inner">
-          <a href={`/${locale}`} className="app-site-name">
+          <Link href="/" className="app-site-name">
             {t("siteName")}
-          </a>
+          </Link>
           <nav className="cluster" aria-label="Site navigation">
-            <a href={`/${locale}/books`}>{t("books")}</a>
-            <a href={`/${locale}/search`}>{t("search")}</a>
+            <Link href="/books">{t("books")}</Link>
+            <HeaderSearch action={`${locale === defaultLocale ? "" : `/${locale}`}/search`} />
             <SitePreferences />
           </nav>
         </div>
@@ -106,10 +109,16 @@ export default async function LocaleLayout({
             {f("tagline")} ·{" "}
             <a href={SRF.home}>Self-Realization Fellowship</a>
           </p>
+          <p className="footer-practice-bridge">
+            {f("practiceBridge")}{" "}
+            <a href={SRF_PRACTICE.lessons} target="_blank" rel="noopener noreferrer">
+              {f("srfLessons")}
+            </a>
+          </p>
           <nav className="footer-links" aria-label="Footer navigation">
-            <a href={`/${locale}/legal`}>{t("legal")}</a>
-            <a href={`/${locale}/privacy`}>{t("privacy")}</a>
-            <a href={`/${locale}/integrity`}>{t("integrity")}</a>
+            <Link href="/legal">{t("legal")}</Link>
+            <Link href="/privacy">{t("privacy")}</Link>
+            <Link href="/integrity">{t("integrity")}</Link>
           </nav>
         </div>
       </Surface>

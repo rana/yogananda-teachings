@@ -13,6 +13,8 @@ import pool from "@/lib/db";
 import { getBooks, getChapters } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL, SRF_BOOKSTORE } from "@/lib/config/srf-links";
+import { Link } from "@/i18n/navigation";
+import { defaultLocale } from "@/i18n/config";
 import { Surface } from "@/app/components/design/Surface";
 import { Motif } from "@/app/components/design/Motif";
 
@@ -60,14 +62,14 @@ export default async function BooksPage({
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: t("heading"),
-    url: `${PORTAL.canonical}/${locale}/books`,
+    url: `${PORTAL.canonical}${locale === defaultLocale ? "" : `/${locale}`}/books`,
     hasPart: booksWithChapters.map((book) => ({
       "@type": "Book",
       name: book.title,
       author: { "@type": "Person", name: book.author },
       inLanguage: book.language,
       ...(book.publicationYear && { datePublished: String(book.publicationYear) }),
-      url: `${PORTAL.canonical}/${locale}/books/${book.slug}`,
+      url: `${PORTAL.canonical}${locale === defaultLocale ? "" : `/${locale}`}/books/${book.slug}`,
       numberOfPages: book.chapterCount,
       copyrightHolder: {
         "@type": "Organization",
@@ -96,10 +98,10 @@ export default async function BooksPage({
       ) : (
         <>
           <div className="center stack">
-            {booksWithChapters.map((book) => (
-              <a
+            {booksWithChapters.map((book, i) => (
+              <Link
                 key={book.id}
-                href={`/${locale}/books/${book.slug}`}
+                href={`/books/${book.slug}`}
                 className="card"
               >
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "var(--space-default)" }}>
@@ -114,6 +116,7 @@ export default async function BooksPage({
                         height: "120px",
                         borderRadius: "var(--radius-gentle, 4px)",
                         boxShadow: "0 1px 4px color-mix(in oklch, var(--color-text), transparent 90%)",
+                        viewTransitionName: i === 0 ? "book-cover" : undefined,
                       }}
                     />
                   )}
@@ -130,7 +133,7 @@ export default async function BooksPage({
                     </p>
                   </div>
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
 

@@ -149,6 +149,55 @@ main {
   letter-spacing: 0.04em;
 }
 
+/* Header search — compact, ambient */
+.header-search {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.header-search-input {
+  inline-size: 18em;
+  padding-block: 0.35em;
+  padding-inline: 0.625em 2em;
+  font-size: 0.8125rem;
+  border-radius: var(--radius-gentle, 4px);
+}
+.header-search-btn {
+  position: absolute;
+  inset-inline-end: 0.375em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  padding: 0.25em;
+  opacity: 0.6;
+  transition: opacity var(--motion-ui);
+}
+.header-search-btn:hover {
+  opacity: 1;
+}
+
+/* Search clear button — match design language */
+.header-search-input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  height: 14px;
+  width: 14px;
+  background: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round'%3E%3Cline x1='18' y1='6' x2='6' y2='18'/%3E%3Cline x1='6' y1='6' x2='18' y2='18'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  opacity: 0.4;
+  cursor: pointer;
+  margin-inline-end: 0.25em;
+}
+.header-search-input::-webkit-search-cancel-button:hover {
+  opacity: 0.8;
+}
+
 /* App footer — recedes on chapter pages where the chapter's own
    close motif already provides the ending ornament. */
 .app-footer {
@@ -165,6 +214,12 @@ main {
    the chapter's close motif is the terminal ornament. */
 main:has(article) + .app-footer > .center > .motif {
   display: none;
+}
+
+.footer-practice-bridge {
+  font-size: 0.8125rem;
+  margin-block: var(--space-compact) 0;
+  opacity: 0.7;
 }
 
 .footer-links {
@@ -894,6 +949,126 @@ a:hover {
   color: var(--color-text);
 }
 
+/* Passage hero — the threshold moment, lotus watermark behind the quote */
+.passage-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-inline-size: 42em;
+  margin-inline: auto;
+  padding-inline: var(--space-default);
+  padding-block: var(--space-default) var(--space-compact);
+}
+
+.passage-hero .reader-epigraph {
+  margin-block-end: var(--space-compact);
+}
+
+.passage-hero .reader-citation {
+  margin-block-start: 0;
+}
+
+.passage-hero-motif {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  translate: -50% -50%;
+  height: 220px;
+  width: auto;
+  opacity: 0.06;
+  pointer-events: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .passage-hero-motif {
+    height: 300px;
+  }
+}
+
+/* Cover image in book presentation */
+.bindu-cover {
+  height: 140px;
+  width: auto;
+  border-radius: var(--radius-gentle, 4px);
+  box-shadow: 0 2px 8px color-mix(in oklch, var(--color-text), transparent 85%);
+}
+
+@media (min-width: 640px) {
+  .bindu-cover {
+    height: 200px;
+  }
+}
+
+/* Seeking lines — poetic wayfinding section */
+.seeking-lines {
+  text-align: center;
+  max-inline-size: 24em;
+  margin-inline: auto;
+}
+
+.seeking-lines h2 {
+  font-family: var(--font-display);
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+  font-size: 1rem;
+  margin-block-end: var(--space-generous);
+}
+
+.seeking-lines a {
+  display: block;
+  font-family: var(--font-reading);
+  font-size: 1rem;
+  line-height: 2.2;
+  color: var(--color-text);
+  text-decoration: none;
+  padding-block: 4px;
+  transition: color var(--motion-interaction, 150ms);
+}
+
+.seeking-lines a:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-underline-offset: 0.3em;
+}
+
+/* Book presentation — cover + featured book typography */
+.book-presentation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-inline-size: 28em;
+  margin-inline: auto;
+  padding-block-start: var(--space-default);
+}
+
+.book-presentation .book-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--color-crimson);
+  font-size: 1.25rem;
+  margin-block: var(--space-compact) 0;
+}
+
+.book-presentation .book-author {
+  font-family: var(--font-reading);
+  color: var(--color-text-secondary);
+  font-size: 0.9375rem;
+  margin-block: 2px 0;
+}
+
+.book-presentation .book-meta {
+  font-family: var(--font-ui);
+  color: var(--color-text-secondary);
+  font-size: 0.8125rem;
+  margin-block: 2px var(--space-compact);
+}
+
 /* Empty state — centered message for zero-content pages */
 .empty-state {
   display: flex;
@@ -903,6 +1078,26 @@ a:hover {
   min-block-size: 50vh;
   text-align: center;
   padding: var(--space-spacious);
+}
+
+.empty-state .page-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-block-end: var(--space-spacious);
+}
+
+.empty-state .reader-epigraph {
+  margin-block: var(--space-spacious) 0;
+  padding-block: var(--space-compact) var(--space-default);
+}
+
+.empty-state .reader-citation {
+  margin-block: 0 var(--space-compact);
+}
+
+.error-nav {
+  display: flex;
+  gap: var(--space-compact);
+  margin-block-start: var(--space-default);
 }
 
 /* Grid layouts */
@@ -1098,6 +1293,10 @@ a:hover {
 .combobox-wrapper {
   position: relative;
   flex: 1;
+  min-width: 0;
+}
+.combobox-wrapper > input {
+  width: 100%;
 }
 
 .combobox-dropdown {
@@ -2115,10 +2314,20 @@ a:hover {
   to { opacity: 1; }
 }
 
+/* Book cover — shared element transition between homepage and books page.
+   The cover morphs position and size while the rest cross-fades. */
+::view-transition-old(book-cover),
+::view-transition-new(book-cover) {
+  animation-duration: var(--motion-contemplative, 800ms);
+  animation-timing-function: var(--easing-contemplative, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
 /* Reduced motion — instant transitions, no animation */
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
-  ::view-transition-new(root) {
+  ::view-transition-new(root),
+  ::view-transition-old(book-cover),
+  ::view-transition-new(book-cover) {
     animation: none;
   }
 }

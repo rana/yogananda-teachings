@@ -13,15 +13,12 @@
 import { Suspense, useState, useCallback, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useTranslations, useLocale } from "next-intl";
-import NextLink from "next/link";
-import { locales, localeNames } from "@/i18n/config";
+import { Link } from "@/i18n/navigation";
 import type { CrisisInfo } from "@/lib/services/crisis";
-import { SearchCombobox } from "@/app/components/SearchCombobox";
 import { HighlightedText } from "@/app/components/HighlightedText";
 import { sendResonance } from "@/lib/resonance-beacon";
 import { addRecentSearch, getRecentSearches, clearRecentSearches } from "@/lib/search-history";
 import { PORTAL } from "@/lib/config/srf-links";
-import { SEARCH_PLACEHOLDERS } from "@/lib/config/search-prompts";
 
 /**
  * Curated search invitations — editorially chosen doorways into the corpus.
@@ -198,7 +195,7 @@ function SearchPageInner() {
   const locale = useLocale();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
-  const [language, setLanguage] = useState(locale === "es" ? "es" : "en");
+  const language = locale === "es" ? "es" : "en";
   const [results, setResults] = useState<SearchResult[]>([]);
   const [meta, setMeta] = useState<SearchMeta | null>(null);
   const [crisis, setCrisis] = useState<CrisisInfo>({ detected: false });
@@ -280,79 +277,32 @@ function SearchPageInner() {
     [],
   );
 
-  const handleSearch = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      doSearch(query, language);
-    },
-    [query, language, doSearch],
-  );
+  const searchParamQ = searchParams.get("q") || "";
 
   useEffect(() => {
-    const q = searchParams.get("q");
-    if (q && !searched) {
-      setQuery(q);
-      doSearch(q, language);
+    if (searchParamQ && searchParamQ !== query) {
+      setQuery(searchParamQ);
+      doSearch(searchParamQ, language);
+    } else if (searchParamQ && !searched) {
+      doSearch(searchParamQ, language);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [searchParamQ]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <div style={{ paddingBlock: "var(--space-spacious)" }}>
-      {/* Search header */}
-      <div data-register="instructional" style={{
-        borderBlockEnd: "1px solid var(--color-border)",
-        paddingBlock: "var(--space-generous)",
-      }}>
-        <div className="center" style={{ maxInlineSize: "48em" }}>
-          <h1 className="page-title">{t("heading")}</h1>
-          <p className="page-subtitle" style={{ marginBlockEnd: "var(--space-generous)" }}>{t("subtitle")}</p>
-
-          <form onSubmit={handleSearch} role="search">
-            <div className="cluster" style={{ gap: "var(--space-compact)" }}>
-              <div style={{ flex: 1 }}>
-                <SearchCombobox
-                  value={query}
-                  onChange={setQuery}
-                  onSubmit={(q) => doSearch(q, language)}
-                  language={language}
-                  placeholder={t("placeholder")}
-                  placeholders={SEARCH_PLACEHOLDERS[language] ?? SEARCH_PLACEHOLDERS.en}
-                  ariaLabel={t("heading")}
-                  className="input"
-                />
-              </div>
-              <select
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-                className="input"
-                style={{ minWidth: "44px" }}
-                aria-label={t("language")}
-              >
-                {locales.map((loc) => (
-                  <option key={loc} value={loc}>
-                    {localeNames[loc]}
-                  </option>
-                ))}
-              </select>
-              <button
-                type="submit"
-                disabled={loading || !query.trim()}
-                className="btn-primary"
-              >
-                {loading ? t("loading") : t("button")}
-              </button>
-            </div>
-          </form>
-        </div>
+    <div style={{ paddingBlock: "var(--space-default)" }}>
+      {/* Page heading */}
+      <div className="center" style={{ maxInlineSize: "48em", paddingBlock: "var(--space-default)", borderBlockEnd: "1px solid var(--color-border)" }}>
+        <h1 className="page-title">{t("heading")}</h1>
+        <p className="page-subtitle">{t("subtitle")}</p>
       </div>
 
       {/* Results */}
-      <div className="center" style={{ paddingBlock: "var(--space-generous)" }} aria-live="polite">
+      <div className="center" style={{ paddingBlock: "var(--space-default)" }} aria-live="polite">
         <CrisisBanner crisis={crisis} />
 
         {/* Empty state: recent searches + curated suggestions */}
         {!searched && !loading && (
-          <div className="stack-spacious" style={{ paddingBlock: "var(--space-generous)" }}>
+          <div className="stack-spacious" style={{ paddingBlock: "var(--space-default)" }}>
             {recentSearches.length > 0 && (
               <section aria-label={t("recentSearches")}>
                 <div className="cluster" style={{ justifyContent: "center", marginBlockEnd: "var(--space-default)" }}>
@@ -494,12 +444,12 @@ function SearchPageInner() {
                       <span>p. {result.citation.page}</span>
                     </>
                   )}
-                  <NextLink
-                    href={`/${locale}/books/${result.citation.bookSlug}/${result.citation.chapterNumber}#passage-${result.id}`}
+                  <Link
+                    href={`/books/${result.citation.bookSlug}/${result.citation.chapterNumber}#passage-${result.id}`}
                     style={{ color: "var(--color-gold)", minHeight: "44px", display: "inline-flex", alignItems: "center" }}
                   >
                     {t("readChapter")}
-                  </NextLink>
+                  </Link>
                   <InlineShareButton
                     passage={result.content}
                     citation={result.citation}

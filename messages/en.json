@@ -18,6 +18,8 @@
   },
   "footer": {
     "tagline": "Teachings of Paramahansa Yogananda",
+    "practiceBridge": "Interested in learning meditation?",
+    "srfLessons": "SRF Lessons",
     "copyright": "© Self-Realization Fellowship",
     "yoganandaOrg": "yogananda.org",
     "bookstore": "SRF Bookstore",
@@ -27,17 +29,13 @@
     "browseAll": "Browse all teachings"
   },
   "home": {
-    "todaysWisdom": "Today's Wisdom",
     "showAnother": "Show me another",
     "readInContext": "Read in chapter",
     "continueReading": "Continue where you left off",
     "noPassages": "No passages available yet.",
-    "searchPrompt": "peace, courage, healing, love...",
+    "searchPrompt": "What are you seeking?",
     "searchButton": "Search",
-    "practiceBridge": "Interested in learning meditation?",
-    "srfLessons": "SRF Lessons",
     "thematicDoors": {
-      "heading": "Doors of Entry",
       "innerPeace": "Inner Peace",
       "love": "Love",
       "lastingHappiness": "Lasting Happiness",
@@ -52,20 +50,11 @@
       "practice": "for learning to be still",
       "curiosity": "for what you felt but couldn\u2019t name"
     },
-    "startHere": {
-      "heading": "Start Here",
-      "curious": {
-        "title": "A Place to Begin",
-        "description": "Millions have found their way here through one extraordinary book."
-      },
-      "need": {
-        "title": "Light for Dark Hours",
-        "description": "Some words carry light. These passages are here whenever you need them."
-      },
-      "seeker": {
-        "title": "Be Still And...",
-        "description": "...you realize that all along there was something tremendous within you, and you did not know it."
-      }
+    "bookPresentation": {
+      "chapters": "{count, plural, one {# chapter} other {# chapters}}",
+      "free": "Freely available",
+      "begin": "Begin reading",
+      "coverAlt": "Autobiography of a Yogi by Paramahansa Yogananda"
     }
   },
   "search": {
