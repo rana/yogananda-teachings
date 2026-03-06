@@ -1,5 +1,5 @@
 /**
- * Unified enrichment prompt — M1c-11 (ADR-115).
+ * Unified enrichment prompt — M1c-11 (FTR-026).
  *
  * Used at index-time only (never in search hot path).
  * Claude via AWS Bedrock enriches each passage with metadata:

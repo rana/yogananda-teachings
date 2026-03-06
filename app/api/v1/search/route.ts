@@ -1,9 +1,9 @@
 /**
  * Search API — /api/v1/search
  *
- * Hybrid search: vector + FTS + RRF (ADR-044).
+ * Hybrid search: vector + FTS + RRF (FTR-020).
  * Returns ranked verbatim passages with citations (PRI-01, PRI-02).
- * Pure hybrid search is the primary mode (ADR-119).
+ * Pure hybrid search is the primary mode (FTR-027).
  * Optional AI enhancements via `enhance` param (M2b-12/13).
  *
  * Query params:
@@ -22,7 +22,7 @@ import { SEARCH_RESULTS_LIMIT } from "@/lib/config";
 import { logger } from "@/lib/logger";
 
 export async function GET(request: NextRequest) {
-  // Rate limiting — M1c-6 (ADR-023)
+  // Rate limiting — M1c-6 (FTR-097)
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
     || request.headers.get("x-real-ip")
     || "unknown";
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
       forceFts,
     });
 
-    // API response shape per DES-019 § API Conventions (ADR-110)
+    // API response shape per FTR-015 § API Conventions (FTR-088)
     // Cache identical queries at Vercel edge for 60s; serve stale up to 5min while revalidating.
     // Corpus changes infrequently; seekers searching the same terms benefit from edge caching.
     const body = {

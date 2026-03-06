@@ -1,5 +1,5 @@
 /**
- * i18n configuration — M2a-9 (ADR-075, ADR-076, ADR-078).
+ * i18n configuration — M2a-9 (FTR-058, FTR-058, FTR-135).
  *
  * Supported locales. Adding a new language requires:
  * 1. Add locale code here

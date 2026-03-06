@@ -1,5 +1,5 @@
 /**
- * Generate static JSON suggestion files — M1c-8 (ADR-120 Tier A).
+ * Generate static JSON suggestion files — M1c-8 (FTR-029 Tier A).
  *
  * Extracts ~50 corpus-derived suggestions per language from the database:
  * - Chapter titles

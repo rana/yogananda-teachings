@@ -51,22 +51,22 @@ All content is freely accessible. No sign-up gates. No conversion tracking. No b
 |-------|-----------|
 | Frontend | Next.js on Vercel |
 | Database | Neon PostgreSQL 18 + pgvector + pg_search/ParadeDB (hybrid vector + BM25 full-text search) |
-| AI | Claude via AWS Bedrock (index-time enrichment, ingestion QA — never in search hot path, never content generation; ADR-119) |
-| Embeddings | Voyage voyage-3-large (multilingual, 1024 dimensions) (ADR-118) |
-| Reranking | Cohere Rerank 3.5 (Milestone 2b+) (ADR-119) |
-| Graph | Postgres-native + Python/NetworkX batch pipeline (Milestone 3b+) (ADR-117) |
-| Suggestions | Static JSON at CDN edge (Arc 1) + pg_trgm fuzzy fallback; Vercel KV if needed (Milestone 2b+) (ADR-120) |
+| AI | Claude via AWS Bedrock (index-time enrichment, ingestion QA — never in search hot path, never content generation; FTR-027) |
+| Embeddings | Voyage voyage-3-large (multilingual, 1024 dimensions) (FTR-024) |
+| Reranking | Cohere Rerank 3.5 (Milestone 2b+) (FTR-027) |
+| Graph | Postgres-native + Python/NetworkX batch pipeline (Milestone 3b+) (FTR-034) |
+| Suggestions | Static JSON at CDN edge (Arc 1) + pg_trgm fuzzy fallback; Vercel KV if needed (Milestone 2b+) (FTR-029) |
 | Language detection | fastText (per-query, < 1ms) |
 | CMS | Contentful (Arc 1+) |
 | Auth | Auth0 (Milestone 7a+) |
 | Edge/CDN | Vercel (native CDN, Firewall, DDoS) |
 | Video | YouTube RSS + Data API v3, Vimeo (platform-agnostic) |
-| IaC | Platform MCP + `teachings.json` (ADR-016 revised) |
+| IaC | Platform MCP + `teachings.json` (FTR-106 revised) |
 | Migrations | dbmate (raw SQL) |
 | Monitoring | Sentry, New Relic |
 | Analytics | Amplitude (DELTA-compliant event allowlist) |
 
-Business logic lives in `/lib/services/` (framework-agnostic TypeScript). A three-tier MCP server strategy (ADR-101) provides corpus access at development, editorial, and external distribution layers. The architecture is designed for a **10-year maintenance horizon**: data in PostgreSQL, migrations in raw SQL, dependencies treated as commitments.
+Business logic lives in `/lib/services/` (framework-agnostic TypeScript). A three-tier MCP server strategy (FTR-098) provides corpus access at development, editorial, and external distribution layers. The architecture is designed for a **10-year maintenance horizon**: data in PostgreSQL, migrations in raw SQL, dependencies treated as commitments.
 
 ## Roadmap
 
@@ -87,7 +87,5 @@ This portal is designed and implemented through AI-human collaboration using [Cl
 
 - [PRINCIPLES.md](PRINCIPLES.md) — 12 immutable commitments that define the project
 - [CONTEXT.md](CONTEXT.md) — Project background, mission, stakeholders, theological constraints
-- [DESIGN.md](DESIGN.md) — Technical architecture across three files by arc scope
-- [DECISIONS.md](DECISIONS.md) — Architecture Decision Records across three files by concern
-- [PROPOSALS.md](PROPOSALS.md) — Proposal registry for features awaiting scheduling
+- [features/FEATURES.md](features/FEATURES.md) — Unified index of 159 FTR files across 5 domains
 - [ROADMAP.md](ROADMAP.md) — 3 planned arcs with milestones, deliverables, and arc gates

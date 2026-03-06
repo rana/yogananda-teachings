@@ -11,7 +11,7 @@
  * - Hopeful — consonant intervals, natural bloom and decay
  * - Worthy of presenting alongside Yogananda's words (PRI-03)
  *
- * Volume capped at 15% per M2a-14 (ADR-074).
+ * Volume capped at 15% per M2a-14 (FTR-054).
  * Progressive enhancement: silent if Web Audio unavailable (PRI-05).
  * Respects prefers-reduced-motion (PRI-07).
  *

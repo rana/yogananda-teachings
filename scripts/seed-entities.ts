@@ -1,5 +1,5 @@
 /**
- * Entity registry seed — M1c-10 (ADR-116).
+ * Entity registry seed — M1c-10 (FTR-033).
  *
  * Populates entity_registry and sanskrit_terms from domain knowledge.
  * Covers: teachers, divine names, techniques, Sanskrit terms, key concepts.

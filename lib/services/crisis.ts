@@ -1,5 +1,5 @@
 /**
- * Crisis query detection — M1c-9 (ADR-122).
+ * Crisis query detection — M1c-9 (FTR-051).
  *
  * Heuristic keyword-based detection. Does NOT suppress search results —
  * displays a calm interstitial ABOVE results with crisis helpline info.

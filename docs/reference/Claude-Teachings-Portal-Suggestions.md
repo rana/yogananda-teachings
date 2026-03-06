@@ -114,7 +114,7 @@ Let me think carefully about each principle and how the roadmap addresses (or fa
 
 There's a real friction between Principle 3 (Honoring the Spirit) and how the roadmap is structured. The portal threshold moment gets pushed to Milestone 2a, but Arc 1 is fundamentally about proving search quality through metrics like Recall@3 and MRR@10—which feels utilitarian rather than contemplative. When the first seeker encounters this in production at Milestone 1c, they'll find a minimal homepage with "Today's Wisdom" and a search bar, but that's not yet the threshold experience the principle calls for.
 
-On Principle 5 (Global-First), there's a gap between the stated breadth-first approach and what actually happened. The roadmap shows English proof, then trilingual support, then deployment—but the accessibility features like text-only mode and service worker were originally planned for later phases and only got pulled into 1c after applying the ADR-128 logic. That reordering suggests the global-first commitment is still being negotiated against other pressures.
+On Principle 5 (Global-First), there's a gap between the stated breadth-first approach and what actually happened. The roadmap shows English proof, then trilingual support, then deployment—but the accessibility features like text-only mode and service worker were originally planned for later phases and only got pulled into 1c after applying the FTR-011 logic. That reordering suggests the global-first commitment is still being negotiated against other pressures.
 
 For Principle 7 (Accessibility from First Deployment), there's a real tension: the principle claims accessibility from day one, but the actual testing infrastructure—WCAG compliance checks, axe-core in CI, semantic HTML—doesn't arrive until Milestone 2a. The early milestones have responsive layouts and touch targets, but the systematic accessibility validation is deferred. The principle itself was even renamed at some point, which hints at how it's been repositioned through the planning process.
 
@@ -130,7 +130,7 @@ The "AI Observes" pattern could start gathering signal much earlier than 3b, eve
 
 There's a structural tension in the roadmap I'm noticing now. The seven arcs are organized thematically, which works beautifully for communicating the vision, but the execution order table shows the actual build sequence jumps between them based on reachable population logic. The documentation flags this—"Arc numbers are thematic groups, not temporal sequences"—but a developer will naturally feel pulled toward building each arc completely before moving to the next. The thematic coherence is a powerful communication tool that could accidentally become a development constraint.
 
-What strikes me most is the spiritual honesty embedded in the design choices. The "AI Observes" pattern in DES-035 creates ambient awareness without surveillance—the "What Is Humanity Seeking?" dashboard feels like one of the most ethically grounded analytics products I've encountered. The three seeker narratives from different parts of the world aren't just personas; they're empathy anchors meant to ground every developer at the start of each arc. And the architectural commitment to "signpost, not destination" is enforced through explicit lists of metrics to never track. Even the acknowledgment in ADR-007 that curation is interpretation—that willingness to name the subjectivity baked into every design choice—is rare and important.
+What strikes me most is the spiritual honesty embedded in the design choices. The "AI Observes" pattern in FTR-069 creates ambient awareness without surveillance—the "What Is Humanity Seeking?" dashboard feels like one of the most ethically grounded analytics products I've encountered. The three seeker narratives from different parts of the world aren't just personas; they're empathy anchors meant to ground every developer at the start of each arc. And the architectural commitment to "signpost, not destination" is enforced through explicit lists of metrics to never track. Even the acknowledgment in FTR-007 that curation is interpretation—that willingness to name the subjectivity baked into every design choice—is rare and important.
 
 But I'm wrestling with the validation approach. The golden retrieval set of roughly 58 English queries has a circularity problem: they're designed to be answerable by the corpus, so passing them proves the system works on queries built to work. The adversarial set is only 8 queries, and "route to no-results or degrade gracefully" is a much lower bar than actually surfacing relevant passages the seeker didn't know to ask for. The portal's real power is helping someone find what they're looking for when they don't even know how to ask—but the golden set tests the seeker who already knows what they want.
 
@@ -175,7 +175,7 @@ The portal's deepest value is for the person at 2 AM who types "I can't sleep I'
 This category can't be fully automated. That's the point.
 
 **The opening moment is deferred to 2a.**
-The lotus threshold (DES-007) — the first thing a seeker sees, the portal's declaration of what it is — is a Milestone 2a deliverable. It's CSS and SVG. The complexity is near zero. But its absence in 1c means the portal's debut is indistinguishable from any other search interface.
+The lotus threshold (FTR-040) — the first thing a seeker sees, the portal's declaration of what it is — is a Milestone 2a deliverable. It's CSS and SVG. The complexity is near zero. But its absence in 1c means the portal's debut is indistinguishable from any other search interface.
 
 ---
 
@@ -195,11 +195,11 @@ The lotus threshold (DES-007) — the first thing a seeker sees, the portal's de
 
 **Move these to Milestone 1c:**
 
-1. The lotus threshold (DES-007) — minimal version. Not the full contemplative experience, but enough to communicate that this portal is different from the first second a seeker arrives.
+1. The lotus threshold (FTR-040) — minimal version. Not the full contemplative experience, but enough to communicate that this portal is different from the first second a seeker arrives.
 
 2. A minimal practice bridge — one quiet static line below search results when the intent looks practice-oriented. No infrastructure. Just the signpost.
 
-3. ADR-074 micro-copy for the empty state and error state. The first thing a seeker sees when search fails should already carry warmth. "The teachings don't have a direct answer for that" rather than a technical empty state.
+3. FTR-054 micro-copy for the empty state and error state. The first thing a seeker sees when search fails should already carry warmth. "The teachings don't have a direct answer for that" rather than a technical empty state.
 
 **Add to Milestone 1a:**
 
@@ -1040,7 +1040,7 @@ The design correctly avoids retention optimization. But faithful presence over t
 
 The words the portal uses to offer recognitions — "You might be feeling..." "Loss and grief" "Fear and anxiety" — are spiritually significant. This is the portal speaking before Yogananda speaks. If the language is wrong in register, too clinical, too presumptuous, the seeker feels missed before they've been met.
 
-Who writes this text? From what inner orientation? The vocabulary bridge tells the retrieval system where to look. But the words the portal offers as recognition are an act of care in themselves. The bridge spec doesn't address this. The ADR on micro-copy (ADR-074) addresses editorial voice but doesn't address this specific moment — the portal's first word to a person in distress.
+Who writes this text? From what inner orientation? The vocabulary bridge tells the retrieval system where to look. But the words the portal offers as recognition are an act of care in themselves. The bridge spec doesn't address this. The ADR on micro-copy (FTR-054) addresses editorial voice but doesn't address this specific moment — the portal's first word to a person in distress.
 
 This is worth designing explicitly. It may be the most important copy in the entire portal.
 

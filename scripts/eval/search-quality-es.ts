@@ -1,5 +1,5 @@
 /**
- * Spanish search quality evaluation — M1b-2 (DES-058)
+ * Spanish search quality evaluation — M1b-2 (FTR-037)
  *
  * ~15 Spanish queries with expected passages. Same methodology as M1a-8
  * (search-quality.ts) adapted for Spanish corpus.

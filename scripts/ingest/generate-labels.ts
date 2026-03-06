@@ -16,7 +16,7 @@ import pg from "pg";
 
 // ── Configuration ────────────────────────────────────────────────
 
-// COG-3 Batch → Opus (DES-062: evocative labels require weighing connection quality)
+// COG-3 Batch → Opus (FTR-038: evocative labels require weighing connection quality)
 const BEDROCK_MODEL = "us.anthropic.claude-opus-4-6-v1";
 const BEDROCK_REGION = "us-east-1";
 const MAX_TOKENS = 60;

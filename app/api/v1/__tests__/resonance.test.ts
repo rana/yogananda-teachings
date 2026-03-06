@@ -1,7 +1,7 @@
 /**
  * Resonance API route tests — POST /api/v1/passages/:id/resonance.
  *
- * M3a-7 (ADR-052). Tests route handler with mocked service layer.
+ * M3a-7 (FTR-031). Tests route handler with mocked service layer.
  * Verifies HTTP status codes, JSON shapes, rate limiting, and validation.
  */
 

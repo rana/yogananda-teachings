@@ -6,9 +6,9 @@ Operational runbooks, procedures, and playbooks. Populated as infrastructure and
 - Deployment procedures (Vercel, Platform MCP)
 - Monitoring and alerting (Sentry, observability)
 - Neon database operations (branching, migrations, scaling)
-- Secrets rotation (per ADR-125)
+- Secrets rotation (per FTR-112)
 - Content ingestion procedures (Milestone 3b+)
 - Editorial workflow procedures (Milestone 3b+)
 - Incident response (Milestone 3b+)
 
-See DES-039 for infrastructure architecture. See ADR-082 for editorial operations architecture.
+See FTR-095 for infrastructure architecture. See FTR-060 for editorial operations architecture.

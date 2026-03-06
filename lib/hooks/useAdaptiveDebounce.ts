@@ -1,5 +1,5 @@
 /**
- * Adaptive debounce hook — M2b-16 (ADR-006).
+ * Adaptive debounce hook — M2b-16 (FTR-006).
  *
  * Adjusts debounce delay based on network quality:
  *   - 2G/slow-2G: baseMs * 3

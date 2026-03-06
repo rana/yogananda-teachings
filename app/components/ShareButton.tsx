@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Share button — M2a-6 (DES-006).
+ * Share button — M2a-6 (FTR-040).
  *
  * Uses Web Share API where available, falls back to clipboard copy.
  * Shares passage text with full citation (PRI-02: full attribution always).

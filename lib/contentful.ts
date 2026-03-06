@@ -4,7 +4,7 @@
  * Framework-agnostic (PRI-10). Used by the webhook handler
  * and the import script.
  *
- * Governing refs: ADR-010, DES-005
+ * Governing refs: FTR-102, FTR-022
  */
 
 // ── Rich Text AST Types ──────────────────────────────────────────

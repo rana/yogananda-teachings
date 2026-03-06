@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * SearchCombobox — ARIA combobox with corpus-derived suggestions (ADR-049, ADR-120).
+ * SearchCombobox — ARIA combobox with corpus-derived suggestions (FTR-029, FTR-029).
  *
  * Two-tier architecture:
  *   Tier A: Static JSON at CDN edge — loaded on first focus, filtered client-side (<10ms).
@@ -172,7 +172,7 @@ export function SearchCombobox({
   const getDebounceMs = useCallback(() => {
     if (isFirstKeystroke.current) {
       isFirstKeystroke.current = false;
-      return 0; // First keystroke: immediate (ADR-120)
+      return 0; // First keystroke: immediate (FTR-029)
     }
     const nav = navigator as Navigator & {
       connection?: { effectiveType?: string };

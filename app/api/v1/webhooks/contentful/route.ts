@@ -8,7 +8,7 @@
  * matching chunk content. search_vector trigger auto-updates.
  * Embedding regeneration deferred (run backfill-embeddings.ts).
  *
- * Governing refs: ADR-010, DES-005
+ * Governing refs: FTR-102, FTR-022
  */
 
 import { NextRequest, NextResponse } from "next/server";

@@ -213,7 +213,7 @@ export default async function ChapterPage({
         publication={bookSlug}
       />
 
-      {/* PartingWord deferred → PRO-049 */}
+      {/* PartingWord deferred → FTR-160 */}
 
       {/* Client islands: reading journey + immersive features */}
       <ReadingTracker

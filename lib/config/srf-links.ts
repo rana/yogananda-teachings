@@ -59,7 +59,7 @@ export const SRF_TEACHINGS = {
 
 // ── How-to-Live Wisdom Categories (22) ──────────────────────────
 // SRF's canonical thematic taxonomy of Yogananda's teachings.
-// Seed taxonomy for Quiet Index (DES-029) and knowledge graph (DES-054).
+// Seed taxonomy for Quiet Index (FTR-066) and knowledge graph (FTR-034).
 
 export const WISDOM_CATEGORIES = [
   { slug: "the-purpose-of-life", label: "The Purpose of Life" },

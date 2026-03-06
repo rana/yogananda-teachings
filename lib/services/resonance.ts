@@ -1,5 +1,5 @@
 /**
- * Passage resonance instrumentation — M3a-7 (ADR-052).
+ * Passage resonance instrumentation — M3a-7 (FTR-031).
  *
  * Anonymous, aggregated counters for editorial insight.
  * DELTA-compliant (PRI-09): no user identification, no session

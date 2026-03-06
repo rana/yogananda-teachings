@@ -1,7 +1,7 @@
 /**
  * Legal page — copyright, terms of use, citation, AI permissions, privacy.
  *
- * Aligned with ADR-081 (Machine-Readable Content and AI Citation Strategy):
+ * Aligned with FTR-059 (Machine-Readable Content and AI Citation Strategy):
  * the portal welcomes indexing, training, and citation with attribution.
  * Copyright protects integrity and attribution, not access.
  *

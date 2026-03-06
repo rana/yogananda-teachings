@@ -1,5 +1,5 @@
 /**
- * POST /api/v1/passages/:id/resonance — M3a-7 (ADR-052).
+ * POST /api/v1/passages/:id/resonance — M3a-7 (FTR-031).
  *
  * Increment anonymous passage resonance counters.
  * DELTA-compliant: no user identification, no session tracking.

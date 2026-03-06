@@ -1,5 +1,5 @@
 /**
- * Bookmark service tests — M2b-3 (ADR-066).
+ * Bookmark service tests — M2b-3 (FTR-046).
  *
  * Tests the framework-agnostic bookmarks service (PRI-10).
  * Verifies localStorage interaction, add/remove/toggle,

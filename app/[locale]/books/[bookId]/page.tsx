@@ -59,7 +59,7 @@ export default async function BookLandingPage({
     if (equivalent) {
       redirect(`/${locale}/books/${equivalent.slug}`);
     }
-    // No equivalent exists — show this book (ADR-077 cross-language fallback)
+    // No equivalent exists — show this book (FTR-058 cross-language fallback)
   }
 
   const bookUrl = `${PORTAL.canonical}/${locale}/books/${book.slug}`;

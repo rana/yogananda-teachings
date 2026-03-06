@@ -135,7 +135,7 @@ If this exploration yields something worth keeping, propose where it belongs in 
 - [x] 11 — People Library include and support monastics. Biography, convocation, lineage.
 - [x] 12 — Inhabit SRF staff perspectives, content editors. VLD empowerment. AI automation with human-in-the-loop.
 - [x] 15 — Scan and clean off-center, unkind terms. Choose compassionate or neutral terms.
-- [x] 17 — Usage stats of services → Google Analytics rejected (DELTA-incompatible). Added: `requested_language` + `zero_results` to Amplitude schema, Standing Operational Metrics table in DES-037, Google Search Console evaluation + AI cost alerting + observability cost budget + dashboard cadence questions to CONTEXT.md, standing geographic monitors to Phase 7.7, content availability matrix + unmet language demand to Phase 11.14.
+- [x] 17 — Usage stats of services → Google Analytics rejected (DELTA-incompatible). Added: `requested_language` + `zero_results` to Amplitude schema, Standing Operational Metrics table in FTR-082, Google Search Console evaluation + AI cost alerting + observability cost budget + dashboard cadence questions to CONTEXT.md, standing geographic monitors to Phase 7.7, content availability matrix + unmet language demand to Phase 11.14.
 - [x] 18 — Autonomous research and design with branching → Built as Elmer (`/home/rana/prj/elmer/`).
 - [x] 19 — Automated end user release notes when portal is released and deployed.
 - [x] 22 — Comparative analysis of SRF tech stack with ADR decisions.

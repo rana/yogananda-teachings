@@ -1,8 +1,8 @@
 # Language Demographics — Master Source Table
 
-**Purpose:** Trace every population number in ADR-128 to a verifiable source. Enable human validation of statistics that drive feature ordering.
+**Purpose:** Trace every population number in FTR-011 to a verifiable source. Enable human validation of statistics that drive feature ordering.
 
-**Why this matters:** ADR-128 governs roadmap prioritization — which languages ship first, which features wait. The demographic data underpinning these decisions originated from an AI-generated research document (`Prioritizing Global Language Rollout.md`, Gemini 3 Pro). While the citations appear legitimate, AI can hallucinate URLs or misattribute numbers. This file provides a human-verifiable audit trail.
+**Why this matters:** FTR-011 governs roadmap prioritization — which languages ship first, which features wait. The demographic data underpinning these decisions originated from an AI-generated research document (`Prioritizing Global Language Rollout.md`, Gemini 3 Pro). While the citations appear legitimate, AI can hallucinate URLs or misattribute numbers. This file provides a human-verifiable audit trail.
 
 **Last verified:** 2026-03-01
 
@@ -56,7 +56,7 @@ These were fetched directly from DataReportal during the 2026-03-01 session and 
 
 ## Per-Language Source Traceability
 
-Every number in ADR-128's consolidated language reference table traced to its source.
+Every number in FTR-011's consolidated language reference table traced to its source.
 
 ### English
 
@@ -211,7 +211,7 @@ Every number in ADR-128's consolidated language reference table traced to its so
 |---------------|--------|---------------|
 | Speaker counts (Ethnologue 2025) | **Indirectly verified** via 3 secondary sources (S10, S11, S12) | Spot-check 3-4 languages against Ethnologue summary or Wikipedia to confirm consistency |
 | Internet % — Tier 4 verified countries | **Directly verified** from DataReportal 2025 country reports | Re-verify at arc boundaries |
-| Internet % — Core languages (ADR-128 original) | **Indirectly verified** from reference doc (Gemini-generated) citing ITU/DataReportal | Fetch DataReportal country reports for India, Brazil, Bangladesh, Germany, Japan, France, Italy, Thailand |
+| Internet % — Core languages (FTR-011 original) | **Indirectly verified** from reference doc (Gemini-generated) citing ITU/DataReportal | Fetch DataReportal country reports for India, Brazil, Bangladesh, Germany, Japan, France, Italy, Thailand |
 | Internet % — YSS-contributed languages | **Estimated** based on Indian state-level assumptions | Fetch Indian state-level connectivity data (TRAI reports or similar) |
 | Hindi-specific internet % (~70%) | **Needs validation** | India country-wide is 55.3%. The 70% for Hindi speakers needs state-level data for UP, MP, Bihar, Rajasthan, Delhi, etc. |
 | Reachable calculations | **Derived** (speakers × internet %) | Recompute after validating inputs |

@@ -1,5 +1,5 @@
 /**
- * Relations API route tests — M3c-2 (ADR-050, ADR-011).
+ * Relations API route tests — M3c-2 (FTR-030, FTR-015).
  *
  * Tests /api/v1/passages/:id/related and /api/v1/chapters/:bookId/:number/relations.
  * Verifies HTTP status codes, JSON response shapes, and error cases.

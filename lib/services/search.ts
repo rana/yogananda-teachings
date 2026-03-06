@@ -1,8 +1,8 @@
 /**
- * Hybrid search service: vector + FTS + RRF (ADR-044, ADR-114).
+ * Hybrid search service: vector + FTS + RRF (FTR-020, FTR-025).
  *
  * Framework-agnostic (PRI-10). Receives a pg.Pool as dependency.
- * Pure hybrid search is the primary mode — no AI in the search path (ADR-119).
+ * Pure hybrid search is the primary mode — no AI in the search path (FTR-027).
  * Optional enhancements: HyDE (M2b-12) and cross-encoder reranking (M2b-13).
  */
 
@@ -36,7 +36,7 @@ export interface SearchOptions {
   query: string;
   language?: string;
   limit?: number;
-  /** Optional AI enhancements (ADR-119). Feature-flagged. */
+  /** Optional AI enhancements (FTR-027). Feature-flagged. */
   enhance?: "hyde" | "rerank" | "full";
   /** Skip embedding generation entirely — FTS-only fast path (~100ms). */
   forceFts?: boolean;
@@ -168,7 +168,7 @@ export async function search(
   if (forceFts) {
     const results = await ftsOnlySearch(pool, query, language, limit);
 
-    // Cross-language fallback (ADR-077)
+    // Cross-language fallback (FTR-058)
     let fallbackLanguage: string | undefined;
     if (results.length === 0 && language !== "en") {
       fallbackLanguage = "en";
@@ -236,7 +236,7 @@ export async function search(
   }
 
   // Cross-language fallback: if non-English search returns no results,
-  // fall back to English results (M1b-3, ADR-077)
+  // fall back to English results (M1b-3, FTR-058)
   let fallbackLanguage: string | undefined;
   if (results.length === 0 && language !== "en") {
     fallbackLanguage = "en";
@@ -255,7 +255,7 @@ export async function search(
     }
   }
 
-  // Cross-encoder reranking (M2b-13, ADR-119)
+  // Cross-encoder reranking (M2b-13, FTR-027)
   if (wantRerank && results.length > 0) {
     const reranked = await rerank(
       query,
@@ -277,7 +277,7 @@ export async function search(
 
   const durationMs = Date.now() - start;
 
-  // Log query (anonymized, ADR-053)
+  // Log query (anonymized, FTR-032)
   logQuery(pool, query, language, results.length, mode, durationMs).catch(
     () => {},
   );
@@ -317,7 +317,7 @@ async function hybridSearch(
     );
   }
 
-  // Standard two-path: query vector + FTS (ADR-044, DES-004 § Hybrid Search)
+  // Standard two-path: query vector + FTS (FTR-020, FTR-021 § Hybrid Search)
   const { rows } = await pool.query(
     `
     WITH vector_results AS (
@@ -381,7 +381,7 @@ async function hybridSearch(
 
 /**
  * Three-path RRF: query vector + HyDE document vector + FTS.
- * The HyDE vector searches in document-space (ADR-119 § HyDE).
+ * The HyDE vector searches in document-space (FTR-027 § HyDE).
  */
 async function threePathHybridSearch(
   pool: pg.Pool,
@@ -565,7 +565,7 @@ function mapRow(row: Record<string, unknown>): SearchResult {
   };
 }
 
-// ── Query Logging (ADR-053) ──────────────────────────────────────
+// ── Query Logging (FTR-032) ──────────────────────────────────────
 
 async function logQuery(
   pool: pg.Pool,

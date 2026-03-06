@@ -8,7 +8,7 @@
  *   Print       — triggers browser print dialog.
  *
  * Replaces the former ReadingModes dual-button pill (focus/present).
- * DES-063 §3. Calm technology: functional, not decorative.
+ * FTR-041 §3. Calm technology: functional, not decorative.
  * Touch targets: 44×44px minimum (WCAG 2.5.8).
  */
 

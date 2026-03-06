@@ -1,5 +1,5 @@
 /**
- * Web App Manifest — M2b stretch (ADR-012).
+ * Web App Manifest — M2b stretch (FTR-103).
  *
  * Makes the portal installable as a PWA.
  * Service Worker (public/sw.js) handles offline caching.

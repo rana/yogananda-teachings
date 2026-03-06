@@ -210,7 +210,7 @@ describe("legacy migration", () => {
     expect(localStorage.getItem(LEGACY_KEY)).toBeNull();
   });
 
-  it("migrates focus-mode to immerse-mode (DES-063)", () => {
+  it("migrates focus-mode to immerse-mode (FTR-041)", () => {
     localStorage.setItem(
       STORAGE_KEY,
       JSON.stringify({

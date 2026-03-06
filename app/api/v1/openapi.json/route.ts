@@ -1,5 +1,5 @@
 /**
- * OpenAPI specification — M2a-23 (ADR-081, ADR-110).
+ * OpenAPI specification — M2a-23 (FTR-059, FTR-088).
  *
  * Machine-readable API documentation at /api/v1/openapi.json.
  * Hand-authored from route handler types. Auto-generation

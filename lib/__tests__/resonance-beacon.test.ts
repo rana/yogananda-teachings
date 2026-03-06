@@ -1,5 +1,5 @@
 /**
- * Resonance beacon client tests — M3a-7 (ADR-052).
+ * Resonance beacon client tests — M3a-7 (FTR-031).
  *
  * Tests the fire-and-forget beacon utility that UI components use
  * to report anonymous resonance events.

@@ -1,5 +1,5 @@
 /**
- * Structured JSON logging — M1c-5 (ADR-095).
+ * Structured JSON logging — M1c-5 (FTR-082).
  *
  * Framework-agnostic (PRI-10). Logs JSON to stdout.
  * Request ID correlation when available.

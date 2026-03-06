@@ -1,5 +1,5 @@
 /**
- * Contentful → Neon sync: the canonical data flow (ADR-010)
+ * Contentful → Neon sync: the canonical data flow (FTR-102)
  *
  * Reads published content from Contentful (source of truth) and
  * writes to Neon (derived, searchable, embedding-enriched cache).
@@ -11,7 +11,7 @@
  * What it does:
  *   1. Fetches Book → Chapter → Section → TextBlock from Contentful CDA
  *   2. Reconstructs paragraph structure with content types and formatting
- *   3. Applies ADR-048 chunking (100-500 tokens, content-type-aware)
+ *   3. Applies FTR-023 chunking (100-500 tokens, content-type-aware)
  *   4. Generates slugs (mirrors generate_content_slug PG function)
  *   5. Inserts into Neon with contentful_id links back to Contentful
  *
@@ -21,9 +21,9 @@
  * Requires: CONTENTFUL_SPACE_ID, CONTENTFUL_ACCESS_TOKEN, NEON_DATABASE_URL_DIRECT
  *           VOYAGE_API_KEY (optional with --skip-embeddings)
  *
- * Governing: ADR-010 (Contentful as editorial source of truth)
- *            ADR-048 (chunking strategy)
- *            ADR-085 (book ingestion pipeline)
+ * Governing: FTR-102 (Contentful as editorial source of truth)
+ *            FTR-023 (chunking strategy)
+ *            FTR-022 (book ingestion pipeline)
  */
 
 import * as contentful from "contentful";
@@ -220,7 +220,7 @@ class SlugTracker {
   }
 }
 
-// ── Token estimation and chunking (ADR-048) ──────────────────────
+// ── Token estimation and chunking (FTR-023) ──────────────────────
 
 function estimateTokens(text: string): number {
   return Math.ceil(text.split(/\s+/).filter(Boolean).length * 1.33);
@@ -650,7 +650,7 @@ async function main() {
     `  Reconstructed ${chapters.length} chapters, ${totalParagraphs} paragraphs`,
   );
 
-  // ── 3. Chunk paragraphs (ADR-048) ─────────────────────────────
+  // ── 3. Chunk paragraphs (FTR-023) ─────────────────────────────
 
   console.log(`\nChunking...`);
 

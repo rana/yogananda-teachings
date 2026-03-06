@@ -17,7 +17,7 @@ psql --version    # any (apt install postgresql-client / brew install libpq)
 # For Milestone 1c infrastructure (not needed yet)
 aws --version     # v2 (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 gh --version      # any (apt install gh / brew install gh)
-# terraform no longer needed — vendor infrastructure managed by Platform MCP (ADR-016 revised)
+# terraform no longer needed — vendor infrastructure managed by Platform MCP (FTR-106 revised)
 ```
 
 ---

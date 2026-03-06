@@ -1,5 +1,5 @@
 /**
- * Resonance service unit tests — M3a-7 (ADR-052).
+ * Resonance service unit tests — M3a-7 (FTR-031).
  *
  * Tests the in-memory rate limiter and database operations.
  */

@@ -107,7 +107,7 @@ function extractChapterText(chapter: ChapterJson): string {
   return parts.join('\n\n');
 }
 
-// COG-3 Batch → Opus (DES-062: aesthetic judgment across five experiential qualities)
+// COG-3 Batch → Opus (FTR-038: aesthetic judgment across five experiential qualities)
 const BEDROCK_MODEL = 'us.anthropic.claude-opus-4-6-v1';
 
 function createBedrockClient(): BedrockRuntimeClient {

@@ -1,5 +1,5 @@
 /**
- * BookmarksList — M2b-3 (ADR-066).
+ * BookmarksList — M2b-3 (FTR-046).
  *
  * Client component displaying all bookmarks grouped by book.
  * Uses the bookmarks service for localStorage read/write.

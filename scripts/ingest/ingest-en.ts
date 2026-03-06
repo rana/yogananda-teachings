@@ -1,7 +1,7 @@
 /**
  * English book ingestion: book.json → Neon PostgreSQL
  *
- * Reads extracted book data, chunks paragraphs per ADR-048
+ * Reads extracted book data, chunks paragraphs per FTR-023
  * (100-500 token target, merge short paragraphs), generates
  * embeddings via Voyage API, and inserts into Neon.
  *
@@ -15,7 +15,7 @@ import { readFileSync, readdirSync } from "fs";
 import { join } from "path";
 import pg from "pg";
 
-// ── Configuration (ADR-123) ──────────────────────────────────────
+// ── Configuration (FTR-012) ──────────────────────────────────────
 
 const CHUNK_MIN_TOKENS = 100;
 const CHUNK_MAX_TOKENS = 500;
@@ -86,7 +86,7 @@ function estimateTokens(text: string): number {
   return Math.ceil(text.split(/\s+/).filter(Boolean).length * 1.33);
 }
 
-/** Chunk paragraphs per ADR-048: merge short, split long */
+/** Chunk paragraphs per FTR-023: merge short, split long */
 function chunkParagraphs(
   paragraphs: Paragraph[],
   sectionHeading: string | null,

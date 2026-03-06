@@ -4,9 +4,9 @@
 **Status: Greenfield Design -- Ready for Implementation**
 **AWS Native | Neon Postgres | Neptune Analytics | Voyage Embeddings**
 
-> **Merge review: 2026-02-23.** This document was created externally (Claude Web) as a comprehensive RAG architecture proposal. After review, its ideas were merged into the project's living documents (DECISIONS.md ADR-114 through ADR-121, DESIGN.md DES-054 through DES-056, ROADMAP.md phase updates, CONTEXT.md). This file remains as background research in `docs/reference/`.
+> **Merge review: 2026-02-23.** This document was created externally (Claude Web) as a comprehensive RAG architecture proposal. After review, its ideas were merged into the project's living documents (DECISIONS.md FTR-025 through FTR-009, DESIGN.md FTR-034 through FTR-070, ROADMAP.md phase updates, CONTEXT.md). This file remains as background research in `docs/reference/`.
 >
-> **What was adopted:** pg_search/ParadeDB BM25 (ADR-114), unified enrichment pipeline (ADR-115), entity registry + Sanskrit normalization (ADR-116), Neptune Analytics as graph layer (ADR-117), Voyage voyage-3-large embeddings (ADR-118), HyDE + Cohere Rerank + three-path retrieval (ADR-119), Redis suggestion cache architecture (ADR-120), DELTA-relaxed authenticated experience (ADR-121). Knowledge graph ontology (DES-054), concept/word graph (DES-055), 14 features accepted or deferred with phase assignments (DES-056).
+> **What was adopted:** pg_search/ParadeDB BM25 (FTR-025), unified enrichment pipeline (FTR-026), entity registry + Sanskrit normalization (FTR-033), Neptune Analytics as graph layer (FTR-034), Voyage voyage-3-large embeddings (FTR-024), HyDE + Cohere Rerank + three-path retrieval (FTR-027), Redis suggestion cache architecture (FTR-029), DELTA-relaxed authenticated experience (FTR-009). Knowledge graph ontology (FTR-034), concept/word graph (FTR-034), 14 features accepted or deferred with phase assignments (FTR-070).
 >
 > **What was omitted:** Feature 10 (Healing Architecture) — omitted for theological/legal risk. Feature 11 (Inter-Tradition Bridge beyond corpus) — scope constrained to Yogananda's own explicit mappings. See annotations on those features below. API Gateway + Lambda architecture — project uses Next.js on Vercel, not API Gateway + Lambda. `user_profiles.profile_embedding` — omitted per DELTA principles (no soft personalization). `suggestion_dictionary.click_through` — omitted per DELTA principles (no behavioral tracking).
 
@@ -241,7 +241,7 @@ CREATE TABLE sanskrit_terms (
 -- ---------------------------------------------
 -- SUGGESTION DICTIONARY
 -- ---------------------------------------------
--- **Project note:** `click_through` column omitted from project schema per DELTA principles (ADR-095).
+-- **Project note:** `click_through` column omitted from project schema per DELTA principles (FTR-082).
 -- Weight formula uses corpus_frequency and query_frequency only. No per-user click tracking.
 CREATE TABLE suggestion_dictionary (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -282,9 +282,9 @@ CREATE TABLE query_log (
 -- ---------------------------------------------
 -- USER PROFILES (optional, privacy-respecting)
 -- ---------------------------------------------
--- **Project note:** `profile_embedding` column omitted from project schema per DELTA principles (ADR-095, ADR-121).
+-- **Project note:** `profile_embedding` column omitted from project schema per DELTA principles (FTR-082, FTR-009).
 -- No soft personalization or behavioral profiling. Authenticated profiles store only explicit user preferences
--- (language, bookmarks, reading progress). See DESIGN.md § DES-004 for the adopted user_profiles schema.
+-- (language, bookmarks, reading progress). See DESIGN.md § FTR-021 for the adopted user_profiles schema.
 CREATE TABLE user_profiles (
     id                  UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     tradition_background TEXT,
@@ -1060,7 +1060,7 @@ Because Voyage `voyage-3-large` operates in a unified multilingual embedding spa
 
 ## AWS Infrastructure
 
-> **Project divergence.** The portal uses **Next.js on Vercel** (not API Gateway + Lambda) for all API endpoints — search, suggestions, graph exploration. Vercel Edge Functions and Route Handlers replace the Lambda + API Gateway + Step Functions compute layer described below. Storage (Neon, S3), graph (Neptune Analytics), search services (Voyage, Cohere Rerank), cache (Redis/ElastiCache), and AI (Claude via Bedrock) align with the project architecture. See DESIGN.md § DES-002 for the actual deployment diagram.
+> **Project divergence.** The portal uses **Next.js on Vercel** (not API Gateway + Lambda) for all API endpoints — search, suggestions, graph exploration. Vercel Edge Functions and Route Handlers replace the Lambda + API Gateway + Step Functions compute layer described below. Storage (Neon, S3), graph (Neptune Analytics), search services (Voyage, Cohere Rerank), cache (Redis/ElastiCache), and AI (Claude via Bedrock) align with the project architecture. See DESIGN.md § FTR-014 for the actual deployment diagram.
 
 ```
 STORAGE
@@ -1480,7 +1480,7 @@ Affirmations surface verbatim with their source context -- the full teaching sur
 
 ## Feature 11: The Inter-Tradition Bridge
 
-> **Scope constrained.** The portal surfaces Yogananda's own explicit cross-tradition mappings — which are extensive (Christian mysticism, Vedanta, Gita yoga paths, and more). He made these mappings deliberately across many works. Extending mappings beyond what Yogananda wrote (e.g., Sufi "fana" ↔ nirvikalpa samadhi, Tibetan "rigpa" ↔ cosmic consciousness) would be theological interpretation, violating the "librarian, not oracle" principle (ADR-001). The concept/word graph (DES-055) implements CROSS_TRADITION_EQUIVALENT edges but only for Yogananda's own explicit statements. If Yogananda wrote that a concept maps to another tradition, that mapping exists. If he did not, it does not — regardless of how obvious it seems.
+> **Scope constrained.** The portal surfaces Yogananda's own explicit cross-tradition mappings — which are extensive (Christian mysticism, Vedanta, Gita yoga paths, and more). He made these mappings deliberately across many works. Extending mappings beyond what Yogananda wrote (e.g., Sufi "fana" ↔ nirvikalpa samadhi, Tibetan "rigpa" ↔ cosmic consciousness) would be theological interpretation, violating the "librarian, not oracle" principle (FTR-001). The concept/word graph (FTR-034) implements CROSS_TRADITION_EQUIVALENT edges but only for Yogananda's own explicit statements. If Yogananda wrote that a concept maps to another tradition, that mapping exists. If he did not, it does not — regardless of how obvious it seems.
 
 Yogananda's explicit mission was demonstrating the underlying unity of all genuine spiritual traditions. The corpus contains explicit mappings between his teaching and Christian mysticism, Vedanta, and the Bhagavad Gita's yoga paths. The resonances extend further.
 

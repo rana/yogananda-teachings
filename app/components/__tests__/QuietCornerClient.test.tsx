@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 /**
- * QuietCornerClient component tests — M2a-3, M2a-14 (ADR-072).
+ * QuietCornerClient component tests — M2a-3, M2a-14 (FTR-052).
  *
  * Verifies passage display, timer lifecycle (start, countdown, completion),
  * data-mode attribute, audio mock, fetch-another flow, and null state.

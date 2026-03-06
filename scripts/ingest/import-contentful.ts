@@ -15,7 +15,7 @@
  *
  * Requires: CONTENTFUL_SPACE_ID, CONTENTFUL_MANAGEMENT_TOKEN
  *
- * Governing refs: ADR-010, DES-004, DES-005
+ * Governing refs: FTR-102, FTR-021, FTR-022
  */
 
 import { readFileSync, writeFileSync, existsSync } from "fs";

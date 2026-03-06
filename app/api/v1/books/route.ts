@@ -1,5 +1,5 @@
 /**
- * Books API — /api/v1/books — M2a-24 (ADR-110).
+ * Books API — /api/v1/books — M2a-24 (FTR-088).
  *
  * Lists all books. Query params:
  *   language      — filter by language code (e.g. "en", "es")

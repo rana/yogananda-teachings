@@ -19,7 +19,7 @@
  *
  * Multi-lingual: sets lang attribute from book.language (not UI locale).
  * CSS responds via :lang() selectors — Devanagari gets narrower measure
- * and taller line-height (registers.css), Latin gets drop caps (ADR-080).
+ * and taller line-height (registers.css), Latin gets drop caps (FTR-131).
  *
  * Zero JavaScript. Interactive features hydrate separately.
  *

@@ -1,5 +1,5 @@
 /**
- * next-intl middleware — M2a-9, M2a-17 (ADR-027).
+ * next-intl middleware — M2a-9, M2a-17 (FTR-058).
  *
  * Detects locale from URL path prefix, Accept-Language header,
  * or stored preference. Default English omits prefix.

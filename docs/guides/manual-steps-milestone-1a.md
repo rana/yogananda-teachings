@@ -2,7 +2,7 @@
 
 > **Start here instead:** [getting-started.md](getting-started.md) is the simple walkthrough. This document is the detailed reference for what `bootstrap.sh` automates — read it if the script fails, if you want to understand what's happening, or if you prefer to do it manually.
 
-*Governing refs: ADR-016 (revised), ADR-020, ADR-124, ADR-125, ADR-126, DES-039. Full credential inventory: [bootstrap-credentials.md](bootstrap-credentials.md).*
+*Governing refs: FTR-106 (revised), FTR-110, FTR-094, FTR-112, FTR-113, FTR-095. Full credential inventory: [bootstrap-credentials.md](bootstrap-credentials.md).*
 
 ## The fast path
 
@@ -29,7 +29,7 @@ The details below document what `bootstrap.sh` automates. Read this if the scrip
 | 1 | S3 bucket (`srf-portal-terraform-state`) — versioning, AES-256, public access blocked | AWS CLI | No |
 | 2 | DynamoDB table (`srf-portal-terraform-locks`) — `LockID` partition key, on-demand | AWS CLI | No |
 | 3 | GitHub OIDC provider (`token.actions.githubusercontent.com`) + IAM role (`portal-ci`) | AWS CLI + `terraform/bootstrap/trust-policy.json` | No |
-| 4 | Vercel OIDC provider (`oidc.vercel.com/{TEAM_SLUG}`) — team issuer mode (ADR-126) | AWS CLI | No |
+| 4 | Vercel OIDC provider (`oidc.vercel.com/{TEAM_SLUG}`) — team issuer mode (FTR-113) | AWS CLI | No |
 | 5 | KMS key (`portal-secrets`) for Secrets Manager encryption | AWS CLI | No |
 | 6 | Secrets Manager entries (empty) for all Milestone 1a secrets | AWS CLI | No |
 | 7 | Neon org API key — Organization Settings → API Keys → Create | **Paste when prompted** | Yes |
@@ -98,7 +98,7 @@ You wait. Claude handles:
 | `NEXT_PUBLIC_SENTRY_DSN` | Claude | Platform MCP output |
 | `SENTRY_AUTH_TOKEN` | Claude | Captured by `bootstrap.sh` |
 
-**Note:** `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are only used for local development. In deployed environments (Vercel), the portal uses Vercel OIDC federation (ADR-126) — no access keys exist. Alternatively, use `AWS_PROFILE=srf-dev` instead of explicit keys.
+**Note:** `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` are only used for local development. In deployed environments (Vercel), the portal uses Vercel OIDC federation (FTR-113) — no access keys exist. Alternatively, use `AWS_PROFILE=srf-dev` instead of explicit keys.
 
 ---
 
@@ -106,7 +106,7 @@ You wait. Claude handles:
 
 ### Secret rotation
 
-Secrets Manager is the single source of truth for all application secrets (ADR-125). Rotation procedure:
+Secrets Manager is the single source of truth for all application secrets (FTR-112). Rotation procedure:
 
 1. **Create new credential** at the provider (Voyage, Contentful, Neon, Sentry)
 2. **Update Secrets Manager** — `aws secretsmanager put-secret-value --secret-id /portal/production/{service}/{key}`
@@ -124,7 +124,7 @@ Secrets Manager is the single source of truth for all application secrets (ADR-1
 | Context | Mechanism | Stored Where |
 |---------|-----------|-------------|
 | GitHub Actions → AWS | GitHub OIDC federation (`portal-ci` role) | No stored keys |
-| Vercel → Bedrock + Secrets Manager | Vercel OIDC federation (`portal-vercel-runtime` role, ADR-126) | No stored keys |
+| Vercel → Bedrock + Secrets Manager | Vercel OIDC federation (`portal-vercel-runtime` role, FTR-113) | No stored keys |
 | Lambda → AWS services | IAM execution role | No stored keys |
 | Claude Code → Neon | Project-scoped API key | `.env.local` |
 | CI → Neon branches | Project-scoped API key | GitHub secret |

@@ -19,7 +19,7 @@
 7. [Validation Architecture](#validation-architecture)
 8. [Phase Plan](#phase-plan)
 9. [Reusability Design](#reusability-design)
-10. [Relationship to DES-005](#relationship-to-des-005)
+10. [Relationship to FTR-022](#relationship-to-des-005)
 
 ---
 
@@ -27,7 +27,7 @@
 
 ### Why Ebook, Not PDF
 
-The original Milestone 1a plan (DES-005) uses a spiritmaji.com PDF processed through `marker` (open-source OCR). That PDF has **low fidelity** — degraded scans that would produce OCR errors requiring extensive manual QA, particularly for Sanskrit diacritics (ā, ṇ, ś, ṣ).
+The original Milestone 1a plan (FTR-022) uses a spiritmaji.com PDF processed through `marker` (open-source OCR). That PDF has **low fidelity** — degraded scans that would produce OCR errors requiring extensive manual QA, particularly for Sanskrit diacritics (ā, ṇ, ś, ṣ).
 
 The project principal has purchased the ebook edition of Autobiography of a Yogi (ASIN: `B00JW44IAI`) available at `https://read.amazon.com/?asin=B00JW44IAI`. The ebook edition is **born-digital** — the publisher (SRF) created it from their source files. This means:
 
@@ -515,7 +515,7 @@ Sonnet recommended over Haiku for formatting accuracy (italics, Sanskrit diacrit
     "goldenPassagesPassed": 15
   },
   "contentfulMapping": {
-    "notes": "This manifest is designed for direct translation to Contentful's Book → Chapter → Section → TextBlock content model. See DES-005 Step 3.5 for the import specification. Each chapter.sections[].paragraphs maps to a TextBlock entry. Formatting arrays map to Rich Text AST marks (italic, bold). Images map to Contentful Asset entries linked from TextBlocks."
+    "notes": "This manifest is designed for direct translation to Contentful's Book → Chapter → Section → TextBlock content model. See FTR-022 Step 3.5 for the import specification. Each chapter.sections[].paragraphs maps to a TextBlock entry. Formatting arrays map to Rich Text AST marks (italic, bold). Images map to Contentful Asset entries linked from TextBlocks."
   }
 }
 ```
@@ -1194,7 +1194,7 @@ The reflowable pipeline would extract HTML directly from iframes — no OCR need
 
 ### Multi-Author Support
 
-Per PRO-014 (adopted), the portal supports three author tiers:
+Per FTR-001 (adopted), the portal supports three author tiers:
 - **Guru:** Yogananda, Sri Yukteswar (lineage gurus)
 - **President:** Daya Mata, Mrinalini Mata, Rajarsi (SRF presidents)
 - **Monastic:** Monastic speakers
@@ -1203,20 +1203,20 @@ The `authorTier` field in `BookConfig` carries through to `book.json` and ultima
 
 ---
 
-## Relationship to DES-005
+## Relationship to FTR-022
 
-This pipeline replaces **DES-005 Steps 1-2** (Download PDF → Convert with marker) for books where the ebook edition is available and the PDF is low-fidelity.
+This pipeline replaces **FTR-022 Steps 1-2** (Download PDF → Convert with marker) for books where the ebook edition is available and the PDF is low-fidelity.
 
-The outputs align with DES-005 Step 3 (Human QA) and Step 3.5 (Contentful Import):
+The outputs align with FTR-022 Step 3 (Human QA) and Step 3.5 (Contentful Import):
 - `book.json` provides the structured data for Contentful import
 - Chapter/section/paragraph hierarchy maps directly to Book → Chapter → Section → TextBlock
 - Formatting data maps to Contentful Rich Text AST
 - Page numbers carry through for citation metadata
 - Validation report satisfies the "NON-NEGOTIABLE" QA requirement
 
-**DES-005 Steps 4-12 are unchanged.** Chunking, language detection, entity resolution, enrichment, embedding, and all downstream processing work on Contentful content regardless of how it was ingested.
+**FTR-022 Steps 4-12 are unchanged.** Chunking, language detection, entity resolution, enrichment, embedding, and all downstream processing work on Contentful content regardless of how it was ingested.
 
-A note should be added to DES-005 documenting this alternative ingestion path:
+A note should be added to FTR-022 documenting this alternative ingestion path:
 
 > **Alternative: Amazon Cloud Reader Ingestion.** When the ebook edition is available and provides higher fidelity than a PDF scan, use the Reader ingestion pipeline (`/scripts/book-ingest/`). See `scripts/book-ingest/DESIGN.md` for the complete pipeline specification. Produces the same structured output as Steps 1-3, feeding directly into Step 3.5 (Contentful import). Particularly valuable for fixed-layout ebooks where born-digital renders produce significantly better OCR than scanned PDFs.
 
@@ -1407,7 +1407,7 @@ Autonomous decisions made 2026-02-26, informed by end-system lifecycle analysis:
    - `Book` — title, author, isbn, coverImage (Asset), description, edition, authorTier, language
    - `Chapter` — book (ref), number, title, slug, pageRange, body (Rich Text with embedded Assets), epigraph, footnotes
    - `Photograph` — image (Asset), caption, altText, pageNumber, chapter (ref), isIllustration
-   This aligns with ADR-010 (Contentful as CMS) and the existing `book.json` manifest structure.
+   This aligns with FTR-102 (Contentful as CMS) and the existing `book.json` manifest structure.
 
 4. **Text gaps: Mark with editorial annotation.** Critical gaps (188, 216) are flagged in `book.json` for human recovery. The portal should NOT silently omit text. If gaps remain at publication, display: `[Text continues on page N of the print edition]` — consistent with PRI-02 (full attribution: no fabrication, no silent omission).
 
@@ -1415,7 +1415,7 @@ Autonomous decisions made 2026-02-26, informed by end-system lifecycle analysis:
 
 6. **Index: Searchable, not navigable.** The book's index (page 558) is redundant with the portal's search. Import index terms as search metadata enrichment, not as a navigable UI element. Index entries with page numbers serve as ground-truth test data for the search pipeline.
 
-7. **Glossary: Per-book now, portal-wide later.** Extract Sanskrit terms from per-chapter metadata into a structured glossary JSON. The portal glossary system (ADR-062, Arc 3) will aggregate across books. For now, build `glossary.json` per book with term, transliteration, definition (from footnotes), and first-use page.
+7. **Glossary: Per-book now, portal-wide later.** Extract Sanskrit terms from per-chapter metadata into a structured glossary JSON. The portal glossary system (FTR-035, Arc 3) will aggregate across books. For now, build `glossary.json` per book with term, transliteration, definition (from footnotes), and first-use page.
 
 8. **Human review gate: Required before publication.** AI extraction has 5.0/5.0 confidence, but PRI-02 demands human verification for sacred text. Flag for SRF editorial review. The `qa/review.html` side-by-side viewer enables this.
 
@@ -1465,4 +1465,4 @@ scripts/book-ingest/src/contentful-import.ts
 3. **Build Contentful import script** — `contentful-import.ts` using the Contentful Management API
 4. **Human QA review** — Open `qa/review.html` for side-by-side verification before import
 5. **Build Sanskrit glossary** — Extract glossary.json from per-chapter Sanskrit terms and footnote definitions
-6. **Update DES-005** — Add Reader ingestion as the primary path, PDF as fallback
+6. **Update FTR-022** — Add Reader ingestion as the primary path, PDF as fallback

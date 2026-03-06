@@ -1,5 +1,5 @@
 /**
- * Content integrity API — M2a-15 (ADR-039).
+ * Content integrity API — M2a-15 (FTR-123).
  *
  * Returns SHA-256 hashes per chapter for a given book.
  * Enables external verification of content integrity.

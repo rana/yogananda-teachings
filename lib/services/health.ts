@@ -1,5 +1,5 @@
 /**
- * Health check service — M1c-5 (ADR-095).
+ * Health check service — M1c-5 (FTR-082).
  *
  * Framework-agnostic (PRI-10). Receives a pg.Pool as dependency.
  * Checks database connectivity and basic search readiness.

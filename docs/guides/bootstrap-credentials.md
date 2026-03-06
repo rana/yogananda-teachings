@@ -1,6 +1,6 @@
 # Bootstrap Credentials Checklist
 
-One-time credential provisioning required before the first deployment. The human principal creates these accounts and tokens — they cannot be automated. See ADR-016 (revised) for infrastructure architecture, ADR-125 for secrets management strategy, ADR-126 for Vercel OIDC federation, and DES-039 for deployment spec.
+One-time credential provisioning required before the first deployment. The human principal creates these accounts and tokens — they cannot be automated. See FTR-106 (revised) for infrastructure architecture, FTR-112 for secrets management strategy, FTR-113 for Vercel OIDC federation, and FTR-095 for deployment spec.
 
 ## Milestone 1a (infrastructure bootstrap)
 
@@ -10,11 +10,11 @@ One-time credential provisioning required before the first deployment. The human
 | **DynamoDB table** | `bootstrap.sh` creates (`srf-portal-terraform-locks`, partition key `LockID` String, on-demand) | Legacy state locking (retained from initial setup) | Created automatically |
 | **AWS Account** (region: `us-west-2`) | aws.amazon.com | S3 backups, Lambda, Bedrock, EventBridge, Secrets Manager, KMS | — |
 | **AWS IAM OIDC Identity Provider (GitHub)** | `bootstrap.sh` creates via AWS CLI | GitHub Actions → AWS auth (no stored keys) | — |
-| **AWS IAM OIDC Identity Provider (Vercel)** | `bootstrap.sh` creates via AWS CLI | Vercel functions → Bedrock + Secrets Manager (ADR-126, no stored keys) | — |
+| **AWS IAM OIDC Identity Provider (Vercel)** | `bootstrap.sh` creates via AWS CLI | Vercel functions → Bedrock + Secrets Manager (FTR-113, no stored keys) | — |
 | **AWS IAM Role (portal-ci)** | `bootstrap.sh` creates via AWS CLI | Scoped CI permissions (S3, Lambda, Secrets Manager) | ARN → GitHub secret `AWS_ROLE_ARN` |
 | **AWS IAM Role (portal-vercel-runtime)** | `bootstrap.sh` creates via AWS CLI | Vercel OIDC → Bedrock inference + Secrets Manager reads | ARN → Vercel env var `AWS_ROLE_ARN` (set by Platform MCP) |
 | **AWS KMS key (portal-secrets)** | `bootstrap.sh` creates via AWS CLI | Encrypts all Secrets Manager entries | Managed by bootstrap |
-| **AWS Secrets Manager entries** | `bootstrap.sh` creates (empty), populated during bootstrap | Centralized secret store (ADR-125) | Secret values populated via `bootstrap.sh` or manually |
+| **AWS Secrets Manager entries** | `bootstrap.sh` creates (empty), populated during bootstrap | Centralized secret store (FTR-112) | Secret values populated via `bootstrap.sh` or manually |
 | **Neon API key** | console.neon.tech → API Keys | Platform MCP + Neon MCP operations | AWS Secrets Manager `/portal/production/neon/org-api-key` + GitHub secret `NEON_API_KEY` |
 | **Vercel API token** | vercel.com → Settings → Tokens | Platform MCP Vercel operations | GitHub secret `VERCEL_TOKEN` |
 | **Vercel Org/Team ID** | vercel.com → Settings → General | Platform MCP scoping | GitHub secret `VERCEL_ORG_ID` |
@@ -27,7 +27,7 @@ One-time credential provisioning required before the first deployment. The human
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
-| **Voyage AI API key** | dash.voyageai.com → API Keys | Embedding generation (ADR-118) | AWS Secrets Manager `/portal/production/voyage/api-key` → Platform MCP distributes to Vercel |
+| **Voyage AI API key** | dash.voyageai.com → API Keys | Embedding generation (FTR-024) | AWS Secrets Manager `/portal/production/voyage/api-key` → Platform MCP distributes to Vercel |
 | **Contentful Management Token** | app.contentful.com → Settings → API Keys | Content ingestion pipeline | AWS Secrets Manager `/portal/production/contentful/management-token` |
 | **Contentful Access Token** | app.contentful.com → Settings → API Keys | Delivery API (read-only) | AWS Secrets Manager `/portal/production/contentful/access-token` → Platform MCP distributes to Vercel |
 | **Contentful Space ID** | app.contentful.com → Settings → General | API scoping | GitHub secret `CONTENTFUL_SPACE_ID` (non-secret config) |
@@ -51,8 +51,8 @@ One-time credential provisioning required before the first deployment. The human
 |---|---|---|
 | YouTube API Key | Arc 2 (video integration) | Google Cloud Console → Secrets Manager |
 | Amplitude API Key | Milestone 3d (analytics) | Amplitude dashboard (`NEXT_PUBLIC_*` — Vercel env var, not Secrets Manager) |
-| SendGrid API Key | Milestone 5a (email) | SendGrid dashboard → Secrets Manager (ADR-091; see PRO-015 for SES alternative) |
-| ~~Cloudflare API Token~~ | Removed from portal stack (PRO-017) | If SRF routes domain through Cloudflare, add at that point |
+| SendGrid API Key | Milestone 5a (email) | SendGrid dashboard → Secrets Manager (FTR-154; see FTR-151 for SES alternative) |
+| ~~Cloudflare API Token~~ | Removed from portal stack (FTR-118) | If SRF routes domain through Cloudflare, add at that point |
 | Auth0 credentials | Milestone 7a+ (if ever) | Auth0 dashboard → Secrets Manager. **Provisioned early:** tenant `yogananda-tech.us.auth0.com`, M2M app configured. See `.env.local` for client ID/secret. |
 
 ## Auth Mechanism Summary
@@ -61,14 +61,14 @@ One-time credential provisioning required before the first deployment. The human
 
 | Context | Mechanism | Credential | Stored Where |
 |---------|-----------|------------|-------------|
-| GitHub Actions → AWS | GitHub OIDC federation (ADR-016) | Ephemeral STS tokens | No stored keys |
-| Vercel functions → Bedrock + Secrets Manager | Vercel OIDC federation (ADR-126) | Ephemeral STS tokens | No stored keys |
+| GitHub Actions → AWS | GitHub OIDC federation (FTR-106) | Ephemeral STS tokens | No stored keys |
+| Vercel functions → Bedrock + Secrets Manager | Vercel OIDC federation (FTR-113) | Ephemeral STS tokens | No stored keys |
 | Lambda → AWS services | IAM execution role | Automatic role credentials | No stored keys |
 | Claude Code → Neon | Project-scoped API key | `NEON_API_KEY` | `.env.local` |
 | CI → Neon branches | Project-scoped API key | `NEON_PROJECT_API_KEY` | GitHub secret |
 | Platform MCP → vendors | Org/account tokens | Various | Platform config + GitHub secrets |
 | Local dev → AWS | AWS credential chain | Named profile or access keys | `~/.aws/credentials` or `.env.local` |
 
-**Secrets Manager as single source of truth (ADR-125).** All application secrets live in AWS Secrets Manager under `/portal/{environment}/{service}/{key-name}`. Platform MCP reads from Secrets Manager and distributes to Vercel env vars. Local dev uses `.env.local` directly (the `/lib/config.ts` facade checks env vars first).
+**Secrets Manager as single source of truth (FTR-112).** All application secrets live in AWS Secrets Manager under `/portal/{environment}/{service}/{key-name}`. Platform MCP reads from Secrets Manager and distributes to Vercel env vars. Local dev uses `.env.local` directly (the `/lib/config.ts` facade checks env vars first).
 
-See DES-039 § Environment Configuration for the complete `.env.example`, named constants, CI secrets table, and Claude Code developer tooling setup.
+See FTR-095 § Environment Configuration for the complete `.env.example`, named constants, CI secrets table, and Claude Code developer tooling setup.

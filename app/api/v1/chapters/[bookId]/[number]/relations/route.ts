@@ -1,5 +1,5 @@
 /**
- * GET /api/v1/chapters/:bookId/:number/relations — M3c-2 (ADR-050, ADR-011).
+ * GET /api/v1/chapters/:bookId/:number/relations — M3c-2 (FTR-030, FTR-015).
  *
  * Batch prefetch tier: all paragraph relations for an entire chapter
  * in a single response. This is the core data source for the reading

@@ -44,7 +44,7 @@ export default async function BooksPage({
   const t = await getTranslations("books");
 
   // Show books matching the current locale first; fall back to all books
-  // only if no books exist in the current locale (ADR-077 cross-language fallback)
+  // only if no books exist in the current locale (FTR-058 cross-language fallback)
   let books = await getBooks(pool, locale);
   if (books.length === 0) {
     books = await getBooks(pool);

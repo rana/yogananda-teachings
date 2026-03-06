@@ -1,8 +1,8 @@
 /**
- * Application-level rate limiting — M1c-6 (ADR-023).
+ * Application-level rate limiting — M1c-6 (FTR-097).
  *
  * In-memory sliding window rate limiter. Two tiers:
- * - Crawler bots: 120 req/min (ADR-081)
+ * - Crawler bots: 120 req/min (FTR-059)
  * - Anonymous users: 15 searches/min per IP
  *
  * Framework-agnostic (PRI-10). Vercel Firewall rules provide

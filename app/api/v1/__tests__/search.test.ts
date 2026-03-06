@@ -120,7 +120,7 @@ describe("/api/v1/search", () => {
     expect(res.headers.get("X-RateLimit-Remaining")).toBe("0");
   });
 
-  it("returns search results with proper ADR-110 shape", async () => {
+  it("returns search results with proper FTR-088 shape", async () => {
     mockSearch.mockResolvedValue({
       results: [
         {

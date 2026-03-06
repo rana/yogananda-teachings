@@ -1,7 +1,7 @@
 /**
  * Book ingestion: book.json → Neon PostgreSQL
  *
- * Reads extracted book data, chunks paragraphs per ADR-048
+ * Reads extracted book data, chunks paragraphs per FTR-023
  * (100-500 token target, merge short paragraphs), generates
  * embeddings via Voyage API, and inserts into Neon.
  *
@@ -20,7 +20,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import pg from "pg";
 
-// ── Configuration (ADR-123) ──────────────────────────────────────
+// ── Configuration (FTR-012) ──────────────────────────────────────
 
 const CHUNK_MIN_TOKENS = 100;
 const CHUNK_MAX_TOKENS = 500;
@@ -127,7 +127,7 @@ interface Chunk {
   sortOrder: number;
 }
 
-/** Contentful mapping from import-contentful.ts (DES-005 Step 3.5) */
+/** Contentful mapping from import-contentful.ts (FTR-022 Step 3.5) */
 interface ContentfulMap {
   book: { slug: string; contentfulId: string };
   chapters: {
@@ -188,7 +188,7 @@ function estimateTokens(text: string): number {
   return Math.ceil(text.split(/\s+/).filter(Boolean).length * 1.33);
 }
 
-/** Chunk paragraphs per ADR-048: merge short, split long.
+/** Chunk paragraphs per FTR-023: merge short, split long.
  *  CRITICAL CHANGE: Never merge across content-type or section boundaries.
  *  Verse stays verse. Epigraph stays epigraph. Scene breaks are preserved. */
 function chunkParagraphs(

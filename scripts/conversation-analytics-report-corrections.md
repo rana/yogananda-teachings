@@ -46,7 +46,7 @@
 
 > <ide_opened_file>The user opened the file /home/rana/prj/srf-yogananda-teachings/.claude/skills/cultural-lens/SKILL.md in the IDE. This may or may not be related to the current task.</ide_opened_file> Answers: - Are we designing for the philanthropist's review or for seekers? Seekers. - What's the c
 
-> I agree. Before we proceed let also consider your statement:  - "I don't yet know which ADRs create drag. I think the magazine, video, and community ADRs are irrelevant for Arc 1. But I might be wrong — ADR-040's author_type pattern was the architectural precedent for PRO-014's content_tier. I didn'
+> I agree. Before we proceed let also consider your statement:  - "I don't yet know which ADRs create drag. I think the magazine, video, and community ADRs are irrelevant for Arc 1. But I might be wrong — FTR-075's author_type pattern was the architectural precedent for FTR-001's content_tier. I didn'
 
 > <task-notification> <task-id>aba6b83f121b5c8c4</task-id> <tool-use-id>toolu_bdrk_01SCKYpGpKPTdpydoXoDweQm</tool-use-id> <status>completed</status> <summary>Agent "Explore all ~/.claude skills" completed</summary> <result>Perfect! Now I have a comprehensive view of the entire system. Let me create a
 

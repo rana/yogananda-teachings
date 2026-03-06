@@ -1,5 +1,5 @@
 /**
- * Accessibility tests — M2a-22 (PRI-07, ADR-003).
+ * Accessibility tests — M2a-22 (PRI-07, FTR-003).
  *
  * Uses axe-core to validate HTML patterns against WCAG 2.1 AA.
  * Tests component HTML structures without full Next.js rendering —

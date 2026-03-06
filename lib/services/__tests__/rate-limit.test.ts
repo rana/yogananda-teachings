@@ -1,5 +1,5 @@
 /**
- * Rate limiter unit tests — M2a-21 (ADR-023).
+ * Rate limiter unit tests — M2a-21 (FTR-097).
  *
  * Tests the in-memory sliding window rate limiter.
  */

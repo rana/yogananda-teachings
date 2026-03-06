@@ -1,5 +1,5 @@
 /**
- * Named constants per ADR-123.
+ * Named constants per FTR-012.
  *
  * Every parameter documents: value, rationale, evaluation trigger.
  * Parameters are tunable defaults, not architectural commitments.
@@ -27,37 +27,37 @@ export const HYBRID_UPGRADE_TIMEOUT_MS = 4000;
 // ── Chunking ────────────────────────────────────────────────────
 
 /** Minimum chunk size in tokens. */
-export const CHUNK_MIN_TOKENS = 100; // ADR-048. Short paragraphs stay whole.
+export const CHUNK_MIN_TOKENS = 100; // FTR-023. Short paragraphs stay whole.
 
 /** Maximum chunk size in tokens. */
-export const CHUNK_MAX_TOKENS = 500; // ADR-048. Long paragraphs may split.
+export const CHUNK_MAX_TOKENS = 500; // FTR-023. Long paragraphs may split.
 
 // ── Embeddings ──────────────────────────────────────────────────
 
 /** Voyage embedding model. */
-export const EMBEDDING_MODEL = "voyage-3-large"; // ADR-118. 1024 dimensions.
+export const EMBEDDING_MODEL = "voyage-3-large"; // FTR-024. 1024 dimensions.
 
 /** Embedding dimensions. */
 export const EMBEDDING_DIMENSIONS = 1024; // voyage-3-large output size.
 
 // ── Passages ────────────────────────────────────────────────────
 
-// ── HyDE — Hypothetical Document Embedding (M2b-12, ADR-119) ────
+// ── HyDE — Hypothetical Document Embedding (M2b-12, FTR-027) ────
 
-/** Bedrock model for HyDE generation. COG-2 Sync → Haiku (DES-062). */
+/** Bedrock model for HyDE generation. COG-2 Sync → Haiku (FTR-038). */
 export const HYDE_BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
 // Evaluate: switch to open-source (Mistral via Bedrock) when quality comparable.
 
 /** Max tokens for hypothetical document generation. */
-export const HYDE_MAX_TOKENS = 200; // ADR-119: 100-200 token passage.
+export const HYDE_MAX_TOKENS = 200; // FTR-027: 100-200 token passage.
 
-// ── Rerank — Cross-Encoder Reranking (M2b-13, ADR-119) ──────────
+// ── Rerank — Cross-Encoder Reranking (M2b-13, FTR-027) ──────────
 
 /** Cohere reranking model. Multilingual-native. */
 export const RERANK_MODEL = "rerank-v3.5"; // Evaluate: BGE-reranker-v2 (self-hosted) at scale.
 
 /** Number of top results after reranking. */
-export const RERANK_TOP_N = 10; // ADR-119: cross-encoder returns top 10.
+export const RERANK_TOP_N = 10; // FTR-027: cross-encoder returns top 10.
 
 // ── Passages ────────────────────────────────────────────────────
 
@@ -70,7 +70,7 @@ export const PASSAGE_MAX_LENGTH = 600; // Comfortable single-screen reading. Eva
 /** Maximum passage length for Quiet Corner reflections (characters). */
 export const REFLECTION_MAX_LENGTH = 500; // Shorter for contemplative focus. Evaluate at M2a.
 
-// ── Related Teachings (M3c, ADR-050) ──────────────────────────
+// ── Related Teachings (M3c, FTR-030) ──────────────────────────
 
 /** Maximum pre-computed relations stored per chunk. */
 export const RELATIONS_PER_CHUNK = 30;
@@ -104,7 +104,7 @@ export const THREAD_MAX_DEPTH = 10;
 // Maximum positions in the "Following the Thread" back stack.
 // Session-only, no persistence. Evaluate: too deep = lost in the labyrinth.
 
-// ── Suggestions (ADR-049, ADR-120) ───────────────────────────────
+// ── Suggestions (FTR-029, FTR-029) ───────────────────────────────
 
 /** Debounce: first keystroke after focus fires immediately. */
 export const SUGGEST_DEBOUNCE_FIRST_MS = 0;
@@ -134,7 +134,7 @@ export const SUGGEST_FUZZY_THRESHOLD = 3;
 export const SUGGEST_FUZZY_MIN_CHARS = 3;
 // Trigram similarity needs ≥3 chars for meaningful results. Evaluate: never change this.
 
-// ── Resonance — Passage Resonance Instrumentation (M3a-7, ADR-052) ──
+// ── Resonance — Passage Resonance Instrumentation (M3a-7, FTR-031) ──
 
 /** Rate limit window for resonance increments (ms). */
 export const RESONANCE_RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour

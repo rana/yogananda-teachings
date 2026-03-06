@@ -1,5 +1,5 @@
 /**
- * Related Teachings service — M3c-1/M3c-2 (ADR-050).
+ * Related Teachings service — M3c-1/M3c-2 (FTR-030).
  *
  * Framework-agnostic (PRI-10). Receives a pg.Pool as dependency.
  * Queries pre-computed chunk_relations for passage connections.

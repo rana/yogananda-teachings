@@ -1,5 +1,5 @@
 /**
- * GET /api/v1/passages/:id/related — M3c-2 (ADR-050, ADR-011).
+ * GET /api/v1/passages/:id/related — M3c-2 (FTR-030, FTR-015).
  *
  * On-demand tier: related passages for a single chunk.
  * Used by the mobile bottom sheet when tapping a golden thread indicator.

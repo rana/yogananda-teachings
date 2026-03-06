@@ -11,7 +11,7 @@
  * This component owns the progress bar; ReadingImmersion owns
  * dwell + keyboard navigation.
  *
- * CSS: inline styles for the progress bar (2px crimson — DES-063 §4).
+ * CSS: inline styles for the progress bar (2px crimson — FTR-041 §4).
  * Position tracking uses the chapter header's bottom as threshold.
  */
 

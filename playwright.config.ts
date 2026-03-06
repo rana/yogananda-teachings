@@ -1,5 +1,5 @@
 /**
- * Playwright E2E configuration — M2a-21 (ADR-094).
+ * Playwright E2E configuration — M2a-21 (FTR-081).
  *
  * Tests core user flows: search, read, share, Quiet Corner.
  * Runs against the dev server.

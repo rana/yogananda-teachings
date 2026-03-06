@@ -1,5 +1,5 @@
 /**
- * OG quote image generation — M2a-6 (ADR-068, ADR-022).
+ * OG quote image generation — M2a-6 (FTR-048, FTR-132).
  *
  * Generates 1200×630 open graph images for passage sharing.
  * Warm cream background, Merriweather-style serif, lotus mark,

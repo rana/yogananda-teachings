@@ -1,5 +1,5 @@
 /**
- * Bookmark service — M2b-3 (ADR-066).
+ * Bookmark service — M2b-3 (FTR-046).
  *
  * localStorage-based bookmarks. Framework-agnostic (PRI-10).
  * DELTA-compliant: no server sync, no tracking (PRI-09).

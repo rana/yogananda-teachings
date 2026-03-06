@@ -1,5 +1,5 @@
 /**
- * Search suggestions — M1c-8 (ADR-120).
+ * Search suggestions — M1c-8 (FTR-029).
  *
  * Tier B: pg_trgm fuzzy fallback for misspellings and transliterated input.
  * Tier A (static JSON at CDN edge) is in /public/data/suggestions/.

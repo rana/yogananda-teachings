@@ -11,7 +11,7 @@
  * Empty state for first-time visitors: warm invitation to start reading.
  *
  * Architecture note: designed as "Books" section with extension points
- * for future media types (videos, audio, etc.) — see DES-021.
+ * for future media types (videos, audio, etc.) — see FTR-057.
  */
 
 import { useState, useEffect } from "react";

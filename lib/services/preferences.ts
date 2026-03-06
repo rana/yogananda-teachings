@@ -25,7 +25,7 @@ export interface ReaderPreferences {
   "font-size": FontSize;
   /** Preferred reading language (locale code, e.g. 'en', 'es'). */
   "reading-language": string;
-  /** Immerse reading mode: hides chrome, scales text to viewport (DES-063 §2). */
+  /** Immerse reading mode: hides chrome, scales text to viewport (FTR-041 §2). */
   "immerse-mode": boolean;
   /** Color theme: auto follows system prefers-color-scheme. */
   "color-theme": ColorTheme;
@@ -110,7 +110,7 @@ function isValidLanguage(value: unknown): value is string {
  * Called before sanitize to ensure old keys map to new ones.
  */
 function migrateKeys(raw: Record<string, unknown>): Record<string, unknown> {
-  // focus-mode → immerse-mode (DES-063)
+  // focus-mode → immerse-mode (FTR-041)
   if ("focus-mode" in raw && !("immerse-mode" in raw)) {
     raw["immerse-mode"] = raw["focus-mode"];
     delete raw["focus-mode"];

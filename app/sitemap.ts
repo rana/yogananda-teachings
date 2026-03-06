@@ -1,5 +1,5 @@
 /**
- * Dynamic sitemap — M2a-7 (ADR-110).
+ * Dynamic sitemap — M2a-7 (FTR-088).
  *
  * Generates a sitemap from the database at request time.
  * Includes all books, chapters, and static pages for each locale.

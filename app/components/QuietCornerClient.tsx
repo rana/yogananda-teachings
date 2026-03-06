@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Quiet Corner client component — M2a-3, M2a-14 (ADR-072).
+ * Quiet Corner client component — M2a-3, M2a-14 (FTR-052).
  *
  * Affirmation display with optional timer and audio cues.
  * Self-contained: minimal chrome, no nav clutter.

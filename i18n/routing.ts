@@ -1,5 +1,5 @@
 /**
- * next-intl routing configuration — M2a-17 (ADR-027).
+ * next-intl routing configuration — M2a-17 (FTR-058).
  *
  * Hybrid language routing:
  * - Locale path prefix on frontend pages: /{locale}/books/...

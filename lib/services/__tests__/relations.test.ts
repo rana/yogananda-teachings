@@ -1,5 +1,5 @@
 /**
- * Relations service unit tests — M3c-2 (ADR-050).
+ * Relations service unit tests — M3c-2 (FTR-030).
  *
  * Tests the relations service layer with a mock pg.Pool.
  * Verifies SQL parameterization, response mapping, and empty-state handling.

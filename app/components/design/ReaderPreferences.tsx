@@ -53,7 +53,7 @@ function savePrefs(fontSize: FontSize, lineSpacing: LineSpacing) {
 
 function applyToDOM(fontSize: FontSize, lineSpacing: LineSpacing) {
   // Scope to .chapter-body only — reader preferences affect only the
-  // reading surface, not search results, homepage, or theme pages (DES-063 §6).
+  // reading surface, not search results, homepage, or theme pages (FTR-041 §6).
   const target = document.querySelector<HTMLElement>(".chapter-body");
   if (!target) return;
   // Font size

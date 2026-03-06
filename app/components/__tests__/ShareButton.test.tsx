@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 /**
- * ShareButton component tests — M2a-6 (DES-006).
+ * ShareButton component tests — M2a-6 (FTR-040).
  *
  * Verifies Web Share API usage, clipboard fallback,
  * "copied" state, and citation formatting (PRI-02).

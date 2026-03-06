@@ -1,5 +1,5 @@
 /**
- * Client-side resonance beacon — M3a-7 (ADR-052).
+ * Client-side resonance beacon — M3a-7 (FTR-031).
  *
  * Fire-and-forget POST to /api/v1/passages/:id/resonance.
  * Uses `navigator.sendBeacon` where available for page-unload safety,

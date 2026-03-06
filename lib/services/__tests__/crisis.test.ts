@@ -1,5 +1,5 @@
 /**
- * Crisis detection unit tests — M2a-21 (ADR-122).
+ * Crisis detection unit tests — M2a-21 (FTR-051).
  *
  * Tests keyword-based crisis detection. Intentionally sensitive —
  * false positives acceptable, false negatives are not.
