@@ -137,6 +137,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-compact);
   max-inline-size: 80rem;
   margin-inline: auto;
 }
@@ -157,10 +158,25 @@ main {
 }
 .header-search-input {
   inline-size: 18em;
+  min-inline-size: 0;
   padding-block: 0.35em;
   padding-inline: 0.625em 2em;
   font-size: 0.8125rem;
   border-radius: var(--radius-gentle, 4px);
+}
+
+/* Keep header nav on one line; search shrinks to fit */
+.app-header-inner > nav {
+  flex-wrap: nowrap;
+  flex-shrink: 1;
+  min-inline-size: 0;
+}
+.app-header-inner .header-search {
+  flex-shrink: 1;
+  min-inline-size: 0;
+}
+.app-header-inner .header-search-input {
+  inline-size: min(18em, 100%);
 }
 .header-search-btn {
   position: absolute;
@@ -192,7 +208,7 @@ main {
   mask-size: contain;
   opacity: 0.4;
   cursor: pointer;
-  margin-inline-end: 0.25em;
+  margin-inline-end: 1.25em;
 }
 .header-search-input::-webkit-search-cancel-button:hover {
   opacity: 0.8;

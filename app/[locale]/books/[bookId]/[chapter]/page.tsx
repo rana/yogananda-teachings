@@ -203,8 +203,8 @@ export default async function ChapterPage({
         chapterTitle={content.chapter.title}
         bookSlug={bookSlug}
         locale={locale}
-        prevChapter={content.prevChapter?.chapterNumber ?? null}
-        nextChapter={content.nextChapter?.chapterNumber ?? null}
+        prevChapter={content.prevChapter ? { number: content.prevChapter.chapterNumber, title: content.prevChapter.title } : null}
+        nextChapter={content.nextChapter ? { number: content.nextChapter.chapterNumber, title: content.nextChapter.title } : null}
       />
 
       <ChapterReader

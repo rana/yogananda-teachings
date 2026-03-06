@@ -18,26 +18,31 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@/i18n/navigation";
 
+interface ChapterRef {
+  number: number;
+  title: string;
+}
+
 interface ChapterProgressProps {
   bookTitle: string;
   chapterNumber: number;
   chapterTitle: string;
   bookSlug: string;
   locale: string;
-  prevChapter: number | null;
-  nextChapter: number | null;
+  prevChapter: ChapterRef | null;
+  nextChapter: ChapterRef | null;
 }
 
 const chevronStyle: React.CSSProperties = {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  width: "1.5rem",
-  height: "1.5rem",
+  width: "2.25rem",
+  height: "2.25rem",
   color: "inherit",
   textDecoration: "none",
   opacity: 0.35,
-  fontSize: "0.875rem",
+  fontSize: "1.125rem",
   transition: "opacity 150ms ease",
   flexShrink: 0,
 };
@@ -107,63 +112,105 @@ export function ChapterProgress({
         borderBlockEnd: "1px solid color-mix(in oklch, var(--color-text), transparent 90%)",
       }}
     >
-      {/* Book + chapter info with prev/next navigation */}
+      {/* Chevrons flank the two-row center block, vertically centered */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "var(--space-compact)",
-          padding: "var(--space-compact) var(--space-default)",
           maxInlineSize: "var(--reading-measure, 65ch)",
           marginInline: "auto",
-          fontSize: "0.75rem",
-          color: "var(--color-text-secondary)",
+          padding: "var(--space-compact) var(--space-default)",
           fontFamily: "var(--font-ui)",
+          color: "var(--color-text-secondary)",
         }}
       >
+        {/* Prev chevron */}
         {prevChapter !== null ? (
           <Link
-            href={`/books/${bookSlug}/${prevChapter}`}
-            aria-label={`Previous chapter (${prevChapter})`}
+            href={`/books/${bookSlug}/${prevChapter.number}`}
+            aria-label={`Previous: Chapter ${prevChapter.number} — ${prevChapter.title}`}
+            title={`Ch. ${prevChapter.number}: ${prevChapter.title}`}
             style={chevronStyle}
           >
             ‹
           </Link>
         ) : (
-          <span style={{ ...chevronStyle, opacity: 0.12 }}>‹</span>
+          <span style={{ ...chevronStyle, visibility: "hidden" }} />
         )}
 
-        <Link
-          href={`/books/${bookSlug}`}
-          style={{
-            color: "inherit",
-            textDecoration: "none",
-            opacity: 0.6,
-          }}
-        >
-          {bookTitle}
-        </Link>
-        <span style={{ opacity: 0.3 }}>/</span>
-        <span style={{ color: "var(--color-crimson)", fontVariant: "small-caps", letterSpacing: "0.05em" }}>
-          Ch. {chapterNumber}
-        </span>
-        {chapterTitle && (
-          <span style={{ color: "var(--color-crimson)", opacity: 0.7 }}>
-            {chapterTitle}
-          </span>
-        )}
+        {/* Center: book title + chapter identity */}
+        <div style={{ flex: 1, minInlineSize: 0, textAlign: "center" }}>
+          {/* Book title */}
+          <div
+            style={{
+              fontSize: "0.75rem",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            <Link
+              href={`/books/${bookSlug}`}
+              style={{
+                color: "inherit",
+                textDecoration: "none",
+                opacity: 0.6,
+              }}
+            >
+              {bookTitle}
+            </Link>
+          </div>
 
-        <span style={{ marginInlineStart: "auto" }} />
+          {/* Chapter number + title */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "center",
+              gap: "0.4em",
+              fontSize: "0.6875rem",
+              marginBlockStart: "2px",
+              overflow: "hidden",
+            }}
+          >
+            <span
+              style={{
+                color: "var(--color-crimson)",
+                fontVariant: "small-caps",
+                letterSpacing: "0.05em",
+                flexShrink: 0,
+              }}
+            >
+              Ch. {chapterNumber}
+            </span>
+            {chapterTitle && (
+              <span
+                style={{
+                  color: "var(--color-crimson)",
+                  opacity: 0.7,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {chapterTitle}
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Next chevron */}
         {nextChapter !== null ? (
           <Link
-            href={`/books/${bookSlug}/${nextChapter}`}
-            aria-label={`Next chapter (${nextChapter})`}
+            href={`/books/${bookSlug}/${nextChapter.number}`}
+            aria-label={`Next: Chapter ${nextChapter.number} — ${nextChapter.title}`}
+            title={`Ch. ${nextChapter.number}: ${nextChapter.title}`}
             style={chevronStyle}
           >
             ›
           </Link>
         ) : (
-          <span style={{ ...chevronStyle, opacity: 0.12 }}>›</span>
+          <span style={{ ...chevronStyle, visibility: "hidden" }} />
         )}
       </div>
 
