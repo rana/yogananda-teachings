@@ -13,11 +13,6 @@ export function Attribution({ book }: AttributionProps) {
   return (
     <div className="attribution" data-register="ambient">
       <span className="attribution-author">{book.author}</span>
-      {" — "}
-      <cite className="attribution-book">{book.title}</cite>
-      {book.publicationYear && (
-        <span className="attribution-year"> ({book.publicationYear})</span>
-      )}
     </div>
   );
 }

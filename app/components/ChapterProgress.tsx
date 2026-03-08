@@ -38,7 +38,6 @@ export function ChapterProgress({ bookSlug }: ChapterProgressProps) {
       const num = parseInt(numberEl.textContent || "", 10);
       if (!isNaN(num) && visited.has(num)) {
         item.classList.add("chapter-visited");
-        item.title = "Previously visited";
       }
     });
   }, [bookSlug]);
@@ -48,7 +47,6 @@ export function ChapterProgress({ bookSlug }: ChapterProgressProps) {
     // Remove visual markers from DOM
     document.querySelectorAll<HTMLElement>(".chapter-visited").forEach((item) => {
       item.classList.remove("chapter-visited");
-      item.removeAttribute("title");
     });
     setHasVisited(false);
   }, [bookSlug]);

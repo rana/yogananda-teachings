@@ -11,7 +11,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
 import pool from "@/lib/db";
-import { getChapters, getEquivalentBook, resolveBook } from "@/lib/services/books";
+import { getChapters, getChapterOpeningLines, getEquivalentBook, resolveBook } from "@/lib/services/books";
 import type { Metadata } from "next";
 import { PORTAL } from "@/lib/config/srf-links";
 import { Link } from "@/i18n/navigation";
@@ -50,7 +50,10 @@ export default async function BookLandingPage({
   const book = await resolveBook(pool, bookId);
   if (!book) notFound();
 
-  const chapters = await getChapters(pool, book.id);
+  const [chapters, openingLines] = await Promise.all([
+    getChapters(pool, book.id),
+    getChapterOpeningLines(pool, book.id),
+  ]);
 
   // Cross-language redirect: if book language doesn't match locale,
   // redirect to the equivalent book in the current locale (PRI-06)
@@ -144,17 +147,21 @@ export default async function BookLandingPage({
       ) : (
         <nav className="center">
           <ol className="chapter-list" aria-label="Chapters">
-            {chapters.map((ch) => (
-              <li key={ch.id}>
-                <Link
-                  href={`/books/${book.slug}/${ch.chapterNumber}`}
-                  className="chapter-list-item"
-                >
-                  <span className="chapter-list-number">{ch.chapterNumber}</span>
-                  <span className="chapter-list-title">{ch.title}</span>
-                </Link>
-              </li>
-            ))}
+            {chapters.map((ch) => {
+              const preview = ch.epigraph ?? openingLines.get(ch.chapterNumber) ?? undefined;
+              return (
+                <li key={ch.id}>
+                  <Link
+                    href={`/books/${book.slug}/${ch.chapterNumber}`}
+                    className="chapter-list-item"
+                    title={preview}
+                  >
+                    <span className="chapter-list-number">{ch.chapterNumber}</span>
+                    <span className="chapter-list-title">{ch.title}</span>
+                  </Link>
+                </li>
+              );
+            })}
           </ol>
         </nav>
       )}

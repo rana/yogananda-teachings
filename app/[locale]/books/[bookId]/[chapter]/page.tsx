@@ -224,15 +224,16 @@ export default async function ChapterPage({
         chapterTitle={content.chapter.title}
       />
       <ReadingImmersion />
-      <ReaderToolbar />
-      <ChapterBookmark
-        bookId={content.book.id}
-        bookSlug={bookSlug}
-        bookTitle={content.book.title}
-        bookAuthor={content.book.author}
-        chapterNumber={chapterNumber}
-        chapterTitle={content.chapter.title}
-      />
+      <ReaderToolbar>
+        <ChapterBookmark
+          bookId={content.book.id}
+          bookSlug={bookSlug}
+          bookTitle={content.book.title}
+          bookAuthor={content.book.author}
+          chapterNumber={chapterNumber}
+          chapterTitle={content.chapter.title}
+        />
+      </ReaderToolbar>
       {Object.keys(threadByParagraph).length > 0 && (
         <GoldenThread
           paragraphs={threadByParagraph}

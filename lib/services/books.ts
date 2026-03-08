@@ -160,6 +160,43 @@ export async function getChapters(
 }
 
 /**
+ * Get opening lines for all chapters of a book (single round-trip).
+ * Used for ToC hover previews. Returns a map of chapterNumber → preview text.
+ * Skips chapters whose first chunk starts mid-sentence (extraction artifact).
+ */
+export async function getChapterOpeningLines(
+  pool: pg.Pool,
+  bookId: string,
+): Promise<Map<number, string>> {
+  const { rows } = await pool.query(
+    `SELECT c.chapter_number, LEFT(bc.content, 300) as opening
+     FROM chapters c
+     JOIN LATERAL (
+       SELECT content FROM book_chunks
+       WHERE chapter_id = c.id
+       ORDER BY sort_order LIMIT 1
+     ) bc ON true
+     WHERE c.book_id = $1
+     ORDER BY c.chapter_number`,
+    [bookId],
+  );
+
+  const map = new Map<number, string>();
+  for (const r of rows) {
+    if (!r.opening) continue;
+    const text: string = r.opening;
+    // Skip mid-sentence chunks (don't start with uppercase, quote, or em-dash)
+    if (!/^[A-Z\u00C0-\u024F\u0900-\u097F"'\u201c\u201d\u2014]/.test(text)) continue;
+    // Extract first sentence (up to first period/question/exclamation followed by space or end)
+    const sentenceMatch = text.match(/^.+?[.!?](?:\u201d|"|')?(?=\s|$)/s);
+    const preview = sentenceMatch ? sentenceMatch[0] : text.slice(0, 150);
+    // Clean up: collapse newlines to spaces, trim
+    map.set(r.chapter_number, preview.replace(/\n+/g, " ").trim());
+  }
+  return map;
+}
+
+/**
  * Find the equivalent book in a target language (cross-language linking, PRI-06).
  * Matches by author + same chapter count — works for translations of the same work.
  * Future: use a dedicated `work_id` column for explicit cross-language linking.

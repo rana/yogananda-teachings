@@ -1,6 +1,10 @@
 # Notes
 
 ---
+What wants to exist here?
+
+
+---
 /compose (invoke, review, converge) ~3, land :
 Site preferences panel in header. Configure language, theme (include all YSS themes), clear all local storage. What questions would I benefit from asking? What am I not asking?
 

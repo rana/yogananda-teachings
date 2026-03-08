@@ -3,7 +3,7 @@
 /**
  * ChapterBookmark — toggle bookmark for the current chapter.
  *
- * Fixed-position button near the reading modes pill. A single
+ * Rendered inside ReaderToolbar's vertical pill. A single
  * tap saves; another removes. Gold fill when active.
  *
  * Touch target: 44×44px (WCAG 2.5.8).
@@ -60,8 +60,7 @@ export function ChapterBookmark({
   return (
     <button
       type="button"
-      className="chapter-bookmark-btn"
-      data-no-print
+      className="reading-mode-btn chapter-bookmark-btn"
       aria-pressed={saved}
       aria-label={saved ? "Remove bookmark" : "Bookmark this chapter"}
       title={saved ? "Remove bookmark" : "Bookmark this chapter"}

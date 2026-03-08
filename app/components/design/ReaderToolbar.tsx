@@ -1,9 +1,10 @@
 "use client";
 
 /**
- * ReaderToolbar — minimal fixed controls for the reading surface.
+ * ReaderToolbar — vertical pill of fixed controls for the reading surface.
  *
- * Three controls, bottom-right corner:
+ * Four controls, stacked vertically in the bottom-right margin:
+ *   Bookmark (slot)    — passed as children (ChapterBookmark).
  *   Reader preferences — text size, line spacing (reading comfort).
  *   Immerse (i)        — hides chrome, scales text to viewport.
  *   Print              — triggers browser print dialog.
@@ -12,11 +13,11 @@
  * Touch targets: 44×44px minimum (WCAG 2.5.8).
  */
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, type ReactNode } from "react";
 import { useDesign } from "./DesignProvider";
 import { ReaderPreferences } from "./ReaderPreferences";
 
-export function ReaderToolbar() {
+export function ReaderToolbar({ children }: { children?: ReactNode }) {
   const { mode, setMode } = useDesign();
   const isImmersed = mode === "immerse";
 
@@ -87,6 +88,7 @@ export function ReaderToolbar() {
       aria-label="Reader toolbar"
       data-no-print
     >
+      {children}
       <ReaderPreferences />
       <button
         className="reading-mode-btn"

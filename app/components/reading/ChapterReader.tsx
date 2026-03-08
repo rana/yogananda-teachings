@@ -84,7 +84,7 @@ export function ChapterReader({
       {/* Chapter header */}
       <header className="chapter-header">
         <nav className="chapter-breadcrumb" aria-label="Breadcrumb">
-          <a href={`/books/${book.slug}`}>{book.title}</a>
+          <a href={`/books/${book.slug}`} title="Table of Contents">{book.title}</a>
         </nav>
         <span className="chapter-label">
           Chapter {chapter.chapterNumber}
@@ -108,11 +108,17 @@ export function ChapterReader({
               const image = imageMap.get(globalIdx);
 
               // Drop cap: only on the first prose paragraph in the chapter,
-              // only for scripts with clear initial letters (Latin, etc.).
-              const isFirstProse = !firstProseRendered
-                && para.contentType === "prose"
-                && allowDropCap;
-              if (isFirstProse) firstProseRendered = true;
+              // only for scripts with clear initial letters (Latin, etc.),
+              // and only if the paragraph starts with an uppercase letter or
+              // opening quotation (guards against mid-sentence chunk artifacts).
+              // Consume the slot even if the paragraph doesn't qualify —
+              // drop cap never cascades to later paragraphs.
+              const isFirstProseSlot = !firstProseRendered
+                && para.contentType === "prose";
+              if (isFirstProseSlot) firstProseRendered = true;
+              const isFirstProse = isFirstProseSlot
+                && allowDropCap
+                && /^[\u201c\u201e"'\u2018\u00ab\u2014\u2015(¡¿]?[A-Z\u00C0-\u024F]/.test(para.content);
 
               return (
                 <div key={para.id}>
