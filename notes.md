@@ -1,6 +1,13 @@
 # Notes
 
 ---
+/invoke
+Search bar auto-suggestions.
+Image a world-class amazing experience like Google derived from the entire corpus of Self-Realization Fellowship material per language. Global-first CDN distribution with minimal, near instantaenous auto suggestions. Word
+
+I imagine that Corpus-Derived word suggestions, and multi word suggestions auto-suggest.  Have we design for that? Do we need to process ingested books to pre-compute soemthing? How does that work?
+
+---
 /compose (invoke, review, converge) ~3, propose :
 FTR for book ingestion pipeline? Offers a perspective of all the steps, scripts, functions, etc (what is everything?) to ingest the book? Tagging, search augmented metadata, image cropping, and so forth? A documentation of the code? Available for AI reader to know what to update, insert, remove for book ingest operations? Available for eventual use in an online visual design surface for operations and human visibility? What am I attempting to achieve?
 

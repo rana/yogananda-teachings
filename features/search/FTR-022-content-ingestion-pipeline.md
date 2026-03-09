@@ -49,7 +49,12 @@ Step 7: Unified Enrichment (single Claude pass per chunk, FTR-026)
 Step 8: Generate Embeddings
 Step 9: Insert into Neon (sync from Contentful)
 Step 10: Compute Chunk Relations (FTR-030)
-Step 11: Update Suggestion Dictionary (FTR-029, FTR-029)
+Step 11: Rebuild Suggestion Dictionary (FTR-029)
+  - Harvest topics, entities, Sanskrit terms from enriched chunks
+  - Generate scoped queries from entity-topic co-occurrence
+  - Compute weights, export to suggestion_dictionary table
+  - Export partitioned static JSON to public/data/suggestions/
+  - Script: scripts/generate-suggestion-dictionary.ts (idempotent full rebuild)
 Step 12: Graph Metrics (Milestone 3b+, FTR-034)
 ```
 
@@ -60,7 +65,7 @@ Step 1: Content editors enter/import book text into Contentful
 Step 2: On publish, Contentful webhook fires
 Step 3: Sync service receives webhook
 Step 4: Update chunk relations (incremental)
-Step 5: Update suggestion dictionary
+Step 5: Rebuild suggestion dictionary (FTR-029 -- full rebuild, idempotent)
 Step 6: Graph updates (Milestone 3b+, FTR-034)
 Step 7: Search index, relations, suggestions, and graph
  are always in sync with editorial source

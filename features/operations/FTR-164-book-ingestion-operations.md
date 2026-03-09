@@ -91,6 +91,9 @@ This FTR documents the ebook extraction path in full. PDF and SRF-source paths s
                          [if needed]
                               v
                          STAGE 13: Backfill Embeddings
+                              |
+                              v
+                         STAGE 14: Rebuild Suggestion Dictionary (FTR-029)
 ```
 
 **Parallelism:** Stages 6/6b (photo capture/crop) can run concurrently with Stages 5/5b (validation). Stage 10 (rasa) and Stage 11 (relations) can run concurrently after Stage 9.
@@ -133,6 +136,8 @@ This FTR documents the ebook extraction path in full. PDF and SRF-source paths s
 | Script | Purpose | Relevance |
 |--------|---------|-----------|
 | `seed-entities.ts` | Populate entity_registry and sanskrit_terms (FTR-033) | Run once per corpus, not per book |
+| `generate-suggestion-dictionary.ts` | Rebuild suggestion_dictionary + static JSON (FTR-029) | Run after each book ingestion |
+| `generate-suggestions.ts` | **Legacy.** Chapter-titles-only suggestion export. Superseded by `generate-suggestion-dictionary.ts`. | Retained for reference |
 | `status.sh` | Infrastructure status check | Reports ingestion state |
 
 ### Data Artifacts Map
@@ -215,6 +220,7 @@ Valid content types: `prose`, `verse`, `epigraph`, `dialogue`, `caption`.
 | 10: Rasa Classification | ~5 min | ~$0.75 | 49 Opus calls |
 | 11: Relations | ~5 min | Free | pgvector HNSW |
 | 12: Labels | ~15 min | ~$10 | ~1000 Opus calls |
+| 14: Suggestions | ~10 sec | Free | DB queries + JSON export |
 | **Total** | **~2.5 hours** | **~$13.50** | Per language edition |
 
 ### Execution Playbook: Ingest a New Book
@@ -296,6 +302,12 @@ npx tsx scripts/ingest/generate-labels.ts
 
 # 13. Backfill any missing embeddings (safety net)
 npx tsx scripts/ingest/backfill-embeddings.ts
+
+# 14. Rebuild suggestion dictionary (FTR-029)
+npx tsx scripts/generate-suggestion-dictionary.ts
+#    Harvests topics, entities, Sanskrit terms, scoped queries from enriched chunks
+#    Populates suggestion_dictionary table, exports static JSON to public/data/suggestions/
+#    Idempotent: full rebuild each run
 
 # Verify: run search queries against the new book content
 ```

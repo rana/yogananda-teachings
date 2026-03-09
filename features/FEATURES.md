@@ -86,7 +86,7 @@ Search architecture, data model, ingestion, embeddings, knowledge graph.
 | [026](search/FTR-026-unified-enrichment.md) | Unified Enrichment Pipeline — Single Index-Time Pass per Chunk | Approved |
 | [027](search/FTR-027-advanced-search-pipeline.md) | Advanced Search Pipeline — Pure Hybrid Primary, AI-Enhanced Optional | Approved |
 | [028](search/FTR-028-vocabulary-bridge.md) | Vocabulary Bridge — Semantic Infrastructure for State-Aware Retrieval | Approved |
-| [029](search/FTR-029-search-suggestions.md) | Search Suggestions — Corpus-Derived, Not Behavior-Derived | Approved |
+| [029](search/FTR-029-search-suggestions.md) | Search Suggestions — Corpus-Derived Autosuggestion | Approved |
 | [030](search/FTR-030-related-teachings.md) | Related Teachings — Pre-Computed Chunk Relations and Graph Traversal | Approved |
 | [031](search/FTR-031-passage-resonance.md) | Passage Resonance Signals — Content Intelligence Without Surveillance | Approved |
 | [032](search/FTR-032-search-intelligence.md) | "What Is Humanity Seeking?" — Anonymized Search Intelligence | Approved |
