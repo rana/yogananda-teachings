@@ -1,0 +1,329 @@
+---
+ftr: 164
+title: Book Ingestion Operations
+state: proposed
+domain: operations
+arc: 1a+
+governed-by: [FTR-022, PRI-01, PRI-06, PRI-12]
+---
+
+# FTR-164: Book Ingestion Operations
+
+## Rationale
+
+FTR-022 (Content Ingestion Pipeline) defines the architectural rationale and stage design for transforming published books into searchable, design-system-aware data. This companion FTR is the **operational specification**: a complete inventory of every script, function, data artifact, external dependency, and execution sequence needed to run the pipeline.
+
+Three audiences require this document:
+
+1. **AI operator** (Claude in future sessions) — loads one file and knows every stage, script, and artifact. Knows what to update, insert, or remove when ingesting a new book or modifying the pipeline.
+2. **Human operator** (future team member, SRF staff) — follows the Execution Playbook without reading 21 TypeScript source files.
+3. **Visual operations surface** (future dashboard) — consumes the Pipeline Map as a machine-parseable stage graph with inputs, outputs, dependencies, and status.
+
+The pipeline currently exists as tribal knowledge distributed across `scripts/book-ingest/src/` (13 files, capture through assembly) and `scripts/ingest/` (8 files, Contentful and Neon loading). This FTR consolidates that knowledge into a single operational reference.
+
+### Relationship to FTR-022
+
+FTR-022 = **what** and **why** (architectural decisions, stage design, content model).
+FTR-164 = **how** and **with what** (scripts, artifacts, execution sequence, dependencies).
+
+FTR-022 remains the governing document. When the pipeline's architecture changes, update FTR-022 first, then reflect operational changes here.
+
+### Extraction Paths
+
+Three paths feed the pipeline, converging at the Contentful import step (per FTR-022):
+
+| Path | Source | Status | Quality |
+|------|--------|--------|---------|
+| **Ebook extraction** | Amazon Cloud Reader via Playwright + Claude Vision | Implemented (Stages 1-6b) | High |
+| **PDF extraction** | spiritmaji.com PDF via `marker` | Not implemented | Medium |
+| **SRF digital text** | SRF-provided source files | Future (pre-launch) | Authoritative |
+
+This FTR documents the ebook extraction path in full. PDF and SRF-source paths share Stages 7+ (Contentful import onward).
+
+## Specification
+
+### Pipeline Map (DAG)
+
+```
+                    STAGE 0: Configuration
+                         |
+                         v
+                    STAGE 1: TOC Collection
+                         |
+                         v
+                    STAGE 2: Page Capture
+                         |
+                    [reflowable?]
+                    /           \
+                 yes             no
+                  |               |
+            STAGE 2b:             |
+            Post-Process          |
+                  \              /
+                   v            v
+                    STAGE 3: Text Extraction
+                         |
+                         v
+                    STAGE 4: Assembly
+                        / \
+                       /   \
+                      v     v
+               STAGE 5:   STAGE 6: Photo Capture
+               Validate        |
+                  |       STAGE 6b: Photo Cropping
+               STAGE 5b:
+               QA Report
+                      \       /
+                       \     /
+                        v   v
+                    STAGE 7: Contentful Schema Migration
+                         |
+                    STAGE 8: Contentful Import
+                         |
+                    STAGE 9: Neon Sync
+                        / \
+                       /   \
+                      v     v
+               STAGE 10:  STAGE 11: Compute Relations
+               Rasa Class.    |
+                         STAGE 12: Generate Labels
+                              |
+                         [if needed]
+                              v
+                         STAGE 13: Backfill Embeddings
+```
+
+**Parallelism:** Stages 6/6b (photo capture/crop) can run concurrently with Stages 5/5b (validation). Stage 10 (rasa) and Stage 11 (relations) can run concurrently after Stage 9.
+
+### Script Inventory
+
+#### `scripts/book-ingest/src/` — Capture Through Assembly
+
+| Script | Purpose | CLI | Env Vars | External APIs | Idempotent |
+|--------|---------|-----|----------|---------------|------------|
+| `config.ts` | Book configs, pipeline settings, path helpers | (library) | — | — | — |
+| `types.ts` | All pipeline type definitions | (library) | — | — | — |
+| `utils.ts` | Shared utilities (hash, JSON, slug, logging) | (library) | — | — | — |
+| `collect-toc.ts` | Collect TOC entries with page numbers | `--book <slug> [--cdp-url] [--nav-delay]` | — | Amazon Cloud Reader (CDP) | No (refuses if capture-meta.json exists) |
+| `capture.ts` | Capture all pages as PNG screenshots | `--book <slug> [--resume-from N] [--cdp-url]` | — | Amazon Cloud Reader (CDP) | Yes (skips captured pages) |
+| `post-process-screens.ts` | Remap reflowable screens to page numbers | `--book <slug>` | — | — | No (renames files) |
+| `extract.ts` | Claude Vision OCR to structured JSON | `--book <slug> [--resume-from N] [--concurrency N]` | AWS creds or ANTHROPIC_API_KEY | AWS Bedrock (Claude Sonnet) | Yes (skips extracted pages) |
+| `assemble.ts` | Combine pages into chapters + book manifest | `--book <slug>` | — | — | Yes (overwrites) |
+| `validate.ts` | Three-layer validation (capture, extraction, assembly) | `--book <slug>` | — | — | Yes |
+| `qa-report.ts` | HTML side-by-side review for human QA | `--book <slug> [--all]` | — | — | Yes |
+| `capture-photos.ts` | Canvas-native photo extraction at full resolution | `--book <slug> [--cdp-url]` | — | Amazon Cloud Reader (CDP) | Yes (skips captured pages) |
+| `crop-photos.ts` | AI crop detection + ImageMagick cropping | `--book <slug> [--dry-run] [--page N]` | ANTHROPIC_API_KEY | Anthropic API (Haiku), ImageMagick | Yes |
+| `classify-rasa.ts` | Aesthetic flavor classification per chapter | `--book <slug> [--dry-run] [--chapter N]` | AWS creds, NEON_DATABASE_URL_DIRECT | AWS Bedrock (Claude Opus) | Yes (overwrites) |
+
+#### `scripts/ingest/` — Contentful and Neon Loading
+
+| Script | Purpose | CLI | Env Vars | External APIs | Idempotent |
+|--------|---------|-----|----------|---------------|------------|
+| `migrate-contentful-schema.ts` | Ensure greenfield fields on content types | `[--dry-run]` | CONTENTFUL_SPACE_ID, CONTENTFUL_MANAGEMENT_TOKEN | Contentful Management API | Yes |
+| `import-contentful.ts` | Create Book/Chapter/Section/TextBlock entries | `--book <slug> [--dry-run] [--resume-from-chapter N]` | CONTENTFUL_SPACE_ID, CONTENTFUL_MANAGEMENT_TOKEN | Contentful Management API | Partial (creates, doesn't update) |
+| `sync-contentful-to-neon.ts` | Canonical Contentful-to-Neon sync with chunking + embeddings | `--book <slug> [--replace] [--skip-embeddings] [--dry-run]` | CONTENTFUL_SPACE_ID, CONTENTFUL_ACCESS_TOKEN, NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Contentful CDA, Voyage AI, Neon | Yes (with --replace) |
+| `ingest.ts` | Direct book.json-to-Neon ingestion with chunking + embeddings | `--book <slug> [--contentful-map <path>] [--skip-embeddings] [--replace] [--dry-run]` | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | Yes (with --replace) |
+| `ingest-en.ts` | **Legacy.** English-specific direct ingestion. Superseded by `ingest.ts`. | `[--skip-embeddings] [--dry-run]` | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | — |
+| `compute-relations.ts` | Pre-compute nearest-neighbor chunk relations | `[--full] [--book <slug>] [--dry-run]` | NEON_DATABASE_URL_DIRECT | Neon (pgvector HNSW) | Yes |
+| `generate-labels.ts` | Contextual labels for related teachings | `[--dry-run] [--limit N] [--batch-size N]` | AWS creds, NEON_DATABASE_URL_DIRECT | AWS Bedrock (Claude Opus) | Yes (skips labeled) |
+| `backfill-embeddings.ts` | Fill chunks with NULL embeddings | (no args) | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | Yes |
+
+#### `scripts/` — Supporting Scripts
+
+| Script | Purpose | Relevance |
+|--------|---------|-----------|
+| `seed-entities.ts` | Populate entity_registry and sanskrit_terms (FTR-033) | Run once per corpus, not per book |
+| `status.sh` | Infrastructure status check | Reports ingestion state |
+
+### Data Artifacts Map
+
+All per-book data lives under `data/book-ingest/{slug}/`:
+
+```
+data/book-ingest/{slug}/
+|-- capture-meta.json            Stage 1 output: TOC + book metadata
+|-- capture-meta-original.json   Stage 2b backup (reflowable books only)
+|-- screen-metadata.json         Manual input for reflowable capture
+|-- screen-page-mapping.json     Stage 2b output: screen-to-page mapping
+|-- capture-log.json             Stage 2 output: per-page capture record
+|-- book.json                    Stage 4 output: complete book manifest
+|-- rasa-classifications.json    Stage 10 output: per-chapter rasa + reasoning
+|-- contentful-map.json          Stage 8 output: maps chapters to Contentful IDs
+|-- pages/
+|   +-- page-NNN.png             Stage 2 output: page screenshots (3-digit pad)
+|-- extracted/
+|   +-- page-NNN.json            Stage 3 output: per-page structured extraction
+|-- chapters/
+|   |-- 00-front-matter.json     Stage 4 output: front matter assembly
+|   +-- NN-slug.json             Stage 4 output: per-chapter assembly
+|-- assets/
+|   |-- photo-pNNN.png           Stage 6 output: full-resolution photo screens
+|   |-- photo-manifest.json      Stage 6 output: photo capture manifest
+|   +-- cropped/
+|       |-- photo-pNNN-cropped.png  Stage 6b output: cropped individual photos
+|       +-- crop-manifest.json      Stage 6b output: crop regions + subjects
++-- qa/
+    |-- validation-report.json   Stage 5 output: three-layer validation results
+    |-- flagged-pages.json       Stage 5b output: pages needing human review
+    +-- review.html              Stage 5b output: side-by-side QA report
+```
+
+### External Dependencies
+
+| Service | Scripts Using It | Authentication | Rate/Limits | Cost Driver |
+|---------|-----------------|----------------|-------------|-------------|
+| Amazon Cloud Reader | collect-toc, capture, capture-photos | Manual browser login (cannot automate) | Navigation speed (~300ms/page) | Free (purchased ebook) |
+| AWS Bedrock — Claude Sonnet | extract | AWS credential chain (profile or env) | Region-dependent | ~$0.003/page (image input) |
+| AWS Bedrock — Claude Opus | classify-rasa, generate-labels | AWS credential chain | Region-dependent | ~$0.015/chapter (rasa), ~$0.01/label |
+| Anthropic API — Claude Haiku | crop-photos | ANTHROPIC_API_KEY | Standard limits | ~$0.001/photo |
+| Contentful Management API | import-contentful, migrate-schema | CONTENTFUL_MANAGEMENT_TOKEN | 7 req/s (150ms delay enforced) | Free tier |
+| Contentful Delivery API | sync-contentful-to-neon | CONTENTFUL_ACCESS_TOKEN | 78 req/s | Free tier |
+| Voyage AI | ingest, sync-contentful-to-neon, backfill-embeddings | VOYAGE_API_KEY | Batch 16 | ~$0.13/million tokens |
+| Neon PostgreSQL | 6 scripts | NEON_DATABASE_URL_DIRECT | Connection-based | Scale tier |
+| ImageMagick | crop-photos | System binary (`convert`) | N/A | Free |
+
+### Design System Vocabulary Loop
+
+The pipeline maintains a closed vocabulary loop from extraction through CSS rendering. Every content type classification made during extraction determines the visual treatment in the reading surface:
+
+```
+extract.ts       block.type = "verse"         (Stage 3)
+assemble.ts      paragraph.contentType = "verse"  (Stage 4)
+import-contentful TextBlock.contentType = "verse"  (Stage 8)
+sync/ingest      book_chunks.content_type = "verse" (Stage 9)
+books.ts service ChapterParagraph.contentType = "verse"
+ChapterReader    <div data-content-type="verse">
+features.css     [data-content-type="verse"] { ... }
+```
+
+Valid content types: `prose`, `verse`, `epigraph`, `dialogue`, `caption`.
+
+### Approximate Runtime and Cost (per book)
+
+| Stage | Duration | Cost | Notes |
+|-------|----------|------|-------|
+| 1: TOC Collection | ~5 min | Free | Manual browser required |
+| 2: Page Capture | ~30 min (800 pages) | Free | ~2 pages/sec |
+| 2b: Post-Process | ~1 min | Free | File rename + remap |
+| 3: Extraction | ~40 min (800 pages @ concurrency 5) | ~$2.50 | ~23 pages/min |
+| 4: Assembly | ~10 sec | Free | CPU only |
+| 5/5b: Validation + QA | ~30 sec | Free | CPU only |
+| 6: Photo Capture | ~10 min | Free | Manual browser required |
+| 6b: Photo Cropping | ~5 min (30 photos) | ~$0.03 | Haiku vision |
+| 8: Contentful Import | ~20 min | Free | Rate-limited at 7 req/s |
+| 9: Neon Sync | ~10 min | ~$0.20 | Voyage embeddings |
+| 10: Rasa Classification | ~5 min | ~$0.75 | 49 Opus calls |
+| 11: Relations | ~5 min | Free | pgvector HNSW |
+| 12: Labels | ~15 min | ~$10 | ~1000 Opus calls |
+| **Total** | **~2.5 hours** | **~$13.50** | Per language edition |
+
+### Execution Playbook: Ingest a New Book
+
+**Prerequisites:**
+- Ebook purchased and accessible in Amazon Cloud Reader
+- BookConfig entry added to `scripts/book-ingest/src/config.ts`
+- Environment variables set (see External Dependencies)
+- Chromium running with `--remote-debugging-port=9222`
+- Book open in Cloud Reader tab
+
+**Step-by-step:**
+
+```
+# 0. Add book configuration
+#    Edit scripts/book-ingest/src/config.ts
+#    Add BookConfig with: title, author, slug, asin, authorTier, language,
+#    expectedChapters, goldenPassages
+
+# 1. Collect TOC (manual browser required)
+npx tsx scripts/book-ingest/src/collect-toc.ts --book <slug>
+#    Verify: data/book-ingest/<slug>/capture-meta.json exists
+#    Check: chapter count matches expectedChapters
+
+# 2. Capture pages (manual browser required)
+npx tsx scripts/book-ingest/src/capture.ts --book <slug>
+#    For reflowable books, capture produces screen-NNNN.png files
+
+# 2b. Post-process (reflowable only)
+#    First: create screen-metadata.json from capture session notes
+npx tsx scripts/book-ingest/src/post-process-screens.ts --book <slug>
+#    Verify: pages/ now contains page-NNN.png files
+
+# 3. Extract text (automated, ~40 min for 800 pages)
+npx tsx scripts/book-ingest/src/extract.ts --book <slug> --concurrency 5
+#    Resume on failure: --resume-from <page>
+
+# 4. Assemble chapters
+npx tsx scripts/book-ingest/src/assemble.ts --book <slug>
+#    Verify: book.json manifest, chapters/*.json
+
+# 5. Validate
+npx tsx scripts/book-ingest/src/validate.ts --book <slug>
+#    GATE: Review qa/validation-report.json
+#    All golden passages must pass
+#    No 'fail' results in capture or assembly layers
+
+# 5b. Generate QA report
+npx tsx scripts/book-ingest/src/qa-report.ts --book <slug>
+#    GATE: Human reviews qa/review.html for flagged pages
+
+# 6. Capture photos (manual browser required)
+npx tsx scripts/book-ingest/src/capture-photos.ts --book <slug>
+
+# 6b. Crop photos
+npx tsx scripts/book-ingest/src/crop-photos.ts --book <slug>
+
+# 7. Migrate Contentful schema (first book only, or when model changes)
+npx tsx scripts/ingest/migrate-contentful-schema.ts
+
+# 8. Import to Contentful
+npx tsx scripts/ingest/import-contentful.ts --book <slug>
+#    Resume on failure: --resume-from-chapter <N>
+#    Output: contentful-map.json
+
+# 9. Sync to Neon (canonical path: Contentful -> Neon)
+npx tsx scripts/ingest/sync-contentful-to-neon.ts --book <slug>
+#    Alternative (development): npx tsx scripts/ingest/ingest.ts --book <slug>
+
+# 10. Classify rasa
+npx tsx scripts/book-ingest/src/classify-rasa.ts --book <slug>
+#    Verify: rasa-classifications.json, chapters.rasa column updated
+
+# 11. Compute chunk relations
+npx tsx scripts/ingest/compute-relations.ts --book <slug>
+
+# 12. Generate relation labels
+npx tsx scripts/ingest/generate-labels.ts
+
+# 13. Backfill any missing embeddings (safety net)
+npx tsx scripts/ingest/backfill-embeddings.ts
+
+# Verify: run search queries against the new book content
+```
+
+**Validation gates (marked GATE above):**
+- After Stage 5: all golden passages found, no assembly failures
+- After Stage 5b: human confirms no systematic extraction errors
+- After Stage 9: search queries return expected results
+
+### Adding a New Language
+
+Adding language support for an existing book requires only:
+
+1. Add `LANGUAGE_GUIDANCE` entry in `extract.ts` for the script/diacritics
+2. Add `BookConfig` entry in `config.ts` with the language code
+3. Add locale to Contentful (if not already present)
+4. Run the full playbook above
+
+No schema migrations, no API changes, no search rewrites (per PRI-06).
+
+### Future: Webhook Sync Mode
+
+Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of Arc 1.
+
+## Notes
+
+- **Origin:** Operational companion to FTR-022 (Content Ingestion Pipeline). Created to make pipeline knowledge explicit for AI operators, human operators, and future visual operations surface.
+- **FTR number range:** Operations overflow 151-159 exhausted. FTR-164 extends the operations range; update FEATURES.md index accordingly.
+- **Legacy script:** `scripts/ingest/ingest-en.ts` is the original English-specific ingestion script, superseded by the generic `scripts/ingest/ingest.ts`. Retained for reference.
+- **Entity registry:** `scripts/seed-entities.ts` populates entity_registry and sanskrit_terms (FTR-033). Run once per corpus expansion, not per book. Not part of the per-book pipeline.
+- **`scripts/book-ingest/DESIGN.md`:** Historical design document from initial pipeline implementation (2026-02-25). Captured discovery decisions (why ebook over PDF, why not DOM scraping). Superseded by this FTR for operational reference; retained for archaeological context.

@@ -1,6 +1,10 @@
 # Notes
 
 ---
+/compose (invoke, review, converge) ~3, propose :
+FTR for book ingestion pipeline? Offers a perspective of all the steps, scripts, functions, etc (what is everything?) to ingest the book? Tagging, search augmented metadata, image cropping, and so forth? A documentation of the code? Available for AI reader to know what to update, insert, remove for book ingest operations? Available for eventual use in an online visual design surface for operations and human visibility? What am I attempting to achieve?
+
+---
 What wants to exist here?
 
 
