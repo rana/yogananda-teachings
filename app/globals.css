@@ -234,7 +234,7 @@ main:has(article) + .app-footer > .center > .motif {
 
 .footer-practice-bridge {
   font-size: 0.8125rem;
-  margin-block: var(--space-compact) 0;
+  margin-block: 0 var(--space-compact);
   opacity: 0.7;
 }
 

@@ -104,16 +104,13 @@ export default async function LocaleLayout({
       {/* Site footer — ambient register */}
       <Surface as="footer" register="ambient" className="app-footer">
         <div className="center">
-          <Motif role="close" voice="sacred" glyph="lotus-03" />
           <p className="footer-practice-bridge">
             {f("practiceBridge")}{" "}
             <a href={SRF_PRACTICE.lessons} target="_blank" rel="noopener noreferrer">
               {f("srfLessons")}
             </a>
           </p>
-          <p>
-            <a href={SRF.home}>Self-Realization Fellowship</a>
-          </p>
+          <Motif role="close" voice="sacred" glyph="lotus-03" />
           <nav className="footer-links" aria-label="Footer navigation">
             <Link href="/legal">{t("legal")}</Link>
             <Link href="/privacy">{t("privacy")}</Link>

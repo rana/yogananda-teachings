@@ -26,7 +26,7 @@
     "pg": "^8.19.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "yogananda-design": "github:rana/yogananda-design#v1.1.0"
+    "yogananda-design": "github:rana/yogananda-design"
   },
   "devDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1000.0",
