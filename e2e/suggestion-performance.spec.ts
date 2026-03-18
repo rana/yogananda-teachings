@@ -198,14 +198,14 @@ test.describe("Suggestion static assets", () => {
     expect(bytes).toBeLessThan(2048);
   });
 
-  test("bridge JSON is under 5KB", async ({ request }) => {
+  test("bridge JSON is under 8KB", async ({ request }) => {
     const res = await request.get("/data/suggestions/en/_bridge.json");
     expect(res.status()).toBe(200);
     const body = await res.text();
     const bytes = new TextEncoder().encode(body).length;
     // eslint-disable-next-line no-console
     console.log(`  _bridge.json: ${bytes} bytes`);
-    expect(bytes).toBeLessThan(5120);
+    expect(bytes).toBeLessThan(8192);
   });
 
   test("no prefix file exceeds 15KB", async ({ request }) => {

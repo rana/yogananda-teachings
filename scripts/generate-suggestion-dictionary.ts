@@ -534,12 +534,22 @@ function exportStaticJSON(
   );
 
   // _bridge.json
-  writeFileSync(join(outDir, "_bridge.json"), JSON.stringify(bridgeEntries, null, 2));
+  writeFileSync(join(outDir, "_bridge.json"), JSON.stringify(bridgeEntries));
+
+  // Deduplicate case-insensitively — keep highest weight entry
+  const deduped = new Map<string, DictionaryEntry>();
+  for (const entry of visible) {
+    const key = entry.suggestion.toLowerCase().normalize("NFC");
+    const existing = deduped.get(key);
+    if (!existing || entry.weight > existing.weight) {
+      deduped.set(key, entry);
+    }
+  }
 
   // Partition by two-char prefix
   const prefixMap = new Map<string, StaticSuggestion[]>();
 
-  for (const entry of visible) {
+  for (const entry of deduped.values()) {
     const lower = entry.suggestion.toLowerCase().normalize("NFC");
     const isAlpha = /^[a-z]/.test(lower);
     const prefix = isAlpha ? lower.slice(0, 2).padEnd(2, "_") : "_misc";
