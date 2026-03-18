@@ -1,16 +1,17 @@
 "use client";
 
 /**
- * SearchCombobox — ARIA combobox with corpus-derived suggestions (FTR-029, FTR-029).
+ * SearchCombobox — ARIA combobox with corpus-derived suggestions (FTR-029).
  *
- * Two-tier architecture:
- *   Tier A: Static JSON at CDN edge — loaded on first focus, filtered client-side (<10ms).
+ * Three-tier architecture:
+ *   Tier A: Prefix-partitioned static JSON at CDN edge — loaded on typing (<10ms).
+ *   Tier A0: Zero-state JSON (chips + questions) — loaded on focus.
  *   Tier B: pg_trgm fuzzy fallback — async API call when Tier A returns <3 results.
  *
- * Progressive enhancement: wraps a plain <input> that works without JS.
- * The homepage server-rendered form still submits as a regular GET — this component
- * only activates on the client-side search page.
+ * Bridge matching: vocabulary_bridge entries surface Yogananda's terminology
+ * when seekers type modern vocabulary (e.g., "mindfulness" → "concentration").
  *
+ * Progressive enhancement: wraps a plain <input> that works without JS.
  * Keyboard: Down opens/navigates, Up navigates, Enter selects, Escape closes, Tab moves out.
  * Mobile: max 5 suggestions, 44×44px touch targets.
  * All 5 color themes via CSS custom properties.
@@ -29,12 +30,21 @@ import { useRotatingPlaceholder } from "@/app/hooks/useRotatingPlaceholder";
 
 interface Suggestion {
   text: string;
-  type: "chip" | "chapter" | "entity" | "topic";
+  display: string | null;
+  type: "scoped" | "entity" | "topic" | "sanskrit" | "editorial" | "curated" | "chapter";
+  weight: number;
 }
 
-interface SuggestionData {
+interface BridgeEntry {
+  stem: string;
+  expression: string;
+  yogananda_terms: string[];
+  crisis_adjacent: boolean;
+}
+
+interface ZeroState {
   chips: string[];
-  suggestions: string[];
+  questions: string[];
 }
 
 interface SearchComboboxProps {
@@ -43,15 +53,45 @@ interface SearchComboboxProps {
   onSubmit: (query: string) => void;
   language: string;
   placeholder?: string;
-  /** Rotating placeholder texts — crossfades between items when input is empty + unfocused. */
   placeholders?: readonly string[];
   ariaLabel?: string;
   className?: string;
   id?: string;
 }
 
-// Module-scoped cache — static JSON loads once per language, persists across renders.
-const suggestionDataCache = new Map<string, SuggestionData>();
+// Module-scoped caches — persist across renders, keyed by language.
+const zeroStateCache = new Map<string, ZeroState>();
+const prefixCache = new Map<string, Suggestion[]>();
+const bridgeCache = new Map<string, BridgeEntry[]>();
+
+function computePrefix(input: string): string {
+  const clean = input.toLowerCase().normalize("NFC").trim();
+  return clean.length >= 2 ? clean.slice(0, 2) : "";
+}
+
+function matchScore(suggestion: string, input: string): number {
+  const lower = suggestion.toLowerCase();
+  const query = input.toLowerCase();
+  if (lower.startsWith(query)) return 1.0;
+  // Word boundary match
+  if (lower.split(/\s+/).some((w) => w.startsWith(query))) return 0.8;
+  if (lower.includes(query)) return 0.5;
+  return 0;
+}
+
+function findBridgeMatch(
+  input: string,
+  bridges: BridgeEntry[],
+): BridgeEntry | null {
+  const lower = input.toLowerCase().trim();
+  if (lower.length < 3) return null;
+  for (const b of bridges) {
+    if (b.expression.startsWith(lower) || lower.startsWith(b.stem)) {
+      return b;
+    }
+  }
+  return null;
+}
 
 export function SearchCombobox({
   value,
@@ -66,12 +106,13 @@ export function SearchCombobox({
 }: SearchComboboxProps) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [chips, setChips] = useState<string[]>([]);
+  const [questions, setQuestions] = useState<string[]>([]);
+  const [bridgeMatch, setBridgeMatch] = useState<BridgeEntry | null>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isMobile, setIsMobile] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
 
-  // Rotating placeholder — active when input is empty and unfocused
   const rotatingActive = !!placeholders && placeholders.length > 1 && !value && !isFocused;
   const { text: rotatingText, fading } = useRotatingPlaceholder(
     placeholders ?? [],
@@ -85,10 +126,10 @@ export function SearchCombobox({
   const isFirstKeystroke = useRef(true);
   const instanceId = useId();
   const listboxId = `${instanceId}-listbox`;
+  const bridgeHintId = `${instanceId}-bridge-hint`;
 
   const maxSuggestions = isMobile ? SUGGEST_MAX_MOBILE : SUGGEST_MAX_DESKTOP;
 
-  // Detect mobile on mount
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -96,55 +137,60 @@ export function SearchCombobox({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // Load static JSON on first interaction (Tier A)
-  const loadSuggestionData = useCallback(
-    async (lang: string): Promise<SuggestionData> => {
-      const cached = suggestionDataCache.get(lang);
+  // Load zero-state JSON (chips + questions)
+  const loadZeroState = useCallback(
+    async (lang: string): Promise<ZeroState> => {
+      const cached = zeroStateCache.get(lang);
       if (cached) return cached;
-
       try {
-        const res = await fetch(`/data/suggestions/${lang}.json`);
+        const res = await fetch(`/data/suggestions/${lang}/_zero.json`);
         if (!res.ok) throw new Error(`${res.status}`);
-        const data: SuggestionData = await res.json();
-        suggestionDataCache.set(lang, data);
+        const data: ZeroState = await res.json();
+        zeroStateCache.set(lang, data);
         return data;
       } catch {
-        // Fallback to English if language file missing
-        if (lang !== "en") return loadSuggestionData("en");
-        return { chips: [], suggestions: [] };
+        if (lang !== "en") return loadZeroState("en");
+        return { chips: [], questions: [] };
       }
     },
     [],
   );
 
-  // Client-side prefix filter (Tier A — <1ms)
-  const filterLocal = useCallback(
-    (data: SuggestionData, prefix: string): Suggestion[] => {
-      const lower = prefix.toLowerCase();
-      const matches: Suggestion[] = [];
-
-      // Search suggestions (chapter titles, entities, topics)
-      for (const s of data.suggestions) {
-        if (s.toLowerCase().includes(lower)) {
-          matches.push({ text: s, type: "chapter" });
-        }
-        if (matches.length >= maxSuggestions) break;
+  // Load prefix-partitioned suggestions
+  const loadPrefix = useCallback(
+    async (lang: string, prefix: string): Promise<Suggestion[]> => {
+      const key = `${lang}/${prefix}`;
+      const cached = prefixCache.get(key);
+      if (cached) return cached;
+      try {
+        const res = await fetch(`/data/suggestions/${lang}/${prefix}.json`);
+        if (!res.ok) return [];
+        const data: Suggestion[] = await res.json();
+        prefixCache.set(key, data);
+        return data;
+      } catch {
+        return [];
       }
-
-      // Also check chips as suggestions when typing
-      for (const c of data.chips) {
-        if (
-          c.toLowerCase().includes(lower) &&
-          !matches.some((m) => m.text === c)
-        ) {
-          matches.push({ text: c, type: "topic" });
-        }
-        if (matches.length >= maxSuggestions) break;
-      }
-
-      return matches.slice(0, maxSuggestions);
     },
-    [maxSuggestions],
+    [],
+  );
+
+  // Load bridge entries
+  const loadBridge = useCallback(
+    async (lang: string): Promise<BridgeEntry[]> => {
+      const cached = bridgeCache.get(lang);
+      if (cached) return cached;
+      try {
+        const res = await fetch(`/data/suggestions/${lang}/_bridge.json`);
+        if (!res.ok) return [];
+        const data: BridgeEntry[] = await res.json();
+        bridgeCache.set(lang, data);
+        return data;
+      } catch {
+        return [];
+      }
+    },
+    [],
   );
 
   // Tier B: async fuzzy fallback
@@ -158,9 +204,13 @@ export function SearchCombobox({
         if (!res.ok) return [];
         const data = await res.json();
         return (data.data || []).map(
-          (s: { text: string; type: string }) =>
-            ({ text: s.text, type: s.type || "topic" }) as Suggestion,
-        );
+          (s: { text: string; display?: string | null; type: string; weight?: number }) => ({
+            text: s.text,
+            display: s.display || null,
+            type: s.type || "topic",
+            weight: s.weight || 0,
+          }),
+        ) as Suggestion[];
       } catch {
         return [];
       }
@@ -168,11 +218,10 @@ export function SearchCombobox({
     [],
   );
 
-  // Debounce duration — detect slow connections via Network Information API
   const getDebounceMs = useCallback(() => {
     if (isFirstKeystroke.current) {
       isFirstKeystroke.current = false;
-      return 0; // First keystroke: immediate (FTR-029)
+      return 0;
     }
     const nav = navigator as Navigator & {
       connection?: { effectiveType?: string };
@@ -183,28 +232,59 @@ export function SearchCombobox({
 
   // Main suggestion update logic
   const updateSuggestions = useCallback(
-    async (prefix: string) => {
-      if (!prefix.trim()) {
-        // Zero-state: show chips
-        const data = await loadSuggestionData(language);
-        setChips(data.chips);
+    async (input: string) => {
+      if (!input.trim()) {
+        // Zero-state: show chips + questions
+        const zero = await loadZeroState(language);
+        setChips(zero.chips);
+        setQuestions(zero.questions);
         setSuggestions([]);
+        setBridgeMatch(null);
         setIsOpen(true);
         setActiveIndex(-1);
         return;
       }
 
-      const data = await loadSuggestionData(language);
-      const local = filterLocal(data, prefix);
-      setSuggestions(local);
       setChips([]);
+      setQuestions([]);
+
+      const prefix = computePrefix(input);
+      if (!prefix) {
+        setSuggestions([]);
+        setBridgeMatch(null);
+        setIsOpen(false);
+        return;
+      }
+
+      // Load prefix file + bridge data in parallel
+      const [prefixData, bridges] = await Promise.all([
+        loadPrefix(language, prefix),
+        loadBridge(language),
+      ]);
+
+      // Client-side filter + score
+      const scored = prefixData
+        .map((s) => {
+          const ms = Math.max(matchScore(s.text, input), s.display ? matchScore(s.display, input) : 0);
+          return { ...s, finalScore: s.weight * ms };
+        })
+        .filter((s) => s.finalScore > 0)
+        .sort((a, b) => b.finalScore - a.finalScore)
+        .slice(0, maxSuggestions);
+
+      const local: Suggestion[] = scored.map(({ finalScore: _, ...s }) => s);
+
+      // Bridge match
+      const bridge = findBridgeMatch(input, bridges);
+      setBridgeMatch(bridge);
+
+      setSuggestions(local);
       setIsOpen(true);
       setActiveIndex(-1);
 
       // Tier B: fire fuzzy if local results are sparse
       if (local.length < SUGGEST_FUZZY_THRESHOLD) {
-        const fuzzy = await fetchFuzzy(prefix, language);
-        // Merge: deduplicate by text, local results first
+        const fuzzy = await fetchFuzzy(input, language);
         const localTexts = new Set(local.map((s) => s.text.toLowerCase()));
         const merged = [
           ...local,
@@ -213,16 +293,9 @@ export function SearchCombobox({
         setSuggestions(merged);
       }
     },
-    [
-      language,
-      maxSuggestions,
-      loadSuggestionData,
-      filterLocal,
-      fetchFuzzy,
-    ],
+    [language, maxSuggestions, loadZeroState, loadPrefix, loadBridge, fetchFuzzy],
   );
 
-  // Handle input changes with debounce
   const handleInputChange = useCallback(
     (newValue: string) => {
       onChange(newValue);
@@ -246,6 +319,8 @@ export function SearchCombobox({
       setIsOpen(false);
       setSuggestions([]);
       setChips([]);
+      setQuestions([]);
+      setBridgeMatch(null);
       setActiveIndex(-1);
       onSubmit(text);
     },
@@ -260,8 +335,11 @@ export function SearchCombobox({
   // Keyboard navigation
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
-      const items = suggestions.length > 0 ? suggestions : [];
-      const totalItems = items.length + chips.length;
+      // Count total navigable items
+      const zeroItems = chips.length + questions.length;
+      const totalItems = suggestions.length > 0
+        ? suggestions.length + (bridgeMatch ? 1 : 0)
+        : zeroItems;
 
       if (!isOpen && e.key === "ArrowDown") {
         e.preventDefault();
@@ -287,20 +365,27 @@ export function SearchCombobox({
         case "Enter":
           e.preventDefault();
           if (activeIndex >= 0) {
-            // Active item: select it
-            if (suggestions.length > 0 && activeIndex < suggestions.length) {
-              selectSuggestion(suggestions[activeIndex].text);
+            if (suggestions.length > 0) {
+              // Bridge hint is not selectable as search — skip to suggestion items
+              const bridgeOffset = bridgeMatch ? 1 : 0;
+              if (bridgeMatch && activeIndex === 0) {
+                // Selecting bridge: search the expression
+                selectSuggestion(bridgeMatch.expression);
+              } else if (activeIndex - bridgeOffset < suggestions.length) {
+                selectSuggestion(suggestions[activeIndex - bridgeOffset].text);
+              }
             } else {
-              const chipIdx =
-                suggestions.length > 0
-                  ? activeIndex - suggestions.length
-                  : activeIndex;
-              if (chipIdx >= 0 && chipIdx < chips.length) {
-                selectSuggestion(chips[chipIdx]);
+              // Zero-state: chips then questions
+              if (activeIndex < chips.length) {
+                selectSuggestion(chips[activeIndex]);
+              } else {
+                const qIdx = activeIndex - chips.length;
+                if (qIdx >= 0 && qIdx < questions.length) {
+                  selectSuggestion(questions[qIdx]);
+                }
               }
             }
           } else {
-            // No active item: submit current value
             close();
             onSubmit(value);
           }
@@ -314,20 +399,9 @@ export function SearchCombobox({
           break;
       }
     },
-    [
-      isOpen,
-      activeIndex,
-      suggestions,
-      chips,
-      value,
-      selectSuggestion,
-      close,
-      onSubmit,
-      updateSuggestions,
-    ],
+    [isOpen, activeIndex, suggestions, chips, questions, bridgeMatch, value, selectSuggestion, close, onSubmit, updateSuggestions],
   );
 
-  // Focus: show zero-state chips
   const handleFocus = useCallback(() => {
     setIsFocused(true);
     isFirstKeystroke.current = true;
@@ -355,13 +429,26 @@ export function SearchCombobox({
     return () => document.removeEventListener("mousedown", handler);
   }, [close]);
 
-  const hasItems =
-    isOpen && (suggestions.length > 0 || chips.length > 0);
+  const hasZeroState = isOpen && chips.length > 0;
+  const hasSuggestions = isOpen && (suggestions.length > 0 || bridgeMatch);
+  const hasItems = hasZeroState || hasSuggestions;
   const activeDescendant =
     activeIndex >= 0 ? `${instanceId}-option-${activeIndex}` : undefined;
 
-  // When overlay is visible, hide native placeholder visually but keep for screen readers
   const effectivePlaceholder = showOverlay ? "" : (placeholder || rotatingText);
+
+  // Type labels for screen reader and visual indicator
+  const typeLabel = (type: Suggestion["type"]) => {
+    switch (type) {
+      case "scoped": return "scoped";
+      case "entity": return "teacher";
+      case "topic": return "topic";
+      case "sanskrit": return "Sanskrit";
+      case "curated": return "topic";
+      case "chapter": return "chapter";
+      default: return "";
+    }
+  };
 
   return (
     <div className="combobox-wrapper">
@@ -370,7 +457,7 @@ export function SearchCombobox({
         id={id}
         type="search"
         role="combobox"
-        aria-expanded={hasItems}
+        aria-expanded={!!hasItems}
         aria-controls={listboxId}
         aria-activedescendant={activeDescendant}
         aria-autocomplete="list"
@@ -386,7 +473,6 @@ export function SearchCombobox({
         className={className}
       />
 
-      {/* Rotating placeholder overlay — crossfades between human-centered prompts */}
       {showOverlay && (
         <span
           aria-hidden="true"
@@ -405,7 +491,7 @@ export function SearchCombobox({
           aria-label={ariaLabel}
           className="combobox-dropdown"
         >
-          {/* Zero-state chips */}
+          {/* Zero-state: chips */}
           {chips.length > 0 && (
             <li className="combobox-chips" role="presentation">
               {chips.map((chip, i) => (
@@ -424,19 +510,62 @@ export function SearchCombobox({
             </li>
           )}
 
-          {/* Suggestion items */}
-          {suggestions.map((suggestion, i) => {
-            const idx = chips.length > 0 ? i + chips.length : i;
+          {/* Zero-state: questions */}
+          {questions.map((q, i) => {
+            const idx = chips.length + i;
             return (
               <li
-                key={suggestion.text}
+                key={q}
+                id={`${instanceId}-option-${idx}`}
+                role="option"
+                aria-selected={activeIndex === idx}
+                onClick={() => selectSuggestion(q)}
+                className="combobox-suggestion combobox-suggestion--question"
+              >
+                {q}
+              </li>
+            );
+          })}
+
+          {/* Bridge hint — vocabulary bridge match */}
+          {bridgeMatch && (
+            <li
+              id={`${instanceId}-option-0`}
+              role="option"
+              aria-selected={activeIndex === 0}
+              aria-describedby={bridgeHintId}
+              onClick={() => selectSuggestion(bridgeMatch.expression)}
+              className="combobox-suggestion combobox-suggestion--bridge"
+            >
+              <span className="combobox-suggestion-text">{bridgeMatch.expression}</span>
+              <span id={bridgeHintId} className="combobox-bridge-hint">
+                Yogananda&rsquo;s terms: {bridgeMatch.yogananda_terms.join(", ")}
+              </span>
+            </li>
+          )}
+
+          {/* Suggestion items */}
+          {suggestions.map((suggestion, i) => {
+            const idx = bridgeMatch ? i + 1 : i;
+            const label = typeLabel(suggestion.type);
+            return (
+              <li
+                key={`${suggestion.type}-${suggestion.text}`}
                 id={`${instanceId}-option-${idx}`}
                 role="option"
                 aria-selected={activeIndex === idx}
                 onClick={() => selectSuggestion(suggestion.text)}
-                className="combobox-suggestion"
+                className={`combobox-suggestion${suggestion.type === "sanskrit" ? " combobox-suggestion--sanskrit" : ""}`}
               >
-                {suggestion.text}
+                <span className="visually-hidden">{label}: </span>
+                <span className="combobox-suggestion-text">
+                  {suggestion.display || suggestion.text}
+                </span>
+                {label && (
+                  <span className="combobox-suggestion-type" aria-hidden="true">
+                    {label}
+                  </span>
+                )}
               </li>
             );
           })}
@@ -448,7 +577,9 @@ export function SearchCombobox({
         {hasItems &&
           (suggestions.length > 0
             ? `${suggestions.length} suggestion${suggestions.length !== 1 ? "s" : ""} available`
-            : `${chips.length} topic${chips.length !== 1 ? "s" : ""} available`)}
+            : chips.length > 0
+              ? `${chips.length} topic${chips.length !== 1 ? "s" : ""} available`
+              : "")}
       </div>
     </div>
   );

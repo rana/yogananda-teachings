@@ -147,6 +147,30 @@ export const SUGGEST_FUZZY_THRESHOLD = 3;
 export const SUGGEST_FUZZY_MIN_CHARS = 3;
 // Trigram similarity needs ≥3 chars for meaningful results. Evaluate: never change this.
 
+/** Min chunk occurrences for a topic to become a suggestion. */
+export const SUGGEST_MIN_TOPIC_FREQUENCY = 2;
+// Single-occurrence topics are noise (65% of enrichment topics). Evaluate: lower to 1 if corpus thin; raise to 3 at 10+ books.
+
+/** Min entity-topic co-occurrences for a scoped query. */
+export const SUGGEST_MIN_COOCCURRENCE = 3;
+// 3 chunks mentioning both entity and topic = real coverage. Evaluate: raise to 5 at 25-book scale.
+
+/** Max scoped queries per entity. */
+export const SUGGEST_MAX_SCOPED_PER_ENTITY = 20;
+// Prevents cross-product explosion. Top-20 by co-occurrence count. Evaluate: at full corpus.
+
+/** Cache-Control max-age for suggestion API (seconds). */
+export const SUGGEST_CACHE_MAX_AGE = 300;
+// 5 minutes. Suggestions change only on pipeline rebuild. Evaluate: increase to 3600 if stable.
+
+/** Weight formula: corpus frequency coefficient. */
+export const SUGGEST_WEIGHT_CORPUS = 0.6;
+// 60% corpus-derived. PRI-09: no behavioral coefficient. Evaluate: after golden set evaluation.
+
+/** Weight formula: editorial boost coefficient. */
+export const SUGGEST_WEIGHT_EDITORIAL = 0.4;
+// 40% editorial. Evaluate: after golden set evaluation.
+
 // ── Resonance — Passage Resonance Instrumentation (M3a-7, FTR-031) ──
 
 /** Rate limit window for resonance increments (ms). */

@@ -1,6 +1,36 @@
 # Notes
 
 ---
+/explore
+Read file `features/search/FTR-029-search-suggestions.md`.
+
+We're preparing to implement FTR-029.
+
+What's your perspective?
+
+What questions would you like to ask? See? Feel? Intuit?
+
+How would you prepare to implement FTR-029? 
+What are the highest impact items?
+Do you have any open questions?
+What does the existing system support?
+What are we adding and why?
+
+What would make a world class amazing experience?
+What does sucess look like to you?
+
+AI is architect, designer, implementer, operators and reader.
+
+What questions would I benefit from asking? What am I not asking?
+
+How would you design a thorough, deep implementation plan?
+
+Think slowly, deeply and thoroughly.
+
+You have complete design autonomy. What are your preferences?
+
+
+---
 /explore My intent is world class amazing accessibility for handicapped, impaired audience. I'm thinking of: 1) surveying existing project coverage; 2) running skill `gaps`; 3) surveying with Gemini Deep Research modern 2026 accessibility; 4) synthesizing all for a modern 2026, world class amazing experience for handicapped, impaired audience. Then document research report. Analyze research report. Then sythesize into project. Do we have canonical FTR as well as properly cross referencing? What am I attempting to achieve?
 
 ---

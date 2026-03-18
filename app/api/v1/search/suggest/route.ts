@@ -1,5 +1,5 @@
 /**
- * Search suggestions API — /api/v1/search/suggest (M1c-8)
+ * Search suggestions API — /api/v1/search/suggest (FTR-029)
  *
  * Tier B: pg_trgm fuzzy fallback for misspellings and transliterated input.
  * Query params:
@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { getSuggestions } from "@/lib/services/suggestions";
 import { logger } from "@/lib/logger";
+import { SUGGEST_CACHE_MAX_AGE } from "@/lib/config";
 
 export async function GET(request: NextRequest) {
   const prefix = request.nextUrl.searchParams.get("q") || "";
@@ -21,10 +22,10 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const suggestions = await getSuggestions(pool, prefix, language, 5);
+    const suggestions = await getSuggestions(pool, prefix, language, 10);
     return NextResponse.json(
       { data: suggestions },
-      { headers: { "Cache-Control": "public, max-age=300" } },
+      { headers: { "Cache-Control": `public, max-age=${SUGGEST_CACHE_MAX_AGE}` } },
     );
   } catch (err) {
     logger.error("Suggestions error", { error: err instanceof Error ? err.message : String(err) });

@@ -1,0 +1,12 @@
+{
+  "en": {
+    "teacher": "{entity} on {topic}",
+    "technique": "{topic} in {entity}",
+    "fallback": "{entity} \u2014 {topic}"
+  },
+  "es": {
+    "teacher": "{entity} sobre {topic}",
+    "technique": "{topic} en {entity}",
+    "fallback": "{entity} \u2014 {topic}"
+  }
+}

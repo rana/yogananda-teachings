@@ -1,0 +1,38 @@
+{
+  "en": {
+    "chips": [
+      "Peace",
+      "Courage",
+      "Healing",
+      "Joy",
+      "Meditation",
+      "Divine Love",
+      "Self-Realization",
+      "Grief & Loss"
+    ],
+    "questions": [
+      "How do I overcome fear?",
+      "What is the purpose of life?",
+      "How do I find inner peace?",
+      "What happens after death?",
+      "How do I develop willpower?",
+      "What is cosmic consciousness?"
+    ]
+  },
+  "es": {
+    "chips": [
+      "Paz",
+      "Valentía",
+      "Sanación",
+      "Alegría",
+      "Meditación",
+      "Amor Divino",
+      "Autorrealización"
+    ],
+    "questions": [
+      "¿Cómo supero el miedo?",
+      "¿Cuál es el propósito de la vida?",
+      "¿Cómo encuentro la paz interior?"
+    ]
+  }
+}

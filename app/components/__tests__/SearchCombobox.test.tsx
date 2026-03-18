@@ -1,10 +1,10 @@
 // @vitest-environment jsdom
 
 /**
- * SearchCombobox tests — ARIA combobox with corpus-derived suggestions.
+ * SearchCombobox tests — ARIA combobox with corpus-derived suggestions (FTR-029).
  *
- * Covers: zero-state chips, prefix filtering, keyboard navigation,
- * fuzzy fallback, accessibility attributes, mobile adaptation.
+ * Covers: zero-state chips/questions, prefix-partitioned loading, bridge hints,
+ * type indicators, keyboard navigation, fuzzy fallback, accessibility, mobile.
  */
 
 import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
@@ -12,9 +12,8 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 
 // ── Mocks ─────────────────────────────────────────────────────────
 
-// Mock config constants
 vi.mock("@/lib/config", () => ({
-  SUGGEST_DEBOUNCE_MS: 0, // No debounce in tests
+  SUGGEST_DEBOUNCE_MS: 0,
   SUGGEST_DEBOUNCE_SLOW_MS: 0,
   SUGGEST_MAX_DESKTOP: 8,
   SUGGEST_MAX_MOBILE: 5,
@@ -22,35 +21,67 @@ vi.mock("@/lib/config", () => ({
   SUGGEST_FUZZY_MIN_CHARS: 3,
 }));
 
-const mockSuggestionData = {
-  language: "en",
-  chips: ["cosmic consciousness", "meditation", "divine mother", "peace", "karma"],
-  suggestions: [
-    "An Experience in Cosmic Consciousness",
-    "The Science of Kriya Yoga",
-    "My Parents and Early Life",
-    "I Meet My Master, Sri Yukteswar",
-    "The Resurrection of Sri Yukteswar",
-  ],
+const mockZeroState = {
+  chips: ["Peace", "Courage", "Meditation", "Divine Love", "Joy"],
+  questions: ["How do I overcome fear?", "What is the purpose of life?"],
 };
 
-// Mock fetch for static JSON and API
+const mockBridgeData = [
+  { stem: "mind", expression: "mindfulness", yogananda_terms: ["concentration", "one-pointed attention"], crisis_adjacent: false },
+];
+
+const mockPrefixCo = [
+  { text: "cosmic consciousness", display: null, type: "topic", weight: 0.5 },
+  { text: "concentration", display: null, type: "topic", weight: 0.3 },
+  { text: "courage", display: null, type: "topic", weight: 0.2 },
+];
+
+const mockPrefixMe = [
+  { text: "Meditation", display: null, type: "curated", weight: 0.4 },
+  { text: "meditation", display: null, type: "topic", weight: 0.06 },
+  { text: "mental discipline", display: null, type: "topic", weight: 0.003 },
+];
+
+const mockPrefixSa = [
+  { text: "samadhi", display: "Samādhi — superconscious state", type: "sanskrit", weight: 0.3 },
+];
+
+// Mock fetch — route by URL pattern
 const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 beforeEach(() => {
   mockFetch.mockReset();
   mockFetch.mockImplementation(async (url: string) => {
-    if (url.includes("/data/suggestions/")) {
-      return { ok: true, json: async () => mockSuggestionData };
+    if (url.includes("_zero.json")) {
+      return { ok: true, json: async () => mockZeroState };
+    }
+    if (url.includes("_bridge.json")) {
+      return { ok: true, json: async () => mockBridgeData };
+    }
+    if (url.includes("/co.json")) {
+      return { ok: true, json: async () => mockPrefixCo };
+    }
+    if (url.includes("/me.json")) {
+      return { ok: true, json: async () => mockPrefixMe };
+    }
+    if (url.includes("/sa.json")) {
+      return { ok: true, json: async () => mockPrefixSa };
+    }
+    if (url.includes("/mi.json")) {
+      return { ok: true, json: async () => [] };
     }
     if (url.includes("/api/v1/search/suggest")) {
       return {
         ok: true,
         json: async () => ({
-          data: [{ text: "samadhi", type: "topic" }],
+          data: [{ text: "samadhi", display: null, type: "topic", weight: 0.3 }],
         }),
       };
+    }
+    // Default: empty prefix file
+    if (url.includes("/data/suggestions/")) {
+      return { ok: true, json: async () => [] };
     }
     return { ok: false };
   });
@@ -102,24 +133,33 @@ describe("SearchCombobox", () => {
     });
   });
 
-  describe("zero-state chips", () => {
+  describe("zero-state", () => {
     it("shows chips on focus before typing", async () => {
       const { input } = renderCombobox();
       await act(async () => fireEvent.focus(input));
 
       await waitFor(() => {
-        expect(screen.getByText("cosmic consciousness")).toBeInTheDocument();
-        expect(screen.getByText("meditation")).toBeInTheDocument();
-        expect(screen.getByText("peace")).toBeInTheDocument();
+        expect(screen.getByText("Peace")).toBeInTheDocument();
+        expect(screen.getByText("Meditation")).toBeInTheDocument();
+        expect(screen.getByText("Joy")).toBeInTheDocument();
       });
     });
 
-    it("loads static JSON for the specified language", async () => {
+    it("shows questions on focus", async () => {
+      const { input } = renderCombobox();
+      await act(async () => fireEvent.focus(input));
+
+      await waitFor(() => {
+        expect(screen.getByText("How do I overcome fear?")).toBeInTheDocument();
+      });
+    });
+
+    it("loads zero-state JSON for the specified language", async () => {
       const { input } = renderCombobox({ language: "es" });
       await act(async () => fireEvent.focus(input));
 
       await waitFor(() => {
-        expect(mockFetch).toHaveBeenCalledWith("/data/suggestions/es.json");
+        expect(mockFetch).toHaveBeenCalledWith("/data/suggestions/es/_zero.json");
       });
     });
 
@@ -128,21 +168,21 @@ describe("SearchCombobox", () => {
       await act(async () => fireEvent.focus(input));
 
       await waitFor(() => {
-        expect(screen.getByText("meditation")).toBeInTheDocument();
+        expect(screen.getByText("Meditation")).toBeInTheDocument();
       });
 
       await act(async () => {
-        fireEvent.click(screen.getByText("meditation"));
+        fireEvent.click(screen.getByText("Meditation"));
       });
 
-      expect(onChange).toHaveBeenCalledWith("meditation");
-      expect(onSubmit).toHaveBeenCalledWith("meditation");
+      expect(onChange).toHaveBeenCalledWith("Meditation");
+      expect(onSubmit).toHaveBeenCalledWith("Meditation");
     });
   });
 
   describe("prefix filtering", () => {
-    it("filters suggestions by typed prefix", async () => {
-      const { input, onChange } = renderCombobox({ value: "cosmic" });
+    it("filters suggestions from prefix file", async () => {
+      const { input } = renderCombobox({ value: "cosmic" });
 
       await act(async () => fireEvent.focus(input));
       await act(async () => {
@@ -150,26 +190,50 @@ describe("SearchCombobox", () => {
       });
 
       await waitFor(() => {
-        expect(
-          screen.getByText("An Experience in Cosmic Consciousness"),
-        ).toBeInTheDocument();
-        expect(
-          screen.getByText("cosmic consciousness"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("cosmic consciousness")).toBeInTheDocument();
       });
     });
 
-    it("filters case-insensitively", async () => {
-      const { input } = renderCombobox({ value: "KRIYA" });
+    it("loads correct prefix file for input", async () => {
+      const { input } = renderCombobox({ value: "me" });
+
       await act(async () => fireEvent.focus(input));
       await act(async () => {
-        fireEvent.change(input, { target: { value: "KRIYA" } });
+        fireEvent.change(input, { target: { value: "me" } });
       });
 
       await waitFor(() => {
-        expect(
-          screen.getByText("The Science of Kriya Yoga"),
-        ).toBeInTheDocument();
+        expect(mockFetch).toHaveBeenCalledWith("/data/suggestions/en/me.json");
+      });
+    });
+  });
+
+  describe("type indicators", () => {
+    it("renders type label for suggestions", async () => {
+      const { input } = renderCombobox({ value: "cosmic" });
+
+      await act(async () => fireEvent.focus(input));
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "cosmic" } });
+      });
+
+      await waitFor(() => {
+        // Type label should be visible (aria-hidden but rendered)
+        const typeLabels = document.querySelectorAll(".combobox-suggestion-type");
+        expect(typeLabels.length).toBeGreaterThan(0);
+      });
+    });
+
+    it("shows Sanskrit display text", async () => {
+      const { input } = renderCombobox({ value: "samadhi" });
+
+      await act(async () => fireEvent.focus(input));
+      await act(async () => {
+        fireEvent.change(input, { target: { value: "samadhi" } });
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText("Samādhi — superconscious state")).toBeInTheDocument();
       });
     });
   });
@@ -243,26 +307,26 @@ describe("SearchCombobox", () => {
   });
 
   describe("touch targets", () => {
-    it("chip buttons have combobox-chip class for touch targets", async () => {
+    it("chip buttons have combobox-chip class", async () => {
       const { input } = renderCombobox();
       await act(async () => fireEvent.focus(input));
 
       await waitFor(() => {
-        const chipButton = screen.getByText("meditation");
+        const chipButton = screen.getByText("Meditation");
         expect(chipButton.className).toContain("combobox-chip");
       });
     });
 
     it("suggestion items have combobox-suggestion class", async () => {
-      const { input } = renderCombobox({ value: "Kriya" });
+      const { input } = renderCombobox({ value: "cosmic" });
       await act(async () => fireEvent.focus(input));
       await act(async () => {
-        fireEvent.change(input, { target: { value: "Kriya" } });
+        fireEvent.change(input, { target: { value: "cosmic" } });
       });
 
       await waitFor(() => {
-        const item = screen.getByText("The Science of Kriya Yoga");
-        expect(item.className).toContain("combobox-suggestion");
+        const item = screen.getByText("cosmic consciousness").closest("[role='option']");
+        expect(item?.className).toContain("combobox-suggestion");
       });
     });
   });

@@ -1423,6 +1423,50 @@ a:hover {
   color: var(--color-text);
 }
 
+.combobox-suggestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.combobox-suggestion-text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.combobox-suggestion-type {
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  color: var(--color-text-tertiary, color-mix(in oklch, var(--color-text-secondary) 60%, transparent));
+  font-family: var(--font-ui);
+}
+
+.combobox-suggestion--bridge {
+  flex-wrap: wrap;
+}
+
+.combobox-bridge-hint {
+  width: 100%;
+  font-size: 0.8125rem;
+  font-style: italic;
+  color: var(--color-text-secondary);
+  padding-inline-start: 0.25rem;
+  line-height: 1.4;
+}
+
+.combobox-suggestion--sanskrit .combobox-suggestion-text {
+  font-style: italic;
+}
+
+.combobox-suggestion--question {
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
 .combobox-placeholder-overlay {
   position: absolute;
   inset-block: 0;

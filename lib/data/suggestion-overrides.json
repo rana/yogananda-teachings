@@ -1,0 +1,4 @@
+{
+  "_comment": "Per-suggestion editorial boost/suppress. Applied after corpus weight computation. editorial_boost: 1.0 pins to top, -1.0 suppresses from display.",
+  "overrides": []
+}

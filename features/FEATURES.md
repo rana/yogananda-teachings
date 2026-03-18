@@ -18,8 +18,8 @@
 | Search | FTR-020–039 | FTR-120–130, FTR-165 | `features/search/` | 32 |
 | Experience | FTR-040–059 | FTR-131–147, FTR-160–163, FTR-166 | `features/experience/` | 42 |
 | Editorial | FTR-060–079 | FTR-148–150 | `features/editorial/` | 22 (+1 absorbed) |
-| Operations | FTR-080–099 | FTR-151–159, FTR-164 | `features/operations/` | 30 |
-| **Total** | | | | **166** (165 active, 1 absorbed) |
+| Operations | FTR-080–099 | FTR-151–159, FTR-164, FTR-167 | `features/operations/` | 31 |
+| **Total** | | | | **167** (166 active, 1 absorbed) |
 
 ---
 
@@ -231,6 +231,7 @@ CI/CD, observability, testing, governance, operational tooling.
 | [158](operations/FTR-158-docs-as-executable-specs.md) | Spec Fidelity System | Proposed |
 | [159](operations/FTR-159-feature-lifecycle-portal.md) | Feature Lifecycle Portal | Proposed |
 | [164](operations/FTR-164-book-ingestion-operations.md) | Book Ingestion Operations | Proposed |
+| [167](operations/FTR-167-device-tier-performance.md) | Device-Tier Performance Framework | Approved (Provisional) |
 
 ---
 

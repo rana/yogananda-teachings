@@ -1,7 +1,7 @@
 /**
- * Suggestions service unit tests — M2a-21.
+ * Suggestions service unit tests — FTR-029.
  *
- * Tests the fuzzy search suggestion service with mock pg.Pool.
+ * Tests the suggestion_dictionary query service with mock pg.Pool.
  */
 
 import { describe, it, expect, vi } from "vitest";
@@ -19,59 +19,58 @@ function mockPool(queryResponses: Record<string, unknown>[][]) {
 }
 
 describe("getSuggestions", () => {
-  it("returns chapter title matches", async () => {
+  it("returns matching suggestions from suggestion_dictionary", async () => {
     const pool = mockPool([
-      [{ title: "My Parents and Early Life" }],
+      [{ suggestion: "meditation", display_text: null, suggestion_type: "topic", weight: 0.5 }],
     ]);
 
-    const results = await getSuggestions(pool, "Parents");
+    const results = await getSuggestions(pool, "med");
     expect(results).toHaveLength(1);
     expect(results[0]).toEqual({
-      text: "My Parents and Early Life",
-      type: "chapter",
+      text: "meditation",
+      display: null,
+      type: "topic",
+      weight: 0.5,
     });
   });
 
-  it("uses ILIKE for prefix matching", async () => {
+  it("uses ILIKE prefix match on suggestion and latin_form", async () => {
     const pool = mockPool([[]]);
     await getSuggestions(pool, "yo", "en");
     expect(pool.query).toHaveBeenCalledWith(
       expect.stringContaining("ILIKE"),
-      ["en", "%yo%", 5],
+      ["en", "yo%", 10],
     );
   });
 
-  it("tries trigram similarity for 3+ char prefixes", async () => {
+  it("tries trigram similarity for 3+ char prefixes with sparse results", async () => {
     const pool = mockPool([
       [], // No ILIKE matches
-      [{ title: "The Tiger Swami", sim: 0.25 }], // Trigram match
+      [{ suggestion: "meditation", display_text: null, suggestion_type: "topic", weight: 0.5, sim: 0.25 }],
     ]);
 
-    const results = await getSuggestions(pool, "tgr", "en");
+    const results = await getSuggestions(pool, "mdt", "en");
     expect(results).toHaveLength(1);
-    expect(results[0].text).toBe("The Tiger Swami");
-    // Should have made 2 queries (ILIKE + trigram)
+    expect(results[0].text).toBe("meditation");
     expect(pool.query).toHaveBeenCalledTimes(2);
   });
 
   it("skips trigram for short prefixes", async () => {
     const pool = mockPool([[]]);
     await getSuggestions(pool, "yo");
-    // Only 1 query (ILIKE), no trigram
     expect(pool.query).toHaveBeenCalledTimes(1);
   });
 
   it("respects the limit parameter", async () => {
     const pool = mockPool([
       [
-        { title: "Chapter 1" },
-        { title: "Chapter 2" },
-        { title: "Chapter 3" },
+        { suggestion: "meditation", display_text: null, suggestion_type: "topic", weight: 0.5 },
+        { suggestion: "mental discipline", display_text: null, suggestion_type: "topic", weight: 0.3 },
+        { suggestion: "metaphysics", display_text: null, suggestion_type: "topic", weight: 0.2 },
       ],
     ]);
 
-    const results = await getSuggestions(pool, "Ch", "en", 2);
-    // Should only return up to limit
+    const results = await getSuggestions(pool, "me", "en", 2);
     expect(results.length).toBeLessThanOrEqual(2);
   });
 
@@ -82,5 +81,35 @@ describe("getSuggestions", () => {
       expect.any(String),
       expect.arrayContaining(["en"]),
     );
+  });
+
+  it("excludes suppressed entries (editorial_boost > -1.0)", async () => {
+    const pool = mockPool([[]]);
+    await getSuggestions(pool, "ch", "en");
+    expect(pool.query).toHaveBeenCalledWith(
+      expect.stringContaining("editorial_boost > -1.0"),
+      expect.any(Array),
+    );
+  });
+
+  it("returns display field for Sanskrit terms", async () => {
+    const pool = mockPool([
+      [{ suggestion: "samadhi", display_text: "Samādhi — superconscious state", suggestion_type: "sanskrit", weight: 0.4 }],
+    ]);
+
+    const results = await getSuggestions(pool, "sam");
+    expect(results[0].display).toBe("Samādhi — superconscious state");
+    expect(results[0].type).toBe("sanskrit");
+  });
+
+  it("deduplicates across ILIKE and trigram phases", async () => {
+    const pool = mockPool([
+      [{ suggestion: "meditation", display_text: null, suggestion_type: "topic", weight: 0.5 }],
+      [{ suggestion: "meditation", display_text: null, suggestion_type: "topic", weight: 0.5, sim: 0.3 }],
+    ]);
+
+    const results = await getSuggestions(pool, "medit", "en", 10);
+    const meditations = results.filter((r) => r.text === "meditation");
+    expect(meditations).toHaveLength(1);
   });
 });

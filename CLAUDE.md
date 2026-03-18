@@ -126,6 +126,7 @@ Twelve principles define the project's identity and directly constrain code gene
 /features/ — FTR files by domain (foundation/, search/, experience/, editorial/, operations/)
 /docs/guides/ — Human onboarding and setup (getting-started, credentials, manual steps)
 /docs/operations/ — Operational runbooks and procedures (Milestone 3b+)
+/docs/plans/ — Implementation plans archived as institutional memory (not ephemeral — checked into repo)
 /docs/reference/ — Background research (not active project docs)
 ```
 

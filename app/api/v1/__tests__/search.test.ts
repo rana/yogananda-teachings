@@ -351,8 +351,8 @@ describe("/api/v1/search/suggest", () => {
 
   it("returns suggestions for valid prefix", async () => {
     mockGetSuggestions.mockResolvedValue([
-      { text: "My Parents and Early Life", type: "chapter" },
-      { text: "My Mother's Death", type: "chapter" },
+      { text: "My Parents and Early Life", display: null, type: "chapter", weight: 0.01 },
+      { text: "My Mother's Death", display: null, type: "chapter", weight: 0.01 },
     ]);
 
     const req = makeRequest("http://localhost:3000/api/v1/search/suggest?q=My");
@@ -382,7 +382,7 @@ describe("/api/v1/search/suggest", () => {
       expect.anything(),
       "cap",
       "es",
-      5,
+      10,
     );
   });
 
@@ -396,7 +396,7 @@ describe("/api/v1/search/suggest", () => {
       expect.anything(),
       "yoga",
       "en",
-      5,
+      10,
     );
   });
 

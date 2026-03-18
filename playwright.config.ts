@@ -23,11 +23,22 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
+      testIgnore: /suggestion-performance/,
       use: { ...devices["Desktop Chrome"] },
     },
     {
       name: "mobile-chrome",
+      testIgnore: /suggestion-performance/,
       use: { ...devices["Pixel 5"] },
+    },
+    {
+      name: "perf",
+      testMatch: /suggestion-performance/,
+      use: {
+        ...devices["Desktop Chrome"],
+        // CDP network throttling requires Chromium.
+        // Viewport/device overrides are set per-tier in the test file.
+      },
     },
   ],
 
