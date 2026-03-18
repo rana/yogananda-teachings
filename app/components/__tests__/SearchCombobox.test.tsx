@@ -33,7 +33,7 @@ const mockBridgeData = [
 const mockPrefixCo = [
   { text: "cosmic consciousness", display: null, type: "topic", weight: 0.5 },
   { text: "concentration", display: null, type: "topic", weight: 0.3 },
-  { text: "courage", display: null, type: "topic", weight: 0.2 },
+  { text: "courage", display: null, type: "curated", weight: 0.2 },
 ];
 
 const mockPrefixMe = [
@@ -210,15 +210,16 @@ describe("SearchCombobox", () => {
 
   describe("type indicators", () => {
     it("renders type label for suggestions", async () => {
-      const { input } = renderCombobox({ value: "cosmic" });
+      // Use short prefix "co" so multiple mock entries match with mixed types
+      const { input } = renderCombobox({ value: "co" });
 
       await act(async () => fireEvent.focus(input));
       await act(async () => {
-        fireEvent.change(input, { target: { value: "cosmic" } });
+        fireEvent.change(input, { target: { value: "co" } });
       });
 
       await waitFor(() => {
-        // Type label should be visible (aria-hidden but rendered)
+        // Type label should be visible (aria-hidden but rendered) when types differ
         const typeLabels = document.querySelectorAll(".combobox-suggestion-type");
         expect(typeLabels.length).toBeGreaterThan(0);
       });
