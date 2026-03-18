@@ -277,6 +277,78 @@ async function validateAssembly(
   return results;
 }
 
+/** Layer 4: Structural checks (chapter boundaries, mid-sentence starts) */
+async function validateStructure(
+  paths: ReturnType<typeof getBookPaths>,
+  manifest: any,
+): Promise<ValidationResult[]> {
+  const results: ValidationResult[] = [];
+  const wordCounts: number[] = [];
+
+  const chapterFiles = manifest.structure?.chapters ?? [];
+  for (const ch of chapterFiles) {
+    const chapterPath = path.join(paths.root, ch.dataFile);
+    if (!await fileExists(chapterPath)) continue;
+
+    const chapter = await readJson<Chapter>(chapterPath);
+    const firstPara = chapter.sections?.[0]?.paragraphs?.[0];
+    wordCounts.push(chapter.metadata.wordCount);
+
+    if (!firstPara) {
+      results.push({
+        layer: 'structure', check: 'non-empty-chapter', status: 'fail',
+        message: `Ch ${chapter.chapterNumber}: no paragraphs`
+      });
+      continue;
+    }
+
+    // Check: first paragraph starts lowercase (likely mid-sentence)
+    if (/^[a-z]/.test(firstPara.text)) {
+      results.push({
+        layer: 'structure', check: 'chapter-opening', status: 'fail',
+        message: `Ch ${chapter.chapterNumber}: starts lowercase — likely mid-sentence: "${firstPara.text.substring(0, 60)}..."`
+      });
+    }
+
+    // Check: missing title
+    if (!chapter.title) {
+      results.push({
+        layer: 'structure', check: 'chapter-title', status: 'warn',
+        message: `Ch ${chapter.chapterNumber}: missing title`
+      });
+    }
+  }
+
+  // Check: word count outliers (>3x median)
+  if (wordCounts.length > 2) {
+    const sorted = [...wordCounts].sort((a, b) => a - b);
+    const median = sorted[Math.floor(sorted.length / 2)];
+    for (let i = 0; i < chapterFiles.length; i++) {
+      if (wordCounts[i] > median * 3) {
+        results.push({
+          layer: 'structure', check: 'word-count-outlier', status: 'warn',
+          message: `Ch ${chapterFiles[i].number}: ${wordCounts[i]} words (median: ${median}, >3x)`
+        });
+      }
+      if (wordCounts[i] < median * 0.1 && wordCounts[i] > 0) {
+        results.push({
+          layer: 'structure', check: 'word-count-outlier', status: 'warn',
+          message: `Ch ${chapterFiles[i].number}: ${wordCounts[i]} words (median: ${median}, <10%)`
+        });
+      }
+    }
+  }
+
+  if (results.length === 0) {
+    results.push({
+      layer: 'structure', check: 'all-chapters', status: 'pass',
+      message: `All ${chapterFiles.length} chapters have valid structure`
+    });
+  }
+
+  return results;
+}
+
 /** Main validation */
 async function runValidation(bookSlug: string): Promise<void> {
   const config = getPipelineConfig(bookSlug);
@@ -303,6 +375,14 @@ async function runValidation(bookSlug: string): Promise<void> {
   log.info('Layer 3: Assembly validation...');
   const assemblyResults = await validateAssembly(paths, captureMeta, config.book.goldenPassages || []);
   allResults.push(...assemblyResults);
+
+  // Layer 4: Structural checks
+  log.info('Layer 4: Structural validation...');
+  if (await fileExists(paths.bookManifest)) {
+    const manifest = await readJson<any>(paths.bookManifest);
+    const structureResults = await validateStructure(paths, manifest);
+    allResults.push(...structureResults);
+  }
 
   // Summary
   const passes = allResults.filter(r => r.status === 'pass').length;

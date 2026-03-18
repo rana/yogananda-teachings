@@ -53,14 +53,49 @@ async function loadExtractions(pagesDir: string, totalPages: number): Promise<Ma
   return extractions;
 }
 
-/** Determine chapter boundaries from TOC and extractions */
+/** Build extraction-detected chapter anchors (ground truth from Claude Vision) */
+function buildExtractionAnchors(
+  extractions: Map<number, PageExtraction>,
+): Map<number, { page: number; title: string }> {
+  const anchors = new Map<number, { page: number; title: string }>();
+  for (const [page, ext] of extractions) {
+    if (ext.chapterNumber && ext.chapterNumber > 0) {
+      anchors.set(ext.chapterNumber, { page, title: ext.chapterTitle || '' });
+    }
+  }
+  return anchors;
+}
+
+/** Determine chapter boundaries from TOC and extractions.
+ *  Cross-references TOC page numbers against extraction-detected chapter headings.
+ *  Extraction anchors are ground truth — they come from reading the actual page content.
+ *  Halts with error if a mismatch is found (run audit-boundaries.ts --fix to correct). */
 function buildChapterRanges(
   toc: TocEntry[],
   extractions: Map<number, PageExtraction>,
   totalPages: number
 ): Array<{ chapterNumber: number; title: string; startPage: number; endPage: number }> {
   const chapters = toc.filter(e => e.type === 'chapter' && e.pageNumber !== null);
+  const anchors = buildExtractionAnchors(extractions);
   const ranges: Array<{ chapterNumber: number; title: string; startPage: number; endPage: number }> = [];
+
+  // Cross-reference TOC against extraction anchors
+  const mismatches: string[] = [];
+  for (const chapter of chapters) {
+    const anchor = anchors.get(chapter.chapterNumber!);
+    if (anchor && anchor.page !== chapter.pageNumber) {
+      mismatches.push(
+        `Ch ${chapter.chapterNumber}: TOC says page ${chapter.pageNumber}, extraction heading found at page ${anchor.page} (delta: ${chapter.pageNumber! - anchor.page})`
+      );
+    }
+  }
+
+  if (mismatches.length > 0) {
+    log.error('Chapter boundary mismatches detected (TOC vs extraction headings):');
+    for (const m of mismatches) log.error(`  ${m}`);
+    log.error('Run: npx tsx src/audit-boundaries.ts --book <slug> --fix');
+    throw new Error(`${mismatches.length} chapter boundary mismatches — fix TOC before assembling`);
+  }
 
   for (let i = 0; i < chapters.length; i++) {
     const chapter = chapters[i];
