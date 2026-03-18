@@ -2,7 +2,7 @@
 ftr: 164
 title: Book Ingestion Operations
 summary: "Complete operational specification for the book ingestion pipeline with scripts, artifacts, and playbook"
-state: proposed
+state: approved
 domain: operations
 governed-by: [PRI-01, PRI-06, PRI-12]
 depends-on: [FTR-022]
@@ -117,10 +117,11 @@ This FTR documents the ebook extraction path in full. PDF and SRF-source paths s
 | `post-process-screens.ts` | Remap reflowable screens to page numbers | `--book <slug>` | — | — | No (renames files) |
 | `extract.ts` | Claude Vision OCR to structured JSON | `--book <slug> [--resume-from N] [--concurrency N]` | AWS creds or ANTHROPIC_API_KEY | AWS Bedrock (Claude Sonnet) | Yes (skips extracted pages) |
 | `assemble.ts` | Combine pages into chapters + book manifest | `--book <slug>` | — | — | Yes (overwrites) |
-| `validate.ts` | Three-layer validation (capture, extraction, assembly) | `--book <slug>` | — | — | Yes |
+| `validate.ts` | Four-layer validation (capture, extraction, assembly, structure) | `--book <slug>` | — | — | Yes |
 | `qa-report.ts` | HTML side-by-side review for human QA | `--book <slug> [--all]` | — | — | Yes |
 | `capture-photos.ts` | Canvas-native photo extraction at full resolution | `--book <slug> [--cdp-url]` | — | Amazon Cloud Reader (CDP) | Yes (skips captured pages) |
 | `crop-photos.ts` | AI crop detection + ImageMagick cropping | `--book <slug> [--dry-run] [--page N]` | ANTHROPIC_API_KEY | Anthropic API (Haiku), ImageMagick | Yes |
+| `audit-boundaries.ts` | Cross-reference TOC vs extraction chapter anchors | `--book <slug> [--fix]` | — | — | Yes (--fix backs up before modifying) |
 | `classify-rasa.ts` | Aesthetic flavor classification per chapter | `--book <slug> [--dry-run] [--chapter N]` | AWS creds, NEON_DATABASE_URL_DIRECT | AWS Bedrock (Claude Opus) | Yes (overwrites) |
 
 #### `scripts/ingest/` — Contentful and Neon Loading
@@ -159,6 +160,8 @@ data/book-ingest/{slug}/
 |-- screen-page-mapping.json     Stage 2b output: screen-to-page mapping
 |-- capture-log.json             Stage 2 output: per-page capture record
 |-- book.json                    Stage 4 output: complete book manifest
+|-- chapter-anchors.json          Audit output: extraction-detected chapter start pages
+|-- capture-meta-pre-audit.json  Audit backup: original TOC before --fix
 |-- rasa-classifications.json    Stage 10 output: per-chapter rasa + reasoning
 |-- contentful-map.json          Stage 8 output: maps chapters to Contentful IDs
 |-- pages/
@@ -338,6 +341,69 @@ No schema migrations, no API changes, no search rewrites (per PRI-06).
 ### Future: Webhook Sync Mode
 
 Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of Milestone 1a.
+
+### Chapter Boundary Verification Gate
+
+Three-layer defense against chapter boundary errors (root cause: reflowable Kindle screen offsets).
+
+**Layer 1: Extraction-time anchors.** `extract.ts` outputs `chapterNumber` and `chapterTitle` per page when Claude Vision detects a chapter heading. `audit-boundaries.ts` collects these into `chapter-anchors.json`.
+
+**Layer 2: Assembly-time cross-reference.** `assemble.ts` cross-references TOC page numbers against extraction anchors before assembling. If any mismatch is found, assembly halts with an error directing the operator to run `audit-boundaries.ts --fix`.
+
+**Layer 3: Post-assembly structural checks.** `validate.ts` Layer 4 checks:
+- First paragraph of each chapter starts with a capital letter (catches mid-sentence boundaries)
+- No chapter has a missing title
+- Word counts within 3x of median (catches missing/extra pages)
+
+**Recovery:** `npx tsx scripts/book-ingest/src/audit-boundaries.ts --book <slug> --fix` updates `capture-meta.json` TOC with extraction-detected page numbers, backs up the original, then re-run `assemble.ts`.
+
+**Root cause of the Chapter 46 error (2026-03-18):** English Autobiography is reflowable (~1.7 screens per page). Kindle Cloud Reader TOC positions are in screen-number space but don't exactly match where Claude Vision finds chapter headings. 23/49 chapters had wrong TOC-vs-extraction page numbers. Fixed by the boundary verification gate. Spanish edition (fixed-layout, 1:1 screen:page) had zero mismatches.
+
+### Golden Passage Standards
+
+Each book requires 20 golden passages across 10 categories:
+
+| Category | Count | What It Catches |
+|----------|-------|-----------------|
+| Chapter opening lines | 4 | Boundary errors |
+| Verse/poetry | 2 | Line break preservation |
+| Epigraph with attribution | 2 | Quote extraction |
+| Dialogue with em-dashes | 2 | Speaker attribution |
+| Photo captions | 2 | Caption accuracy |
+| Dates/numbers | 2 | Numeric preservation |
+| Footnote markers/distinctive prose | 2 | Marker-text pairing |
+| Sanskrit/IAST terms | 1 | Diacritical stripping |
+| Key teaching references | 1 | Content integrity |
+| Author/lineage names | 2 | Name preservation |
+
+Golden passages are validated during `validate.ts` Layer 3. All 20 must pass before assembly is considered valid.
+
+**Important:** Golden passages must use text that appears in the paragraph stream (`sections[].paragraphs[].text`), not in footnote arrays or metadata fields.
+
+### Re-Scan Protocol
+
+When to re-scan an existing book:
+1. **Pipeline code changes** affecting extraction or assembly (new extraction prompt, new assembly logic)
+2. **Chapter boundary errors** discovered in production
+3. **Golden passage failures** after code changes
+
+Re-scan steps:
+1. Recapture screenshots (requires Chromium + Cloud Reader)
+2. Re-extract all pages: `extract.ts --book <slug>` (resumes from existing)
+3. Audit boundaries: `audit-boundaries.ts --book <slug> --fix`
+4. Re-assemble: `assemble.ts --book <slug>`
+5. Validate: `validate.ts --book <slug>` (all 20 golden passages must pass)
+6. Re-ingest to Neon: `ingest.ts --book <slug> --replace --contentful-map <path>`
+7. Re-enrich: `enrich.ts --book <slug>` (new chunks have `enriched_at IS NULL`)
+8. Re-compute relations: `compute-relations.ts --book <slug>`
+9. Rebuild suggestions: `generate-suggestion-dictionary.ts`
+
+### Screenshot Archival
+
+Screenshots are gitignored (`*.png`). Archive to external storage after each capture session:
+- Path: `/media/rana/GRACE/Book/book-ingest-screenshots-{date}/`
+- Include: `pages/*.png`, `capture-log.json`, `capture-meta.json`
+- Provenance: SHA-256 checksums in `chapter-anchors.json`
 
 ## Notes
 

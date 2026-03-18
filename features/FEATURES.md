@@ -230,7 +230,7 @@ CI/CD, observability, testing, governance, operational tooling.
 | [157](operations/FTR-157-living-golden-set.md) | Living Golden Set | Proposed |
 | [158](operations/FTR-158-docs-as-executable-specs.md) | Spec Fidelity System | Proposed |
 | [159](operations/FTR-159-feature-lifecycle-portal.md) | Feature Lifecycle Portal | Proposed |
-| [164](operations/FTR-164-book-ingestion-operations.md) | Book Ingestion Operations | Proposed |
+| [164](operations/FTR-164-book-ingestion-operations.md) | Book Ingestion Operations | Approved |
 | [167](operations/FTR-167-device-tier-performance.md) | Device-Tier Performance Framework | Approved (Provisional) |
 
 ---
