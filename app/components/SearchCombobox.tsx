@@ -544,31 +544,35 @@ export function SearchCombobox({
             </li>
           )}
 
-          {/* Suggestion items */}
-          {suggestions.map((suggestion, i) => {
-            const idx = bridgeMatch ? i + 1 : i;
-            const label = typeLabel(suggestion.type);
-            return (
-              <li
-                key={`${suggestion.type}-${suggestion.text}`}
-                id={`${instanceId}-option-${idx}`}
-                role="option"
-                aria-selected={activeIndex === idx}
-                onClick={() => selectSuggestion(suggestion.text)}
-                className={`combobox-suggestion${suggestion.type === "sanskrit" ? " combobox-suggestion--sanskrit" : ""}`}
-              >
-                <span className="visually-hidden">{label}: </span>
-                <span className="combobox-suggestion-text">
-                  {suggestion.display || suggestion.text}
-                </span>
-                {label && (
-                  <span className="combobox-suggestion-type" aria-hidden="true">
-                    {label}
+          {/* Suggestion items — hide type badge when all share the same type */}
+          {(() => {
+            const allSameType = suggestions.length > 1 &&
+              suggestions.every((s) => s.type === suggestions[0].type);
+            return suggestions.map((suggestion, i) => {
+              const idx = bridgeMatch ? i + 1 : i;
+              const label = typeLabel(suggestion.type);
+              return (
+                <li
+                  key={`${suggestion.type}-${suggestion.text}`}
+                  id={`${instanceId}-option-${idx}`}
+                  role="option"
+                  aria-selected={activeIndex === idx}
+                  onClick={() => selectSuggestion(suggestion.text)}
+                  className={`combobox-suggestion${suggestion.type === "sanskrit" ? " combobox-suggestion--sanskrit" : ""}`}
+                >
+                  <span className="visually-hidden">{label}: </span>
+                  <span className="combobox-suggestion-text">
+                    {suggestion.display || suggestion.text}
                   </span>
-                )}
-              </li>
-            );
-          })}
+                  {label && !allSameType && (
+                    <span className="combobox-suggestion-type" aria-hidden="true">
+                      {label}
+                    </span>
+                  )}
+                </li>
+              );
+            });
+          })()}
         </ul>
       )}
 

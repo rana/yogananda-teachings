@@ -1447,6 +1447,9 @@ a:hover {
 
 .combobox-suggestion--bridge {
   flex-wrap: wrap;
+  border-inline-start: 2px solid color-mix(in oklch, var(--color-gold) 50%, transparent);
+  background: color-mix(in oklch, var(--color-gold) 3%, transparent);
+  padding-inline-start: 0.625rem;
 }
 
 .combobox-bridge-hint {
@@ -1454,7 +1457,7 @@ a:hover {
   font-size: 0.8125rem;
   font-style: italic;
   color: var(--color-text-secondary);
-  padding-inline-start: 0.25rem;
+  padding-block-start: 0.125rem;
   line-height: 1.4;
 }
 
