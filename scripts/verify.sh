@@ -10,7 +10,7 @@
 #   ./scripts/preflight.sh --write      # Include write tests (create + delete)
 #   ./scripts/preflight.sh --verbose    # Show response details
 #
-# Governing refs: DES-039, ADR-124, ADR-125
+# Governing refs: FTR-095, FTR-094, FTR-112
 
 set -euo pipefail
 
@@ -75,7 +75,7 @@ command -v aws &>/dev/null && { HAS_AWS=true; pass "aws CLI installed"; } \
   || skip "aws CLI — AWS tests will be skipped"
 
 # ── Environment Variables ──
-header "Environment Variables (required for Milestone 1a)"
+header "Environment Variables (required)"
 check_var() {
   local name="$1" level="${2:-required}"
   local val="${!name:-}"
@@ -211,13 +211,13 @@ if [[ -n "${VOYAGE_API_KEY:-}" ]]; then
     "https://api.voyageai.com/v1/embeddings" \
     -H "Authorization: Bearer ${VOYAGE_API_KEY}" \
     -H "Content-Type: application/json" \
-    -d '{"input":["preflight smoke test"],"model":"voyage-3-large"}' 2>&1)
+    -d '{"input":["preflight smoke test"],"model":"voyage-4-large"}' 2>&1)
   HTTP_CODE=$(echo "$RESP" | tail -1)
   BODY=$(echo "$RESP" | sed '$d')
   if [[ "$HTTP_CODE" == "200" ]]; then
     DIMS=$(echo "$BODY" | jq '.data[0].embedding | length' 2>/dev/null)
     if [[ "$DIMS" == "1024" ]]; then
-      pass "Embeddings API — 1024 dimensions (voyage-3-large)"
+      pass "Embeddings API — 1024 dimensions (voyage-4-large)"
     else
       fail "Unexpected dimensions: ${DIMS} (expected 1024)"
     fi

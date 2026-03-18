@@ -1,9 +1,9 @@
 ---
 ftr: 12
-title: Principle vs. Parameter — Decision Classification and Governance Flexibility
-state: approved
+title: "Principle vs. Parameter — Decision Classification and Governance Flexibility"
+summary: "Two-category decision classification: immutable principles vs tunable parameters in /lib/config.ts"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 ---
 
@@ -15,7 +15,7 @@ governed-by: [PRI-10]
 
 ### Context
 
-After a comprehensive review of the project's 120 ADRs, 57 design sections, and 7-arc roadmap, a structural pattern emerged: the documents frequently conflate *principles* (immutable commitments that define the project's identity) with *parameters* (tunable defaults that should adapt to real data). Both are recorded at the same authority level in DECISIONS.md and DESIGN.md, which creates a ratchet effect — every mechanism decision accumulates the weight of a principle decision, and relaxing any parameter *feels* like violating a principle even when it doesn't.
+After a comprehensive review of the project's 120 ADRs, 57 design sections, and multi-milestone roadmap, a structural pattern emerged: the documents frequently conflate *principles* (immutable commitments that define the project's identity) with *parameters* (tunable defaults that should adapt to real data). Both are recorded at the same authority level in DECISIONS.md and DESIGN.md, which creates a ratchet effect — every mechanism decision accumulates the weight of a principle decision, and relaxing any parameter *feels* like violating a principle even when it doesn't.
 
 This matters because: (1) no code exists yet; (2) many specific values (cache TTLs, debounce timers, chunk sizes, rate limits, fusion parameters) are pre-production guesses that need validation against real data; (3) the 10-year horizon (FTR-004) demands that future maintainers can tune operational parameters without navigating the full ADR governance process.
 
@@ -71,7 +71,7 @@ Examples:
 
 ### Consequences
 
-- All existing magic numbers in DESIGN.md to be annotated with the parameter convention during Arc 1 implementation
+- All existing magic numbers in DESIGN.md to be annotated with the parameter convention during initial implementation
 - `/lib/config.ts` created as the canonical location for runtime parameters
 - Milestone M1a-8 success criteria updated to include parameter validation
 - Future ADRs specify whether each specific value is a principle or parameter

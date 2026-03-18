@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# System Status — M1a-10 (DES-060)
+# System Status — M1a-10 (FTR-096)
 #
 # Prints a concise operational briefing. Claude's first action in any session.
 # Reports version, milestone progress, health, document integrity, and open items.
@@ -57,9 +57,9 @@ fi
 
 echo ""
 open_questions=$(grep -c '^\- \[' CONTEXT.md 2>/dev/null | head -1 || echo "?")
-proposed_pros=$(grep -c 'Status: Proposed' PROPOSALS.md 2>/dev/null || echo "0")
+proposed_ftrs=$(grep -rl '^state: proposed' features/ 2>/dev/null | wc -l || echo "0")
 echo "Open questions: $open_questions (see CONTEXT.md)"
-echo "Pending PROs:   $proposed_pros proposed"
+echo "Proposed FTRs:  $proposed_ftrs"
 
 # ── Credential status ────────────────────────────────────────────
 

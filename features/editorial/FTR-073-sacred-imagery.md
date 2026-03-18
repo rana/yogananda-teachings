@@ -1,10 +1,10 @@
 ---
 ftr: 73
 title: Sacred Imagery Strategy
+summary: "Images as first-class searchable content type with data model, browse experience, and cross-media relations"
 state: approved
 domain: editorial
-arc: 3c+
-governed-by: [PRI-01, PRI-03]
+governed-by: [PRI-01, PRI-02, PRI-03, PRI-07]
 ---
 
 # FTR-073: Sacred Imagery Strategy
@@ -101,7 +101,7 @@ CREATE TABLE image_places (
 
 ### Consequences
 
-- `images` and `image_descriptions` tables added to Arc 1 schema (empty until content ingestion)
+- `images` and `image_descriptions` tables added to the initial schema (empty until content ingestion)
 - Image ingestion pipeline, gallery, and player added when the image content type goes live
 - S3 storage for images uses the same bucket and CloudFront distribution as audio files (FTR-142)
 - Image search integration via unified content hub (FTR-142) when cross-media features arrive
@@ -169,7 +169,7 @@ SRF has extraordinary imagery: the Encinitas hermitage cliffs, Lake Shrine garde
 
 ### Decision
 
-1. **The reading experience is text-only.** No images appear in the book reader column. Imagery would compete with Yogananda's words, and his words always win. The side panel may show video thumbnails (Arc 6) but never photographs.
+1. **The reading experience is text-only.** No images appear in the book reader column. Imagery would compete with Yogananda's words, and his words always win. The side panel may show video thumbnails (future milestones) but never photographs.
 
 2. **Homepage hero:** A single, wide, soft-focus photograph of an SRF property (Encinitas coastline, Lake Shrine) overlaid with "Today's Wisdom" in white Merriweather on a semi-transparent `--srf-navy` band. Updated seasonally (4 images per year). If SRF cannot provide or approve photographs, the homepage uses the warm cream background with no hero image — the design works without it.
 

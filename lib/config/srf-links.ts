@@ -9,8 +9,6 @@
  *   yogananda.org  = living room (community, events, practice)
  *   portal         = reading room (books, search, contemplation)
  *   app            = practice room (meditation, lessons, daily)
- *
- * @see .elmer/proposals/yogananda-org-ecosystem-exploration.md
  */
 
 // ── yogananda.org — Main Site ───────────────────────────────────

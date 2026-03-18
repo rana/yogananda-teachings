@@ -1,9 +1,9 @@
 ---
 ftr: 80
 title: Engineering Standards
-state: approved
+summary: "Project documentation template and code organization conventions for all SRF repositories"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-10, PRI-12]
 ---
 
@@ -75,7 +75,7 @@ Applied via **dbmate** (SQL-based, no ORM lock-in) or Drizzle ORM migrations. Ev
 - The teaching portal's documentation structure becomes the SRF template
 - New SRF repos are initialized with CLAUDE.md, CONTEXT.md, DECISIONS.md, ROADMAP.md stubs
 - The SRF AE team should review and adopt these standards for existing and new projects
-- Migration tooling (dbmate or Drizzle) is chosen in Arc 1
+- Migration tooling (dbmate or Drizzle) is chosen in the initial milestone
 - Renovate/Dependabot configured from the first commit
 
 ## Notes

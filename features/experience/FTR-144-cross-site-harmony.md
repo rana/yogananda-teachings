@@ -1,9 +1,11 @@
 ---
 ftr: 144
-title: Cross-Site Harmony — yogananda.org Ecosystem Integration
+title: "Cross-Site Harmony — yogananda.org Ecosystem Integration"
+summary: "Six-component integration with yogananda.org ecosystem via three-room model"
 state: proposed
 domain: experience
-arc: "2"
+governed-by: [PRI-04]
+depends-on: [FTR-055, FTR-062, FTR-066]
 ---
 
 # FTR-144: Cross-Site Harmony
@@ -12,7 +14,7 @@ arc: "2"
 
 **Type:** Feature (Experience)
 **Governing Refs:** PRI-04 (Signpost, not destination), FTR-055 (Practice Bridge), FTR-051 (Crisis Detection), FTR-066 (Quiet Index), FTR-062 (Glossary Architecture), FTR-034 (Knowledge Graph), FTR-119 (YSS Platform)
-**Target:** Incremental from M2a through Arc 2
+**Target:** Incremental from M2a through Phase 2
 **Dependencies:** Centralized link registry (implemented: `/lib/config/srf-links.ts`)
 
 #### Context
@@ -37,13 +39,13 @@ The boundary between rooms should be invisible to the seeker. A search for "over
 
 Components import from this registry instead of hardcoding URLs. When SRF restructures their site, one file updates.
 
-#### Component 2: Wisdom Category Cross-Linking (Arc 2)
+#### Component 2: Wisdom Category Cross-Linking (Phase 2)
 
 The 22 How-to-Live Wisdom categories become seed nodes for the Quiet Index (FTR-066) and knowledge graph (FTR-034). The AI enrichment pipeline tags chunks with these categories when thematically relevant. Search results about fear, happiness, prayer, etc. gain a "Related on yogananda.org" link to the appropriate wisdom topic page.
 
 This is the Rosetta Stone between SRF's editorial voice and our AI semantic search.
 
-#### Component 3: Glossary Integration (Arc 2)
+#### Component 3: Glossary Integration (Phase 2)
 
 The SRF glossary is the canonical vocabulary for FTR-062. Portal glossary entries link to or wrap the SRF glossary's authoritative definitions. In-text term detection (from the entity registry's 12 Sanskrit terms + expansion) triggers contextual links. PRI-01 applies: glossary definitions are SRF's published content, rendered verbatim.
 
@@ -74,9 +76,9 @@ yogananda.org uses Amplitude with cross-domain tracking. Our portal uses DELTA-c
 
 Search engine architecture, reading experience, accessibility, DELTA compliance, calm technology principles. This proposal adds *outbound links* and *inbound taxonomy alignment* — it does not modify the portal's core identity.
 
-**Re-evaluate At:** M2a completion, Arc 2 planning
+**Re-evaluate At:** M2a completion, Phase 2 planning
 **Decision Required From:** Architecture (wisdom category mapping, glossary integration depth), Human principal (SRF coordination for bidirectional linking)
-**Origin:** Ecosystem exploration via Playwright MCP snapshots of yogananda.org (2026-03-02). Full findings: `.elmer/proposals/yogananda-org-ecosystem-exploration.md`
+**Origin:** Ecosystem exploration via Playwright MCP snapshots of yogananda.org (2026-03-02).
 
 ## Notes
 

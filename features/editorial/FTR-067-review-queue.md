@@ -1,9 +1,11 @@
 ---
 ftr: 67
 title: Unified Review Queue Abstraction
+summary: "Common UI pattern aggregating all editorial review queues into a single prioritized home screen"
 state: approved-provisional
 domain: editorial
-arc: 3b+
+governed-by: [PRI-03, PRI-12]
+depends-on: [FTR-060]
 ---
 
 # FTR-067: Unified Review Queue Abstraction
@@ -59,7 +61,7 @@ This is a **UI pattern, not a new data model.** Each underlying content type kee
 
 ### Queue Health Monitoring
 
-Review queues grow with every arc. Without monitoring, backlogs can exceed a monastic editor's 2–3 hour daily window for weeks.
+Review queues grow with every milestone. Without monitoring, backlogs can exceed a monastic editor's 2–3 hour daily window for weeks.
 
 **Queue health indicators:**
 - **Oldest unreviewed item** — displayed on editorial home screen

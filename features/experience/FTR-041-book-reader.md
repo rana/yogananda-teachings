@@ -1,9 +1,11 @@
 ---
 ftr: 41
 title: Book Reader
-state: approved
+summary: "Chapter reading surface with server-component core, client islands, and contemplative UX"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-01, PRI-03, PRI-05, PRI-07, PRI-08]
+depends-on: [FTR-040, FTR-043, FTR-044]
 ---
 
 # FTR-041: Book Reader
@@ -11,7 +13,7 @@ arc: "2"
 ## Rationale
 
 
-**Arc:** 2 (Presence) — refinements from M2b analysis
+**Phase:** 2 (Presence) — refinements from M2b analysis
 **Governing:** PRI-01 (Verbatim Fidelity), PRI-03 (Honoring the Spirit), PRI-07 (Accessibility), PRI-08 (Calm Technology)
 **Supersedes:** Reading-related sections scattered across FTR-040 (FTR-040, FTR-040, FTR-040, FTR-040, FTR-040), reading mode definitions in FTR-006 and FTR-052
 **Related:** FTR-043 (Accessibility), FTR-044 (Responsive), FTR-034 (Knowledge Graph), FTR-022 (Book Ingestion)
@@ -214,6 +216,10 @@ This is the book reader's version of what Quiet Corner does for affirmations: a 
 - `[data-zoom-active]` on `<article>` — zoom mode is active
 - `[data-zoom-target]` on the zoomed `<p>` — this is the focused paragraph
 
+**Contemplatio decay:** When a paragraph is zoomed and the reader remains inactive for 45 seconds, the text contrast gradually fades — a contemplative transition from reading to internal silence. See FTR-163 § "Contemplatio decay" for full specification. This supports the *Svadhyaya* practice of returning to the same text repeatedly, where the text remains static but the reader's changing internal state interacts with it differently over time.
+
+**Reading Map integration:** When zoom activates, the ReadingTracker records the passage snippet and timestamp in localStorage for the Personal Reading Map (FTR-166 § "Passages You Lingered With"). This is a side-effect of the existing zoom activation — no additional user gesture required.
+
 **Interaction with Immerse mode:** Zoom works within Immerse. The text is already scaled up; zoom adds the dimming and contemplative stillness. In a satsang, someone might immerse for group reading, then zoom a particular verse for discussion.
 
 **Interaction with Golden Thread:** When a paragraph is zoomed and has connections, the thread indicator appears. Clicking it opens the Golden Thread panel (which re-appears even in Immerse mode for this interaction, then hides again on zoom exit).
@@ -354,7 +360,7 @@ Two layers of progress tracking, both localStorage-only (DELTA-compliant).
 **11.3 Visited Chapters** — Per-book chapter visit tracking:
 - Marks chapter as visited on page load
 - Gold checkmark on the book's table of contents page
-- Supports "X of Y chapters read" display
+- **No linear progress metrics.** The reader never displays "54% completed," "12 minutes left," "X of Y chapters read" as progress bars, percentage indicators, or time-remaining estimates. These metrics impose a linear, completionist mindset fundamentally hostile to contemplative re-reading, which is cyclical and infinite (deep-research-sacred-reading-experience-report.md § 6). Visited chapter checkmarks on the TOC page are acceptable — they show *where you've been*, not *how far you have to go*. The distinction is between spatial memory aid (checkmarks) and industrial completion metric (progress bars).
 
 ---
 
@@ -479,6 +485,20 @@ Print is a first-class reading mode. Seekers print passages — this is an act o
 | Line spacing in global prefs | Line spacing in reader prefs | Scope narrowed |
 | `f` / `p` keyboard shortcuts | `i` keyboard shortcut | Simplified |
 | `d` for dwell | `Enter`/`Space` on focused paragraph | Standard pattern |
+
+---
+
+### 19. Open Design Question: Contemplative Arrival
+
+The portal currently presents chapter text immediately on page load — standard web behavior, aligned with FCP < 1.5s performance budgets. However, research across contemplative traditions (Lectio Divina, Svadhyaya, Tadabbur) consistently finds that **reader internal state affects comprehension** and that sacred reading requires a transition from screen-scrolling mode to contemplative mode before the text can do its work (claude-deep-research-sacred-reading-experience-report.md § 2).
+
+Lectio Divina apps implement this as a "still-yourself timer" before text appears. The Lectio Divina Journal introduces a centering exercise. Pray As You Go uses musical bridges. The portal's Breath Between Chapters (section 9) provides a between-chapters transition but no *entering-the-book* transition.
+
+**The tension:** "fastest possible rendering" vs. "create space for the reader to arrive." Both are principled positions. The research argues that contemplative reading requires arrival; web convention argues that content should never be delayed.
+
+**Possible resolution:** An opt-in "Contemplative entry" reader preference. When enabled, chapter pages show a brief threshold moment — perhaps a verse, an invocation, or simply a breathing prompt — before the text appears. Dismissed instantly on any interaction. Disabled by default. Stored in `srf-reader-prefs` localStorage. This preserves performance-first default while offering the contemplative transition for readers who want it.
+
+**Decision deferred** to Milestone 3a boundary. See CONTEXT.md § Open Questions.
 
 ---
 

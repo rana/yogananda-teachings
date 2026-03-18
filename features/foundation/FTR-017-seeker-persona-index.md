@@ -1,9 +1,9 @@
 ---
 ftr: 17
 title: Seeker & User Persona Index
+summary: "Need-based persona taxonomy: 12 seeker archetypes, 6 staff personas, with inhabit-don't-label principle"
 state: approved
 domain: foundation
-arc: 1+
 governed-by: [PRI-05, PRI-08]
 always-load: true
 ---
@@ -95,7 +95,7 @@ Full profiles in FTR-060. Summary index:
 | Theological reviewer | Core staff | Milestone 3b+ |
 | AE social media staff | Core staff | Milestone 3d+ |
 | Translation reviewer | Core staff (or volunteer) | Milestone 5b+ |
-| AE developer | Core staff | Arc 1+ |
+| AE developer | Core staff | Milestone 1a+ |
 | Leadership (monastic) | Core staff | Milestone 3b+ |
 | Portal coordinator | Operational (unstaffed) | Milestone 3b+ |
 | Book ingestion operator | Operational (unstaffed) | Milestone 2a+ |

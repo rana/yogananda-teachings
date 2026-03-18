@@ -1,9 +1,9 @@
 ---
 ftr: 111
-title: Redundancy, Failover, and Regional Distribution Strategy
+title: "Redundancy, Failover, and Regional Distribution Strategy"
+summary: "Single-region origin with global edge distribution; read replicas at Milestone 5a+ when traffic justifies"
 state: approved
 domain: foundation
-arc: 1+
 governed-by: [PRI-05, PRI-10]
 ---
 
@@ -17,7 +17,7 @@ The portal serves a global audience. Seekers in India, Latin America, Africa, an
 
 ### Decision
 
-Adopt a **single-region origin with global edge distribution** strategy for Arcs 1–4, expanding to **read replicas and cross-region asset replication** at Milestone 5a+ when traffic patterns justify it. No active-active multi-region. The portal is a reading and search tool, not a financial transaction system — the availability requirements are high but not extreme.
+Adopt a **single-region origin with global edge distribution** strategy for Milestones 1a–3d, expanding to **read replicas and cross-region asset replication** at Milestone 5a+ when traffic patterns justify it. No active-active multi-region. The portal is a reading and search tool, not a financial transaction system — the availability requirements are high but not extreme.
 
 ### Architecture by Layer
 
@@ -31,14 +31,14 @@ Adopt a **single-region origin with global edge distribution** strategy for Arcs
 
 Edge caching means a seeker in Mumbai requesting a book chapter gets HTML from a Vercel PoP in Mumbai, a PDF from a CloudFront PoP in Mumbai, and only the search query itself routes to the single-region origin.
 
-**Layer 2: Compute (single-region, Arcs 1–4)**
+**Layer 2: Compute (single-region, Milestones 1a–3d)**
 
 | Service | Region | Failover |
 |---------|--------|----------|
 | Vercel Serverless Functions | `us-west-2` (co-located with Neon and Bedrock) | Vercel provides within-region redundancy. No cross-region failover. |
 | AWS Lambda | Same region as Neon primary | Within-region redundancy (Lambda runs across multiple AZs automatically). |
 
-**Layer 3: Database (single-region with HA, Arcs 1–4)**
+**Layer 3: Database (single-region with HA, Milestones 1a–3d)**
 
 | Service | Strategy | Notes |
 |---------|----------|-------|
@@ -119,7 +119,7 @@ Neon is the portal's database provider for the long term (FTR-094). When Neon sh
 - Primary region: `us-west-2` — co-locates Neon, Bedrock, Lambda, and S3 in a single region
 - Vercel function region co-located with Neon primary
 - Lambda functions deployed to the same region as Neon primary
-- CloudFront distribution configured for all static assets from Arc 1
+- CloudFront distribution configured for all static assets from Milestone 1a
 - Search p95 < 500ms from any continent (achieved by pure hybrid search, no multi-region required)
 - When Neon ships cross-region read replicas: activate via Platform MCP in `ap-south-1` and `eu-central-1`
 - Health check endpoint (`/api/v1/health`) reports database connectivity, enabling uptime monitoring

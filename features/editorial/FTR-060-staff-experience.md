@@ -1,9 +1,9 @@
 ---
 ftr: 60
-title: Staff Experience Architecture — Five-Layer Editorial System
+title: "Staff Experience Architecture — Five-Layer Editorial System"
+summary: "Five-layer staff tooling architecture serving monastics, theologians, translators, developers, and leadership"
 state: approved-provisional
 domain: editorial
-arc: 3b+
 governed-by: [PRI-03, PRI-08, PRI-12]
 ---
 
@@ -168,7 +168,7 @@ The editorial review portal is introduced incrementally, matching the content wo
 |---|---|
 | **Milestone 3b** | Minimal editorial review portal: theme tag review queue, daily passage curation, calendar event management, content preview, tone/accessibility spot-check. Email digest for review notifications. Auth0 roles: `editor`, `reviewer`. |
 | **Milestone 5a** | Social media asset review workflow added to the admin portal. |
-| **Arc 4** | Contentful Custom Apps (sidebar panels). Full admin editorial workflow connecting Contentful authoring (available since Arc 1) with portal review queues. |
+| **Milestone 3b** | Contentful Custom Apps (sidebar panels). Full admin editorial workflow connecting Contentful authoring (available since Milestone 1a) with portal review queues. |
 | **Milestone 5b** | Translation review UI added to admin portal. Auth0 role: `translator:{locale}`. Volunteer reviewer access with minimal permissions. |
 | **Milestone 5b+** | Impact dashboard for leadership. |
 
@@ -180,7 +180,7 @@ The editorial review portal is introduced incrementally, matching the content wo
 | **Everything in Contentful** | Contentful is excellent for content authoring but not designed for AI classification review workflows (approve/reject per passage at scale), social media asset visual review, or translation side-by-side comparison. Forcing these workflows into Contentful's content model would require awkward workarounds. |
 | **Everything in Retool** | Retool can technically build any admin UI, but the result is always "an admin tool." For the AE developer, this is fine. For a monastic editor reviewing whether a passage about inner peace is correctly tagged — the experience matters. Retool's generic form builders and data grids don't support the focused, reverent interaction these workflows demand. |
 | **Third-party editorial workflow tool (Jira, Asana, Monday)** | Introduces a new vendor with its own UX, its own authentication, its own learning curve. Doesn't integrate with portal data (passages, themes, embeddings). Adds cost. The editorial review workflows are specific to this portal's data model — generic project management tools would require extensive customization to be useful. |
-| **Build the admin portal from Arc 1** | Premature. Arc 1 has a single book with a one-time ingestion QA process. The first real demand for review workflows comes in Milestone 3b (theme tagging at scale across multiple books). Building the portal earlier would be over-engineering. |
+| **Build the admin portal from the initial milestones** | Premature. The early milestones have a single book with a one-time ingestion QA process. The first real demand for review workflows comes in Milestone 3b (theme tagging at scale across multiple books). Building the portal earlier would be over-engineering. |
 
 ### Rationale
 
@@ -251,7 +251,7 @@ The portal is maintained by a broader organizational ecosystem than just "staff.
 | **Philanthropist's foundation** | Quarterly or annually | Low | Impact report (PDF/web) | Pre-formatted, narrative impact report they can share with their board. Generated from Impact Dashboard data, curated into a story. No work required. |
 | **Study circle leader** | Weekly preparation | Moderate | Study Workspace + community collections | Find → collect → arrange → share → present. Power seeker of community collections and shared links. Weekly satsanga preparation is the primary use case. |
 
-**Study circle leader — expanded profile:** This is the portal's most demanding external seeker and the primary driver for Arc 6 (Study Workspace) and Milestone 7b (Community Curation) features. The weekly satsanga preparation workflow is: (1) identify a theme or topic for the week, (2) search and browse for relevant passages across multiple books, (3) collect passages into an ordered sequence that builds understanding, (4) add brief contextual notes for group discussion, (5) share the collection with group members via link, (6) present during satsanga using Presentation mode (FTR-006 §5). Until Arc 6, this seeker uses browser bookmarks, manual note-taking, and shared passage links — functional but friction-heavy. The study circle leader also serves as an informal portal evangelist, introducing the portal to group members who may become daily visitors, devoted practitioners, or Quiet Corner seekers. In Indian and Latin American contexts, the study circle leader may be the primary interface between the portal and seekers who are less digitally literate — they project the portal on a shared screen or read passages aloud. Presentation mode's early delivery (consider pulling to Milestones 2b–3a per CONTEXT.md technical open question) directly serves this population.
+**Study circle leader — expanded profile:** This is the portal's most demanding external seeker and the primary driver for Study Workspace (Milestone 7a+) and Community Curation (Milestone 7b) features. The weekly satsanga preparation workflow is: (1) identify a theme or topic for the week, (2) search and browse for relevant passages across multiple books, (3) collect passages into an ordered sequence that builds understanding, (4) add brief contextual notes for group discussion, (5) share the collection with group members via link, (6) present during satsanga using Presentation mode (FTR-006 §5). Until the Study Workspace milestone, this seeker uses browser bookmarks, manual note-taking, and shared passage links — functional but friction-heavy. The study circle leader also serves as an informal portal evangelist, introducing the portal to group members who may become daily visitors, devoted practitioners, or Quiet Corner seekers. In Indian and Latin American contexts, the study circle leader may be the primary interface between the portal and seekers who are less digitally literate — they project the portal on a shared screen or read passages aloud. Presentation mode's early delivery (consider pulling to Milestones 2b–3a per CONTEXT.md technical open question) directly serves this population.
 
 **Staffing open question:** Several operational personas (portal coordinator, book ingestion operator, VLD coordinator) are not yet assigned. SRF must determine whether these are monastic roles, AE team roles, or dedicated positions before Milestone 3b begins. See CONTEXT.md § Open Questions (Stakeholder).
 
@@ -459,7 +459,7 @@ Business logic lives in `/lib/services/` (consistent with FTR-015). The admin ro
 |---|---|
 | **3b** | Minimal admin portal: editorial home, theme tag review, daily passage curation, calendar event management, content preview, tone/accessibility spot-check, portal update review (FTR-092). Auth0 integration. Email digest. |
 | **5a** | Social media asset review added. |
-| **3b** | Contentful Custom Apps (sidebar panels). Full editorial workflow bridging Contentful authoring and portal review queues. (Contentful available from Arc 1; Custom Apps ship with editorial portal.) |
+| **3b** | Contentful Custom Apps (sidebar panels). Full editorial workflow bridging Contentful authoring and portal review queues. (Contentful available from Milestone 1a; Custom Apps ship with editorial portal.) |
 | **5b** | Translation review UI. Volunteer reviewer access with scoped permissions (`translator:{locale}`). |
 | **5b+** | Impact dashboard for leadership. |
 | **7b** | VLD dashboard, curation briefs, trusted submitter workflow. VLD expansion to translation, theme tag, feedback, and QA tiers (as VLD capacity and SRF governance allow). |

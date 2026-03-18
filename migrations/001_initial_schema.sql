@@ -93,7 +93,7 @@ CREATE TABLE book_chunks (
 
   -- Search infrastructure
   embedding VECTOR(1024),
-  embedding_model TEXT NOT NULL DEFAULT 'voyage-3-large',
+  embedding_model TEXT NOT NULL DEFAULT 'voyage-4-large',
   embedding_dimension INTEGER NOT NULL DEFAULT 1024,
   embedded_at TIMESTAMPTZ NOT NULL DEFAULT now(),
   script TEXT,
@@ -336,7 +336,7 @@ CREATE TABLE search_theme_aggregates (
 CREATE INDEX idx_search_themes_period ON search_theme_aggregates(period_start, theme);
 
 -- ============================================================
--- CHAPTER STUDY NOTES (reader annotations — Arc 4)
+-- CHAPTER STUDY NOTES (reader annotations — Milestone 7a+)
 -- ============================================================
 CREATE TABLE chapter_study_notes (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -544,7 +544,7 @@ CREATE TABLE user_profiles (
 );
 
 -- ============================================================
--- INITIAL THEME DATA (Arc 1: six spiritual quality themes)
+-- INITIAL THEME DATA (six spiritual quality themes)
 -- ============================================================
 INSERT INTO teaching_topics (name, slug, category, sort_order, description) VALUES
   ('Peace', 'peace', 'quality', 1, 'Inner peace, calmness, stillness of mind, overcoming restlessness and anxiety, mental tranquility, equanimity in the face of difficulty'),

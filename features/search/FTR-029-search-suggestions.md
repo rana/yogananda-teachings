@@ -1,9 +1,9 @@
 ---
 ftr: 29
 title: "Search Suggestions — Corpus-Derived Autosuggestion"
-state: approved
+summary: "Six-tier corpus-derived suggestion hierarchy with pre-computed static JSON and progressive infrastructure"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-03, PRI-05, PRI-08, PRI-09]
 depends-on: [FTR-026, FTR-028, FTR-033, FTR-021]
 ---
@@ -186,8 +186,8 @@ One script (`scripts/generate-suggestion-dictionary.ts`), run after book ingesti
 
 | Corpus State | Total per language |
 |-------------|-------------------|
-| 1 book (Arc 1) | ~500 |
-| 5 books (Arc 2) | ~1,500 |
+| 1 book (Milestone 1a) | ~500 |
+| 5 books (Phase 2) | ~1,500 |
 | 25 books (full) | ~5,000 |
 
 Well within Tier A (static JSON) capacity at all scales.
@@ -249,9 +249,9 @@ When client-side prefix filtering returns fewer than `SUGGEST_FUZZY_THRESHOLD` r
 
 **API:** `GET /api/v1/search/suggest?q={prefix}&language={lang}&limit={n}`. Response shape matches static JSON for client-side uniformity: `{ data: [{ text, display, type, weight }] }`. No Claude API call. No auth required. Cache-Control from `SUGGEST_CACHE_MAX_AGE` config constant.
 
-#### Tier C: Vercel KV (Conditional)
+#### Tier C: Vercel KV (Conditional — Re-evaluate)
 
-Vercel KV (Upstash Redis) for sub-10ms server-side prefix search. **Not activated.** Migration triggers (sustained 7 days): p95 latency > 30ms, dictionary > 50K entries/language, or real-time freshness needed. Re-evaluate at Arc 3 boundary.
+Originally specified as Vercel KV (Upstash Redis) for sub-10ms server-side prefix search. **Not activated.** Vercel KV was sunset December 2024 and migrated to Upstash Redis direct. Additionally, Edge Function bundle limits (2-4MB) preclude holding suggestion dictionaries at edge, and Edge Function P50 latency (106ms per OpenStatus.dev benchmarks) is 20-100x slower than cached static JSON. If server-side sub-10ms search is ever needed, evaluate Upstash Redis direct or a client-side solution (MiniSearch) instead. Re-evaluate at Phase 3 boundary — current Tier A + B architecture likely sufficient through full corpus scale (~50K entries/language).
 
 ---
 
@@ -275,6 +275,8 @@ Keystroke → adaptive debounce →
 - **Multi-word scoring:** Start match (1.0) > word-boundary match (0.8) > substring match (0.5). Score multiplied by pre-computed weight for final ranking.
 - **Tier B failure:** Silent degradation — stays with Tier A results. 3s timeout. On 2G, Tier B not fired at all.
 - **Module-scoped cache:** Static JSON loads once per language, persists across renders.
+- **IME composition guard:** A strict `isComposing` boolean lock suppresses all suggestion fetches, dropdown rendering, and Tier B calls during IME composition. Set `true` on `compositionstart`, reset `false` on `compositionend`. On `compositionend`, immediately trigger suggestion logic using the committed text — this is the reliable trigger point, not the `input` event (Chrome/Safari fire `compositionend` *before* the final `input` event where `isComposing` is still `true`; Firefox differs; w3c/uievents#202 open). Accounts for browser quirks: Chrome omits the final `keyup` after `compositionend`; Safari emits a synthetic `keydown` with keyCode 229. **Android Gboard caveat:** Gboard uses Android IME APIs for all text entry including English — Chrome 65+ fires `compositionstart`/`compositionupdate` for standard Gboard input. Naive `isComposing` suppression would suppress suggestions for *all* typing on Android Chrome. Mitigation: Gboard ends composition on space, producing natural per-word suggestion updates. The guard must account for this — suppress during active composition but allow space-delimited updates. In React, use `event.nativeEvent.isComposing` (React synthetic events do not expose `isComposing`; React issue #13104 open). ARIA during composition: suppress `aria-live` updates, set `aria-busy="true"` on the listbox, do not update `aria-activedescendant` (arrow keys belong to the IME, not the suggestion list). Non-negotiable for non-Latin script input.
+- **Voice input detection:** Primary method: input velocity heuristic — character delta > 5 in a single `input` event indicates speech-to-text or paste (physically impossible for human typing at >20 chars). Secondary: `event.inputType === 'insertFromDictation'` where available (Safari non-standard; not reliably cross-browser despite Input Events Level 2 spec). When voice input is detected, bypass adaptive debounce entirely — the query has arrived fully formed. Route the complete phrase to prefix match against the full suggestion set. This addresses the 40% rural voice input rate in India (Nielsen 2023) and 65% overall Indian voice search usage (IAMAI 2023).
 
 **Suggestion display:** Lightweight type indicators, not section headers. Each `suggestion_type` has distinct visual treatment (see The Experience scenes above). Ordering: highest `weight × matchScore` first; type as tiebreaker (scoped > entity > topic > sanskrit > chapter > curated). Bridge suggestions always appear when matched. No explicit group headers.
 
@@ -293,7 +295,7 @@ The suggestion dropdown implements the ARIA combobox pattern (WAI-ARIA 1.2):
 - Screen reader announces each suggestion as arrow keys navigate, including type metadata
 - Bridge hints announced as supplementary text ("Yogananda's terms: concentration, one-pointed attention, interiorization")
 - Sanskrit definitions announced as part of the option label
-- Type indicators announced via visually hidden text within the `role="option"` element: `<span class="sr-only">topic</span>` for screen readers, visible secondary text for sighted users. Bridge hints use a nested description: `aria-describedby` pointing to the bridge term list.
+- Type indicators announced via visually hidden text prefixing the accessible name within the `role="option"` element (e.g., "Book: Autobiography of a Yogi", "Sanskrit term: Samadhi") — this is the most reliable cross-screen-reader pattern. Bridge hints and Sanskrit definitions use `aria-describedby` pointing to supplemental description elements as the primary mechanism. Progressive enhancement: `aria-description` (WAI-ARIA 1.3) on the `role="option"` node provides cleaner supplemental announcements but is only reliable in NVDA and iOS VoiceOver as of 2026 (JAWS and TalkBack support lags; `aria-details` is unreachable across screen readers per WebAIM May 2025 testing). The prefixed accessible name ensures all assistive technology announces type context regardless of `aria-description` support. Note: `role="group"` for suggestion type sections breaks VoiceOver (documented React Aria bug) — use flat `role="listbox"` with prefixed names instead.
 - High contrast mode: suggestion types distinguished by prefix text, not color alone
 - Touch targets: 44x44px minimum (PRI-07, FTR-003)
 - Mobile: maximum `SUGGEST_MAX_MOBILE` (5) suggestions visible to accommodate virtual keyboard
@@ -467,7 +469,7 @@ All suggestion parameters live in `/lib/config.ts` under the `SUGGEST_*` and `SU
 
 2. **Bridge hint continuation into search results.** When a bridge-activated suggestion is submitted, the search results page should show "Showing results for 'concentration' (Yogananda's terms for mindfulness)." The mechanism for passing bridge context from the suggestion component to the search results page is specified conceptually but not technically — query parameter? Search service metadata? Needs resolution during implementation.
 
-3. **CJK/Thai suggestion tokenization.** Deferred to Milestone 5b. No word boundaries means prefix-matching is fundamentally different. Evaluate n-gram prefix files vs. server-side tokenization when actual CJK content is ingested.
+3. **CJK/Thai suggestion tokenization.** Deferred to Milestone 5b. No word boundaries means prefix-matching is fundamentally different. Evaluate n-gram prefix files vs. server-side tokenization when actual CJK content is ingested. **Partially resolved:** IME composition guard (§ Client Architecture) prevents suggestion dropdown collision with IME candidate windows for all non-Latin scripts. The tokenization/segmentation question for prefix matching in boundary-less scripts remains open.
 
 4. **FTR-032 Tier 5 operational path.** FTR-032 specifies aggregate trend reporting ("What Is Humanity Seeking?") but not the Tier 5 editorial candidate pipeline. The mechanism — flagging queries that cross the `SUGGEST_LEARNED_QUERY_THRESHOLD` from different calendar days, presenting them in an editorial review queue — needs operational specification, either in FTR-032 or as a subsection here.
 
@@ -475,7 +477,7 @@ All suggestion parameters live in `/lib/config.ts` under the `SUGGEST_*` and `SU
 
 6. **RTL language suggestion display.** Arabic and Urdu (Tier 3, Milestone 5b) use RTL script. The dropdown's type indicators (right-aligned secondary text) reverse in RTL. The dropdown should inherit document direction (`dir` attribute) and type indicators should use logical positioning (`inline-end`). Design decision recorded; implementation deferred to Milestone 5b.
 
-7. **Voice input and prefix matching.** Dictated input (mobile speech-to-text) arrives as complete words, not character-by-character keystrokes. The adaptive debounce and prefix-file architecture assume typed input. Voice input may bypass the zero-state → prefix → fuzzy flow entirely. Evaluate when mobile usage data is available.
+7. ~~**Voice input and prefix matching.**~~ **Resolved.** Dictated input detected primarily via input velocity heuristic (>5 chars in single input event); `inputType === 'insertFromDictation'` as secondary signal where available (Safari non-standard, not cross-browser). See § Client Architecture. Voice input bypasses adaptive debounce and routes the complete phrase to prefix match against the full suggestion set. Semantic routing deferred to Milestone 3b+ when the suggestion dictionary exceeds bridge coverage.
 
 8. **Golden evaluation set maintenance.** When new books change the top-3 for established prefixes, who decides whether to update expectations or fix the pipeline? Protocol: pipeline failures are reviewed by the AI operator; expectation updates require editorial sign-off. Formalize during first pipeline run.
 

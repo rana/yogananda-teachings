@@ -1,10 +1,11 @@
 ---
 ftr: 114
 title: Neon Auth as Auth0 Alternative
+summary: "Evaluate Neon Auth (managed Better Auth, 60K MAU free) as alternative to Auth0 for optional authentication"
 state: proposed
 domain: foundation
-arc: 7+
-governed-by: [FTR-094]
+governed-by: [PRI-10]
+depends-on: [FTR-094]
 re-evaluate-at: Milestone 7a scoping
 ---
 

@@ -1,5 +1,5 @@
 /**
- * HyDE — Hypothetical Document Embedding (M2b-12, FTR-027).
+ * HyDE — Hypothetical Document Embedding (M3a-11, FTR-027).
  *
  * Generates a hypothetical passage in Yogananda's register via Claude Bedrock.
  * The passage is then embedded as a document (not a query) and used for

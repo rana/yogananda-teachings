@@ -1,10 +1,11 @@
 ---
 ftr: 130
 title: Cross-Tradition Concordance as Primary Search Lens
+summary: "Christ-Krishna concordance surfacing Yogananda's own cross-tradition parallels as a first-class search lens"
 state: proposed
 domain: search
-arc: 3c+
-governed-by: [FTR-028, FTR-039, FTR-030]
+governed-by: [PRI-01, PRI-03]
+depends-on: [FTR-028, FTR-039, FTR-030]
 ---
 
 # FTR-130: Cross-Tradition Concordance as Primary Search Lens

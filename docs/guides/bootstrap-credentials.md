@@ -38,18 +38,18 @@ One-time credential provisioning required before the first deployment. The human
 |---|---|---|---|
 | **AWS Bedrock model access** | AWS Console → Bedrock → Model Access (`us-west-2`) | Claude Haiku inference | Enabled for the `portal-vercel-runtime` IAM role |
 
-## Arc 2 (observability + MCP)
+## Milestone 3d (observability + MCP)
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
 | **New Relic User API key** | one.newrelic.com → API Keys → Create (User type) | MCP server: NRQL queries, alerts, APM, deployments | `.env.local` `NEW_RELIC_API_KEY` + VS Code MCP config |
 | **New Relic Account ID** | one.newrelic.com → Account Settings | Scoping API queries (optional — can pass per query) | `.env.local` `NEW_RELIC_ACCOUNT_ID` |
 
-## Later milestones (not needed for Arc 1)
+## Later milestones (not needed for Milestone 1a–1c)
 
 | Credential | When | Notes |
 |---|---|---|
-| YouTube API Key | Arc 2 (video integration) | Google Cloud Console → Secrets Manager |
+| YouTube API Key | Milestone 3d+ (video integration) | Google Cloud Console → Secrets Manager |
 | Amplitude API Key | Milestone 3d (analytics) | Amplitude dashboard (`NEXT_PUBLIC_*` — Vercel env var, not Secrets Manager) |
 | SendGrid API Key | Milestone 5a (email) | SendGrid dashboard → Secrets Manager (FTR-154; see FTR-151 for SES alternative) |
 | ~~Cloudflare API Token~~ | Removed from portal stack (FTR-118) | If SRF routes domain through Cloudflare, add at that point |

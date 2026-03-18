@@ -1,10 +1,11 @@
 ---
 ftr: 34
 title: "Knowledge Graph — Structured Spiritual Ontology and Postgres-Native Graph Intelligence"
+summary: "Postgres-native concept graph with ontology_concepts, ontology_edges, and JSON-LD export of Yogananda's teaching framework"
 state: approved
 domain: search
-arc: 3b+
 governed-by: [PRI-03, PRI-10]
+depends-on: [FTR-033]
 ---
 
 # FTR-034: Knowledge Graph
@@ -33,7 +34,7 @@ Build a **structured spiritual ontology** — a concept graph of Yogananda's tea
 
 ```sql
 -- ============================================================
--- SPIRITUAL ONTOLOGY (concept graph — Arc 4+)
+-- SPIRITUAL ONTOLOGY (concept graph — Milestone 3b+)
 -- ============================================================
 CREATE TABLE ontology_concepts (
  id UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -136,7 +137,7 @@ Initial seed: the Living Glossary (FTR-062) terms, already defined. The ontology
 
 #### Scheduling
 
-Arc 4+ (alongside Knowledge Graph, FTR-124). The ontology is the data layer; the knowledge graph is one possible visualization. Initial seed (~50 core concepts, ~150 relations) can be curated during Milestone 3a through Arc 3 editorial work.
+Milestone 3b+ (alongside Knowledge Graph, FTR-124). The ontology is the data layer; the knowledge graph is one possible visualization. Initial seed (~50 core concepts, ~150 relations) can be curated during Milestone 3a–3d editorial work.
 
 #### Rationale
 
@@ -203,7 +204,7 @@ Implement graph intelligence **within the single-database architecture** (FTR-10
 - Results merged into RRF alongside PATH A (vector) and PATH B (BM25)
 
 **Phasing:**
-- **Arc 1:** Graph ontology designed and documented in FTR-034/055. Entity registry and extracted_relationships tables created.
+- **Milestones 1a–2b:** Graph ontology designed and documented in FTR-034/055. Entity registry and extracted_relationships tables created.
 - **Milestone 3b:** Graph algorithm batch pipeline (Python + NetworkX). PATH C activated in search pipeline. Knowledge graph foundation: all node types and edge types populated.
 - **Milestone 5a:** Concept/word graph fully constructed: cross-tradition equivalences, progression chains, co-occurrence edges.
 
@@ -237,13 +238,13 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 - FTR-020 (Search Architecture) PATH C uses multi-step SQL queries in `/lib/services/graph.ts`
 - Milestone 3b in ROADMAP.md adds graph algorithm batch pipeline (Python + NetworkX), not Neptune provisioning
 - No infrastructure configuration for graph infrastructure — batch job runs as Lambda or Vercel cron
-- Graph ontology designed from Arc 1 and documented in FTR-034/055
+- Graph ontology designed from the initial milestones and documented in FTR-034/055
 
 ## Specification
 
 ### FTR-034: Knowledge Graph Ontology
 
-The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed in Arc 1; graph intelligence becomes active in Milestone 3b via Postgres tables + Python batch computation (FTR-034).
+The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed from the initial milestones; graph intelligence becomes active in Milestone 3b via Postgres tables + Python batch computation (FTR-034).
 
 #### Node Types
 
@@ -331,7 +332,7 @@ This three-step pattern replaces the single openCypher query that Neptune Analyt
 
 ### FTR-034: Concept/Word Graph
 
-The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (Milestone 3b+, Path C in FTR-020) and the Concept Graph UI exploration (Arc 6).
+The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (Milestone 3b+, Path C in FTR-020) and the Concept Graph UI exploration (future milestones).
 
 #### Term Node Schema
 
@@ -347,7 +348,7 @@ Each term in the concept graph is a node with:
   domain: "consciousness",         // Domain classification
   depth_level: 6,                  // Experiential depth (1–7)
   definition_srf: "...",           // SRF-specific definition
-  embedding: [...]                 // Voyage voyage-3-large embedding
+  embedding: [...]                 // Voyage voyage-4-large embedding
 }
 ```
 

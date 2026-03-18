@@ -1,10 +1,11 @@
 ---
 ftr: 162
-title: Transition-Based Navigation — Emotional State-Pair Journeys
+title: "Transition-Based Navigation — Emotional State-Pair Journeys"
+summary: "Curated emotional state-pair passage sequences guiding seekers from origin to destination states"
 state: proposed
 domain: experience
-arc: 3b+
-governed-by: [PRI-03, PRI-04, FTR-038, FTR-028, FTR-034]
+governed-by: [PRI-03, PRI-04]
+depends-on: [FTR-028, FTR-034, FTR-038]
 ---
 
 # FTR-162: Transition-Based Navigation
@@ -80,7 +81,7 @@ This is heavy curation. Initial launch should target 6–10 high-demand transiti
 
 ### Re-evaluate At
 
-Arc 3b boundary — after Knowledge Graph (FTR-034) and Vocabulary Bridge (FTR-028) are operational. Editorial capacity assessment required.
+Milestone 3b boundary — after Knowledge Graph (FTR-034) and Vocabulary Bridge (FTR-028) are operational. Editorial capacity assessment required.
 
 ### Decision Required From
 
@@ -95,3 +96,22 @@ Editorial + theological review: Does organizing teachings by emotional transitio
 - **Origin:** Extracted from archived proposal during FTR novelty audit (2026-03-05)
 - The original proposal suggested URL syntax "/from: afraid to: peaceful" — actual URL strategy should follow FTR-132 conventions (e.g., `/journeys/afraid-to-peaceful`)
 - Related to but distinct from FTR-138 (Four Doors): doors are entry points; transitions are journeys through content
+
+### Discovery Research Integration (March 2026)
+
+Research from liturgical design, museum curation, and anthology editing (deep-research-report-discovery-without-surveillance-2026.md) provides concrete sequencing patterns for transition arcs:
+
+**The Liturgical Energy Curve.** Centuries of homiletic practice confirm a 4-step optimal arc for moving seekers between emotional states:
+
+1. **Acknowledgment** — a passage validating the origin state (the fear, the grief, the restlessness). The seeker must feel recognized before they can move.
+2. **Principle** — a passage offering philosophical perspective (the transient nature of material conditions, the larger spiritual context).
+3. **Climax** — a catalytic passage instructing on a specific contemplative response (practice, reframing, surrender). The point of highest transformative intensity.
+4. **Consolation** — a deeply consoling passage describing the destination state (the peace beyond fear, the acceptance beyond grief). Integration and stillness.
+
+This maps directly to the 3–7 passage range already specified. For 3-passage arcs: Acknowledgment → Climax → Consolation. For 5+: the full curve with bridging passages.
+
+**Sensory and Emotional Bridging.** To transition from state A to state C, locate intermediary passages that contain metadata elements of both. Moving from Fear to Peace: the bridge passage must acknowledge the storm (Fear) while introducing the shelter (Peace). The portal's emotional quality and rasa metadata enable this — query for passages with mixed emotional signatures.
+
+**Anthology Framing Notes.** The one-sentence editorial notes per passage should explicitly illuminate the emotional shift. Not "Here is a related passage" but "Here, Yogananda's voice shifts from acknowledging the weight of fear to revealing the courage already present within..." This is the museum audio guide pattern — the docent whispering context between artworks.
+
+**Bounded sequences prevent fatigue.** Research across museum exhibitions and media consumption confirms that beyond 5–7 highly demanding items, cognitive fatigue sets in without a substantial change in mode. The 3–7 passage limit already specified is research-validated. Prefer 4–5 for emotionally intense transitions.

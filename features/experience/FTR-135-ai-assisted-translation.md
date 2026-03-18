@@ -1,9 +1,9 @@
 ---
 ftr: 135
 title: AI-Assisted Translation Workflow
+summary: "Claude-drafted UI translations with mandatory human review; sacred text translation prohibited"
 state: approved-provisional
 domain: experience
-arc: "2"
 governed-by: [PRI-01, PRI-06]
 ---
 

@@ -1,10 +1,10 @@
 ---
 ftr: 77
 title: "The Librarian — AI Search Brand Identity"
+summary: "External brand identity positioning the AI as a librarian that finds verbatim words, never generates"
 state: approved
 domain: editorial
-arc: 2a+
-governed-by: [PRI-01]
+governed-by: [PRI-01, PRI-03]
 ---
 
 # FTR-077: The Librarian

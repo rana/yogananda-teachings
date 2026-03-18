@@ -1,16 +1,18 @@
 ---
 ftr: 70
 title: Feature Catalog (RAG Architecture Proposal)
+summary: "Catalog of adopted RAG proposal features with milestone assignments and governing FTR references"
 state: approved-provisional
 domain: editorial
-arc: 3a+
+governed-by: [PRI-01, PRI-10]
+depends-on: [FTR-030, FTR-034, FTR-026]
 ---
 
 # FTR-070: Feature Catalog (RAG Architecture Proposal)
 
 ## Rationale
 
-This section catalogs the features proposed in the RAG Architecture Proposal (`docs/reference/RAG_Architecture_Proposal.md`) that were accepted for integration into the project. Each feature has a milestone assignment, governing ADRs, and key dependencies. The reference document contains the full design exploration; this catalog tracks what was adopted and when it ships.
+This section catalogs the features proposed in the RAG Architecture Proposal (`docs/reference/rag-architecture-proposal.md`) that were accepted for integration into the project. Each feature has a milestone assignment, governing ADRs, and key dependencies. The reference document contains the full design exploration; this catalog tracks what was adopted and when it ships.
 
 ### Accepted for Design Integration
 
@@ -18,7 +20,7 @@ These features are actively designed into the architecture and have governing AD
 
 | Feature | Milestone | Governing ADRs | Key Dependencies |
 |---------|-----------|----------------|------------------|
-| **Related Teachings — Categorized** | 3a (similarity), 3b+ (graph-categorized) | FTR-030, FTR-034 | Chunk relations (Arc 1), graph batch pipeline (Milestone 3b) |
+| **Related Teachings — Categorized** | 3a (similarity), 3b+ (graph-categorized) | FTR-030, FTR-034 | Chunk relations (Milestone 1a), graph batch pipeline (Milestone 3b) |
 | **Contemplative Companion** | 3d+ | FTR-030, FTR-026, FTR-034 | Enrichment metadata (experiential_depth, voice_register), knowledge graph |
 | **Scripture-in-Dialogue** | 3d | FTR-034, FTR-033 | Scripture nodes in knowledge graph, verse-level chunking for Gita/Bible commentaries |
 | **Reading Arc** | 5a | FTR-034, FTR-026 | Graph algorithms (PageRank, betweenness centrality), experiential depth progression |
@@ -40,14 +42,14 @@ These features are documented and milestone-assigned but not yet actively design
 
 | Feature | Milestone | Key Dependency | Notes |
 |---------|-----------|---------------|-------|
-| **Knowledge Graph Exploration UI** | Arc 6 | FTR-034, graph batch | react-force-graph-3d, interactive 3D visualization |
-| **Concept/Word Graph Exploration UI** | Arc 6 | FTR-034, graph batch | D3 + WebGL progressive enhancement |
+| **Knowledge Graph Exploration UI** | Future milestones | FTR-034, graph batch | react-force-graph-3d, interactive 3D visualization |
+| **Concept/Word Graph Exploration UI** | Future milestones | FTR-034, graph batch | D3 + WebGL progressive enhancement |
 | **Lineage Voice Comparator** | 5a | FTR-034, FTR-026 | Compare how Yogananda and his gurus discuss the same concept |
 | **Evolution of a Teaching** | 5a | FTR-034, temporal metadata | How Yogananda's expression of a concept evolved across books over decades |
 | **Cosmic Chants as Portal** | Distributed | FTR-034, chant content | If chants are in corpus scope: verse-by-verse with Yogananda's explanations |
 | **Passage Genealogy** | 5a | FTR-034, cross-reference extraction | The lineage of thought behind each passage — what influenced it |
 | **Semantic Drift Detection** | 5a | FTR-026, temporal metadata | Staff tool: detect when the same term shifts meaning across books |
-| **Consciousness Cartography** | Arc 6+ | FTR-034, FTR-034, graph batch | Stretch goal: visual map of consciousness states and their relationships |
+| **Consciousness Cartography** | Future milestones | FTR-034, FTR-034, graph batch | Stretch goal: visual map of consciousness states and their relationships |
 
 ### Explicitly Omitted
 

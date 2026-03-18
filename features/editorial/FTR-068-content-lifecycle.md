@@ -1,9 +1,11 @@
 ---
 ftr: 68
 title: Content Lifecycle Management
+summary: "Human workflows and operational procedures for book ingestion, theme curation, and content maintenance"
 state: approved-provisional
 domain: editorial
-arc: 3b+
+governed-by: [PRI-01, PRI-02, PRI-12]
+depends-on: [FTR-022, FTR-060]
 ---
 
 # FTR-068: Content Lifecycle Management

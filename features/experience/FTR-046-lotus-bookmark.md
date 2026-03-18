@@ -1,9 +1,10 @@
 ---
 ftr: 46
 title: Lotus Bookmark
-state: approved-provisional
+summary: "Client-side localStorage bookmarking for chapters and passages with lotus icon UX"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-08, PRI-09]
 ---
 
 # FTR-046: Lotus Bookmark

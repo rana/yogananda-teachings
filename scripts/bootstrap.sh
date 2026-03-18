@@ -22,7 +22,7 @@
 #
 # After this script completes, tell Claude: "Bootstrap complete. Run terraform."
 #
-# Governing refs: DES-039, ADR-016, ADR-020, ADR-125, ADR-126
+# Governing refs: FTR-095, FTR-106, FTR-110, FTR-112, FTR-113
 
 set -euo pipefail
 

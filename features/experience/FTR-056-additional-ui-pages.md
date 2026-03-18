@@ -1,9 +1,10 @@
 ---
 ftr: 56
 title: Additional UI Pages
-state: approved
+summary: "Personal library, browse index, and supplementary pages beyond core reading and search"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-08, PRI-09]
 ---
 
 # FTR-056: Additional UI Pages
@@ -177,7 +178,7 @@ A single, high-density text page listing every navigable content item in the por
 | 3b | + Themes (all active categories), Glossary terms, Quiet Corner textures |
 | 3c | + People, External References, Reading Threads |
 | 3d+ | + Knowledge Graph link, Calendar Journeys |
-| Arc 4+ | + Magazine archives, Ontology concepts |
+| Post-M3d | + Magazine archives, Ontology concepts |
 
 **Milestone:** 2a (initial, books-only version). Grows automatically with each subsequent milestone.
 
@@ -552,7 +553,7 @@ All organization uses index-time enrichment data computed under the editorial re
 
 **Relationship to theme pages.** Theme pages (`/themes/{slug}`) show all passages tagged with a single curated theme. Thematic exploration is broader — a seeker's question may span multiple themes, and the exploration surfaces that cross-theme structure. "Forgiveness" might pull passages tagged under Compassion, Karma, and Divine Love as well as Forgiveness itself. The theme page is a known destination; the exploration is a discovery tool.
 
-**No account required.** Consistent with the portal's anonymous experience through Arc 6 (FTR-002, FTR-009). Individual passages found during exploration can be saved via Lotus Bookmarks (FTR-046). The exploration itself is stateless — the seeker can re-enter the same question anytime.
+**No account required.** Consistent with the portal's anonymous experience through Milestone 7a (FTR-002, FTR-009). Individual passages found during exploration can be saved via Lotus Bookmarks (FTR-046). The exploration itself is stateless — the seeker can re-enter the same question anytime.
 
 **Contextual feedback.** When a passage feels inappropriate for a given exploration context, seekers can flag via the DELTA-compliant feedback mechanism (FTR-061). Feedback is categorized (see FTR-069 § Feedback Categorization) and routed to editorial staff. Over time, patterns in contextual feedback may inform a new enrichment dimension — audience suitability — but this is a future consideration (see CONTEXT.md § Open Questions), not a Milestone 3b requirement.
 

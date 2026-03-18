@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Deployment ceremony — M1c-18 (DES-060 § Layer 3).
+# Deployment ceremony — M1c-18 (FTR-096 § Layer 3).
 #
 # Orchestrates full deployment:
 #   1. doc-validate → 2. build → 3. release tag → 4. deploy manifest → 5. deploy → 6. health check
 #
-# CI-agnostic per ADR-018. Can be run locally or in CI.
+# CI-agnostic per FTR-108. Can be run locally or in CI.
 #
 # Usage:
 #   ./scripts/deploy.sh [--skip-validate] [--skip-deploy] [--dry-run]
@@ -32,7 +32,7 @@ echo ""
 if [ "$SKIP_VALIDATE" = false ]; then
   echo "▶ Step 1/6: Document validation"
   if [ -f scripts/doc-validate.sh ]; then
-    bash scripts/doc-validate.sh || echo "  ⚠ Doc validation had warnings (advisory in Arc 1)"
+    bash scripts/doc-validate.sh || echo "  ⚠ Doc validation had warnings (advisory)"
   else
     echo "  ⚠ doc-validate.sh not found, skipping"
   fi

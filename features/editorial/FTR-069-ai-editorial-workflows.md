@@ -1,10 +1,11 @@
 ---
 ftr: 69
 title: AI-Assisted Editorial Workflows
+summary: "Consolidated reference of 25+ AI-propose/human-approve workflows across the content pipeline"
 state: approved-provisional
 domain: editorial
-arc: 1+
 governed-by: [PRI-01, PRI-12]
+depends-on: [FTR-105, FTR-098]
 ---
 
 # FTR-069: AI-Assisted Editorial Workflows
@@ -307,7 +308,7 @@ Sometimes the right AI behavior is to decline. A low-confidence proposal can be 
 
 **Abstention rates** are tracked per workflow as a health metric. Rising abstention in a workflow signals either corpus gaps or prompt degradation — both worth investigating.
 
-**Arc:** 1 (abstention capability ships with the first AI-assisted workflow; confidence floors are calibrated during Full Review operation).
+**Milestone:** 1a (abstention capability ships with the first AI-assisted workflow; confidence floors are calibrated during Full Review operation).
 
 ### Workflow Dependency Graph
 
@@ -383,4 +384,4 @@ Each prompt file includes:
 
 The existing `/lib/data/guide-prompts/` directory is subsumed into the unified structure. The `/lib/data/spiritual-terms.json` vocabulary bridge remains a separate file consumed by multiple prompts.
 
-**Arc:** 1 (directory structure created at repo setup; initial prompts for search intent classification and ingestion QA are the first entries).
+**Milestone:** 1a (directory structure created at repo setup; initial prompts for search intent classification and ingestion QA are the first entries).

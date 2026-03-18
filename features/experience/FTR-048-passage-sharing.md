@@ -1,9 +1,10 @@
 ---
 ftr: 48
 title: Passage Sharing
-state: approved
+summary: "Native Web Share API on mobile with copy-link and email fallback for desktop"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-02, PRI-05]
 ---
 
 # FTR-048: Passage Sharing

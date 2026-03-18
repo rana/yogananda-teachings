@@ -1,10 +1,11 @@
 ---
 ftr: 104
 title: Single Database Architecture
+summary: "Neon PostgreSQL as single database for content, search, embeddings, relations, and operational data"
 state: approved
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
+depends-on: [FTR-101]
 ---
 
 # FTR-104: Single Database Architecture

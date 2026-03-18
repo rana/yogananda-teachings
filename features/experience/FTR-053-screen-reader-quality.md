@@ -1,9 +1,11 @@
 ---
 ftr: 53
 title: Screen Reader Quality
-state: approved-provisional
+summary: "Human-speech ARIA labels and natural citation reading for screen reader atmosphere"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-03, PRI-07]
+depends-on: [FTR-003, FTR-043]
 ---
 
 # FTR-053: Screen Reader Quality

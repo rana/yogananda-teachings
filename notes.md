@@ -1,6 +1,26 @@
 # Notes
 
 ---
+/explore My intent is world class amazing accessibility for handicapped, impaired audience. I'm thinking of: 1) surveying existing project coverage; 2) running skill `gaps`; 3) surveying with Gemini Deep Research modern 2026 accessibility; 4) synthesizing all for a modern 2026, world class amazing experience for handicapped, impaired audience. Then document research report. Analyze research report. Then sythesize into project. Do we have canonical FTR as well as properly cross referencing? What am I attempting to achieve?
+
+---
+/explore How would you design a prompt for Google Gemini Deep Research into modern 2026 autosuggestion features for the Yogananda Teachings portal?
+
+Read core markdown documents to ground yourself.
+
+Read `features/search/FTR-029-search-suggestions.md` to view current visions.
+
+Some background information which may inform deep research:
+- What is the entire Self-Realization Fellowship/YSS corpus (books, magazines, etc)? How many total books across all languages? How many books in each language? Auto suggestion to support multiple languages.
+- What is the technology stack briefling for the deep research? Read `docs/reference/SRF Tech Stack Brief-3.md`. **SRF Tech Stack Brief-3.md** — SRF's established technology stack (AWS, Vercel, Contentful, Neon, Auth0, etc.). **Conformance note:** This document is prescriptive for SRF projects. When designing infrastructure, compare choices against this brief and document divergences with explicit justification. The portal adopted Secrets Manager (FTR-112) and OIDC (FTR-113) aligned with this standard; SSM Parameter Store deferred with documented rationale. See FTR-112 § "SSM Parameter Store — Deferred, Not Rejected."
+
+Thoughts for `features/search/FTR-029-search-suggestions.md`:
+- What is modern 2026 that hasn't been considered?
+- What is a world class amazing experience for a global audience?
+- What is well-aligned with the SRF technical stack?
+- What has yet to be considered?
+
+---
 /invoke
 Search bar auto-suggestions.
 Image a world-class amazing experience like Google derived from the entire corpus of Self-Realization Fellowship material per language. Global-first CDN distribution with minimal, near instantaenous auto suggestions. Word
@@ -436,7 +456,7 @@ Ensure mobile is equally supported as desktop.
 
 Verbatim directives for alignment with sacred core mission. Add directive prohibiting AI generated voice, image and video for original Yogananda source materials. Complies with spirit of verbatim sacred transmission of original source material. Determine where to record directive. One ADR for all media types with call outs to each media type? Or? See "Direct Quotes Only", "Sacred Text Fidelity" in `/home/rana/prj/srf-yogananda-teachings/PRINCIPLES.md`. These suggestions are similar to text, but for other media types. Mild adjacent allowances for human book readings (Monastic, Actor, etc), Aria text readers, etc. Additional allowances for non-guru related material. For example, ok to AI generate decorative images to support site user experience. Okay to generate bell chimes for site user experience. Not okay to have AI read sacred texts. Enstrust sacred transmission of words to monastics reading aloud. CRUD ADRs, DESs, PROs to support this change.
 
-Full support for web crawlers (search engines, AI LLMs). In relation to Yogananda's mission, and that of the teachings portal, what do you see for, against, and through for fully supporting web crawlers? I see it fully disseminating the work through the world and creating a discovery vector when people use those tools. When we enable citation it drives traffic to srf teachings portal. Also note that non-authorized copies have already been disseminated and absrobed in search engines and LLMs. LLMs are well aware of Yogananda's work. Better that they have high fidelity source material to work with. One possible drawback and grey area is copyright scenarios. The alternative is some technology wall such as FlipBooks3D or similar, which may impede dissemination across the world, such as mobile phones in rural Bihar, etc for Global Equity. On balance, I lean towards full web crawler dissemination. Read file on copyright stance `/home/rana/prj/srf-yogananda-teachings/.elmer/proposals/clarify-copyright-stance-srf-makes-it-feel-available-to-all.md`.
+Full support for web crawlers (search engines, AI LLMs). In relation to Yogananda's mission, and that of the teachings portal, what do you see for, against, and through for fully supporting web crawlers? I see it fully disseminating the work through the world and creating a discovery vector when people use those tools. When we enable citation it drives traffic to srf teachings portal. Also note that non-authorized copies have already been disseminated and absrobed in search engines and LLMs. LLMs are well aware of Yogananda's work. Better that they have high fidelity source material to work with. One possible drawback and grey area is copyright scenarios. The alternative is some technology wall such as FlipBooks3D or similar, which may impede dissemination across the world, such as mobile phones in rural Bihar, etc for Global Equity. On balance, I lean towards full web crawler dissemination. Review copyright stance (see FTR files and git history).
 
 The SRF Lessons online (https://study.yogananda.org/, https://flipbooks.yogananda.org/) appear to use a book reader technology called  FlipBooks3D. Document it's use. Record that it may be selected for online teachings portal in the backlog.
 

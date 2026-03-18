@@ -1,11 +1,12 @@
 ---
 ftr: 99
 title: Agent Archetypes
+summary: "Nine modes of a single Corpus Librarian serving monastics, editors, and operational systems"
 state: proposed
 domain: operations
-arc: 3+
 governed-by: [PRI-01, PRI-12]
-re-evaluate-at: Arc 3 boundary
+depends-on: [FTR-098]
+re-evaluate-at: Milestone 3b
 ---
 
 # FTR-099: Agent Archetypes
@@ -24,9 +25,9 @@ re-evaluate-at: Arc 3 boundary
 
 **Subsumes FTR-148** (Proactive Editorial AI Agent) as the "Editorial" trust profile.
 
-*Implementation detail (quarantine model, event taxonomy, agent persona, cross-property potential, MCP tool mappings) preserved in `.elmer/proposals/archived/` and would move to DESIGN files on adoption.*
+*Implementation detail (quarantine model, event taxonomy, agent persona, cross-property potential, MCP tool mappings) preserved in git history and would move to FTR specification sections on adoption.*
 
-**Re-evaluate At:** Arc 3 boundary (when Tier 2 MCP scheduling is re-evaluated per FTR-098)
+**Re-evaluate At:** Phase 3 boundary (when Tier 2 MCP scheduling is re-evaluated per FTR-098)
 **Decision Required From:** Architecture + SRF stakeholder input on organizational needs
 
 ## Notes

@@ -1,5 +1,5 @@
 /**
- * HyDE service tests — M2b-12.
+ * HyDE service tests — M3a-11.
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";

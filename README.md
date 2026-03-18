@@ -8,9 +8,9 @@ A British philanthropist asked SRF a simple question: *"What can we do to help m
 
 "Available" means more than accessible — it means **findable at the moment of need.** A person unable to sleep at 2 AM because of anxiety doesn't know Yogananda wrote specifically about overcoming fear. Someone going through loss doesn't know there are passages on the eternal life of the soul. The portal bridges that gap: seekers describe what they're experiencing, and the portal finds Yogananda's own words that speak to it — verbatim, with full citations, never paraphrased or AI-generated.
 
-## Arc 1: What We're Proving First
+## What We Proved First
 
-The first arc answers one question: **does bilingual semantic search work over Yogananda's text?**
+The first milestones answered one question: **does bilingual semantic search work over Yogananda's text?**
 
 - **Intelligent search** — hybrid semantic + BM25 full-text search that understands conceptual queries in English and Spanish, returning ranked verbatim passages with book, chapter, and page citations
 - **Book reader** — chapter-by-chapter reading with contemplative typography served from Contentful
@@ -20,7 +20,7 @@ One book (*Autobiography of a Yogi*) in two languages (en/es), serving ~820 mill
 
 ## The Full Vision
 
-Each arc builds on the last. The full portal includes:
+Each milestone builds on the last. The full portal includes:
 
 - **Life-theme navigation ("Doors of Entry")** — curated thematic entry points (Peace, Courage, Healing, Joy, Purpose, Love) so seekers can explore without formulating a query
 - **Today's Wisdom** — a different Yogananda passage on each visit, creating a living homepage
@@ -52,12 +52,12 @@ All content is freely accessible. No sign-up gates. No conversion tracking. No b
 | Frontend | Next.js on Vercel |
 | Database | Neon PostgreSQL 18 + pgvector + pg_search/ParadeDB (hybrid vector + BM25 full-text search) |
 | AI | Claude via AWS Bedrock (index-time enrichment, ingestion QA — never in search hot path, never content generation; FTR-027) |
-| Embeddings | Voyage voyage-3-large (multilingual, 1024 dimensions) (FTR-024) |
+| Embeddings | Voyage voyage-4-large (multilingual, 1024 dimensions) (FTR-024) |
 | Reranking | Cohere Rerank 3.5 (Milestone 2b+) (FTR-027) |
 | Graph | Postgres-native + Python/NetworkX batch pipeline (Milestone 3b+) (FTR-034) |
-| Suggestions | Static JSON at CDN edge (Arc 1) + pg_trgm fuzzy fallback; Vercel KV if needed (Milestone 2b+) (FTR-029) |
+| Suggestions | Static JSON at CDN edge + pg_trgm fuzzy fallback; Vercel KV if needed (FTR-029) |
 | Language detection | fastText (per-query, < 1ms) |
-| CMS | Contentful (Arc 1+) |
+| CMS | Contentful |
 | Auth | Auth0 (Milestone 7a+) |
 | Edge/CDN | Vercel (native CDN, Firewall, DDoS) |
 | Video | YouTube RSS + Data API v3, Vimeo (platform-agnostic) |
@@ -70,14 +70,15 @@ Business logic lives in `/lib/services/` (framework-agnostic TypeScript). A thre
 
 ## Roadmap
 
-3 planned arcs with detailed milestones. Beyond Arc 3, aspirational directions (Service, Languages, Distribution, Media, Community) are shaped at arc boundaries — not years in advance.
+Milestone-based roadmap. Current focus, planned work, and future directions — detailed in [ROADMAP.md](ROADMAP.md).
 
-| Arc | Theme | Focus |
-|-----|-------|-------|
-| **1: Foundation** | Proving the Light | Ingest one book in 2 languages (en/es), prove bilingual semantic search, deploy with AI librarian (Milestones 1a/1b/1c) |
-| **2: Presence** | The Living Library | All pages, reading experience, accessibility, design system, PWA (Milestones 2a/2b) |
-| **3: Wisdom** | Expanding Understanding | Multi-book catalog, editorial operations, cross-book intelligence, full corpus (Milestones 3a–3d) |
-| **Future** | Directions | Service, Languages, Distribution, Media, Community — planned at arc boundaries |
+| Status | Milestone | Focus |
+|--------|-----------|-------|
+| Complete | 1a–1c | Prove bilingual search, deploy infrastructure |
+| Complete | 2a–2b | All pages, reader experience, PWA, design system |
+| **Current** | **3a** | **Multi-book catalog, cross-book search** |
+| Planned | 3b–3d | Editorial operations, cross-book intelligence, full corpus |
+| Future | — | Service, Languages, Distribution, Media, Community |
 
 ## How This Project Works
 
@@ -87,5 +88,5 @@ This portal is designed and implemented through AI-human collaboration using [Cl
 
 - [PRINCIPLES.md](PRINCIPLES.md) — 12 immutable commitments that define the project
 - [CONTEXT.md](CONTEXT.md) — Project background, mission, stakeholders, theological constraints
-- [features/FEATURES.md](features/FEATURES.md) — Unified index of 159 FTR files across 5 domains
-- [ROADMAP.md](ROADMAP.md) — 3 planned arcs with milestones, deliverables, and arc gates
+- [features/FEATURES.md](features/FEATURES.md) — Unified index of 164 active FTR files across 5 domains
+- [ROADMAP.md](ROADMAP.md) — Milestone-based roadmap with deliverables, success criteria, and milestone gates

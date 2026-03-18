@@ -1,10 +1,11 @@
 ---
 ftr: 22
 title: Content Ingestion Pipeline
-state: approved
+summary: "Multi-path extraction from ebooks, PDFs, and SRF sources through Contentful into Neon search index"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-06, PRI-12]
+depends-on: [FTR-018, FTR-102]
 ---
 
 # FTR-022: Content Ingestion Pipeline
@@ -13,15 +14,15 @@ governed-by: [PRI-01, PRI-06, PRI-12]
 
 *Conforms to FTR-018 (Unified Content Pipeline Pattern). This is the first pipeline implemented; FTR-018's seven-stage pattern was derived from this design. Future content types (video transcripts, magazine articles, audio) should follow the same stages.*
 
-### Arc 1 Pipeline (Source -> Contentful -> Neon)
+### Initial Pipeline (Source -> Contentful -> Neon)
 
-Contentful is the editorial source of truth from Arc 1 (FTR-102). The ingestion pipeline imports processed text into Contentful, then syncs to Neon for search indexing. Pre-launch, SRF will provide authoritative digital text that replaces any development-phase extraction.
+Contentful is the editorial source of truth from Milestone 1a (FTR-102). The ingestion pipeline imports processed text into Contentful, then syncs to Neon for search indexing. Pre-launch, SRF will provide authoritative digital text that replaces any development-phase extraction.
 
 Three extraction paths feed the pipeline, converging at the Contentful import step:
 
 | Path | Source | Tool | Quality | When |
 |------|--------|------|---------|------|
-| **Ebook extraction** | Amazon Cloud Reader (purchased ebook) | Playwright capture + Claude Vision OCR | High (born-digital renders, clean diacritics) | Arc 1 development |
+| **Ebook extraction** | Amazon Cloud Reader (purchased ebook) | Playwright capture + Claude Vision OCR | High (born-digital renders, clean diacritics) | Milestone 1a development |
 | **PDF extraction** | spiritmaji.com PDF | `marker` (open-source Python) | Medium (scan-dependent OCR) | Fallback |
 | **SRF digital text** | SRF-provided source files | Direct import | Authoritative | Pre-launch replacement |
 
@@ -45,17 +46,32 @@ Step 3.5: Import into Contentful (FTR-102)
 Step 4: Chunk by Natural Boundaries
 Step 5: Language Detection (per-chunk, fastText)
 Step 6: Entity Resolution (FTR-033)
-Step 7: Unified Enrichment (single Claude pass per chunk, FTR-026)
-Step 8: Generate Embeddings
-Step 9: Insert into Neon (sync from Contentful)
-Step 10: Compute Chunk Relations (FTR-030)
-Step 11: Rebuild Suggestion Dictionary (FTR-029)
+Step 7: Generate Embeddings
+Step 8: Insert into Neon (sync from Contentful)
+  - Script: scripts/ingest/sync-contentful-to-neon.ts
+  - Chunks, embeds, and inserts in one pass
+Step 9: Unified Enrichment (single Claude pass per chunk, FTR-026)
+  - Script: scripts/ingest/enrich.ts
+  - Populates: summary, topics, entities, domain, depth,
+    emotional_quality, voice_register, semantic_density,
+    accessibility_level, passage_role, practice_bridge,
+    rasa, rasa_confidence, cross_references
+  - Tracks: enrichment_model, enriched_at per chunk
+Step 10: Classify Chapter Rasa (Claude Opus, FTR-071)
+  - Script: scripts/book-ingest/src/classify-rasa.ts
+Step 11: Compute Chunk Relations (FTR-030)
+Step 12: Generate Relation Labels (Claude Opus)
+  - Script: scripts/ingest/generate-labels.ts
+Step 13: Populate Chunk Topics (FTR-121)
+  - Script: scripts/ingest/populate-chunk-topics.ts
+  - Maps enriched topics[] to teaching_topics via similarity
+Step 14: Rebuild Suggestion Dictionary (FTR-029)
   - Harvest topics, entities, Sanskrit terms from enriched chunks
   - Generate scoped queries from entity-topic co-occurrence
   - Compute weights, export to suggestion_dictionary table
   - Export partitioned static JSON to public/data/suggestions/
   - Script: scripts/generate-suggestion-dictionary.ts (idempotent full rebuild)
-Step 12: Graph Metrics (Milestone 3b+, FTR-034)
+Step 15: Graph Metrics (Milestone 3b+, FTR-034)
 ```
 
 ### Webhook Sync Pipeline (Contentful -> Neon, Milestone 1c+)
@@ -130,7 +146,7 @@ Creates Contentful entries: Book, Chapter, Section, TextBlock. One Section per a
 
 ### Stage 5: Sync to Neon (`scripts/ingest/sync-contentful-to-neon.ts`)
 
-Chunking follows FTR-023: paragraph-based, 100-500 token range, content-type-aware. Embeddings via Voyage API (voyage-3-large, 1024 dimensions).
+Chunking follows FTR-023: paragraph-based, 100-500 token range, content-type-aware. Embeddings via Voyage API (voyage-4-large, 1024 dimensions).
 
 ### Stage 6: Rasa Classification (`scripts/book-ingest/src/classify-rasa.ts`)
 

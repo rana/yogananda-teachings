@@ -1,12 +1,12 @@
 /**
- * Service Worker — M2a-12 (ADR-006 §4), M2b-6.
+ * Service Worker — M2a-12 (FTR-006 §4), M2b-6.
  *
  * Extended from M1c-14 minimal worker.
  * - Pre-caches all page routes + self-hosted fonts
  * - Network-first for navigations, cache-first for fonts
  * - Offline fallback to cached shell
  * - Last-read chapter caching: stores the most recently read chapter
- *   so it can be served offline when connectivity drops (M2b-6, ADR-006)
+ *   so it can be served offline when connectivity drops (M2b-6, FTR-006)
  */
 
 const CACHE_NAME = "srf-shell-v3";

@@ -1,9 +1,10 @@
 ---
 ftr: 40
 title: Frontend Design
-state: approved
+summary: "Page routes, rendering strategies, and data sources for all portal pages"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-03, PRI-05, PRI-07, PRI-10, PRI-11]
 ---
 
 # FTR-040: Frontend Design
@@ -31,9 +32,9 @@ arc: "2"
 | `/places/[slug]` | Individual place detail with book cross-references | Neon `places` + `chunk_places` (ISR) | ISR (7 days) | Yes |
 | `/videos` | Videos — categorized by playlist | YouTube API (ISR) | ISR (1 hr) | Yes |
 | `/videos/[category]` | Filtered view (e.g., How-to-Live, Meditations) | YouTube API (ISR) | ISR (1 hr) | Yes |
-| `/study` | Study Workspace — passage collection, teaching arc assembly, export (Arc 4, FTR-143) | `localStorage` (no server) | CSR | No (`noindex`) |
+| `/study` | Study Workspace — passage collection, teaching arc assembly, export (future milestones, FTR-143) | `localStorage` (no server) | CSR | No (`noindex`) |
 | `/collections` | Community Collections gallery — published/featured curated passage collections (Milestone 7b, FTR-143) | Neon (`study_outlines` where visibility = published/featured) | ISR (1 hr) | Yes |
-| `/collections/[share-hash]` | Single community collection view (Arc 4 shared-link, Milestone 7b published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
+| `/collections/[share-hash]` | Single community collection view (Milestone 3b+ shared-link, Milestone 7b published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
 | `/feedback` | Seeker feedback — citation errors, search suggestions, general feedback (Milestone 3b, FTR-061) | Neon (`seeker_feedback`) | SSR | No (`noindex`) |
 | `/privacy` | Privacy policy — what data is collected, why, how long, sub-processors, data subject rights (Milestone 2a, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
 | `/legal` | Legal information — terms of use, copyright, content licensing (Milestone 2a, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
@@ -564,7 +565,7 @@ The right side panel displays passages from *other books* that are semantically 
 
 **Filters (in "Explore all" expanded view):**
 - By book (dropdown of all available books)
-- By content type: Books / Videos (once transcripts exist, Arc 6)
+- By content type: Books / Videos (once transcripts exist, future milestones)
 - By language (when multi-language content available, Milestone 5b)
 - By topic (Peace, Courage, Christ, Meditation, Yoga Sutras, etc.)
 
@@ -712,7 +713,7 @@ A `@media print` stylesheet ensures passages and chapters print beautifully:
 - Portal URL in small footer: `teachings.yogananda.org`
 - Page breaks between chapters (for full chapter printing)
 - No background colors (saves ink, respects user paper)
-- **Hindi print support (Arc 1):** Print stylesheet is locale-aware from Arc 1. Hindi pages use `font-family: 'Noto Serif Devanagari'` at 12pt (scaled from Latin 11pt for optical equivalence). Drop capitals omitted for Devanāgarī. Line length adjusted for 40–50 aksharas per line.
+- **Hindi print support (Milestone 1a):** Print stylesheet is locale-aware from the start. Hindi pages use `font-family: 'Noto Serif Devanagari'` at 12pt (scaled from Latin 11pt for optical equivalence). Drop capitals omitted for Devanāgarī. Line length adjusted for 40–50 aksharas per line.
 - **Additional non-Latin font support (Milestone 5b):** Font-family falls back per script: Noto Serif JP for Japanese, Noto Serif Thai for Thai, Noto Serif Bengali for Bengali. CJK text at 10.5pt (equivalent optical size to 11pt Latin). Define per-locale `@media print` font stacks alongside the web font stacks.
 
 #### FTR-142: Chant Reader Variant
@@ -1214,7 +1215,7 @@ Every passage throughout the portal — search results, reader, theme pages, Qui
 - Uses `@vercel/og` (Satori) to render a PNG: passage text in Merriweather on warm cream, citation below, subtle SRF lotus mark, portal URL at bottom
 - Same image used for OG cards and "Save as image" download
 - Suitable for messaging apps, social media, printing, phone wallpaper
-- **Hindi script support (Arc 1):** Satori requires explicit font files for non-Latin characters — it does not fall back to system fonts. A Hindi quote image will render as empty boxes unless the build bundles Noto Serif Devanagari font subsets. The OG image route selects font based on the passage's `language` column. Font map for Arc 1: `hi` → Noto Serif Devanagari; `en`, `es` → Merriweather. **Additional scripts (Milestone 5b):** `ja` → Noto Serif JP, `bn` → Noto Serif Bengali, `th` → Noto Serif Thai. All Latin-script languages use Merriweather.
+- **Hindi script support:** Satori requires explicit font files for non-Latin characters — it does not fall back to system fonts. A Hindi quote image will render as empty boxes unless the build bundles Noto Serif Devanagari font subsets. The OG image route selects font based on the passage's `language` column. Initial font map: `hi` → Noto Serif Devanagari; `en`, `es` → Merriweather. **Additional scripts (Milestone 5b):** `ja` → Noto Serif JP, `bn` → Noto Serif Bengali, `th` → Noto Serif Thai. All Latin-script languages use Merriweather.
 
 **Email sharing :**
 - "Email this passage" opens the seeker's email client via `mailto:` link
@@ -1225,8 +1226,8 @@ Every passage throughout the portal — search results, reader, theme pages, Qui
 
 **PDF generation :**
 - Passage PDF: single A4 page — Merriweather 14pt, warm cream background, citation, lotus watermark (8% opacity, bottom-right), portal URL
-- Chapter PDF (Arc 4): cover page, running headers, page numbers, drop capitals, lotus watermark on first page
-- Book PDF (Arc 4): title page, table of contents, all chapters, colophon
+- Chapter PDF (Milestone 3b+): cover page, running headers, page numbers, drop capitals, lotus watermark on first page
+- Book PDF (Milestone 3b+): title page, table of contents, all chapters, colophon
 - API: `GET /api/v1/books/{slug}/pdf` (full book), `GET /api/v1/books/{slug}/chapters/{n}/pdf` (chapter), `POST /api/v1/exports/pdf` with `{ "type": "passages", "ids": ["{chunk-id}"] }` (single passage). See FTR-133 — PDFs are sub-paths of their parent resource, not a parallel `/pdf/` namespace.
 
 **Share menu:**
@@ -1317,7 +1318,7 @@ The portal is equally excellent for seekers who never touch the search bar. Seve
 
 **3. The daily visitor** (homepage → Today's Wisdom → "Show me another" → contemplate → leave).
 - "Show me another" feels inexhaustible. SessionStorage-based exclusion list prevents repeats within a visit — the seeker cycles through all available passages before any repetition.
-- Arc 1 pool depth is an open question (see CONTEXT.md).
+- Initial pool depth is an open question (see CONTEXT.md).
 
 **4. The Quiet Corner seeker** (`/quiet` directly, often in crisis).
 - Self-contained: header collapses to lotus mark only, footer suppressed. Minimal cognitive load.
@@ -1330,7 +1331,7 @@ The portal is equally excellent for seekers who never touch the search bar. Seve
 **6. The devoted practitioner** (returns daily or weekly, uses search to find half-remembered passages, builds collections, compares across books).
 - This is the portal's highest-frequency seeker — someone who has practiced Kriya Yoga or studied Yogananda's writings for years and uses the portal as a study companion, not for discovery.
 - Advanced search supports their recall pattern: partial-phrase matching, book-scoped search, cross-book comparison via Related Teachings.
-- Personal collections (Arc 6) and study circle sharing (Milestone 7b) serve this seeker directly. Until then, browser bookmarks and the reading history (sessionStorage) provide lightweight persistence.
+- Personal collections (future milestones) and study circle sharing (Milestone 7b) serve this seeker directly. Until then, browser bookmarks and the reading history (sessionStorage) provide lightweight persistence.
 - The Practice Bridge signposts (FTR-055) are confirmations for this seeker, not introductions — they already know the path. The signpost tone acknowledges this.
 
 **7. The scholar** (citation-driven, cross-referencing, export-oriented).
@@ -1364,7 +1365,7 @@ The portal teaches its own navigation through the experience of using it — not
 |-----------|-------------------|
 | 1c | `Books` `About` |
 | 2a | + `The Four Doors` (FTR-138) `Guide` |
-| When audio arrives | + `Listen` (FTR-141 — Yogananda's voice, not Arc 6 media) |
+| When audio arrives | + `Listen` (FTR-141 — Yogananda's voice, not general media) |
 | 3a+ | + `Places` (FTR-050) |
 
 The secondary nav is never the primary surface. It serves seekers who arrive with intent to explore a specific content type. The primary surface is the recognition-first multi-lens homepage (FTR-139, FTR-039).
@@ -1502,7 +1503,7 @@ The following tokens are derived from analysis of yogananda.org, convocation.yog
  --font-sans: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
  /* === Non-Latin Script Fonts (FTR-058, FTR-131, FTR-011) === */
- /* Devanagari loaded from Arc 1 — Hindi Autobiography (full text),
+ /* Devanagari loaded from the start — Hindi Autobiography (full text),
  God Talks with Arjuna (Gita verses), Holy Science (Sanskrit verses).
  Hindi locale (/hi/): eager preload. English pages: conditional.
  Milestone 5b adds Thai and Bengali font stacks. */

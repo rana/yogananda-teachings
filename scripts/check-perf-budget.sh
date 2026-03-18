@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Performance Budget Check — M2a-20 (PRI-07, ADR-003)
+# Performance Budget Check — M2a-20 (PRI-07, FTR-003)
 #
 # Parses Next.js build output to enforce First Load JS budgets.
 # The 100KB target (PRI-07) is aspirational; the CI threshold is set
@@ -13,13 +13,13 @@
 
 set -euo pipefail
 
-# ── Budget (ADR-123: tunable default, not architectural commitment) ──
+# ── Budget (FTR-012: tunable default, not architectural commitment) ──
 # Value: 130 KB First Load JS per page
 # Rationale: PRI-07 target is <100KB. CI threshold catches regressions
 #   while allowing headroom for framework overhead + reader interactivity.
 #   The shared JS baseline (~102KB) is mostly React + Next.js runtime.
 #   Raised 120→128 in M2b: bookmarks, keyboard nav, scroll indicator (~4KB).
-#   Raised 128→130 in M2b stretch: chapter breath transition (DES-012) and
+#   Raised 128→130 in M2b stretch: chapter breath transition (FTR-040) and
 #   chapter nav link client wrapper add ~1KB justified reader UX.
 # Evaluate: When shared JS drops below 90KB (framework upgrade) or
 #   when any page consistently stays below 110KB for a milestone.

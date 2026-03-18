@@ -1,9 +1,11 @@
 ---
 ftr: 44
 title: Responsive Design
-state: approved
+summary: "Breakpoint behavior matrix, interaction modality detection, orientation, and print layout"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-05, PRI-07]
+depends-on: [FTR-040]
 ---
 
 # FTR-044: Responsive Design
@@ -127,11 +129,11 @@ When `navigator.connection.effectiveType` reports `'2g'` or `'slow-2g'`, the por
 
 Interactive visual map of the entire teaching corpus. Three visualization modes, evolving across milestones. The graph is the portal's universal navigation layer — every node is clickable, navigating to the corresponding page.
 
-**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (Milestone 3d) to full cross-media (Arc 6+).
+**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (Milestone 3d) to full cross-media (future milestones).
 
 **Mode 2: Passage Constellation** — A 2D spatial exploration where passages are positioned by semantic similarity, derived from embedding vectors reduced to two dimensions (UMAP or t-SNE, pre-computed at build time).
 
-**Mode 3: Concept Map** (FTR-034) — The ontology layer: spiritual concepts and their structural relationships (prerequisite, component, leads_to). Available from Arc 4+.
+**Mode 3: Concept Map** (FTR-034) — The ontology layer: spiritual concepts and their structural relationships (prerequisite, component, leads_to). Available from Milestone 4a+.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -167,15 +169,15 @@ Interactive visual map of the entire teaching corpus. Three visualization modes,
 | Theme | Hexagon | SRF Gold | Medium (passage count) | `/themes/[slug]` | 3d |
 | Person | Portrait circle | Warm Cream border | Medium (fixed) | `/people/[slug]` | 3d |
 | Scripture/reference | Diamond | Earth tone | Medium (fixed) | `/references/[slug]` | 3d |
-| Magazine issue | Rectangle | Warm accent | Medium (fixed) | `/magazine/[issue-slug]` | Arc 4 |
-| Magazine chunk | Circle | Warm accent (30%) | Small | `/magazine/[issue-slug]/[article-slug]` | Arc 4 |
-| Ontology concept | Rounded rectangle | SRF Gold (dark) | Medium (relation count) | `/ontology/[slug]` | Arc 4+ |
-| Sacred place | Map pin | Earth green | Medium (fixed) | `/places/[slug]` | Arc 6 |
-| Video | Play-button circle | Teal accent | Medium (fixed) | `/videos/[slug]` | Arc 6 |
-| Video chunk | Circle | Teal (30%) | Small | `/videos/[slug]?t=[ms]` | Arc 6 |
-| Audio recording | Waveform circle | Amber accent | Medium (fixed) | `/audio/[slug]` | Arc 6 |
-| Audio segment | Circle | Amber (30%) | Small | `/audio/[slug]?t=[ms]` | Arc 6 |
-| Image | Rounded square | Neutral | Small (thumbnail) | `/images/[slug]` | Arc 6 |
+| Magazine issue | Rectangle | Warm accent | Medium (fixed) | `/magazine/[issue-slug]` | M4a |
+| Magazine chunk | Circle | Warm accent (30%) | Small | `/magazine/[issue-slug]/[article-slug]` | M4a |
+| Ontology concept | Rounded rectangle | SRF Gold (dark) | Medium (relation count) | `/ontology/[slug]` | M4a+ |
+| Sacred place | Map pin | Earth green | Medium (fixed) | `/places/[slug]` | Future |
+| Video | Play-button circle | Teal accent | Medium (fixed) | `/videos/[slug]` | Future |
+| Video chunk | Circle | Teal (30%) | Small | `/videos/[slug]?t=[ms]` | Future |
+| Audio recording | Waveform circle | Amber accent | Medium (fixed) | `/audio/[slug]` | Future |
+| Audio segment | Circle | Amber (30%) | Small | `/audio/[slug]?t=[ms]` | Future |
+| Image | Rounded square | Neutral | Small (thumbnail) | `/images/[slug]` | Future |
 
 Yogananda's own voice recordings and photographs receive the sacred artifact treatment — a subtle golden ring distinguishing them from other audio/images (`is_yogananda_voice`, `is_yogananda_subject` flags).
 
@@ -183,19 +185,19 @@ Yogananda's own voice recordings and photographs receive the sacred artifact tre
 
 | Edge | Source → Target | Width/Opacity | Milestone |
 |------|----------------|---------------|-----------|
-| Semantic similarity | Any content ↔ any content | Proportional to score | 3d (books), Arc 6 (cross-media) |
+| Semantic similarity | Any content ↔ any content | Proportional to score | 3d (books), future (cross-media) |
 | Contains | Book/issue/video/recording → chunk/segment | Thin, fixed | 3d+ |
 | Theme membership | Content → theme | Medium, fixed | 3d |
 | References scripture | Passage → external reference | Medium, dashed | 3d |
 | Mentions person | Passage → person | Medium, fixed | 3d |
 | Succeeded by | Person → person | Golden, directional | 3d |
 | Preceded by | Person → person | Golden, directional | 3d |
-| Mentions place | Content → sacred place | Medium, fixed | Arc 6 |
-| Depicted at | Image → sacred place | Medium, fixed | Arc 6 |
-| Photographed | Image → person | Medium, fixed | Arc 6 |
-| Ontological relation | Concept → concept | Labeled (prerequisite, component, etc.) | Arc 4+ |
-| Primary source | Passage → ontology concept | Thin, dashed | Arc 4+ |
-| Editorial thread | Content → content (sequence) | Golden, directional | 3d (books), Arc 6 (cross-media) |
+| Mentions place | Content → sacred place | Medium, fixed | Future |
+| Depicted at | Image → sacred place | Medium, fixed | Future |
+| Photographed | Image → person | Medium, fixed | Future |
+| Ontological relation | Concept → concept | Labeled (prerequisite, component, etc.) | M4a+ |
+| Primary source | Passage → ontology concept | Thin, dashed | M4a+ |
+| Editorial thread | Content → content (sequence) | Golden, directional | 3d (books), future (cross-media) |
 | Community collection | Content → content (curated) | Silver, directional | 7b |
 
 #### Graph View Modes and Filtering
@@ -203,8 +205,8 @@ Yogananda's own voice recordings and photographs receive the sacred artifact tre
 | Mode | Default milestone | What's visible |
 |------|-------------------|----------------|
 | **Book map** | 3d (default) | Books, passages, themes, people, references |
-| **Concept map** | Arc 4+ | Ontology concepts, relations, linked passages |
-| **All media** | Arc 6+ (new default) | Everything — full cross-media fabric |
+| **Concept map** | M4a+ | Ontology concepts, relations, linked passages |
+| **All media** | Future (new default) | Everything — full cross-media fabric |
 | **Single book** | Any | One book's passages, themes, connections |
 | **Single theme** | Any | One theme's passages across all media |
 | **Single person** | Any | One person's passages, images, videos, places |
@@ -217,8 +219,8 @@ Media type toggles: show/hide books, magazine, video, audio, images independentl
 | Milestone | Additions | Approximate Node Count |
 |-----------|-----------|----------------------|
 | **3d** | Books, passages, themes, people, references. Editorial thread paths. | ~5,000–10,000 |
-| **Arc 4** | + Magazine issues/chunks, ontology concepts. Constellation mode. | ~12,000–18,000 |
-| **Arc 6** | + Videos/chunks, sacred places. Content hub cross-media edges. + Audio recordings/segments, images. Sacred artifact styling. | ~20,000–50,000 |
+| **M4a** | + Magazine issues/chunks, ontology concepts. Constellation mode. | ~12,000–18,000 |
+| **Future** | + Videos/chunks, sacred places. Content hub cross-media edges. + Audio recordings/segments, images. Sacred artifact styling. | ~20,000–50,000 |
 | **7b** | + Community collection paths, editorial multi-media threads. | Same nodes, new paths |
 
 #### Performance Strategy
@@ -285,7 +287,7 @@ The subgraph endpoint powers embeddable mini-graphs in other pages: the reader's
 
 **Implementation:** UMAP dimensionality reduction from 1024-dim embeddings (FTR-024) to 2D. Pre-computed nightly. Static JSON (~500KB for ~10,000 items). Canvas or WebGL rendering.
 
-**Milestone:** Arc 4+ (constellation). Milestone 3d delivers Knowledge Graph mode only.
+**Milestone:** Milestone 4a+ (constellation). Milestone 3d delivers Knowledge Graph mode only.
 
 Linked from Books and themes pages (not primary nav).
 
@@ -315,7 +317,7 @@ A human-readable view of the structured spiritual ontology (FTR-034). Presents Y
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Milestone:** Arc 4+ (alongside ontology data model, FTR-034).
+**Milestone:** Milestone 4a+ (alongside ontology data model, FTR-034).
 
 ### FTR-143 ext: Personal Taxonomy in Study Workspace
 

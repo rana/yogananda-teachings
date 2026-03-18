@@ -1,10 +1,11 @@
 ---
 ftr: 87
 title: API Route Rationalization
-state: approved
+summary: "Five targeted fixes for consistent identifiers, namespaces, and CRUD across all API routes"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-11]
+depends-on: [FTR-015]
 ---
 
 # FTR-087: API Route Rationalization
@@ -80,7 +81,7 @@ Returns title, author, description, cover image, publication year, bookstore URL
 
 #### Not Changed
 
-- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are Milestone 2b YouTube-proxy convenience endpoints. When videos become database-backed in Arc 6, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
+- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are Milestone 2b YouTube-proxy convenience endpoints. When videos become database-backed in future milestones, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
 
 - **Nested routes where nesting is correct.** `/books/[slug]/chapters/[number]`, `/themes/[slug]/passages`, `/people/[slug]/passages`, `/images/{slug}/related` — these nest a subordinate or relationship resource under its parent. The nesting is appropriate and stays.
 
@@ -237,14 +238,14 @@ A robust integration uses both: webhooks for real-time events, timestamp filteri
 
 | Milestone | What Ships |
 |-----------|-----------|
-| **Arc 1** | `updated_at` columns and triggers on all content tables in the initial schema migration. No API filtering yet. |
+| **Milestone 1a** | `updated_at` columns and triggers on all content tables in the initial schema migration. No API filtering yet. |
 | **Milestone 2a** | `updated_since` and `created_since` parameters on `GET /api/v1/books` and `GET /api/v1/books/[slug]/chapters`. |
 | **Milestone 3b** | Timestamp filtering on theme endpoints (`/api/v1/themes`, `/api/v1/themes/[slug]/passages`). |
 | **Milestone 3c+** | Timestamp filtering on all remaining list endpoints as they ship. |
 
 #### Consequences
 
-- Arc 1 schema migration adds `updated_at` columns and triggers to all content tables
+- Milestone 1a schema migration adds `updated_at` columns and triggers to all content tables
 - All list endpoints gain optional `updated_since` and `created_since` parameters as they ship
 - Response envelope gains `sync` metadata when timestamp filtering is active
 - OpenAPI spec (FTR-059) documents the filtering parameters on each endpoint

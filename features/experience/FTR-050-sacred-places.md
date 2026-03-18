@@ -1,9 +1,11 @@
 ---
 ftr: 50
 title: Sacred Places
+summary: "Contemplative geography pages linking SRF/YSS places to book passages with Street View"
 state: approved-provisional
 domain: experience
-arc: "2"
+governed-by: [PRI-04, PRI-10]
+depends-on: [FTR-049]
 ---
 
 # FTR-050: Sacred Places
@@ -219,7 +221,7 @@ Referenced in:
  • Autobiography of a Yogi, Chapter 42 — "Last days with my guru"
 ```
 
-### Place Links Strategy (Distributed Across Arcs)
+### Place Links Strategy (Distributed Across Milestones)
 
 No embedded map library. Each place card links out to external maps services — zero map dependencies, zero tile servers, zero maintenance. See FTR-050.
 

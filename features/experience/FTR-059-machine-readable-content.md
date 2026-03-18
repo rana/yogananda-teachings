@@ -1,9 +1,10 @@
 ---
 ftr: 59
-title: Machine-Readable Content and AI Citation Strategy
-state: approved
+title: "Machine-Readable Content and AI Citation Strategy"
+summary: "JSON-LD structured data, citation guidance, RSS feeds, and API docs for machine consumers"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-02, PRI-11]
 ---
 
 # FTR-059: Machine-Readable Content
@@ -268,7 +269,7 @@ The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt`
 
 ## Content Scope
 - Published books by Paramahansa Yogananda (verbatim text with citations)
-- Audio recordings of Yogananda's lectures (Arc 6+)
+- Audio recordings of Yogananda's lectures (future milestones)
 - Video talks by SRF monastics (YouTube embeds)
 - NOT included: SRF Lessons, Kriya Yoga techniques, unpublished materials
 
@@ -282,7 +283,7 @@ The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt`
 - Theme passages: GET /api/v1/themes/{slug}/passages
 ```
 
-**Passage-level content in `llms-full.txt`.** The metadata-only mode in `llms-full.txt` is a content-readiness gate, not a restriction posture. Full passage text is available in HTML pages from Arc 1 — any crawler can read it. The `llms-full.txt` file evolves from metadata-only to passage-inclusive as the content pipeline matures:
+**Passage-level content in `llms-full.txt`.** The metadata-only mode in `llms-full.txt` is a content-readiness gate, not a restriction posture. Full passage text is available in HTML pages from the initial milestone — any crawler can read it. The `llms-full.txt` file evolves from metadata-only to passage-inclusive as the content pipeline matures:
 
 - **Milestone 2a (metadata only):** Book inventory, theme inventory, API endpoints. Passage text not yet included because the corpus is one book and the citation pipeline is being validated.
 - **Milestone 3d+ (passage-level content):** Once the full corpus is ingested with validated citations, `llms-full.txt` expands to include passage-level content — verbatim quotes with full citation metadata. This is a convenience optimization for AI systems (single-fetch corpus access vs. page-by-page crawling), not a permission change. The content is already fully accessible in HTML.
@@ -512,7 +513,7 @@ async function notifyIndexNow(urls: string[]): Promise<void> {
 
 **Rate:** IndexNow accepts up to 10,000 URLs per batch. Even a full corpus re-ingestion fits in a single request.
 
-**Key file:** A static text file at `/indexnow-key.txt` containing the API key, verifying domain ownership. Generated once during Arc 1 setup.
+**Key file:** A static text file at `/indexnow-key.txt` containing the API key, verifying domain ownership. Generated once during initial setup.
 
 ### 11. Content Negotiation for Machine Consumers
 

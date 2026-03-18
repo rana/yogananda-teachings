@@ -1,9 +1,11 @@
 ---
 ftr: 148
 title: Proactive Editorial AI Agent
+summary: "Push-based editorial workflow where AI generates proposals delivered via email/Slack with one-click approval"
 state: proposed
 domain: editorial
-arc: 3b+
+governed-by: [PRI-01, PRI-12]
+depends-on: [FTR-060, FTR-086, FTR-107]
 ---
 
 # FTR-148: Proactive Editorial AI Agent

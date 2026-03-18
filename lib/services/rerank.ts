@@ -1,5 +1,5 @@
 /**
- * Cross-encoder reranking via Cohere Rerank API (M2b-13, FTR-027).
+ * Cross-encoder reranking via Cohere Rerank API (M3a-12, FTR-027).
  *
  * After hybrid search returns RRF-fused candidates, the reranker
  * sees query + passage pairs and produces true relevance scores.

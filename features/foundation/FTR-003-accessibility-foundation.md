@@ -1,9 +1,9 @@
 ---
 ftr: 3
 title: Accessibility Foundation
+summary: "WCAG 2.1 AA from first component: semantic HTML, ARIA, keyboard nav, contrast, touch targets, performance budgets"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-07]
 ---
 
@@ -68,7 +68,7 @@ The existing design tokens have contrast failures that must be corrected before 
 
 ### Consequences
 
-- Every component built in Arc 1 and Milestone 2a must pass basic accessibility checks (Lighthouse, axe DevTools)
+- Every component built in Milestone 1a and Milestone 2a must pass basic accessibility checks (Lighthouse, axe DevTools)
 - The design token `--portal-text-muted` must be corrected to `#595959` before implementation begins
 - `--srf-gold` must never be used as text on light backgrounds
 - Later accessibility arcs handle audit and polish (not build-from-scratch), plus TTS and professional audit

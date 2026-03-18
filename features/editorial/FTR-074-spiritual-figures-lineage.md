@@ -1,10 +1,11 @@
 ---
 ftr: 74
 title: Spiritual Figures and Lineage
+summary: "People table as primary content type with biographical metadata, lineage structure, and place associations"
 state: approved
 domain: editorial
-arc: 3c+
 governed-by: [PRI-01, PRI-02]
+depends-on: [FTR-033, FTR-049]
 ---
 
 # FTR-074: Spiritual Figures and Lineage
@@ -46,7 +47,7 @@ CREATE TABLE people (
   death_year INTEGER,              -- NULL for avatars (Krishna) or living figures
   biography_short TEXT NOT NULL,   -- 2–3 sentences, editorial
   biography_long TEXT,             -- full detail page content, editorial
-  image_id UUID,                   -- FK to images table (Arc 6, FTR-073)
+  image_id UUID,                   -- FK to images table (future milestones, FTR-073)
   topic_id UUID REFERENCES teaching_topics(id),  -- links to theme tagging system
   language TEXT NOT NULL DEFAULT 'en',
   canonical_person_id UUID REFERENCES people(id),  -- cross-language linking

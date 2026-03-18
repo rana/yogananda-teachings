@@ -1,10 +1,11 @@
 ---
 ftr: 157
 title: Living Golden Set
+summary: "DELTA-compliant one-bit seeker feedback loop that automatically grows the search evaluation set"
 state: proposed
 domain: operations
-arc: 2+
-governed-by: [FTR-037, FTR-082, FTR-085, FTR-032]
+governed-by: [PRI-01, PRI-09]
+depends-on: [FTR-037, FTR-032]
 ---
 
 # FTR-157: Living Golden Set

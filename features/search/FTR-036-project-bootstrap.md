@@ -1,23 +1,23 @@
 ---
 ftr: 36
-title: Arc 1 Bootstrap
-state: approved
+title: Project Bootstrap
+summary: "Reproducible bootstrap ceremony from zero to working search including provisioning, migration, and ingestion"
+state: implemented
 domain: search
-arc: 1a
 governed-by: [PRI-10, PRI-12]
 ---
 
-# FTR-036: Arc 1 Bootstrap
+# FTR-036: Project Bootstrap
 
 ## Rationale
 
 ### Context
 
-The portal's architecture is thoroughly documented across four design documents (CONTEXT.md, DESIGN.md, DECISIONS.md, ROADMAP.md), but the path from "no code" to "running system" was undocumented. The first developer experience — creating the repository, provisioning infrastructure, running the first migration, ingesting the first book, and verifying search works — is a critical ceremony that, if not specified, leads to inconsistent environments and wasted time.
+The portal's architecture is thoroughly documented across root documents (CLAUDE.md, PRINCIPLES.md, CONTEXT.md, ROADMAP.md) and FTR files in `features/`, but the path from "no code" to "running system" was undocumented. The first developer experience — creating the repository, provisioning infrastructure, running the first migration, ingesting the first book, and verifying search works — is a critical ceremony that, if not specified, leads to inconsistent environments and wasted time.
 
 ### Decision
 
-Document the bootstrap sequence as a reproducible, ordered ceremony in `design/search/FTR-036-arc-1-bootstrap.md`. The ceremony covers:
+Document the bootstrap sequence as a reproducible, ordered ceremony. The ceremony covers:
 
 1. **Repository creation** — Next.js + TypeScript + Tailwind + pnpm
 2. **Neon project provisioning** — PostgreSQL with pgvector, dev branch for local work
@@ -34,11 +34,11 @@ The `.env.example` file documents all required environment variables with commen
 - **Reproducibility.** Any developer (or AI assistant) should be able to go from zero to working search in a single session by following the ceremony.
 - **Environment parity.** Explicit variable documentation prevents "works on my machine" drift.
 - **10-year horizon (FTR-004).** The bootstrap ceremony is a durable artifact — it outlives any individual contributor's tribal knowledge.
-- **Design-to-implementation bridge.** The four design documents describe *what* the system does. The bootstrap ceremony describes *how to bring it into existence*.
+- **Design-to-implementation bridge.** The root documents and FTR files describe *what* the system does. The bootstrap ceremony describes *how to bring it into existence*.
 
 ### Consequences
 
-- `design/search/FTR-036-arc-1-bootstrap.md` captures the step-by-step ceremony and `.env.example` contents
+- This FTR captures the step-by-step ceremony and `.env.example` contents
 - First-time setup is documented and reproducible
 - Onboarding new developers or AI assistants requires reading CLAUDE.md (for context) and following the bootstrap ceremony (for setup)
 
@@ -106,4 +106,4 @@ SENTRY_AUTH_TOKEN=               # From Sentry → Settings → Auth Tokens
 
 ## Notes
 
-- **Origin:** FTR-036 (dual-homed: DECISIONS-core.md rationale + design/search/FTR-036-arc-1-bootstrap.md)
+- **Origin:** Migrated from ADR-041 and design/search/ during FTR unification (2026-03-05). See MIGRATION.md.

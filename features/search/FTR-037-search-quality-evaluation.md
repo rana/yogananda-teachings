@@ -1,10 +1,11 @@
 ---
 ftr: 37
 title: Search Quality Evaluation Harness
-state: approved
+summary: "Golden set evaluation with Recall@K, MRR, and NDCG metrics gating milestone acceptance in CI"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-03]
+depends-on: [FTR-020]
 ---
 
 # FTR-037: Search Quality Evaluation Harness
@@ -15,7 +16,7 @@ governed-by: [PRI-01, PRI-03]
 
 **Governed by:** FTR-005 E5, M1a-8, M1b-2
 
-The search quality evaluation harness is the acceptance gate for Arc 1. It validates that hybrid search returns relevant passages for representative queries before the portal is deployed. This section specifies the golden set format, query design protocol, evaluation methodology, metrics, automation, and CI integration.
+The search quality evaluation harness is the acceptance gate for Milestone 1a. It validates that hybrid search returns relevant passages for representative queries before the portal is deployed. This section specifies the golden set format, query design protocol, evaluation methodology, metrics, automation, and CI integration.
 
 ### Golden Set Data Format
 
@@ -193,16 +194,56 @@ A GitHub Action runs the evaluation on PRs that touch search-affecting paths:
 - **Fails the PR** if overall Recall@3 drops below 80% or Technique-boundary routing accuracy drops below 100%.
 - Stores the result JSON as a CI artifact for historical comparison.
 
+### Multi-Dimensional Relevance Evaluation (Milestone 3a+)
+
+Standard Recall@3 and MRR@10 measure topical relevance — "did we find a passage about the right subject?" But the portal aspires to multi-dimensional relevance: the right passage for this topic AND this emotional register AND this depth level AND this seeker state.
+
+**Additional evaluation dimensions (M3a+):**
+
+| Dimension | Metric | Judge | Description |
+|-----------|--------|-------|-------------|
+| Rasa-match | Rasa alignment score (0-1) | Claude Opus | Does the returned passage's rasa match what the query implies? A grief query should return karuna passages. |
+| Depth-match | Depth alignment score (0-1) | Claude Opus | Is the passage at the right experiential depth for the query? A beginner query shouldn't return depth-7 nirvikalpa descriptions. |
+| Register-match | Register alignment score (0-1) | Claude Opus | Does the passage's voice register match the query's register? A distressed query needs consoling, not philosophical. |
+| Retrieval intent match | Binary | Deterministic | Does the result set honor the Vocabulary Bridge's retrieval intent? `meet_first` queries should return acknowledging passages before instructional ones. |
+
+**Evaluation methodology:**
+
+- **ARES-style LLM judges** (Stanford, Saad-Falcon et al., 2023): Generate tailored Claude judges for each dimension. Fine-tune lightweight DeBERTa judges calibrated against ~150 expert annotations for cost-efficient CI runs. Provides confidence intervals via Prediction-Powered Inference.
+- **RPP (Recall-Paired Preference)** (Google Research, 2022): For A/B system comparison without behavioral data. Simulates user subpopulations per query and compares ranked lists directly — compatible with DELTA constraints (FTR-085).
+- **Expert evaluation panels:** Periodic comparative judgment (system A vs. B outputs, blinded) for emotional/devotional query categories where automated metrics are least reliable.
+
+**Golden set extension for multi-dimensional evaluation:**
+
+Each query in the golden set gains optional annotations:
+
+```json
+{
+  "id": "en-emotional-003",
+  "query": "I feel afraid to die",
+  "expected_rasa": "karuna",
+  "expected_depth_max": 4,
+  "expected_register": "consoling",
+  "expected_retrieval_intent": "meet_first"
+}
+```
+
+Not all queries require all dimensions — Direct and Referential queries are adequately evaluated by topical Recall@3. The multi-dimensional annotations apply primarily to Emotional, Dark Night, and Devotional query categories.
+
+**Research basis:** Both Gemini and Claude deep research reports (March 2026) identify single-dimension topical relevance as insufficient for sacred text retrieval. Saracevic's five-dimensional relevance framework (algorithmic, topical, cognitive, situational, affective) and the portal's own enrichment metadata provide the substrate for richer evaluation.
+
 ### Parameter Evaluation
 
 The golden set is the evaluation instrument for tuning parameters governed by FTR-012:
 
 | Parameter | Values to Test | Deliverable |
 |-----------|---------------|-------------|
-| RRF k-constant | 40, 60, 80 | M1a-8 |
+| CC fusion α (2-path) | 0.3, 0.5, 0.7 | M3a |
+| CC fusion weights (3-path) | Per-register table from FTR-020 | M3b |
 | Chunk size (token count) | 200, 300, 500 | M1a-8 (contingency) |
-| Embedding model | Voyage voyage-3-large (default), Cohere embed-v3, BGE-M3 | M1a-8 (contingency) |
-| BM25 vs. vector weight balance | RRF-only (equal), 60/40 vector, 60/40 BM25 | M1a-8 |
+| Embedding model | Voyage voyage-4-large (default), Cohere embed-v3, BGE-M3 | M1a-8 (contingency) |
+| Enrichment-augmented vs. plain embedding | A/B on Neon branch | M3a |
+| Reranker candidate pool size | 20, 50, 100 | M3a |
 
 Each parameter evaluation uses the same golden set and produces a comparable results JSON. The per-category breakdowns reveal *where* a parameter change helps or hurts — e.g., a larger chunk size might improve Emotional queries (more context) but hurt Direct queries (diluted keyword signal).
 
@@ -222,3 +263,4 @@ Old queries are **never removed** — they serve as regression tests. New querie
 ## Notes
 
 - **Origin:** FTR-037 (Search Quality Evaluation Harness)
+- **March 2026 revision:** Added multi-dimensional relevance evaluation (rasa-match, depth-match, register-match, retrieval intent match). Added ARES-style LLM judges, RPP for system comparison, and expert evaluation panels. Updated parameter evaluation table for CC fusion and enrichment-augmented embeddings. Based on convergent deep research findings. See `docs/reference/gemini-deep-research-modern-search-report.md` and `docs/reference/claude-deep-research-modern-search-report.md`.

@@ -1,9 +1,11 @@
 ---
 ftr: 149
 title: Retool vs. Portal Admin for Staff Dashboards
+summary: "Evaluation of whether analytics dashboards should use Retool or be built into the portal admin"
 state: proposed
 domain: editorial
-arc: 3d
+governed-by: [PRI-10, PRI-12]
+depends-on: [FTR-060, FTR-082]
 ---
 
 # FTR-149: Retool vs. Portal Admin for Staff Dashboards

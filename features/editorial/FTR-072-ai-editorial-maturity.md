@@ -1,10 +1,11 @@
 ---
 ftr: 72
-title: AI Editorial Workflow Maturity — Trust Graduation and Feedback Loops
+title: "AI Editorial Workflow Maturity — Trust Graduation and Feedback Loops"
+summary: "Three-stage maturity model (full review, spot-check, exception-only) with governed graduation criteria"
 state: approved-provisional
 domain: editorial
-arc: 3b+
 governed-by: [PRI-01, PRI-12]
+depends-on: [FTR-069]
 ---
 
 # FTR-072: AI Editorial Workflow Maturity
@@ -13,7 +14,7 @@ governed-by: [PRI-01, PRI-12]
 
 ### Context
 
-FTR-069 catalogs 25+ AI-assisted editorial workflows, all governed by the principle "AI proposes, humans approve." This principle is correct as a starting posture but incomplete as a 10-year operating model. The portal's monastic content editor has a 2–3 hour daily window for editorial work. As the corpus grows from 1 book (Arc 1) to 15+ books plus video, audio, images, magazine archives, and community submissions (Milestone 7b+), the total review volume grows multiplicatively — more content types × more workflows × more languages.
+FTR-069 catalogs 25+ AI-assisted editorial workflows, all governed by the principle "AI proposes, humans approve." This principle is correct as a starting posture but incomplete as a 10-year operating model. The portal's monastic content editor has a 2–3 hour daily window for editorial work. As the corpus grows from 1 book (Milestone 1a) to 15+ books plus video, audio, images, magazine archives, and community submissions (Milestone 7b+), the total review volume grows multiplicatively — more content types × more workflows × more languages.
 
 The current design implicitly assumes review demand will stay within human capacity. It won't. By Milestone 3d, the editorial team will be managing theme tag reviews, tone spot-checks, daily passage curation, translation reviews, feedback triage, social media approvals, reverse bibliography verification, and editorial thread curation. Without a governed mechanism for evolving the AI-human relationship over time, one of three things happens: (a) review queues grow unbounded, (b) reviewers rubber-stamp to keep pace, or (c) the team informally skips reviews for "trusted" workflows — losing the audit trail that makes the system trustworthy.
 
@@ -78,7 +79,7 @@ A nightly batch job runs consistency checks across workflow outputs:
 
 Inconsistencies are surfaced in the editorial home screen as a low-priority review category. They are not errors — context legitimately changes meaning. But persistent inconsistencies suggest a classification problem worth investigating.
 
-**Milestone:** 3b (consistency checks). Quarterly cadence begins Milestone 3b. Maturity model governance begins Milestone 3b for theme tag classification (first workflow to reach Full Review volume). Feedback loop protocol begins Arc 1 (override logging from the first AI-assisted search).
+**Milestone:** 3b (consistency checks). Quarterly cadence begins Milestone 3b. Maturity model governance begins Milestone 3b for theme tag classification (first workflow to reach Full Review volume). Feedback loop protocol begins Milestone 1a (override logging from the first AI-assisted search).
 
 #### 5. Workflow Dependency Awareness
 
@@ -104,8 +105,8 @@ When an upstream workflow's output changes (e.g., an OCR correction alters passa
 
 ### Consequences
 
-- `ai_review_log` table added to schema (Arc 1 — logging begins with the first AI-assisted workflow)
-- `ai_abstained` boolean column added to review queue items (Arc 1)
+- `ai_review_log` table added to schema (Milestone 1a — logging begins with the first AI-assisted workflow)
+- `ai_abstained` boolean column added to review queue items (Milestone 1a)
 - Quarterly prompt refinement cadence added to operational playbook (Milestone 3b)
 - Maturity stage tracked per workflow per language in `ai_workflow_config` table (Milestone 3b)
 - Nightly consistency check batch job (Milestone 3c, runs alongside existing nightly jobs)

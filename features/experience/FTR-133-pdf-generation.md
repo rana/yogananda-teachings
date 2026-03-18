@@ -1,9 +1,10 @@
 ---
 ftr: 133
 title: PDF Generation Strategy
+summary: "PDF routes as sub-paths of resources, pre-rendered vs dynamic generation, and technology choices"
 state: approved
 domain: experience
-arc: "4"
+governed-by: [PRI-02, PRI-03, PRI-11]
 ---
 
 # FTR-133: PDF Generation Strategy
@@ -112,9 +113,9 @@ Pre-renderable PDFs are GET endpoints on their parent resources. But a seeker wh
 - `@react-pdf/renderer` added as a dependency (or in a shared package if Lambda and Vercel both generate PDFs)
 - CloudFront invalidation on content update (book re-ingestion, transcript edit)
 - File size stored in metadata and displayed on download buttons
-- Arc 4: Book and chapter PDFs (pre-rendered)
-- Arc 4: Talk outline PDFs (dynamic)
-- Arc 6+: Audio and video transcript PDFs (pre-rendered)
+- Milestone 4a: Book and chapter PDFs (pre-rendered)
+- Milestone 4a: Talk outline PDFs (dynamic)
+- Future milestones: Audio and video transcript PDFs (pre-rendered)
 - Future: Passage collection and search result PDFs (dynamic, Milestone 7a+ or as demand warrants)
 
 

@@ -1,9 +1,9 @@
 ---
 ftr: 83
 title: MCP Strategy
+summary: "Three-tier MCP server adoption plan for AI operator access to infrastructure services"
 state: approved
 domain: operations
-arc: 1+
 governed-by: [PRI-12]
 ---
 
@@ -37,14 +37,14 @@ Three tiers of MCP server adoption, phased with the project:
 
 | MCP Server | Milestone | Purpose | Why Valuable |
 |------------|-----------|---------|-------------|
-| **Contentful** | Milestone 1c+ | Content model queries, entry management, webhook debugging | Contentful is the editorial source of truth from Arc 1 (FTR-102). The content model is tightly coupled to code from the start. Prevents drift between what code expects and what CMS provides. |
+| **Contentful** | Milestone 1c+ | Content model queries, entry management, webhook debugging | Contentful is the editorial source of truth from Milestone 1a (FTR-102). The content model is tightly coupled to code from the start. Prevents drift between what code expects and what CMS provides. |
 
 **Evaluate (try, keep if useful):**
 
 | MCP Server | Milestone | Purpose | Assessment |
 |------------|-----------|---------|------------|
-| **GitHub** | Arc 1+ | Issue context, PR details, review comments | Modest benefit over `gh` CLI. Try it; drop if redundant. |
-| **Vercel** | Arc 1+ | Deployment status, build logs, preview URLs | Useful for debugging deployment failures. The `vercel` CLI covers most of this. |
+| **GitHub** | Milestone 1a+ | Issue context, PR details, review comments | Modest benefit over `gh` CLI. Try it; drop if redundant. |
+| **Vercel** | Milestone 1a+ | Deployment status, build logs, preview URLs | Useful for debugging deployment failures. The `vercel` CLI covers most of this. |
 | ~~**Cloudflare**~~ | — | Removed from portal stack (FTR-118). If SRF routes domain through Cloudflare, evaluate Cloudflare MCP at that point. | — |
 
 **Not recommended (skip):**
@@ -63,13 +63,13 @@ The **SRF Corpus MCP** server architecture (FTR-098, FTR-083) gives the AI devel
 
 ### Consequences
 
-- Sentry MCP added to project configuration at Arc 1 alongside existing Neon MCP
+- Sentry MCP added to project configuration at Milestone 1a alongside existing Neon MCP
 - Contentful MCP evaluated and added at Milestone 1c when Contentful webhook sync activates
-- GitHub MCP evaluated during Arc 1; kept or dropped based on actual utility versus `gh` CLI
+- GitHub MCP evaluated during Milestone 1a; kept or dropped based on actual utility versus `gh` CLI
 - SRF Corpus MCP server moved to Unscheduled Features (2026-02-24). Architecture preserved in FTR-083.
 - AWS MCP explicitly not adopted — Platform MCP + Sentry + `aws` CLI is sufficient
 - MCP server configuration documented in CLAUDE.md for all future AI sessions
-- This decision is revisited at Arc 6 (cross-media) and Milestone 7a (user accounts) when new services enter the stack
+- This decision is revisited at future milestones (cross-media) and Milestone 7a (user accounts) when new services enter the stack
 
 ## Specification
 
@@ -87,7 +87,7 @@ These are Claude's operational interface during development. They are the Operat
 | MCP Server | Use Case | Availability | Role |
 |------------|----------|-------------|------|
 | **Neon MCP** (`@neondatabase/mcp-server-neon`) | Branch creation, SQL execution, schema diffs, migration safety (`prepare_database_migration`/`complete_database_migration`/`compare_database_schema`), connection string retrieval, Time Travel queries | Available now | **Primary operations interface** — replaces Console for verification, experimentation, and development workflows. See FTR-095 § Three-Layer Neon Management Model. |
-| **Sentry MCP** | Error investigation — stack traces, breadcrumbs, affected routes | Arc 1 | Debugging and incident response |
+| **Sentry MCP** | Error investigation — stack traces, breadcrumbs, affected routes | Milestone 1a | Debugging and incident response |
 | **Contentful MCP** | Content model design, entry management during development | Milestone 1c (evaluate) | CMS operations |
 
 See FTR-083 for the full evaluation framework (essential, high-value, evaluate, not recommended).
@@ -104,7 +104,7 @@ Claude Code (dev) → MCP Tool → Service Layer → Neon
 
 The service layer doesn't care who's calling. The access protocol and metadata envelope differ by tier.
 
-#### Tier 1: Development (Arc 1)
+#### Tier 1: Development (Milestone 1a)
 
 Unrestricted access for Claude Code during portal development. Also used for iterating on guide pathway generation prompts (FTR-069 § Worldview Guide Pathway Generation, FTR-056 § Worldview Pathway Catalog) — developer tests "generate a guide pathway for Buddhist meditators" interactively, refining prompt templates before deploying to the admin portal batch workflow.
 
@@ -134,7 +134,7 @@ Authenticated service-to-service access for editorial AI agents, batch pipelines
 | `get_person_context(person_slug)` | `people.ts` | Biography, lineage position, key mentioning passages | 3c |
 | `get_graph_neighborhood(node_id, depth, types[])` | `graph.ts` | Subgraph around any node, filtered by node/edge type | 3d |
 | `get_search_trends(period, min_count)` | `analytics.ts` | Anonymized aggregated query themes (DELTA-compliant) | 3d |
-| `find_concept_path(source_slug, target_slug)` | `graph.ts` | Shortest ontological path between two concepts | Arc 4 |
+| `find_concept_path(source_slug, target_slug)` | `graph.ts` | Shortest ontological path between two concepts | Milestone 4a+ |
 | `get_passage_translations(canonical_chunk_id)` | `translations.ts` | All language variants of a passage | 5b |
 
 **Internal MCP use cases by consumer:**
@@ -142,10 +142,10 @@ Authenticated service-to-service access for editorial AI agents, batch pipelines
 | Consumer | Primary Tools | Milestone |
 |---|---|---|
 | Theme tag proposal AI | `get_similar_passages`, `get_content_coverage`, `get_graph_neighborhood` | 3b, 3d |
-| Guide pathway generation AI | `search_corpus`, `search_references`, `get_vocabulary_bridge`, `find_concept_path` | 3b, Arc 4 |
+| Guide pathway generation AI | `search_corpus`, `search_references`, `get_vocabulary_bridge`, `find_concept_path` | 3b, Milestone 4a+ |
 | Ingestion QA AI | `get_chunk_with_context`, `verify_citation` | 3b |
 | Translation review AI | `get_passage_translations`, `get_glossary_terms_in_passage` | 5b |
-| Reading thread drafting AI | `get_cross_book_connections`, `get_graph_neighborhood`, `find_concept_path` | 3c, 3d, Arc 4 |
+| Reading thread drafting AI | `get_cross_book_connections`, `get_graph_neighborhood`, `find_concept_path` | 3c, 3d, Milestone 4a+ |
 | Social media caption AI | `search_corpus`, `get_book_metadata`, `get_theme_metadata` | 5a |
 | Impact narrative AI | `get_search_trends`, `get_graph_neighborhood` | 3d |
 | SRF mobile app | `search_corpus`, `get_daily_passage`, `get_graph_neighborhood`, `get_person_context` | TBD (stakeholder) |

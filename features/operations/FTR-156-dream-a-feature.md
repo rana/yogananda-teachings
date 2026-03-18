@@ -1,10 +1,11 @@
 ---
 ftr: 156
 title: Dream a Feature
+summary: "Claude Code skill orchestrating autonomous feature lifecycle from dream to preview deployment"
 state: proposed
 domain: operations
-arc: 2+
-governed-by: [FTR-110, FTR-094, FTR-098, FTR-095, FTR-159]
+governed-by: [PRI-12]
+depends-on: [FTR-110, FTR-094, FTR-095]
 ---
 
 # FTR-156: Dream a Feature
@@ -15,9 +16,9 @@ governed-by: [FTR-110, FTR-094, FTR-098, FTR-095, FTR-159]
 **Type:** Feature
 **Governing Refs:** FTR-110 (Multi-Environment — branch=environment), FTR-094 (Neon Platform — branching), FTR-098 (MCP Strategy), FTR-095 (Infrastructure), FTR-159 (Feature Lifecycle Portal — the human surface that consumes this engine's output)
 **Target:** Milestone 2a (skill definition) — requires working portal to prototype against
-**Dependencies:** Working portal (at least Milestone 1c deployed). Neon branch-per-PR operational. Vercel preview deploys active. PRO-NNN lifecycle in PROPOSALS.md.
+**Dependencies:** Working portal (at least Milestone 1c deployed). Neon branch-per-PR operational. Vercel preview deploys active. FTR lifecycle in features/.
 
-**The vision.** Someone — the human principal, an SRF stakeholder, a future team member — describes a feature they imagine. Claude orchestrates the full lifecycle: proposal creation, isolated environment, implementation, preview deployment, and impact assessment. If accepted, the feature merges. If not, the branch is cleaned up and the PRO entry records what was learned.
+**The vision.** Someone — the human principal, an SRF stakeholder, a future team member — describes a feature they imagine. Claude orchestrates the full lifecycle: proposal creation, isolated environment, implementation, preview deployment, and impact assessment. If accepted, the feature merges. If not, the branch is cleaned up and the FTR entry records what was learned.
 
 **Relationship to FTR-159:** FTR-156 is the autonomous development *engine* — it creates branches, implements features, and deploys previews. FTR-159 is the human *surface* — it presents the engineering leader with a morning brief, stakeholder feedback, decision journal, and "Show Me" walkthroughs. FTR-156 can function without FTR-159 (GitHub PRs + Vercel previews are sufficient). FTR-159 requires FTR-156 as the engine that populates the feature catalog.
 
@@ -29,15 +30,15 @@ This is not a platform. It is not Gemini AppSheet. It is a Claude Code skill tha
 
 ```
 1. Parse the feature description (natural language)
-2. /dedup-proposals — check if a related PRO already exists
-3. If no existing PRO: create PRO-NNN entry in PROPOSALS.md
-4. Create feature branch: git checkout -b dream/PRO-NNN-{slug}
-5. Create Neon branch from dev: neonctl branches create --name dream/PRO-NNN
+2. Check if a related FTR already exists (search features/)
+3. If no existing FTR: create FTR-NNN file in features/{domain}/
+4. Create feature branch: git checkout -b dream/FTR-NNN-{slug}
+5. Create Neon branch from dev: neonctl branches create --name dream/FTR-NNN
 6. Implement the feature on the branch
 7. Push branch → Vercel auto-deploys preview
 8. Run smoke-test.sh against preview URL
 9. Generate impact assessment (see below)
-10. Present: preview URL + PRO reference + impact assessment
+10. Present: preview URL + FTR reference + impact assessment
 11. Await human decision: promote, iterate, or discard
 ```
 
@@ -49,7 +50,7 @@ Example for a hypothetical "reading progress indicator" dream:
 
 ```
 Dream: "Show readers how far they are in a chapter"
-PRO: FTR-157 (auto-created)
+FTR: FTR-157 (auto-created)
 Preview: https://dream-pro-040.vercel.app
 
 Impact Assessment:
@@ -82,8 +83,8 @@ The assessment answers the question every stakeholder cares about: **"Is this wo
 | State | TTL | Action |
 |-------|-----|--------|
 | Active preview | 14 days | Auto-delete Neon branch + Vercel preview after 14 days of inactivity |
-| Promoted | — | Merged to main via standard PR flow; PRO status → Adopted |
-| Discarded | — | Branch deleted, Neon branch deleted, PRO status updated with learnings |
+| Promoted | — | Merged to main via standard PR flow; FTR state → approved |
+| Discarded | — | Branch deleted, Neon branch deleted, FTR state updated with learnings |
 | Iterated | Resets 14-day TTL | Human requests changes, Claude modifies on the same branch |
 
 **Nightly cleanup:** `scripts/dream-cleanup.sh` deletes dream branches older than 14 days with no activity. Added to `neon-cleanup.yml` cron.
@@ -91,7 +92,7 @@ The assessment answers the question every stakeholder cares about: **"Is this wo
 **Who can dream?** Anyone with access to Claude Code in this repository. The skill is in `.claude/skills/dream/SKILL.md` — available to all operators. The human principal retains promotion authority (only they merge PRs to main). Non-technical stakeholders can dream features; they see preview URLs, not code.
 
 **Relationship to existing workflow:**
-- This formalizes what already happens in Claude Code conversations, adding: Neon branch isolation, Vercel preview deployment, structured impact assessment, and PRO lifecycle integration.
+- This formalizes what already happens in Claude Code conversations, adding: Neon branch isolation, Vercel preview deployment, structured impact assessment, and FTR lifecycle integration.
 - FTR-110 says branch=environment. Dream branches are disposable environments.
 - FTR-094 Neon branching is instant and zero-cost. Each dream gets its own database state.
 

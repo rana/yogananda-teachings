@@ -1,9 +1,9 @@
 ---
 ftr: 9
 title: DELTA-Relaxed Authenticated Experience
+summary: "Two-tier experience: anonymous default with full DELTA compliance, optional auth for sync and collections"
 state: approved
 domain: foundation
-arc: 7a+
 governed-by: [PRI-08, PRI-09]
 ---
 

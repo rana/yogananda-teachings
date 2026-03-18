@@ -1,10 +1,11 @@
 ---
 ftr: 38
 title: Cognitive Task Classification (COG-NN)
+summary: "Four cognitive levels times three latency contexts determining AI model selection for every system task"
 state: approved
 domain: search
-arc: 1a+
 governed-by: [PRI-12]
+depends-on: [FTR-105]
 ---
 
 # FTR-038: Cognitive Task Classification

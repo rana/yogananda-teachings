@@ -1,10 +1,11 @@
 ---
 ftr: 75
-title: Magazine Integration — Self-Realization Magazine as First-Class Content
+title: "Magazine Integration — Self-Realization Magazine as First-Class Content"
+summary: "Self-Realization Magazine as primary content type with differentiated treatment by article category"
 state: approved
 domain: editorial
-arc: "4"
 governed-by: [PRI-01, PRI-02]
+depends-on: [FTR-018, FTR-022]
 ---
 
 # FTR-075: Magazine Integration
@@ -81,7 +82,7 @@ CREATE TABLE magazine_chunks (
   content TEXT NOT NULL,
   page_number INTEGER,
   embedding VECTOR(1024),
-  embedding_model TEXT NOT NULL DEFAULT 'voyage-3-large',
+  embedding_model TEXT NOT NULL DEFAULT 'voyage-4-large',
   embedding_dimension INTEGER NOT NULL DEFAULT 1024,
   embedded_at TIMESTAMPTZ DEFAULT now,
   content_hash TEXT NOT NULL,
@@ -134,15 +135,15 @@ The public `/seeking` dashboard links to published magazine features: "Read the 
 
 ### Scheduling
 
-- Schema and ingestion pipeline: Arc 4 (alongside chapter/book PDF infrastructure)
-- Magazine browsing UI: Arc 4
-- Search integration (Yogananda's articles): Arc 4
-- Magazine ↔ "What Is Humanity Seeking?" symbiosis: Arc 4
+- Schema and ingestion pipeline: Milestone 3b+ (alongside chapter/book PDF infrastructure)
+- Magazine browsing UI: Milestone 3b+
+- Search integration (Yogananda's articles): Milestone 3b+
+- Magazine ↔ "What Is Humanity Seeking?" symbiosis: Milestone 3b+
 
 ### Consequences
 
 - Three new tables: `magazine_issues`, `magazine_articles`, `magazine_chunks`
-- `magazine_chunks` participates in `chunk_relations` (or `content_relations` post-Arc 6) graph
+- `magazine_chunks` participates in `chunk_relations` (or `content_relations` in future milestones) graph
 - `hybrid_search` extended to include magazine chunks
 - Navigation updated: "Magazine" added between "Videos" and "Quiet"
 - Magazine ingestion pipeline mirrors book ingestion (PDF → chunk → embed → QA)

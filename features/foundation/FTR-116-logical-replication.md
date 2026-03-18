@@ -1,11 +1,12 @@
 ---
 ftr: 116
 title: Logical Replication for Analytics CDC
+summary: "Neon outbound logical replication to analytics platforms for DELTA-compliant content and aggregate metrics"
 state: proposed
 domain: foundation
-arc: 3+
-governed-by: [FTR-094, FTR-082, FTR-085]
-re-evaluate-at: Arc 3 boundary
+governed-by: [PRI-09, PRI-10]
+depends-on: [FTR-094, FTR-082, FTR-085]
+re-evaluate-at: Milestone 3b
 ---
 
 # FTR-116: Logical Replication for Analytics CDC
@@ -17,5 +18,5 @@ Neon supports outbound logical replication to analytics platforms (ClickHouse vi
 ## Notes
 
 - **Dependencies:** Scale tier (already selected). Analytics destination (ClickHouse, Snowflake, or similar).
-- **Re-evaluate at:** Arc 3 boundary (when editorial operations generate analytics needs)
+- **Re-evaluate at:** M3d boundary (when editorial operations generate analytics needs)
 - **Decision required from:** Architecture + DELTA compliance review

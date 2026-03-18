@@ -1,9 +1,11 @@
 ---
 ftr: 136
-title: Spoken Teachings — Human Narration Program
+title: "Spoken Teachings — Human Narration Program"
+summary: "Human narration program for audio teachings: archival voice, monastic reading, Listen mode, distribution"
 state: proposed
 domain: experience
-arc: unscheduled
+governed-by: [PRI-01, PRI-03, PRI-05, PRI-07]
+depends-on: [FTR-008, FTR-142]
 ---
 
 # FTR-136: Spoken Teachings
@@ -50,7 +52,7 @@ arc: unscheduled
 - What is the relationship between portal narration and commercial audiobook distribution?
 - Could the philanthropist's funding support recording infrastructure and/or a dedicated narrator role?
 
-**Re-evaluate At:** Arc 2 boundary — or earlier if organizational conversations surface readiness
+**Re-evaluate At:** Phase 2 boundary — or earlier if organizational conversations surface readiness
 **Decision Required From:** SRF editorial + SRF/YSS leadership (organizational commitment) + Architecture (portal delivery)
 **Related Explorations:** `book-read-to-me-mode-toggle-displayed-next-to-book-text.md` (archived)
 

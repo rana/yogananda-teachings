@@ -82,7 +82,7 @@ The commitments are specific: homepage initial payload under 50KB; text-only mod
 
 When a feature proposal seems to conflict with this principle, the response is not "we can't do that" but "and how does the base experience work?" Global-First does not constrain ambition. It demands that ambition serve everyone.
 
-**Prioritization metric:** When scope must be ordered, the option serving more reachable people ships first. Reachable population (speakers × internet penetration × content availability) is the default tiebreaker for all scope decisions. Spanish (~430M reachable) is activated alongside English from Arc 1. Hindi (~425M) is Tier 1 but deferred from Arc 1 — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in Milestone 5b when an authorized source becomes available. See FTR-011 for the full quantitative framework, application protocol, and demographic data.
+**Prioritization metric:** When scope must be ordered, the option serving more reachable people ships first. Reachable population (speakers × internet penetration × content availability) is the default tiebreaker for all scope decisions. Spanish (~430M reachable) is activated alongside English from the start. Hindi (~425M) is Tier 1 but deferred — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in Milestone 5b when an authorized source becomes available. See FTR-011 for the full quantitative framework, application protocol, and demographic data.
 
 ---
 
@@ -90,7 +90,7 @@ When a feature proposal seems to conflict with this principle, the response is n
 
 **Every content table carries a `language` column from the first migration.** Every content API accepts a `language` parameter. UI strings externalized, CSS uses logical properties, schema includes cross-language linking. Adding a new language should require zero schema migrations, zero API changes, and zero search rewrites. (FTR-058, FTR-058, FTR-058, FTR-135)
 
-The multilingual commitment shapes technical decisions made long before all translations exist. Voyage voyage-3-large was selected as the embedding model specifically for its multilingual capability (26 languages, unified cross-lingual embedding space) — validated from Arc 1 with bilingual content (en/es). pg_search uses ICU tokenization that handles Latin, Cyrillic, Arabic, Thai, and Devanagari from day one. CSS logical properties (`margin-inline-start` not `margin-left`) are required from Milestone 2a so RTL languages work without layout redesign.
+The multilingual commitment shapes technical decisions made long before all translations exist. Voyage voyage-4-large was selected as the embedding model specifically for its multilingual capability (26 languages, unified cross-lingual embedding space) — validated from M1b with bilingual content (en/es). pg_search uses ICU tokenization that handles Latin, Cyrillic, Arabic, Thai, and Devanagari from day one. CSS logical properties (`margin-inline-start` not `margin-left`) are required from Milestone 2a so RTL languages work without layout redesign.
 
 The three-layer localization strategy: Layer 1 is UI chrome (~200-300 strings, externalized in JSON via next-intl); Layer 2 is portal-authored content (theme descriptions, entry points, editorial reading threads — authored per locale, not translated); Layer 3 is Yogananda's published text (only official SRF/YSS translations, never machine-translated). Each layer has different authoring authority and different translation workflows.
 
@@ -116,7 +116,7 @@ Standard web patterns — aggressive CTAs, notification badges, engagement dashb
 
 The design system is derived from existing SRF properties (yogananda.org, the Online Meditation Center, the convocation site), enhanced with Calm Technology constraints: generous whitespace as "digital silence," warm backgrounds (never pure white), no decorative animations beyond subtle 0.3s transitions, pill-shaped buttons from SRF's established interaction patterns. The portal's visual language should feel like entering a library, not a marketplace.
 
-Personalization features are classified into three tiers (FTR-002): build (language preference, font size, bookmarks — genuinely helpful); build with caution (search history — opt-in only, user-clearable, never inferred); never build (reading streaks, behavioral recommendations, social features, push notifications, engagement dashboards). The portal's anonymous experience through Arc 6 must be excellent without any personalization.
+Personalization features are classified into three tiers (FTR-002): build (language preference, font size, bookmarks — genuinely helpful); build with caution (search history — opt-in only, user-clearable, never inferred); never build (reading streaks, behavioral recommendations, social features, push notifications, engagement dashboards). The portal's anonymous experience through all milestones must be excellent without any personalization.
 
 ---
 
@@ -144,7 +144,7 @@ The consequence for code: never install analytics that track users. Never add se
 
 The teaching portal serves Yogananda's published works — content that is timeless. The portal itself should be designed for an organization that thinks in decades, not quarters. SRF has existed since 1920. Component replacement is expected and planned for — it's maintenance, not failure.
 
-Three durability tiers: Tier 1 (effectively permanent, 10+ years) — PostgreSQL, the service layer, the data model, SQL migrations, REST + JSON APIs, HTML + CSS, platform config (`teachings.json`), WCAG standards. Tier 2 (stable, 5-7 years) — Next.js, Vercel, Contentful (editorial source of truth from Arc 1; FTR-102). Tier 3 (replaceable) — specific npm packages, Claude model versions, embedding model versions, Auth0, Amplitude. The five longevity guarantees: all data in PostgreSQL; business logic is framework-agnostic; raw SQL migrations; standard protocols at boundaries; decisions are documented.
+Three durability tiers: Tier 1 (effectively permanent, 10+ years) — PostgreSQL, the service layer, the data model, SQL migrations, REST + JSON APIs, HTML + CSS, platform config (`teachings.json`), WCAG standards. Tier 2 (stable, 5-7 years) — Next.js, Vercel, Contentful (editorial source of truth from M1a; FTR-102). Tier 3 (replaceable) — specific npm packages, Claude model versions, embedding model versions, Auth0, Amplitude. The five longevity guarantees: all data in PostgreSQL; business logic is framework-agnostic; raw SQL migrations; standard protocols at boundaries; decisions are documented.
 
 The search quality test suite (bilingual golden set — FTR-037) serves as the acceptance gate for any AI model migration — you can swap embedding models or LLM providers and verify the system still works.
 
@@ -154,7 +154,7 @@ The search quality test suite (bilingual golden set — FTR-037) serves as the a
 
 **All business logic in `/lib/services/`.** API routes use `/api/v1/` prefix. All routes public (no auth until Milestone 7a+). Cursor-based pagination. (FTR-015)
 
-Next.js encourages embedding business logic in React Server Components. This is convenient but creates platform lock: Server Components are callable only by the Next.js rendering pipeline, not by mobile apps, third-party integrations, or PWA Service Workers. If business logic migrates into Server Components during Arcs 1–6, extracting it later is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
+Next.js encourages embedding business logic in React Server Components. This is convenient but creates platform lock: Server Components are callable only by the Next.js rendering pipeline, not by mobile apps, third-party integrations, or PWA Service Workers. If business logic migrates into Server Components during early milestones, extracting it later is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
 
 The shared service layer (`/lib/services/`) is pure TypeScript with zero framework imports. A framework migration rewrites the UI layer (~40% of code), not the business logic (~60%). This is the single most important structural rule for the project's longevity (FTR-004). Every user-facing feature has both a callable service function and a REST API endpoint. Server Components call service functions directly; external consumers call REST endpoints. Both hit the same logic.
 

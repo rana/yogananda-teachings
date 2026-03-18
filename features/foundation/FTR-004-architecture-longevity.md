@@ -1,9 +1,9 @@
 ---
 ftr: 4
-title: Architecture Longevity — 10-Year Design Horizon
+title: "Architecture Longevity — 10-Year Design Horizon"
+summary: "Three-tier durability model: permanent foundations, replaceable platforms, and disposable tools"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 always-load: true
 ---

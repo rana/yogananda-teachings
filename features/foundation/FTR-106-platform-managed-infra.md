@@ -1,9 +1,9 @@
 ---
 ftr: 106
 title: Platform-Managed Infrastructure
-state: approved
+summary: "Platform MCP as primary infrastructure interface with teachings.json declarative manifest"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10, PRI-12]
 ---
 

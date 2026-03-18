@@ -1,9 +1,11 @@
 ---
 ftr: 45
 title: Platform Parity Mobile
-state: approved
+summary: "Shared service layer and API conventions enabling future native mobile app consumption"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-10, PRI-11]
+depends-on: [FTR-015]
 ---
 
 # FTR-045: Platform Parity Mobile
@@ -11,7 +13,7 @@ arc: "2"
 ## Rationale
 
 
-The portal is a web application, but its API surface will likely be consumed by native mobile apps eventually — either a standalone portal app, integration into the existing SRF mobile app, or both. FTR-015 establishes the architectural conventions that make this possible at zero Arc 1 cost.
+The portal is a web application, but its API surface will likely be consumed by native mobile apps eventually — either a standalone portal app, integration into the existing SRF mobile app, or both. FTR-015 establishes the architectural conventions that make this possible at zero additional cost.
 
 ### Shared Service Layer
 
@@ -70,7 +72,7 @@ export { sql };
 | Convention | Rule | Rationale |
 |------------|------|-----------|
 | **Versioning** | All routes prefixed `/api/v1/`. Never break v1 after mobile apps ship. | Mobile apps can't force-update users. |
-| **Auth** | All routes public (no auth) through Arc 6. Auth added only if/when Milestone 7a accounts are implemented. | Frictionless access is the mission. Auth is additive, never a gate on reading or search. |
+| **Auth** | All routes public (no auth) through Milestone 7a. Auth added only if/when Milestone 7a accounts are implemented. | Frictionless access is the mission. Auth is additive, never a gate on reading or search. |
 | **Pagination** | Cursor-based: `{ results, cursor, hasMore }`. No page-number pagination. | Stable across data changes; mobile infinite scroll. |
 | **Cache headers** | Explicit `Cache-Control` on every response. Book text: long-lived. Search: no-store. Daily passage: 1 hour. | Mobile apps cache intelligently without custom logic. |
 | **Response shape** | Presentation-agnostic JSON. No HTML in responses. No assumptions about rendering. | Same response serves web, mobile, and any future consumer. |
@@ -126,7 +128,7 @@ Passage URLs (`/passage/[chunk-id]`) are designed for universal link interceptio
 
 These files are added when a native app launches. The URL structure that makes them work is established now.
 
-### PWA Readiness (Distributed Across Arcs)
+### PWA Readiness (Distributed Across Milestones)
 
 Before native apps, a Progressive Web App provides offline reading, home screen installation, and a lighter footprint. See FTR-103.
 

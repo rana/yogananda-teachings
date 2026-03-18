@@ -1,9 +1,10 @@
 ---
 ftr: 49
 title: Events Signpost
+summary: "Lightweight signpost linking seekers to SRF events, retreats, and commemorations"
 state: approved-provisional
 domain: experience
-arc: "2"
+governed-by: [PRI-04]
 ---
 
 # FTR-049: Events Signpost

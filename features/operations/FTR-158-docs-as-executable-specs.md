@@ -1,10 +1,11 @@
 ---
 ftr: 158
 title: Spec Fidelity System
+summary: "Three-layer verification system mapping every FTR assertion to sentinel, fitness, or deep review"
 state: proposed
 domain: operations
-arc: 3a+
-governed-by: [FTR-084, FTR-081, FTR-096]
+governed-by: [PRI-10, PRI-12]
+depends-on: [FTR-084, FTR-081, FTR-096]
 ---
 
 # FTR-158: Spec Fidelity System
@@ -139,7 +140,7 @@ AI-assisted verification for assertions requiring judgment, context, or semantic
 |------|-------|--------|---------------|
 | **Builder awareness** | Claude implementing a deliverable | Before/during implementation | Gated-loading protocol surfaces relevant FTR constraints. Prevention, not verification. |
 | **Compliance sweep** | Claude in operator mode | Per milestone | `/verify` skill across domain FTRs. Produces compliance matrix. |
-| **Architectural audit** | Claude at arc boundaries | Arc gates | Full-corpus `/verify`. Feeds arc gate criteria (ROADMAP.md). |
+| **Architectural audit** | Claude at milestone boundaries | Milestone gates | Full-corpus `/verify`. Feeds milestone gate criteria (ROADMAP.md). |
 
 **Builder awareness** is the highest-leverage intervention. When Claude starts a deliverable, the gated-loading protocol in CLAUDE.md should surface relevant FTR assertions as constraints *before* code is written. The cheapest verification is the violation that never happens.
 
@@ -154,9 +155,9 @@ Domain: search (31 FTRs)
   Coverage: 94% (148/157 assertions, 9 deferred)
 ```
 
-**Architectural audit** is the arc gate ceremony — every `implemented` FTR gets a full `/verify` pass before arc transition approval.
+**Architectural audit** is the milestone gate ceremony — every `implemented` FTR gets a full `/verify` pass before milestone transition approval.
 
-**Cost:** Builder awareness: $0 (reading docs). Compliance sweep: ~$2-5 per domain. Architectural audit: ~$20-30 per arc gate.
+**Cost:** Builder awareness: $0 (reading docs). Compliance sweep: ~$2-5 per domain. Architectural audit: ~$20-30 per milestone gate.
 
 ### How the Layers Compose
 
@@ -178,9 +179,9 @@ Per milestone:
   L3 Compliance Sweep (/verify per domain)
   Advisory. Updates FTR states where verified.
 
-Per arc gate:
+Per milestone gate:
   L3 Architectural Audit (full /verify)
-  Go/no-go input for arc transition.
+  Go/no-go input for milestone transition.
 ```
 
 ### Optional: FTR Verification Sections

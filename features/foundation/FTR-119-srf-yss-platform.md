@@ -1,10 +1,11 @@
 ---
 ftr: 119
-title: Teachings Platform — Shared Foundation for SRF and YSS
+title: "Teachings Platform — Shared Foundation for SRF and YSS"
+summary: "Shared search engine and content pipeline serving SRF and YSS as equal partners with independent surfaces"
 state: proposed
 domain: foundation
-arc: 1+
-governed-by: [FTR-058, FTR-135, FTR-011, FTR-015]
+governed-by: [PRI-05, PRI-06, PRI-11]
+depends-on: [FTR-015, FTR-011, FTR-058, FTR-135]
 ---
 
 # FTR-119: Teachings Platform
@@ -28,7 +29,7 @@ The authorization conversation is extractive if it leads with "we need your Hind
 3. **Ask second.** With the widget demonstrating value, the Hindi authorization conversation becomes "shall we extend this to Hindi seekers?" rather than "can we have your text?"
 4. **Empower, don't extract.** Offer methodology transfer (AI-human collaboration, design documentation as institutional memory), development tooling (Claude Code skills for YSS integration), and technology choice (WordPress, React, or anything that calls REST).
 
-The timeline also matters. If the authorization conversation happens *after* the English portal launches (late 2026), Hindi activation could be 2027+. If it happens *during* Arc 1 development, Hindi could ship months earlier — potentially alongside or shortly after Spanish.
+The timeline also matters. If the authorization conversation happens *after* the English portal launches (late 2026), Hindi activation could be 2027+. If it happens *during* Milestone 1a development, Hindi could ship months earlier — potentially alongside or shortly after Spanish.
 
 ### Platform Architecture: Shared Engine, Independent Surfaces
 
@@ -39,7 +40,7 @@ SHARED ENGINE (one instance, both organizations benefit)
 ├── Content ingestion pipeline (source-agnostic, 12 steps)
 ├── AI enrichment (themes, entities, relations — deterministic)
 ├── Knowledge graph (cross-language, cross-author connections)
-├── Embedding index (Voyage voyage-3-large, 26 languages)
+├── Embedding index (Voyage voyage-4-large, 26 languages)
 └── REST API (/api/v1/*, language param, org param where needed)
 
 ORGANIZATION CONFIG (per-org settings, not multi-tenancy)
@@ -180,8 +181,8 @@ This is high-value, low-friction integration — the API exists, the app exists,
 
 | Phase | When | What |
 |-------|------|------|
-| **Design** | Arc 1 | Organization config structure. API parameter design. Widget architecture decisions. Documented in this PRO and successor ADR/DES when adopted. |
-| **Hindi activation** | When YSS authorizes | Hindi source text enters ingestion pipeline. Language readiness gate (FTR-058) determines activation timeline. Could be Arc 1 or early Arc 2. |
+| **Design** | Milestone 1a | Organization config structure. API parameter design. Widget architecture decisions. Documented in this PRO and successor ADR/DES when adopted. |
+| **Hindi activation** | When YSS authorizes | Hindi source text enters ingestion pipeline. Language readiness gate (FTR-058) determines activation timeline. Could be Milestone 1a or early Phase 2. |
 | **API + Widgets** | Milestone 2a+ | Organization-aware API parameters. Embeddable search widget with configurable branding. YSS can integrate into yssofindia.org. |
 | **Content expansion** | Milestone 5b+ | Tamil, Telugu, Kannada editions enter corpus. Magazine content from both organizations. Each clears readiness gate independently. |
 | **Full deployment** | When YSS is ready | YSS-branded portal deployment if desired. Same codebase, different configuration. |
@@ -209,7 +210,7 @@ Search engine architecture, enrichment pipeline, knowledge graph, API convention
 ## Notes
 
 - **Dependencies:** Working API (Milestone 1c). Hindi authorization conversation with YSS. Content availability in Tamil, Telugu, Kannada.
-- **Target:** Design decisions in Arc 1; content activation incremental from Milestone 5b onward (or earlier if Hindi authorization proceeds)
-- **Re-evaluate at:** Arc 1 boundary (design decisions), Hindi authorization progress, Milestone 5b planning
+- **Target:** Design decisions in Milestone 1a; content activation incremental from Milestone 5b onward (or earlier if Hindi authorization proceeds)
+- **Re-evaluate at:** Milestone 1c boundary (design decisions), Hindi authorization progress, Milestone 5b planning
 - **Decision required from:** Human principal (YSS stakeholder conversation), Architecture (config structure, API parameters, widget architecture)
 - **Absorbs:** FTR-119 (YSS Locale Branding — subsumed by Component 4)

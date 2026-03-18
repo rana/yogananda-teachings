@@ -1,10 +1,11 @@
 ---
 ftr: 62
-title: Living Glossary — Spiritual Terminology as User-Facing Feature
+title: "Living Glossary — Spiritual Terminology as User-Facing Feature"
+summary: "Browsable glossary page and opt-in inline term highlighting with verbatim Yogananda definitions"
 state: approved
 domain: editorial
-arc: 2b+
-governed-by: [PRI-01, PRI-02]
+governed-by: [PRI-01, PRI-02, PRI-06]
+depends-on: [FTR-028]
 ---
 
 # FTR-062: Living Glossary

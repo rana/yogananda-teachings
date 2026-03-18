@@ -1,9 +1,9 @@
 ---
 ftr: 21
 title: Data Model
-state: approved
+summary: "Core database schema for books, chapters, chunks, embeddings, editions, and multilingual content"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-06, PRI-10]
 ---
 
@@ -56,7 +56,7 @@ ALTER TABLE books ADD COLUMN edition_year INTEGER; -- year of this specific edit
 
 ### Consequences
 
-- `edition` and `edition_year` columns added to `books` table in Arc 1 migration
+- `edition` and `edition_year` columns added to `books` table in Milestone 1a migration
 - `book_chunks_archive` table created (can be empty until an actual re-ingestion occurs)
 - Book landing pages display edition information
 - Re-ingestion workflow documented in the operational playbook
@@ -85,7 +85,7 @@ CREATE TABLE books (
  publication_year INTEGER,
  language TEXT NOT NULL DEFAULT 'en',
  isbn TEXT,
- source_url TEXT, -- PDF URL for Arc 1 ingestion
+ source_url TEXT, -- PDF URL for initial ingestion
  contentful_id TEXT, -- Contentful entry ID (production)
  cover_image_url TEXT,
  bookstore_url TEXT, -- SRF Bookstore URL for "Find this book" link.
@@ -154,8 +154,8 @@ CREATE TABLE book_chunks (
  paragraph_index INTEGER, -- position within chapter
 
  -- Search infrastructure
- embedding VECTOR(1024), -- Voyage voyage-3-large embedding vector (FTR-024)
- embedding_model TEXT NOT NULL DEFAULT 'voyage-3-large', -- which model generated this vector (FTR-024)
+ embedding VECTOR(1024), -- Voyage voyage-4-large embedding vector (FTR-024)
+ embedding_model TEXT NOT NULL DEFAULT 'voyage-4-large', -- which model generated this vector (FTR-024)
  embedding_dimension INTEGER NOT NULL DEFAULT 1024, -- vector dimensions for this chunk
  embedded_at TIMESTAMPTZ NOT NULL DEFAULT now(), -- when this chunk was last embedded
  script TEXT, -- latin|cjk|arabic|cyrillic|devanagari — routes BM25 index (FTR-025)
@@ -290,7 +290,7 @@ CREATE TABLE book_chunks_archive (
 
 The full schema continues with teaching_topics, topic_translations, chunk_topics, daily_passages, affirmations, search_queries, search_theme_aggregates, chapter_study_notes, chunk_relations, chunk_references, entity_registry, sanskrit_terms, suggestion_dictionary, extracted_relationships, and user_profiles tables. See the complete schema in `design/search/FTR-021-data-model.md`.
 
-### Contentful Content Model (Arc 1+)
+### Contentful Content Model (Milestone 1a+)
 
 Created in Milestone 1a as part of Contentful space setup. The content model is the editorial source of truth from the first milestone (FTR-102).
 
@@ -341,7 +341,7 @@ Batch sync script (run locally or via CI)
  ├── Extract plain text from Rich Text JSON AST
  ├── Chunk by paragraph boundaries (FTR-023)
  ├── Unified enrichment pass (Claude, FTR-026)
- ├── Generate embedding via Voyage voyage-3-large (FTR-024)
+ ├── Generate embedding via Voyage voyage-4-large (FTR-024)
  ├── Upsert into Neon book_chunks table
  │ (matched by contentful_id)
  └── Log sync event

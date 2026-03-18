@@ -1,9 +1,10 @@
 ---
 ftr: 132
 title: URL Strategy
+summary: "Content-hash deep links for stable passage URLs that survive re-ingestion"
 state: implemented
 domain: experience
-arc: "1"
+governed-by: [PRI-10]
 ---
 
 # FTR-132: URL Strategy
@@ -62,7 +63,7 @@ The `h` parameter is used only for resolution fallback when the paragraph_index 
 
 ### Consequences
 
-- `content_hash` column added to `book_chunks` table in the initial migration (Arc 1)
+- `content_hash` column added to `book_chunks` table in the initial migration
 - Share URLs include the `h` parameter (short hash suffix)
 - OG meta tags embed the content_hash for later verification
 - Re-ingestion scripts log when paragraph_index shifts occur, enabling link audit

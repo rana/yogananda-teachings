@@ -1,9 +1,9 @@
 ---
 ftr: 23
 title: Chunking Strategy Specification
-state: approved
+summary: "Document-type-aware paragraph chunking with 100-500 token range and special handling for poetry and dialogue"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-03]
 ---
 
@@ -29,7 +29,7 @@ Document the chunking strategy as a formal specification. The strategy is docume
 | Poetry / chant / prayer | Complete works, indivisible | Whole-poem chunks, never split |
 | Affirmation | Single-statement units | Individual affirmations as atomic units |
 
-**Default Chunking (Arc 1 through Milestone 3c):**
+**Default Chunking (Milestone 1a through Milestone 3c):**
 - **Unit:** Paragraph
 - **Token range:** 100-500 tokens (target: 200-300)
 - **Minimum:** 100 tokens (below this, merge with next paragraph)
@@ -46,7 +46,7 @@ Document the chunking strategy as a formal specification. The strategy is docume
 
 ### Consequences
 
-- Arc 1 ingestion script implements default chunking per this specification
+- Milestone 1a ingestion script implements default chunking per this specification
 - Milestone 3d verse-aware chunking implements the verse-commentary pair strategy
 - Milestone 5b per-language chunk size validation uses this specification as baseline
 

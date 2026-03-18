@@ -1,9 +1,9 @@
 ---
 ftr: 33
 title: Canonical Entity Registry and Sanskrit Normalization
-state: approved
+summary: "Canonical entity resolution tables mapping aliases to normalized teachers, concepts, Sanskrit terms, and places"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-06]
 ---
 

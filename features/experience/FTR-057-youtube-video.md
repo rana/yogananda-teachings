@@ -1,9 +1,10 @@
 ---
 ftr: 57
 title: YouTube Video Integration
+summary: "Hybrid RSS and YouTube Data API integration for auto-updating categorized video library"
 state: approved
 domain: experience
-arc: "2"
+governed-by: [PRI-09, PRI-10]
 ---
 
 # FTR-057: YouTube Video Integration
@@ -258,7 +259,7 @@ When monastic talks are transcribed, the transcripts become a new content type a
 
 ```sql
 -- ============================================================
--- VIDEO TRANSCRIPTS (Arc 6)
+-- VIDEO TRANSCRIPTS (future milestones)
 -- ============================================================
 CREATE TABLE video_transcripts (
  id UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -271,7 +272,7 @@ CREATE TABLE video_transcripts (
 );
 
 -- ============================================================
--- VIDEO CHUNKS (time-synced, embeddable, searchable — Arc 6)
+-- VIDEO CHUNKS (time-synced, embeddable, searchable — future milestones)
 -- ============================================================
 -- Same chunking strategy as book_chunks. Each chunk carries start/end
 -- timestamps enabling direct links to the exact video playback moment.
@@ -281,7 +282,7 @@ CREATE TABLE video_chunks (
  content TEXT NOT NULL, -- chunk text (same strategy as book_chunks)
  start_seconds FLOAT NOT NULL, -- timestamp where this chunk begins in the video
  end_seconds FLOAT NOT NULL, -- timestamp where this chunk ends
- embedding VECTOR(1024), -- same embedding model as book_chunks (Voyage voyage-3-large, FTR-024)
+ embedding VECTOR(1024), -- same embedding model as book_chunks (Voyage voyage-4-large, FTR-024)
  -- BM25 search via pg_search index (same FTS strategy as book_chunks, FTR-025)
  language TEXT NOT NULL DEFAULT 'en',
  created_at TIMESTAMPTZ NOT NULL DEFAULT now

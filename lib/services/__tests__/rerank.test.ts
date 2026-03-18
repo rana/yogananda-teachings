@@ -1,5 +1,5 @@
 /**
- * Rerank service tests — M2b-13.
+ * Rerank service tests — M3a-12.
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";

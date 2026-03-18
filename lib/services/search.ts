@@ -3,7 +3,7 @@
  *
  * Framework-agnostic (PRI-10). Receives a pg.Pool as dependency.
  * Pure hybrid search is the primary mode — no AI in the search path (FTR-027).
- * Optional enhancements: HyDE (M2b-12) and cross-encoder reranking (M2b-13).
+ * Optional enhancements: HyDE (M3a-11) and cross-encoder reranking (M3a-12).
  */
 
 import type pg from "pg";
@@ -57,7 +57,7 @@ export interface SearchResponse {
 // ── Embedding ────────────────────────────────────────────────────
 
 const VOYAGE_API_URL = "https://api.voyageai.com/v1/embeddings";
-const EMBEDDING_MODEL = "voyage-3-large";
+const EMBEDDING_MODEL = "voyage-4-large";
 
 // In-memory embedding cache. Voyage returns identical vectors for identical input.
 // Module-scoped: survives across invocations within the same serverless instance.
@@ -206,7 +206,7 @@ export async function search(
   const queryEmbedding = await getQueryEmbedding(query);
   const hasVectorSearch = queryEmbedding !== null;
 
-  // HyDE: generate hypothetical document and embed in document-space (M2b-12)
+  // HyDE: generate hypothetical document and embed in document-space (M3a-11)
   let hydeEmbedding: number[] | null = null;
   if (wantHyde && hasVectorSearch) {
     const hypothetical = await generateHypotheticalDocument(query, language);
@@ -255,7 +255,7 @@ export async function search(
     }
   }
 
-  // Cross-encoder reranking (M2b-13, FTR-027)
+  // Cross-encoder reranking (M3a-12, FTR-027)
   if (wantRerank && results.length > 0) {
     const reranked = await rerank(
       query,

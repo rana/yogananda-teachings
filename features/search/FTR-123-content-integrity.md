@@ -1,9 +1,9 @@
 ---
 ftr: 123
 title: Content Integrity Verification
-state: approved
+summary: "Paste-to-verify tool and SHA-256 book hashes proving verbatim fidelity of every displayed passage"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-02, PRI-03, PRI-05, PRI-07, PRI-09]
 ---
 

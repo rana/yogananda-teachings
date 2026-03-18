@@ -1,10 +1,11 @@
 ---
 ftr: 164
 title: Book Ingestion Operations
+summary: "Complete operational specification for the book ingestion pipeline with scripts, artifacts, and playbook"
 state: proposed
 domain: operations
-arc: 1a+
-governed-by: [FTR-022, PRI-01, PRI-06, PRI-12]
+governed-by: [PRI-01, PRI-06, PRI-12]
+depends-on: [FTR-022]
 ---
 
 # FTR-164: Book Ingestion Operations
@@ -81,22 +82,26 @@ This FTR documents the ebook extraction path in full. PDF and SRF-source paths s
                     STAGE 8: Contentful Import
                          |
                     STAGE 9: Neon Sync
+                         |
+                    STAGE 10: Unified Enrichment (FTR-026)
                         / \
                        /   \
                       v     v
-               STAGE 10:  STAGE 11: Compute Relations
+               STAGE 11:  STAGE 12: Compute Relations
                Rasa Class.    |
-                         STAGE 12: Generate Labels
+                         STAGE 13: Generate Labels
+                              |
+                         STAGE 14: Populate Chunk Topics
                               |
                          [if needed]
                               v
-                         STAGE 13: Backfill Embeddings
+                         STAGE 15: Backfill Embeddings
                               |
                               v
-                         STAGE 14: Rebuild Suggestion Dictionary (FTR-029)
+                         STAGE 16: Rebuild Suggestion Dictionary (FTR-029)
 ```
 
-**Parallelism:** Stages 6/6b (photo capture/crop) can run concurrently with Stages 5/5b (validation). Stage 10 (rasa) and Stage 11 (relations) can run concurrently after Stage 9.
+**Parallelism:** Stages 6/6b (photo capture/crop) can run concurrently with Stages 5/5b (validation). Stage 11 (rasa) and Stage 12 (relations) can run concurrently after Stage 10. Stage 10 (enrichment) must complete before Stage 14 (chunk topics) since it requires enriched `topics[]`.
 
 ### Script Inventory
 
@@ -129,6 +134,8 @@ This FTR documents the ebook extraction path in full. PDF and SRF-source paths s
 | `ingest-en.ts` | **Legacy.** English-specific direct ingestion. Superseded by `ingest.ts`. | `[--skip-embeddings] [--dry-run]` | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | — |
 | `compute-relations.ts` | Pre-compute nearest-neighbor chunk relations | `[--full] [--book <slug>] [--dry-run]` | NEON_DATABASE_URL_DIRECT | Neon (pgvector HNSW) | Yes |
 | `generate-labels.ts` | Contextual labels for related teachings | `[--dry-run] [--limit N] [--batch-size N]` | AWS creds, NEON_DATABASE_URL_DIRECT | AWS Bedrock (Claude Opus) | Yes (skips labeled) |
+| `enrich.ts` | FTR-026 unified enrichment (all metadata fields) | `--book <slug> [--all] [--force] [--opus] [--dry-run] [--limit N] [--concurrency N]` | AWS creds, NEON_DATABASE_URL_DIRECT | AWS Bedrock (Claude Sonnet/Opus) | Yes (skips enriched; --force re-enriches) |
+| `populate-chunk-topics.ts` | Wire enriched topics to teaching_topics | `[--book <slug>] [--dry-run] [--threshold N]` | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | Yes (ON CONFLICT DO NOTHING) |
 | `backfill-embeddings.ts` | Fill chunks with NULL embeddings | (no args) | NEON_DATABASE_URL_DIRECT, VOYAGE_API_KEY | Voyage AI, Neon | Yes |
 
 #### `scripts/` — Supporting Scripts
@@ -330,7 +337,7 @@ No schema migrations, no API changes, no search rewrites (per PRI-06).
 
 ### Future: Webhook Sync Mode
 
-Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of Arc 1.
+Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of Milestone 1a.
 
 ## Notes
 

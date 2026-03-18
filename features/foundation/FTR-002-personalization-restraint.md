@@ -1,9 +1,9 @@
 ---
 ftr: 2
-title: Personalization with Restraint — DELTA-Aligned Feature Boundaries
+title: "Personalization with Restraint — DELTA-Aligned Feature Boundaries"
+summary: "Three-tier classification of personalization features: build, build-with-caution, and never-build"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-08, PRI-09]
 ---
 
@@ -62,4 +62,14 @@ Classify personalization features into three tiers:
 
 - Milestone 7a (Optional User Accounts) remains the appropriate milestone for bookmark/reading-position features
 - The "personalized daily passage" in Milestone 7a must use explicit theme preference, not behavioral inference
-- The portal's anonymous experience (Arcs 1–5) must be excellent without any personalization — personalization enhances but never gates the core experience
+- The portal's anonymous experience (Milestones 1a–5c) must be excellent without any personalization — personalization enhances but never gates the core experience
+
+### DELTA as Advantage (Discovery Research, March 2026)
+
+Research on content-only recommendation systems (deep-research-report-discovery-without-surveillance-2026.md) provides empirical support for the DELTA framework's design philosophy:
+
+**The permanent cold start is a feature, not a bug.** Behavioral recommendation systems require an average of 11.3 sessions to stabilize a user's latent taste vector — during high-intent moments of need (grief, crisis, spiritual yearning), the system fails because it hasn't accumulated enough data. The portal's permanent cold start forces investment in corpus intelligence — enrichment metadata, knowledge graph, structural analysis — producing a system that responds to the seeker's *current* state of being rather than a mathematically averaged shadow of past behaviors.
+
+**Content-only systems eliminate popularity bias and filter bubbles.** Collaborative filtering creates rich-get-richer dynamics and echo chambers. Pure content-based discovery (powered by the portal's 14 enrichment fields, rasa classification, depth signatures, and cross-work concordance) surfaces passages based on intrinsic resonance rather than social proof.
+
+**The constraint produces superior discovery for sacred text.** A discovery experience that feels "chosen by someone who cares" serves seekers more deeply than one that feels "computed from your reading history." The portal's editorial curation, gift framing, and corpus-as-curator approach — all enabled by the DELTA constraint — create a phenomenology of care that behavioral systems cannot replicate.

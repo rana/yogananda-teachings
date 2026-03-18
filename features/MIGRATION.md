@@ -370,7 +370,7 @@ FTR-058 merges 5 old identifiers: ADR-075 (88 lines), DES-017 (full design file)
 
 ## Format Migration: YAML Frontmatter (2026-03-06)
 
-All 162 active FTR files converted from bold-text metadata headers to YAML frontmatter. Metadata fields (`state`, `domain`, `arc`, `governed-by`, `replaces`, `always-load`, `suspended`, `re-evaluate-at`) are now machine-parseable. Three format variants (plain bold, bulleted bold, blockquoted bold) unified into one. Heading subtitles after em-dash moved to frontmatter `title` field; `# FTR-NNN:` headings simplified. Body content unchanged. See `proposals/ftr-yaml-frontmatter-migration.md` for the full proposal.
+All 162 active FTR files converted from bold-text metadata headers to YAML frontmatter. Metadata fields (`state`, `domain`, `governed-by`, `replaces`, `always-load`, `suspended`, `re-evaluate-at`) are now machine-parseable. (The `arc` field was included in the initial conversion but subsequently removed when the arc organizational concept was retired in favor of milestone-only planning.) Three format variants (plain bold, bulleted bold, blockquoted bold) unified into one. Heading subtitles after em-dash moved to frontmatter `title` field; `# FTR-NNN:` headings simplified. Body content unchanged. See `proposals/ftr-yaml-frontmatter-migration.md` for the full proposal.
 
 ---
 

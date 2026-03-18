@@ -1,10 +1,11 @@
 ---
 ftr: 151
 title: AWS SES
+summary: "Evaluation of AWS SES versus SendGrid for DELTA-compliant daily passage email delivery"
 state: proposed
 domain: operations
-arc: 5+
-governed-by: [FTR-154, FTR-085, FTR-106]
+governed-by: [PRI-09, PRI-12]
+depends-on: [FTR-154, FTR-085, FTR-106]
 ---
 
 # FTR-151: AWS SES
@@ -26,7 +27,7 @@ The question: does the portal's minimal, DELTA-constrained email use case justif
 #### For SES (the case for divergence)
 
 1. **Already in the AWS footprint.** The portal uses S3, Bedrock, Lambda, EventBridge — all AWS. SES adds no new vendor, no new account, no new billing relationship. Platform MCP manages it alongside everything else (FTR-106).
-2. **Cost.** SES: $0.10/1,000 emails, no monthly minimum. SendGrid free tier: 100 emails/day; paid starts at $19.95/month for 50K emails. At portal scale (estimated 5K–50K daily subscribers by Arc 5), SES costs $0.50–$5/day. SendGrid costs $19.95+/month.
+2. **Cost.** SES: $0.10/1,000 emails, no monthly minimum. SendGrid free tier: 100 emails/day; paid starts at $19.95/month for 50K emails. At portal scale (estimated 5K–50K daily subscribers by Milestone 5a), SES costs $0.50–$5/day. SendGrid costs $19.95+/month.
 3. **DELTA simplicity.** SES has no built-in engagement tracking by default — open/click tracking must be explicitly enabled via configuration sets. SendGrid enables open/click tracking by default and requires active configuration to disable it (Tracking Settings API or per-message headers). For a DELTA-compliant system that must never track engagement, the "off by default" posture is safer.
 4. **No feature waste.** SendGrid's value is in templates (Stripo), A/B testing, marketing campaigns, contact management, engagement analytics. The portal uses none of these. The daily email is a Lambda function that renders one HTML passage and calls an email API.
 5. **AWS-native.** `aws_ses_domain_identity`, `aws_ses_configuration_set` — first-class AWS resources manageable via Platform MCP. No separate provider or third-party integration needed.
@@ -37,8 +38,8 @@ The question: does the portal's minimal, DELTA-constrained email use case justif
 1. **SRF standard.** SendGrid is the established email provider (Tech Stack Brief § Specialized Services). SRF's AE team has SendGrid expertise, existing accounts, established deliverability reputation, and operational procedures. Diverging adds another "why is the portal different?" conversation.
 2. **Deliverability bootstrapping.** SES requires warming a new sending domain — starting at low volume and gradually increasing over weeks. SendGrid's shared IP pools and established reputation provide good deliverability immediately. A new SES domain sending 50K emails on day one risks spam classification.
 3. **Bounce/complaint handling.** SendGrid has mature bounce management, suppression lists, and automatic unsubscribe handling built in. SES requires building these with SNS topics, Lambda handlers, and a suppression list in the database — more code to write and maintain.
-4. **SendGrid's free tier may suffice.** 100 emails/day (free) covers development and early testing. The Essentials plan ($19.95/month for 50K) covers the portal's likely volume through Arc 5. The cost difference is real but small relative to total infrastructure spend.
-5. **Operational handoff.** When the portal transitions to SRF operations (Arc 6+), SendGrid means the operations team is on familiar ground. SES means training on a different email system — even if it's simpler.
+4. **SendGrid's free tier may suffice.** 100 emails/day (free) covers development and early testing. The Essentials plan ($19.95/month for 50K) covers the portal's likely volume through Milestone 5a. The cost difference is real but small relative to total infrastructure spend.
+5. **Operational handoff.** When the portal transitions to SRF operations (post-M3d), SendGrid means the operations team is on familiar ground. SES means training on a different email system — even if it's simpler.
 6. **Avoid Redundancy principle.** Tech Stack Brief § Guiding Principle #7: "Where a standard has already been established in SRF, utilize that rather than introducing something new which overlaps."
 
 #### Through (the synthesis)

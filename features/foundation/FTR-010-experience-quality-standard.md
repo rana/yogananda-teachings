@@ -1,9 +1,9 @@
 ---
 ftr: 10
-title: Experience Quality Standard — Honoring the Spirit of the Teachings
+title: "Experience Quality Standard — Honoring the Spirit of the Teachings"
+summary: "Aspiration gate requiring every component to be both correct and worthy of presenting Yogananda's words"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-03]
 ---
 

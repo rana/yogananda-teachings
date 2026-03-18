@@ -1,9 +1,9 @@
 ---
 ftr: 82
 title: Observability
+summary: "DELTA-compliant observability stack with Sentry, New Relic, Amplitude, and Vercel Analytics"
 state: approved
 domain: operations
-arc: 1+
 governed-by: [PRI-08, PRI-09, PRI-12]
 always-load: true
 ---
@@ -153,12 +153,12 @@ Country code derived from Vercel edge headers, not IP geolocation lookup. Anonym
 
 ### Consequences
 
-- Arc 1 includes Sentry setup, structured logging (`lib/logger.ts`), and health check endpoint
+- Milestone 1a includes Sentry setup, structured logging (`lib/logger.ts`), and health check endpoint
 - New Relic integration in Milestone 3d (depending on SRF providing New Relic account access)
 - Amplitude configured with explicit allowlist — no autocapture, no user identification
 - DELTA compliance review of all observability configuration before launch
-- Vercel Analytics enabled from Arc 1 (free with Vercel deployment)
-- Practice Bridge events (`practice_bridge_shown`, `practice_bridge_followed`) included in Arc 1 structured logging — does not wait for Amplitude (M3d-5)
+- Vercel Analytics enabled from Milestone 1a (free with Vercel deployment)
+- Practice Bridge events (`practice_bridge_shown`, `practice_bridge_followed`) included in Milestone 1a structured logging — does not wait for Amplitude (M3d-5)
 - Infrastructure metrics (Vercel Analytics, New Relic, CDN logs) read as product intelligence before adding explicit Amplitude events — see FTR-096 § Infrastructure-as-Intelligence
 
 ## Specification

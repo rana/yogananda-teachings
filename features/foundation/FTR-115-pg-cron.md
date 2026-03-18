@@ -1,10 +1,11 @@
 ---
 ftr: 115
 title: pg_cron for In-Database Scheduling
+summary: "In-database cron for cache cleanup, embedding deprecation, stat snapshots, and daily passage rotation"
 state: proposed
 domain: foundation
-arc: 3+
-governed-by: [FTR-094, FTR-107]
+governed-by: [PRI-10]
+depends-on: [FTR-094, FTR-107]
 re-evaluate-at: Milestone 3a
 ---
 

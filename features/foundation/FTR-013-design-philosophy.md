@@ -1,9 +1,9 @@
 ---
 ftr: 13
 title: Design Philosophy
+summary: "Digital library with AI librarian: finds and surfaces Yogananda's actual words, never speaks for him"
 state: approved
 domain: foundation
-arc: 1+
 governed-by: [PRI-01, PRI-03]
 always-load: true
 ---

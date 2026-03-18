@@ -1,11 +1,12 @@
 ---
 ftr: 16
 title: Security Considerations
-state: approved
+summary: "Two-layer rate limiting, copyright headers, prompt injection mitigation, and privacy-first security model"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-09]
 always-load: true
+depends-on: [FTR-097]
 ---
 
 # FTR-016: Security Considerations
@@ -58,7 +59,7 @@ All services that process data on the portal's behalf, with their roles, data to
 
 | Service | GDPR Role | Data Touched | Region | Milestone |
 |---------|-----------|-------------|--------|-----------|
-| **Neon** | Processor | All server-side data (books, themes, search queries, subscribers) | US (default); EU read replica Arc 4+ | 1a+ |
+| **Neon** | Processor | All server-side data (books, themes, search queries, subscribers) | US (default); EU read replica Milestone 4a+ | 1a+ |
 | **Vercel** | Processor | Request logs (transient), edge headers, static assets | Global edges, US origin | 1a+ |
 | **Vercel Firewall** | Processor | Request metadata, IP for rate limiting (transient, not stored by portal) | Global (Vercel edge) | 1a+ |
 | **Amplitude** | Processor | Anonymized events with country_code (no user ID) | US | 3d+ |

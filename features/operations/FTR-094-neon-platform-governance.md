@@ -1,10 +1,11 @@
 ---
 ftr: 94
 title: Neon Platform Governance
-state: approved
+summary: "Neon Scale tier governance for PostgreSQL version, compute sizing, branching, and extensions"
+state: implemented
 domain: operations
-arc: 1a+
 governed-by: [PRI-10, PRI-12]
+depends-on: [FTR-104]
 ---
 
 # FTR-094: Neon Platform Governance
@@ -21,7 +22,7 @@ The portal uses Neon Serverless Postgres as its single database (FTR-104). Prior
 A comprehensive audit of Neon's feature catalog against our design documents revealed:
 
 1. **Tier-gated features.** Several capabilities critical to production readiness (30-day PITR, protected branches, OpenTelemetry export, configurable autosuspend) are only available on paid tiers.
-2. **Missing extensions.** `pg_stat_statements` (query performance) was not in the first migration despite clear Arc 1 value.
+2. **Missing extensions.** `pg_stat_statements` (query performance) was not in the first migration despite clear Milestone 1a value.
 3. **No compute governance.** No ADR specified compute sizing per environment, autosuspend policy, or scaling strategy.
 4. **No branch lifecycle policy.** Branch naming, TTL auto-expiry, and the distinction between persistent and ephemeral branches were undocumented.
 5. **No database observability.** The observability strategy (FTR-082) covered application monitoring but not database-level metrics.
@@ -41,15 +42,15 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 
 **PG18 features leveraged:**
 
-| Feature | Arc | Benefit |
-|---------|-----|---------|
-| `uuidv7()` | 1+ | Time-ordered UUIDs for all content tables. Better B-tree index locality than `gen_random_uuid()`. Natural chronological ordering without separate timestamp indexes. |
-| Skip scan on B-tree indexes | 1+ | Composite `(updated_at, id)` indexes (FTR-087) become usable for id-only queries. |
-| Parallel GIN index creation | 1+ | Speeds pg_search/ParadeDB BM25 index builds during ingestion. |
-| Enhanced `RETURNING` (OLD/NEW) | 1+ | Simplifies ingestion pipeline upsert logic and `book_chunks_archive` pattern. |
-| `EXPLAIN ANALYZE` with BUFFERS | 1+ | Included by default, complementing pg_stat_statements observability (this ADR). |
-| Data checksums by default | 1+ | Enabled automatically for new Neon projects. |
-| Unicode 16.0.0 | 1+ | Improved case mapping for Sanskrit/Hindi diacritics (FTR-131). |
+| Feature | Milestone | Benefit |
+|---------|-----------|---------|
+| `uuidv7()` | 1a+ | Time-ordered UUIDs for all content tables. Better B-tree index locality than `gen_random_uuid()`. Natural chronological ordering without separate timestamp indexes. |
+| Skip scan on B-tree indexes | 1a+ | Composite `(updated_at, id)` indexes (FTR-087) become usable for id-only queries. |
+| Parallel GIN index creation | 1a+ | Speeds pg_search/ParadeDB BM25 index builds during ingestion. |
+| Enhanced `RETURNING` (OLD/NEW) | 1a+ | Simplifies ingestion pipeline upsert logic and `book_chunks_archive` pattern. |
+| `EXPLAIN ANALYZE` with BUFFERS | 1a+ | Included by default, complementing pg_stat_statements observability (this ADR). |
+| Data checksums by default | 1a+ | Enabled automatically for new Neon projects. |
+| Unicode 16.0.0 | 1a+ | Improved case mapping for Sanskrit/Hindi diacritics (FTR-131). |
 | Virtual generated columns | 1c+ | Compute values at read time without storage overhead. Evaluate for normalized search text. |
 | `casefold()` | 1c+ | Unicode-aware case-insensitive matching. Evaluate for Sanskrit term normalization. |
 | `COPY REJECT_LIMIT` | M1a-4 | Error-tolerant bulk ingestion. Evaluate for PDF import pipeline. |
@@ -111,21 +112,24 @@ All ephemeral branches use TTL to guarantee cleanup. The 25-branch included allo
 
 Extensions enabled in the first migration (`001_initial_schema.sql`):
 
-| Extension | Purpose | Arc | Governing ADR |
-|-----------|---------|-----|---------------|
-| `vector` (pgvector) | Dense vector search (HNSW) | 1+ | FTR-101 |
-| `pg_search` (ParadeDB) | BM25 full-text search | 1+ | FTR-025 |
-| `pg_trgm` | Trigram fuzzy matching for suggestions | 1+ | FTR-029 |
-| `unaccent` | Diacritics-insensitive search | 1+ | FTR-131 |
-| `pg_stat_statements` | Query performance monitoring | 1+ | This ADR |
+| Extension | Purpose | Milestone | Governing ADR |
+|-----------|---------|-----------|---------------|
+| `vector` (pgvector) | Dense vector search (HNSW) | 1a+ | FTR-101 |
+| `pg_search` (ParadeDB) | BM25 full-text search | 1a+ | FTR-025 |
+| `pg_trgm` | Trigram fuzzy matching for suggestions | 1a+ | FTR-029 |
+| `unaccent` | Diacritics-insensitive search | 1a+ | FTR-131 |
+| `pg_stat_statements` | Query performance monitoring | 1a+ | This ADR |
 
-**Future extensions** (evaluate at arc boundaries):
+**Future extensions** (evaluate at milestone boundaries):
 
 | Extension | Purpose | Evaluate At | Notes |
 |-----------|---------|-------------|-------|
-| `pg_tiktoken` | Token counting for chunk pipeline | Milestone 1c | Deferred — uses OpenAI tokenizer (cl100k_base), not Voyage/Claude tokenizers. Evaluate when Anthropic/Bedrock provides accurate token counting. |
-| `pg_cron` | In-database scheduled jobs | Milestone 2a | Only useful with always-on compute; may replace some Lambda cron jobs |
-| `pgrag` | RAG utilities | Milestone 1c | Evaluate whether it simplifies the retrieval pipeline |
+| `hypopg` | Virtual index testing (hypothetical indexes visible only to planner) | Now (dev branches) | Zero risk — indexes exist only in planner memory. Useful for prototyping HNSW parameter changes, pg_search BM25 indexes, and ontology table indexes without build cost. `CREATE EXTENSION IF NOT EXISTS hypopg` on dev/migration branches. |
+| `pg_prewarm` | Buffer cache prewarming after compute wake-up | Milestone 3a | Addresses cold-start latency after autosuspend (production 300s). Preloads HNSW index, GIN index, and core search tables into shared buffers. Pair with `pg_cron` (FTR-115) for automatic prewarming. Directly serves PRI-05 (Global-First) — seekers shouldn't pay cold-cache latency. |
+| `pg_cron` | In-database scheduled jobs | Milestone 3a | Only useful with always-on compute; may replace some Lambda cron jobs. See FTR-115. |
+| `pg_tiktoken` | Token counting for chunk pipeline | Deferred | Uses OpenAI tokenizer (cl100k_base), not Voyage/Claude tokenizers. Evaluate when Anthropic/Bedrock provides accurate token counting. |
+| `pg_jsonschema` | JSONB column schema validation | Milestone 3b | Validate `entities`, `cross_references`, `metadata` columns on `book_chunks` and ontology JSONB. Re-evaluate when ontology tables (FTR-034) ship. Application-layer validation may suffice. |
+| `pgrag` | RAG utilities | Deferred | Evaluate whether it simplifies the retrieval pipeline. Custom pipeline likely sufficient. |
 
 **Extension addition policy:** New extensions require an ADR amendment or new ADR referencing this governance section. Extensions must be tested on a migration branch before production.
 

@@ -1,9 +1,9 @@
 ---
 ftr: 108
 title: CI-Agnostic Deployment Scripts
-state: approved
+summary: "Shell scripts in /scripts/ for migrations, smoke tests, and cleanup; CI YAML is thin orchestration only"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 ---
 
@@ -42,7 +42,7 @@ The CI config is a thin orchestration layer. The scripts contain the actual logi
 
 #### Multi-environment promotion pipeline
 
-For Arc 4+ with three environments (dev/staging/prod):
+For Milestone 4a+ with three environments (dev/staging/prod):
 
 ```
 PR → dev (auto) → staging (manual gate) → prod (manual gate)

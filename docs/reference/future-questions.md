@@ -46,7 +46,7 @@ When an arc enters active planning, move its questions back to CONTEXT.md § Ope
 ## Milestone 5b+ (Languages)
 
 ### Technical
-- [ ] Voyage voyage-3-large vs. voyage-multilingual-2 for CJK-heavy text: benchmark when CJK content exists. (FTR-024)
+- [ ] Voyage voyage-4-large vs. voyage-multilingual-2 for CJK-heavy text: benchmark when CJK content exists. (FTR-024)
 - [ ] Multilingual embedding quality evaluation: benchmark Voyage against Cohere embed-v3, BGE-M3 using actual translated passages. (FTR-024, FTR-024)
 - [ ] Domain-adapted embeddings research: fine-tune multilingual base model on Yogananda's corpus. Requires multilingual corpus and per-language evaluation suites. (FTR-024)
 - [ ] Transliteration support for Indic script search suggestions: Romanized input ("samadhi" not "समाधि"), CJK substring matching. (FTR-029, Milestone 5b)

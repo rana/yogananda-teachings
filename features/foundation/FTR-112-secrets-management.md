@@ -1,9 +1,9 @@
 ---
 ftr: 112
-title: Secrets Management Strategy — Two-Tier Model with AWS Secrets Manager
-state: approved
+title: "Secrets Management Strategy — Two-Tier Model with AWS Secrets Manager"
+summary: "AWS Secrets Manager as single source of truth for all credentials; Vercel env vars for non-secrets only"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10, PRI-12]
 ---
 

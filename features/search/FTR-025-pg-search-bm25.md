@@ -1,10 +1,11 @@
 ---
 ftr: 25
 title: pg_search / ParadeDB BM25 for Full-Text Search
+summary: "BM25 full-text search via ParadeDB pg_search extension with ICU tokenizer replacing tsvector"
 state: approved
 domain: search
-arc: 1a+
 governed-by: [PRI-06, PRI-10]
+depends-on: [FTR-020]
 ---
 
 # FTR-025: pg_search / ParadeDB BM25 for Full-Text Search
@@ -77,7 +78,7 @@ CREATE INDEX chunks_bm25_ja ON book_chunks
 
 - `tsvector` columns and indexes are not needed; pg_search BM25 indexes replace them entirely
 - The `hybrid_search` SQL function uses `paradedb.score(id)` and `@@@` operator instead of `ts_rank` and `@@`
-- Arc 1 BM25 indexes use ICU tokenizer for English, Hindi (Devanagari), and Spanish; CJK-specific indexes added in Milestone 5b
+- Milestone 1a BM25 indexes use ICU tokenizer for English, Hindi (Devanagari), and Spanish; CJK-specific indexes added in Milestone 5b
 - FTR-020 (Search Architecture) updated to reflect pg_search in the search flow
 - A `script` column on `book_chunks` routes queries to the appropriate partial index at Milestone 5b
 

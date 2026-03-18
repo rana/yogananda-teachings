@@ -1,9 +1,9 @@
 ---
 ftr: 61
 title: DELTA-Compliant Seeker Feedback Mechanism
+summary: "Three anonymous feedback channels for citation errors, search misses, and general input"
 state: approved-provisional
 domain: editorial
-arc: 3b
 governed-by: [PRI-08, PRI-09]
 ---
 

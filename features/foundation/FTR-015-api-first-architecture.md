@@ -1,9 +1,9 @@
 ---
 ftr: 15
 title: API-First Architecture for Platform Parity
-state: approved
+summary: "Shared service layer in /lib/services/ with versioned REST endpoints under /api/v1/"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10, PRI-11]
 always-load: true
 ---
@@ -20,11 +20,11 @@ The SRF already has a native mobile app (iOS/Android) with an eReader. While a d
 
 Next.js encourages a pattern where business logic lives inside React Server Components. This is convenient for web development but creates a platform lock: Server Components are callable only by the Next.js rendering pipeline, not by a mobile app, a third-party integration, or a PWA Service Worker.
 
-If business logic migrates into Server Components during Arcs 1–5, extracting it later into a proper API layer is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
+If business logic migrates into Server Components during Milestones 1a–5b, extracting it later into a proper API layer is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
 
 ### Decision
 
-Adopt **API-first architecture** with a **shared service layer** from Arc 1. Every user-facing feature must have both a callable service function and a REST API endpoint.
+Adopt **API-first architecture** with a **shared service layer** from Milestone 1a. Every user-facing feature must have both a callable service function and a REST API endpoint.
 
 #### 1. Shared Service Layer
 
@@ -47,7 +47,7 @@ This is a code organization rule, not a technology choice. The rule: **never put
 
 #### 2. API Versioning
 
-All API routes use a versioned prefix from Arc 1:
+All API routes use a versioned prefix from Milestone 1a:
 
 ```
 /api/v1/search
@@ -63,7 +63,7 @@ When the API evolves, `/api/v2/` coexists with `/api/v1/`. The web frontend alwa
 
 #### 3. Authentication: Public by Default
 
-**Arcs 1–6: All API routes are public.** No authentication required. The portal's core mission is frictionless access to the teachings — adding "Sign in" contradicts this.
+**All API routes are public through Milestone 7a.** No authentication required. The portal's core mission is frictionless access to the teachings — adding "Sign in" contradicts this.
 
 What auth would serve, and how it's handled without it:
 
@@ -116,7 +116,7 @@ The URL structure is decided now. The association files are added when the app l
 
 ### Rationale
 
-- **Zero marginal cost.** Service layer extraction, API versioning, and cache headers are conventions, not infrastructure. They cost minutes to implement in Arc 1 and save weeks of refactoring later.
+- **Zero marginal cost.** Service layer extraction, API versioning, and cache headers are conventions, not infrastructure. They cost minutes to implement in Milestone 1a and save weeks of refactoring later.
 - **Multiple consumers are likely.** Even without a native app, the API may be consumed by: a PWA Service Worker (offline reading), the SRF mobile app team, a future admin dashboard, or third-party integrations (with SRF authorization).
 - **SRF ecosystem alignment.** The existing SRF mobile app may want to incorporate portal search or daily passage features. A clean API makes this a simple integration rather than a rewrite.
 - **Developer discipline is cheaper than developer heroics.** Establishing the pattern on day one (when the codebase is small) prevents the gradual drift that makes refactoring painful.
@@ -131,9 +131,9 @@ The URL structure is decided now. The association files are added when the app l
 
 ### Consequences
 
-- Arc 1 API routes use `/api/v1/` prefix (update DESIGN.md)
+- Milestone 1a API routes use `/api/v1/` prefix (update DESIGN.md)
 - All features implemented via `/lib/services/` functions first, then exposed via Server Components and API routes
-- API routes are public (no auth) through Arc 6; auth middleware added only if/when Milestone 7a accounts are implemented
+- API routes are public (no auth) through Milestone 7a; auth middleware added only if/when Milestone 7a accounts are implemented
 - List endpoints return cursor-based pagination
 - Cache-Control headers on all API responses
 - PWA readiness added to roadmap (Milestone 2b)
@@ -141,7 +141,7 @@ The URL structure is decided now. The association files are added when the app l
 
 ## Specification
 
-All API routes use a versioned prefix (`/api/v1/`) from Arc 1 per FTR-015. Language is passed as a query parameter on API routes (`?language=hi`), not as a path prefix — language is a property of content, not a namespace for operations (FTR-058). Frontend pages use locale path prefixes (`/hi/themes/peace`) for SEO and `hreflang` linking. This enables mobile apps pinned to older API versions to coexist with the evolving web frontend. List endpoints use cursor-based pagination for mobile compatibility.
+All API routes use a versioned prefix (`/api/v1/`) from Milestone 1a per FTR-015. Language is passed as a query parameter on API routes (`?language=hi`), not as a path prefix — language is a property of content, not a namespace for operations (FTR-058). Frontend pages use locale path prefixes (`/hi/themes/peace`) for SEO and `hreflang` linking. This enables mobile apps pinned to older API versions to coexist with the evolving web frontend. List endpoints use cursor-based pagination for mobile compatibility.
 
 ### Design Rationale
 

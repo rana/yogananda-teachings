@@ -1,10 +1,11 @@
 ---
 ftr: 159
 title: Feature Lifecycle Portal
+summary: "Calm operations surface with morning briefs, stakeholder feedback, and decision journal for features"
 state: proposed
 domain: operations
-arc: 2+
-governed-by: [FTR-156, FTR-096, FTR-082, FTR-085, FTR-084, PRI-08]
+governed-by: [PRI-08, PRI-12]
+depends-on: [FTR-156, FTR-096]
 ---
 
 # FTR-159: Feature Lifecycle Portal
@@ -104,7 +105,7 @@ A page within the portal (not a separate app) at `/ops/features` — extending t
 │ Planted for Later                                                │
 │ ────────────────────                                             │
 │                                                                  │
-│ ◌ Cross-Book Connection Graph               FTR-128 · Arc 3     │
+│ ◌ Cross-Book Connection Graph               FTR-128 · M3c       │
 │   Planted 2027-01 · Blooms: Milestone 3c                         │
 │                                                                  │
 │ Recently Harvested                                               │
@@ -119,7 +120,7 @@ A page within the portal (not a separate app) at `/ops/features` — extending t
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**The garden metaphor.** Features are *planted*, not filed. They *grow*, not "progress through stages." They're *harvested* when merged, not "closed." Some are *planted for later* — seeded now, blooming in a future arc. The language matters — it shapes how the engineering leader thinks about her work. Not as project management, but as cultivation.
+**The garden metaphor.** Features are *planted*, not filed. They *grow*, not "progress through stages." They're *harvested* when merged, not "closed." Some are *planted for later* — seeded now, blooming in a future milestone. The language matters — it shapes how the engineering leader thinks about her work. Not as project management, but as cultivation.
 
 **Typography and layout:** Same design language as the seeker experience. Merriweather headings, Lora body, warm cream background, gold accents. Max-width 42rem (slightly wider than the reader's 38rem — this is a working page, not a reading page). Generous whitespace. Lotus dividers.
 
@@ -153,9 +154,9 @@ Pre-defined groups for feedback routing. The engineering leader defines circles 
 
 On any feature with a deployed preview, a guided narration of the seeker experience.
 
-**Implementation approach.** Not a recorded video — a live, AI-narrated tour. Claude Code generates a walkthrough script from the feature's governing DES/ADR specs and the actual deployed preview:
+**Implementation approach.** Not a recorded video — a live, AI-narrated tour. Claude Code generates a walkthrough script from the feature's governing FTR specs and the actual deployed preview:
 
-1. Claude reads the feature's PRO description and governing specs
+1. Claude reads the feature's FTR description and governing specs
 2. Claude visits the Vercel preview via Playwright
 3. Claude generates a narrated walkthrough: screenshots + contextual commentary
 4. The walkthrough is stored as a series of annotated screenshots with voice-over text
@@ -180,7 +181,7 @@ Every feature decision — approve, revise, decline — is captured with timesta
 ```sql
 CREATE TABLE feature_decisions (
   id UUID PRIMARY KEY DEFAULT uuidv7(),
-  pro_ref TEXT NOT NULL,                    -- PRO-NNN identifier
+  ftr_ref TEXT NOT NULL,                    -- FTR-NNN identifier
   decision TEXT NOT NULL CHECK (decision IN (
     'approve', 'revise', 'decline', 'defer'
   )),
@@ -210,13 +211,13 @@ Every declined or deferred feature enters the archive with full context.
 
 Accessible from the feature catalog as "The Archive" — a searchable collection of features the portal deliberately chose not to build, each with:
 
-- The original PRO description
+- The original FTR description
 - The AI impact assessment
 - Stakeholder feedback (if any)
 - The engineering leader's decline reasoning
 - The governing principle(s) that informed the decision
 
-**The archive as immune system.** When someone asks "Why doesn't the portal have push notifications?" the archive answers: "PRO-NNN, proposed 2027-04, declined. PRI-08: Calm Technology — 'The portal waits; it does not interrupt.' Engineering leader's note: 'This would compromise the contemplative character of the portal.'"
+**The archive as immune system.** When someone asks "Why doesn't the portal have push notifications?" the archive answers: "FTR-NNN, proposed 2027-04, declined. PRI-08: Calm Technology — 'The portal waits; it does not interrupt.' Engineering leader's note: 'This would compromise the contemplative character of the portal.'"
 
 **The archive as wisdom.** Over years, the archive tells a story about what the portal *is* by documenting what it deliberately *isn't*. This is rare in software projects — most teams lose track of why features were rejected. The archive preserves that reasoning permanently.
 

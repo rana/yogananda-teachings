@@ -1,9 +1,11 @@
 ---
 ftr: 52
 title: Cognitive Accessibility
+summary: "Progressive disclosure, passage accessibility classification, and reduced cognitive load strategies"
 state: approved-provisional
 domain: experience
-arc: "2"
+governed-by: [PRI-05, PRI-07, PRI-08]
+depends-on: [FTR-003, FTR-040]
 ---
 
 # FTR-052: Cognitive Accessibility

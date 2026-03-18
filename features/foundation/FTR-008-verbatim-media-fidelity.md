@@ -1,10 +1,11 @@
 ---
 ftr: 8
-title: Verbatim Media Fidelity — Cross-Modal Content Integrity
+title: "Verbatim Media Fidelity — Cross-Modal Content Integrity"
+summary: "Three-tier media integrity policy: sacred source never AI-generated, author content preserved, UI assets permitted"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-01, PRI-02, PRI-03]
+depends-on: [FTR-001, FTR-005]
 ---
 
 # FTR-008: Verbatim Media Fidelity
@@ -16,7 +17,7 @@ governed-by: [PRI-01, PRI-02, PRI-03]
 
 ### Context
 
-Principles 1 and 2 — "Direct Quotes Only" and "Full Attribution Always" — establish that Yogananda's words must be transmitted verbatim, with full citation, and never generated, paraphrased, translated, or synthesized by AI. These principles were authored when "content" implicitly meant text. As the portal evolves into cross-media territory (Arc 6: video, audio, images), the same theological reasoning must govern all modalities.
+Principles 1 and 2 — "Direct Quotes Only" and "Full Attribution Always" — establish that Yogananda's words must be transmitted verbatim, with full citation, and never generated, paraphrased, translated, or synthesized by AI. These principles were authored when "content" implicitly meant text. As the portal evolves into cross-media territory (video, audio, images in future milestones), the same theological reasoning must govern all modalities.
 
 If paraphrasing Yogananda's words is prohibited because even subtle changes distort the meaning of a realized master's teachings, then:
 
@@ -84,4 +85,4 @@ The portal's API metadata, `llms.txt`, and machine-readable content (FTR-059) sh
 - FTR-136 (Spoken Teachings — Human Narration Program) updated: human narration as primary path; synthetic TTS not permitted for sacred text
 - Future audio features (book narration, Cosmic Chants performance) must use human recordings
 - Standard restoration of historical media remains permitted and encouraged
-- `media_integrity` metadata field added to API responses when cross-media content types ship (Arc 6+)
+- `media_integrity` metadata field added to API responses when cross-media content types ship (future milestones)

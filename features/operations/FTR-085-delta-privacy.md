@@ -1,9 +1,9 @@
 ---
 ftr: 85
 title: DELTA Privacy
-state: approved
+summary: "Privacy architecture derived from DELTA ethics framework with multi-jurisdiction compliance"
+state: implemented
 domain: operations
-arc: 2a+
 governed-by: [PRI-08, PRI-09]
 ---
 
@@ -73,7 +73,7 @@ The remaining compliance work is primarily documentary (privacy policy, sub-proc
 | **Voyage AI** | Processor | Corpus text at embedding time (one-time; FTR-024) | US | Yes |
 | **SendGrid** | Processor | Subscriber email addresses | US | Yes (Milestone 5a+) |
 | **Auth0** | Processor | User accounts (if implemented) | US | Yes (Milestone 7a+) |
-| **Contentful** | Processor | Editorial content (no personal data) | EU | Yes (Arc 1+) |
+| **Contentful** | Processor | Editorial content (no personal data) | EU | Yes (Milestone 1a+) |
 
 EU-US data transfers rely on the EU-US Data Privacy Framework (DPF) where services are certified, with Standard Contractual Clauses (SCCs) as fallback. The sub-processor inventory is reviewed when services are added or changed, and published as part of the privacy policy.
 

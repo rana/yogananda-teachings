@@ -11,6 +11,8 @@ import { getBooks, getChapters } from "@/lib/services/books";
 import { locales } from "@/i18n/config";
 import { PORTAL } from "@/lib/config/srf-links";
 
+export const dynamic = "force-dynamic";
+
 const BASE_URL = PORTAL.canonical;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -41,27 +43,31 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // Dynamic book + chapter pages
-  const books = await getBooks(pool);
-  for (const book of books) {
-    const chapters = await getChapters(pool, book.id);
-    const locale = book.language === "en" ? "" : `/${book.language}`;
+  // Dynamic book + chapter pages (skipped when DB unavailable — e.g. CI builds)
+  try {
+    const books = await getBooks(pool);
+    for (const book of books) {
+      const chapters = await getChapters(pool, book.id);
+      const locale = book.language === "en" ? "" : `/${book.language}`;
 
-    entries.push({
-      url: `${BASE_URL}${locale}/books/${book.slug}`,
-      lastModified: now,
-      changeFrequency: "monthly",
-      priority: 0.8,
-    });
-
-    for (const ch of chapters) {
       entries.push({
-        url: `${BASE_URL}${locale}/books/${book.slug}/${ch.chapterNumber}`,
+        url: `${BASE_URL}${locale}/books/${book.slug}`,
         lastModified: now,
         changeFrequency: "monthly",
-        priority: 0.6,
+        priority: 0.8,
       });
+
+      for (const ch of chapters) {
+        entries.push({
+          url: `${BASE_URL}${locale}/books/${book.slug}/${ch.chapterNumber}`,
+          lastModified: now,
+          changeFrequency: "monthly",
+          priority: 0.6,
+        });
+      }
     }
+  } catch {
+    // No database — return static entries only (dynamic entries added at runtime via revalidation)
   }
 
   return entries;

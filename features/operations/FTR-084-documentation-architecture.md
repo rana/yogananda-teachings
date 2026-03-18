@@ -1,9 +1,9 @@
 ---
 ftr: 84
 title: Documentation Architecture
-state: approved
+summary: "Governance-plus-design documentation system serving AI, human, and stakeholder audiences"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-12]
 ---
 
@@ -13,6 +13,7 @@ governed-by: [PRI-12]
 
 - **Status:** Accepted
 - **Date:** 2026-02-20
+- **Superseded:** The specification below describes the pre-migration documentation architecture (DESIGN.md, DECISIONS-\*.md, PROPOSALS.md). The FTR migration (2026-03-05, described in Notes § below) replaced it with the unified FTR system: one file per feature in `features/{domain}/FTR-NNN-{slug}.md`, indexed by `features/FEATURES.md`. The rationale and conventions remain valid context for understanding the system's evolution.
 
 ### Context
 
@@ -48,9 +49,8 @@ Maintain a governance-plus-design architecture with root governance documents, i
 
 | Tier | Home | Identifier | Maturity |
 |------|------|-----------|----------|
-| Explorations | `.elmer/proposals/` | Slug filenames | Raw, unvetted AI ideation. Not project documents. |
-| Proposals | PROPOSALS.md | PRO-NNN | Curated, thoughtful. Awaiting validation, scheduling, or adoption. |
-| Decisions & Design | DECISIONS-*.md, `design/**/*.md` | ADR-NNN, DES-NNN | Validated through implementation or foundational principle. |
+| Proposals | FTR files with state `proposed` | FTR-NNN | Curated, thoughtful. Awaiting validation, scheduling, or adoption. |
+| Decisions & Design | FTR files with state `approved` or `implemented` | FTR-NNN | Validated through implementation or foundational principle. |
 
 **ADR maturity classification:**
 
@@ -60,7 +60,7 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 |----------|---------|-------------|
 | Foundational | Defines project identity. Change requires full deliberation. | `Accepted (Foundational)` |
 | Active | Governing current or imminent implementation. | `Accepted` |
-| Provisional | Thorough architectural direction for future arcs/milestones. May be revised, suspended, or omitted as the project evolves. | `Accepted (Provisional — Arc N+ / Milestone N+)` |
+| Provisional | Thorough architectural direction for future milestones. May be revised, suspended, or omitted as the project evolves. | `Accepted (Provisional — Milestone N+)` |
 | Suspended | Was active or provisional, moved to unscheduled. Reasoning preserved in ADR body; scheduling lifecycle in PROPOSALS.md. | `Suspended → PRO-NNN` |
 | Implemented | Validated through code. Code is authoritative; ADR retains rationale. | `Implemented — see [code path]` |
 
@@ -68,8 +68,8 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 
 1. **CLAUDE.md as routing document.** The single most important file for AI collaboration. Establishes reading order, constraints, and maintenance protocol in ~90 lines — small enough to always fit in context.
 2. **CONTEXT.md as open question registry.** All open questions (technical and stakeholder) are tracked here. Other documents cross-reference but do not duplicate the full question.
-3. **DESIGN.md Table of Contents with arc/milestone-relevance markers.** Enables AI sessions to navigate to relevant sections without sequential scanning of 5,000+ lines.
-4. **ROADMAP.md Table of Contents.** Arc/milestone-level navigation for quick orientation.
+3. **DESIGN.md Table of Contents with milestone-relevance markers.** Enables AI sessions to navigate to relevant sections without sequential scanning of 5,000+ lines.
+4. **ROADMAP.md Table of Contents.** Milestone-level navigation for quick orientation.
 5. **DECISIONS.md Index by Concern.** ADRs grouped by domain (already established at FTR-101).
 6. **Implemented-section annotations.** When a DESIGN.md section is fully implemented, annotate: `**Status: Implemented** — see [code path]`. Code becomes the source of truth; DESIGN.md retains architectural rationale.
 7. **Expanded maintenance table in CLAUDE.md.** Covers open question lifecycle, cross-cutting concern changes, content type additions, and the documentation-to-code transition.
@@ -78,7 +78,7 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 ### Rationale
 
 - The routing document (CLAUDE.md) is the single most impactful file for AI collaboration cost. A well-structured 90-line file saves thousands of tokens per session by directing attention to the right document and section.
-- Arc/milestone-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., Milestone 5b multilingual details during Arc 1 work), reducing token consumption without losing information.
+- Milestone-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., Milestone 5b multilingual details during Milestone 1a work), reducing token consumption without losing information.
 - The documentation-to-code transition protocol prevents the "two sources of truth" problem that invariably emerges when design documents survive into an implemented codebase.
 - Centralizing open questions in CONTEXT.md prevents them from being forgotten in document interiors — a real risk at 967KB of total documentation.
 - Making the documentation system itself an ADR ensures future contributors understand why the system is structured this way, and can evolve it deliberately rather than through drift.
@@ -169,7 +169,7 @@ Five states:
 **Maturity markers (optional, from FTR-084):**
 - `Approved (Foundational)` — Defines project identity, change requires full deliberation
 - `Approved` — Standard active direction
-- `Deferred (Arc N+)` — Thorough direction for future arcs
+- `Deferred (Milestone N+)` — Thorough direction for future milestones
 
 #### 3. FTR File Anatomy
 
@@ -178,7 +178,7 @@ Five states:
 
 **State:** Approved
 **Domain:** search | experience | editorial | foundation | operations
-**Arc:** 1a
+**Milestone:** 1a
 **Governs:** FTR-XXX, FTR-YYY (optional — for hub features)
 **Governed by:** PRI-NN, FTR-ZZZ (optional)
 
@@ -242,13 +242,13 @@ Single table, replaces three separate indexes:
 ```markdown
 # SRF Online Teachings Portal — Features
 
-| FTR | Title | Domain | State | Arc | Notes |
-|-----|-------|--------|-------|-----|-------|
+| FTR | Title | Domain | State | Milestone | Notes |
+|-----|-------|--------|-------|-----------|-------|
 | 001 | Direct Quotes Only | foundation | Approved (Foundational) | — | PRI-01 |
 | 002 | Design Philosophy | foundation | Approved | — | |
 | 020 | Hybrid Search | search | Implemented | 1a | |
 | 040 | Frontend Design | experience | Approved | 2a | |
-| 090 | SRF Corpus MCP | operations | Deferred (Arc 3+) | — | ex-FTR-098 |
+| 090 | SRF Corpus MCP | operations | Deferred (M3b+) | — | ex-FTR-098 |
 ```
 
 **Always-load features** (the cross-cutting sections currently always-loaded from DESIGN.md) are marked in the index. The implementing session determines which ~10-12 features carry this marker.
@@ -376,7 +376,7 @@ Human principal reviews and approves the mapping table before proceeding.
 Using `features/MIGRATION.md`, create FTR files for `foundation/` and `search/` domains:
 1. Create `features/foundation/FTR-NNN-{slug}.md` and `features/search/FTR-NNN-{slug}.md`
 2. Populate from source files per the Merge With column
-3. Use FTR anatomy from §3 (State, Domain, Arc, Rationale, Specification, Notes)
+3. Use FTR anatomy from §3 (State, Domain, Milestone, Rationale, Specification, Notes)
 4. Report: files created with line counts
 
 ##### Prompt 3: Experience + Editorial FTR files (~40 files, ~6K lines)

@@ -1,9 +1,9 @@
 ---
 ftr: 113
-title: Vercel OIDC Federation — Zero Long-Lived AWS Credentials
-state: approved
+title: "Vercel OIDC Federation — Zero Long-Lived AWS Credentials"
+summary: "Vercel OIDC federation for runtime AWS auth via AssumeRoleWithWebIdentity, eliminating static access keys"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 ---
 

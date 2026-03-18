@@ -1,9 +1,9 @@
 ---
 ftr: 1
-title: Direct Quotes Only — No AI Synthesis
+title: "Direct Quotes Only — No AI Synthesis"
+summary: "AI operates as librarian only: finds and ranks verbatim passages, never generates or paraphrases content"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-01, PRI-02]
 ---
 

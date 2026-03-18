@@ -1,9 +1,9 @@
 ---
 ftr: 28
-title: "Vocabulary Bridge -- Semantic Infrastructure for State-Aware Retrieval"
+title: "Vocabulary Bridge — Semantic Infrastructure for State-Aware Retrieval"
+summary: "Five-layer PostgreSQL semantic model bridging seeker vocabulary to Yogananda's terminology with register awareness"
 state: approved
 domain: search
-arc: 1a+
 governed-by: [PRI-03, PRI-05, PRI-06]
 ---
 

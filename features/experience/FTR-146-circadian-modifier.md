@@ -1,9 +1,11 @@
 ---
 ftr: 146
 title: Circadian as Independent Behavior Modifier
+summary: "Separate circadian warmth shifts from theme choice as an independent toggle"
 state: proposed
 domain: experience
-arc: "1"
+governed-by: [PRI-08]
+depends-on: [FTR-040, FTR-145]
 ---
 
 # FTR-146: Circadian as Independent Behavior Modifier
@@ -12,7 +14,7 @@ arc: "1"
 
 **Type:** Enhancement (Experience)
 **Governing Refs:** PRI-08 (Calm Technology), FTR-040 (Circadian Color Temperature), FTR-145 (Design Language System)
-**Target:** Arc 1 — can ship with any milestone
+**Target:** Any milestone — independent of milestone scheduling
 **Dependencies:** FTR-145 (design language CSS layer provides `circadian.css`)
 
 #### Context

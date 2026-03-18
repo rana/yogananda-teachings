@@ -1,10 +1,11 @@
 ---
 ftr: 126
 title: Word-Level Graph Navigation
+summary: "PMI-weighted word co-occurrence graph enabling linguistic traversal of Yogananda's vocabulary patterns"
 state: proposed
 domain: search
-arc: 3c+
-governed-by: [FTR-034, FTR-033, FTR-029, FTR-030]
+governed-by: [PRI-03, PRI-10]
+depends-on: [FTR-034, FTR-033]
 ---
 
 # FTR-126: Word-Level Graph Navigation

@@ -1,10 +1,11 @@
 ---
 ftr: 110
 title: Multi-Environment Infrastructure Design
-state: approved
+summary: "Branch-based environment separation: Neon branches, Vercel previews, Contentful environments, Sentry tags"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10, PRI-12]
+depends-on: [FTR-106]
 ---
 
 # FTR-110: Multi-Environment Infrastructure Design
@@ -17,7 +18,7 @@ The portal will operate across multiple environments (dev, staging, production) 
 
 ### Decision
 
-**Branch = environment.** Each service uses its native branching/environment primitive — one project per service, branches for separation. Environments are created and destroyed with a single script. Arcs 1–3 use `dev` only; multi-environment promotion activates at Arc 4+.
+**Branch = environment.** Each service uses its native branching/environment primitive — one project per service, branches for separation. Environments are created and destroyed with a single script. Milestones 1a–3d use `dev` only; multi-environment promotion activates at Milestone 4a+.
 
 ### Core Principle: One Project, Branch-Based Separation
 
@@ -35,15 +36,15 @@ The portal will operate across multiple environments (dev, staging, production) 
 
 ### AWS Account Strategy
 
-Single AWS account with IAM role boundaries for Arcs 1–3. If SRF governance requires separate accounts for production (a stakeholder decision, not a technical one), the platform config model supports multi-account without rearchitecture — add an OIDC role per account and a provider alias per environment.
+Single AWS account with IAM role boundaries through Milestone 3d. If SRF governance requires separate accounts for production (a stakeholder decision, not a technical one), the platform config model supports multi-account without rearchitecture — add an OIDC role per account and a provider alias per environment.
 
 ```
 AWS Account: srf-teachings (dedicated account within SRF AWS Organization)
 ├── IAM OIDC Provider: token.actions.githubusercontent.com — GitHub Actions federation
 ├── IAM OIDC Provider: oidc.vercel.com/{TEAM_SLUG}       — Vercel runtime federation (FTR-113)
 ├── IAM Role: portal-ci              — OIDC federation for GitHub Actions
-├── IAM Role: portal-ci-staging      — (Arc 4+) tighter permissions
-├── IAM Role: portal-ci-prod         — (Arc 4+) production-only permissions
+├── IAM Role: portal-ci-staging      — (Milestone 4a+) tighter permissions
+├── IAM Role: portal-ci-prod         — (Milestone 4a+) production-only permissions
 ├── IAM Role: portal-vercel-runtime  — Vercel OIDC → Bedrock + Secrets Manager (FTR-113)
 ├── KMS Key: portal-secrets          — Encrypts all Secrets Manager entries (FTR-112)
 ├── Secrets Manager: /portal/{env}/* — All application secrets (FTR-112)
@@ -65,10 +66,10 @@ The human should never visit five consoles and copy-paste credentials. A bootstr
 # One-time infrastructure bootstrap (~5 minutes)
 ./scripts/bootstrap.sh
 
-# Create a new environment (Arc 4+, ~2 minutes)
+# Create a new environment (Milestone 4a+, ~2 minutes)
 ./scripts/create-env.sh staging
 
-# Destroy an environment (Arc 4+, ~1 minute)
+# Destroy an environment (Milestone 4a+, ~1 minute)
 ./scripts/destroy-env.sh staging
 ```
 
@@ -84,7 +85,7 @@ The human should never visit five consoles and copy-paste credentials. A bootstr
 
 The script is idempotent — safe to re-run. Each step checks for existing resources before creating.
 
-**`create-env.sh {env}` flow (Arc 4+):**
+**`create-env.sh {env}` flow (Milestone 4a+):**
 
 1. Platform MCP provisions environment resources (Neon branch, S3 buckets, Lambda functions)
 2. `neonctl branches create --name {env} --parent main`
@@ -116,14 +117,14 @@ PR → dev (auto) → staging (manual gate) → prod (manual gate)
 
 ### Consequences
 
-- Platform configurations parameterized by environment from Arc 1
+- Platform configurations parameterized by environment from Milestone 1a
 - Single AWS account with IAM role boundaries (escalate to multi-account only if SRF governance requires it)
 - One Neon project with branch-based environment separation (FTR-094)
 - One Vercel project with branch deployments
 - One Sentry project with environment tagging
 - One Contentful space with environment aliases
 - `scripts/bootstrap.sh` created in Deliverable M1a-1 — automates all CLI-scriptable setup
-- `scripts/create-env.sh` and `scripts/destroy-env.sh` created in Arc 4 when multi-environment activates
+- `scripts/create-env.sh` and `scripts/destroy-env.sh` created in Milestone 4a when multi-environment activates
 - `terraform/bootstrap/trust-policy.json` checked into repo — the one artifact the bootstrap script needs
 - GitHub Environments configured per environment (dev, staging, prod) with protection rules
 - Neon branching strategy documented in runbook (`docs/guides/manual-steps-milestone-1a.md`)

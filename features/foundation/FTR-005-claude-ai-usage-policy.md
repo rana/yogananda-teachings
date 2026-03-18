@@ -1,10 +1,11 @@
 ---
 ftr: 5
-title: Claude AI Usage Policy — Permitted Roles, Prohibited Uses, and Expansion Roadmap
+title: "Claude AI Usage Policy — Permitted Roles, Prohibited Uses, and Expansion Roadmap"
+summary: "Librarian model for Claude: finding, classifying, and drafting roles with hard theological prohibitions"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-01, PRI-04]
+depends-on: [FTR-001]
 ---
 
 # FTR-005: Claude AI Usage Policy
@@ -58,13 +59,13 @@ Claude **never**:
 | C3 | Highlight boundaries | 1a | Finding | FTR-105 | Identifies which sentences within a chunk best answer the query. Returns character offsets. |
 | C4 | Theme classification | 3b | Classifying | FTR-121 | Classifies ambiguous passages into teaching topics. Optional — supplements embedding similarity for borderline cases. Mandatory human review before tags are served. |
 | C5 | UI translation drafting | 5b | Drafting | FTR-135 | Translates UI chrome and portal-authored content (NOT Yogananda's text). Draft files undergo mandatory human review by fluent, SRF-aware reviewers. |
-| C6 | Social caption drafting | Arc 4 | Drafting | FTR-154 | Generates suggested captions for daily quote images. Human reviews and posts — never auto-post. |
+| C6 | Social caption drafting | Milestone 4a | Drafting | FTR-154 | Generates suggested captions for daily quote images. Human reviews and posts — never auto-post. |
 
 ### Approved Expansion: High-Value Claude Uses
 
 The following use cases have been evaluated against the librarian model and approved for inclusion in the roadmap. Each stays within the Finding/Classifying/Drafting categories and respects all prohibitions.
 
-#### E1: Search Intent Classification (Arc 1)
+#### E1: Search Intent Classification (Milestone 1a)
 
 **Category:** Classifying | **Cost:** ~$0.002/query | **Human review:** No (search infrastructure)
 
@@ -84,7 +85,7 @@ Classify the seeker's query intent before search executes, routing to the optima
 
 **Why this matters:** The difference between a good search engine and a world-class one is understanding *what kind of answer the person needs*. A seeker typing "I'm scared" at 2 AM needs a different experience than one typing "fear Yogananda quotes."
 
-#### E2: Spiritual Terminology Bridge (Arc 1)
+#### E2: Spiritual Terminology Bridge (Milestone 1a)
 
 **Category:** Finding | **Cost:** Included in query expansion | **Human review:** No
 
@@ -124,7 +125,7 @@ Rate each passage during ingestion on a newcomer-friendliness scale:
 
 **Why this matters:** This serves newcomers without tracking user behavior (DELTA-compliant). A first-time visitor encountering a passage about sabikalpa samadhi may feel the portal isn't for them. A passage about courage speaks to everyone. The portal should welcome before it deepens.
 
-#### E4: Ingestion QA Assistant (Arc 1)
+#### E4: Ingestion QA Assistant (Milestone 1a)
 
 **Category:** Classifying | **Cost:** ~$0.05/book (one-time) | **Human review:** No — Claude validates autonomously
 
@@ -140,7 +141,7 @@ During ingestion QA, Claude pre-screens ingested text and flags:
 
 **Why this matters:** The entire portal rests on text quality. OCR errors in spiritual terminology (e.g., "Kriya" misread as "Krlya") silently degrade search retrieval. Catching these before publication protects the foundation everything else is built on.
 
-#### E5: Search Quality Evaluation Judge (Arc 1)
+#### E5: Search Quality Evaluation Judge (Milestone 1a)
 
 **Category:** Classifying | **Cost:** ~$0.10/evaluation run | **Human review:** No (CI infrastructure)
 
@@ -152,7 +153,7 @@ Automate the search quality evaluation (Deliverables M1a-8 and M1b-2) by using C
 
 **Implementation:** `/scripts/eval/search-quality.ts`. CI job runs on PRs touching search-affecting paths (`/lib/services/search/`, `/lib/prompts/`, `/lib/config.ts`, `/migrations/`, `/data/eval/`). Posts per-category summary on PR. Fails if Recall@3 drops below 80% or Technique-boundary routing drops below 100%. Golden set data in `/data/eval/golden-set-{lang}.json`.
 
-**Why this matters:** As the corpus grows (Milestone 3a through Arc 3) and the search pipeline evolves, automated regression testing ensures quality doesn't silently degrade. Per-category breakdowns reveal *where* search needs improvement — enabling targeted tuning rather than blind iteration.
+**Why this matters:** As the corpus grows (Milestone 3a through Phase 3) and the search pipeline evolves, automated regression testing ensures quality doesn't silently degrade. Per-category breakdowns reveal *where* search needs improvement — enabling targeted tuning rather than blind iteration.
 
 #### E6: Cross-Book Conceptual Threading (Milestone 3c)
 
@@ -229,7 +230,7 @@ Claude is never given Yogananda's text as context for generation. When Claude ra
 | 2b | E7 | ~$0.01 (one-time) | Alt text batch |
 | 3b | C4, E3, E8 | ~$5–15 (one-time per book) + monthly search | Classification batches at ingestion |
 | 3c | E6 | ~$5–10 (one-time per book pair) | Cross-book threading batch |
-| Arc 4 | C6 | ~$1/month | Daily caption |
+| Milestone 4a | C6 | ~$1/month | Daily caption |
 | 5b | C5 | ~$1–5 (one-time per language) | UI translation drafts |
 
 Total ongoing cost remains modest (~$15–25/month) because most Claude uses are one-time batch jobs at ingestion, not per-request runtime calls. The librarian model is inherently cost-efficient: constrained output formats minimize tokens.
@@ -266,9 +267,9 @@ The portal works without Claude. Claude makes it *world-class*.
 
 - FTR-001 (Direct Quotes Only) and FTR-105 (AWS Bedrock Claude with Model Tiering) remain the foundational references; this ADR consolidates and extends them
 - The three-category model (Finding / Classifying / Drafting) provides a clear framework for evaluating future Claude use cases
-- E1 (intent classification) and E2 (terminology bridge) are added to Arc 1 deliverables — they directly improve search quality at launch
+- E1 (intent classification) and E2 (terminology bridge) are added to Milestone 1a deliverables — they directly improve search quality at launch
 - E3 (accessibility rating) and E8 (tone classification) are added to Milestone 2b — they require multi-book content to be meaningful
-- E4 (QA assistant) and E5 (eval judge) are added to Arc 1 — they improve quality foundations
+- E4 (QA assistant) and E5 (eval judge) are added to Milestone 1a — they improve quality foundations
 - E6 (cross-book threading) is added to Milestone 3c — it enhances the Related Teachings system
 - E7 (alt text) is added to Milestone 2a — it's an accessibility deliverable
 - The Vocabulary Bridge (FTR-028) is a living glossary that deepens with each book, backed by the `vocabulary_bridge` PostgreSQL table.

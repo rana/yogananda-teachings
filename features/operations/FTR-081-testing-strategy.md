@@ -1,9 +1,9 @@
 ---
 ftr: 81
 title: Testing Strategy
-state: approved
+summary: "Layered testing strategy with Vitest, Playwright, axe-core, Lighthouse, and search quality evaluation"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-01, PRI-07, PRI-10]
 always-load: true
 ---
@@ -29,7 +29,7 @@ Adopt a **layered testing strategy** with specific tools for each layer:
 | **Accessibility** | **axe-core** (CI) + Playwright a11y assertions | Automated WCAG checks on every page. Keyboard navigation flows. | Milestone 2a (basic) / Milestone 2b (CI) |
 | **Search quality** | Custom Vitest suite | ~30 representative queries with expected passages. Precision/recall metrics. | Milestone 1a (deliverable M1a-8) |
 | **Performance** | **Lighthouse CI** | Core Web Vitals thresholds: LCP < 2.5s, CLS < 0.1, INP < 200ms. | Milestone 2a |
-| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Arc 1+ |
+| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Milestone 1a+ |
 | **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes to reading UI, passage cards, Quiet Corner | dissolved (evaluate when component library stabilizes) |
 
 #### Tool Choices
@@ -125,7 +125,7 @@ This catches migration drift, unintended column changes, and missing indexes bef
 - Neon branches use TTL auto-expiry: 1 hour for test branches, 7 days for preview branches (FTR-094)
 - Preview branches per PR enable database-backed Vercel preview deployments
 - Neon Schema Diff GitHub Action posts migration diff as PR comment
-- Design validation through browser rendering (code-first, no external design tool during AI-led arcs)
+- Design validation through browser rendering (code-first, no external design tool during AI-led development)
 - Search quality test suite is a Milestone 1a deliverable (M1a-8) and grows as the corpus expands
 - Visual regression testing begins when the component library stabilizes
 
@@ -154,8 +154,8 @@ These proportions are guidelines, not gates — the important thing is that most
 | **Search quality** | Custom eval harness (`/scripts/eval/search-quality.ts`) | ~58 English + ~15 Spanish queries (golden set). Recall@3, MRR@10, routing accuracy. Six categories. CI regression on search-affecting PRs. FTR-037. | Milestone 1a (en), 1b (es) |
 | **Related content quality** | Custom Vitest suite | Pre-computed relations are thematically relevant, cross-book diverse, no false friends. | Milestone 3c |
 | **Performance** | Lighthouse CI | LCP < 2.5s, CLS < 0.1, INP < 200ms | Milestone 2a |
-| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Arc 1+ |
-| **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes | Arc 5 |
+| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Milestone 1a+ |
+| **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes | Milestone 5a |
 
 ### Database Test Isolation via Neon Branching
 

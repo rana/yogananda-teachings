@@ -1,10 +1,11 @@
 ---
 ftr: 117
 title: Copyright and Legal Framework
+summary: "Multi-layered copyright communication (legal pages, JSON, HTTP headers, llms.txt) plus 12-category legal audit"
 state: proposed
 domain: foundation
-arc: 1+
-governed-by: [FTR-059, FTR-085, FTR-003, FTR-001]
+governed-by: [PRI-01, PRI-05, PRI-07]
+depends-on: [FTR-059, FTR-085]
 re-evaluate-at: Milestone 1c
 ---
 

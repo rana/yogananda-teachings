@@ -1,9 +1,11 @@
 ---
 ftr: 43
 title: Accessibility Requirements M2a
-state: approved
+summary: "WCAG 2.1 AA compliance requirements for vision, motor, and cognitive accessibility"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-05, PRI-07]
+depends-on: [FTR-003]
 ---
 
 # FTR-043: Accessibility Requirements M2a
@@ -60,7 +62,7 @@ The portal targets WCAG 2.1 Level AA conformance from Milestone 2a. Level AAA cr
 |-------------|---------------|
 | Video captions | YouTube embeds always load with captions enabled (`&cc_load_policy=1` parameter). Rely on YouTube's auto-captions and SRF's uploaded captions. |
 | Quiet Corner chime | The timer completion chime has a visual equivalent: a gentle, full-screen pulse animation (`@media (prefers-reduced-motion: no-preference)`) or a text message ("Your time is complete") for users with `prefers-reduced-motion: reduce`. |
-| Audio content | Any future audio features (text-to-speech, Arc 6 audio clips) must provide text transcripts. |
+| Audio content | Any future audio features (text-to-speech, future audio clips) must provide text transcripts. |
 
 #### Motor and Mobility
 

@@ -1,10 +1,11 @@
 ---
 ftr: 89
 title: Search Result Presentation
-state: approved
+summary: "Ranking signal hierarchy, display format, deduplication, and no-pagination design for search results"
+state: implemented
 domain: operations
-arc: 1a+
 governed-by: [PRI-01, PRI-02, PRI-03]
+depends-on: [FTR-020, FTR-088]
 ---
 
 # FTR-089: Search Result Presentation
@@ -91,7 +92,7 @@ The presentation decisions above are validated by the search quality test suite 
 
 - FTR-015 search endpoint documentation updated to reference this ADR for presentation logic.
 - The search quality test suite (deliverable M1a-8) must validate ranking, deduplication, accessibility boosting, and empty-result behavior.
-- Future content types entering search (video transcripts, audio transcripts, magazine articles) must follow the same ranking hierarchy and deduplication rules. Cross-media result interleaving rules will be specified when those content types are integrated (Arc 6).
+- Future content types entering search (video transcripts, audio transcripts, magazine articles) must follow the same ranking hierarchy and deduplication rules. Cross-media result interleaving rules will be specified when those content types are integrated (future milestones).
 - The "5 results" default is a design decision, not a technical constraint. It may be adjusted based on Milestone 1a search quality evaluation — but the adjustment should be governed (update this ADR), not ad hoc.
 
 ## Notes

@@ -1,9 +1,9 @@
 ---
 ftr: 101
 title: Neon + pgvector for Vector Search
-state: approved
+summary: "Neon PostgreSQL with pgvector extension for semantic similarity search on corpus embeddings"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 ---
 

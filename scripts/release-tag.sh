@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Release Tagging — M1a-11 (DES-060)
+# Release Tagging — M1a-11 (FTR-096)
 #
 # Creates annotated git tags with deployment metadata.
 # Tag format: v{arc}{milestone}.{patch} (e.g., v1a.1, v1c.0)

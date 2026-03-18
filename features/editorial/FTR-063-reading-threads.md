@@ -1,9 +1,11 @@
 ---
 ftr: 63
 title: "Editorial Reading Threads — Teachings in Conversation"
+summary: "Curated multi-book passage sequences tracing spiritual themes as coherent progressions"
 state: approved-provisional
 domain: editorial
-arc: 3c+
+governed-by: [PRI-01, PRI-02, PRI-03]
+depends-on: [FTR-030, FTR-055]
 ---
 
 # FTR-063: Editorial Reading Threads
@@ -60,3 +62,13 @@ CREATE TABLE thread_passages (
 - Each passage shows full citation (book, chapter, page) and "Read in context →" link
 - Optional editorial notes between passages provide transitions (never paraphrasing Yogananda — only "In this next passage, written twenty years later, Yogananda returns to..." style framing)
 - The thread is a reading experience, not a list — designed for contemplation, not scanning
+
+### Sequencing Principles (Discovery Research, March 2026)
+
+Research from museum curation and liturgical design (deep-research-report-discovery-without-surveillance-2026.md) identifies three patterns for sequencing passages into coherent journeys:
+
+**The Palette Cleanser.** Museum curators insert neutral, accessible works between intense pieces to prevent cognitive fatigue. Reading threads must enforce the same discipline: no three consecutive passages should share the same depth signature or rasa. After two "catalytic" or "bottomless" passages, insert a grounding narrative passage — a breathing-centric text, a biographical moment, an accessible story — to reset the seeker's emotional and cognitive state before returning to depth. This is a structural constraint on thread construction, not a suggestion.
+
+**Anthology Framing.** Literary anthology editors use inter-item framing notes as "connective tissue" that participates in the reading rhythm without altering the source texts. The editorial_note field in thread_passages should explicitly call out shifts in voice register or rasa: "Here, the text transitions from a cosmic, philosophical register to deeply personal devotion..." This guides the reader's cognitive framing before they encounter the next passage — the pattern of the museum audio guide, whispering context between artworks.
+
+**The Liturgical Energy Curve.** Homiletic tradition structures readings in a deliberate arc: acknowledgment of the human condition → introduction of the spiritual principle → the climactic teaching → consolation and integration. Threads should follow this shape rather than maintaining uniform intensity or ordering purely by topic. The recognition → understanding → practice → transcendence progression already specified above aligns with this curve — the research confirms it as the optimal structure for emotional sequencing in sacred text contexts.

@@ -1,9 +1,11 @@
 ---
 ftr: 145
 title: Visual Design Language System
+summary: "Standalone design token repository with foundations, semantics, and patterns for SRF and YSS"
 state: proposed
 domain: experience
-arc: "1"
+governed-by: [PRI-03, PRI-07, PRI-08, PRI-10, PRI-12]
+depends-on: [FTR-042, FTR-131]
 ---
 
 # FTR-145: Visual Design Language System
@@ -12,7 +14,7 @@ arc: "1"
 
 **Type:** Feature (Platform)
 **Governing Refs:** PRI-03 (Honoring the Spirit), PRI-07 (Accessibility), PRI-08 (Calm Technology), PRI-10 (10-year horizon), PRI-12 (AI-Native Development), FTR-042 (Design System), FTR-131 (Hindi Typography), FTR-119 (YSS Platform Partnership), FTR-144 (Cross-Site Harmony)
-**Target:** Immediate (Arc 1 — independent of portal milestones)
+**Target:** Immediate (independent of portal milestones)
 **Dependencies:** None — standalone repository, portal is first consumer but not a dependency.
 **Repository:** `rana/yogananda-design` (GitHub, created 2026-03-02)
 
@@ -33,6 +35,8 @@ A standalone repository (`yogananda-design`) containing the canonical visual des
 3. **Patterns** (`*.pattern.json`) — Custom format. Composition recipes: pre-composed molecules (passage card, search result, chapter transition). Named combinations of Layer 1 tokens governed by Layer 2 semantics. Implementation-agnostic.
 
 Plus: self-hosted font files, lotus SVG motif, font manifest, brand image guidelines.
+
+**Lotus SVG as structural break.** The gold lotus motif serves a cognitive function beyond decoration — it acts as a visual threshold between major philosophical sections within chapters, functioning identically to a rest in musical notation (deep-research-sacred-reading-experience-report.md § 4). The SVG includes a `<title>` element ("Section break") for screen readers, ensuring blind readers experience the same structural pause as sighted readers. In illuminated manuscript tradition, ornamentation signals to the brain that the upcoming text requires a different posture of attention. The lotus break replaces the generic `<hr>` scene break in chapter text where editorial tagging identifies a major thematic shift (distinct from minor scene breaks, which use the three-dot ornament per FTR-041 § 7).
 
 #### Two Organizations, Shared Foundations
 
@@ -66,7 +70,7 @@ Portal implementation, search architecture, reading experience behavior, DELTA c
 
 Not needed now — token files are small enough for any context window. Becomes valuable when the system needs computation: contrast validation, theme+circadian+locale resolution, composition guidance. Architect for it (structured data, standard format); build when 2+ active consumers exist.
 
-**Re-evaluate At:** FTR-119 activation (YSS surface), Arc 2 planning
+**Re-evaluate At:** FTR-119 activation (YSS surface), Phase 2 planning
 **Decision Required From:** Architecture (CI lint integration, direction of derivation), Human principal (YSS visual identity approval)
 **Origin:** Design exploration 2026-03-02
 

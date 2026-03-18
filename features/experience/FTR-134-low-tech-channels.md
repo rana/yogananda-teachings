@@ -1,9 +1,11 @@
 ---
 ftr: 134
 title: Low-Tech and Messaging Channel Strategy
+summary: "WhatsApp, SMS, Telegram, USSD, and IVR channels for feature phones and basic phones"
 state: approved
 domain: experience
-arc: "5"
+governed-by: [PRI-05, PRI-06]
+depends-on: [FTR-015]
 ---
 
 # FTR-134: Low-Tech Channels
@@ -234,7 +236,7 @@ CREATE INDEX idx_messaging_metrics_daily ON messaging_metrics(created_at, channe
 - Milestone 7b: SMS access gateway (requires cost evaluation per region, dedicated phone numbers)
 - Milestone 7b: Telegram bot (low cost, incremental after WhatsApp)
 - Future: USSD (requires telco partnership, evaluate in Milestone 7b)
-- Future: IVR/Voice (evaluate after audio section exists, Arc 6+)
+- Future: IVR/Voice (evaluate after audio section exists, future milestones)
 - `messaging_subscriptions` and `messaging_metrics` tables added to schema
 - Lambda function for channel routing (`/lambda/functions/messaging/`)
 - WhatsApp Business account registration (requires Meta business verification)

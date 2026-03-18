@@ -1,9 +1,9 @@
 ---
 ftr: 97
 title: Rate Limiting
-state: approved
+summary: "Two-layer rate limiting via Vercel Firewall and application middleware to prevent API abuse"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-05, PRI-08]
 ---
 
@@ -25,7 +25,7 @@ The DESIGN.md security section mentions "Rate limiting on API routes" but doesn'
 
 Implement rate limiting at two layers:
 
-#### Layer 1: Vercel Firewall (edge — Arc 1)
+#### Layer 1: Vercel Firewall (edge — Milestone 1a)
 
 Vercel Pro includes Firewall Rules, DDoS protection, and bot detection. Configure rate limiting via Vercel Firewall Rules or Edge Middleware:
 
@@ -37,7 +37,7 @@ Vercel Pro includes Firewall Rules, DDoS protection, and bot detection. Configur
 
 These limits are generous for human seekers (who search a few times per session) but block automated abuse. Vercel's built-in DDoS mitigation and bot protection provide the network-layer defense. No separate CDN/WAF vendor required (FTR-118).
 
-#### Layer 2: Application (API route — Arc 1)
+#### Layer 2: Application (API route — Milestone 1a)
 
 A lightweight in-memory rate limiter (e.g., `rate-limiter-flexible` with Vercel's edge runtime, or a simple sliding window counter in a Vercel KV store) as a defense-in-depth measure:
 
@@ -50,13 +50,13 @@ Set a monthly spending cap via the Anthropic API dashboard. If the cap is reache
 
 ### Rationale
 
-- **Cost protection is an Arc 1 requirement**, not an afterthought. The Claude API is the only variable-cost component in the early arcs. Unbounded cost exposure on a public, unauthenticated API is an unacceptable risk.
+- **Cost protection is a Milestone 1a requirement**, not an afterthought. The Claude API is the only variable-cost component in the early milestones. Unbounded cost exposure on a public, unauthenticated API is an unacceptable risk.
 - **Graceful degradation over hard blocks.** A seeker who happens to search frequently (exploring themes, trying different queries) should never see an error page. They see slightly less refined results. The portal remains welcoming.
 - **Two-layer defense.** Vercel Firewall catches the obvious abuse (bots, scrapers) at the edge. The application layer catches the edge cases (distributed abuse, legitimate but excessive use).
 
 ### Consequences
 
-- Vercel Firewall Rules configured in Arc 1 (Vercel Pro tier, no separate infrastructure module needed)
+- Vercel Firewall Rules configured in Milestone 1a (Vercel Pro tier, no separate infrastructure module needed)
 - Application-level rate limiter in the search API route
 - Claude API monthly budget cap set via Anthropic dashboard
 - Search gracefully degrades to database-only when rate-limited or budget-exceeded

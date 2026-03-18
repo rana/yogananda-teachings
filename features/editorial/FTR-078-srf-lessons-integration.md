@@ -1,9 +1,11 @@
 ---
 ftr: 78
 title: SRF Lessons Integration
+summary: "Gated access to SRF Lesson content with content-level access control and separate reading experience"
 state: deferred
 domain: editorial
-arc: Unscheduled
+governed-by: [PRI-01, PRI-04]
+depends-on: [FTR-022, FTR-009]
 ---
 
 # FTR-078: SRF Lessons Integration

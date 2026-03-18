@@ -14,7 +14,7 @@ Read all documents in one pass — do not re-read between phases:
 
 1. **CLAUDE.md** — identifier conventions, document maintenance table, file structure (read fully)
 2. **features/FEATURES.md** — unified index of all FTR files across 5 domains (read fully)
-3. **ROADMAP.md** — milestone deliverables, success criteria, current arc status (read fully)
+3. **ROADMAP.md** — milestone deliverables, success criteria, current milestone status (read fully)
 4. **CONTEXT.md** — current state, open questions with resolution status (read fully)
 5. **PRINCIPLES.md** — PRI-NN identifiers and dependency map (read fully)
 6. **FTR files** — spot-check FTRs referenced by findings, not exhaustive reading

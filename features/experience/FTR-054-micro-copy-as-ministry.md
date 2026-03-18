@@ -1,9 +1,10 @@
 ---
 ftr: 54
 title: Micro-Copy as Ministry
+summary: "Editorial standards for UI copy: warm librarian voice, error states, and empty states"
 state: approved-provisional
 domain: experience
-arc: "2"
+governed-by: [PRI-03, PRI-06, PRI-08]
 ---
 
 # FTR-054: Micro-Copy as Ministry

@@ -1,9 +1,9 @@
 ---
 ftr: 92
 title: Portal Updates
+summary: "Quiet /updates page as library notice board for communicating portal changes to seekers"
 state: approved
 domain: operations
-arc: 3b+
 governed-by: [PRI-03, PRI-08]
 ---
 
@@ -16,7 +16,7 @@ governed-by: [PRI-03, PRI-08]
 
 ### Context
 
-Over a 10-year lifespan, the portal will evolve through multiple arcs — adding books, languages, features, and content types. Seekers who visited in Milestone 3a and return in Milestone 5a would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable M3a-8's "What's New in the Library" gold dot for new books; Milestone 5a RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
+Over a 10-year lifespan, the portal will evolve through multiple phases — adding books, languages, features, and content types. Seekers who visited in Milestone 3a and return in Milestone 5a would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable M3a-8's "What's New in the Library" gold dot for new books; Milestone 5a RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
 
 The daily email (FTR-154) explicitly excludes announcements: "The email is a passage, not a newsletter. No announcements, no feature updates." This is correct — the email channel must remain pure. But the portal itself should offer a quiet, opt-in way for seekers to learn what has changed.
 
@@ -238,7 +238,7 @@ Located at `/updates` — linked from site footer as "What's new in the portal."
 
 | Milestone | What Ships |
 |-----------|-----------|
-| **3b** | `/updates` page, `portal_updates` table, AI draft pipeline, review queue. First entries cover Arcs 1–3 retrospectively. |
+| **3b** | `/updates` page, `portal_updates` table, AI draft pipeline, review queue. First entries cover Milestones 1a–3b retrospectively. |
 | **5a** | `/feed/updates.xml` RSS feed alongside other RSS feeds. |
 | **5b+** | Multilingual update notes via FTR-135 translation workflow. |
 

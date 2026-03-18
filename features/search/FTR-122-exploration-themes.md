@@ -1,10 +1,11 @@
 ---
 ftr: 122
 title: "Exploration Theme Categories — Persons, Principles, Scriptures, Practices, Yoga Paths"
+summary: "Five additional teaching_topics categories for person, principle, scripture, practice, and yoga_path entry points"
 state: approved
 domain: search
-arc: 3c+
 governed-by: [PRI-03]
+depends-on: [FTR-121]
 ---
 
 # FTR-122: Exploration Theme Categories
@@ -85,6 +86,7 @@ Categories appear only when they contain at least one published topic. The homep
 - Seed data for new categories should include rich, keyword-laden descriptions for effective auto-tagging
 - The `/themes` page gains five new sections (appearing incrementally as content thresholds are met)
 - The exploration categories create a rich navigational surface that invites study-oriented seekers to browse by framework, not just by emotional need
+- **MMR diversity applies to all categories.** The FTR-121 MMR rescoring pattern applies equally to person, principle, scripture, practice, and yoga_path themes. A seeker browsing "Christ" should see passages varying in depth signature and voice register — not five dense theological commentaries in sequence. See FTR-121 § MMR diversity and deep-research-report-discovery-without-surveillance-2026.md
 - **Extends FTR-121** with five additional categories on the existing taxonomy
 
 ## Notes

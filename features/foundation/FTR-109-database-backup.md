@@ -1,10 +1,11 @@
 ---
 ftr: 109
 title: Database Backup and Recovery Strategy
-state: approved
+summary: "Three-layer recovery: Neon PITR (30-day), Neon snapshots, and nightly pg_dump to S3"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
+depends-on: [FTR-104]
 ---
 
 # FTR-109: Database Backup and Recovery Strategy
@@ -59,7 +60,7 @@ Nightly `pg_dump` to S3 provides a portable backup that can restore to any Postg
 - `pg_dump --format=custom` (most flexible restore format)
 - Uploaded to an encrypted S3 bucket (`aws:kms` server-side encryption)
 - **Retention:** 90 days of daily backups, plus the 1st of each month retained for 1 year
-- **Size estimate:** Arc 1 database (~2,000 chunks + embeddings) ≈ 50–100MB compressed. Full library (~50,000 chunks) ≈ 1–2GB compressed. S3 cost: < $1/month.
+- **Size estimate:** Initial database (~2,000 chunks + embeddings) ≈ 50–100MB compressed. Full library (~50,000 chunks) ≈ 1–2GB compressed. S3 cost: < $1/month.
 
 #### Platform MCP management
 

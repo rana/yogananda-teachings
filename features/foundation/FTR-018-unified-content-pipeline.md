@@ -1,9 +1,9 @@
 ---
 ftr: 18
 title: Unified Content Pipeline Pattern
-state: approved
+summary: "Seven-stage ingestion pattern (source, normalize, chunk, embed, QA, index, relate) across all media types"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-01, PRI-02]
 always-load: true
 ---
@@ -12,7 +12,7 @@ always-load: true
 
 ## Rationale
 
-Content enters the portal through five media-type-specific pipelines: books (FTR-022), magazine articles (FTR-075), video transcripts (FTR-142), audio transcripts (FTR-142), and images (FTR-073). Each is specified independently, but all follow a shared seven-stage pattern. This section names the pattern explicitly, so that Arc 6+ implementations and future content types inherit the structure rather than re-inventing it.
+Content enters the portal through five media-type-specific pipelines: books (FTR-022), magazine articles (FTR-075), video transcripts (FTR-142), audio transcripts (FTR-142), and images (FTR-073). Each is specified independently, but all follow a shared seven-stage pattern. This section names the pattern explicitly, so that future milestone implementations and new content types inherit the structure rather than re-inventing it.
 
 ### The Seven Stages
 
@@ -56,4 +56,4 @@ Any new content type entering the portal in future arcs (e.g., letters, unpublis
 
 ### Not a premature abstraction
 
-Arcs 1–3 implement each pipeline independently — books, magazine, then video/audio/images. The unified content hub (FTR-142) arrives in Arc 6 as a deliberate migration. This section documents the *pattern* shared across independent implementations, not a shared codebase. If a shared `ContentPipeline` base class emerges naturally during Arc 6, it should be extracted from working code, not designed in advance.
+Milestones 1a–3d implement each pipeline independently — books, magazine, then video/audio/images. The unified content hub (FTR-142) arrives in a future milestone as a deliberate migration. This section documents the *pattern* shared across independent implementations, not a shared codebase. If a shared `ContentPipeline` base class emerges naturally during that migration, it should be extracted from working code, not designed in advance.

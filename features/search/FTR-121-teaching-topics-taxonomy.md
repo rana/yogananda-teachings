@@ -1,10 +1,11 @@
 ---
 ftr: 121
 title: "Teaching Topics — Curated Thematic Entry Points and Multi-Category Taxonomy"
+summary: "Curated thematic entry points (Peace, Courage, Healing, Joy, Purpose, Love) with auto-tagging and editorial review"
 state: approved
 domain: search
-arc: 3b+
 governed-by: [PRI-03, PRI-08, PRI-09]
+depends-on: [FTR-026]
 ---
 
 # FTR-121: Teaching Topics
@@ -63,6 +64,7 @@ Implement **curated thematic entry points** ("Doors of Entry") as a complement t
 - Theme pages need design work (a new page template beyond search results and the book reader)
 - The tagging effort is front-loaded but amortized: once the taxonomy exists, new books are tagged during their ingestion pipeline
 - The themes must be validated against the actual corpus — a theme is only useful if the corpus contains sufficient passages for it
+- **MMR diversity (Discovery Research, March 2026):** When generating the random passage selection for a theme page visit, apply Maximal Marginal Relevance (MMR) rescoring. If a seeker clicks "Peace," the algorithm selects passages highly relevant to Peace but uses MMR to ensure maximum variance among selections in terms of depth signature and voice register — preventing five dense philosophical passages in a row. MMR penalizes candidates similar to already-selected items, ensuring a balanced reading experience across consoling, catalytic, narrative, and contemplative passages within the same theme. Also apply appeal-factor faceting: allow seekers to filter a theme by experiential dimension — separating "consoling peace" from "catalytic peace" — scaling the librarian's nuanced interview process to a global audience (see deep-research-report-discovery-without-surveillance-2026.md)
 - **Extended by FTR-121:** Multi-category taxonomy (quality, situation, person, principle, scripture, practice, yoga_path), semi-automated tagging pipeline with three-state provenance, and `description_embedding` for auto-tagging
 
 ### FTR-121: Teaching Topics Multi-Category Taxonomy and Semi-Automated Tagging Pipeline
@@ -157,7 +159,7 @@ None. The existing `topic_translations` table handles localized names for any th
 - The homepage stays calm — six quality doors, one quiet link to explore all themes
 - Editorial governance needed: who decides when a new theme has enough passages to go live?
 - The `description` field on `teaching_topics` now serves double duty: internal reference *and* auto-tagging input. Descriptions should be written as rich keyword-laden paragraphs, not terse labels.
-- The review queue (`tagged_by = 'auto'`) needs a workflow — Arcs 1–4 use a script or Retool dashboard; Arc 4+ uses Contentful
+- The review queue (`tagged_by = 'auto'`) needs a workflow — Milestones 1a–3d use a script or Retool dashboard; post-M3d uses Contentful
 - **Extended by FTR-122:** Four additional exploration categories (person, principle, scripture, practice) added to the taxonomy, using the same infrastructure
 
 ## Notes

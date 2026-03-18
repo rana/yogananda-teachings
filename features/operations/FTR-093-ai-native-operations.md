@@ -1,9 +1,9 @@
 ---
 ftr: 93
 title: AI-Native Operations
-state: approved
+summary: "Operational architecture requirements for AI-native development including MCP evaluation criteria"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-12]
 ---
 
@@ -43,7 +43,7 @@ Every managed service integral to **routine operations** requires MCP integratio
 | MCP Server | Service | Operations Covered | Status |
 |---|---|---|---|
 | Neon | Database | Branch management, SQL execution, schema diffs, migration safety, connection strings | Active |
-| Sentry | Error monitoring | Error investigation, stack traces, breadcrumbs | Arc 1 |
+| Sentry | Error monitoring | Error investigation, stack traces, breadcrumbs | Milestone 1a |
 | Contentful | CMS | Content model queries, entry management, webhook debugging | Milestone 1a+ |
 | SRF Corpus | Search corpus | AI consumer access to search, themes, graph | Unscheduled (FTR-098) |
 

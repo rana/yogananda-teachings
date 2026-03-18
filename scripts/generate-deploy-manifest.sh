@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Generate deploy manifest — M1c-17 (DES-060 § Layer 3).
+# Generate deploy manifest — M1c-17 (FTR-096 § Layer 3).
 #
 # Creates /.well-known/deploy-manifest.json with version, timestamp,
 # milestone, blast tier, design refs, and commit info.

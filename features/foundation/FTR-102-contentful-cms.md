@@ -1,9 +1,9 @@
 ---
 ftr: 102
 title: Contentful as Editorial CMS
-state: approved
+summary: "Contentful as editorial source of truth with Book/Chapter/Section/TextBlock model synced to Neon"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10, PRI-12]
 ---
 
@@ -17,7 +17,7 @@ The portal needs a content management system for editorial workflows (theme cura
 
 ### Decision
 
-Adopt **Contentful as the editorial source of truth from Arc 1**. Book text is imported to Contentful during ingestion and synced to Neon for search indexing. Contentful is where editors work; Neon is where search works.
+Adopt **Contentful as the editorial source of truth from Milestone 1a**. Book text is imported to Contentful during ingestion and synced to Neon for search indexing. Contentful is where editors work; Neon is where search works.
 
 ### Content Model
 

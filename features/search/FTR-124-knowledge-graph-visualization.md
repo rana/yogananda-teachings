@@ -1,10 +1,11 @@
 ---
 ftr: 124
 title: Knowledge Graph Visualization
+summary: "Interactive force-directed graph at /explore rendering books, passages, themes, and people as navigable nodes"
 state: approved-provisional
 domain: search
-arc: 3d+
 governed-by: [PRI-03, PRI-08]
+depends-on: [FTR-034, FTR-030, FTR-121]
 ---
 
 # FTR-124: Knowledge Graph Visualization

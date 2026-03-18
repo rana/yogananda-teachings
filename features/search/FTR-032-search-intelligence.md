@@ -1,9 +1,9 @@
 ---
 ftr: 32
-title: "\"What Is Humanity Seeking?\" -- Anonymized Search Intelligence"
+title: "\"What Is Humanity Seeking?\" — Anonymized Search Intelligence"
+summary: "Aggregated anonymized search query trends producing annual thematic reports on global spiritual seeking"
 state: approved
 domain: search
-arc: 3d+
 governed-by: [PRI-09, PRI-08]
 ---
 

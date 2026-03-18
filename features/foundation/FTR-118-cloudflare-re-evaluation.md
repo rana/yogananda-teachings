@@ -1,10 +1,11 @@
 ---
 ftr: 118
 title: Cloudflare Re-evaluation for SRF Domain Routing
+summary: "Re-evaluate Cloudflare if SRF routes portal domain through org-wide DNS; Vercel covers all needs currently"
 state: proposed
 domain: foundation
-arc: 1+
-governed-by: [FTR-097, FTR-106]
+governed-by: [PRI-10]
+depends-on: [FTR-097, FTR-106]
 ---
 
 # FTR-118: Cloudflare Re-evaluation

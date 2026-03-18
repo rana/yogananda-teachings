@@ -1,10 +1,11 @@
 ---
 ftr: 6
-title: Global-First — Serving Earth's Underserved Seekers
+title: "Global-First — Serving Earth's Underserved Seekers"
+summary: "Data cost awareness, text-only mode, aggressive caching, and progressive enhancement for global seekers"
 state: approved-foundational
 domain: foundation
-arc: 1+
 governed-by: [PRI-05, PRI-06, PRI-07]
+depends-on: [FTR-003, FTR-103]
 ---
 
 # FTR-006: Global-First
@@ -72,7 +73,7 @@ The PWA (FTR-103) is scheduled for Milestone 2b. Milestone 1c (first production 
 In India, Latin America, and many African communities, spiritual texts are read aloud in groups — satsang, study circles, family devotions. The portal's reader is designed for individual silent reading.
 
 **Commitments:**
-- **Presentation mode (Milestone 2b).** A "Present" button in the reader header. When activated: text enlarges to 24px+ (readable from 2–3 meters), all chrome hides (no header, no sidebar, no share icons), chapter navigation becomes swipe/arrow-key only, warm cream background fills the viewport. The device becomes a digital lectern. *(Pulled from Arc 4 to Milestone 2b — communal reading is the primary engagement mode in Indian, African, and Latin American cultures.)*
+- **Presentation mode (Milestone 2b).** A "Present" button in the reader header. When activated: text enlarges to 24px+ (readable from 2–3 meters), all chrome hides (no header, no sidebar, no share icons), chapter navigation becomes swipe/arrow-key only, warm cream background fills the viewport. The device becomes a digital lectern. *(Pulled forward to Milestone 2b — communal reading is the primary engagement mode in Indian, African, and Latin American cultures.)*
 - **This is not a separate feature — it is a CSS mode.** The same reader component, the same content, the same accessibility. `data-mode="present"` on the reader container triggers the enlarged, chrome-free layout.
 
 #### 6. Cultural Consultation for Entry Points
@@ -81,7 +82,7 @@ The "Seeking..." empathic entry points and theme doors are currently written fro
 
 **Commitments:**
 - **Milestone 5b (multilingual launch) requires cultural consultation, not just translation.** For each language, SRF engages a native-speaking devotee (not a professional translator) to review the entry points and theme door labels for cultural resonance. The consultant answers: "Would a seeker in [country] phrase this question this way? What would feel more natural?"
-- **The "Seeking..." prompts are editorial content, not UI chrome.** They live in Contentful (Arc 4+), not in `messages/{locale}.json`. Each locale has independently authored prompts, not translations of the English originals.
+- **The "Seeking..." prompts are editorial content, not UI chrome.** They live in Contentful (Milestone 4a+), not in `messages/{locale}.json`. Each locale has independently authored prompts, not translations of the English originals.
 - **Query expansion (Claude API) handles the bridge.** Even if the entry point is culturally adapted, a seeker may still type their question in a culturally specific way. The Vocabulary Bridge (FTR-028) and Claude's query expansion handle the mapping from the seeker's phrasing to the passage corpus.
 
 #### 7. Right-to-Left as a First-Class Layout
@@ -115,7 +116,7 @@ Every commitment above costs nothing or near-nothing at implementation time if i
 - Text-only mode deployed in Milestone 1c (footer toggle); integrated into reader settings and design system in Milestone 2a
 - Minimal Service Worker deployed in Milestone 1c (app shell caching), enhanced in Milestone 2a (all pages + fonts), expanded in Milestone 2b (last-read chapter)
 - Low-bandwidth detection banner deployed in Milestone 1c (2G/slow-2G suggestion); extended adaptation in Milestone 2b
-- Presentation mode added to the reader in Milestone 2b *(pulled from Arc 4)*
+- Presentation mode added to the reader in Milestone 2b *(pulled forward from later milestones)*
 - Cultural consultation budget required for Milestone 5b multilingual launch
 - RTL design review by native reader required before any RTL language goes live
 - `font-display: swap` and unicode-range subsetting are non-negotiable for all font loading

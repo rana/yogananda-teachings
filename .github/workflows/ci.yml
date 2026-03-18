@@ -30,8 +30,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: pnpm
 
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm lint
@@ -44,7 +45,7 @@ jobs:
 
       - name: Build
         id: build
-        run: pnpm build 2>&1 | tee build-output.txt
+        run: set -o pipefail && pnpm build 2>&1 | tee build-output.txt
 
       - name: Performance budget (PRI-07)
         if: always() && steps.build.conclusion == 'success'
@@ -110,7 +111,7 @@ jobs:
     name: Document Integrity
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    # Advisory in Arc 1 — does not block merge
+    # Advisory — does not block merge
     continue-on-error: true
 
     steps:

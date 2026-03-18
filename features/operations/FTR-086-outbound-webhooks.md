@@ -1,9 +1,9 @@
 ---
 ftr: 86
 title: Outbound Webhooks
-state: approved
+summary: "Event-driven webhook system pushing content lifecycle events to registered consumers"
+state: implemented
 domain: operations
-arc: 5a+
 governed-by: [PRI-11]
 ---
 

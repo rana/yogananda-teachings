@@ -1,10 +1,11 @@
 ---
 ftr: 90
 title: Content Versioning
+summary: "Lifecycle policies for book editions, translations, embeddings, and AI-classified metadata"
 state: approved
 domain: operations
-arc: 1+
 governed-by: [PRI-01, PRI-02, PRI-10]
+depends-on: [FTR-021, FTR-024]
 ---
 
 # FTR-090: Content Versioning

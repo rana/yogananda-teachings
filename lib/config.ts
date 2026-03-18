@@ -8,10 +8,10 @@
 // ── Search ──────────────────────────────────────────────────────
 
 /** Reciprocal Rank Fusion constant. Higher values favor lower-ranked results. */
-export const RRF_K = 60; // Standard RRF default. Evaluate after M1a-8 search quality test.
+export const RRF_K = 60; // Standard RRF default. Confirmed at M1a-8 (92% Recall@3). Re-evaluate when adding cross-encoder reranking (M3a).
 
 /** Maximum search results returned. */
-export const SEARCH_RESULTS_LIMIT = 20; // Sufficient for top-3 evaluation. Revisit at M1a-8.
+export const SEARCH_RESULTS_LIMIT = 20; // Confirmed at M1a-8. Re-evaluate when adding reranking (top-N input may need increase).
 
 /** Min FTS results before skipping hybrid (vector) search. */
 export const HYBRID_UPGRADE_THRESHOLD = 5;
@@ -35,14 +35,27 @@ export const CHUNK_MAX_TOKENS = 500; // FTR-023. Long paragraphs may split.
 // ── Embeddings ──────────────────────────────────────────────────
 
 /** Voyage embedding model. */
-export const EMBEDDING_MODEL = "voyage-3-large"; // FTR-024. 1024 dimensions.
+export const EMBEDDING_MODEL = "voyage-4-large"; // FTR-024. MoE architecture, Matryoshka dimensions.
 
 /** Embedding dimensions. */
-export const EMBEDDING_DIMENSIONS = 1024; // voyage-3-large output size.
+export const EMBEDDING_DIMENSIONS = 1024; // voyage-4-large default (supports 2048/1024/512/256 via Matryoshka).
 
-// ── Passages ────────────────────────────────────────────────────
+// ── Enrichment — Unified Enrichment Pipeline (FTR-026) ──────────
 
-// ── HyDE — Hypothetical Document Embedding (M2b-12, FTR-027) ────
+/** Bedrock model for chunk enrichment. Sonnet for cost-effective structured extraction. */
+export const ENRICHMENT_BEDROCK_MODEL = "us.anthropic.claude-sonnet-4-6";
+// Evaluate: --opus flag in enrich.ts for quality-critical runs. Full corpus re-enrich ~$8 (Sonnet) or ~$80 (Opus).
+
+/** Bedrock model for quality-critical enrichment (structural, interpretive). */
+export const ENRICHMENT_BEDROCK_MODEL_OPUS = "us.anthropic.claude-opus-4-6-v1";
+
+/** Max tokens for enrichment JSON output. */
+export const ENRICHMENT_MAX_TOKENS = 1200; // FTR-026: structured JSON with all metadata fields.
+
+/** Concurrent Bedrock calls for enrichment. */
+export const ENRICHMENT_CONCURRENCY = 5; // Bedrock rate limits. Evaluate: increase if throttling is rare.
+
+// ── HyDE — Hypothetical Document Embedding (M3a-11, FTR-027) ────
 
 /** Bedrock model for HyDE generation. COG-2 Sync → Haiku (FTR-038). */
 export const HYDE_BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
@@ -51,7 +64,7 @@ export const HYDE_BEDROCK_MODEL = "us.anthropic.claude-haiku-4-5-20251001-v1:0";
 /** Max tokens for hypothetical document generation. */
 export const HYDE_MAX_TOKENS = 200; // FTR-027: 100-200 token passage.
 
-// ── Rerank — Cross-Encoder Reranking (M2b-13, FTR-027) ──────────
+// ── Rerank — Cross-Encoder Reranking (M3a-12, FTR-027) ──────────
 
 /** Cohere reranking model. Multilingual-native. */
 export const RERANK_MODEL = "rerank-v3.5"; // Evaluate: BGE-reranker-v2 (self-hosted) at scale.
@@ -62,13 +75,13 @@ export const RERANK_TOP_N = 10; // FTR-027: cross-encoder returns top 10.
 // ── Passages ────────────────────────────────────────────────────
 
 /** Minimum passage length for Today's Wisdom display (characters). */
-export const PASSAGE_MIN_LENGTH = 80; // Below this, passages lack context. Evaluate at M2a.
+export const PASSAGE_MIN_LENGTH = 80; // Below this, passages lack context. Confirmed at M2a. Re-evaluate when corpus grows past 5 books.
 
 /** Maximum passage length for Today's Wisdom display (characters). */
-export const PASSAGE_MAX_LENGTH = 600; // Comfortable single-screen reading. Evaluate at M2a.
+export const PASSAGE_MAX_LENGTH = 600; // Comfortable single-screen reading. Confirmed at M2a. Re-evaluate with user testing.
 
 /** Maximum passage length for Quiet Corner reflections (characters). */
-export const REFLECTION_MAX_LENGTH = 500; // Shorter for contemplative focus. Evaluate at M2a.
+export const REFLECTION_MAX_LENGTH = 500; // Shorter for contemplative focus. Confirmed at M2a. Re-evaluate with user testing.
 
 // ── Related Teachings (M3c, FTR-030) ──────────────────────────
 
@@ -104,7 +117,7 @@ export const THREAD_MAX_DEPTH = 10;
 // Maximum positions in the "Following the Thread" back stack.
 // Session-only, no persistence. Evaluate: too deep = lost in the labyrinth.
 
-// ── Suggestions (FTR-029, FTR-029) ───────────────────────────────
+// ── Suggestions (FTR-029) ───────────────────────────────
 
 /** Debounce: first keystroke after focus fires immediately. */
 export const SUGGEST_DEBOUNCE_FIRST_MS = 0;

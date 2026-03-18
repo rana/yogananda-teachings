@@ -1,10 +1,11 @@
 ---
 ftr: 95
 title: Infrastructure and Deployment
-state: approved
+summary: "Bootstrap script, deployment ceremony, and infrastructure-as-code for AWS and Vercel resources"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-10, PRI-12]
+depends-on: [FTR-106, FTR-108, FTR-110]
 ---
 
 # FTR-095: Infrastructure and Deployment
@@ -77,7 +78,7 @@ Vercel builds artifacts from git pushes. The platform decides where those artifa
 
 **Build:** Vercel git integration watches GitHub and produces immutable deployment URLs for every push. Preview deployments for PRs are useful for human review.
 
-**Promote:** The platform moves DNS pointers to specific Vercel deployment URLs. For Arc 1 (read-only portal, shared database), promotion is pure DNS — the same artifact serves all environments. For Arc 2+ (environment isolation), the app resolves its environment from the hostname.
+**Promote:** The platform moves DNS pointers to specific Vercel deployment URLs. For the initial milestone (read-only portal, shared database), promotion is pure DNS — the same artifact serves all environments. For Phase 2+ (environment isolation), the app resolves its environment from the hostname.
 
 **Gate enforcement:** The platform's environment chain (dev → qa → stg → prd) enforces gates:
 - dev: automatic (tracks latest main deployment)
@@ -131,7 +132,7 @@ Neon infrastructure is managed through two distinct control planes (revised from
 
 | Phase | SCM | CI/CD | Infrastructure State |
 |-------|-----|-------|---------------------|
-| **Primary (all arcs)** | GitHub | GitHub Actions | Platform database |
+| **Primary (all phases)** | GitHub | GitHub Actions | Platform database |
 | **If SRF requires migration** | GitLab (SRF IDP) | GitLab CI/CD | Platform database (unchanged) |
 
 #### CI/CD Pipeline (GitHub Actions)
@@ -194,7 +195,7 @@ TTL enforcement: a GitHub Action runs on PR close (`types: [closed]`) to delete 
 
 #### Cost Alerting
 
-AWS Budget alarm at 80% and 100% of monthly target ($100 for Arcs 1–3). Created by `bootstrap.sh`. Neon and Vercel cost alerts are configured manually in their dashboards.
+AWS Budget alarm at 80% and 100% of monthly target ($100 for Milestones 1a–3d). Created by `bootstrap.sh`. Neon and Vercel cost alerts are configured manually in their dashboards.
 
 ### Environment Configuration
 
@@ -258,7 +259,7 @@ export const CLAUDE_MODEL_RANK     = 'anthropic.claude-3-5-haiku-20241022-v1:0';
 export const CLAUDE_MODEL_BATCH    = 'anthropic.claude-opus-4-6-v1';
 
 // ── Embedding (FTR-024) ────────────────────────────────────────
-export const EMBEDDING_MODEL      = 'voyage-3-large';
+export const EMBEDDING_MODEL      = 'voyage-4-large';
 export const EMBEDDING_DIMENSIONS = 1024;
 export const EMBEDDING_INPUT_TYPE_QUERY    = 'query';
 export const EMBEDDING_INPUT_TYPE_DOCUMENT = 'document';

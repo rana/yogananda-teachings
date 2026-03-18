@@ -1,10 +1,11 @@
 ---
 ftr: 125
 title: Scientific-Spiritual Bridge Themes
+summary: "Three thematic entry points bridging science, self-help, and quantum vocabulary to Yogananda's teachings"
 state: proposed
 domain: search
-arc: 2a+
-governed-by: [FTR-121, FTR-028, FTR-122, FTR-056, FTR-034, FTR-026]
+governed-by: [PRI-03]
+depends-on: [FTR-121, FTR-028, FTR-122, FTR-026, FTR-034]
 ---
 
 # FTR-125: Scientific-Spiritual Bridge Themes
@@ -23,7 +24,7 @@ Consolidates three explorations proposing thematic entry points for currently un
 
 All three require terminology bridge entries, enrichment pipeline markers, and knowledge graph edges. Each independently reaches new seeker populations. Graduation path: `/theme-integrate` for each theme.
 
-**Re-evaluate At:** Arc 2 boundary (when taxonomy and enrichment pipeline are validated)
+**Re-evaluate At:** Milestone 2a boundary (when taxonomy and enrichment pipeline are validated)
 
 **Decision Required From:** Editorial + theological review (do these themes accurately represent Yogananda's teachings?)
 

@@ -1,10 +1,11 @@
 ---
 ftr: 160
-title: Adaptive Image Delivery — Network and Device-Aware Image Optimization
+title: "Adaptive Image Delivery — Network and Device-Aware Image Optimization"
+summary: "Device and network-aware image format, quality, and resolution selection with sacred image tiers"
 state: proposed
 domain: experience
-arc: 3a+
-governed-by: [PRI-05, PRI-07, PRI-03, FTR-006, FTR-044, FTR-073]
+governed-by: [PRI-03, PRI-05, PRI-07]
+depends-on: [FTR-006, FTR-044, FTR-073]
 ---
 
 # FTR-160: Adaptive Image Delivery
@@ -58,9 +59,9 @@ Guru portraits and lineage images (FTR-073 `is_yogananda_subject = true` or `sub
 
 ### Implementation Architecture
 
-**Phase 1 (Arc 3a):** Responsive `<picture>` elements with `srcset`/`sizes` and format negotiation via Vercel Image Optimization (built-in). No custom infrastructure. Pre-generate 4 sizes (240, 480, 720, 1200px) at build/ingest time for all images.
+**Phase 1 (Milestone 3a):** Responsive `<picture>` elements with `srcset`/`sizes` and format negotiation via Vercel Image Optimization (built-in). No custom infrastructure. Pre-generate 4 sizes (240, 480, 720, 1200px) at build/ingest time for all images.
 
-**Phase 2 (Arc 3b+, if needed):** Lambda@Edge on-demand transformation for long-tail sizes. Only if Phase 1 performance data shows significant waste or gaps.
+**Phase 2 (Milestone 3b+, if needed):** Lambda@Edge on-demand transformation for long-tail sizes. Only if Phase 1 performance data shows significant waste or gaps.
 
 ### Constraints
 
@@ -71,7 +72,7 @@ Guru portraits and lineage images (FTR-073 `is_yogananda_subject = true` or `sub
 
 ### Re-evaluate At
 
-Arc 3a boundary — after sacred imagery pipeline (FTR-073) is operational and performance budgets are measured with real content.
+Milestone 3a boundary — after sacred imagery pipeline (FTR-073) is operational and performance budgets are measured with real content.
 
 ### Source Exploration
 

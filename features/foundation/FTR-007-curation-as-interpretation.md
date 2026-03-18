@@ -1,9 +1,9 @@
 ---
 ftr: 7
-title: Curation as Interpretation — The Fidelity Boundary and Editorial Proximity Standard
+title: "Curation as Interpretation — The Fidelity Boundary and Editorial Proximity Standard"
+summary: "Four curation mitigations and unified editorial proximity standard for portal prose near sacred text"
 state: approved-foundational
 domain: foundation
-arc: cross-cutting
 governed-by: [PRI-01, PRI-02, PRI-03]
 always-load: true
 ---
@@ -43,7 +43,7 @@ However, as the portal's feature surface has grown — editorial reading threads
 
 2. **Prohibit all non-Yogananda prose near sacred text.** This would eliminate the proximity problem entirely but would also eliminate editorial reading threads, glossary definitions, the `/guide` page, and crisis resources — features that serve seekers by providing context without altering content.
 
-3. **Create a runtime content-type enforcement layer.** A technical system that tags every rendered element as "sacred" or "editorial" and enforces separation rules via CSS/HTML validation. Architecturally sound but premature for Arc 1 — the standard should be a design principle first and a technical enforcement later if drift is observed.
+3. **Create a runtime content-type enforcement layer.** A technical system that tags every rendered element as "sacred" or "editorial" and enforces separation rules via CSS/HTML validation. Architecturally sound but premature for the initial milestone — the standard should be a design principle first and a technical enforcement later if drift is observed.
 
 ### Consequences
 
@@ -55,7 +55,7 @@ However, as the portal's feature surface has grown — editorial reading threads
 
 ## Specification
 
-> **Arc:** — (cross-cutting, applies to all arcs that place non-Yogananda prose near sacred text)
+> **Scope:** Cross-cutting — applies to all milestones that place non-Yogananda prose near sacred text.
 
 Multiple features place portal-authored prose within visual proximity of Yogananda's verbatim text: editorial reading threads (FTR-063), glossary definitions, search suggestion hints (FTR-029), crisis resource text (FTR-051), social media captions (FTR-154), magazine articles, the `/guide` page (FTR-056), and chant instructions metadata (FTR-142). Each feature has its own ADR, but no single standard governs the shared boundary. This section establishes one.
 

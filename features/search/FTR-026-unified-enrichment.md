@@ -1,10 +1,12 @@
 ---
 ftr: 26
 title: "Unified Enrichment Pipeline — Single Index-Time Pass per Chunk"
-state: approved
+summary: "Single Claude prompt per chunk producing topics, entities, domain, depth, tone, and all metadata in one pass"
+state: implemented
+re-evaluate-at: M3b
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-03, PRI-12]
+depends-on: [FTR-005, FTR-105]
 ---
 
 # FTR-026: Unified Enrichment Pipeline
@@ -70,6 +72,7 @@ Consolidate all index-time Claude enrichment into a single prompt per chunk. The
 | `accessibility_level` | INT (1-5) | Language/concept accessibility (from FTR-005 E3) |
 | `semantic_density` | TEXT | high / medium / low (from FTR-023) |
 | `passage_role` | TEXT | Rhetorical function within chapter: opening / exposition / narrative / turning_point / deepening / illustration / culmination / resolution / transition / aside. Inferred from content + chapter title + sequential position. Seeds structural enrichment (FTR-128). |
+| `practice_bridge_candidate` | BOOLEAN | True when the passage contains instructional language inviting the reader to practice — "meditate," "visualize," "concentrate," "close your eyes," "practice this." Detects textual phase shifts where the author transitions from exposition to direct injunction (FTR-055). AI-proposed at ingestion; enters human review queue before publication. |
 | `cross_references` | JSONB | Explicit references to other works, teachers, scriptures |
 | `relationships` | JSONB[] | Extracted entity-relationship triples for graph construction |
 
@@ -100,3 +103,5 @@ Consolidate all index-time Claude enrichment into a single prompt per chunk. The
 ## Notes
 
 - **Origin:** FTR-026
+- **Implemented (2026-03-18):** `scripts/ingest/enrich.ts` — single Claude Sonnet pass per chunk, all metadata fields. Migration 009 adds `enrichment_model`, `enriched_at`, `passage_role`, `practice_bridge` columns. `scripts/ingest/populate-chunk-topics.ts` wires enriched topics to `chunk_topics` join table. Operational guide: `docs/guides/enrichment-pipeline.md`. Default model: Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6` via Bedrock inference profile); `--opus` flag for quality-critical runs (`us.anthropic.claude-opus-4-6-v1`). Re-runnable with `--force`. Region: us-west-2.
+- **First full enrichment run (2026-03-17):** English AoY: 1,528 chunks enriched (1,493 Sonnet 4, 35 Sonnet 4.6), zero failures. Spanish AoY: 1,188 chunks enriched (Sonnet 4.6), zero failures. Distributions — domain: narrative 73%, philosophy 23%; rasa: adbhuta 37%, shanta 34%; depth 6-7: 22% of passages. 21 practice bridge candidates detected (English). chunk_topics: 82 matches against 6 teaching_topics (taxonomy expansion needed, FTR-121).

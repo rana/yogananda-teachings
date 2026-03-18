@@ -1,10 +1,11 @@
 ---
 ftr: 71
-title: Epistemic Data Boundary — Three-Phase Pipeline
+title: "Epistemic Data Boundary — Three-Phase Pipeline"
+summary: "Separates editorial truth (Contentful) from computational inference (Neon) across capture, editorial, and enrichment phases"
 state: approved
 domain: editorial
-arc: 1+
-governed-by: [PRI-03, PRI-10]
+governed-by: [PRI-01, PRI-03, PRI-10]
+depends-on: [FTR-102]
 ---
 
 # FTR-071: Epistemic Data Boundary
@@ -37,7 +38,7 @@ Phase 2: EDITORIAL (Contentful — source of truth, FTR-102)
 Phase 3: ENRICHMENT (Neon — derived cache + AI enrichment)
   3a. Sync editorial facts from Contentful → Neon (sync-contentful-to-neon.ts)
   3b. Chunk text by natural boundaries (FTR-023)
-  3c. Generate embeddings (Voyage AI, voyage-3-large)
+  3c. Generate embeddings (Voyage AI, voyage-4-large)
   3d. Classify rasa per chapter (Claude Opus)
   3e. Future: themes, cross-references, related passages,
       knowledge graph, concept clusters

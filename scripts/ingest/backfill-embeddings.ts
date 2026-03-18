@@ -9,7 +9,7 @@
 
 import pg from "pg";
 
-const EMBEDDING_MODEL = "voyage-3-large";
+const EMBEDDING_MODEL = "voyage-4-large";
 const EMBEDDING_DIMENSIONS = 1024;
 const VOYAGE_BATCH_SIZE = 16;
 const VOYAGE_API_URL = "https://api.voyageai.com/v1/embeddings";

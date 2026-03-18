@@ -1,9 +1,11 @@
 ---
 ftr: 64
 title: "Reverse Bibliography — What Yogananda Read"
+summary: "AI-extracted index of every external source Yogananda references across the corpus"
 state: approved-provisional
 domain: editorial
-arc: 3c+
+governed-by: [PRI-01, PRI-02, PRI-12]
+depends-on: [FTR-105]
 ---
 
 # FTR-064: Reverse Bibliography

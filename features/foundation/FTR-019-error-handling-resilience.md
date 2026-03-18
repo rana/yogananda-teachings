@@ -1,9 +1,9 @@
 ---
 ftr: 19
 title: Error Handling and Resilience
-state: approved
+summary: "Graceful degradation hierarchy, circuit breaker for Claude API, retry with backoff, and calm error messages"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-05, PRI-08]
 always-load: true
 ---
@@ -24,7 +24,7 @@ The portal degrades gracefully through layers. Each layer down removes a capabil
 | **Neon PostgreSQL** | Search and API calls fail | Book reader falls back to Contentful Delivery API; search shows calm error message | Reading works, search does not |
 | **Contentful Delivery API** | Book reader pages fail to render | Search still works (Neon is the search index); reader shows fallback message | Search works, reading does not |
 | **Voyage API** | New embedding generation fails | Existing embeddings continue to serve search; ingestion pipeline pauses | Zero seeker impact (ingestion is offline) |
-| **Vercel Edge** | Complete outage | Standard Vercel reliability; no self-hosted fallback in Arc 1 | Full outage (accept this risk) |
+| **Vercel Edge** | Complete outage | Standard Vercel reliability; no self-hosted fallback in Milestone 1a | Full outage (accept this risk) |
 
 ### Error Handling Patterns
 

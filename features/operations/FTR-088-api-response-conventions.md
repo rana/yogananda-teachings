@@ -1,10 +1,11 @@
 ---
 ftr: 88
 title: API Response Conventions
-state: approved
+summary: "Standardized snake_case fields, data/pagination/meta envelopes, and resource identifier patterns"
+state: implemented
 domain: operations
-arc: 1+
 governed-by: [PRI-10, PRI-11]
+depends-on: [FTR-015]
 ---
 
 # FTR-088: API Response Conventions
@@ -17,7 +18,7 @@ governed-by: [PRI-10, PRI-11]
 
 ### Context
 
-FTR-015 specifies individual API endpoints with inline response examples. As the endpoint count grew from Arc 1's initial set (~8 endpoints) through cross-media expansion (Arc 6: ~30+ endpoints), three categories of response convention accumulated implicitly without being declared:
+FTR-015 specifies individual API endpoints with inline response examples. As the endpoint count grew from the initial set (~8 endpoints) through cross-media expansion (post-M3d: ~30+ endpoints), three categories of response convention accumulated implicitly without being declared:
 
 1. **Field naming.** Some response examples used `snake_case` (matching PostgreSQL column names), others appeared to use `camelCase` (matching TypeScript conventions). The `hasMore` field in pagination sat alongside `book_title` and `results_count` — a silent inconsistency.
 

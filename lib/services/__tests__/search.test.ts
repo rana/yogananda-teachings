@@ -1,5 +1,5 @@
 /**
- * Search service unit tests — M2a-21, M2b-12, M2b-13.
+ * Search service unit tests — M2a-21, M3a-11, M3a-12.
  *
  * Tests the hybrid search service with mock pg.Pool.
  * Mocks Voyage API, HyDE (Claude Bedrock), and Cohere Rerank.
@@ -162,7 +162,7 @@ describe("search", () => {
     );
   });
 
-  // ── HyDE enhancement (M2b-12) ──────────────────────────────────
+  // ── HyDE enhancement (M3a-11) ──────────────────────────────────
 
   it("uses enhanced mode with HyDE when enhance='hyde' and HyDE succeeds", async () => {
     process.env.VOYAGE_API_KEY = "test-key";
@@ -207,7 +207,7 @@ describe("search", () => {
     expect(result.enhancements).toBeUndefined();
   });
 
-  // ── Rerank enhancement (M2b-13) ────────────────────────────────
+  // ── Rerank enhancement (M3a-12) ────────────────────────────────
 
   it("reranks results when enhance='rerank' and Cohere succeeds", async () => {
     process.env.VOYAGE_API_KEY = "test-key";
@@ -249,7 +249,7 @@ describe("search", () => {
     expect(result.results[0].score).toBe(0.85); // Original RRF score
   });
 
-  // ── Full enhancement (M2b-12 + M2b-13) ────────────────────────
+  // ── Full enhancement (M3a-11 + M3a-12) ────────────────────────
 
   it("applies both HyDE and Rerank when enhance='full'", async () => {
     process.env.VOYAGE_API_KEY = "test-key";

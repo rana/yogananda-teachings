@@ -1,9 +1,10 @@
 ---
 ftr: 51
 title: Crisis Support
-state: approved-provisional
+summary: "Non-intrusive locale-appropriate crisis helpline display on grief-adjacent content"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-04, PRI-06, PRI-08]
 ---
 
 # FTR-051: Crisis Support

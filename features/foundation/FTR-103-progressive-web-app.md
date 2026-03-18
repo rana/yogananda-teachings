@@ -1,9 +1,9 @@
 ---
 ftr: 103
 title: Progressive Web App
-state: approved
+summary: "Service worker caching, web manifest, and offline-first reading for seekers with intermittent connectivity"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-05, PRI-07]
 ---
 

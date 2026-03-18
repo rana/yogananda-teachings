@@ -1,9 +1,10 @@
 ---
 ftr: 66
-title: The Quiet Index — Browsable Contemplative Taxonomy
+title: "The Quiet Index — Browsable Contemplative Taxonomy"
+summary: "Browsable passage organization by contemplative texture: contemplative, practical, devotional, philosophical, narrative"
 state: approved-provisional
 domain: editorial
-arc: 3b
+governed-by: [PRI-03, PRI-08]
 ---
 
 # FTR-066: The Quiet Index

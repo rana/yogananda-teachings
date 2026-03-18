@@ -1,10 +1,11 @@
 ---
 ftr: 96
 title: Operational Surface
-state: approved
+summary: "Unified health monitoring, release tagging, document integrity validation, and design traceability"
+state: implemented
 domain: operations
-arc: 1a+
 governed-by: [PRI-12]
+depends-on: [FTR-082, FTR-108]
 ---
 
 # FTR-096: Operational Surface
@@ -141,7 +142,7 @@ Validates cross-reference integrity across all project documents:
 # ✓ All PRO bodies have index entries
 ```
 
-Runs in CI on every push to `main` that touches markdown files. Non-blocking in Arc 1 (advisory warnings); blocking in Arc 2+.
+Runs in CI on every push to `main` that touches markdown files. Non-blocking through Milestone 1c (advisory warnings); blocking from Milestone 2a onward.
 
 #### `scripts/release-tag.sh` — Release Tagging (Milestone 1a)
 
@@ -158,7 +159,7 @@ Creates annotated git tags with deployment metadata:
 # - blast_tier: T1-T5 (auto-classified from git diff)
 ```
 
-**Tag naming convention:** `v{arc}{milestone}.{patch}` — e.g., `v1a.1`, `v1a.2`, `v1c.0`, `v2a.1`. Milestone boundaries get `.0` tags. Patches increment within a milestone.
+**Tag naming convention:** `v{phase}{milestone}.{patch}` — e.g., `v1a.1`, `v1a.2`, `v1c.0`, `v2a.1`. Milestone boundaries get `.0` tags. Patches increment within a milestone.
 
 **Blast radius classification** (auto-detected from `git diff` since last tag):
 
@@ -236,7 +237,7 @@ See FTR-158 for the full 3-layer verification architecture (Sentinels, Fitness F
 | **Structured logs** | Request volume by locale | `language` field on every request → real language demand, more granular than Amplitude's `requested_language` | Milestone 1c |
 | **Sentry** | Error clustering by route and device | Errors concentrated on specific devices or browsers → broken experience for specific populations (PRI-05 failure detection) | Milestone 1c |
 
-**Reading cadence:** Infrastructure-as-intelligence is not a dashboard — it is a periodic reading practice. At arc boundaries and milestone reviews, the human principal and AI review infrastructure signals for patterns that explicit analytics might miss. The platform operational surface may surface selected infrastructure metrics in future milestones.
+**Reading cadence:** Infrastructure-as-intelligence is not a dashboard — it is a periodic reading practice. At milestone boundaries, the human principal and AI review infrastructure signals for patterns that explicit analytics might miss. The platform operational surface may surface selected infrastructure metrics in future milestones.
 
 **Relationship to Amplitude:** Infrastructure signals answer "how much" and "how fast." Amplitude events answer "which feature" and "in what context." They are complementary. When an infrastructure signal (e.g., audio CDN bandwidth spike) raises a question, an Amplitude event (e.g., `audio_play_started` by language) provides the context. Do not duplicate: if infrastructure already answers a question, do not add an Amplitude event for the same signal.
 

@@ -1,10 +1,11 @@
 ---
 ftr: 161
-title: Practice Signals — Anonymous Practice Engagement Without Surveillance
+title: "Practice Signals — Anonymous Practice Engagement Without Surveillance"
+summary: "Optional anonymous 'I practiced this' signal on practice-adjacent passages for editorial insight"
 state: proposed
 domain: experience
-arc: 3b+
-governed-by: [PRI-04, PRI-08, PRI-09, FTR-031, FTR-055]
+governed-by: [PRI-04, PRI-08, PRI-09]
+depends-on: [FTR-031, FTR-055]
 ---
 
 # FTR-161: Practice Signals
@@ -54,7 +55,7 @@ Practice signals tell editorial:
 
 ### Re-evaluate At
 
-Arc 3b boundary — after Practice Bridge (FTR-055) is operational and generating practice-adjacent content tags.
+Milestone 3b boundary — after Practice Bridge (FTR-055) is operational and generating practice-adjacent content tags.
 
 ### Decision Required From
 

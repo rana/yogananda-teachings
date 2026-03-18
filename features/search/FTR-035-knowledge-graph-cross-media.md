@@ -1,10 +1,11 @@
 ---
 ftr: 35
-title: "Knowledge Graph Cross-Media Evolution -- All Content Types as Graph Nodes"
+title: "Knowledge Graph Cross-Media Evolution — All Content Types as Graph Nodes"
+summary: "Extensible graph schema evolving to include magazine articles, video, audio, and sacred places as nodes"
 state: approved-provisional
 domain: search
-arc: 4+
 governed-by: [PRI-03, PRI-10]
+depends-on: [FTR-034, FTR-124]
 ---
 
 # FTR-035: Knowledge Graph Cross-Media Evolution
@@ -13,7 +14,7 @@ governed-by: [PRI-03, PRI-10]
 
 ### Context
 
-FTR-124 designed the Knowledge Graph at `/explore` when the portal had only book content. Since then, multiple content types were added: magazine articles (Arc 4), video transcripts (Arc 6), audio recordings (Arc 6), images/photographs (Arc 6), ontology concepts (Arc 4+), sacred places (Arc 6), community collections (Milestone 7b).
+FTR-124 designed the Knowledge Graph at `/explore` when the portal had only book content. Since then, multiple content types were added: magazine articles (Milestone 4a+), video transcripts (future milestones), audio recordings (future milestones), images/photographs (future milestones), ontology concepts (Milestone 4a+), sacred places (future milestones), community collections (Milestone 7b).
 
 The Unified Content Hub solves the data layer -- `content_items` + `content_relations` unify all media. But the visualization layer was never updated to consume this unified fabric.
 
@@ -41,8 +42,8 @@ FTR-124's Milestone 3d delivery becomes the graph's *first version*, not its fin
 | Mode | Default? | What's visible |
 |------|----------|----------------|
 | **Book map** | Yes (Milestone 3d) | Books, passages, themes, people, references |
-| **Concept map** | Arc 4+ | Ontology concepts, relations, linked passages |
-| **All media** | Arc 6+ | Everything -- full cross-media fabric |
+| **Concept map** | Milestone 4a+ | Ontology concepts, relations, linked passages |
+| **All media** | Future milestones | Everything -- full cross-media fabric |
 | **Single book** | Any milestone | One book's passages, themes, connections |
 | **Single theme** | Any milestone | One theme's passages across all media |
 
@@ -54,7 +55,7 @@ FTR-124's Milestone 3d delivery becomes the graph's *first version*, not its fin
 
 | Milestone | New Node Types | Approximate Scale |
 |-----------|---------------|-------------------|
-| **Arc 4** | book, passage, theme, person, reference | ~5,000-10,000 nodes |
+| **Milestone 4a** | book, passage, theme, person, reference | ~5,000-10,000 nodes |
 | **Milestone 5a** | magazine_issue, magazine_chunk, ontology_concept | ~12,000-18,000 nodes |
 | **Milestone 7a** | video, video_chunk, place | ~20,000-35,000 nodes |
 | **Milestone 7b** | audio_recording, audio_segment, image | ~30,000-50,000 nodes |

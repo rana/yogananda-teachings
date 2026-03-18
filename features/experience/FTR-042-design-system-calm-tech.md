@@ -1,9 +1,10 @@
 ---
 ftr: 42
 title: Design System Calm Tech
-state: approved-provisional
+summary: "Typography, color palette, and interaction patterns derived from SRF sites with calm constraints"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-03, PRI-08, PRI-10]
 ---
 
 # FTR-042: Design System Calm Tech

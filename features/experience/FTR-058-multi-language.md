@@ -1,9 +1,10 @@
 ---
 ftr: 58
 title: Multi-Language Architecture
-state: approved
+summary: "Three-layer localization strategy for UI chrome, book content, and search across 10 languages"
+state: implemented
 domain: experience
-arc: "2"
+governed-by: [PRI-01, PRI-05, PRI-06]
 ---
 
 # FTR-058: Multi-Language Architecture
@@ -32,7 +33,7 @@ Implement a **three-layer localization strategy** with English fallback:
 
 **Layer 2 — Book content:** Language-specific chunks in Neon, differentiated by the existing `language` column on `book_chunks`. No machine translation of Yogananda's words — if an official translation doesn't exist, the book is not available in that language. Contentful locales (production) provide per-locale editorial content.
 
-**Layer 3 — Search:** Per-language pg_search BM25 indexes with ICU tokenization for full-text search (FTR-025). Multilingual embedding model (Voyage voyage-3-large, 1024 dimensions, 26 languages — FTR-024). Claude handles query expansion in all target languages.
+**Layer 3 — Search:** Per-language pg_search BM25 indexes with ICU tokenization for full-text search (FTR-025). Multilingual embedding model (Voyage voyage-4-large, 1024 dimensions, 26 languages — FTR-024). Claude handles query expansion in all target languages.
 
 **English fallback:** When the user's language has insufficient content (fewer than 3 search results, sparse theme pages, small daily passage pool), supplement with English passages clearly marked with a `[EN]` language tag and "Read in English" links. The fallback is transparent — never silent.
 
@@ -72,14 +73,14 @@ The following decisions were made during a comprehensive multilingual audit to e
 
 6. **`chunk_relations` stores per-language relations.** Top 30 same-language + top 10 English supplemental per chunk ensures non-English languages get full related teachings without constant real-time fallback. The English supplemental relations follow the same pattern as the search fallback — supplement, clearly mark with `[EN]`, never silently substitute.
 
-7. **Per-language search quality evaluation is a launch gate.** Each language requires a dedicated search quality test suite (15–20 queries with expected passages) that must pass before that language goes live. This mirrors Arc 1's bilingual search quality evaluation (Deliverable M1a-8: ~58 en + Milestone 1b: ~15 es queries) and prevents launching a language with degraded retrieval quality.
+7. **Per-language search quality evaluation is a launch gate.** Each language requires a dedicated search quality test suite (15–20 queries with expected passages) that must pass before that language goes live. This mirrors Milestone 1a's bilingual search quality evaluation (Deliverable M1a-8: ~58 en + Milestone 1b: ~15 es queries) and prevents launching a language with degraded retrieval quality.
 
 8. **Chunk size must be validated per language.** English-calibrated chunk sizes (200/300/500 tokens) may produce different semantic density across scripts. Per-language chunk size benchmarking is required during Milestone 5b ingestion — particularly for CJK and Indic scripts where tokenization differs significantly from Latin text.
 
 ### Consequences
 
-- Milestone 2a includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); Arc 1 content is bilingual (en/es) per FTR-011
-- Arc 1 includes the `topic_translations` table (empty until Milestone 5b)
+- Milestone 2a includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); the initial milestone content is bilingual (en/es) per FTR-011
+- The initial migration includes the `topic_translations` table (empty until Milestone 5b)
 - Milestone 5b requires knowing which books SRF has in digital translated form (stakeholder question)
 - Milestone 2a Spanish UI string translation uses the AI-assisted workflow (FTR-135): Claude generates drafts, human reviewer refines tone, spiritual terminology, and cultural nuance. Milestone 5b repeats this proven workflow for Hindi and remaining 7 languages.
 - The content availability matrix creates asymmetric experiences per language — this is honest, not a bug
@@ -157,9 +158,9 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 | Tier 3 | **Italian** | it | Latin | ~61M | Official translations exist. |
 | Tier 3 | **Thai** | th | Thai | ~49M | SRF/YSS Thailand. Script diversity forcing function. |
 
-*Speaker data: Ethnologue 2025. Internet penetration: ITU/DataReportal 2025–2026. Full analysis: docs/reference/Prioritizing Global Language Rollout.md.*
+*Speaker data: Ethnologue 2025. Internet penetration: ITU/DataReportal 2025–2026. Full analysis: docs/reference/prioritizing-global-language-rollout.md.*
 
-**Tier 1 (Hindi, Spanish):** Both Tier 1 by reachable population. Spanish activated in Arc 1 alongside English (~820M reachable). Hindi deferred from Arc 1 — authorized YSS ebook only purchasable from India/Nepal/Sri Lanka (Razorpay); Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates when an authorized source becomes available (Milestone 5b or earlier).
+**Tier 1 (Hindi, Spanish):** Both Tier 1 by reachable population. Spanish activated in the initial milestone alongside English (~820M reachable). Hindi deferred from the initial milestone — authorized YSS ebook only purchasable from India/Nepal/Sri Lanka (Razorpay); Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates when an authorized source becomes available (Milestone 5b or earlier).
 
 **Tier 2 (Portuguese, Bengali):** Activated as the next priority after Tier 1 languages are live. Bengali's mission weight (Yogananda's mother tongue, YSS heartland) is significant despite lower internet penetration.
 
@@ -172,21 +173,21 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 ### Rationale
 
 - **Mission integrity.** The core set covers the languages where official Yogananda translations exist and SRF/YSS has organizational presence. Every core language has published translations — the portal serves verbatim text, not machine-translated content.
-- **Reachable population ordering.** Priority determined by `speakers × internet_penetration × content_availability` (FTR-011). Spanish matches English L1 reach. Hindi is Tier 1 by population but deferred from Arc 1 due to authorized source availability — activates when sourcing resolves.
+- **Reachable population ordering.** Priority determined by `speakers × internet_penetration × content_availability` (FTR-011). Spanish matches English L1 reach. Hindi is Tier 1 by population but deferred from the initial milestone due to authorized source availability — activates when sourcing resolves.
 - **Population reach.** The core set covers ~3 billion speakers across 6 scripts (Latin, CJK, Thai, Devanagari, Bengali). Hindi + Bengali alone exceed 830M speakers.
 - **Script diversity drives architectural quality.** Supporting Latin, CJK, Thai, Devanagari, and Bengali from the core set forces robust i18n infrastructure — font loading, line-height adaptation, word-boundary handling (Thai has none), search tokenization.
 - **Thai inclusion.** Official Thai translations exist. Thai script's lack of word boundaries makes it an excellent forcing function for search tokenization quality. SRF/YSS has presence in Thailand.
 
 ### Risks
 
-- **Tier 1 adds scope incrementally.** Spanish ingestion in Arc 1 requires per-language search quality evaluation. Hindi (when sourced) requires the same plus full Devanāgarī typography (Noto Serif Devanagari for reading, Noto Sans Devanagari for UI — FTR-131) and conjunct rendering QA. Mitigated: same ingestion pipeline, same embedding model (Voyage multilingual), same search infrastructure. Incremental cost is modest.
-- **Digital text availability.** Confirmed that official translations exist in all core languages. Digital text availability (machine-readable format) must be verified per language — a critical stakeholder question. Arc 1 uses purchased books as temporary sources (same approach as spiritmaji.com for English).
+- **Tier 1 adds scope incrementally.** Spanish ingestion in the initial milestone requires per-language search quality evaluation. Hindi (when sourced) requires the same plus full Devanāgarī typography (Noto Serif Devanagari for reading, Noto Sans Devanagari for UI — FTR-131) and conjunct rendering QA. Mitigated: same ingestion pipeline, same embedding model (Voyage multilingual), same search infrastructure. Incremental cost is modest.
+- **Digital text availability.** Confirmed that official translations exist in all core languages. Digital text availability (machine-readable format) must be verified per language — a critical stakeholder question. The initial milestone uses purchased books as temporary sources (same approach as spiritmaji.com for English).
 - **Human reviewer availability.** Each language needs a fluent, SRF-aware reviewer for UI strings (FTR-135). The readiness gate ensures no language ships with unreviewed translations.
 - **Thai script complexity.** Thai has no word boundaries, combining characters, and tone marks. Search tokenization (pg_search ICU) handles Thai, but per-language search quality benchmarking is essential.
 
 ### Consequences
 
-- Spanish *Autobiography* ingested in Arc 1 alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (Milestone 5b or earlier).
+- Spanish *Autobiography* ingested in Milestone 1b alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (Milestone 5b or earlier).
 - Remaining languages activate ordered by reachable population, each clearing the readiness gate independently
 - Need to confirm digital text availability for all core languages (stakeholder question)
 - YSS-specific UI adaptations needed for Hindi and Bengali locales (organizational branding differences between SRF and YSS per FTR-119)
@@ -267,12 +268,12 @@ Adopt the **hybrid approach**: locale path prefix on frontend pages, query param
 | Layer | What | Approach | Milestone |
 |-------|------|----------|-----------|
 | **UI chrome** | Nav, labels, buttons, errors, search prompts (~200–300 strings) | `next-intl` with locale JSON files. URL-based routing (`/es/...`, `/de/...`). AI-assisted workflow: Claude drafts → human review → production (FTR-135). | Infrastructure + hi/es translations in Milestone 2a. Remaining 7 languages in Milestone 5b. |
-| **Book content** | Yogananda's published text in official translations | Language-specific chunks in Neon (`language` column). Contentful locales (available from Arc 1, activated in Milestone 5b). **Never machine-translate sacred text.** | 5b |
+| **Book content** | Yogananda's published text in official translations | Language-specific chunks in Neon (`language` column). Contentful locales (available from the initial migration, activated in Milestone 5b). **Never machine-translate sacred text.** | 5b |
 | **Search** | FTS, vector similarity, query expansion | Per-language BM25 index (pg_search, FTR-025). Multilingual embedding model (Voyage, FTR-024). Claude expands queries per language. | 5b |
 
 ### Milestone 2a — Bilingual Content and Bilingual UI
 
-Arc 1 ingests content in English and Spanish (FTR-011 Tier 1; Hindi deferred from Arc 1 — authorized source unavailable outside India). **Milestone 2a delivers bilingual UI chrome** — Spanish UI strings translated via Claude draft → human review (FTR-135). A seeker reading Spanish content deserves Spanish navigation. The i18n infrastructure is in place from day one for all 10 core languages:
+Milestone 1a/1b ingests content in English and Spanish (FTR-011 Tier 1; Hindi deferred — authorized source unavailable outside India). **Milestone 2a delivers bilingual UI chrome** — Spanish UI strings translated via Claude draft → human review (FTR-135). A seeker reading Spanish content deserves Spanish navigation. The i18n infrastructure is in place from day one for all 10 core languages:
 
 - All UI strings externalized to `messages/en.json` (never hardcoded in components)
 - Spanish UI strings translated: `messages/es.json` (FTR-135 workflow). Hindi (`messages/hi.json`) added when content becomes available.
@@ -366,7 +367,7 @@ The `[EN]` tag is a small, muted language indicator. It is honest, not apologeti
 
 > **Note:** pg_search BM25 indexes are configured per-language using ICU tokenization (defined in § Data Model). Each chunk's `language` column determines the appropriate analyzer at query time. No additional indexes are needed when new languages are added in Milestone 5b — only new content rows with the correct `language` value and the corresponding ICU analyzer configuration.
 
-**Vector search:** The embedding model **must be multilingual** — this is an explicit requirement, not an accident. Voyage voyage-3-large (FTR-024) supports 26 languages and places semantically equivalent passages in different languages close together in the unified cross-lingual embedding space. This means Arc 1 embeddings (en/es) remain valid when Hindi, German, Japanese, and other chunks are added in Milestone 5b — no re-embedding of the existing corpus. Any future embedding model migration (FTR-024) must preserve this multilingual property. Benchmark per-language retrieval quality with actual translated passages in Milestone 5b. Switch to per-language models only if multilingual quality is insufficient — but note that per-language models sacrifice the English fallback's vector search quality and cross-language passage alignment.
+**Vector search:** The embedding model **must be multilingual** — this is an explicit requirement, not an accident. Voyage voyage-4-large (FTR-024) supports 26 languages and places semantically equivalent passages in different languages close together in the unified cross-lingual embedding space. This means initial embeddings (en/es) remain valid when Hindi, German, Japanese, and other chunks are added in Milestone 5b — no re-embedding of the existing corpus. Any future embedding model migration (FTR-024) must preserve this multilingual property. Benchmark per-language retrieval quality with actual translated passages in Milestone 5b. Switch to per-language models only if multilingual quality is insufficient — but note that per-language models sacrifice the English fallback's vector search quality and cross-language passage alignment.
 
 **Query expansion:** Claude handles all target languages. The expansion prompt includes the target language:
 
@@ -462,7 +463,7 @@ Non-Latin font loading strategy: Hindi locale (`/hi/`) eagerly preloads Noto Ser
 
 1. **Locale-first search:** The `language` API parameter means the user's locale, not the detected query language. No auto-detection of query language. English fallback implemented at service layer.
 2. **Theme slugs stay in English** for URL stability (`/es/themes/peace`, not `/es/temas/paz`). Display names localized via `topic_translations` table.
-3. **Embedding model must be multilingual.** Explicit requirement (not accident). Ensures Arc 1 embeddings remain valid when Milestone 5b adds new languages.
+3. **Embedding model must be multilingual.** Explicit requirement (not accident). Ensures initial embeddings remain valid when Milestone 5b adds new languages.
 4. **`reader_url` is locale-relative.** API returns `/books/slug/chapter#chunk`. Client prepends locale prefix. API stays presentation-agnostic.
 5. **`chunk_relations` store per-language.** Top 30 same-language + top 10 English supplemental per chunk. Ensures non-English languages get full related teachings with English fallback.
 6. **Locale + English fallback is the multilingual model.** Arbitrary cross-language search (e.g., Japanese query finding German results) is deferred as optional — the practical need is the user's language plus English fallback, not N×N language combinations. The multilingual embedding model enables cross-language search at near-zero cost if usage data later justifies it.
@@ -472,7 +473,7 @@ Non-Latin font loading strategy: Hindi locale (`/hi/`) eagerly preloads Noto Ser
 
 > **Central registry:** CONTEXT.md § Open Questions. The Milestone 5b questions below are tracked there with the full stakeholder list.
 
-- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact Milestone 5b question; Hindi and Spanish already sourced for Arc 1)
+- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact Milestone 5b question; Hindi and Spanish already sourced for Milestone 1a/1b)
 - Translation reviewer staffing per language
 - YSS portal branding for Hindi/Bengali/Thai locales
 - Whether translated editions preserve paragraph structure (affects `canonical_chunk_id` alignment)

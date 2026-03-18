@@ -4,7 +4,7 @@
  * Hybrid search: vector + FTS + RRF (FTR-020).
  * Returns ranked verbatim passages with citations (PRI-01, PRI-02).
  * Pure hybrid search is the primary mode (FTR-027).
- * Optional AI enhancements via `enhance` param (M2b-12/13).
+ * Optional AI enhancements via `enhance` param (M3a-11/12).
  *
  * Query params:
  *   q         — search query (required)

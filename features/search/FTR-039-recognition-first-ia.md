@@ -1,9 +1,9 @@
 ---
 ftr: 39
 title: Recognition-First Information Architecture
+summary: "Portal offers before it asks via multi-lens homepage with Today's Wisdom, Four Doors, and Wanderer's Path"
 state: approved-provisional
 domain: search
-arc: 2a+
 governed-by: [PRI-03, PRI-08]
 ---
 
@@ -23,7 +23,7 @@ Adopt a **recognition-first** information architecture: the portal offers someth
 
 **The principle:** Recognition before query. The portal offers before it asks.
 
-**The implementation (Arc 2a):** A multi-lens homepage with five concurrent entry modes:
+**The implementation (Milestone 2a):** A multi-lens homepage with five concurrent entry modes:
 
 1. **Today's Wisdom** (hero position) -- The portal's gift before any interaction.
 2. **"What did Yogananda say about...?"** -- The primary search invitation, reframed to set correct expectations.
@@ -53,7 +53,7 @@ At 1c, the recognition-first principle manifests minimally:
 - FTR-040 updated to reference this and describe the recognition-first principle
 - Deliverable M1c-5 search prompt changes from "What are you seeking?" to "What did Yogananda say about...?"
 - The Vocabulary Bridge (FTR-028) is a prerequisite for meaningful recognition-based entry
-- FTR-138, FTR-139, FTR-140 capture the Arc 2a+ implementation details
+- FTR-138, FTR-139, FTR-140 capture the Milestone 2a+ implementation details
 
 **Governs:** FTR-040, FTR-040, FTR-040, FTR-138, FTR-139, FTR-140
 

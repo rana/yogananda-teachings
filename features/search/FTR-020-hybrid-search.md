@@ -1,10 +1,11 @@
 ---
 ftr: 20
 title: Hybrid Search (Vector + Full-Text)
-state: approved
+summary: "Vector similarity plus BM25 full-text merged via Reciprocal Rank Fusion in a single Postgres query"
+state: implemented
 domain: search
-arc: 1a+
 governed-by: [PRI-01, PRI-03]
+depends-on: [FTR-025]
 ---
 
 # FTR-020: Hybrid Search
@@ -50,7 +51,7 @@ The AI is a **librarian**, not an **oracle**. It finds Yogananda's words — it 
 
 ### Search Flow
 
-The search pipeline has evolved through three arc tiers. Milestones 1a–2a use a two-path retrieval core (vector + BM25). Milestone 2b+ adds HyDE and Cohere Rerank. Milestone 3b+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
+The search pipeline has evolved through three milestone tiers. Milestones 1a–2a use a two-path retrieval core (vector + BM25). Milestone 2b+ adds HyDE and Cohere Rerank. Milestone 3b+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
 
 ```
 1. USER QUERY
@@ -99,7 +100,7 @@ The search pipeline has evolved through three arc tiers. Milestones 1a–2a use 
 6. MULTI-PATH PARALLEL RETRIEVAL (Neon PostgreSQL, Milestone 3b+ adds PATH C)
 
  PATH A — Dense Vector (pgvector, HNSW):
- - Embed the original query using Voyage voyage-3-large (FTR-024)
+ - Embed the original query using Voyage voyage-4-large (FTR-024)
  - Find top 20 chunks by cosine similarity
  - If HyDE active: also search with HyDE embedding, merge via RRF
 
@@ -115,18 +116,39 @@ The search pipeline has evolved through three arc tiers. Milestones 1a–2a use 
  - pgvector similarity applied to graph-retrieved candidates
  - Multi-step queries composed in /lib/services/graph.ts
 
- RECIPROCAL RANK FUSION (RRF):
+ ADAPTIVE HYBRID FUSION:
  - Merge results from all active paths (A+B in Milestones 1a–3a; A+B+C in Milestone 3b+)
- - score = Σ 1/(k + rank_in_path) across all paths, k=60 *[Parameter — default: 60, evaluate: M1a-8 golden set at k=40/60/80]*
- - Deduplicate, producing top 20 candidates
+ - Convex Combination (CC) replaces Reciprocal Rank Fusion (RRF).
+   CC uses normalized scores, not ranks — a passage scored 0.99 by dense
+   retrieval is meaningfully distinguished from one scored 0.51.
+   (Bruch et al. 2022, arXiv:2210.11934: CC achieves NDCG@1000 of 0.454
+   vs. 0.425 for RRF on MS MARCO when any labeled data is available.)
+ - Two-path fusion: final_score = α × dense_score + (1 - α) × bm25_score
+   *[Parameter — default: α=0.5, tune with golden set queries per FTR-037]*
+ - Three-path fusion (M3b+): final_score = α × dense + β × bm25 + γ × graph
+   where α + β + γ = 1, tuned per-register (see table below)
+ - Register-driven adaptive weights: the Vocabulary Bridge (FTR-028)
+   classifies query register at query time. Fusion weights shift accordingly:
+
+   | Register     | Dense | BM25 | Graph | Rationale |
+   |--------------|-------|------|-------|-----------|
+   | Philosophical| 0.35  | 0.35 | 0.30  | Balanced — needs both exact terms and concepts |
+   | Distressed   | 0.70  | 0.15 | 0.15  | Emotional queries need semantic understanding |
+   | Devotional   | 0.60  | 0.15 | 0.25  | Emotional resonance + graph cross-tradition |
+   | Referential  | 0.15  | 0.65 | 0.20  | Exact citations need BM25 |
+   | Default      | 0.50  | 0.50 | 0.00  | No register detected, balanced two-path |
+
+   *[All weights are Parameters per FTR-012 — tune with golden set]*
+ - Deduplicate, producing top 50 candidates (expanded from 20 for reranker)
  │
  ▼
-7. RERANKING (Cohere Rerank 3.5, Milestone 2b+, FTR-027)
+7. RERANKING (Voyage Rerank, standard from M3a, FTR-027)
  Cross-encoder reranker sees query + passage together.
  Multilingual native. Replaces Claude Haiku passage ranking for precision.
- Selects and ranks top 5 from 20 candidates.
+ Selects and ranks top 5 from 50 candidates.
+ Vendor-consolidated with Voyage embedding pipeline (FTR-024).
 
- Milestones 1a–2a fallback: Claude Haiku passage ranking (FTR-105).
+ Milestones 1a–2b fallback: Claude Haiku passage ranking (FTR-105).
  │
  ▼
 8. CONTEXT EXPANSION
@@ -156,11 +178,11 @@ The search pipeline has evolved through three arc tiers. Milestones 1a–2a use 
 
 **Milestone progression of the search pipeline:**
 
-| Milestone | Retrieval Paths | Reranker | Enhancements |
-|-----------|----------------|----------|-------------|
-| 1a–2a | Vector (pgvector) + BM25 (pg_search) | Claude Haiku passage ranking | Basic query expansion, terminology bridge |
-| 2b–3a | Vector + BM25 | Cohere Rerank 3.5 | HyDE, improved query expansion |
-| 3b+ | Vector + BM25 + Graph (Postgres) | Cohere Rerank 3.5 | Three-path RRF, entity-aware retrieval |
+| Milestone | Retrieval Paths | Fusion | Reranker | Enhancements |
+|-----------|----------------|--------|----------|-------------|
+| 1a–2b | Vector (pgvector) + BM25 (pg_search) | Convex Combination (α=0.5) | Claude Haiku passage ranking | Basic query expansion, terminology bridge |
+| 3a | Vector + BM25 | CC with register-adaptive α | Voyage Rerank | Enrichment-augmented embeddings (FTR-024), HyDE |
+| 3b+ | Vector + BM25 + Graph (Postgres) | CC three-path register-adaptive | Voyage Rerank | Three-path fusion, entity-aware retrieval |
 
 ### Search Intent Classification (FTR-005 E1)
 
@@ -210,7 +232,7 @@ The Vocabulary Bridge (FTR-028, FTR-028) is a five-layer PostgreSQL-backed seman
 
 The bridge deepens with each book ingested. Each book ingestion triggers Opus extraction across three categories (modern-to-Yogananda mappings, Sanskrit inline definitions, cross-tradition terms), diffed against existing entries and merged with source provenance. See FTR-028 § Per-Book Evolution Lifecycle and FTR-028 for the complete specification, data model, and query-time flow.
 
-### Claude System Prompts (Draft — Refine During Arc 1)
+### Claude System Prompts (Draft — Refine During Implementation)
 
 These are the initial system prompts for the three Claude API calls in the search pipeline. All prompts enforce the "librarian, not oracle" constraint: Claude processes queries and selects passages but never generates teaching content.
 
@@ -315,9 +337,9 @@ When Claude (via AWS Bedrock, FTR-105) is unavailable (timeout, error, rate limi
 
 | Level | Trigger | What Works | What Doesn't | User Impact |
 |-------|---------|-----------|--------------|-------------|
-| **Full** | All services healthy | Query expansion + HyDE (Milestone 2b+) + multi-path retrieval + Cohere Rerank (Milestone 2b+) | — | Best results: conceptual queries understood, top 5 precisely ranked |
-| **No rerank** | Cohere Rerank unavailable | Query expansion, HyDE, multi-path RRF | Cross-encoder reranking | Top 5 from RRF scores; slightly less precise ordering |
-| **No HyDE** | HyDE generation fails | Query expansion, multi-path RRF, Cohere Rerank | Hypothetical document embedding | Marginal loss on literary/metaphorical queries |
+| **Full** | All services healthy | Query expansion + HyDE (M3a+) + multi-path retrieval + Voyage Rerank (M3a+) | — | Best results: conceptual queries understood, top 5 precisely ranked |
+| **No rerank** | Voyage Rerank unavailable | Query expansion, HyDE, adaptive CC fusion | Cross-encoder reranking | Top 5 from CC fusion scores; slightly less precise ordering |
+| **No HyDE** | HyDE generation fails | Query expansion, adaptive CC fusion, Voyage Rerank | Hypothetical document embedding | Marginal loss on literary/metaphorical queries |
 | **No expansion** | Claude query expansion fails | Raw query → hybrid search (vector + BM25) | Conceptual query broadening | Keyword-dependent; "How do I find peace?" works less well than "peace" |
 | **Database only** | All AI services fail | Pure hybrid search (pgvector + pg_search BM25) | All AI enhancement | Still returns relevant verbatim passages via vector similarity + BM25 |
 
@@ -325,7 +347,7 @@ When Claude (via AWS Bedrock, FTR-105) is unavailable (timeout, error, rate limi
 
 ### FTR-024: Embedding Model Migration Procedure
 
-When the embedding model changes (e.g., from `voyage-3-large` to a successor, or to a per-language model for Milestone 5b), re-embedding the full corpus is required. The `embedding_model`, `embedding_dimension`, and `embedded_at` columns on `book_chunks` enable safe, auditable migration.
+When the embedding model changes (e.g., from `voyage-4-large` to a successor, or to a per-language model for Milestone 5b), re-embedding the full corpus is required. The `embedding_model`, `embedding_dimension`, and `embedded_at` columns on `book_chunks` enable safe, auditable migration.
 
 **Procedure:**
 
@@ -342,7 +364,7 @@ When the embedding model changes (e.g., from `voyage-3-large` to a successor, or
  - UPDATE embedding, embedding_model, embedding_dimension, embedded_at
  - Log progress to CloudWatch
 
- Estimated cost: Voyage voyage-3-large ~$0.06 per 1M tokens
+ Estimated cost: Voyage voyage-4-large ~$0.06 per 1M tokens
  Estimated time: ~50K chunks ≈ 15-30 minutes at API rate limits
 
 3. REBUILD HNSW INDEX (on branch)
@@ -370,9 +392,9 @@ When the embedding model changes (e.g., from `voyage-3-large` to a successor, or
  Update default values in schema for new chunks.
 ```
 
-**Cost estimate for full corpus re-embedding:** < $15 for Voyage voyage-3-large at 50K chunks (~25M tokens). The operational cost is primarily developer time for validation, not API spend. At significant volume, evaluate AWS Marketplace SageMaker model packages for Voyage to reduce per-call costs.
+**Cost estimate for full corpus re-embedding:** < $15 for Voyage voyage-4-large at 50K chunks (~25M tokens). The operational cost is primarily developer time for validation, not API spend. At significant volume, evaluate AWS Marketplace SageMaker model packages for Voyage to reduce per-call costs.
 
-**Multilingual embedding quality (FTR-024, FTR-024).** Voyage voyage-3-large is multilingual-first by design: 1024 dimensions, 26 languages, unified cross-lingual embedding space, 32K token input window. For European languages (es, de, fr, it, pt) and major Asian languages (ja, zh, ko, hi), this provides strong baseline retrieval. For CJK-heavy corpora, benchmark Voyage `voyage-multilingual-2` as an alternative — it may excel on languages with fundamentally different morphology. Milestone 5b includes formal benchmarking with actual translated passages across Voyage voyage-3-large, Cohere embed-v3, and BGE-M3.
+**Multilingual embedding quality (FTR-024, FTR-024).** Voyage voyage-4-large is multilingual-first by design: MoE architecture, shared embedding space, Matryoshka dimension reduction, 32K token context window. For European languages (es, de, fr, it, pt) and major Asian languages (ja, zh, ko, hi), this provides strong baseline retrieval. For CJK-heavy corpora, benchmark Voyage `voyage-multilingual-2` as an alternative — it may excel on languages with fundamentally different morphology. Milestone 5b includes formal benchmarking with actual translated passages across Voyage voyage-4-large, Cohere embed-v3, and BGE-M3.
 
 **Domain-adapted embeddings (FTR-024, later-stage research).** The highest-ceiling path to world-class retrieval: fine-tune a multilingual base model on Yogananda's published corpus across languages. A domain-adapted model would understand spiritual vocabulary, metaphorical patterns, and cross-tradition concepts at a depth no general model matches. Prerequisites: multilingual corpus (Milestone 5b ingestion) and per-language evaluation suites (Milestone 5b). The same migration procedure above applies — the architecture imposes no constraints on model provenance.
 
@@ -383,3 +405,8 @@ The search architecture above handles what happens *after* a query is submitted.
 **Summary:** Six-tier suggestion hierarchy (scoped queries, entities, topics, Sanskrit terms, learned queries, curated content) harvested from enrichment data by a pre-computation pipeline. Three-tier progressive infrastructure (static JSON at CDN edge <10ms, pg_trgm fuzzy fallback 40-80ms, Vercel KV if needed). Bridge-powered suggestions surface the gap between seeker vocabulary and Yogananda's language before submission. DELTA-compliant by construction — no behavioral data in the pipeline.
 
 See FTR-029 for the complete specification: experience walkthrough, six-tier hierarchy, pre-computation pipeline, suggestion dictionary schema, infrastructure tiers, API specification, client architecture, multi-word matching, display design, accessibility, multilingual strategy, and implementation state.
+
+## Notes
+
+- **Origin:** FTR-020
+- **March 2026 revision (fusion strategy):** RRF replaced with Convex Combination based on convergent findings from two independent deep research reports (Gemini and Claude, March 2026). Both reports confirm CC consistently outperforms RRF when labeled data exists — the portal's 66 golden queries provide this data. Register-driven adaptive fusion weights leverage FTR-028's query-time register classification. Cohere Rerank replaced with Voyage Rerank for vendor consolidation with embedding pipeline (FTR-024). Candidate pool expanded from top-20 to top-50 for the cross-encoder reranker. See `docs/reference/gemini-deep-research-modern-search-report.md` and `docs/reference/claude-deep-research-modern-search-report.md`.

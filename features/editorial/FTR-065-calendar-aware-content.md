@@ -1,9 +1,10 @@
 ---
 ftr: 65
 title: Calendar-Aware Content Surfacing
+summary: "Date-to-passage associations linking daily experience to spiritually significant calendar events"
 state: approved-provisional
 domain: editorial
-arc: 3b+
+governed-by: [PRI-03, PRI-05]
 ---
 
 # FTR-065: Calendar-Aware Content Surfacing

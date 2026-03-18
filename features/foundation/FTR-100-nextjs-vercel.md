@@ -1,9 +1,9 @@
 ---
 ftr: 100
 title: Next.js + Vercel for Frontend
-state: approved
+summary: "Next.js on Vercel with SSG for book pages, API routes for search, ISR for content updates"
+state: implemented
 domain: foundation
-arc: 1+
 governed-by: [PRI-10]
 ---
 
@@ -23,11 +23,11 @@ Use **Next.js on Vercel** with **Tailwind CSS** for the frontend.
 
 - SRF organizational standard
 - SSG for book reader pages (fast, SEO-friendly, cacheable)
-- API routes for search endpoints (serverless, no separate backend for Arc 1)
+- API routes for search endpoints (serverless, no separate backend for the initial milestone)
 - ISR for content updates when Contentful is integrated
 - Vercel edge caching for global performance
 
 ### Consequences
 
-- Arc 1 can use Next.js API routes instead of AWS Lambda (simpler)
+- Milestone 1a can use Next.js API routes instead of AWS Lambda (simpler)
 - Production may migrate search API routes to Lambda if needed for scale or separation

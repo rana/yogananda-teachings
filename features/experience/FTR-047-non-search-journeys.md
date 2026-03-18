@@ -1,9 +1,11 @@
 ---
 ftr: 47
 title: Non-Search Journeys
+summary: "Design standards for shared passage, Google-arrival, daily visitor, and linear reader paths"
 state: approved-provisional
 domain: experience
-arc: "2"
+governed-by: [PRI-03, PRI-04, PRI-08]
+depends-on: [FTR-040]
 ---
 
 # FTR-047: Non-Search Journeys
@@ -39,9 +41,11 @@ Each of these paths should be as excellent as the search experience. "Excellent"
 
 3. **The Quiet Corner is self-contained.** No navigation chrome competes with the affirmation. The header collapses to just the lotus mark (home link). The footer is suppressed. The page is almost entirely empty — the affirmation, the timer, and nothing else. This is already specified in DESIGN.md but is elevated here as an explicit design constraint: the Quiet Corner page must pass the "2 AM crisis test" — a person in distress should see nothing that adds to their cognitive load.
 
-4. **The daily visitor's path optimizes for Today's Wisdom.** The homepage's information architecture already places Today's Wisdom first. This ADR adds: the "Show me another" interaction should feel *inexhaustible* — the seeker should never feel they've "used up" the passages. When the pool is thin (Arc 1, one book), "Show me another" should cycle through all available passages before repeating any. A simple client-side exclusion list (sessionStorage) prevents repeats within a visit.
+4. **The daily visitor's path optimizes for Today's Wisdom.** The homepage's information architecture already places Today's Wisdom first. This ADR adds: the "Show me another" interaction should feel *inexhaustible* — the seeker should never feel they've "used up" the passages. When the pool is thin (initial milestone, one book), "Show me another" should cycle through all available passages before repeating any. A simple client-side exclusion list (sessionStorage) prevents repeats within a visit.
 
-5. **Each path naturally invites one step deeper — exactly one.** The shared passage page invites: continue reading the chapter. The chapter page (external arrival) invites: start from the beginning. The Quiet Corner invites: nothing during the timer, then a parting passage (FTR-040). Today's Wisdom invites: "Show me another" or search. Never more than one invitation at a time. Never pressure.
+5. **The portal explicitly positions itself as a complement to physical books.** Research across sacred text platforms confirms that screen reading measurably degrades contemplative engagement compared to print — the degradation is worse for sacred/devotional text than for informational text because sacred reading demands the deep reading processes that screens undermine (claude-deep-research-sacred-reading-experience-report.md § 8). The portal should say so honestly. On the About page and in the book reader footer (near the "Find this book" link), include: "This portal is designed to complement, not replace, the physical books published by Self-Realization Fellowship. For the deepest contemplative reading, we encourage the printed editions." This aligns with PRI-04 (signpost, not destination) at a meta level — the portal is a signpost to the books, which are themselves signposts to practice. Making this explicit is both honest and theologically aligned. The positioning also serves a practical function: when digital growth in sacred text increases reverence for physical copies (UK print Bible sales among Gen Z jumped 87% even as digital use surged), the portal becomes a driver of book sales rather than a substitute.
+
+6. **Each path naturally invites one step deeper — exactly one.** The shared passage page invites: continue reading the chapter. The chapter page (external arrival) invites: start from the beginning. The Quiet Corner invites: nothing during the timer, then a parting passage (FTR-040). Today's Wisdom invites: "Show me another" or search. Never more than one invitation at a time. Never pressure.
 
 ### Alternatives Considered
 
