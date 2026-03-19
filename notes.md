@@ -1,6 +1,10 @@
 # Notes
 
 ---
+Think deeply, slowly, carefully, meticulously and thoroughly.
+
+
+---
 Read `docs/plans/ftr-168-phase-1-planning.md`. This is the Phase 1 implementation
 plan for the AI Agent Platform (FTR-168–177). The governing FTR specs are in
 `features/operations/` and `features/foundation/`. Read individual FTRs only when

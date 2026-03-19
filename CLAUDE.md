@@ -127,7 +127,8 @@ Twelve principles define the project's identity and directly constrain code gene
 /docs/guides/ — Human onboarding and setup (getting-started, credentials, manual steps)
 /docs/operations/ — Operational runbooks and procedures (Milestone 3b+)
 /docs/plans/ — Implementation plans archived as institutional memory (not ephemeral — checked into repo)
-/docs/reference/ — Background research (not active project docs)
+/docs/prompts/ — Session handoff instruments for multi-session work (FTR-168+)
+/docs/reference/ — Background research and deep research prompts/results
 ```
 
 **Book cover images.** Stored as optimized WebP in `public/book-images/covers/{slug}.webp` (240px wide, ~15–25KB). Database `books.cover_image_url` stores the public path (e.g., `/book-images/covers/autobiography-of-a-yogi.webp`). English source: `data/book-ingest/autobiography-of-a-yogi/assets/front-cover.png`. Spanish source: Amazon product image (no local source asset). When adding a new book: resize source to 240px wide WebP, place in covers directory, UPDATE the database row. Display uses `height: 120px; width: auto` to preserve native aspect ratio without clipping.

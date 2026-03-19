@@ -58,6 +58,29 @@ CREATE INDEX idx_token_events_stage ON token_events(experiment_id, stage);
 
 **When to reconsider:** If the platform grows to 100+ concurrent LLM calls, or if multi-provider routing becomes complex (3+ providers with failover), evaluate LiteLLM (open-source, self-hosted) or Portkey (managed). The `token_events` table remains the attribution store regardless — a gateway would write to the same table.
 
+### Batch API Cost Optimization
+
+The Anthropic Batch API (and equivalent Bedrock batch inference) offers 50% cost reduction for non-time-sensitive work. The agent platform has significant batch-eligible workloads:
+
+**Batch-eligible (no tool use, no interactivity):**
+- Validation gate assessments — pass context + code as prompt, get structured verdict back
+- Constitutional compliance scoring — periodic PRI audit of promoted experiments
+- Quality scoring — Meta-Reviewer assessments of experiment output
+- Contextual label generation — bulk annotation tasks
+- Research synthesis — when deep research doesn't require web access or file exploration
+
+**Not batch-eligible (requires interactive tool use):**
+- Build stage — agents need Read/Write/Edit/Bash for code generation
+- Research with web access — agents need WebSearch/WebFetch
+- Design stage — agents need file operations to produce artifacts
+- Any stage requiring MCP server interaction
+
+**Implementation pattern:** The WorkflowExecutor checks a `batch_eligible` flag on each stage config. Batch-eligible stages submit via the Batch API (or Bedrock batch inference), poll for completion, and parse results. Interactive stages use the Claude Agent SDK's `query()` as normal. The `token_events` table records both pathways identically — the `provider` column distinguishes `bedrock-interactive` from `bedrock-batch`.
+
+**Cost projection:** At current pricing, validation stages (~40% of total experiment tokens) running via batch would reduce overall experiment cost by ~20%. More significant at scale — 50+ experiments/month makes this a meaningful line item.
+
+**When to build:** After Stage 2 (Real Pipeline) confirms the validation stage token profile. Premature before we have real cost data to optimize against.
+
 ### Granular Token Tracking
 
 Every AI operation records a row in `token_events` (written by the orchestrator after each Claude Code SDK call):
