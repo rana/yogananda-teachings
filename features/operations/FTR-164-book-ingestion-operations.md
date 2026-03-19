@@ -412,3 +412,21 @@ Screenshots are gitignored (`*.png`). Archive to external storage after each cap
 - **Legacy script:** `scripts/ingest/ingest-en.ts` is the original English-specific ingestion script, superseded by the generic `scripts/ingest/ingest.ts`. Retained for reference.
 - **Entity registry:** `scripts/seed-entities.ts` populates entity_registry and sanskrit_terms (FTR-033). Run once per corpus expansion, not per book. Not part of the per-book pipeline.
 - **`scripts/book-ingest/DESIGN.md`:** Historical design document from initial pipeline implementation (2026-02-25). Captured discovery decisions (why ebook over PDF, why not DOM scraping). Superseded by this FTR for operational reference; retained for archaeological context.
+
+### Critical Navigation Lessons (Reflowable Kindle Capture)
+
+Learned through painful trial and error. Do not skip.
+
+- **NEVER click content area (400,400)** — hits hyperlinks in book text, causes unpredictable jumps
+- **NEVER click margins (x=10)** — doesn't transfer keyboard focus for PageDown
+- **USE "Next page" button** — `page.getByRole('button', { name: 'Next page' }).click({ force: true })` is the only reliable method
+- **End-of-book detection:** Use image src comparison, NOT footer text comparison (front matter repeats "Page 1" across 36+ screens)
+- **Metadata collection alignment:** Navigation + metadata collection MUST be in the same `browser_run_code` call — separate calls lose position
+
+### Known Book Editions
+
+| Book | Language | ASIN | Layout | Notes |
+|------|----------|------|--------|-------|
+| Autobiography of a Yogi | en | B00JW44IAI | Reflowable | SRF edition. DO NOT confuse with other editions. |
+| Autobiografia de un yogui | es | B07G5KL5RL | Fixed-layout | SRF edition. NOT "Editorial Recien Traducido" B0FDKZ2FLN (48 chapters). |
+| Autobiography of a Yogi | hi | TBD | TBD | YSS authorization needed (FTR-119). Title: एक योगी की आत्मकथा |

@@ -604,7 +604,7 @@ The teaching portal should use these technologies wherever possible, introducing
 
 ## Bootstrap Credentials Checklist
 
-Extracted to [docs/guides/bootstrap-credentials.md](docs/guides/bootstrap-credentials.md) for operational reference. Covers Milestone 1a (infrastructure + content), Milestone 1c (deploy + AI enrichment), and later milestones. See FTR-106 for architecture, FTR-095 for deployment spec.
+Extracted to [docs/guides/credentials.md](docs/guides/credentials.md) for operational reference. Covers Milestone 1a (infrastructure + content), Milestone 1c (deploy + AI enrichment), and later milestones. See FTR-106 for architecture, FTR-095 for deployment spec.
 
 ---
 

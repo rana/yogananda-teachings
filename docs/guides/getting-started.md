@@ -133,11 +133,11 @@ For write-access testing (creates and immediately deletes test data):
 
 Claude builds Milestone 1a autonomously — no human gates:
 
-1. **Repository setup** — Next.js + TypeScript + Tailwind
+1. **Repository setup** — Next.js + TypeScript
 2. **Database schema** — 23 tables covering search, content, themes, vocabulary
 3. **Contentful content model** — Book → Chapter → Section → TextBlock
-4. **English Autobiography ingestion** — 1,568 chunks with Voyage embeddings
-5. **Search API** — hybrid vector + full-text with RRF fusion
+4. **English Autobiography ingestion** — 1,700 chunks with Voyage embeddings
+5. **Search API** — hybrid vector + full-text with Convex Combination fusion
 6. **Search UI** — "What did Yogananda say about..." with verbatim results + "Read in context" links
 7. **Book reader** — chapter navigation with prev/next
 8. **Search quality evaluation** — 12-query evaluation suite
@@ -155,6 +155,5 @@ When you're ready for Milestone 1c (deployment), run:
 
 These exist for troubleshooting and understanding the system — you don't need to read them to get started:
 
-- [bootstrap-credentials.md](bootstrap-credentials.md) — Complete credential inventory with storage locations
-- [manual-steps-milestone-1a.md](manual-steps-milestone-1a.md) — Detailed reference of what `bootstrap.sh` automates
+- [credentials.md](credentials.md) — Complete credential inventory with storage locations
 - `.env.example` — Template showing all environment variables

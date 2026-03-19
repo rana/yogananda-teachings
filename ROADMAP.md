@@ -279,7 +279,7 @@ Full deliverable details for completed milestones are preserved below for refere
 
 ### Prerequisites
 
-**Tooling:** See `docs/guides/getting-started.md` for account setup and `docs/guides/bootstrap-credentials.md` for credential inventory.
+**Tooling:** See `docs/guides/getting-started.md` for account setup and `docs/guides/credentials.md` for credential inventory.
 
 **Conversations (all resolved):** These were blocking conversations that happened before ingestion could begin:
 

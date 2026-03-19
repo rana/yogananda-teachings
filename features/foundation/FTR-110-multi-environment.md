@@ -127,6 +127,6 @@ PR → dev (auto) → staging (manual gate) → prod (manual gate)
 - `scripts/create-env.sh` and `scripts/destroy-env.sh` created in Milestone 4a when multi-environment activates
 - `terraform/bootstrap/trust-policy.json` checked into repo — the one artifact the bootstrap script needs
 - GitHub Environments configured per environment (dev, staging, prod) with protection rules
-- Neon branching strategy documented in runbook (`docs/guides/manual-steps-milestone-1a.md`)
+- Neon branching strategy documented in FTR-095 § Infrastructure Bootstrap
 
 **Operational surface extension:** FTR-096 specifies health endpoints, SLI/SLO targets, and design-artifact traceability. Operational dashboarding moved to the platform MCP server — the teachings app exposes data via `/api/v1/health`, the platform provides the operational surface. See FTR-096, FTR-096.

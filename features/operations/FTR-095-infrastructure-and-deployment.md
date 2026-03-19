@@ -37,7 +37,7 @@ The bootstrap script automates all CLI-scriptable setup. The human runs one scri
 | 5 | Prompt | Sentry auth token — console-only, paste when prompted | **Yes** |
 | 6 | `gh` CLI | GitHub secrets in batch | No |
 
-**Prerequisites:** AWS CLI configured (`aws configure`), `gh` CLI authenticated, Neon and Sentry accounts exist. See `docs/guides/manual-steps-milestone-1a.md` for the detailed human walkthrough.
+**Prerequisites:** AWS CLI configured (`aws configure`), `gh` CLI authenticated, Neon and Sentry accounts exist. See `docs/guides/getting-started.md` for the human walkthrough.
 
 **IAM policy documents** are retained in `terraform/bootstrap/`:
 - `trust-policy.json` — GitHub OIDC trust policy

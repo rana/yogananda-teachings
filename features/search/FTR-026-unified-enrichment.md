@@ -103,5 +103,14 @@ Consolidate all index-time Claude enrichment into a single prompt per chunk. The
 ## Notes
 
 - **Origin:** FTR-026
-- **Implemented (2026-03-18):** `scripts/ingest/enrich.ts` — single Claude Sonnet pass per chunk, all metadata fields. Migration 009 adds `enrichment_model`, `enriched_at`, `passage_role`, `practice_bridge` columns. `scripts/ingest/populate-chunk-topics.ts` wires enriched topics to `chunk_topics` join table. Operational guide: `docs/guides/enrichment-pipeline.md`. Default model: Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6` via Bedrock inference profile); `--opus` flag for quality-critical runs (`us.anthropic.claude-opus-4-6-v1`). Re-runnable with `--force`. Region: us-west-2.
+- **Implemented (2026-03-18):** `scripts/ingest/enrich.ts` — single Claude Sonnet pass per chunk, all metadata fields. Migration 009 adds `enrichment_model`, `enriched_at`, `passage_role`, `practice_bridge` columns. `scripts/ingest/populate-chunk-topics.ts` wires enriched topics to `chunk_topics` join table. Default model: Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6` via Bedrock inference profile); `--opus` flag for quality-critical runs (`us.anthropic.claude-opus-4-6-v1`). Re-runnable with `--force`. Region: us-west-2.
+- **When to re-enrich:** After improving the enrichment prompt; after a model upgrade (filter: `WHERE enrichment_model != '<new_model>'`); after ingesting a new book (automatic — only un-enriched chunks are processed).
+- **Closed vocabularies (CHECK constraints).** These values are enforced by database CHECK constraints. The enrichment prompt uses the same vocabulary. The design system CSS responds to these values via data attributes.
+  - **voice_register:** sacred, reverential, instructional, functional, ambient
+  - **rasa:** shanta, adbhuta, karuna, vira, bhakti
+  - **content_type:** prose, verse, epigraph, dialogue, caption
+  - **domain:** philosophy, narrative, technique, devotional, poetry (no CHECK — validated in script)
+  - **passage_role:** opening, exposition, narrative, turning_point, deepening, illustration, culmination, resolution, transition, aside
+  - **semantic_density:** high, medium, low (no CHECK — validated in script)
+  - **emotional_quality:** consoling, inspiring, instructional, devotional, demanding, celebratory (no CHECK — validated in script)
 - **First full enrichment run (2026-03-17):** English AoY: 1,528 chunks enriched (1,493 Sonnet 4, 35 Sonnet 4.6), zero failures. Spanish AoY: 1,188 chunks enriched (Sonnet 4.6), zero failures. Distributions — domain: narrative 73%, philosophy 23%; rasa: adbhuta 37%, shanta 34%; depth 6-7: 22% of passages. 21 practice bridge candidates detected (English). chunk_topics: 82 matches against 6 teaching_topics (taxonomy expansion needed, FTR-121).
