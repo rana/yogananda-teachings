@@ -16,16 +16,16 @@ A free, world-class online teachings portal for Self-Realization Fellowship (SRF
 6. **features/experience/** — Frontend, pages, accessibility, responsive, multilingual (41 files)
 7. **features/editorial/** — Staff tools, editorial workflows, content intelligence (23 files)
 8. **features/operations/** — CI/CD, observability, testing, governance, operational tooling (30 files)
-9. **ROADMAP.md** — Milestone-based roadmap. Current milestone first, planned milestones next, completed milestones archived. Deliverables, success criteria, milestone gates.
+9. **ROADMAP.md** — Stage-based roadmap. Current stage first, planned stages next, completed stages archived. Deliverables, success criteria, stage gates.
 
 **Domain-gated reading.** Do not read front-to-back. Load what the task requires:
 - **Always:** This file (CLAUDE.md) + PRINCIPLES.md + CONTEXT.md § Current State + ROADMAP.md § Current + FEATURES.md § Always-Load FTRs (11 FTRs)
-- **When implementing:** FTRs referenced in the current milestone's deliverable table
+- **When implementing:** FTRs referenced in the current stage's deliverable table
 - **When implementing search/data/ingestion:** + `features/search/` files (or specific ones by identifier)
 - **When implementing frontend/pages/UX:** + `features/experience/` files (specific ones by identifier)
 - **When implementing editorial/staff/intelligence:** + `features/editorial/` files (specific ones by identifier)
 - **When making decisions:** FEATURES.md index to locate the relevant domain, then load the FTR file
-- **When evaluating proposals or at milestone boundaries:** FTR files with state `proposed` or `deferred`
+- **When evaluating proposals or at stage boundaries:** FTR files with state `proposed` or `deferred`
 
 ## Ignore
 
@@ -83,7 +83,7 @@ Twelve principles define the project's identity and directly constrain code gene
 
 ## Quick Reference
 
-**Scope prioritization (FTR-011).** When two features or milestones are architecturally independent, the one serving more reachable people ships first. Metric: `speakers × internet_penetration × content_availability`. Apply this when facing feature-vs-feature or language-vs-feature tradeoffs. Spanish is Tier 1 (activated); Hindi is Tier 1 (deferred to STG-021 — authorized YSS source unavailable outside India); Portuguese and Bengali are Tier 2; remaining 5 languages are Tier 3. Full demographic data and worked examples in FTR-011.
+**Scope prioritization (FTR-011).** When two features or stages are architecturally independent, the one serving more reachable people ships first. Metric: `speakers × internet_penetration × content_availability`. Apply this when facing feature-vs-feature or language-vs-feature tradeoffs. Spanish is Tier 1 (activated); Hindi is Tier 1 (deferred to STG-021 — authorized YSS source unavailable outside India); Portuguese and Bengali are Tier 2; remaining 5 languages are Tier 3. Full demographic data and worked examples in FTR-011.
 
 **Parameters as named constants (FTR-012).** Specific numeric values (chunk sizes, rate limits, thresholds) are tunable defaults, not architectural commitments. All parameters in `/lib/config.ts`. Each documents: value, rationale, evaluation trigger.
 
@@ -225,18 +225,18 @@ Root documents (CLAUDE.md, PRINCIPLES.md, CONTEXT.md, ROADMAP.md) plus `features
 | New decision or design | Create FTR file in `features/{domain}/FTR-NNN-{slug}.md`. Add row to FEATURES.md index. |
 | Open question resolved | Add one-line entry to CONTEXT.md § Resolved Questions table (date, resolution, governing FTR ref). Remove inline `[x]` item from Open Questions. |
 | Open question added | Add to CONTEXT.md § Open Questions (appropriate tier). Cross-reference from relevant FTR if applicable. |
-| Milestone deliverable changed | Update ROADMAP.md deliverable table/bullets and success criteria |
-| Milestone status changes | Update "Current State" section in CONTEXT.md |
+| Stage deliverable changed | Update ROADMAP.md deliverable table/bullets and success criteria |
+| Stage status changes | Update "Current State" section in CONTEXT.md |
 | New technology adopted | Update the relevant FTR file (e.g., FTR-014 Architecture Overview) |
 | New content type added | Update FTR-021 (Data Model), FTR-018 (Content Pipeline), ROADMAP.md. Also: FTR-035 KG checklist. |
 | New API endpoint added | Follow FTR-015 § API Conventions (FTR-088). Paginated lists: `data`/`pagination`/`meta`; complete collections: `data`/`meta`; single resources: object directly. |
 | FTR fully implemented | Set state to `implemented` in the FTR file metadata. Code becomes source of truth for details; FTR remains the architectural rationale. |
 | Parameter tuned (FTR-012) | Update `/lib/config.ts` with new value, rationale, and evaluation trigger. |
-| Feature idea without a milestone | Create FTR file with state `proposed` in the appropriate domain. Add to FEATURES.md. |
+| Feature idea without a stage | Create FTR file with state `proposed` in the appropriate domain. Add to FEATURES.md. |
 | Feature deferred during development | Set FTR state to `deferred` with reason and re-evaluation target. Update ROADMAP.md § Unscheduled Features. |
 | README.md details change | Update README.md § Documentation list and § Architecture table |
 
-At milestone boundaries, reconcile all documents for consistency — personas, roles, workflows, directories, and cross-cutting concerns.
+At stage boundaries, reconcile all documents for consistency — personas, roles, workflows, directories, and cross-cutting concerns.
 
 ## Documentation–Code Transition
 

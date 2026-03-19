@@ -14,7 +14,7 @@ depends-on: [FTR-042, FTR-131]
 
 **Type:** Feature (Platform)
 **Governing Refs:** PRI-03 (Honoring the Spirit), PRI-07 (Accessibility), PRI-08 (Calm Technology), PRI-10 (10-year horizon), PRI-12 (AI-Native Development), FTR-042 (Design System), FTR-131 (Hindi Typography), FTR-119 (YSS Platform Partnership), FTR-144 (Cross-Site Harmony)
-**Target:** Immediate (independent of portal milestones)
+**Target:** Immediate (independent of portal stages)
 **Dependencies:** None — standalone repository, portal is first consumer but not a dependency.
 **Repository:** `rana/yogananda-design` (GitHub, created 2026-03-02)
 

@@ -35,7 +35,7 @@ FTR assertions fall into seven categories, each assigned to a verification layer
 | **Prohibition rules** | No push notifications, no session tracking, no content generation | L2 Fitness | grep for banned patterns |
 | **Behavioral contracts** | Every search result links to chapter, Practice Bridge routes technique queries | L2 Fitness + L3 Deep | E2E tests + AI review |
 | **Data integrity** | Full attribution on every passage, no orphaned quotes, contentful_id coverage | L2 Fitness | SQL invariant queries |
-| **Design quality** | "Worthy of presenting Yogananda's words", "feels curated" | L3 Deep | AI review only (milestone) |
+| **Design quality** | "Worthy of presenting Yogananda's words", "feels curated" | L3 Deep | AI review only (stage) |
 | **Tunable parameters** | Chunk size, rate limits, model IDs | L2 Fitness | `/lib/config.ts` audit |
 
 ### Layer 1: Sentinels (every CI run, ~0 cost)
@@ -132,19 +132,19 @@ describe("Spec traceability", () => {
 
 **Database checks:** Fitness tests requiring live database run as integration tests using Neon branch isolation per FTR-081. Alternatively, export schema to SQL dump and grep that for unit-test-speed checks.
 
-### Layer 3: Deep Verification (milestone gates, moderate cost)
+### Layer 3: Deep Verification (stage gates, moderate cost)
 
 AI-assisted verification for assertions requiring judgment, context, or semantic understanding. Three differentiated modes:
 
 | Mode | Actor | Timing | What it checks |
 |------|-------|--------|---------------|
 | **Builder awareness** | Claude implementing a deliverable | Before/during implementation | Gated-loading protocol surfaces relevant FTR constraints. Prevention, not verification. |
-| **Compliance sweep** | Claude in operator mode | Per milestone | `/verify` skill across domain FTRs. Produces compliance matrix. |
-| **Architectural audit** | Claude at milestone boundaries | Milestone gates | Full-corpus `/verify`. Feeds milestone gate criteria (ROADMAP.md). |
+| **Compliance sweep** | Claude in operator mode | Per stage | `/verify` skill across domain FTRs. Produces compliance matrix. |
+| **Architectural audit** | Claude at stage boundaries | Stage gates | Full-corpus `/verify`. Feeds stage gate criteria (ROADMAP.md). |
 
 **Builder awareness** is the highest-leverage intervention. When Claude starts a deliverable, the gated-loading protocol in CLAUDE.md should surface relevant FTR assertions as constraints *before* code is written. The cheapest verification is the violation that never happens.
 
-**Compliance sweep** runs the `/verify` skill per domain at milestone boundaries:
+**Compliance sweep** runs the `/verify` skill per domain at stage boundaries:
 
 ```
 Domain: search (31 FTRs)
@@ -155,9 +155,9 @@ Domain: search (31 FTRs)
   Coverage: 94% (148/157 assertions, 9 deferred)
 ```
 
-**Architectural audit** is the milestone gate ceremony — every `implemented` FTR gets a full `/verify` pass before milestone transition approval.
+**Architectural audit** is the stage gate ceremony — every `implemented` FTR gets a full `/verify` pass before stage transition approval.
 
-**Cost:** Builder awareness: $0 (reading docs). Compliance sweep: ~$2-5 per domain. Architectural audit: ~$20-30 per milestone gate.
+**Cost:** Builder awareness: $0 (reading docs). Compliance sweep: ~$2-5 per domain. Architectural audit: ~$20-30 per stage gate.
 
 ### How the Layers Compose
 
@@ -175,13 +175,13 @@ Weekly (workflow_dispatch):
   L2 Full Fitness Suite
   Advisory. Catches drift in untouched code.
 
-Per milestone:
+Per stage:
   L3 Compliance Sweep (/verify per domain)
   Advisory. Updates FTR states where verified.
 
-Per milestone gate:
+Per stage gate:
   L3 Architectural Audit (full /verify)
-  Go/no-go input for milestone transition.
+  Go/no-go input for stage transition.
 ```
 
 ### Optional: FTR Verification Sections
@@ -203,7 +203,7 @@ This is documentation, not a prerequisite. The test file is the source of truth 
 ### What This Is NOT
 
 - **Not generated tests.** The fitness function test file is handwritten. Simpler, more reliable, and more maintainable than regex-parsing prose into test stubs.
-- **Not comprehensive AI coverage.** L3 runs at milestones, not every commit. The architecture is economical about AI token spend.
+- **Not comprehensive AI coverage.** L3 runs at stages, not every commit. The architecture is economical about AI token spend.
 - **Not a new annotation system.** The existing convention — FTR/PRI references in test comments — is sufficient for traceability. No `@implements`/`@validates` annotations needed.
 
 ### Relationship to Other FTRs

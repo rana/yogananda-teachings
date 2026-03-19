@@ -35,13 +35,13 @@ Three tiers of MCP server adoption, phased with the project:
 
 **High value (add when the service is introduced):**
 
-| MCP Server | Milestone | Purpose | Why Valuable |
+| MCP Server | Stage | Purpose | Why Valuable |
 |------------|-----------|---------|-------------|
 | **Contentful** | STG-003+ | Content model queries, entry management, webhook debugging | Contentful is the editorial source of truth from STG-001 (FTR-102). The content model is tightly coupled to code from the start. Prevents drift between what code expects and what CMS provides. |
 
 **Evaluate (try, keep if useful):**
 
-| MCP Server | Milestone | Purpose | Assessment |
+| MCP Server | Stage | Purpose | Assessment |
 |------------|-----------|---------|------------|
 | **GitHub** | STG-001+ | Issue context, PR details, review comments | Modest benefit over `gh` CLI. Try it; drop if redundant. |
 | **Vercel** | STG-001+ | Deployment status, build logs, preview URLs | Useful for debugging deployment failures. The `vercel` CLI covers most of this. |
@@ -69,7 +69,7 @@ The **SRF Corpus MCP** server architecture (FTR-098, FTR-083) gives the AI devel
 - SRF Corpus MCP server moved to Unscheduled Features (2026-02-24). Architecture preserved in FTR-083.
 - AWS MCP explicitly not adopted — Platform MCP + Sentry + `aws` CLI is sufficient
 - MCP server configuration documented in CLAUDE.md for all future AI sessions
-- This decision is revisited at future milestones (cross-media) and Milestone 7a (user accounts) when new services enter the stack
+- This decision is revisited at future stages (cross-media) and STG-023 (user accounts) when new services enter the stack
 
 ## Specification
 
@@ -121,7 +121,7 @@ Unrestricted access for Claude Code during portal development. Also used for ite
 
 Authenticated service-to-service access for editorial AI agents, batch pipelines, admin portal AI features, and cross-property consumers (SRF app, staff dashboard per FTR-149). Adds tools that FTR-069 AI workflows need for corpus-grounded proposals. Authentication via API key or IAM role (not Auth0).
 
-| Tool | Service Function | Purpose | Milestone |
+| Tool | Service Function | Purpose | Stage |
 |---|---|---|---|
 | `get_chunk_with_context(chunk_id, window)` | `chunks.ts` | Passage + N surrounding chunks (for QA, classification, review) | 3b |
 | `get_similar_passages(chunk_id, threshold, limit)` | `search.ts` | Embedding-based nearest neighbors (distinct from theme search) | 3b |
@@ -134,24 +134,24 @@ Authenticated service-to-service access for editorial AI agents, batch pipelines
 | `get_person_context(person_slug)` | `people.ts` | Biography, lineage position, key mentioning passages | 3c |
 | `get_graph_neighborhood(node_id, depth, types[])` | `graph.ts` | Subgraph around any node, filtered by node/edge type | 3d |
 | `get_search_trends(period, min_count)` | `analytics.ts` | Anonymized aggregated query themes (DELTA-compliant) | 3d |
-| `find_concept_path(source_slug, target_slug)` | `graph.ts` | Shortest ontological path between two concepts | Milestone 4a+ |
+| `find_concept_path(source_slug, target_slug)` | `graph.ts` | Shortest ontological path between two concepts | STG-020+ |
 | `get_passage_translations(canonical_chunk_id)` | `translations.ts` | All language variants of a passage | 5b |
 
 **Internal MCP use cases by consumer:**
 
-| Consumer | Primary Tools | Milestone |
+| Consumer | Primary Tools | Stage |
 |---|---|---|
 | Theme tag proposal AI | `get_similar_passages`, `get_content_coverage`, `get_graph_neighborhood` | 3b, 3d |
-| Guide pathway generation AI | `search_corpus`, `search_references`, `get_vocabulary_bridge`, `find_concept_path` | 3b, Milestone 4a+ |
+| Guide pathway generation AI | `search_corpus`, `search_references`, `get_vocabulary_bridge`, `find_concept_path` | 3b, STG-020+ |
 | Ingestion QA AI | `get_chunk_with_context`, `verify_citation` | 3b |
 | Translation review AI | `get_passage_translations`, `get_glossary_terms_in_passage` | 5b |
-| Reading thread drafting AI | `get_cross_book_connections`, `get_graph_neighborhood`, `find_concept_path` | 3c, 3d, Milestone 4a+ |
+| Reading thread drafting AI | `get_cross_book_connections`, `get_graph_neighborhood`, `find_concept_path` | 3c, 3d, STG-020+ |
 | Social media caption AI | `search_corpus`, `get_book_metadata`, `get_theme_metadata` | 5a |
 | Impact narrative AI | `get_search_trends`, `get_graph_neighborhood` | 3d |
 | SRF mobile app | `search_corpus`, `get_daily_passage`, `get_graph_neighborhood`, `get_person_context` | TBD (stakeholder) |
 | Admin portal AI features | `get_pending_reviews`, `get_content_coverage`, `get_search_trends` | 4, 6 |
 
-#### Tier 3: External (Milestone 5a+)
+#### Tier 3: External (STG-020+)
 
 Rate-limited access for third-party AI assistants (ChatGPT, Claude, Gemini, custom agents). Exposes a content-serving subset (no admin/editorial tools). Every response wrapped in fidelity metadata.
 

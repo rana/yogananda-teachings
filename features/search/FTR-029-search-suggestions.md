@@ -337,7 +337,7 @@ Hindi/Bengali seekers often type Romanized input ("samadhi" not "samaadhi"). The
 
 #### CJK and Thai
 
-CJK languages lack word boundaries. Thai script also lacks word boundaries and requires ICU segmentation. These require language-specific tokenization strategies — **open design question for Milestone 5b**. Current approach: defer until actual CJK content is ingested, then evaluate n-gram-based prefix files vs. server-side tokenization.
+CJK languages lack word boundaries. Thai script also lacks word boundaries and requires ICU segmentation. These require language-specific tokenization strategies — **open design question for STG-021**. Current approach: defer until actual CJK content is ingested, then evaluate n-gram-based prefix files vs. server-side tokenization.
 
 #### Sparse-Language Handling
 
@@ -415,9 +415,9 @@ All suggestion parameters live in `/lib/config.ts` under the `SUGGEST_*` and `SU
 
 ---
 
-### Milestone Progression
+### Stage Progression
 
-| Milestone | Capability | Infrastructure |
+| Stage | Capability | Infrastructure |
 |-----------|-----------|----------------|
 | 1a | English static JSON: chapter titles + zero-state chips (current state) | Tier A (CDN) |
 | 1b | + Spanish static JSON | Tier A bilingual |
@@ -469,13 +469,13 @@ All suggestion parameters live in `/lib/config.ts` under the `SUGGEST_*` and `SU
 
 2. **Bridge hint continuation into search results.** When a bridge-activated suggestion is submitted, the search results page should show "Showing results for 'concentration' (Yogananda's terms for mindfulness)." The mechanism for passing bridge context from the suggestion component to the search results page is specified conceptually but not technically — query parameter? Search service metadata? Needs resolution during implementation.
 
-3. **CJK/Thai suggestion tokenization.** Deferred to Milestone 5b. No word boundaries means prefix-matching is fundamentally different. Evaluate n-gram prefix files vs. server-side tokenization when actual CJK content is ingested. **Partially resolved:** IME composition guard (§ Client Architecture) prevents suggestion dropdown collision with IME candidate windows for all non-Latin scripts. The tokenization/segmentation question for prefix matching in boundary-less scripts remains open.
+3. **CJK/Thai suggestion tokenization.** Deferred to STG-021. No word boundaries means prefix-matching is fundamentally different. Evaluate n-gram prefix files vs. server-side tokenization when actual CJK content is ingested. **Partially resolved:** IME composition guard (§ Client Architecture) prevents suggestion dropdown collision with IME candidate windows for all non-Latin scripts. The tokenization/segmentation question for prefix matching in boundary-less scripts remains open.
 
 4. **FTR-032 Tier 5 operational path.** FTR-032 specifies aggregate trend reporting ("What Is Humanity Seeking?") but not the Tier 5 editorial candidate pipeline. The mechanism — flagging queries that cross the `SUGGEST_LEARNED_QUERY_THRESHOLD` from different calendar days, presenting them in an editorial review queue — needs operational specification, either in FTR-032 or as a subsection here.
 
 5. **Audit prompt engineering.** The two audit scripts (`audit-suggestion-sources.ts`, `audit-suggestion-quality.ts`) specify what Claude checks but not the prompt templates. These are implementation details, but prompt quality determines audit quality. Resolve during implementation; add prompts to a `prompts/` directory if they prove reusable.
 
-6. **RTL language suggestion display.** Arabic and Urdu (Tier 3, Milestone 5b) use RTL script. The dropdown's type indicators (right-aligned secondary text) reverse in RTL. The dropdown should inherit document direction (`dir` attribute) and type indicators should use logical positioning (`inline-end`). Design decision recorded; implementation deferred to Milestone 5b.
+6. **RTL language suggestion display.** Arabic and Urdu (Tier 3, STG-021) use RTL script. The dropdown's type indicators (right-aligned secondary text) reverse in RTL. The dropdown should inherit document direction (`dir` attribute) and type indicators should use logical positioning (`inline-end`). Design decision recorded; implementation deferred to STG-021.
 
 7. ~~**Voice input and prefix matching.**~~ **Resolved.** Dictated input detected primarily via input velocity heuristic (>5 chars in single input event); `inputType === 'insertFromDictation'` as secondary signal where available (Safari non-standard, not cross-browser). See § Client Architecture. Voice input bypasses adaptive debounce and routes the complete phrase to prefix match against the full suggestion set. Semantic routing deferred to STG-007+ when the suggestion dictionary exceeds bridge coverage.
 

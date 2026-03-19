@@ -1,7 +1,7 @@
 ---
 ftr: 14
 title: Architecture Overview
-summary: "Full tech stack, visual identity, milestone architecture diagrams, and component inventory"
+summary: "Full tech stack, visual identity, stage architecture diagrams, and component inventory"
 state: approved
 domain: foundation
 governed-by: [PRI-10, PRI-11, PRI-12]
@@ -105,7 +105,7 @@ AI-enhanced search (HyDE, cross-encoder reranking) is optional,
 activated in STG-005 only if evaluation warrants (FTR-027).
 ```
 
-### Production Architecture (Full Stack — Milestone 4a+)
+### Production Architecture (Full Stack — STG-020+)
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
@@ -149,7 +149,7 @@ activated in STG-005 only if evaluation warrants (FTR-027).
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**Key principle (STG-001+):** Contentful is where editors work. Neon is where search works. Next.js is where users work. Each system does what it's best at. Contentful is the editorial source of truth from STG-001 (FTR-102). The production diagram above adds services that arrive in later milestones (Cohere Rerank, graph pipeline, staff dashboard) but the Contentful → Neon → Next.js architecture is established from STG-001.
+**Key principle (STG-001+):** Contentful is where editors work. Neon is where search works. Next.js is where users work. Each system does what it's best at. Contentful is the editorial source of truth from STG-001 (FTR-102). The production diagram above adds services that arrive in later stages (Cohere Rerank, graph pipeline, staff dashboard) but the Contentful → Neon → Next.js architecture is established from STG-001.
 
 ### Portal Stack vs. SRF IDP Stack
 
@@ -167,7 +167,7 @@ The portal shares SRF's core infrastructure (AWS, Vercel, Contentful, Neon, Auth
 | Retool (admin panel) | Deferred — evaluate at STG-009 | FTR-149 | Portal admin needs are modest; Next.js `/admin` route may suffice. Retool remains an option. |
 | New Relic (observability) | Sentry (STG-001–3c) → New Relic (3d+ APM) | FTR-036 | Sentry covers error tracking through pre-launch and early production. New Relic joins at production scale for APM, Synthetics monitors, distributed tracing, and geographic CWV — capabilities that matter at scale but not during development. |
 | Vimeo (private video) | YouTube embed | FTR-057 | SRF's public teachings are on YouTube; portal links to existing assets, not re-hosted copies |
-| SendGrid (transactional email) | SendGrid (aligned) | FTR-154 | Aligned with SRF standard. Open/click tracking disabled for DELTA. FTR-151 evaluates SES alternative for Milestone 5a. |
+| SendGrid (transactional email) | SendGrid (aligned) | FTR-154 | Aligned with SRF standard. Open/click tracking disabled for DELTA. FTR-151 evaluates SES alternative for STG-020. |
 | Cypress (E2E testing) | Playwright | FTR-081 | Multi-browser support (Chrome, Firefox, WebKit), native accessibility snapshot API, better CI reliability |
 | Stripo (email templates) | Server-rendered HTML | FTR-154 | One passage, one link — no template designer needed |
 

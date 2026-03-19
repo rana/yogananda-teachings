@@ -25,7 +25,7 @@ Classify personalization features into three tiers:
 
 **Build (genuinely helpful):**
 
-| Feature | Rationale | Milestone |
+| Feature | Rationale | Stage |
 |---------|-----------|-----------|
 | Language preference | Fundamental accessibility. Stored in cookie or account. | 5b |
 | Font size / reading preferences | Accessibility. Local storage, no account needed. | 3b |
@@ -60,9 +60,9 @@ Classify personalization features into three tiers:
 
 ### Consequences
 
-- Milestone 7a (Optional User Accounts) remains the appropriate milestone for bookmark/reading-position features
-- The "personalized daily passage" in Milestone 7a must use explicit theme preference, not behavioral inference
-- The portal's anonymous experience (Milestones 1a–5c) must be excellent without any personalization — personalization enhances but never gates the core experience
+- STG-023 (Optional User Accounts) remains the appropriate stage for bookmark/reading-position features
+- The "personalized daily passage" in STG-023 must use explicit theme preference, not behavioral inference
+- The portal's anonymous experience (Stages 1a–5c) must be excellent without any personalization — personalization enhances but never gates the core experience
 
 ### DELTA as Advantage (Discovery Research, March 2026)
 

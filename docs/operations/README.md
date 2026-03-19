@@ -7,8 +7,8 @@ Operational runbooks, procedures, and playbooks. Populated as infrastructure and
 - Monitoring and alerting (Sentry, observability)
 - Neon database operations (branching, migrations, scaling)
 - Secrets rotation (per FTR-112)
-- Content ingestion procedures (Milestone 3b+)
-- Editorial workflow procedures (Milestone 3b+)
-- Incident response (Milestone 3b+)
+- Content ingestion procedures (STG-007+)
+- Editorial workflow procedures (STG-007+)
+- Incident response (STG-007+)
 
 See FTR-095 for infrastructure architecture. See FTR-060 for editorial operations architecture.

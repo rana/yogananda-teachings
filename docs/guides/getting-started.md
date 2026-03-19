@@ -14,7 +14,7 @@ pnpm --version    # 9+
 # For database verification
 psql --version    # any (apt install postgresql-client / brew install libpq)
 
-# For Milestone 1c infrastructure (not needed yet)
+# For STG-003 infrastructure (not needed yet)
 aws --version     # v2 (https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 gh --version      # any (apt install gh / brew install gh)
 # terraform no longer needed — vendor infrastructure managed by Platform MCP (FTR-106 revised)
@@ -55,7 +55,7 @@ Create these 8 accounts. Keep the tokens somewhere — you'll paste them to Clau
 - Go to [vercel.com](https://vercel.com) and sign up (free Hobby tier)
 - Create an API token: Settings → Tokens → Create
 - Note your **API token**
-- Don't link the repository yet — Claude handles project setup in Milestone 1c
+- Don't link the repository yet — Claude handles project setup in STG-003
 
 ### 6. New Relic (observability)
 - Go to [one.newrelic.com](https://one.newrelic.com) and sign up (free tier)
@@ -72,12 +72,12 @@ Create these 8 accounts. Keep the tokens somewhere — you'll paste them to Clau
   - **Domain** (e.g., `yogananda-tech.us.auth0.com`)
   - **Client ID**
   - **Client Secret**
-- Auth is not used until Milestone 7a+, but provisioning early ensures the tenant exists
+- Auth is not used until STG-023+, but provisioning early ensures the tenant exists
 
 ### 8. AWS (infrastructure)
 - If you don't have an account: [aws.amazon.com](https://aws.amazon.com)
 - Configure the CLI: `aws configure` with region `us-west-2`
-- Only needed for Milestone 1c deployment — not blocking for Milestone 1a
+- Only needed for STG-003 deployment — not blocking for STG-001
 
 ---
 
@@ -118,7 +118,7 @@ You don't fill `.env.local` yourself. Claude handles it.
 ./scripts/verify.sh
 ```
 
-Green = ready. Claude begins building Milestone 1a.
+Green = ready. Claude begins building STG-001.
 
 If anything fails, the script tells you exactly what's wrong.
 
@@ -131,7 +131,7 @@ For write-access testing (creates and immediately deletes test data):
 
 ## What happens next
 
-Claude builds Milestone 1a autonomously — no human gates:
+Claude builds STG-001 autonomously — no human gates:
 
 1. **Repository setup** — Next.js + TypeScript
 2. **Database schema** — 23 tables covering search, content, themes, vocabulary
@@ -143,7 +143,7 @@ Claude builds Milestone 1a autonomously — no human gates:
 8. **Search quality evaluation** — 12-query evaluation suite
 9. **Operational scripts** — doc-validate, status, release-tag
 
-When you're ready for Milestone 1c (deployment), run:
+When you're ready for STG-003 (deployment), run:
 ```bash
 ./scripts/bootstrap.sh    # Creates AWS infrastructure (~5 min, prompts for 2 credentials)
 ./scripts/verify.sh       # Confirms everything works

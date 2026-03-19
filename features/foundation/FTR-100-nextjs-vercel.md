@@ -23,7 +23,7 @@ Use **Next.js on Vercel** with **Tailwind CSS** for the frontend.
 
 - SRF organizational standard
 - SSG for book reader pages (fast, SEO-friendly, cacheable)
-- API routes for search endpoints (serverless, no separate backend for the initial milestone)
+- API routes for search endpoints (serverless, no separate backend for the initial stage)
 - ISR for content updates when Contentful is integrated
 - Vercel edge caching for global performance
 

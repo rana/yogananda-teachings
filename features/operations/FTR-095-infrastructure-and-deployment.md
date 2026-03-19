@@ -78,7 +78,7 @@ Vercel builds artifacts from git pushes. The platform decides where those artifa
 
 **Build:** Vercel git integration watches GitHub and produces immutable deployment URLs for every push. Preview deployments for PRs are useful for human review.
 
-**Promote:** The platform moves DNS pointers to specific Vercel deployment URLs. For the initial milestone (read-only portal, shared database), promotion is pure DNS — the same artifact serves all environments. For Phase 2+ (environment isolation), the app resolves its environment from the hostname.
+**Promote:** The platform moves DNS pointers to specific Vercel deployment URLs. For the initial stage (read-only portal, shared database), promotion is pure DNS — the same artifact serves all environments. For Phase 2+ (environment isolation), the app resolves its environment from the hostname.
 
 **Gate enforcement:** The platform's environment chain (dev → qa → stg → prd) enforces gates:
 - dev: automatic (tracks latest main deployment)
@@ -195,7 +195,7 @@ TTL enforcement: a GitHub Action runs on PR close (`types: [closed]`) to delete 
 
 #### Cost Alerting
 
-AWS Budget alarm at 80% and 100% of monthly target ($100 for Milestones 1a–3d). Created by `bootstrap.sh`. Neon and Vercel cost alerts are configured manually in their dashboards.
+AWS Budget alarm at 80% and 100% of monthly target ($100 for Stages 1a–3d). Created by `bootstrap.sh`. Neon and Vercel cost alerts are configured manually in their dashboards.
 
 ### Environment Configuration
 

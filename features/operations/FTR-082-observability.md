@@ -233,7 +233,7 @@ No user identification. No IP addresses. No session IDs.
 | `center_locator_clicked` | `{}` | Digital → physical bridge |
 | `search_performed` | `{ language, result_count, zero_results }` | Search usage volume, zero-result rate |
 
-**`requested_language` rationale:** The `page_viewed` event carries `language` (the locale actually served) and `requested_language` (the seeker's `Accept-Language` header preference). The delta between requested and served is a direct measure of unmet language demand — e.g., how many seekers per week arrive wanting Hindi but receive English. This signal is impossible to backfill and directly informs Milestone 5b language prioritization. When `requested_language === language`, the property adds no information and can be elided in analysis.
+**`requested_language` rationale:** The `page_viewed` event carries `language` (the locale actually served) and `requested_language` (the seeker's `Accept-Language` header preference). The delta between requested and served is a direct measure of unmet language demand — e.g., how many seekers per week arrive wanting Hindi but receive English. This signal is impossible to backfill and directly informs STG-021 language prioritization. When `requested_language === language`, the property adds no information and can be elided in analysis.
 
 **`zero_results` rationale:** The `search_performed` event's `zero_results` boolean tracks searches that return no passages. The zero-result rate is the portal's single most actionable operational metric: a rising rate signals corpus gaps, query expansion failures, or search pipeline regressions. The STG-009 staff dashboard (STG-009-4, FTR-149) should surface zero-result rate trend and the most common zero-result queries as top-level indicators.
 
@@ -247,7 +247,7 @@ Beyond the Amplitude event allowlist and APM tooling, the following derived metr
 | Most common zero-result queries (top 20) | `search_queries` table | Daily | Staff dashboard (FTR-149) |
 | Search degradation mode distribution | Structured logs (`searchMode` field) | Daily | Staff dashboard (FTR-149) |
 | AI cost (Claude Haiku calls × per-call cost) | AWS Bedrock billing / CloudWatch | Daily | Staff dashboard (FTR-149) |
-| Unmet language demand (requested ≠ served) | `page_viewed` events | Weekly | Staff dashboard (FTR-149) + Impact Dashboard (Milestone 5b) |
+| Unmet language demand (requested ≠ served) | `page_viewed` events | Weekly | Staff dashboard (FTR-149) + Impact Dashboard (STG-021) |
 | Content availability matrix (books × languages) | `books` + `book_chunks` tables | On content change | Impact Dashboard |
 | Editorial queue depth by type | `review_queue` tables | Real-time | Admin portal pipeline dashboard |
 | Geographic Core Web Vitals (per target region) | New Relic Synthetics | Continuous | New Relic |

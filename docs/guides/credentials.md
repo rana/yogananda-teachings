@@ -2,7 +2,7 @@
 
 One-time credential provisioning required before the first deployment. The human principal creates these accounts and tokens — they cannot be automated. See FTR-106 (revised) for infrastructure architecture, FTR-112 for secrets management strategy, FTR-113 for Vercel OIDC federation, and FTR-095 for deployment spec.
 
-## Milestone 1a (infrastructure bootstrap)
+## STG-001 (infrastructure bootstrap)
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
@@ -23,7 +23,7 @@ One-time credential provisioning required before the first deployment. The human
 | **Neon spend alert** | console.neon.tech → Billing → Alerts | Cost protection ($50/mo threshold) | Dashboard setting (manual) |
 | **Vercel spend alert** | vercel.com → Settings → Billing → Spend Management | Cost protection ($50/mo threshold) | Dashboard setting (manual) |
 
-## Milestone 1a (content + embeddings)
+## STG-001 (content + embeddings)
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
@@ -32,28 +32,28 @@ One-time credential provisioning required before the first deployment. The human
 | **Contentful Access Token** | app.contentful.com → Settings → API Keys | Delivery API (read-only) | AWS Secrets Manager `/portal/production/contentful/access-token` → Platform MCP distributes to Vercel |
 | **Contentful Space ID** | app.contentful.com → Settings → General | API scoping | GitHub secret `CONTENTFUL_SPACE_ID` (non-secret config) |
 
-## Milestone 1c (deploy + AI enrichment)
+## STG-003 (deploy + AI enrichment)
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
 | **AWS Bedrock model access** | AWS Console → Bedrock → Model Access (`us-west-2`) | Claude Haiku inference | Enabled for the `portal-vercel-runtime` IAM role |
 
-## Milestone 3d (observability + MCP)
+## STG-009 (observability + MCP)
 
 | Credential | Where to create | What it enables | Store as |
 |---|---|---|---|
 | **New Relic User API key** | one.newrelic.com → API Keys → Create (User type) | MCP server: NRQL queries, alerts, APM, deployments | `.env.local` `NEW_RELIC_API_KEY` + VS Code MCP config |
 | **New Relic Account ID** | one.newrelic.com → Account Settings | Scoping API queries (optional — can pass per query) | `.env.local` `NEW_RELIC_ACCOUNT_ID` |
 
-## Later milestones (not needed for Milestone 1a–1c)
+## Later stages (not needed for STG-001–STG-003)
 
 | Credential | When | Notes |
 |---|---|---|
-| YouTube API Key | Milestone 3d+ (video integration) | Google Cloud Console → Secrets Manager |
-| Amplitude API Key | Milestone 3d (analytics) | Amplitude dashboard (`NEXT_PUBLIC_*` — Vercel env var, not Secrets Manager) |
-| SendGrid API Key | Milestone 5a (email) | SendGrid dashboard → Secrets Manager (FTR-154; see FTR-151 for SES alternative) |
+| YouTube API Key | STG-009+ (video integration) | Google Cloud Console → Secrets Manager |
+| Amplitude API Key | STG-009 (analytics) | Amplitude dashboard (`NEXT_PUBLIC_*` — Vercel env var, not Secrets Manager) |
+| SendGrid API Key | STG-020 (email) | SendGrid dashboard → Secrets Manager (FTR-154; see FTR-151 for SES alternative) |
 | ~~Cloudflare API Token~~ | Removed from portal stack (FTR-118) | If SRF routes domain through Cloudflare, add at that point |
-| Auth0 credentials | Milestone 7a+ (if ever) | Auth0 dashboard → Secrets Manager. **Provisioned early:** tenant `yogananda-tech.us.auth0.com`, M2M app configured. See `.env.local` for client ID/secret. |
+| Auth0 credentials | STG-023+ (if ever) | Auth0 dashboard → Secrets Manager. **Provisioned early:** tenant `yogananda-tech.us.auth0.com`, M2M app configured. See `.env.local` for client ID/secret. |
 
 ## Auth Mechanism Summary
 

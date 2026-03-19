@@ -145,9 +145,9 @@ The portal's visual beauty should honor the teachings in every medium a seeker e
 
 | Method | When | Tool |
 |--------|------|------|
-| Forced-colors audit | New components + milestone gates | Chrome DevTools forced-colors emulation |
+| Forced-colors audit | New components + stage gates | Chrome DevTools forced-colors emulation |
 | Grayscale visual regression | Every build (CI) | Playwright with `filter: grayscale(1)` screenshot comparison |
-| Print stylesheet validation | Milestone gates | Chrome print preview, verify reader/passage pages |
+| Print stylesheet validation | Stage gates | Chrome print preview, verify reader/passage pages |
 | E-ink approximation | STG-005+ | Playwright with `filter: grayscale(1) contrast(1.2)` |
 
 #### Performance as Accessibility (Global-First Principle)
@@ -166,7 +166,7 @@ The portal's visual beauty should honor the teachings in every medium a seeker e
 |--------|------|------|
 | Automated audit | Every build (CI) | axe-core via `@axe-core/react` or Lighthouse CI |
 | Manual keyboard testing | Every new component | Developer checklist |
-| Screen reader testing | Before each milestone release | VoiceOver (macOS), NVDA (Windows) |
+| Screen reader testing | Before each stage release | VoiceOver (macOS), NVDA (Windows) |
 | Color contrast validation | Design token changes | Chrome DevTools, WebAIM Contrast Checker |
 | Real-user testing | When Calm Technology design system ships | Engage accessibility testers (consider SRF community members with disabilities) |
 

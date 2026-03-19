@@ -78,9 +78,9 @@ CREATE INDEX chunks_bm25_ja ON book_chunks
 
 - `tsvector` columns and indexes are not needed; pg_search BM25 indexes replace them entirely
 - The `hybrid_search` SQL function uses `paradedb.score(id)` and `@@@` operator instead of `ts_rank` and `@@`
-- STG-001 BM25 indexes use ICU tokenizer for English, Hindi (Devanagari), and Spanish; CJK-specific indexes added in Milestone 5b
+- STG-001 BM25 indexes use ICU tokenizer for English, Hindi (Devanagari), and Spanish; CJK-specific indexes added in STG-021
 - FTR-020 (Search Architecture) updated to reflect pg_search in the search flow
-- A `script` column on `book_chunks` routes queries to the appropriate partial index at Milestone 5b
+- A `script` column on `book_chunks` routes queries to the appropriate partial index at STG-021
 
 ## Notes
 

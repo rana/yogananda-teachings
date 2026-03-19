@@ -55,7 +55,7 @@ The portal offers two experience tiers:
 - No profile embedding or soft personalization (no algorithmic content recommendation based on reading patterns)
 - No "suggested for you" based on behavioral analysis
 - No reading history analytics visible to staff (aggregate, anonymized usage signals per FTR-031 apply equally to all users)
-- No authenticated-only content (until Milestone 7a+ Lessons integration per FTR-022)
+- No authenticated-only content (until STG-023+ Lessons integration per FTR-022)
 
 ### Rationale
 
@@ -72,4 +72,4 @@ The portal offers two experience tiers:
 - Auth0 integration added to DESIGN.md security section (FTR-016)
 - CONTEXT.md DELTA framework section updated with authenticated-tier documentation
 - FTR-046 (Lotus Bookmark) extended: local storage for anonymous users, server-synced for authenticated users
-- Milestone 7a+ Lessons integration (FTR-022) builds on this authentication layer
+- STG-023+ Lessons integration (FTR-022) builds on this authentication layer

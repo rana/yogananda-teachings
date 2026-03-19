@@ -22,7 +22,7 @@ The SRF tech stack doesn't prescribe a testing framework. The portal needs a lay
 
 Adopt a **layered testing strategy** with specific tools for each layer:
 
-| Layer | Tool | What It Tests | Milestone |
+| Layer | Tool | What It Tests | Stage |
 |-------|------|---------------|-----------|
 | **Unit / Integration** | **Vitest** + React Testing Library | Service functions, API route handlers, component rendering, database queries | STG-004 |
 | **End-to-End** | **Playwright** | Full user flows: search → read → share → navigate. Cross-browser (Chrome, Firefox, Safari). | STG-004 (core flows) |
@@ -146,7 +146,7 @@ These proportions are guidelines, not gates — the important thing is that most
 
 ### Test Layers
 
-| Layer | Tool | What It Tests | Milestone |
+| Layer | Tool | What It Tests | Stage |
 |-------|------|---------------|-----------|
 | **Unit / Integration** | Vitest + React Testing Library | Service functions, API route handlers, component rendering | STG-004 |
 | **End-to-End** | Playwright | Full user flows: search → read → share → navigate. Cross-browser. | STG-004 |
@@ -155,7 +155,7 @@ These proportions are guidelines, not gates — the important thing is that most
 | **Related content quality** | Custom Vitest suite | Pre-computed relations are thematically relevant, cross-book diverse, no false friends. | STG-008 |
 | **Performance** | Lighthouse CI | LCP < 2.5s, CLS < 0.1, INP < 200ms | STG-004 |
 | **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | STG-001+ |
-| **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes | Milestone 5a |
+| **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes | STG-020 |
 
 ### Database Test Isolation via Neon Branching
 

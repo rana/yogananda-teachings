@@ -210,7 +210,7 @@ Seeker query: "I feel empty inside"
 
 ### Phasing
 
-| Layer | Milestone | Notes |
+| Layer | Stage | Notes |
 |-------|-----------|-------|
 | Layer 1 (State Mappings) | 1a | English only |
 | Layer 2 (Vocabulary Expansions) | 1a | Subsumes `spiritual-terms.json` |

@@ -32,14 +32,14 @@ governed-by: [PRI-03, PRI-05, PRI-07, PRI-10, PRI-11]
 | `/places/[slug]` | Individual place detail with book cross-references | Neon `places` + `chunk_places` (ISR) | ISR (7 days) | Yes |
 | `/videos` | Videos — categorized by playlist | YouTube API (ISR) | ISR (1 hr) | Yes |
 | `/videos/[category]` | Filtered view (e.g., How-to-Live, Meditations) | YouTube API (ISR) | ISR (1 hr) | Yes |
-| `/study` | Study Workspace — passage collection, teaching arc assembly, export (future milestones, FTR-143) | `localStorage` (no server) | CSR | No (`noindex`) |
-| `/collections` | Community Collections gallery — published/featured curated passage collections (Milestone 7b, FTR-143) | Neon (`study_outlines` where visibility = published/featured) | ISR (1 hr) | Yes |
-| `/collections/[share-hash]` | Single community collection view (STG-007+ shared-link, Milestone 7b published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
+| `/study` | Study Workspace — passage collection, teaching arc assembly, export (future stages, FTR-143) | `localStorage` (no server) | CSR | No (`noindex`) |
+| `/collections` | Community Collections gallery — published/featured curated passage collections (STG-024, FTR-143) | Neon (`study_outlines` where visibility = published/featured) | ISR (1 hr) | Yes |
+| `/collections/[share-hash]` | Single community collection view (STG-007+ shared-link, STG-024 published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
 | `/feedback` | Seeker feedback — citation errors, search suggestions, general feedback (STG-007, FTR-061) | Neon (`seeker_feedback`) | SSR | No (`noindex`) |
 | `/privacy` | Privacy policy — what data is collected, why, how long, sub-processors, data subject rights (STG-004, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
 | `/legal` | Legal information — terms of use, copyright, content licensing (STG-004, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
 | `/browse` | Complete content index — all navigable content by category (STG-004, FTR-056) | Neon (ISR) | ISR (24 hr) | Yes |
-| `/updates` | Portal updates — new books, features, languages (Milestone 5a+, FTR-092) | Neon `portal_updates` | ISR (1 hr) | Yes |
+| `/updates` | Portal updates — new books, features, languages (STG-020+, FTR-092) | Neon `portal_updates` | ISR (1 hr) | Yes |
 
 **Rendering key:** ISR = Incremental Static Regeneration (server-rendered, cached at CDN, revalidated on schedule). SSR = Server-Side Rendered (fresh on every request). CSR = Client-Side Rendered (JavaScript only, no server HTML). All ISR and SSR pages deliver complete HTML with JSON-LD, OG tags, Twitter Card tags, and full content to crawlers — no content page depends on client-side data fetching. Content negotiation (FTR-059 §11): all ISR/SSR routes also respond with structured JSON when the `Accept: application/json` header is sent. See FTR-059 §15 for the full rendering strategy rationale.
 
@@ -254,7 +254,7 @@ Client computes:
 
 **Implementation cost:** ~5KB client-side (timezone+country → latitude table ~3KB + suncalc ~2KB). The client computes `time_band` and sends it as a query parameter — the server never sees timezone, country, or coordinates. No new database columns. No server-side location processing. The server receives only a band name (`dawn`, `night`, `brahmamuhurta`, etc.) — the same opacity as the current fixed-clock design.
 
-**Milestone:** Solar-aware circadian ships alongside the circadian color temperature (distributed across arcs as capabilities mature). Indian locale brahmamuhurta override ships in Milestone 5b with the Hindi/Bengali launch.
+**Stage:** Solar-aware circadian ships alongside the circadian color temperature (distributed across arcs as capabilities mature). Indian locale brahmamuhurta override ships in STG-021 with the Hindi/Bengali launch.
 
 **API:**
 
@@ -290,7 +290,7 @@ Six **quality** theme cards displayed below the search bar. Each links to `/them
 
 **Exploration categories on `/themes`:**
 
-| Category | Section Heading | Examples | Milestone |
+| Category | Section Heading | Examples | Stage |
 |----------|----------------|----------|-----------|
 | `quality` | "Doors of Entry" | Peace, Courage, Healing, Joy, Purpose, Love | 3b |
 | `situation` | "Life Circumstances" | Relationships, Parenting, Loss & Grief, Work | 3b+ |
@@ -331,7 +331,7 @@ Learn about the SRF Lessons → yogananda.org/lessons
 
 Styled in `--portal-text-muted`, Merriweather 300, `--text-sm` — the same visual weight as the "Find this book" bookstore link. Not a modal, not a card, not a CTA. A signpost, not a funnel. Present on every occurrence of the tagged passage across the portal.
 
-**Content:** The note text is editorial content in `messages/{locale}.json` — localized in Milestone 5b+, SRF-reviewed in all locales. The external URLs (`yogananda.org/meditate`, `yogananda.org/lessons`) are constants, not per-locale (SRF's site handles its own locale routing).
+**Content:** The note text is editorial content in `messages/{locale}.json` — localized in STG-021+, SRF-reviewed in all locales. The external URLs (`yogananda.org/meditate`, `yogananda.org/lessons`) are constants, not per-locale (SRF's site handles its own locale routing).
 
 **Schema addition:**
 
@@ -339,7 +339,7 @@ Styled in `--portal-text-muted`, Merriweather 300, `--text-sm` — the same visu
 ALTER TABLE book_chunks ADD COLUMN practice_bridge BOOLEAN NOT NULL DEFAULT false;
 ```
 
-**Milestone:** 3b+ (alongside the theme tagging pipeline). Initial tagging pass during multi-book corpus expansion (Milestones 3a–3b).
+**Stage:** STG-007+ (alongside the theme tagging pipeline). Initial tagging pass during multi-book corpus expansion (Stages 3a–3b).
 
 #### "Seeking..." (Empathic Entry Points)
 
@@ -363,7 +363,7 @@ Framed through aspiration, not suffering. "Seeking" aligns with the search bar's
 - Style: `--portal-text-muted`, Merriweather Light, gentle `--srf-gold` underline on hover
 - The section heading "Seeking..." is in Merriweather Light, not bold — it's an invitation, not a label
 - Editorially curated: the portal team can add, remove, or refine entry points based on anonymized search trends (from `search_queries` table)
-- **Cultural adaptation (Milestone 5b):** The "Seeking..." entry points are deeply English-idiomatic ("The heart to forgive," "Peace in a restless mind"). These need cultural adaptation, not mechanical translation. Treat them as **editorial content per locale** — each language's reviewer may rephrase, reorder, or replace entry points to match cultural expression. Include these in the FTR-135 human review scope alongside UI strings.
+- **Cultural adaptation (STG-021):** The "Seeking..." entry points are deeply English-idiomatic ("The heart to forgive," "Peace in a restless mind"). These need cultural adaptation, not mechanical translation. Treat them as **editorial content per locale** — each language's reviewer may rephrase, reorder, or replace entry points to match cultural expression. Include these in the FTR-135 human review scope alongside UI strings.
 - Mobile: full-width, stacked list
 - This section is below the fold — a deliberate choice. The above-the-fold experience (Today's Wisdom + search bar) is for all visitors; this section is for the ones who scroll because they need more
 
@@ -426,7 +426,7 @@ This page is how seekers browse and discover books. Even with a single book in S
 
 **STG-006 growth:** As Wave 2a–2d books are ingested, the books page naturally fills out. The layout scales from 1 book to 15+ without redesign. Books are ordered by ingestion priority (FTR-120), which mirrors life-impact ordering.
 
-**Milestone 5b multi-language:** The books page shows books available in the user's language, plus an "Also available in English" section for untranslated works (per FTR-058 content availability matrix).
+**STG-021 multi-language:** The books page shows books available in the user's language, plus an "Also available in English" section for untranslated works (per FTR-058 content availability matrix).
 
 **API:** `GET /api/v1/books` (already defined). Returns all books with metadata, chapter count, and slugs.
 
@@ -533,7 +533,7 @@ The single most important typographic decision: **line length**. Optimal for ext
 
 | Property | Value | Rationale |
 |----------|-------|-----------|
-| Max text width | `38rem` (~65-75 chars) | Optimal reading line length. **CJK note (Milestone 5b):** 38rem holds ~30–35 CJK characters per line — within the traditional optimal range for Japanese (25–40 chars/line). Line height should tighten from 1.8 to 1.6–1.7 for CJK text. Validate with actual translated content before launch. |
+| Max text width | `38rem` (~65-75 chars) | Optimal reading line length. **CJK note (STG-021):** 38rem holds ~30–35 CJK characters per line — within the traditional optimal range for Japanese (25–40 chars/line). Line height should tighten from 1.8 to 1.6–1.7 for CJK text. Validate with actual translated content before launch. |
 | Font | Merriweather 400 | Serif for extended reading |
 | Size | `--text-base` (18px) | Comfortable for long reading sessions |
 | Line height | `--leading-relaxed` (1.8) | Spacious for contemplation |
@@ -565,8 +565,8 @@ The right side panel displays passages from *other books* that are semantically 
 
 **Filters (in "Explore all" expanded view):**
 - By book (dropdown of all available books)
-- By content type: Books / Videos (once transcripts exist, future milestones)
-- By language (when multi-language content available, Milestone 5b)
+- By content type: Books / Videos (once transcripts exist, future stages)
+- By language (when multi-language content available, STG-021)
 - By topic (Peace, Courage, Christ, Meditation, Yoga Sutras, etc.)
 
 **Data source and loading strategy :**
@@ -714,7 +714,7 @@ A `@media print` stylesheet ensures passages and chapters print beautifully:
 - Page breaks between chapters (for full chapter printing)
 - No background colors (saves ink, respects user paper)
 - **Hindi print support (STG-001):** Print stylesheet is locale-aware from the start. Hindi pages use `font-family: 'Noto Serif Devanagari'` at 12pt (scaled from Latin 11pt for optical equivalence). Drop capitals omitted for Devanāgarī. Line length adjusted for 40–50 aksharas per line.
-- **Additional non-Latin font support (Milestone 5b):** Font-family falls back per script: Noto Serif JP for Japanese, Noto Serif Thai for Thai, Noto Serif Bengali for Bengali. CJK text at 10.5pt (equivalent optical size to 11pt Latin). Define per-locale `@media print` font stacks alongside the web font stacks.
+- **Additional non-Latin font support (STG-021):** Font-family falls back per script: Noto Serif JP for Japanese, Noto Serif Thai for Thai, Noto Serif Bengali for Bengali. CJK text at 10.5pt (equivalent optical size to 11pt Latin). Define per-locale `@media print` font stacks alongside the web font stacks.
 
 #### FTR-142: Chant Reader Variant
 
@@ -779,7 +779,7 @@ When a chant has `performance_of` relations in `chunk_relations`, audio/video re
 
 The reader's typographic details signal care and reverence for the words. These are the micro-details that distinguish a sacred text presentation from a blog post:
 
-**Drop capitals:** Each chapter opens with a drop capital — Merriweather 700, `--srf-navy`, spanning 3 lines. Uses CSS `::first-letter`. A tradition from illuminated manuscripts signaling "something begins here." **Language-conditional (Milestone 5b):** Drop capitals are enabled for Latin-script languages only. CSS `::first-letter` behaves unpredictably with CJK and Indic scripts, and the illuminated-manuscript tradition is Western. For Japanese, Hindi, and Bengali, substitute a culturally appropriate chapter-opening treatment: generous whitespace with a subtle `--srf-gold` rule above the first paragraph.
+**Drop capitals:** Each chapter opens with a drop capital — Merriweather 700, `--srf-navy`, spanning 3 lines. Uses CSS `::first-letter`. A tradition from illuminated manuscripts signaling "something begins here." **Language-conditional (STG-021):** Drop capitals are enabled for Latin-script languages only. CSS `::first-letter` behaves unpredictably with CJK and Indic scripts, and the illuminated-manuscript tradition is Western. For Japanese, Hindi, and Bengali, substitute a culturally appropriate chapter-opening treatment: generous whitespace with a subtle `--srf-gold` rule above the first paragraph.
 
 **Decorative opening quotation marks:** Every displayed Yogananda passage (search results, quote cards, shared passages) uses a large decorative opening quote mark — Merriweather 700, 48px, `--srf-gold` at 40% opacity, positioned as a hanging element above-left. This visual language instantly says: *these are his words*.
 
@@ -883,7 +883,7 @@ A passage about concentration means something different on the first reading ver
 
 **API:** No new endpoints. Uses existing `/api/v1/passages/[passage-id]/related` and chunk neighbor queries. The "context" layer is fetched from the chapter data already loaded in the reader.
 
-**Milestone:** 3c (alongside editorial reading threads, FTR-063). Requires Related Teachings (FTR-030, STG-005) and chapter data already in the reader.
+**Stage:** STG-008 (alongside editorial reading threads, FTR-063). Requires Related Teachings (FTR-030, STG-005) and chapter data already in the reader.
 
 ---
 
@@ -942,7 +942,7 @@ A lightweight, private bookmarking system using `localStorage`:
 
 **Storage:** `localStorage` under `srf-portal:bookmarks`. No server, no accounts, no tracking. Clearing browser data removes bookmarks. This is stated clearly on the bookmarks page.
 
-**Milestone 7a migration:** When optional accounts arrive, `localStorage` bookmarks are offered for import and server sync.
+**STG-023 migration:** When optional accounts arrive, `localStorage` bookmarks are offered for import and server sync.
 
 ### FTR-040: Keyboard-First Reading Navigation
 
@@ -993,7 +993,7 @@ The reader responds to the seeker's engagement with subtle visual warmth. All st
 - All effects at ≤ 40% opacity. Felt, not seen.
 - `prefers-reduced-motion`: hover transitions instant, static states preserved.
 - Reading state stored under `srf-portal:reading-state` — chapter IDs only, no timestamps, no duration, no scroll position. Clearing browser data removes all state.
-- Milestone 7a migration: when optional accounts arrive, reading state is offered for import alongside bookmarks.
+- STG-023 migration: when optional accounts arrive, reading state is offered for import alongside bookmarks.
 
 *Adopted from Visual Design Language Enhancement proposal (2026-02-23). Inspired by spiritual eye symbolism — the golden ring of awareness that deepens with attention.*
 
@@ -1215,7 +1215,7 @@ Every passage throughout the portal — search results, reader, theme pages, Qui
 - Uses `@vercel/og` (Satori) to render a PNG: passage text in Merriweather on warm cream, citation below, subtle SRF lotus mark, portal URL at bottom
 - Same image used for OG cards and "Save as image" download
 - Suitable for messaging apps, social media, printing, phone wallpaper
-- **Hindi script support:** Satori requires explicit font files for non-Latin characters — it does not fall back to system fonts. A Hindi quote image will render as empty boxes unless the build bundles Noto Serif Devanagari font subsets. The OG image route selects font based on the passage's `language` column. Initial font map: `hi` → Noto Serif Devanagari; `en`, `es` → Merriweather. **Additional scripts (Milestone 5b):** `ja` → Noto Serif JP, `bn` → Noto Serif Bengali, `th` → Noto Serif Thai. All Latin-script languages use Merriweather.
+- **Hindi script support:** Satori requires explicit font files for non-Latin characters — it does not fall back to system fonts. A Hindi quote image will render as empty boxes unless the build bundles Noto Serif Devanagari font subsets. The OG image route selects font based on the passage's `language` column. Initial font map: `hi` → Noto Serif Devanagari; `en`, `es` → Merriweather. **Additional scripts (STG-021):** `ja` → Noto Serif JP, `bn` → Noto Serif Bengali, `th` → Noto Serif Thai. All Latin-script languages use Merriweather.
 
 **Email sharing :**
 - "Email this passage" opens the seeker's email client via `mailto:` link
@@ -1298,7 +1298,7 @@ The portal has an opening gesture (FTR-040, Portal Threshold). It also has closi
 - Line 1: `If you'd like to deepen your meditation practice → yogananda.org/meditate`
 - Line 2: `Experience a guided meditation with SRF monastics → yogananda.org/meditate`
 
-The second line serves seekers who tried silence and want instruction — SRF's guided meditations are complementary to the Quiet Corner's unguided stillness. Styled in `--portal-text-muted`, `--text-sm`, Merriweather 300 — quieter than the parting passage itself. This is the moment of maximum receptivity: the seeker has just experienced stillness and may be most open to understanding that deeper practice exists. Two lines maximum — never a card, never promotional. Both links open in new tabs. Content is in `messages/{locale}.json` for Milestone 5b+ localization.
+The second line serves seekers who tried silence and want instruction — SRF's guided meditations are complementary to the Quiet Corner's unguided stillness. Styled in `--portal-text-muted`, `--text-sm`, Merriweather 300 — quieter than the parting passage itself. This is the moment of maximum receptivity: the seeker has just experienced stillness and may be most open to understanding that deeper practice exists. Two lines maximum — never a card, never promotional. Both links open in new tabs. Content is in `messages/{locale}.json` for STG-021+ localization.
 
 **Design constraint:** The parting word appears *below* primary navigation (e.g., below "Next Chapter →"). Seekers continuing to the next chapter never scroll down to it. It exists only for the seeker who has finished for now.
 
@@ -1331,7 +1331,7 @@ The portal is equally excellent for seekers who never touch the search bar. Seve
 **6. The devoted practitioner** (returns daily or weekly, uses search to find half-remembered passages, builds collections, compares across books).
 - This is the portal's highest-frequency seeker — someone who has practiced Kriya Yoga or studied Yogananda's writings for years and uses the portal as a study companion, not for discovery.
 - Advanced search supports their recall pattern: partial-phrase matching, book-scoped search, cross-book comparison via Related Teachings.
-- Personal collections (future milestones) and study circle sharing (Milestone 7b) serve this seeker directly. Until then, browser bookmarks and the reading history (sessionStorage) provide lightweight persistence.
+- Personal collections (future stages) and study circle sharing (STG-024) serve this seeker directly. Until then, browser bookmarks and the reading history (sessionStorage) provide lightweight persistence.
 - The Practice Bridge signposts (FTR-055) are confirmations for this seeker, not introductions — they already know the path. The signpost tone acknowledges this.
 
 **7. The scholar** (citation-driven, cross-referencing, export-oriented).
@@ -1361,7 +1361,7 @@ The portal teaches its own navigation through the experience of using it — not
 
 **Secondary navigation architecture (FTR-039):** Persistent secondary nav populated progressively as features arrive. The nav grows with the portal — nothing is hidden, but nothing appears before it exists:
 
-| Milestone | Secondary Nav Items |
+| Stage | Secondary Nav Items |
 |-----------|-------------------|
 | 1c | `Books` `About` |
 | 2a | + `The Four Doors` (FTR-138) `Guide` |
@@ -1506,11 +1506,11 @@ The following tokens are derived from analysis of yogananda.org, convocation.yog
  /* Devanagari loaded from the start — Hindi Autobiography (full text),
  God Talks with Arjuna (Gita verses), Holy Science (Sanskrit verses).
  Hindi locale (/hi/): eager preload. English pages: conditional.
- Milestone 5b adds Thai and Bengali font stacks. */
+ STG-021 adds Thai and Bengali font stacks. */
  --font-devanagari-reading: 'Noto Serif Devanagari', 'Noto Sans Devanagari', serif;
  --font-devanagari-ui: 'Noto Sans Devanagari', 'Noto Serif Devanagari', sans-serif;
- --font-thai: 'Noto Sans Thai', 'Noto Serif Thai', sans-serif; /* Milestone 5b */
- --font-bengali: 'Noto Sans Bengali', sans-serif; /* Milestone 5b */
+ --font-thai: 'Noto Sans Thai', 'Noto Serif Thai', sans-serif; /* STG-021 */
+ --font-bengali: 'Noto Sans Bengali', sans-serif; /* STG-021 */
 
  /* === Font Scale === */
  /* Current scale: manually tuned for readability at each level.

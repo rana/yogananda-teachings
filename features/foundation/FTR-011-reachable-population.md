@@ -15,15 +15,15 @@ governed-by: [PRI-05]
 
 ### Context
 
-The portal's roadmap originally ordered milestones by feature sophistication — build the experience for English users first, then expand to other languages. This optimized for depth of experience before breadth of reach. But PRI-05 (Global-First) commits to serving "all humans of Earth equally," and the portal's philanthropic mission is to make Yogananda's teachings "available freely throughout the world."
+The portal's roadmap originally ordered stages by feature sophistication — build the experience for English users first, then expand to other languages. This optimized for depth of experience before breadth of reach. But PRI-05 (Global-First) commits to serving "all humans of Earth equally," and the portal's philanthropic mission is to make Yogananda's teachings "available freely throughout the world."
 
-When two independent milestones compete for priority, the project lacked a quantitative framework for choosing between them. Decisions defaulted to Western software convention: polish before reach, features before languages. This resulted in non-English languages (serving ~2.6 billion reachable people) being scheduled after reader polish and study tools (serving existing English users).
+When two independent stages compete for priority, the project lacked a quantitative framework for choosing between them. Decisions defaulted to Western software convention: polish before reach, features before languages. This resulted in non-English languages (serving ~2.6 billion reachable people) being scheduled after reader polish and study tools (serving existing English users).
 
 A data-driven analysis of global language demographics (see [docs/reference/prioritizing-global-language-rollout.md](docs/reference/prioritizing-global-language-rollout.md) — 53 cited sources from Ethnologue, ITU, UNESCO, DataReportal, GSMA) revealed that the depth-first ordering contradicted the mission. Hindi and Spanish each individually serve reachable populations comparable to English L1 speakers.
 
 ### Decision
 
-Adopt **reachable population** as the default prioritization metric for all scope decisions. When two milestones or features are architecturally independent, the one serving more reachable people ships first.
+Adopt **reachable population** as the default prioritization metric for all scope decisions. When two stages or features are architecturally independent, the one serving more reachable people ships first.
 
 **Metric definition:**
 
@@ -52,7 +52,7 @@ Reachable Population = speakers × internet_penetration × content_availability
 
 *Sources: Ethnologue 2025 (speaker counts), ITU Global Connectivity Report 2025 (internet penetration), DataReportal Digital 2026 (regional breakdowns). Full analysis with 53 citations in docs/reference/prioritizing-global-language-rollout.md.*
 
-Hindi and Spanish together serve **~855M reachable people** — more than double English L1. This makes them Tier 1 priorities. Spanish is activated alongside English from the initial milestones. Hindi is deferred — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in Milestone 5b when an authorized source becomes available.
+Hindi and Spanish together serve **~855M reachable people** — more than double English L1. This makes them Tier 1 priorities. Spanish is activated alongside English from the initial stages. Hindi is deferred — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in STG-021 when an authorized source becomes available.
 
 ### Application Protocol
 
@@ -77,11 +77,11 @@ When a future scope decision arises:
 
 ### Consequences
 
-- **Roadmap reordered:** Languages (formerly Milestone 5b) move before reader refinement (formerly STG-005) and before study tools (formerly STG-007+). Spanish Autobiography ingestion moves into STG-002. Hindi deferred (authorized source unavailable outside India) — activates in Milestone 5b.
+- **Roadmap reordered:** Languages (formerly STG-021) move before reader refinement (formerly STG-005) and before study tools (formerly STG-007+). Spanish Autobiography ingestion moves into STG-002. Hindi deferred (authorized source unavailable outside India) — activates in STG-021.
 - **FTR-058 revised:** Language priority ordering replaces "no wave ordering." Languages ship as they clear a readiness gate (content + UI strings + human reviewer), ordered by reachable population.
 - **Breadth-first, not depth-first:** The portal reaches 3 billion people with a good experience before reaching 390 million with a perfect experience.
 - **Decision audit trail:** Future scope decisions reference this ADR with the specific reach calculation.
-- **Data refresh:** At each milestone boundary, verify speaker counts and internet penetration against the latest ITU and DataReportal reports. Update the priority table if any language's reachable population shifts by >10%.
+- **Data refresh:** At each stage boundary, verify speaker counts and internet penetration against the latest ITU and DataReportal reports. Update the priority table if any language's reachable population shifts by >10%.
 
 ### Limits
 
@@ -95,7 +95,7 @@ This metric does **not** override:
 
 UNESCO 2024 data reports 739 million adults globally lack basic literacy, with 347 million in Central and Southern Asia — the YSS heartland. For these populations, text-only content provides **no access**, not limited access. YSS currently offers Hindi, Bengali, and other Indic-language *Autobiography of a Yogi* audiobooks.
 
-This ADR recommends that when a language is activated, existing audio content ships alongside text where available — not deferred to a separate media milestone. Audio is an **access modality**, not an enhancement. The availability of existing SRF/YSS audio recordings for each language is a stakeholder question that should be raised at language activation time. For Hindi specifically: if YSS has digital audio files of the Hindi *Autobiography*, basic audio delivery (streaming, chapter-level navigation) should activate with Hindi text — the technical cost is trivial compared to the access equity gained for 347M adults in Central/Southern Asia who lack basic literacy.
+This ADR recommends that when a language is activated, existing audio content ships alongside text where available — not deferred to a separate media stage. Audio is an **access modality**, not an enhancement. The availability of existing SRF/YSS audio recordings for each language is a stakeholder question that should be raised at language activation time. For Hindi specifically: if YSS has digital audio files of the Hindi *Autobiography*, basic audio delivery (streaming, chapter-level navigation) should activate with Hindi text — the technical cost is trivial compared to the access equity gained for 347M adults in Central/Southern Asia who lack basic literacy.
 
 ### Evaluation Candidates
 
@@ -119,13 +119,13 @@ Tamil (~85M speakers, ~60% internet, ~51M reachable), Telugu (~96M speakers, ~60
 
 These languages do not expand SRF's commitment. Each organization determines which languages it surfaces. The platform supports any language where either organization provides authorized content and the language readiness gate (FTR-058) is cleared. See FTR-119.
 
-**Hindi source authorization.** The Hindi deferral (Milestone 5b) was due to ebook purchasing logistics, not content unavailability. YSS has the authorized Hindi *Autobiography*. YSS authorization of the Hindi text for the shared corpus could resolve the source barrier, potentially activating Hindi (~425M reachable) earlier than Milestone 5b. **Conversation sequencing matters:** deliver value first (English search widget for yssofindia.org), ask for content second. See FTR-119 § YSS Value Proposition.
+**Hindi source authorization.** The Hindi deferral (STG-021) was due to ebook purchasing logistics, not content unavailability. YSS has the authorized Hindi *Autobiography*. YSS authorization of the Hindi text for the shared corpus could resolve the source barrier, potentially activating Hindi (~425M reachable) earlier than STG-021. **Conversation sequencing matters:** deliver value first (English search widget for yssofindia.org), ask for content second. See FTR-119 § YSS Value Proposition.
 
 ### Consolidated Language Reference
 
 Single sorted table for AI-assisted and human feature ordering. All languages — core, evaluation, and YSS-contributed — in one place, ranked by reachable population.
 
-**Validation methodology:** Numbers below are drawn from two source categories. **Category A** (core 9 + English): sourced from `docs/reference/prioritizing-global-language-rollout.md` (53 citations from Ethnologue 2025, ITU 2025, DataReportal 2026, GSMA, World Bank, UNESCO). **Category B** (evaluation candidates): freshly surveyed from DataReportal Digital 2025 country reports (January 2025 data). **Before making prioritization decisions**, verify Category B numbers against the current DataReportal reports at `datareportal.com/reports/digital-2026-{country}`. Category A numbers should be refreshed at each milestone boundary per FTR-011 § Consequences.
+**Validation methodology:** Numbers below are drawn from two source categories. **Category A** (core 9 + English): sourced from `docs/reference/prioritizing-global-language-rollout.md` (53 citations from Ethnologue 2025, ITU 2025, DataReportal 2026, GSMA, World Bank, UNESCO). **Category B** (evaluation candidates): freshly surveyed from DataReportal Digital 2025 country reports (January 2025 data). **Before making prioritization decisions**, verify Category B numbers against the current DataReportal reports at `datareportal.com/reports/digital-2026-{country}`. Category A numbers should be refreshed at each stage boundary per FTR-011 § Consequences.
 
 | # | Language | Speakers (L1+L2) | Internet % | Reachable | Tier | Source Status | Activation | Access Barriers | Source |
 |---|----------|-----------------|------------|-----------|------|---------------|------------|-----------------|--------|
@@ -165,9 +165,9 @@ Single sorted table for AI-assisted and human feature ordering. All languages �
 - Saudi Arabia: `datareportal.com/reports/digital-2025-saudi-arabia` (33.9M users, 99.0%)
 - Egypt: `datareportal.com/reports/digital-2025-egypt` (96.3M users, 81.9%)
 
-**Last verified:** 2026-03-01. Refresh at milestone boundaries. Full source traceability: [docs/reference/language-demographics-sources.md](docs/reference/language-demographics-sources.md).
+**Last verified:** 2026-03-01. Refresh at stage boundaries. Full source traceability: [docs/reference/language-demographics-sources.md](docs/reference/language-demographics-sources.md).
 
 **Extends:** PRI-05 (Global-First), FTR-058 (Core Language Set), FTR-120 (Book Ingestion Priority)
-**Governs:** ROADMAP.md milestone ordering. All future scope prioritization decisions.
+**Governs:** ROADMAP.md stage ordering. All future scope prioritization decisions.
 
 *Full demographic analysis: docs/reference/prioritizing-global-language-rollout.md (53 citations: Ethnologue, ITU, UNESCO, DataReportal, GSMA, World Bank). Per-number source traceability and human validation checklist: [docs/reference/language-demographics-sources.md](docs/reference/language-demographics-sources.md).*

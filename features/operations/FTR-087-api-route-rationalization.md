@@ -81,7 +81,7 @@ Returns title, author, description, cover image, publication year, bookstore URL
 
 #### Not Changed
 
-- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are STG-005 YouTube-proxy convenience endpoints. When videos become database-backed in future milestones, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
+- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are STG-005 YouTube-proxy convenience endpoints. When videos become database-backed in future stages, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
 
 - **Nested routes where nesting is correct.** `/books/[slug]/chapters/[number]`, `/themes/[slug]/passages`, `/people/[slug]/passages`, `/images/{slug}/related` — these nest a subordinate or relationship resource under its parent. The nesting is appropriate and stays.
 
@@ -236,7 +236,7 @@ A robust integration uses both: webhooks for real-time events, timestamp filteri
 
 #### Delivery Schedule
 
-| Milestone | What Ships |
+| Stage | What Ships |
 |-----------|-----------|
 | **STG-001** | `updated_at` columns and triggers on all content tables in the initial schema migration. No API filtering yet. |
 | **STG-004** | `updated_since` and `created_since` parameters on `GET /api/v1/books` and `GET /api/v1/books/[slug]/chapters`. |

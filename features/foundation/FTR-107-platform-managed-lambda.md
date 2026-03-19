@@ -34,13 +34,13 @@ Use **AWS Lambda with EventBridge scheduling**, deployed and managed via **Platf
     ingest.ts          — Book ingestion pipeline (STG-006)
     relations.ts       — Chunk relation computation (STG-006)
     aggregate-themes.ts — Nightly search theme aggregation (STG-009)
-    send-email.ts      — Daily passage email dispatch (Milestone 5a)
-    generate-social.ts — Quote image generation (Milestone 5a)
+    send-email.ts      — Daily passage email dispatch (STG-020)
+    generate-social.ts — Quote image generation (STG-020)
     webhook-contentful.ts — Contentful sync (STG-003+)
-    ingest-transcript.ts — YouTube transcript ingestion (future milestones)
-    compute-graph.ts   — Knowledge graph positions (future milestones)
-    process-image.ts   — Image tier generation (future milestones)
-    process-audio.ts   — Audio transcription (future milestones)
+    ingest-transcript.ts — YouTube transcript ingestion (future stages)
+    compute-graph.ts   — Knowledge graph positions (future stages)
+    process-image.ts   — Image tier generation (future stages)
+    process-audio.ts   — Audio transcription (future stages)
   /layers/
     shared/            — Shared deps (Neon client, Claude SDK)
 
@@ -56,9 +56,9 @@ Use **AWS Lambda with EventBridge scheduling**, deployed and managed via **Platf
 
 Each Lambda handler is a thin wrapper that imports from `/lib/services/` — the framework-agnostic service layer (FTR-015). The business logic is identical whether invoked by Lambda, CLI, or a test harness.
 
-### Milestone-by-Milestone Introduction
+### Stage-by-Stage Introduction
 
-| Milestone | Functions Added | Trigger |
+| Stage | Functions Added | Trigger |
 |-----------|----------------|---------|
 | **3a** | `backup` | EventBridge Scheduler (nightly) |
 | **5** | `ingest`, `relations` | Manual invocation (CLI/admin portal → Lambda invoke) |
@@ -68,7 +68,7 @@ Each Lambda handler is a thin wrapper that imports from `/lib/services/` — the
 | **13** | `ingest-transcript` | Manual + Scheduler (batch) |
 | **14** | `compute-graph`, `process-image`, `process-audio` | Scheduler (nightly) / Event-driven |
 
-Infrastructure is provisioned once in STG-006. Each subsequent milestone adds functions to already-provisioned infrastructure.
+Infrastructure is provisioned once in STG-006. Each subsequent stage adds functions to already-provisioned infrastructure.
 
 ### CLI Wrappers
 
@@ -87,8 +87,8 @@ A developer can run `pnpm run ingest --book autobiography` locally. Production r
 ### Rationale
 
 - **Lambda is SCM-agnostic.** It works identically under GitHub Actions or any future CI system. Unlike CI-based cron jobs, Lambda infrastructure doesn't change if the portal ever migrates SCM platforms. EventBridge schedules, IAM roles, and S3 buckets are untouched by an SCM migration.
-- **The portal already has an AWS footprint.** S3 (backups, STG-006), Bedrock (Claude API, STG-001), CloudFront (media streaming, future milestones), and EventBridge are all AWS services the portal uses regardless. Lambda is the natural compute layer for an AWS-invested project.
-- **Terraform-native Lambda is sufficient at this scale.** The portal has < 15 Lambda functions across all milestones. SF v4's ergonomics (local invocation, plugin ecosystem, per-function configuration) serve microservice architectures with dozens of functions. For < 15 functions, `aws_lambda_function` + `aws_lambda_layer_version` in Terraform are straightforward and eliminate a tool dependency.
+- **The portal already has an AWS footprint.** S3 (backups, STG-006), Bedrock (Claude API, STG-001), CloudFront (media streaming, future stages), and EventBridge are all AWS services the portal uses regardless. Lambda is the natural compute layer for an AWS-invested project.
+- **Terraform-native Lambda is sufficient at this scale.** The portal has < 15 Lambda functions across all stages. SF v4's ergonomics (local invocation, plugin ecosystem, per-function configuration) serve microservice architectures with dozens of functions. For < 15 functions, `aws_lambda_function` + `aws_lambda_layer_version` in Terraform are straightforward and eliminate a tool dependency.
 - **One IaC tool, one deployment pipeline.** `terraform apply` already deploys Neon, Vercel, Sentry, and S3. Adding Lambda to the same pipeline means no new deployment workflow. CI/CD gains no new steps — Lambda deploys alongside everything else.
 - **STG-001 resolves the FTR-109 timing gap.** The backup function deploys in STG-001 where it belongs. No more "STG-001 or STG-004" ambiguity.
 - **FTR-104 precedent.** The portal already diverges from SRF's DynamoDB pattern when the portal's needs don't match. The same principle applies: SRF ecosystem alignment is about patterns (Lambda for batch compute), not tools (SF v4 as the deployment mechanism).

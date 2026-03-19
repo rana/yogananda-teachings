@@ -51,7 +51,7 @@ The AI is a **librarian**, not an **oracle**. It finds Yogananda's words — it 
 
 ### Search Flow
 
-The search pipeline has evolved through three milestone tiers. Milestones 1a–2a use a two-path retrieval core (vector + BM25). STG-005+ adds HyDE and Cohere Rerank. STG-007+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
+The search pipeline has evolved through three stage tiers. Stages 1a–2a use a two-path retrieval core (vector + BM25). STG-005+ adds HyDE and Cohere Rerank. STG-007+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
 
 ```
 1. USER QUERY
@@ -117,7 +117,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - Multi-step queries composed in /lib/services/graph.ts
 
  ADAPTIVE HYBRID FUSION:
- - Merge results from all active paths (A+B in Milestones 1a–3a; A+B+C in STG-007+)
+ - Merge results from all active paths (A+B in Stages 1a–3a; A+B+C in STG-007+)
  - Convex Combination (CC) replaces Reciprocal Rank Fusion (RRF).
    CC uses normalized scores, not ranks — a passage scored 0.99 by dense
    retrieval is meaningfully distinguished from one scored 0.51.
@@ -148,7 +148,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  Selects and ranks top 5 from 50 candidates.
  Vendor-consolidated with Voyage embedding pipeline (FTR-024).
 
- Milestones 1a–2b fallback: Claude Haiku passage ranking (FTR-105).
+ Stages 1a–2b fallback: Claude Haiku passage ranking (FTR-105).
  │
  ▼
 8. CONTEXT EXPANSION
@@ -176,9 +176,9 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - Related teachings (STG-006+, FTR-030) grouped by relationship type
 ```
 
-**Milestone progression of the search pipeline:**
+**Stage progression of the search pipeline:**
 
-| Milestone | Retrieval Paths | Fusion | Reranker | Enhancements |
+| Stage | Retrieval Paths | Fusion | Reranker | Enhancements |
 |-----------|----------------|--------|----------|-------------|
 | 1a–2b | Vector (pgvector) + BM25 (pg_search) | Convex Combination (α=0.5) | Claude Haiku passage ranking | Basic query expansion, terminology bridge |
 | 3a | Vector + BM25 | CC with register-adaptive α | Voyage Rerank | Enrichment-augmented embeddings (FTR-024), HyDE |
@@ -347,7 +347,7 @@ When Claude (via AWS Bedrock, FTR-105) is unavailable (timeout, error, rate limi
 
 ### FTR-024: Embedding Model Migration Procedure
 
-When the embedding model changes (e.g., from `voyage-4-large` to a successor, or to a per-language model for Milestone 5b), re-embedding the full corpus is required. The `embedding_model`, `embedding_dimension`, and `embedded_at` columns on `book_chunks` enable safe, auditable migration.
+When the embedding model changes (e.g., from `voyage-4-large` to a successor, or to a per-language model for STG-021), re-embedding the full corpus is required. The `embedding_model`, `embedding_dimension`, and `embedded_at` columns on `book_chunks` enable safe, auditable migration.
 
 **Procedure:**
 
@@ -394,9 +394,9 @@ When the embedding model changes (e.g., from `voyage-4-large` to a successor, or
 
 **Cost estimate for full corpus re-embedding:** < $15 for Voyage voyage-4-large at 50K chunks (~25M tokens). The operational cost is primarily developer time for validation, not API spend. At significant volume, evaluate AWS Marketplace SageMaker model packages for Voyage to reduce per-call costs.
 
-**Multilingual embedding quality (FTR-024, FTR-024).** Voyage voyage-4-large is multilingual-first by design: MoE architecture, shared embedding space, Matryoshka dimension reduction, 32K token context window. For European languages (es, de, fr, it, pt) and major Asian languages (ja, zh, ko, hi), this provides strong baseline retrieval. For CJK-heavy corpora, benchmark Voyage `voyage-multilingual-2` as an alternative — it may excel on languages with fundamentally different morphology. Milestone 5b includes formal benchmarking with actual translated passages across Voyage voyage-4-large, Cohere embed-v3, and BGE-M3.
+**Multilingual embedding quality (FTR-024, FTR-024).** Voyage voyage-4-large is multilingual-first by design: MoE architecture, shared embedding space, Matryoshka dimension reduction, 32K token context window. For European languages (es, de, fr, it, pt) and major Asian languages (ja, zh, ko, hi), this provides strong baseline retrieval. For CJK-heavy corpora, benchmark Voyage `voyage-multilingual-2` as an alternative — it may excel on languages with fundamentally different morphology. STG-021 includes formal benchmarking with actual translated passages across Voyage voyage-4-large, Cohere embed-v3, and BGE-M3.
 
-**Domain-adapted embeddings (FTR-024, later-stage research).** The highest-ceiling path to world-class retrieval: fine-tune a multilingual base model on Yogananda's published corpus across languages. A domain-adapted model would understand spiritual vocabulary, metaphorical patterns, and cross-tradition concepts at a depth no general model matches. Prerequisites: multilingual corpus (Milestone 5b ingestion) and per-language evaluation suites (Milestone 5b). The same migration procedure above applies — the architecture imposes no constraints on model provenance.
+**Domain-adapted embeddings (FTR-024, later-stage research).** The highest-ceiling path to world-class retrieval: fine-tune a multilingual base model on Yogananda's published corpus across languages. A domain-adapted model would understand spiritual vocabulary, metaphorical patterns, and cross-tradition concepts at a depth no general model matches. Prerequisites: multilingual corpus (STG-021 ingestion) and per-language evaluation suites (STG-021). The same migration procedure above applies — the architecture imposes no constraints on model provenance.
 
 ### Search Suggestions (FTR-029)
 

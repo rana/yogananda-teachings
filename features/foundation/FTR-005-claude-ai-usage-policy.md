@@ -37,7 +37,7 @@ Every permitted use falls into one of three categories:
 
 ### Hard Prohibitions (Theological, Non-Negotiable)
 
-These prohibitions are absolute and permanent. No milestone, feature, or stakeholder request overrides them.
+These prohibitions are absolute and permanent. No stage, feature, or stakeholder request overrides them.
 
 Claude **never**:
 
@@ -52,14 +52,14 @@ Claude **never**:
 
 ### Currently Permitted Uses
 
-| # | Use Case | Milestone | Category | ADR | Description |
+| # | Use Case | Stage | Category | ADR | Description |
 |---|----------|-----------|----------|-----|-------------|
 | C1 | Query expansion | 1a | Finding | FTR-105 | Expands conceptual queries into semantic search terms. Returns JSON array of terms only. Optional — bypassed for simple keyword queries. |
 | C2 | Passage ranking | 1a | Finding | FTR-105 | Given user's question + 20 candidate passages, selects and ranks the 5 most relevant. Returns JSON array of passage IDs only. |
 | C3 | Highlight boundaries | 1a | Finding | FTR-105 | Identifies which sentences within a chunk best answer the query. Returns character offsets. |
 | C4 | Theme classification | 3b | Classifying | FTR-121 | Classifies ambiguous passages into teaching topics. Optional — supplements embedding similarity for borderline cases. Mandatory human review before tags are served. |
 | C5 | UI translation drafting | 5b | Drafting | FTR-135 | Translates UI chrome and portal-authored content (NOT Yogananda's text). Draft files undergo mandatory human review by fluent, SRF-aware reviewers. |
-| C6 | Social caption drafting | Milestone 4a | Drafting | FTR-154 | Generates suggested captions for daily quote images. Human reviews and posts — never auto-post. |
+| C6 | Social caption drafting | STG-020 | Drafting | FTR-154 | Generates suggested captions for daily quote images. Human reviews and posts — never auto-post. |
 
 ### Approved Expansion: High-Value Claude Uses
 
@@ -145,7 +145,7 @@ During ingestion QA, Claude pre-screens ingested text and flags:
 
 **Category:** Classifying | **Cost:** ~$0.10/evaluation run | **Human review:** No (CI infrastructure)
 
-Automate the search quality evaluation (Deliverables STG-001-8 and STG-002-2) by using Claude as the evaluator. The evaluation uses a bilingual golden set of ~81 queries (~66 English, ~15 Spanish) across seven difficulty categories (Direct, Conceptual, Emotional, Metaphorical, Technique-boundary, Dark Night, Adversarial). The Dark Night category (~8 queries) tests fragmentary, distressed queries against the Vocabulary Bridge's state mappings and retrieval intent routing (FTR-028). Hindi queries (~15) added when Hindi activates in Milestone 5b. Full methodology, data format, metrics, and CI integration specified in FTR-037.
+Automate the search quality evaluation (Deliverables STG-001-8 and STG-002-2) by using Claude as the evaluator. The evaluation uses a bilingual golden set of ~81 queries (~66 English, ~15 Spanish) across seven difficulty categories (Direct, Conceptual, Emotional, Metaphorical, Technique-boundary, Dark Night, Adversarial). The Dark Night category (~8 queries) tests fragmentary, distressed queries against the Vocabulary Bridge's state mappings and retrieval intent routing (FTR-028). Hindi queries (~15) added when Hindi activates in STG-021. Full methodology, data format, metrics, and CI integration specified in FTR-037.
 
 **Evaluation approach:** Substring matching resolves expected passages deterministically. For results not matching expected passages, Claude Opus judges relevance (HIGH / PARTIAL / NOT_RELEVANT). Opus is used as the evaluation judge (FTR-105) because judging whether a retrieved passage meets a seeker's emotional state requires the same reasoning depth as the enrichment itself. For Dark Night queries, Opus additionally judges retrieval intent match — does the passage console rather than instruct? Does it acknowledge rather than advise?
 
@@ -200,7 +200,7 @@ Classify passages in the `daily_passages` pool by emotional tone:
 
 **Implementation:** Stored as a `tone` column on `daily_passages`. The selection algorithm ensures tonal variety across the week (not three "challenging" passages in a row) without any user tracking. Pure editorial metadata.
 
-**Cultural note on tone categories:** These five categories were developed from a Western emotional vocabulary. Milestone 5b editorial review should assess whether they resonate across cultures. Specific concerns:
+**Cultural note on tone categories:** These five categories were developed from a Western emotional vocabulary. STG-021 editorial review should assess whether they resonate across cultures. Specific concerns:
 
 - **"Challenging"** — In guru-disciple traditions, stern teaching is considered the *highest* compassion (*guru-krpa*), not a separate emotional register. Indian seekers may not experience "challenging" passages as distinct from "consoling" ones.
 - **"Practical" vs. "contemplative"** — This is a Western split. In many Indian traditions, practice IS contemplation. The distinction may feel artificial to Hindu/Vedantic practitioners.
@@ -224,13 +224,13 @@ Claude is never given Yogananda's text as context for generation. When Claude ra
 
 ### Cost Profile
 
-| Milestone | Uses | Estimated Monthly Cost | Notes |
+| Stage | Uses | Estimated Monthly Cost | Notes |
 |-----------|------|----------------------|-------|
 | 1a | C1, C2, C3, E1, E2, E4, E5 | ~$10–20 | Query expansion + ranking per search; QA and eval are one-time |
 | 2b | E7 | ~$0.01 (one-time) | Alt text batch |
 | 3b | C4, E3, E8 | ~$5–15 (one-time per book) + monthly search | Classification batches at ingestion |
 | 3c | E6 | ~$5–10 (one-time per book pair) | Cross-book threading batch |
-| Milestone 4a | C6 | ~$1/month | Daily caption |
+| STG-020 | C6 | ~$1/month | Daily caption |
 | 5b | C5 | ~$1–5 (one-time per language) | UI translation drafts |
 
 Total ongoing cost remains modest (~$15–25/month) because most Claude uses are one-time batch jobs at ingestion, not per-request runtime calls. The librarian model is inherently cost-efficient: constrained output formats minimize tokens.
@@ -273,5 +273,5 @@ The portal works without Claude. Claude makes it *world-class*.
 - E6 (cross-book threading) is added to STG-008 — it enhances the Related Teachings system
 - E7 (alt text) is added to STG-004 — it's an accessibility deliverable
 - The Vocabulary Bridge (FTR-028) is a living glossary that deepens with each book, backed by the `vocabulary_bridge` PostgreSQL table.
-- Every new Claude use case proposed in future milestones should be evaluated against this ADR's three-category model and hard prohibitions
+- Every new Claude use case proposed in future stages should be evaluated against this ADR's three-category model and hard prohibitions
 - **Extended ADRs:** FTR-001 (cross-reference to this policy), FTR-105 (cross-reference to expansion roadmap)

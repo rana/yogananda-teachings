@@ -68,7 +68,7 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 - DESIGN.md § Frontend Design gains a "UI Copy Standards" subsection referencing this ADR
 - Locale files (`messages/*.json`) include copy-guide annotations for translators
 - CONTEXT.md open question added: editorial governance of UI copy (who reviews, what process)
-- **Per-locale terminology adaptation:** The term "seeker" is the English-language editorial voice. Per-locale editorial review (Milestone 5b) should determine the culturally appropriate term in each language. In Hindi, *sādhak* (साधक, practitioner) or *pāṭhak* (reader) may resonate more than a literal translation of "seeker" — *sādhak* implies active practice, not searching. In Japanese, "seeker" (*tanbōsha*) implies outsider status; "practitioner" or "reader" may feel more respectful. The preferred terms per locale are documented in `/docs/editorial/ui-copy-guide.md` and applied consistently in `messages/{locale}.json`.
+- **Per-locale terminology adaptation:** The term "seeker" is the English-language editorial voice. Per-locale editorial review (STG-021) should determine the culturally appropriate term in each language. In Hindi, *sādhak* (साधक, practitioner) or *pāṭhak* (reader) may resonate more than a literal translation of "seeker" — *sādhak* implies active practice, not searching. In Japanese, "seeker" (*tanbōsha*) implies outsider status; "practitioner" or "reader" may feel more respectful. The preferred terms per locale are documented in `/docs/editorial/ui-copy-guide.md` and applied consistently in `messages/{locale}.json`.
 - No schema changes, no API changes
 
 

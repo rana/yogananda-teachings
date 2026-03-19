@@ -231,20 +231,20 @@ CREATE INDEX idx_messaging_metrics_daily ON messaging_metrics(created_at, channe
 
 ### Consequences
 
-- Milestone 5a: WhatsApp Business API integration (alongside daily email — shared infrastructure). Daily wisdom via WhatsApp. Search via WhatsApp.
-- Milestone 5a: RSS feeds (machine syndication, complementary channel)
-- Milestone 7b: SMS access gateway (requires cost evaluation per region, dedicated phone numbers)
-- Milestone 7b: Telegram bot (low cost, incremental after WhatsApp)
-- Future: USSD (requires telco partnership, evaluate in Milestone 7b)
-- Future: IVR/Voice (evaluate after audio section exists, future milestones)
+- STG-020: WhatsApp Business API integration (alongside daily email — shared infrastructure). Daily wisdom via WhatsApp. Search via WhatsApp.
+- STG-020: RSS feeds (machine syndication, complementary channel)
+- STG-024: SMS access gateway (requires cost evaluation per region, dedicated phone numbers)
+- STG-024: Telegram bot (low cost, incremental after WhatsApp)
+- Future: USSD (requires telco partnership, evaluate in STG-024)
+- Future: IVR/Voice (evaluate after audio section exists, future stages)
 - `messaging_subscriptions` and `messaging_metrics` tables added to schema
 - Lambda function for channel routing (`/lambda/functions/messaging/`)
 - WhatsApp Business account registration (requires Meta business verification)
 - SMS provider evaluation: Twilio (global), Africa's Talking (Africa-optimized), Gupshup (India-optimized)
 - Passage formatting service in `/lib/services/format.ts` — formats a passage for different channel constraints (160 chars, 1024 chars, Markdown, plain text)
 - **Extends** FTR-048 (native share) — SMS sharing from the portal now includes passage text, not just a URL
-- **Extends** Milestone 7b (SMS access gateway) — now part of a broader multi-channel strategy, not a standalone experiment
-- **Replaces** the Milestone 7b "exploration" framing with a committed delivery plan starting at Milestone 5a (WhatsApp)
+- **Extends** STG-024 (SMS access gateway) — now part of a broader multi-channel strategy, not a standalone experiment
+- **Replaces** the STG-024 "exploration" framing with a committed delivery plan starting at STG-020 (WhatsApp)
 
 
 ## Notes

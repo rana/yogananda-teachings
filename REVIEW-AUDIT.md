@@ -81,7 +81,7 @@
 
 ### 14. [coherence] Memory file "Identifier System" section uses old ADR/DES/PRO terminology
 **Location:** Auto-memory MEMORY.md § "Identifier System"
-**Finding:** "Five identifier types: PRI-NN, ADR-NNN, DES-NNN, PRO-NNN, M{arc}{milestone}-{N}" — should now reference two types: PRI-NN and FTR-NNN (plus M-notation for deliverables).
+**Finding:** "Five identifier types: PRI-NN, ADR-NNN, DES-NNN, PRO-NNN, M{arc}{stage}-{N}" — should now reference two types: PRI-NN and FTR-NNN (plus M-notation for deliverables).
 **Fix:** Update to reflect the post-migration identifier system: PRI-NN (principles), FTR-NNN (features), M-notation (deliverables).
 
 ---

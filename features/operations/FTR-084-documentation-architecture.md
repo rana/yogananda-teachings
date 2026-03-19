@@ -23,7 +23,7 @@ Key tensions:
 - **Completeness vs. navigability.** Thorough documentation ensures correct decisions; large documents are expensive to load into AI context windows.
 - **Single source of truth vs. contextual relevance.** Centralizing information prevents drift; distributing it keeps related concerns together.
 - **Design-phase authority vs. code-phase authority.** Documentation is the sole authority before code exists; after implementation, code and documentation must coexist without contradiction.
-- **Maturity honesty.** In a pre-code project, all ADRs carry `Status: Accepted`, but a foundational principle (FTR-001) and a speculative Milestone 7b feature (FTR-143) are not equally "decided." The documentation system must honestly reflect the maturity of each record without discarding the thorough thinking that produced it.
+- **Maturity honesty.** In a pre-code project, all ADRs carry `Status: Accepted`, but a foundational principle (FTR-001) and a speculative STG-024 feature (FTR-143) are not equally "decided." The documentation system must honestly reflect the maturity of each record without discarding the thorough thinking that produced it.
 
 ### Decision
 
@@ -60,7 +60,7 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 |----------|---------|-------------|
 | Foundational | Defines project identity. Change requires full deliberation. | `Accepted (Foundational)` |
 | Active | Governing current or imminent implementation. | `Accepted` |
-| Provisional | Thorough architectural direction for future milestones. May be revised, suspended, or omitted as the project evolves. | `Accepted (Provisional — Milestone N+)` |
+| Provisional | Thorough architectural direction for future stages. May be revised, suspended, or omitted as the project evolves. | `Accepted (Provisional — Stage N+)` |
 | Suspended | Was active or provisional, moved to unscheduled. Reasoning preserved in ADR body; scheduling lifecycle in PROPOSALS.md. | `Suspended → PRO-NNN` |
 | Implemented | Validated through code. Code is authoritative; ADR retains rationale. | `Implemented — see [code path]` |
 
@@ -68,22 +68,22 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 
 1. **CLAUDE.md as routing document.** The single most important file for AI collaboration. Establishes reading order, constraints, and maintenance protocol in ~90 lines — small enough to always fit in context.
 2. **CONTEXT.md as open question registry.** All open questions (technical and stakeholder) are tracked here. Other documents cross-reference but do not duplicate the full question.
-3. **DESIGN.md Table of Contents with milestone-relevance markers.** Enables AI sessions to navigate to relevant sections without sequential scanning of 5,000+ lines.
-4. **ROADMAP.md Table of Contents.** Milestone-level navigation for quick orientation.
+3. **DESIGN.md Table of Contents with stage-relevance markers.** Enables AI sessions to navigate to relevant sections without sequential scanning of 5,000+ lines.
+4. **ROADMAP.md Table of Contents.** Stage-level navigation for quick orientation.
 5. **DECISIONS.md Index by Concern.** ADRs grouped by domain (already established at FTR-101).
 6. **Implemented-section annotations.** When a DESIGN.md section is fully implemented, annotate: `**Status: Implemented** — see [code path]`. Code becomes the source of truth; DESIGN.md retains architectural rationale.
 7. **Expanded maintenance table in CLAUDE.md.** Covers open question lifecycle, cross-cutting concern changes, content type additions, and the documentation-to-code transition.
-8. **PROPOSALS.md as proposal registry.** PRO-NNN identifiers are permanent — never renamed or reassigned. Proposals graduate to ADR/DES/milestone deliverables through the graduation protocol. ADRs may be suspended to PRO-NNN entries. Both directions preserve full cross-references.
+8. **PROPOSALS.md as proposal registry.** PRO-NNN identifiers are permanent — never renamed or reassigned. Proposals graduate to ADR/DES/stage deliverables through the graduation protocol. ADRs may be suspended to PRO-NNN entries. Both directions preserve full cross-references.
 
 ### Rationale
 
 - The routing document (CLAUDE.md) is the single most impactful file for AI collaboration cost. A well-structured 90-line file saves thousands of tokens per session by directing attention to the right document and section.
-- Milestone-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., Milestone 5b multilingual details during STG-001 work), reducing token consumption without losing information.
+- Stage-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., STG-021 multilingual details during STG-001 work), reducing token consumption without losing information.
 - The documentation-to-code transition protocol prevents the "two sources of truth" problem that invariably emerges when design documents survive into an implemented codebase.
 - Centralizing open questions in CONTEXT.md prevents them from being forgotten in document interiors — a real risk at 967KB of total documentation.
 - Making the documentation system itself an ADR ensures future contributors understand why the system is structured this way, and can evolve it deliberately rather than through drift.
 - PROPOSALS.md gives curated proposals first-class citizenship without overcommitting them as "decisions." PRO-NNN identifiers provide stable cross-references throughout the evaluation lifecycle. The three-tier maturity model (explorations → proposals → decisions) honestly reflects confidence levels without discarding the thorough thinking at any tier.
-- ADR maturity classification acknowledges that a foundational principle and a speculative Milestone 7b feature are not equally "decided," even though both received thorough analysis. Provisional ADRs represent real architectural thinking — they are not dismissed, but they are honestly distinguished from implementation-tested decisions.
+- ADR maturity classification acknowledges that a foundational principle and a speculative STG-024 feature are not equally "decided," even though both received thorough analysis. Provisional ADRs represent real architectural thinking — they are not dismissed, but they are honestly distinguished from implementation-tested decisions.
 
 ### Consequences
 
@@ -110,7 +110,7 @@ The identifier triptych is now complete:
 | FTR-NNN | Features (WHAT) | FEATURES.md | 3 digits (growing) |
 | STG-NNN | Stages (WHERE/WHEN) | ROADMAP.md | 3 digits (activating/completing) |
 
-**STG-NNN** replaces the ad-hoc M-notation (`STG-001`, `STG-009 boundary`, `Milestone 7a+`) with a formal identifier type. Format: `STG-NNN` (three-digit zero-padded). Deliverables: `STG-NNN-DD`. Track-grouped numbering: Portal STG-001–009, Platform STG-010–019, Future STG-020+. Full mapping in ROADMAP.md.
+**STG-NNN** replaces the ad-hoc M-notation (`M1a`, `M3d boundary`, `Milestone 7a+`) with a formal identifier type. Format: `STG-NNN` (three-digit zero-padded). Deliverables: `STG-NNN-DD`. Track-grouped numbering: Portal STG-001–009, Platform STG-010–019, Future STG-020+. Full mapping in ROADMAP.md.
 
 **PRI-NN remains PRI-NN.** The two-digit asymmetry is meaningful — principles are a small, stable, finished set. The visual difference between `PRI-01` and `FTR-023` immediately communicates type.
 
@@ -118,7 +118,7 @@ The identifier triptych is now complete:
 - STG-NNN does not need its own FTR — it is a governance convention, documented here in the documentation architecture FTR.
 - PRI-NN does not need an FTR either — principles are the project's constitution, governing FTRs rather than governed by them.
 - ROADMAP.md becomes the STG registry (parallel to FEATURES.md as FTR index, PRINCIPLES.md as PRI registry).
-- `re-evaluate-at` fields in FTR frontmatter now use `STG-NNN` instead of milestone notation.
+- `re-evaluate-at` fields in FTR frontmatter now use `STG-NNN` instead of M-notation.
 
 ### FTR-084: Unified Identifier System — FTR Replaces ADR + DES + PRO
 
@@ -191,7 +191,7 @@ Five states:
 **Maturity markers (optional, from FTR-084):**
 - `Approved (Foundational)` — Defines project identity, change requires full deliberation
 - `Approved` — Standard active direction
-- `Deferred (Milestone N+)` — Thorough direction for future milestones
+- `Deferred (Stage N+)` — Thorough direction for future stages
 
 #### 3. FTR File Anatomy
 
@@ -200,7 +200,7 @@ Five states:
 
 **State:** Approved
 **Domain:** search | experience | editorial | foundation | operations
-**Milestone:** 1a
+**Stage:** STG-001
 **Governs:** FTR-XXX, FTR-YYY (optional — for hub features)
 **Governed by:** PRI-NN, FTR-ZZZ (optional)
 
@@ -264,7 +264,7 @@ Single table, replaces three separate indexes:
 ```markdown
 # SRF Online Teachings Portal — Features
 
-| FTR | Title | Domain | State | Milestone | Notes |
+| FTR | Title | Domain | State | Stage | Notes |
 |-----|-------|--------|-------|-----------|-------|
 | 001 | Direct Quotes Only | foundation | Approved (Foundational) | — | PRI-01 |
 | 002 | Design Philosophy | foundation | Approved | — | |
@@ -398,7 +398,7 @@ Human principal reviews and approves the mapping table before proceeding.
 Using `features/MIGRATION.md`, create FTR files for `foundation/` and `search/` domains:
 1. Create `features/foundation/FTR-NNN-{slug}.md` and `features/search/FTR-NNN-{slug}.md`
 2. Populate from source files per the Merge With column
-3. Use FTR anatomy from §3 (State, Domain, Milestone, Rationale, Specification, Notes)
+3. Use FTR anatomy from §3 (State, Domain, Stage, Rationale, Specification, Notes)
 4. Report: files created with line counts
 
 ##### Prompt 3: Experience + Editorial FTR files (~40 files, ~6K lines)

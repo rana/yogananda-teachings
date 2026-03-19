@@ -1,7 +1,7 @@
 ---
 ftr: 111
 title: "Redundancy, Failover, and Regional Distribution Strategy"
-summary: "Single-region origin with global edge distribution; read replicas at Milestone 5a+ when traffic justifies"
+summary: "Single-region origin with global edge distribution; read replicas at STG-020+ when traffic justifies"
 state: approved
 domain: foundation
 governed-by: [PRI-05, PRI-10]
@@ -17,7 +17,7 @@ The portal serves a global audience. Seekers in India, Latin America, Africa, an
 
 ### Decision
 
-Adopt a **single-region origin with global edge distribution** strategy for Milestones 1a–3d, expanding to **read replicas and cross-region asset replication** at Milestone 5a+ when traffic patterns justify it. No active-active multi-region. The portal is a reading and search tool, not a financial transaction system — the availability requirements are high but not extreme.
+Adopt a **single-region origin with global edge distribution** strategy for Stages 1a–3d, expanding to **read replicas and cross-region asset replication** at STG-020+ when traffic patterns justify it. No active-active multi-region. The portal is a reading and search tool, not a financial transaction system — the availability requirements are high but not extreme.
 
 ### Architecture by Layer
 
@@ -31,26 +31,26 @@ Adopt a **single-region origin with global edge distribution** strategy for Mile
 
 Edge caching means a seeker in Mumbai requesting a book chapter gets HTML from a Vercel PoP in Mumbai, a PDF from a CloudFront PoP in Mumbai, and only the search query itself routes to the single-region origin.
 
-**Layer 2: Compute (single-region, Milestones 1a–3d)**
+**Layer 2: Compute (single-region, Stages 1a–3d)**
 
 | Service | Region | Failover |
 |---------|--------|----------|
 | Vercel Serverless Functions | `us-west-2` (co-located with Neon and Bedrock) | Vercel provides within-region redundancy. No cross-region failover. |
 | AWS Lambda | Same region as Neon primary | Within-region redundancy (Lambda runs across multiple AZs automatically). |
 
-**Layer 3: Database (single-region with HA, Milestones 1a–3d)**
+**Layer 3: Database (single-region with HA, Stages 1a–3d)**
 
 | Service | Strategy | Notes |
 |---------|----------|-------|
 | Neon PostgreSQL | Single-region primary with automatic AZ failover | Neon manages replication and failover within the region. If the primary compute goes down, Neon promotes a replica. |
-| Neon read replicas (Milestone 5a+) | Add read replicas in EU and Asia-Pacific | Search queries and reader pages route to the nearest read replica. Write operations (ingestion, editorial review) route to the primary. |
+| Neon read replicas (STG-020+) | Add read replicas in EU and Asia-Pacific | Search queries and reader pages route to the nearest read replica. Write operations (ingestion, editorial review) route to the primary. |
 
-**Layer 4: Storage (single-region with CDN, expanding at Milestone 5a+)**
+**Layer 4: Storage (single-region with CDN, expanding at STG-020+)**
 
 | Service | Strategy | Notes |
 |---------|----------|-------|
 | S3 (primary) | Single-region | Audio files, PDFs, backups. CloudFront sits in front for global delivery. |
-| S3 Cross-Region Replication (Milestone 5a+) | Replicate to a second region | Disaster recovery for assets. If primary region S3 is unavailable, CloudFront falls back to the replica bucket. |
+| S3 Cross-Region Replication (STG-020+) | Replicate to a second region | Disaster recovery for assets. If primary region S3 is unavailable, CloudFront falls back to the replica bucket. |
 
 ### Failure Scenarios and Response
 
@@ -58,7 +58,7 @@ Edge caching means a seeker in Mumbai requesting a book chapter gets HTML from a
 |----------|--------|----------|
 | Vercel outage (regional) | Pages unavailable | Vercel's global load balancing routes to other regions. ISR-cached pages still served from edge. |
 | Neon outage (regional) | Search and dynamic content unavailable. Static pages still served. | Neon's automatic AZ failover. If full region down: portal degrades to static content only (ISR pages, cached PDFs). |
-| S3 outage (regional) | New PDF/audio requests fail. CloudFront serves cached copies. | CloudFront continues serving cached assets. At Milestone 5a+, cross-region replica takes over. |
+| S3 outage (regional) | New PDF/audio requests fail. CloudFront serves cached copies. | CloudFront continues serving cached assets. At STG-020+, cross-region replica takes over. |
 | Lambda outage | Batch jobs fail (ingestion, backup, email) | Lambda retries automatically. Batch jobs are idempotent — safe to re-run. Email delayed, not lost. |
 | CloudFront outage | Asset delivery degraded | Extremely rare (global service). Fallback: direct S3 URLs (slower, no edge caching). |
 

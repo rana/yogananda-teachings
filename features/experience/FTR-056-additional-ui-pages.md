@@ -51,7 +51,7 @@ Browse available time-bound reading experiences. Lists evergreen, seasonal, and 
 
 ### FTR-124, FTR-035: `/explore` — Knowledge Graph Visualization
 
-Interactive visual map of the entire teaching corpus — every content type, every relationship. The graph evolves through milestones, gaining new node and edge types as content types are added. See the consolidated `/explore` specification below for the full cross-media design.
+Interactive visual map of the entire teaching corpus — every content type, every relationship. The graph evolves through stages, gaining new node and edge types as content types are added. See the consolidated `/explore` specification below for the full cross-media design.
 
 ### FTR-123: `/integrity` — Content Integrity Verification
 
@@ -98,7 +98,7 @@ The search suggestion system (FTR-029) maps modern terms ("mindfulness") to Yoga
 
 **Data source:** The terminology bridge mapping table already built for FTR-029 search suggestions. The vocabulary page is a human-readable view of the same data.
 
-**Milestone:** 3b (alongside Glossary, FTR-062). Content is editorial — the mapping between modern and Yogananda-specific vocabulary requires human curation.
+**Stage:** STG-007 (alongside Glossary, FTR-062). Content is editorial — the mapping between modern and Yogananda-specific vocabulary requires human curation.
 
 ### FTR-056: `/browse` — The Complete Index
 
@@ -163,7 +163,7 @@ A single, high-density text page listing every navigable content item in the por
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Data source:** Auto-generated from the database at build time (ISR). Zero editorial overhead. The page grows automatically as content is added across milestones.
+**Data source:** Auto-generated from the database at build time (ISR). Zero editorial overhead. The page grows automatically as content is added across stages.
 
 **Performance:** < 20KB HTML. Zero JavaScript required. Zero images. Cacheable by Service Worker as a single offline artifact — the one page that remains fully useful with no network after initial load.
 
@@ -171,8 +171,8 @@ A single, high-density text page listing every navigable content item in the por
 
 **Multilingual:** Shows content filtered by seeker's language preference. When a book is available in multiple languages, indicates availability ("Also in: हिन्दी, Español"). Language filtering via the same `language` parameter used by all content APIs.
 
-**Growth by milestone:**
-| Milestone | Content shown |
+**Growth by stage:**
+| Stage | Content shown |
 |-----------|---------------|
 | 2a | Books only (with chapter counts) |
 | 3b | + Themes (all active categories), Glossary terms, Quiet Corner textures |
@@ -180,7 +180,7 @@ A single, high-density text page listing every navigable content item in the por
 | 3d+ | + Knowledge Graph link, Calendar Journeys |
 | Post-STG-009 | + Magazine archives, Ontology concepts |
 
-**Milestone:** 2a (initial, books-only version). Grows automatically with each subsequent milestone.
+**Stage:** STG-004 (initial, books-only version). Grows automatically with each subsequent stage.
 
 ### FTR-056: `/guide` — The Spiritual Guide
 
@@ -242,13 +242,13 @@ A curated recommendation page organized by spiritual need. Where `/browse` answe
 
 **Provenance:** Same three-state model as editorial threads (FTR-063). Claude can draft initial recommendation text (`auto`), but all user-facing content requires human review (`reviewed`) or human authorship (`manual`).
 
-**Cultural adaptation:** Per-locale guide variants in Milestone 5b+ (stored in `messages/{locale}.json`). Different cultures have different spiritual entry points — an Indian seeker may start with karma and dharma; a Western seeker may start with meditation and self-improvement.
+**Cultural adaptation:** Per-locale guide variants in STG-021+ (stored in `messages/{locale}.json`). Different cultures have different spiritual entry points — an Indian seeker may start with karma and dharma; a Western seeker may start with meditation and self-improvement.
 
 **Worldview adaptation:** Seekers arrive not only from different cultures and languages but from different epistemological starting points — and Yogananda's corpus speaks to many of them directly. A Christian contemplative finds *The Second Coming of Christ*. A Sufi or poetry lover finds *Wine of the Mystic*. A Buddhist meditator finds Yogananda's scientific descriptions of concentration and consciousness. A scholar of comparative religion finds the reverse bibliography (FTR-064). An agnostic interested in the science of spirituality finds Yogananda's engagement with Einstein, physics, and the experimental method. The `/guide` page can serve these worldview entry points alongside need-based pathways, using the same editorial template — "If you come from a Christian contemplative tradition," "If you have a Buddhist meditation practice," "If you are interested in the intersection of science and spirituality." These are editorial content, not architectural changes. They surface affinities already present in the corpus rather than imposing an interfaith framing from outside. Whether to include worldview pathways is an SRF editorial decision — see CONTEXT.md § Open Questions (Stakeholder).
 
 **Navigation:** Linked from site footer ("Where to begin"), from the "Start Here" newcomer path (STG-004), and from `/browse` (bidirectional link). Each recommendation section links to the relevant destination page.
 
-**Milestone:** 3b (requires theme system, glossary, and editorial infrastructure). Grows editorially through STG-008+ as reading threads, people, and references become available.
+**Stage:** STG-007 (requires theme system, glossary, and editorial infrastructure). Grows editorially through STG-008+ as reading threads, people, and references become available.
 
 #### Worldview Pathway Catalog
 
@@ -470,7 +470,7 @@ This pathway is distinct from the others because it bridges *from the portal to 
 
 **Provenance:** Same three-state model as all pathways. Claude drafts initial text; theological reviewer approves.
 
-**Milestone:** 3b (with the rest of `/guide`). Requires the Kriya Yoga theme page (STG-008+) for the theme link; until then, the link points to Autobiography Ch. 26 only.
+**Stage:** STG-007 (with the rest of `/guide`). Requires the Kriya Yoga theme page (STG-008+) for the theme link; until then, the link points to Autobiography Ch. 26 only.
 
 #### Thematic Corpus Exploration — "Explore a Theme in Depth"
 
@@ -553,7 +553,7 @@ All organization uses index-time enrichment data computed under the editorial re
 
 **Relationship to theme pages.** Theme pages (`/themes/{slug}`) show all passages tagged with a single curated theme. Thematic exploration is broader — a seeker's question may span multiple themes, and the exploration surfaces that cross-theme structure. "Forgiveness" might pull passages tagged under Compassion, Karma, and Divine Love as well as Forgiveness itself. The theme page is a known destination; the exploration is a discovery tool.
 
-**No account required.** Consistent with the portal's anonymous experience through Milestone 7a (FTR-002, FTR-009). Individual passages found during exploration can be saved via Lotus Bookmarks (FTR-046). The exploration itself is stateless — the seeker can re-enter the same question anytime.
+**No account required.** Consistent with the portal's anonymous experience through STG-023 (FTR-002, FTR-009). Individual passages found during exploration can be saved via Lotus Bookmarks (FTR-046). The exploration itself is stateless — the seeker can re-enter the same question anytime.
 
 **Contextual feedback.** When a passage feels inappropriate for a given exploration context, seekers can flag via the DELTA-compliant feedback mechanism (FTR-061). Feedback is categorized (see FTR-069 § Feedback Categorization) and routed to editorial staff. Over time, patterns in contextual feedback may inform a new enrichment dimension — audience suitability — but this is a future consideration (see CONTEXT.md § Open Questions), not a STG-007 requirement.
 
@@ -625,7 +625,7 @@ Response:
 
 **Caching.** Exploration responses are deterministic for a given query + language (same pre-computed enrichment, same groupings). This makes them highly cacheable. The API route sets `Cache-Control: public, s-maxage=300, stale-while-revalidate=600` — a 5-minute edge cache with 10-minute stale-while-revalidate. When the enrichment pipeline re-processes passages (e.g., after a new book ingestion), a cache-busting revalidation is triggered via the existing Contentful webhook → cache purge flow. Suggested starting points (editorially curated) are cached at ISR build time with 24-hour revalidation. At global scale, this means the first seeker exploring "peace" generates the database queries; the next 1,000 seekers in the same 5-minute window are served from edge cache. No AI API cost at any point.
 
-**Milestone:** 3b (requires enrichment pipeline operational, theme taxonomy populated, chunk relations computed). The exploration degrades gracefully before full enrichment: with only search and basic theme tags (STG-003), the exploration returns a flat list grouped by book — still useful, just less structured. Full sub-theme grouping arrives when the enrichment pipeline (FTR-026) is operational.
+**Stage:** STG-007 (requires enrichment pipeline operational, theme taxonomy populated, chunk relations computed). The exploration degrades gracefully before full enrichment: with only search and basic theme tags (STG-003), the exploration returns a flat list grouped by book — still useful, just less structured. Full sub-theme grouping arrives when the enrichment pipeline (FTR-026) is operational.
 
 ---
 

@@ -24,7 +24,7 @@ Surface the spiritual terminology bridge as a user-facing glossary with two deli
 - Browsable, searchable, organized by category (Sanskrit terms, yogic concepts, spiritual states, scriptural references)
 - Each entry contains: term, brief definition (1-2 sentences, editorially written), Yogananda's own explanation (verbatim quote from the corpus where he defines the term, with full citation), and links to theme pages and reader passages where the term appears
 - Search within the glossary uses trigram matching (`pg_trgm`) for partial/fuzzy lookups
-- Multilingual: glossary entries carry a `language` column; Milestone 5b adds per-locale glossaries built during the human review cycle
+- Multilingual: glossary entries carry a `language` column; STG-021 adds per-locale glossaries built during the human review cycle
 
 **2. Inline term highlighting in the reader (opt-in):**
 - Toggle in reader settings: "Show glossary terms" (off by default)
@@ -82,7 +82,7 @@ The Vocabulary Bridge Layer 2 entries (FTR-028, FTR-028) are surfaced as a user-
 The `glossary_terms` table (defined in FTR-062) gains three optional columns for Sanskrit and spiritual terminology support:
 
 - **`phonetic_guide`** — Simplified pronunciation guide (e.g., "PRAH-nah-YAH-mah" for prāṇāyāma). Editorially written, based on standard Sanskrit phonology. Ships with STG-007 glossary.
-- **`pronunciation_url`** — URL to an SRF-approved audio pronunciation recording. Nullable; populated when SRF provides recordings (Milestone 5b+). Stakeholder question pending.
+- **`pronunciation_url`** — URL to an SRF-approved audio pronunciation recording. Nullable; populated when SRF provides recordings (STG-021+). Stakeholder question pending.
 - **`has_teaching_distinction`** — Boolean flag for terms where Yogananda's usage intentionally differs from common usage and the difference itself is part of the teaching (e.g., Aum vs. Om, "meditation," "Self-realization"). When true, the glossary UI highlights the distinction as pedagogically significant.
 
 ### Glossary API Endpoints
@@ -106,7 +106,7 @@ GET /api/v1/glossary/{slug} → Single term with definition, Yogananda's explana
 ├── Category filter (Sanskrit, Yogic Concepts, Spiritual States, Scriptural, Cosmological, Practice)
 ├── Alphabetical term list
 │   ├── Term + phonetic guide (if available) + brief definition (1-2 sentences)
-│   ├── 🔊 Pronunciation (if audio available — Milestone 5b+)
+│   ├── 🔊 Pronunciation (if audio available — STG-021+)
 │   ├── "Yogananda's explanation →" link to source passage
 │   ├── ⚡ Teaching distinction callout (if has_teaching_distinction)
 │   │   └── "Yogananda's usage differs from common usage..." with explanation

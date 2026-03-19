@@ -15,7 +15,7 @@ Read in this order — stop drilling when you have enough signal:
 1. **CLAUDE.md** — project rules, principles, identifier conventions (read fully)
 2. **PRINCIPLES.md** — the 11 immutable commitments (read fully)
 3. **CONTEXT.md** — current state, open questions, methodology (read fully)
-4. **ROADMAP.md** — find the target milestone or deliverable. Read its deliverables and success criteria.
+4. **ROADMAP.md** — find the target stage or deliverable. Read its deliverables and success criteria.
 5. **features/FEATURES.md** — read the index, then only the FTR files relevant to the target
 6. **FTR files** — read domain-specific FTR files referenced by the target deliverable
 7. **Existing code** — if any exists, sample at trust boundaries, entry points, and interfaces
@@ -30,7 +30,7 @@ Run three passes sequentially, threading findings forward:
 
 - Cross-document alignment: do DESIGN, DECISIONS, and ROADMAP tell the same story?
 - Identifier consistency: do cross-references resolve? Are identifiers used correctly?
-- Stale information: does "Current State" match reality? Are milestone statuses accurate?
+- Stale information: does "Current State" match reality? Are stage statuses accurate?
 - Terminology: same concepts use same terms everywhere?
 - Broken assumptions: any design section that assumes something another section contradicts?
 
@@ -40,7 +40,7 @@ Run three passes sequentially, threading findings forward:
 - Unaddressed scenarios: edge cases, failure modes, user journeys not covered
 - Dependency gaps: technologies or services assumed but not specified
 - Persona blind spots: who is underserved by this design?
-- Phase transition gaps: what's needed to move to the next milestone that isn't specified?
+- Phase transition gaps: what's needed to move to the next stage that isn't specified?
 - The unasked questions: what should be decided that hasn't been raised?
 
 ### Pass 3: Threat Assessment (What Could Be Exploited)

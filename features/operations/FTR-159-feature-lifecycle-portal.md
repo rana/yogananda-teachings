@@ -120,7 +120,7 @@ A page within the portal (not a separate app) at `/ops/features` — extending t
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-**The garden metaphor.** Features are *planted*, not filed. They *grow*, not "progress through stages." They're *harvested* when merged, not "closed." Some are *planted for later* — seeded now, blooming in a future milestone. The language matters — it shapes how the engineering leader thinks about her work. Not as project management, but as cultivation.
+**The garden metaphor.** Features are *planted*, not filed. They *grow*, not "progress through stages." They're *harvested* when merged, not "closed." Some are *planted for later* — seeded now, blooming in a future stage. The language matters — it shapes how the engineering leader thinks about her work. Not as project management, but as cultivation.
 
 **Typography and layout:** Same design language as the seeker experience. Merriweather headings, Lora body, warm cream background, gold accents. Max-width 42rem (slightly wider than the reader's 38rem — this is a working page, not a reading page). Generous whitespace. Lotus dividers.
 
@@ -261,7 +261,7 @@ A composite signal — not a quality metric — predicting how well a feature fi
 
 #### Implementation Phasing
 
-| Phase | Milestone | What Ships | Effort |
+| Phase | Stage | What Ships | Effort |
 |-------|-----------|-----------|--------|
 | **Lightweight** | 2a | Morning brief (email), FTR-156 dream engine, Vercel preview links, email-based circle feedback | Days |
 | **Catalog** | 3b | `/ops/features` garden UI, circle management, "Show Me" walkthrough, decision journal data model | Weeks |

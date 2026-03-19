@@ -18,7 +18,7 @@ The portal will operate across multiple environments (dev, staging, production) 
 
 ### Decision
 
-**Branch = environment.** Each service uses its native branching/environment primitive — one project per service, branches for separation. Environments are created and destroyed with a single script. Milestones 1a–3d use `dev` only; multi-environment promotion activates at Milestone 4a+.
+**Branch = environment.** Each service uses its native branching/environment primitive — one project per service, branches for separation. Environments are created and destroyed with a single script. Stages 1a–3d use `dev` only; multi-environment promotion activates at STG-020+.
 
 ### Core Principle: One Project, Branch-Based Separation
 
@@ -43,8 +43,8 @@ AWS Account: srf-teachings (dedicated account within SRF AWS Organization)
 ├── IAM OIDC Provider: token.actions.githubusercontent.com — GitHub Actions federation
 ├── IAM OIDC Provider: oidc.vercel.com/{TEAM_SLUG}       — Vercel runtime federation (FTR-113)
 ├── IAM Role: portal-ci              — OIDC federation for GitHub Actions
-├── IAM Role: portal-ci-staging      — (Milestone 4a+) tighter permissions
-├── IAM Role: portal-ci-prod         — (Milestone 4a+) production-only permissions
+├── IAM Role: portal-ci-staging      — (STG-020+) tighter permissions
+├── IAM Role: portal-ci-prod         — (STG-020+) production-only permissions
 ├── IAM Role: portal-vercel-runtime  — Vercel OIDC → Bedrock + Secrets Manager (FTR-113)
 ├── KMS Key: portal-secrets          — Encrypts all Secrets Manager entries (FTR-112)
 ├── Secrets Manager: /portal/{env}/* — All application secrets (FTR-112)
@@ -66,10 +66,10 @@ The human should never visit five consoles and copy-paste credentials. A bootstr
 # One-time infrastructure bootstrap (~5 minutes)
 ./scripts/bootstrap.sh
 
-# Create a new environment (Milestone 4a+, ~2 minutes)
+# Create a new environment (STG-020+, ~2 minutes)
 ./scripts/create-env.sh staging
 
-# Destroy an environment (Milestone 4a+, ~1 minute)
+# Destroy an environment (STG-020+, ~1 minute)
 ./scripts/destroy-env.sh staging
 ```
 
@@ -85,7 +85,7 @@ The human should never visit five consoles and copy-paste credentials. A bootstr
 
 The script is idempotent — safe to re-run. Each step checks for existing resources before creating.
 
-**`create-env.sh {env}` flow (Milestone 4a+):**
+**`create-env.sh {env}` flow (STG-020+):**
 
 1. Platform MCP provisions environment resources (Neon branch, S3 buckets, Lambda functions)
 2. `neonctl branches create --name {env} --parent main`
@@ -111,7 +111,7 @@ PR → dev (auto) → staging (manual gate) → prod (manual gate)
 ### Rationale
 
 - **Branch = environment.** Neon invented branching for this use case. Vercel's model maps Git branches to deployments natively. Using these primitives — instead of creating separate projects per environment — reduces bootstrap overhead from "visit 5 dashboards, create 15 resources" to "run one script, paste two keys."
-- **Proportionate isolation.** This portal has no PII, no authentication (until Milestone 7a+ "if ever"), no financial data. IAM role boundaries within a single AWS account provide sufficient isolation. If SRF governance requires account-level isolation for production, the architecture supports it via workspace-scoped provider aliases — a configuration change, not a rearchitecture.
+- **Proportionate isolation.** This portal has no PII, no authentication (until STG-023+ "if ever"), no financial data. IAM role boundaries within a single AWS account provide sufficient isolation. If SRF governance requires account-level isolation for production, the architecture supports it via workspace-scoped provider aliases — a configuration change, not a rearchitecture.
 - **Disposable environments.** `create-env.sh staging` takes ~2 minutes. `destroy-env.sh staging` takes ~1 minute. Environments are cheap to create and free to destroy. This enables experimentation without overhead.
 - **CI portability.** Because deployment scripts are CI-agnostic (FTR-108), any future SCM migration is a configuration change, not a re-architecture.
 
@@ -124,7 +124,7 @@ PR → dev (auto) → staging (manual gate) → prod (manual gate)
 - One Sentry project with environment tagging
 - One Contentful space with environment aliases
 - `scripts/bootstrap.sh` created in Deliverable STG-001-1 — automates all CLI-scriptable setup
-- `scripts/create-env.sh` and `scripts/destroy-env.sh` created in Milestone 4a when multi-environment activates
+- `scripts/create-env.sh` and `scripts/destroy-env.sh` created in STG-020 when multi-environment activates
 - `terraform/bootstrap/trust-policy.json` checked into repo — the one artifact the bootstrap script needs
 - GitHub Environments configured per environment (dev, staging, prod) with protection rules
 - Neon branching strategy documented in FTR-095 § Infrastructure Bootstrap

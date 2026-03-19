@@ -54,8 +54,8 @@ Not all seekers have smartphones. KaiOS (JioPhone, Nokia feature phones) runs a 
 In many families globally, one phone serves 3–5 people. The portal must not assume a device belongs to a single person.
 
 **Commitments:**
-- **No user accounts until Milestone 7a+** — the portal works fully without sign-in, which is already the design. This is correct for shared devices.
-- **Bookmarks (FTR-046) use `localStorage`** — they disappear if the browser data is cleared. This is acceptable for STG-005. Milestone 7a+ (user accounts) can optionally sync bookmarks, but the local-first design is correct for shared devices where privacy between users matters.
+- **No user accounts until STG-023+** — the portal works fully without sign-in, which is already the design. This is correct for shared devices.
+- **Bookmarks (FTR-046) use `localStorage`** — they disappear if the browser data is cleared. This is acceptable for STG-005. STG-023+ (user accounts) can optionally sync bookmarks, but the local-first design is correct for shared devices where privacy between users matters.
 - **No "Welcome back" or personalization.** The portal greets every visit the same way. No reading history displayed on the homepage. No "Continue where you left off" (which would expose one family member's reading to another).
 
 #### 4. Intermittent Connectivity as the Norm
@@ -81,8 +81,8 @@ In India, Latin America, and many African communities, spiritual texts are read 
 The "Seeking..." empathic entry points and theme doors are currently written from an English-language, Western-spiritual perspective. "What happens after death?" is a natural question in one culture but may be phrased as "Where does the soul go?" or "What is the cycle of birth?" in another.
 
 **Commitments:**
-- **Milestone 5b (multilingual launch) requires cultural consultation, not just translation.** For each language, SRF engages a native-speaking devotee (not a professional translator) to review the entry points and theme door labels for cultural resonance. The consultant answers: "Would a seeker in [country] phrase this question this way? What would feel more natural?"
-- **The "Seeking..." prompts are editorial content, not UI chrome.** They live in Contentful (Milestone 4a+), not in `messages/{locale}.json`. Each locale has independently authored prompts, not translations of the English originals.
+- **STG-021 (multilingual launch) requires cultural consultation, not just translation.** For each language, SRF engages a native-speaking devotee (not a professional translator) to review the entry points and theme door labels for cultural resonance. The consultant answers: "Would a seeker in [country] phrase this question this way? What would feel more natural?"
+- **The "Seeking..." prompts are editorial content, not UI chrome.** They live in Contentful (STG-020+), not in `messages/{locale}.json`. Each locale has independently authored prompts, not translations of the English originals.
 - **Query expansion (Claude API) handles the bridge.** Even if the entry point is culturally adapted, a seeker may still type their question in a culturally specific way. The Vocabulary Bridge (FTR-028) and Claude's query expansion handle the mapping from the seeker's phrasing to the passage corpus.
 
 #### 7. Right-to-Left as a First-Class Layout
@@ -90,7 +90,7 @@ The "Seeking..." empathic entry points and theme doors are currently written fro
 CSS logical properties (FTR-058) provide the technical foundation for RTL. But RTL is more than mirrored margins.
 
 **Commitments:**
-- **Milestone 5b RTL languages (Arabic, Urdu — if added later) require a native RTL reader to review every page.** Not just CSS mirroring, but visual hierarchy, reading flow, and icon directionality (e.g., a "next chapter" arrow points left in RTL).
+- **STG-021 RTL languages (Arabic, Urdu — if added later) require a native RTL reader to review every page.** Not just CSS mirroring, but visual hierarchy, reading flow, and icon directionality (e.g., a "next chapter" arrow points left in RTL).
 - **The share menu, dwell icon, and reader navigation all use `inline-start`/`inline-end` positioning** — already specified in their respective ADRs. This commitment makes the RTL audit a verification exercise, not a redesign.
 - **Bidirectional text.** Yogananda quotes in Arabic translation may contain Sanskrit terms (samadhi, pranayama) in Latin script. The portal must handle `dir="auto"` on passage elements to allow mixed-direction text within a single paragraph.
 
@@ -116,8 +116,8 @@ Every commitment above costs nothing or near-nothing at implementation time if i
 - Text-only mode deployed in STG-003 (footer toggle); integrated into reader settings and design system in STG-004
 - Minimal Service Worker deployed in STG-003 (app shell caching), enhanced in STG-004 (all pages + fonts), expanded in STG-005 (last-read chapter)
 - Low-bandwidth detection banner deployed in STG-003 (2G/slow-2G suggestion); extended adaptation in STG-005
-- Presentation mode added to the reader in STG-005 *(pulled forward from later milestones)*
-- Cultural consultation budget required for Milestone 5b multilingual launch
+- Presentation mode added to the reader in STG-005 *(pulled forward from later stages)*
+- Cultural consultation budget required for STG-021 multilingual launch
 - RTL design review by native reader required before any RTL language goes live
 - `font-display: swap` and unicode-range subsetting are non-negotiable for all font loading
 - **Extends FTR-003** (accessibility), **FTR-058** (multilingual), and **FTR-103** (PWA) with concrete global equity commitments

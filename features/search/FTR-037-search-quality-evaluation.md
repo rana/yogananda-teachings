@@ -1,7 +1,7 @@
 ---
 ftr: 37
 title: Search Quality Evaluation Harness
-summary: "Golden set evaluation with Recall@K, MRR, and NDCG metrics gating milestone acceptance in CI"
+summary: "Golden set evaluation with Recall@K, MRR, and NDCG metrics gating stage acceptance in CI"
 state: implemented
 domain: search
 governed-by: [PRI-01, PRI-03]
@@ -86,7 +86,7 @@ Each file is an array of query specifications:
 | **Dark Night** | ~8 | ~60% | Fragmentary, pre-linguistic, distressed queries: "I can't stop crying," "nothing matters anymore," "why am I here," "I feel empty inside." Evaluated not by standard Recall@3 but by whether the retrieved passage *meets the seeker where they are* — Opus judges retrieval intent match (does the passage console rather than instruct? does it acknowledge rather than advise?). Tests the Vocabulary Bridge's Layer 1 state mappings and retrieval intent routing (FTR-028). `expected_routing: "search"` with `retrieval_intent: "meet_first"` or `"console"`. Crisis-adjacent queries in this category must also trigger the safety interstitial (FTR-051). |
 | **Adversarial** | ~8 | N/A | Off-topic ("What is the weather in LA?"), misspelled ("Yoganada meditashun"), multi-intent ("Tell me about fear and also what's the best restaurant"), prompt-injection attempts. `expected_routing: "no_results"` or graceful degradation. No relevance score — pass/fail on routing correctness. |
 
-**Total English:** ~66 queries (~58 original + ~8 Dark Night). Spanish (~15 queries) uses the same seven categories but weighted toward Direct and Conceptual given smaller corpus coverage in STG-002. Hindi queries (~15) added when Hindi activates in Milestone 5b.
+**Total English:** ~66 queries (~58 original + ~8 Dark Night). Spanish (~15 queries) uses the same seven categories but weighted toward Direct and Conceptual given smaller corpus coverage in STG-002. Hindi queries (~15) added when Hindi activates in STG-021.
 
 ### Evaluation Metrics
 
@@ -251,7 +251,7 @@ Each parameter evaluation uses the same golden set and produces a comparable res
 
 The golden set grows as the corpus grows:
 
-| Milestone | Corpus | Golden Set |
+| Stage | Corpus | Golden Set |
 |-----------|--------|------------|
 | 1a | English Autobiography | ~58 en queries |
 | 1b | + Hindi, Spanish Autobiography | + ~15 hi, ~15 es queries |

@@ -18,7 +18,7 @@ The portal uses AI (Claude via AWS Bedrock) throughout the content pipeline. Thi
 
 ### Existing AI-Assisted Workflows (Designed in Individual ADRs)
 
-| Task | AI Role | Human Role | Milestone | ADR |
+| Task | AI Role | Human Role | Stage | ADR |
 |---|---|---|---|---|
 | Theme tag classification | Proposes tags with confidence scores | Approves/rejects per passage | 3b | FTR-121 |
 | Query expansion | Expands conceptual queries to search terms | Reviews spiritual-terms.json periodically | 1a | FTR-005 E2 |
@@ -69,7 +69,7 @@ For every new UI string (error messages, empty states, ARIA labels, loading text
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Milestone:** 2a (when UI strings are first externalized to `messages/en.json`). The AI draft workflow becomes part of the locale file creation process for every subsequent milestone. Consistent with FTR-054 editorial voice guide and FTR-135 translation workflow.
+**Stage:** STG-004 (when UI strings are first externalized to `messages/en.json`). The AI draft workflow becomes part of the locale file creation process for every subsequent stage. Consistent with FTR-054 editorial voice guide and FTR-135 translation workflow.
 
 **Service file:** `/lib/services/copy.ts` — UI copy generation, option ranking, editorial voice prompt construction.
 
@@ -83,13 +83,13 @@ Claude reviews the next 14 days of daily passages and suggests adjustments:
 
 Human editor reviews Claude's suggestions alongside the current 14-day schedule, accepts/adjusts/ignores. This runs as a weekly scheduled task surfaced in the editorial home screen.
 
-**Milestone:** 3b (alongside daily passage curation workflow).
+**Stage:** STG-007 (alongside daily passage curation workflow).
 
 #### Calendar-Aware Content Suggestions
 
 When a calendar event approaches (within 30 days), Claude scans the corpus for thematically related passages and suggests passage-event associations. For example, approaching Christmas meditation: Claude identifies passages about Christ, the Nativity, and universal spirituality from across the library. Human curator reviews, selects, and links.
 
-**Milestone:** 3b (alongside calendar event management, STG-007-8).
+**Stage:** STG-007 (alongside calendar event management, STG-007-8).
 
 #### Community Collection Pre-Review
 
@@ -103,7 +103,7 @@ Before staff sees a community collection submission, Claude provides a prelimina
 
 This does **not** auto-approve or auto-reject. It reduces the reviewer's cognitive load by pre-screening for common issues, allowing the human reviewer to focus on theological judgment.
 
-**Milestone:** 7b (alongside community collection gallery).
+**Stage:** STG-024 (alongside community collection gallery).
 
 #### Curation Brief Drafting
 
@@ -116,7 +116,7 @@ Staff describes a high-level need ("We need a collection about courage for autum
 
 Staff edits and publishes the brief. VLD members see a well-structured assignment with concrete guidance, reducing the ambiguity that makes volunteer work difficult.
 
-**Milestone:** 7b (alongside VLD curation pipeline).
+**Stage:** STG-024 (alongside VLD curation pipeline).
 
 #### Feedback Categorization
 
@@ -134,7 +134,7 @@ Seeker feedback (FTR-061) arrives as free text. Claude categorizes it before it 
 
 Human sees pre-categorized feedback with Claude's reasoning, adjusts categories as needed. The categorization itself is never shown to the seeker — it's an internal routing aid.
 
-**Milestone:** 3b (alongside seeker feedback mechanism, STG-007-9).
+**Stage:** STG-007 (alongside seeker feedback mechanism, STG-007-9).
 
 #### Ingestion Changelog Generation
 
@@ -148,7 +148,7 @@ After a new book is ingested, Claude generates a human-readable summary:
 
 Staff gets a concise summary without querying the database. Displayed in the admin portal's pipeline dashboard.
 
-**Milestone:** 3a (alongside book ingestion workflow improvements).
+**Stage:** STG-006 (alongside book ingestion workflow improvements).
 
 #### Worldview Guide Pathway Generation (Corpus-Grounded)
 
@@ -221,13 +221,13 @@ Life-phase prompts are stored alongside worldview prompts in `/lib/data/guide-pr
 
 **Regeneration after corpus growth:** When a new book is ingested (STG-006+), the admin portal flags which worldview and life-phase pathways may benefit from regeneration based on the new book's theme density and reference profile. E.g., ingesting *The Second Coming of Christ* triggers a regeneration flag for the Christian contemplative pathway; ingesting *Scientific Healing Affirmations* triggers a flag for the Facing Illness life-phase pathway. Staff decides whether to regenerate, and regenerated drafts go through the same review pipeline.
 
-**Milestone:** 3b+ (requires theme system, reverse bibliography, vocabulary bridge, editorial review infrastructure). Initial pathways generated for English; Milestone 5b adds per-locale cultural adaptation of each pathway.
+**Stage:** STG-007+ (requires theme system, reverse bibliography, vocabulary bridge, editorial review infrastructure). Initial pathways generated for English; STG-021 adds per-locale cultural adaptation of each pathway.
 
 **Service file:** `/lib/services/guide-generation.ts` — prompt template loading, corpus query orchestration, structured output parsing, admin portal integration.
 
 #### Impact Report Drafting
 
-For the annual "What Is Humanity Seeking?" report (Milestone 7b), Claude drafts narrative text from aggregated data:
+For the annual "What Is Humanity Seeking?" report (STG-024), Claude drafts narrative text from aggregated data:
 
 - "In 2027, seekers from 142 countries searched the portal. The most common theme was 'peace' — reflecting a world seeking inner stillness."
 - "Grief-related searches peaked in November, suggesting a seasonal pattern of reflection around holidays and year's end."
@@ -235,7 +235,7 @@ For the annual "What Is Humanity Seeking?" report (Milestone 7b), Claude drafts 
 
 Human curator edits the draft into the final report. The data is real; the narrative framing is AI-drafted, human-approved.
 
-**Milestone:** 7b (alongside annual report).
+**Stage:** STG-024 (alongside annual report).
 
 ### AI Tone in the Admin Portal
 
@@ -290,7 +290,7 @@ AI proposals improve over time through systematic feedback, not model fine-tunin
 
 Observations are **never actionable recommendations** — they state a condition. The editorial team decides whether the condition matters. Many observations will be dismissed. The AI doesn't need to know which.
 
-**Milestone:** 3b (alongside editorial home screen, which becomes the natural surface for observations).
+**Stage:** STG-007 (alongside editorial home screen, which becomes the natural surface for observations).
 
 **Service file:** `/lib/services/ai-observations.ts` — observation generation, staleness detection, diversity metrics, consistency checks.
 
@@ -308,7 +308,7 @@ Sometimes the right AI behavior is to decline. A low-confidence proposal can be 
 
 **Abstention rates** are tracked per workflow as a health metric. Rising abstention in a workflow signals either corpus gaps or prompt degradation — both worth investigating.
 
-**Milestone:** 1a (abstention capability ships with the first AI-assisted workflow; confidence floors are calibrated during Full Review operation).
+**Stage:** STG-001 (abstention capability ships with the first AI-assisted workflow; confidence floors are calibrated during Full Review operation).
 
 ### Workflow Dependency Graph
 
@@ -340,7 +340,7 @@ FTR-069 workflows have implicit dependencies. When an upstream workflow's output
 
 **Staleness signaling:** When an upstream workflow's output changes (OCR correction alters passage text, a theme tag is reclassified), downstream workflows that consumed the old output are flagged in the editorial queue: "This passage's theme tags changed since it was included in the Christmas pathway. Review recommended." This is not automatic re-execution — it is a staleness signal that the editor can act on or dismiss.
 
-**Milestone:** 3b (staleness signaling requires the editorial queue infrastructure).
+**Stage:** STG-007 (staleness signaling requires the editorial queue infrastructure).
 
 ### Unified Prompt Versioning
 
@@ -384,4 +384,4 @@ Each prompt file includes:
 
 The existing `/lib/data/guide-prompts/` directory is subsumed into the unified structure. The `/lib/data/spiritual-terms.json` vocabulary bridge remains a separate file consumed by multiple prompts.
 
-**Milestone:** 1a (directory structure created at repo setup; initial prompts for search intent classification and ingestion QA are the first entries).
+**Stage:** STG-001 (directory structure created at repo setup; initial prompts for search intent classification and ingestion QA are the first entries).

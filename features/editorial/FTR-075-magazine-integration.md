@@ -143,11 +143,11 @@ The public `/seeking` dashboard links to published magazine features: "Read the 
 ### Consequences
 
 - Three new tables: `magazine_issues`, `magazine_articles`, `magazine_chunks`
-- `magazine_chunks` participates in `chunk_relations` (or `content_relations` in future milestones) graph
+- `magazine_chunks` participates in `chunk_relations` (or `content_relations` in future stages) graph
 - `hybrid_search` extended to include magazine chunks
 - Navigation updated: "Magazine" added between "Videos" and "Quiet"
 - Magazine ingestion pipeline mirrors book ingestion (PDF → chunk → embed → QA)
 - Content availability: depends on SRF providing digital magazine archives
-- Access level support: some issues may be subscriber-only (`access_level = 'subscriber'`), gated via Auth0 in Milestone 7a+
+- Access level support: some issues may be subscriber-only (`access_level = 'subscriber'`), gated via Auth0 in STG-023+
 - **Extends FTR-120** (content scope) to include magazine content
 - **Extends FTR-015** (API-first) with magazine endpoints

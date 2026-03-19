@@ -92,7 +92,7 @@ The per-locale resource configuration determines which types appear and in what 
 - No schema changes, no API changes, no privacy implications
 - Editorial review required for all crisis resource text before publication
 - Annual review recommended: verify helpline numbers and URLs remain current
-- Per-locale crisis resource configuration reviewed during Milestone 5b localization for cultural appropriateness
+- Per-locale crisis resource configuration reviewed during STG-021 localization for cultural appropriateness
 
 
 ### FTR-051: Crisis Query Detection — Safety Interstitial for Acute-Distress Searches

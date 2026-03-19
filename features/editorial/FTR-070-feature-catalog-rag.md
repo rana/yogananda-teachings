@@ -1,7 +1,7 @@
 ---
 ftr: 70
 title: Feature Catalog (RAG Architecture Proposal)
-summary: "Catalog of adopted RAG proposal features with milestone assignments and governing FTR references"
+summary: "Catalog of adopted RAG proposal features with stage assignments and governing FTR references"
 state: approved-provisional
 domain: editorial
 governed-by: [PRI-01, PRI-10]
@@ -12,13 +12,13 @@ depends-on: [FTR-030, FTR-034, FTR-026]
 
 ## Rationale
 
-This section catalogs the features proposed in the RAG Architecture Proposal (`docs/reference/rag-architecture-proposal.md`) that were accepted for integration into the project. Each feature has a milestone assignment, governing ADRs, and key dependencies. The reference document contains the full design exploration; this catalog tracks what was adopted and when it ships.
+This section catalogs the features proposed in the RAG Architecture Proposal (`docs/reference/rag-architecture-proposal.md`) that were accepted for integration into the project. Each feature has a stage assignment, governing ADRs, and key dependencies. The reference document contains the full design exploration; this catalog tracks what was adopted and when it ships.
 
 ### Accepted for Design Integration
 
 These features are actively designed into the architecture and have governing ADRs:
 
-| Feature | Milestone | Governing ADRs | Key Dependencies |
+| Feature | Stage | Governing ADRs | Key Dependencies |
 |---------|-----------|----------------|------------------|
 | **Related Teachings — Categorized** | 3a (similarity), 3b+ (graph-categorized) | FTR-030, FTR-034 | Chunk relations (STG-001), graph batch pipeline (STG-007) |
 | **Contemplative Companion** | 3d+ | FTR-030, FTR-026, FTR-034 | Enrichment metadata (experiential_depth, voice_register), knowledge graph |
@@ -36,20 +36,20 @@ These features are actively designed into the architecture and have governing AD
 
 **Living Commentary:** Yogananda's commentaries are dense with internal cross-references ("as I explained in Chapter X"). The enrichment pipeline extracts these references; Living Commentary makes them navigable. Inline reference cards show a verbatim preview of the referenced passage without leaving the current reading position.
 
-### Deferred with Milestone Assignment
+### Deferred with Stage Assignment
 
-These features are documented and milestone-assigned but not yet actively designed. Features without a milestone assignment belong in ROADMAP.md § Unscheduled Features instead.
+These features are documented and stage-assigned but not yet actively designed. Features without a stage assignment belong in ROADMAP.md § Unscheduled Features instead.
 
-| Feature | Milestone | Key Dependency | Notes |
+| Feature | Stage | Key Dependency | Notes |
 |---------|-----------|---------------|-------|
-| **Knowledge Graph Exploration UI** | Future milestones | FTR-034, graph batch | react-force-graph-3d, interactive 3D visualization |
-| **Concept/Word Graph Exploration UI** | Future milestones | FTR-034, graph batch | D3 + WebGL progressive enhancement |
+| **Knowledge Graph Exploration UI** | Future stages | FTR-034, graph batch | react-force-graph-3d, interactive 3D visualization |
+| **Concept/Word Graph Exploration UI** | Future stages | FTR-034, graph batch | D3 + WebGL progressive enhancement |
 | **Lineage Voice Comparator** | 5a | FTR-034, FTR-026 | Compare how Yogananda and his gurus discuss the same concept |
 | **Evolution of a Teaching** | 5a | FTR-034, temporal metadata | How Yogananda's expression of a concept evolved across books over decades |
 | **Cosmic Chants as Portal** | Distributed | FTR-034, chant content | If chants are in corpus scope: verse-by-verse with Yogananda's explanations |
 | **Passage Genealogy** | 5a | FTR-034, cross-reference extraction | The lineage of thought behind each passage — what influenced it |
 | **Semantic Drift Detection** | 5a | FTR-026, temporal metadata | Staff tool: detect when the same term shifts meaning across books |
-| **Consciousness Cartography** | Future milestones | FTR-034, FTR-034, graph batch | Stretch goal: visual map of consciousness states and their relationships |
+| **Consciousness Cartography** | Future stages | FTR-034, FTR-034, graph batch | Stretch goal: visual map of consciousness states and their relationships |
 
 ### Explicitly Omitted
 

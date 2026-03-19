@@ -221,7 +221,7 @@ Referenced in:
  • Autobiography of a Yogi, Chapter 42 — "Last days with my guru"
 ```
 
-### Place Links Strategy (Distributed Across Milestones)
+### Place Links Strategy (Distributed Across Stages)
 
 No embedded map library. Each place card links out to external maps services — zero map dependencies, zero tile servers, zero maintenance. See FTR-050.
 
@@ -295,11 +295,11 @@ Response:
 
 ### Phasing
 
-| Milestone | Scope |
+| Stage | Scope |
 |-----------|-------|
 | **5a** | Static Sacred Places page with SRF/YSS properties. Text + images + external links + "Get Directions." "Take a Virtual Tour" links for properties with SRF virtual pilgrimage tours (Mother Center, Lake Shrine, Hollywood Temple, Encinitas). Cross-references with Autobiography passages. Convocation cross-link on LA-area SRF property cards: "This site is part of the annual SRF World Convocation pilgrimage. Learn more → convocation.yogananda.org." No maps. |
 | **Distributed** | Add biographical sites (Gorakhpur, Serampore, Puri, Varanasi, Dakshineswar). "See This Place" Street View links on place cards (FTR-050). Reader ↔ Place cross-reference cards. **Indian biographical site note:** Google Street View coverage in rural India (Gorakhpur, Serampore, Ranchi) is patchy or absent. Where Street View is unavailable, commissioned photography or editorial descriptions should be the primary experience, with maps as secondary. Query YSS for photographic archives of these sites (see CONTEXT.md § Open Questions). "Get Directions" for Indian sites serves a pilgrimage context more than a driving-directions context — consider "Visit this place" framing for Indian biographical sites. |
-| **Future** | Dynamic center locator (if SRF provides data). Multi-language place descriptions (Milestone 5b). |
+| **Future** | Dynamic center locator (if SRF provides data). Multi-language place descriptions (STG-021). |
 
 ---
 

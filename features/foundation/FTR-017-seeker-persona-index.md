@@ -94,22 +94,22 @@ Full profiles in FTR-060. Summary index:
 | Monastic content editor | Core staff | STG-007+ |
 | Theological reviewer | Core staff | STG-007+ |
 | AE social media staff | Core staff | STG-009+ |
-| Translation reviewer | Core staff (or volunteer) | Milestone 5b+ |
+| Translation reviewer | Core staff (or volunteer) | STG-021+ |
 | AE developer | Core staff | STG-001+ |
 | Leadership (monastic) | Core staff | STG-007+ |
 | Portal coordinator | Operational (unstaffed) | STG-007+ |
 | Book ingestion operator | Operational (unstaffed) | STG-004+ |
-| VLD coordinator | Operational (unstaffed) | Milestone 5a+ |
+| VLD coordinator | Operational (unstaffed) | STG-020+ |
 
 ### Volunteer Personas
 
 | Persona | Active From |
 |---|---|
-| VLD curation volunteer | Milestone 5a+ |
-| VLD translation volunteer | Milestone 5b+ |
-| VLD theme tag reviewer | Milestone 5a+ |
-| VLD feedback triager | Milestone 5a+ |
-| VLD content QA reviewer | Milestone 5a+ |
+| VLD curation volunteer | STG-020+ |
+| VLD translation volunteer | STG-021+ |
+| VLD theme tag reviewer | STG-020+ |
+| VLD feedback triager | STG-020+ |
+| VLD content QA reviewer | STG-020+ |
 
 ### External Personas
 

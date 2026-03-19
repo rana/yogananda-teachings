@@ -14,7 +14,7 @@ Read all documents in one pass — do not re-read between phases:
 
 1. **CLAUDE.md** — identifier conventions, document maintenance table, file structure (read fully)
 2. **features/FEATURES.md** — unified index of all FTR files across 5 domains (read fully)
-3. **ROADMAP.md** — milestone deliverables, success criteria, current milestone status (read fully)
+3. **ROADMAP.md** — stage deliverables, success criteria, current stage status (read fully)
 4. **CONTEXT.md** — current state, open questions with resolution status (read fully)
 5. **PRINCIPLES.md** — PRI-NN identifiers and dependency map (read fully)
 6. **FTR files** — spot-check FTRs referenced by findings, not exhaustive reading
@@ -40,14 +40,14 @@ Three phases, threading findings forward:
 1. **Missing decisions** — implicit assumptions that should be FTRs
 2. **Unaddressed scenarios** — edge cases, failure modes not specified
 3. **Dependency gaps** — service contracts or infrastructure assumed but not documented
-4. **Phase transition gaps** — prerequisites for next milestone not documented
+4. **Phase transition gaps** — prerequisites for next stage not documented
 5. **Spatial gaps** — what's conspicuously absent by analogy to what exists?
 
 *Thread forward: gaps may indicate inconsistencies rather than true omissions.*
 
 ### Phase 3: Consistency Check
 
-1. **Stated vs. actual** — do descriptions match current reality? Milestone statuses accurate?
+1. **Stated vs. actual** — do descriptions match current reality? Stage statuses accurate?
 2. **Terminology** — same concepts use same terms everywhere; no silent synonyms
 3. **Narrative coherence** — do documents tell a unified story or contradict?
 4. **Status alignment** — FTR state markers match reality; implemented FTRs have code

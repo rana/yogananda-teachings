@@ -26,7 +26,7 @@ SRF's audience includes elderly devotees, seekers in developing countries on low
 
 ### Decision
 
-Make **core accessibility** a **STG-004** requirement from the start. Later arcs add the audit and polish milestone (professional WCAG audit, native TTS, advanced reading mode), not the "add accessibility" milestone.
+Make **core accessibility** a **STG-004** requirement from the start. Later arcs add the audit and polish stage (professional WCAG audit, native TTS, advanced reading mode), not the "add accessibility" stage.
 
 **STG-004 accessibility requirements:**
 

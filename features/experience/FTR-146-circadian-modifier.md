@@ -14,7 +14,7 @@ depends-on: [FTR-040, FTR-145]
 
 **Type:** Enhancement (Experience)
 **Governing Refs:** PRI-08 (Calm Technology), FTR-040 (Circadian Color Temperature), FTR-145 (Design Language System)
-**Target:** Any milestone — independent of milestone scheduling
+**Target:** Any stage — independent of stage scheduling
 **Dependencies:** FTR-145 (design language CSS layer provides `circadian.css`)
 
 #### Context

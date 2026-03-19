@@ -29,7 +29,7 @@ Before running the pipeline, the book ingestion operator completes a planning ch
 4. **Special handling:** Devanāgarī content? IAST diacritics? Epigraphs? Poetry blocks? (FTR-131, FTR-023)
 5. **Source quality:** PDF scan quality, OCR confidence expectation, known problem areas.
 
-The admin portal surfaces this as a structured form (STG-007+). For Milestones 1a–2b, the checklist lives in the book's ingestion script configuration.
+The admin portal surfaces this as a structured form (STG-007+). For Stages 1a–2b, the checklist lives in the book's ingestion script configuration.
 
 #### Pipeline Dashboard
 
@@ -121,4 +121,4 @@ By year 3, the people operating the portal may be different from those who built
 - How to onboard a new staff member to the admin portal
 - How to run the quarterly backup restore drill
 
-**Location:** `/docs/operational/playbook.md` — created during STG-007 when the editorial review portal ships. Updated as new workflows are added in subsequent milestones. Referenced from the admin portal's help section.
+**Location:** `/docs/operational/playbook.md` — created during STG-007 when the editorial review portal ships. Updated as new workflows are added in subsequent stages. Referenced from the admin portal's help section.

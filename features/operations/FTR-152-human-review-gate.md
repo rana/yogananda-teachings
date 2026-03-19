@@ -24,9 +24,9 @@ depends-on: [FTR-005, FTR-121, FTR-060]
 2. **UI translations** — Claude drafts, human reviews. Gate: require fluent SRF-aware reviewer sign-off. Without gate: ship Claude drafts directly. (FTR-135)
 3. **Social media** — Quote images and captions generated. Gate: human reviews and posts. Without gate: auto-post with editorial templates. (FTR-154)
 4. **Daily passage selection** — Enrichment pipeline selects. Gate: human curator approves each day's passage. Without gate: algorithmic selection serves directly. (STG-005)
-5. **Audio transcription** — Speech-to-text generates. Gate: human verifies transcript. Without gate: serve with confidence scores. (Future milestones)
+5. **Audio transcription** — Speech-to-text generates. Gate: human verifies transcript. Without gate: serve with confidence scores. (Future stages)
 6. **Practice Bridge tags** — Claude classifies technique-adjacent passages. Gate: human reviews tags before routing. Without gate: serve auto-classified routes. (FTR-055)
-7. **Calendar content** — Events and observances. Gate: human verifies dates and descriptions. Without gate: serve from editorial CMS directly. (Milestone 4a+)
+7. **Calendar content** — Events and observances. Gate: human verifies dates and descriptions. Without gate: serve from editorial CMS directly. (STG-020+)
 8. **Ingestion QA** — Claude flags OCR errors. Gate: human makes every correction decision. Without gate: auto-correct high-confidence errors, flag low-confidence for batch review. (FTR-005 E4)
 9. **`is_published` boolean** — Schema-level gate. Gate: content defaults to unpublished, requires explicit approval. Without gate: change default to `true`, content goes live on ingestion. (Schema)
 

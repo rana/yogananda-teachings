@@ -256,7 +256,7 @@ The technology stack that emerges: **MiniSearch** for lexical prefix + fuzzy sea
 - **Semantic concept map** — pre-computed Voyage clusters + Model2Vec client-side embedding. Evaluate at Arc 3 when bridge coverage gaps are measurable.
 - **Serwist + Dexie.js** — offline suggestion architecture. Evaluate when PWA caching is implemented.
 - **React Aria ComboBox** — evaluate as accessibility foundation for SearchCombobox.tsx rewrite.
-- **IndicXlit** — transliteration for Hindi/Bengali suggestion matching. Milestone 5b.
+- **IndicXlit** — transliteration for Hindi/Bengali suggestion matching. STG-021.
 - **Mobile tray pattern** — full-screen search replacing combobox on mobile. Evaluate for greenfield UX rebuild.
 
 ### Overall assessment

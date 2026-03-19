@@ -62,9 +62,9 @@ The shared engine is exactly what we are building. The organization config is a 
 
 ### Component 1: Hindi Authorization Partnership
 
-YSS has the authorized Hindi *Autobiography of a Yogi*. The entire Milestone 5b deferral was based on ebook purchasing logistics, not content availability. YSS authorization of the Hindi source text for the shared corpus could unblock Hindi activation — ~425M reachable people, comparable to Spanish (~430M).
+YSS has the authorized Hindi *Autobiography of a Yogi*. The entire STG-021 deferral was based on ebook purchasing logistics, not content availability. YSS authorization of the Hindi source text for the shared corpus could unblock Hindi activation — ~425M reachable people, comparable to Spanish (~430M).
 
-If authorized, Hindi could enter the execution sequence after Spanish, potentially as a parallel workstream during STG-003 or as a dedicated milestone. The language readiness gate (FTR-058) still applies: text ingested + UI strings translated + human reviewer confirmed + search quality evaluation passes.
+If authorized, Hindi could enter the execution sequence after Spanish, potentially as a parallel workstream during STG-003 or as a dedicated stage. The language readiness gate (FTR-058) still applies: text ingested + UI strings translated + human reviewer confirmed + search quality evaluation passes.
 
 **Action needed:** Conversation with YSS about authorizing the Hindi text for shared corpus use.
 
@@ -184,7 +184,7 @@ This is high-value, low-friction integration — the API exists, the app exists,
 | **Design** | STG-001 | Organization config structure. API parameter design. Widget architecture decisions. Documented in this PRO and successor ADR/DES when adopted. |
 | **Hindi activation** | When YSS authorizes | Hindi source text enters ingestion pipeline. Language readiness gate (FTR-058) determines activation timeline. Could be STG-001 or early Phase 2. |
 | **API + Widgets** | STG-004+ | Organization-aware API parameters. Embeddable search widget with configurable branding. YSS can integrate into yssofindia.org. |
-| **Content expansion** | Milestone 5b+ | Tamil, Telugu, Kannada editions enter corpus. Magazine content from both organizations. Each clears readiness gate independently. |
+| **Content expansion** | STG-021+ | Tamil, Telugu, Kannada editions enter corpus. Magazine content from both organizations. Each clears readiness gate independently. |
 | **Full deployment** | When YSS is ready | YSS-branded portal deployment if desired. Same codebase, different configuration. |
 
 ### Subsumption of FTR-119
@@ -210,7 +210,7 @@ Search engine architecture, enrichment pipeline, knowledge graph, API convention
 ## Notes
 
 - **Dependencies:** Working API (STG-003). Hindi authorization conversation with YSS. Content availability in Tamil, Telugu, Kannada.
-- **Target:** Design decisions in STG-001; content activation incremental from Milestone 5b onward (or earlier if Hindi authorization proceeds)
-- **Re-evaluate at:** STG-003 boundary (design decisions), Hindi authorization progress, Milestone 5b planning
+- **Target:** Design decisions in STG-001; content activation incremental from STG-021 onward (or earlier if Hindi authorization proceeds)
+- **Re-evaluate at:** STG-003 boundary (design decisions), Hindi authorization progress, STG-021 planning
 - **Decision required from:** Human principal (YSS stakeholder conversation), Architecture (config structure, API parameters, widget architecture)
 - **Absorbs:** FTR-119 (YSS Locale Branding — subsumed by Component 4)

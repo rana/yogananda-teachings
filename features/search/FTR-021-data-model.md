@@ -90,7 +90,7 @@ CREATE TABLE books (
  cover_image_url TEXT,
  bookstore_url TEXT, -- SRF Bookstore URL for "Find this book" link.
  -- Points to SRF Bookstore for all books. If per-language bookstore
- -- routing is needed at Milestone 5b (YSS for Hindi/Bengali), add a
+ -- routing is needed at STG-021 (YSS for Hindi/Bengali), add a
  -- simple lookup table — zero schema changes required now.
  edition TEXT, -- e.g., "13th Edition", "Revised 2024" (FTR-021)
  edition_year INTEGER, -- year of this specific edition (FTR-021)
@@ -168,7 +168,7 @@ CREATE TABLE book_chunks (
  prev_chunk_id UUID, -- previous chunk for context continuity
  next_chunk_id UUID, -- next chunk for "read more"
 
- -- Cross-language alignment (Milestone 5b)
+ -- Cross-language alignment (STG-021)
  canonical_chunk_id UUID REFERENCES book_chunks(id), -- links translated chunk to its English original;
  -- NULL for originals. Enables "Read this in Spanish →".
 
@@ -217,7 +217,7 @@ CREATE INDEX chunks_bm25_icu ON book_chunks
   }'
  );
 
--- Milestone 5b: Chinese (Jieba) and Japanese (Lindera) partial indexes
+-- STG-021: Chinese (Jieba) and Japanese (Lindera) partial indexes
 -- CREATE INDEX chunks_bm25_zh ON book_chunks USING bm25 (id, content)
 --  WITH (key_field = 'id', text_fields = '{"content": {"tokenizer": {"type": "jieba"}}}')
 --  WHERE script = 'cjk' AND language LIKE 'zh%';
@@ -282,7 +282,7 @@ CREATE TABLE book_chunks_archive (
 -- The BM25 index (chunks_bm25_icu above) handles tokenization, stemming,
 -- and relevance ranking internally. No tsvector column or trigger needed.
 -- ICU tokenizer handles diacritics (ā→a, ṇ→n, ś→s, etc.) and most
--- languages. CJK-specific indexes (Jieba, Lindera) added in Milestone 5b.
+-- languages. CJK-specific indexes (Jieba, Lindera) added in STG-021.
 -- The unaccent extension is still loaded for pg_trgm fuzzy matching.
 ```
 
@@ -292,7 +292,7 @@ The full schema continues with teaching_topics, topic_translations, chunk_topics
 
 ### Contentful Content Model (STG-001+)
 
-Created in STG-001 as part of Contentful space setup. The content model is the editorial source of truth from the first milestone (FTR-102).
+Created in STG-001 as part of Contentful space setup. The content model is the editorial source of truth from the first stage (FTR-102).
 
 ```
 Content Type: Book

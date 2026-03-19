@@ -28,7 +28,7 @@ A lightweight outbound webhook system lets the portal **push** content lifecycle
 
 ### Decision
 
-Implement an outbound webhook event system that publishes content lifecycle events to registered subscribers via HTTP POST. Events follow a standardized envelope format. Webhook registration is admin-only (no self-service until Milestone 7a+).
+Implement an outbound webhook event system that publishes content lifecycle events to registered subscribers via HTTP POST. Events follow a standardized envelope format. Webhook registration is admin-only (no self-service until STG-023+).
 
 ### Event Catalog
 
@@ -79,7 +79,7 @@ Every envelope includes:
 - **Timeout:** 10 seconds per delivery attempt. Subscribers must respond quickly (accept and process asynchronously).
 - **Signature verification:** Each delivery includes an `X-Portal-Signature` header — HMAC-SHA256 of the raw body using the subscriber's secret key. Subscribers should verify to prevent spoofing.
 - **Ordering:** Events are delivered in approximate chronological order but not guaranteed. Subscribers should use `timestamp` for ordering, not delivery order.
-- **No fan-out queuing in Milestone 5a.** Initial implementation fires webhooks synchronously from a background job (Vercel cron or Lambda). If subscriber count grows beyond ~20, migrate to SQS fan-out (Milestone 5b+).
+- **No fan-out queuing in STG-020.** Initial implementation fires webhooks synchronously from a background job (Vercel cron or Lambda). If subscriber count grows beyond ~20, migrate to SQS fan-out (STG-021+).
 
 ### Schema
 
@@ -131,7 +131,7 @@ CREATE INDEX idx_deliveries_subscriber ON webhook_deliveries(subscriber_id, crea
 - Seeker feedback spike → alert if feedback count exceeds threshold (potential issue)
 - Journey step → daily operational confirmation that journey emails dispatched correctly
 
-**Community / External (Milestone 7a+)**
+**Community / External (STG-023+)**
 - Daily passage → third-party spiritual apps that want to display "Today's Wisdom"
 - Content published → meditation center websites that embed a "Latest from Yogananda" widget
 - Theme published → partner sites that curate topical Yogananda content
@@ -144,13 +144,13 @@ CREATE INDEX idx_deliveries_subscriber ON webhook_deliveries(subscriber_id, crea
 
 ### Admin Interface
 
-Webhook subscribers are managed via the editorial admin portal (established STG-007; subscriber management added Milestone 5a, extending FTR-060). The interface shows:
+Webhook subscribers are managed via the editorial admin portal (established STG-007; subscriber management added STG-020, extending FTR-060). The interface shows:
 - Registered subscribers with event subscriptions
 - Delivery log (last 30 days) with success/failure status
 - "Test" button to send a test event to a subscriber
 - "Suspend/Resume" controls for failing subscribers
 
-No self-service registration. All subscribers are provisioned by SRF staff. Milestone 7a+ may introduce self-service registration with API key auth for external consumers.
+No self-service registration. All subscribers are provisioned by SRF staff. STG-023+ may introduce self-service registration with API key auth for external consumers.
 
 ### Alternatives Considered
 
@@ -174,21 +174,21 @@ Webhook payloads never contain seeker data. Events describe *content* lifecycle 
 
 ### Delivery Schedule
 
-| Milestone | What Ships |
+| Stage | What Ships |
 |-----------|-----------|
-| **Milestone 5a** | Webhook schema, subscriber management, delivery engine. Initial events: `daily_passage.rotated`, `content.published`, `content.updated`, `social_asset.approved`, `portal_update.published`. Admin UI in editorial portal. |
+| **STG-020** | Webhook schema, subscriber management, delivery engine. Initial events: `daily_passage.rotated`, `content.published`, `content.updated`, `social_asset.approved`, `portal_update.published`. Admin UI in editorial portal. |
 | **STG-003+** | Contentful webhook *inbound* (deliverable STG-003-8) triggers portal webhook *outbound* events (`content.published`, `content.updated`). |
-| **Milestone 5b+** | Additional events as channels mature: `journey.step`, `email.dispatched`. SQS fan-out if subscriber count exceeds ~20. |
-| **Milestone 7a+** | Self-service webhook registration with API key auth for external consumers. |
+| **STG-021+** | Additional events as channels mature: `journey.step`, `email.dispatched`. SQS fan-out if subscriber count exceeds ~20. |
+| **STG-023+** | Self-service webhook registration with API key auth for external consumers. |
 
 ### Consequences
 
-- New `webhook_subscribers` and `webhook_deliveries` tables in Milestone 5a migration
+- New `webhook_subscribers` and `webhook_deliveries` tables in STG-020 migration
 - New background job for webhook delivery and retry (Vercel cron or Lambda)
 - DESIGN.md § FTR-086 documents the webhook event system
-- ROADMAP.md Milestone 5a gains webhook deliverable
+- ROADMAP.md STG-020 gains webhook deliverable
 - FTR-059 § RSS section updated: RSS feeds regenerate via webhook event rather than polling cron
-- SRF's existing Zapier workflows can subscribe to portal events from Milestone 5a launch
+- SRF's existing Zapier workflows can subscribe to portal events from STG-020 launch
 - Future messaging channels (FTR-134) can subscribe to `daily_passage.rotated` instead of polling
 
 ## Specification
@@ -208,7 +208,7 @@ Content Lifecycle (book published, passage rotated, asset approved)
          │
          ▼
 ┌─────────────────────┐
-│ Delivery Worker      │  Vercel cron (Milestone 5a) or Lambda (Milestone 5b+)
+│ Delivery Worker      │  Vercel cron (STG-020) or Lambda (STG-021+)
 │ (background job)     │  Reads pending deliveries, POSTs to subscribers
 └────────┬────────────┘
          │
@@ -229,7 +229,7 @@ Content Lifecycle (book published, passage rotated, asset approved)
 
 Full catalog, envelope format, delivery semantics, and schema in FTR-086.
 
-### Admin UI (Milestone 5a, editorial portal)
+### Admin UI (STG-020, editorial portal)
 
 - Subscriber list with event subscriptions and active/suspended status
 - Delivery log (30-day rolling) with success/failure and response codes

@@ -113,10 +113,10 @@ Pre-renderable PDFs are GET endpoints on their parent resources. But a seeker wh
 - `@react-pdf/renderer` added as a dependency (or in a shared package if Lambda and Vercel both generate PDFs)
 - CloudFront invalidation on content update (book re-ingestion, transcript edit)
 - File size stored in metadata and displayed on download buttons
-- Milestone 4a: Book and chapter PDFs (pre-rendered)
-- Milestone 4a: Talk outline PDFs (dynamic)
-- Future milestones: Audio and video transcript PDFs (pre-rendered)
-- Future: Passage collection and search result PDFs (dynamic, Milestone 7a+ or as demand warrants)
+- STG-020: Book and chapter PDFs (pre-rendered)
+- STG-020: Talk outline PDFs (dynamic)
+- Future stages: Audio and video transcript PDFs (pre-rendered)
+- Future: Passage collection and search result PDFs (dynamic, STG-023+ or as demand warrants)
 
 
 ## Notes

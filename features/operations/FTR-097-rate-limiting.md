@@ -15,7 +15,7 @@ governed-by: [PRI-05, PRI-08]
 
 ### Context
 
-The search API (`/api/v1/search`) calls the Claude API for query expansion and passage ranking. Each search costs approximately $0.01–0.02 in Claude API usage. The portal has no authentication until Milestone 7a+. All API routes are public.
+The search API (`/api/v1/search`) calls the Claude API for query expansion and passage ranking. Each search costs approximately $0.01–0.02 in Claude API usage. The portal has no authentication until STG-023+. All API routes are public.
 
 A bot or bad actor could hammer the search endpoint and generate significant Claude API costs. At 100 requests/second, the portal would burn through $50–100/hour in Claude API charges. Even accidental abuse (a misbehaving scraper, a search indexer hitting the API) could spike costs.
 
@@ -50,7 +50,7 @@ Set a monthly spending cap via the Anthropic API dashboard. If the cap is reache
 
 ### Rationale
 
-- **Cost protection is a STG-001 requirement**, not an afterthought. The Claude API is the only variable-cost component in the early milestones. Unbounded cost exposure on a public, unauthenticated API is an unacceptable risk.
+- **Cost protection is a STG-001 requirement**, not an afterthought. The Claude API is the only variable-cost component in the early stages. Unbounded cost exposure on a public, unauthenticated API is an unacceptable risk.
 - **Graceful degradation over hard blocks.** A seeker who happens to search frequently (exploring themes, trying different queries) should never see an error page. They see slightly less refined results. The portal remains welcoming.
 - **Two-layer defense.** Vercel Firewall catches the obvious abuse (bots, scrapers) at the edge. The application layer catches the edge cases (distributed abuse, legitimate but excessive use).
 

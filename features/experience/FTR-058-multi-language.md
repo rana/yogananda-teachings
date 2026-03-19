@@ -39,7 +39,7 @@ Implement a **three-layer localization strategy** with English fallback:
 
 ### STG-004 i18n Infrastructure + Bilingual UI
 
-STG-004 delivers **bilingual UI chrome** (English, Spanish) alongside bilingual content (FTR-011 Tier 1). Spanish UI strings are translated via Claude draft → human review (FTR-135) in STG-004 — not deferred to 5b. Hindi and remaining language UI strings are a Milestone 5b deliverable. The i18n infrastructure is in place from day one for all 10 core languages:
+STG-004 delivers **bilingual UI chrome** (English, Spanish) alongside bilingual content (FTR-011 Tier 1). Spanish UI strings are translated via Claude draft → human review (FTR-135) in STG-004 — not deferred to 5b. Hindi and remaining language UI strings are a STG-021 deliverable. The i18n infrastructure is in place from day one for all 10 core languages:
 
 | Requirement | Rationale |
 |-------------|-----------|
@@ -67,7 +67,7 @@ The following decisions were made during a comprehensive multilingual audit to e
 
 3. **`reader_url` is locale-relative.** API responses return `/books/slug/chapter#chunk` without locale prefix. The client (web or mobile) prepends the locale. This keeps the API presentation-agnostic per FTR-015.
 
-4. **Locale + English fallback is the multilingual model.** The practical need is the seeker's language plus English supplementation — not arbitrary cross-language search (e.g., Japanese query finding German results). The multilingual embedding model *enables* cross-language search at near-zero cost, but the core experience is locale-first with English fallback. Cross-language search may be activated later if usage data justifies it, but it is not a core Milestone 5b deliverable.
+4. **Locale + English fallback is the multilingual model.** The practical need is the seeker's language plus English supplementation — not arbitrary cross-language search (e.g., Japanese query finding German results). The multilingual embedding model *enables* cross-language search at near-zero cost, but the core experience is locale-first with English fallback. Cross-language search may be activated later if usage data justifies it, but it is not a core STG-021 deliverable.
 
 5. **`canonical_book_id` links translations to originals.** A new column on `books` enables "Available in 6 languages" on the Books page and "Read in English →" navigation between editions. The `canonical_chunk_id` column on `book_chunks` enables passage-level cross-language links.
 
@@ -75,22 +75,22 @@ The following decisions were made during a comprehensive multilingual audit to e
 
 7. **Per-language search quality evaluation is a launch gate.** Each language requires a dedicated search quality test suite (15–20 queries with expected passages) that must pass before that language goes live. This mirrors STG-001's bilingual search quality evaluation (Deliverable STG-001-8: ~58 en + STG-002: ~15 es queries) and prevents launching a language with degraded retrieval quality.
 
-8. **Chunk size must be validated per language.** English-calibrated chunk sizes (200/300/500 tokens) may produce different semantic density across scripts. Per-language chunk size benchmarking is required during Milestone 5b ingestion — particularly for CJK and Indic scripts where tokenization differs significantly from Latin text.
+8. **Chunk size must be validated per language.** English-calibrated chunk sizes (200/300/500 tokens) may produce different semantic density across scripts. Per-language chunk size benchmarking is required during STG-021 ingestion — particularly for CJK and Indic scripts where tokenization differs significantly from Latin text.
 
 ### Consequences
 
-- STG-004 includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); the initial milestone content is bilingual (en/es) per FTR-011
-- The initial migration includes the `topic_translations` table (empty until Milestone 5b)
-- Milestone 5b requires knowing which books SRF has in digital translated form (stakeholder question)
-- STG-004 Spanish UI string translation uses the AI-assisted workflow (FTR-135): Claude generates drafts, human reviewer refines tone, spiritual terminology, and cultural nuance. Milestone 5b repeats this proven workflow for Hindi and remaining 7 languages.
+- STG-004 includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); the initial stage content is bilingual (en/es) per FTR-011
+- The initial migration includes the `topic_translations` table (empty until STG-021)
+- STG-021 requires knowing which books SRF has in digital translated form (stakeholder question)
+- STG-004 Spanish UI string translation uses the AI-assisted workflow (FTR-135): Claude generates drafts, human reviewer refines tone, spiritual terminology, and cultural nuance. STG-021 repeats this proven workflow for Hindi and remaining 7 languages.
 - The content availability matrix creates asymmetric experiences per language — this is honest, not a bug
 - The book catalog per language shows only available books, plus a "Also available in English" section
 - The `hybrid_search` function accepts a `search_language` parameter and filters to the user's locale
 - Per-language pg_search BM25 indexes with ICU tokenization provide language-aware full-text search (FTR-025)
 - All content-serving API endpoints accept a `language` parameter with English fallback at the service layer
-- Per-language search quality test suite (15–20 queries per language) is a launch gate before any language goes live in Milestone 5b
-- Per-language chunk size benchmarking required during Milestone 5b ingestion for non-Latin scripts
-- `books.bookstore_url` provides "Find this book" links to SRF Bookstore. Per-language bookstore routing (e.g., YSS Bookstore for Hindi/Bengali) can be added via a simple lookup table if needed at Milestone 5b.
+- Per-language search quality test suite (15–20 queries per language) is a launch gate before any language goes live in STG-021
+- Per-language chunk size benchmarking required during STG-021 ingestion for non-Latin scripts
+- `books.bookstore_url` provides "Find this book" links to SRF Bookstore. Per-language bookstore routing (e.g., YSS Bookstore for Hindi/Bengali) can be added via a simple lookup table if needed at STG-021.
 
 
 ### FTR-058: CSS Logical Properties
@@ -160,7 +160,7 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 
 *Speaker data: Ethnologue 2025. Internet penetration: ITU/DataReportal 2025–2026. Full analysis: docs/reference/prioritizing-global-language-rollout.md.*
 
-**Tier 1 (Hindi, Spanish):** Both Tier 1 by reachable population. Spanish activated in the initial milestone alongside English (~820M reachable). Hindi deferred from the initial milestone — authorized YSS ebook only purchasable from India/Nepal/Sri Lanka (Razorpay); Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates when an authorized source becomes available (Milestone 5b or earlier).
+**Tier 1 (Hindi, Spanish):** Both Tier 1 by reachable population. Spanish activated in the initial stage alongside English (~820M reachable). Hindi deferred from the initial stage — authorized YSS ebook only purchasable from India/Nepal/Sri Lanka (Razorpay); Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates when an authorized source becomes available (STG-021 or earlier).
 
 **Tier 2 (Portuguese, Bengali):** Activated as the next priority after Tier 1 languages are live. Bengali's mission weight (Yogananda's mother tongue, YSS heartland) is significant despite lower internet penetration.
 
@@ -173,21 +173,21 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 ### Rationale
 
 - **Mission integrity.** The core set covers the languages where official Yogananda translations exist and SRF/YSS has organizational presence. Every core language has published translations — the portal serves verbatim text, not machine-translated content.
-- **Reachable population ordering.** Priority determined by `speakers × internet_penetration × content_availability` (FTR-011). Spanish matches English L1 reach. Hindi is Tier 1 by population but deferred from the initial milestone due to authorized source availability — activates when sourcing resolves.
+- **Reachable population ordering.** Priority determined by `speakers × internet_penetration × content_availability` (FTR-011). Spanish matches English L1 reach. Hindi is Tier 1 by population but deferred from the initial stage due to authorized source availability — activates when sourcing resolves.
 - **Population reach.** The core set covers ~3 billion speakers across 6 scripts (Latin, CJK, Thai, Devanagari, Bengali). Hindi + Bengali alone exceed 830M speakers.
 - **Script diversity drives architectural quality.** Supporting Latin, CJK, Thai, Devanagari, and Bengali from the core set forces robust i18n infrastructure — font loading, line-height adaptation, word-boundary handling (Thai has none), search tokenization.
 - **Thai inclusion.** Official Thai translations exist. Thai script's lack of word boundaries makes it an excellent forcing function for search tokenization quality. SRF/YSS has presence in Thailand.
 
 ### Risks
 
-- **Tier 1 adds scope incrementally.** Spanish ingestion in the initial milestone requires per-language search quality evaluation. Hindi (when sourced) requires the same plus full Devanāgarī typography (Noto Serif Devanagari for reading, Noto Sans Devanagari for UI — FTR-131) and conjunct rendering QA. Mitigated: same ingestion pipeline, same embedding model (Voyage multilingual), same search infrastructure. Incremental cost is modest.
-- **Digital text availability.** Confirmed that official translations exist in all core languages. Digital text availability (machine-readable format) must be verified per language — a critical stakeholder question. The initial milestone uses purchased books as temporary sources (same approach as spiritmaji.com for English).
+- **Tier 1 adds scope incrementally.** Spanish ingestion in the initial stage requires per-language search quality evaluation. Hindi (when sourced) requires the same plus full Devanāgarī typography (Noto Serif Devanagari for reading, Noto Sans Devanagari for UI — FTR-131) and conjunct rendering QA. Mitigated: same ingestion pipeline, same embedding model (Voyage multilingual), same search infrastructure. Incremental cost is modest.
+- **Digital text availability.** Confirmed that official translations exist in all core languages. Digital text availability (machine-readable format) must be verified per language — a critical stakeholder question. The initial stage uses purchased books as temporary sources (same approach as spiritmaji.com for English).
 - **Human reviewer availability.** Each language needs a fluent, SRF-aware reviewer for UI strings (FTR-135). The readiness gate ensures no language ships with unreviewed translations.
 - **Thai script complexity.** Thai has no word boundaries, combining characters, and tone marks. Search tokenization (pg_search ICU) handles Thai, but per-language search quality benchmarking is essential.
 
 ### Consequences
 
-- Spanish *Autobiography* ingested in STG-002 alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (Milestone 5b or earlier).
+- Spanish *Autobiography* ingested in STG-002 alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (STG-021 or earlier).
 - Remaining languages activate ordered by reachable population, each clearing the readiness gate independently
 - Need to confirm digital text availability for all core languages (stakeholder question)
 - YSS-specific UI adaptations needed for Hindi and Bengali locales (organizational branding differences between SRF and YSS per FTR-119)
@@ -201,7 +201,7 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 
 ### Context
 
-The portal serves content in multiple languages (Milestone 5b+). Two independent systems need language awareness: the frontend pages (rendered by Next.js for seekers) and the API routes (consumed by the web frontend, mobile apps, WhatsApp bots, and future integrations). The question is how language is expressed in URLs.
+The portal serves content in multiple languages (STG-021+). Two independent systems need language awareness: the frontend pages (rendered by Next.js for seekers) and the API routes (consumed by the web frontend, mobile apps, WhatsApp bots, and future integrations). The question is how language is expressed in URLs.
 
 Three approaches were considered:
 
@@ -265,10 +265,10 @@ Adopt the **hybrid approach**: locale path prefix on frontend pages, query param
 
 ### Three-Layer Localization
 
-| Layer | What | Approach | Milestone |
+| Layer | What | Approach | Stage |
 |-------|------|----------|-----------|
-| **UI chrome** | Nav, labels, buttons, errors, search prompts (~200–300 strings) | `next-intl` with locale JSON files. URL-based routing (`/es/...`, `/de/...`). AI-assisted workflow: Claude drafts → human review → production (FTR-135). | Infrastructure + hi/es translations in STG-004. Remaining 7 languages in Milestone 5b. |
-| **Book content** | Yogananda's published text in official translations | Language-specific chunks in Neon (`language` column). Contentful locales (available from the initial migration, activated in Milestone 5b). **Never machine-translate sacred text.** | 5b |
+| **UI chrome** | Nav, labels, buttons, errors, search prompts (~200–300 strings) | `next-intl` with locale JSON files. URL-based routing (`/es/...`, `/de/...`). AI-assisted workflow: Claude drafts → human review → production (FTR-135). | Infrastructure + hi/es translations in STG-004. Remaining 7 languages in STG-021. |
+| **Book content** | Yogananda's published text in official translations | Language-specific chunks in Neon (`language` column). Contentful locales (available from the initial migration, activated in STG-021). **Never machine-translate sacred text.** | 5b |
 | **Search** | FTS, vector similarity, query expansion | Per-language BM25 index (pg_search, FTR-025). Multilingual embedding model (Voyage, FTR-024). Claude expands queries per language. | 5b |
 
 ### STG-004 — Bilingual Content and Bilingual UI
@@ -280,7 +280,7 @@ STG-001/1b ingests content in English and Spanish (FTR-011 Tier 1; Hindi deferre
 - Spiritual terminology glossary bootstrapped: `messages/glossary-es.json`. Hindi glossary added with Hindi content.
 - String context file: `messages/en.context.json` — per-key description of where each string appears
 - Translation script: `scripts/translate-ui.ts` — generates `{locale}.draft.json` from `en.json` + glossary + context
-- `next-intl` configured with `en`, `es` locales (`hi` added when Hindi content available; remaining locales in Milestone 5b)
+- `next-intl` configured with `en`, `es` locales (`hi` added when Hindi content available; remaining locales in STG-021)
 - CSS logical properties throughout (`ms-4` not `ml-4`, `text-align: start` not `text-align: left`)
 - `lang` attribute set dynamically per locale on `<html>` element
 - `language` column already present on `book_chunks`, `search_queries`, `email_subscribers`
@@ -365,9 +365,9 @@ The `[EN]` tag is a small, muted language indicator. It is honest, not apologeti
 
 **Full-text search:** pg_search / ParadeDB BM25 indexes (FTR-025) handle per-language tokenization, stemming, and normalization via ICU analyzers.
 
-> **Note:** pg_search BM25 indexes are configured per-language using ICU tokenization (defined in § Data Model). Each chunk's `language` column determines the appropriate analyzer at query time. No additional indexes are needed when new languages are added in Milestone 5b — only new content rows with the correct `language` value and the corresponding ICU analyzer configuration.
+> **Note:** pg_search BM25 indexes are configured per-language using ICU tokenization (defined in § Data Model). Each chunk's `language` column determines the appropriate analyzer at query time. No additional indexes are needed when new languages are added in STG-021 — only new content rows with the correct `language` value and the corresponding ICU analyzer configuration.
 
-**Vector search:** The embedding model **must be multilingual** — this is an explicit requirement, not an accident. Voyage voyage-4-large (FTR-024) supports 26 languages and places semantically equivalent passages in different languages close together in the unified cross-lingual embedding space. This means initial embeddings (en/es) remain valid when Hindi, German, Japanese, and other chunks are added in Milestone 5b — no re-embedding of the existing corpus. Any future embedding model migration (FTR-024) must preserve this multilingual property. Benchmark per-language retrieval quality with actual translated passages in Milestone 5b. Switch to per-language models only if multilingual quality is insufficient — but note that per-language models sacrifice the English fallback's vector search quality and cross-language passage alignment.
+**Vector search:** The embedding model **must be multilingual** — this is an explicit requirement, not an accident. Voyage voyage-4-large (FTR-024) supports 26 languages and places semantically equivalent passages in different languages close together in the unified cross-lingual embedding space. This means initial embeddings (en/es) remain valid when Hindi, German, Japanese, and other chunks are added in STG-021 — no re-embedding of the existing corpus. Any future embedding model migration (FTR-024) must preserve this multilingual property. Benchmark per-language retrieval quality with actual translated passages in STG-021. Switch to per-language models only if multilingual quality is insufficient — but note that per-language models sacrifice the English fallback's vector search quality and cross-language passage alignment.
 
 **Query expansion:** Claude handles all target languages. The expansion prompt includes the target language:
 
@@ -402,13 +402,13 @@ The multilingual architecture serves two practical use cases, not arbitrary cros
 
 2. **Cross-language passage alignment.** When the same book exists in multiple translations, the `canonical_chunk_id` column on `book_chunks` links a translated chunk to its English original. This enables "Read this passage in Spanish →" navigation between editions. Alignment is done during ingestion by matching (canonical_book_id, chapter_number, paragraph_index). Edge cases (translator's notes, merged paragraphs) are resolved in the human QA step.
 
-**Cross-language search as optional future feature:** The multilingual embedding model places semantically equivalent text in different languages close together in vector space. If usage data (Milestone 5b analytics) reveals demand for searching across all languages simultaneously, this can be enabled by calling `hybrid_search` without the `language` filter. But this is not a core Milestone 5b deliverable — locale + English fallback covers the practical need.
+**Cross-language search as optional future feature:** The multilingual embedding model places semantically equivalent text in different languages close together in vector space. If usage data (STG-021 analytics) reveals demand for searching across all languages simultaneously, this can be enabled by calling `hybrid_search` without the `language` filter. But this is not a core STG-021 deliverable — locale + English fallback covers the practical need.
 
 ### Chunk Relations in a Multilingual Corpus
 
 The `chunk_relations` table stores pre-computed semantic similarity. In a multilingual corpus, a naive "top 30 global" approach would leave non-English languages underserved — most of the 30 slots would be consumed by chunks in other languages (predominantly English, which will be the largest corpus).
 
-**Computation strategy (Milestone 5b):**
+**Computation strategy (STG-021):**
 - For each chunk, store **top 30 same-language** relations + **top 10 English supplemental** relations (best from English corpus when the chunk is non-English; empty for English chunks)
 - Total: up to 40 rows per chunk (at 400K chunks across all languages = 16M rows — trivial for PostgreSQL)
 - Same-language relations power the default "Related Teachings" side panel
@@ -463,17 +463,17 @@ Non-Latin font loading strategy: Hindi locale (`/hi/`) eagerly preloads Noto Ser
 
 1. **Locale-first search:** The `language` API parameter means the user's locale, not the detected query language. No auto-detection of query language. English fallback implemented at service layer.
 2. **Theme slugs stay in English** for URL stability (`/es/themes/peace`, not `/es/temas/paz`). Display names localized via `topic_translations` table.
-3. **Embedding model must be multilingual.** Explicit requirement (not accident). Ensures initial embeddings remain valid when Milestone 5b adds new languages.
+3. **Embedding model must be multilingual.** Explicit requirement (not accident). Ensures initial embeddings remain valid when STG-021 adds new languages.
 4. **`reader_url` is locale-relative.** API returns `/books/slug/chapter#chunk`. Client prepends locale prefix. API stays presentation-agnostic.
 5. **`chunk_relations` store per-language.** Top 30 same-language + top 10 English supplemental per chunk. Ensures non-English languages get full related teachings with English fallback.
 6. **Locale + English fallback is the multilingual model.** Arbitrary cross-language search (e.g., Japanese query finding German results) is deferred as optional — the practical need is the user's language plus English fallback, not N×N language combinations. The multilingual embedding model enables cross-language search at near-zero cost if usage data later justifies it.
-7. **Chunk size must be validated per language (Milestone 5b).** Token economies differ across scripts — a 300-token chunk in Japanese may hold less semantic content than 300 English tokens. Per-language chunk size benchmarking is required before ingesting non-English content. At minimum, validate that English-calibrated chunk sizes produce acceptable retrieval quality in all target languages.
+7. **Chunk size must be validated per language (STG-021).** Token economies differ across scripts — a 300-token chunk in Japanese may hold less semantic content than 300 English tokens. Per-language chunk size benchmarking is required before ingesting non-English content. At minimum, validate that English-calibrated chunk sizes produce acceptable retrieval quality in all target languages.
 
 ### Open Questions (Require SRF Input)
 
-> **Central registry:** CONTEXT.md § Open Questions. The Milestone 5b questions below are tracked there with the full stakeholder list.
+> **Central registry:** CONTEXT.md § Open Questions. The STG-021 questions below are tracked there with the full stakeholder list.
 
-- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact Milestone 5b question; Hindi and Spanish already sourced for STG-001/1b)
+- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact STG-021 question; Hindi and Spanish already sourced for STG-001/1b)
 - Translation reviewer staffing per language
 - YSS portal branding for Hindi/Bengali/Thai locales
 - Whether translated editions preserve paragraph structure (affects `canonical_chunk_id` alignment)

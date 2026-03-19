@@ -127,13 +127,13 @@ When `navigator.connection.effectiveType` reports `'2g'` or `'slow-2g'`, the por
 
 ### FTR-034, FTR-124, FTR-035: `/explore` — Knowledge Graph and Passage Constellation
 
-Interactive visual map of the entire teaching corpus. Three visualization modes, evolving across milestones. The graph is the portal's universal navigation layer — every node is clickable, navigating to the corresponding page.
+Interactive visual map of the entire teaching corpus. Three visualization modes, evolving across stages. The graph is the portal's universal navigation layer — every node is clickable, navigating to the corresponding page.
 
-**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (STG-009) to full cross-media (future milestones).
+**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (STG-009) to full cross-media (future stages).
 
 **Mode 2: Passage Constellation** — A 2D spatial exploration where passages are positioned by semantic similarity, derived from embedding vectors reduced to two dimensions (UMAP or t-SNE, pre-computed at build time).
 
-**Mode 3: Concept Map** (FTR-034) — The ontology layer: spiritual concepts and their structural relationships (prerequisite, component, leads_to). Available from Milestone 4a+.
+**Mode 3: Concept Map** (FTR-034) — The ontology layer: spiritual concepts and their structural relationships (prerequisite, component, leads_to). Available from STG-020+.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -162,7 +162,7 @@ Interactive visual map of the entire teaching corpus. Three visualization modes,
 
 #### FTR-035: Knowledge Graph Node Types
 
-| Node Type | Shape | Color | Size | Click Target | Milestone |
+| Node Type | Shape | Color | Size | Click Target | Stage |
 |-----------|-------|-------|------|-------------|-----------|
 | Book | Rectangle | SRF Navy | Large (fixed) | `/books/[slug]` | 3d |
 | Book passage | Circle | SRF Navy (30%) | Small (density-scaled) | `/books/[slug]/[ch]#p[n]` | 3d |
@@ -183,7 +183,7 @@ Yogananda's own voice recordings and photographs receive the sacred artifact tre
 
 #### FTR-035: Knowledge Graph Edge Types
 
-| Edge | Source → Target | Width/Opacity | Milestone |
+| Edge | Source → Target | Width/Opacity | Stage |
 |------|----------------|---------------|-----------|
 | Semantic similarity | Any content ↔ any content | Proportional to score | 3d (books), future (cross-media) |
 | Contains | Book/issue/video/recording → chunk/segment | Thin, fixed | 3d+ |
@@ -202,7 +202,7 @@ Yogananda's own voice recordings and photographs receive the sacred artifact tre
 
 #### Graph View Modes and Filtering
 
-| Mode | Default milestone | What's visible |
+| Mode | Default stage | What's visible |
 |------|-------------------|----------------|
 | **Book map** | 3d (default) | Books, passages, themes, people, references |
 | **Concept map** | M4a+ | Ontology concepts, relations, linked passages |
@@ -214,9 +214,9 @@ Yogananda's own voice recordings and photographs receive the sacred artifact tre
 
 Media type toggles: show/hide books, magazine, video, audio, images independently. The filter bar appears at the top of the graph view.
 
-#### Graph Evolution by Milestone
+#### Graph Evolution by Stage
 
-| Milestone | Additions | Approximate Node Count |
+| Stage | Additions | Approximate Node Count |
 |-----------|-----------|----------------------|
 | **3d** | Books, passages, themes, people, references. Editorial thread paths. | ~5,000–10,000 |
 | **M4a** | + Magazine issues/chunks, ontology concepts. Constellation mode. | ~12,000–18,000 |
@@ -287,7 +287,7 @@ The subgraph endpoint powers embeddable mini-graphs in other pages: the reader's
 
 **Implementation:** UMAP dimensionality reduction from 1024-dim embeddings (FTR-024) to 2D. Pre-computed nightly. Static JSON (~500KB for ~10,000 items). Canvas or WebGL rendering.
 
-**Milestone:** Milestone 4a+ (constellation). STG-009 delivers Knowledge Graph mode only.
+**Stage:** STG-020+ (constellation). STG-009 delivers Knowledge Graph mode only.
 
 Linked from Books and themes pages (not primary nav).
 
@@ -317,7 +317,7 @@ A human-readable view of the structured spiritual ontology (FTR-034). Presents Y
 └──────────────────────────────────────────────────────────────┘
 ```
 
-**Milestone:** Milestone 4a+ (alongside ontology data model, FTR-034).
+**Stage:** STG-020+ (alongside ontology data model, FTR-034).
 
 ### FTR-143 ext: Personal Taxonomy in Study Workspace
 
@@ -328,7 +328,7 @@ The portal's themes (Peace, Courage, Healing) are universal. But seekers have *p
 - All client-side, all private, all deletable (consistent with FTR-143 localStorage pattern)
 - The portal's taxonomy is canonical and editorial; the seeker's taxonomy is intimate and uncurated
 - Personal collection names are never sent to the server, never appear in analytics, never inform the portal's theme system
-- Milestone 7a server sync preserves personal names if the seeker opts in
+- STG-023 server sync preserves personal names if the seeker opts in
 
 This transforms the Study Workspace from a composition tool into a personal spiritual workspace — a private space for organizing the teachings around one's own life, not the portal's categories.
 

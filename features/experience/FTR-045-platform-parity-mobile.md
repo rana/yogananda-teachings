@@ -72,7 +72,7 @@ export { sql };
 | Convention | Rule | Rationale |
 |------------|------|-----------|
 | **Versioning** | All routes prefixed `/api/v1/`. Never break v1 after mobile apps ship. | Mobile apps can't force-update users. |
-| **Auth** | All routes public (no auth) through Milestone 7a. Auth added only if/when Milestone 7a accounts are implemented. | Frictionless access is the mission. Auth is additive, never a gate on reading or search. |
+| **Auth** | All routes public (no auth) through STG-023. Auth added only if/when STG-023 accounts are implemented. | Frictionless access is the mission. Auth is additive, never a gate on reading or search. |
 | **Pagination** | Cursor-based: `{ results, cursor, hasMore }`. No page-number pagination. | Stable across data changes; mobile infinite scroll. |
 | **Cache headers** | Explicit `Cache-Control` on every response. Book text: long-lived. Search: no-store. Daily passage: 1 hour. | Mobile apps cache intelligently without custom logic. |
 | **Response shape** | Presentation-agnostic JSON. No HTML in responses. No assumptions about rendering. | Same response serves web, mobile, and any future consumer. |
@@ -128,7 +128,7 @@ Passage URLs (`/passage/[chunk-id]`) are designed for universal link interceptio
 
 These files are added when a native app launches. The URL structure that makes them work is established now.
 
-### PWA Readiness (Distributed Across Milestones)
+### PWA Readiness (Distributed Across Stages)
 
 Before native apps, a Progressive Web App provides offline reading, home screen installation, and a lighter footprint. See FTR-103.
 

@@ -14,7 +14,7 @@ governed-by: [PRI-08, PRI-09]
 
 ### Context
 
-The portal's design philosophy prioritizes immediate access without registration (Milestone 7a introduces optional accounts). But readers still need a way to save their place across reading sessions. Without bookmarks, a reader must remember where they were — or re-search for a passage they found meaningful.
+The portal's design philosophy prioritizes immediate access without registration (STG-023 introduces optional accounts). But readers still need a way to save their place across reading sessions. Without bookmarks, a reader must remember where they were — or re-search for a passage they found meaningful.
 
 Browser bookmarks are too coarse (they save a URL, not a reading position). The portal needs a lightweight, private, account-free bookmarking system.
 
@@ -38,7 +38,7 @@ Implement **Lotus Bookmarks** using `localStorage`:
 
 5. **No server interaction, no accounts, no tracking.** Bookmarks exist only in the user's browser. Clearing browser data removes them. This is stated clearly on the bookmarks page.
 
-6. **Milestone 7a migration:** When optional accounts are introduced (Milestone 7a), bookmarks are synced to the server on login. `localStorage` bookmarks are offered for import. Until then, bookmarks are entirely client-side.
+6. **STG-023 migration:** When optional accounts are introduced (STG-023), bookmarks are synced to the server on login. `localStorage` bookmarks are offered for import. Until then, bookmarks are entirely client-side.
 
 ### Rationale
 
@@ -54,7 +54,7 @@ Implement **Lotus Bookmarks** using `localStorage`:
 - The dwell mode UI (FTR-040) gains a lotus bookmark icon alongside the share icon
 - A `/bookmarks` page is added to the navigation (appears only when bookmarks exist, or always in footer)
 - `localStorage` has a ~5MB limit per origin — sufficient for thousands of bookmarks
-- Users on different browsers/devices will have separate bookmark collections until Milestone 7a sync
+- Users on different browsers/devices will have separate bookmark collections until STG-023 sync
 - The bookmarks page is a client-only page (no SSR needed — reads directly from `localStorage` on mount)
 
 ---

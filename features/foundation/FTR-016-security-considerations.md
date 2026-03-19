@@ -57,9 +57,9 @@ X-Citation-Format: "[Quote]" — Paramahansa Yogananda, [Book], [Citation] via t
 
 All services that process data on the portal's behalf, with their roles, data touched, and geographic regions. Maintained as part of the privacy policy (`/privacy`).
 
-| Service | GDPR Role | Data Touched | Region | Milestone |
+| Service | GDPR Role | Data Touched | Region | Stage |
 |---------|-----------|-------------|--------|-----------|
-| **Neon** | Processor | All server-side data (books, themes, search queries, subscribers) | US (default); EU read replica Milestone 4a+ | 1a+ |
+| **Neon** | Processor | All server-side data (books, themes, search queries, subscribers) | US (default); EU read replica STG-020+ | 1a+ |
 | **Vercel** | Processor | Request logs (transient), edge headers, static assets | Global edges, US origin | 1a+ |
 | **Vercel Firewall** | Processor | Request metadata, IP for rate limiting (transient, not stored by portal) | Global (Vercel edge) | 1a+ |
 | **Amplitude** | Processor | Anonymized events with country_code (no user ID) | US | 3d+ |

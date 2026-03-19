@@ -23,7 +23,7 @@ The portal's accessibility commitment (FTR-003) targets WCAG 2.1 AA compliance: 
 
 - **Reading complexity.** Yogananda's prose ranges from accessible affirmations to dense philosophical exposition. The portal treats all content equally in presentation.
 
-These concerns apply not only to seekers with cognitive disabilities but also to non-native English speakers (before Milestone 5b adds their language), elderly seekers, seekers under acute emotional stress, and seekers unfamiliar with web conventions.
+These concerns apply not only to seekers with cognitive disabilities but also to non-native English speakers (before STG-021 adds their language), elderly seekers, seekers under acute emotional stress, and seekers unfamiliar with web conventions.
 
 ### Decision
 

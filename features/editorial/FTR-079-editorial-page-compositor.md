@@ -15,7 +15,7 @@ depends-on: [FTR-060, FTR-039, FTR-065]
 **Type:** Feature
 **Governing Refs:** FTR-039 (Recognition-First IA), FTR-060 (Editorial Portal), FTR-119 (YSS Branding), FTR-082 (DELTA Framework), FTR-065 (Calendar-Aware Surfacing)
 **Dependencies:** Admin portal foundation (STG-007). Component library maturity — the compositor composes from developer-built lenses, so enough lenses must exist to make composition valuable. Minimum viable: Today's Wisdom, search prompt, featured themes (3 components).
-**Target:** STG-007 (foundation) or Milestone 4a+ (full scheduling + brand variants)
+**Target:** STG-007 (foundation) or STG-020+ (full scheduling + brand variants)
 
 **The gap.** The portal's homepage has 10+ content organization models (themes, threads, calendar, places, guide, browse, Wanderer's Path, Four Doors, daily passages, magazine) and a well-specified editorial review portal (FTR-060). Editors can curate *within* each content slot (pick today's passage, review theme tags). But no mechanism exists for editors to decide *which content lenses appear, in what order, with what emphasis* — that requires a code deployment. The compositor closes this gap.
 
@@ -50,7 +50,7 @@ CREATE TABLE page_compositions (
   active_from TIMESTAMPTZ NOT NULL DEFAULT now(),
   active_until TIMESTAMPTZ,        -- NULL = no expiry (default composition)
   is_default BOOLEAN NOT NULL DEFAULT false,
-  created_by TEXT,                 -- editor identity (Milestone 7a+: Auth0 sub)
+  created_by TEXT,                 -- editor identity (STG-023+: Auth0 sub)
   reviewed_by TEXT,                -- theological reviewer (if required)
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -78,7 +78,7 @@ Homepage renderer: `SELECT * FROM composition_slots WHERE composition_id = (best
 - Preview mode ("preview as seeker" — render the composition without publishing)
 - Brand/locale selector (editors with appropriate permissions see their brand's compositions)
 - Scheduling view: calendar showing active and upcoming compositions
-- No authentication before Milestone 7a — use the same lightweight auth as the editorial portal (open question, CONTEXT.md)
+- No authentication before STG-023 — use the same lightweight auth as the editorial portal (open question, CONTEXT.md)
 
 **Non-goal: behavioral optimization.** The compositor supports editorial rotation and seasonal scheduling, not A/B testing. Composition decisions are driven by editorial judgment and qualitative feedback, not by aggregate behavioral metrics (PRI-09, FTR-082). The portal curates from the corpus, not from user behavior.
 
@@ -86,7 +86,7 @@ Homepage renderer: `SELECT * FROM composition_slots WHERE composition_id = (best
 
 **Phasing:**
 - **STG-007 (foundation):** `page_compositions` + `composition_slots` tables. Admin UI for reorder + toggle. Single default composition per brand/locale. Preview mode.
-- **Milestone 4a+ (full):** Scheduling (active_from/active_until). Multiple compositions per brand/locale. Calendar integration (link compositions to calendar events from FTR-065). Brand-variant compositions for YSS.
+- **STG-020+ (full):** Scheduling (active_from/active_until). Multiple compositions per brand/locale. Calendar integration (link compositions to calendar events from FTR-065). Brand-variant compositions for YSS.
 
 **Re-evaluate At:** STG-007 scoping (when admin portal architecture is finalized)
 **Decision Required From:** Architecture (data model, admin UI), SRF editorial (governance: does theological reviewer approve compositions, or just content within them?)

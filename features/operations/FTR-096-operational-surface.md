@@ -28,9 +28,9 @@ A unified operational layer providing health monitoring, deployment ceremony, do
 - FTR-096 (Document Integrity Validation in CI)
 - FTR-096 (Design-Artifact Traceability)
 
-### Milestone Delivery
+### Stage Delivery
 
-| Milestone | What Ships |
+| Stage | What Ships |
 |-----------|-----------|
 | **1a** | `doc-validate.sh` (identifier cross-reference integrity), `status.sh` (AI self-orientation), `release-tag.sh` (semantic release tagging) |
 | **1c** | `/api/v1/health` (JSON health endpoint), deploy manifest generation, `deploy.sh` (deployment ceremony script) |
@@ -102,7 +102,7 @@ Claude's first action in any development session. Prints a concise briefing:
 # Portal Status — 2026-11-15
 # ──────────────────────────
 # Version:     v1a.3
-# Milestone:   1c (Deploy) — 12/15 deliverables complete
+# Stage:   STG-003 (Deploy) — 12/15 deliverables complete
 # Branch:      feature/crisis-detection
 # Last deploy: v1a.3 (2 hours ago)
 # Health:      ● OK (all checks passing)
@@ -153,13 +153,13 @@ Creates annotated git tags with deployment metadata:
 
 # Creates annotated tag with:
 # - Version: v1a.3
-# - Milestone: 1a
+# - Stage: STG-001
 # - Commits since last tag
 # - design_refs: [identifiers from @implements/@validates in changed files]
 # - blast_tier: T1-T5 (auto-classified from git diff)
 ```
 
-**Tag naming convention:** `v{phase}{milestone}.{patch}` — e.g., `v1a.1`, `v1a.2`, `v1c.0`, `v2a.1`. Milestone boundaries get `.0` tags. Patches increment within a milestone.
+**Tag naming convention:** `v{phase}{stage}.{patch}` — e.g., `v1a.1`, `v1a.2`, `v1c.0`, `v2a.1`. Stage boundaries get `.0` tags. Patches increment within a stage.
 
 **Blast radius classification** (auto-detected from `git diff` since last tag):
 
@@ -194,7 +194,7 @@ Orchestrates the full deployment:
 {
   "tag": "v1c.0",
   "deployed_at": "2026-12-01T14:30:00Z",
-  "milestone": "1c",
+  "stage": "1c",
   "blast_tier": "T3",
   "design_refs": ["FTR-021", "FTR-023", "FTR-037"],
   "commits": 23,
@@ -237,7 +237,7 @@ See FTR-158 for the full 3-layer verification architecture (Sentinels, Fitness F
 | **Structured logs** | Request volume by locale | `language` field on every request → real language demand, more granular than Amplitude's `requested_language` | STG-003 |
 | **Sentry** | Error clustering by route and device | Errors concentrated on specific devices or browsers → broken experience for specific populations (PRI-05 failure detection) | STG-003 |
 
-**Reading cadence:** Infrastructure-as-intelligence is not a dashboard — it is a periodic reading practice. At milestone boundaries, the human principal and AI review infrastructure signals for patterns that explicit analytics might miss. The platform operational surface may surface selected infrastructure metrics in future milestones.
+**Reading cadence:** Infrastructure-as-intelligence is not a dashboard — it is a periodic reading practice. At stage boundaries, the human principal and AI review infrastructure signals for patterns that explicit analytics might miss. The platform operational surface may surface selected infrastructure metrics in future stages.
 
 **Relationship to Amplitude:** Infrastructure signals answer "how much" and "how fast." Amplitude events answer "which feature" and "in what context." They are complementary. When an infrastructure signal (e.g., audio CDN bandwidth spike) raises a question, an Amplitude event (e.g., `audio_play_started` by language) provides the context. Do not duplicate: if infrastructure already answers a question, do not add an Amplitude event for the same signal.
 

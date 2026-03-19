@@ -42,7 +42,7 @@ The CI config is a thin orchestration layer. The scripts contain the actual logi
 
 #### Multi-environment promotion pipeline
 
-For Milestone 4a+ with three environments (dev/staging/prod):
+For STG-020+ with three environments (dev/staging/prod):
 
 ```
 PR → dev (auto) → staging (manual gate) → prod (manual gate)

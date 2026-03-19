@@ -42,7 +42,7 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 
 **PG18 features leveraged:**
 
-| Feature | Milestone | Benefit |
+| Feature | Stage | Benefit |
 |---------|-----------|---------|
 | `uuidv7()` | 1a+ | Time-ordered UUIDs for all content tables. Better B-tree index locality than `gen_random_uuid()`. Natural chronological ordering without separate timestamp indexes. |
 | Skip scan on B-tree indexes | 1a+ | Composite `(updated_at, id)` indexes (FTR-087) become usable for id-only queries. |
@@ -112,7 +112,7 @@ All ephemeral branches use TTL to guarantee cleanup. The 25-branch included allo
 
 Extensions enabled in the first migration (`001_initial_schema.sql`):
 
-| Extension | Purpose | Milestone | Governing ADR |
+| Extension | Purpose | Stage | Governing ADR |
 |-----------|---------|-----------|---------------|
 | `vector` (pgvector) | Dense vector search (HNSW) | 1a+ | FTR-101 |
 | `pg_search` (ParadeDB) | BM25 full-text search | 1a+ | FTR-025 |
@@ -120,7 +120,7 @@ Extensions enabled in the first migration (`001_initial_schema.sql`):
 | `unaccent` | Diacritics-insensitive search | 1a+ | FTR-131 |
 | `pg_stat_statements` | Query performance monitoring | 1a+ | This ADR |
 
-**Future extensions** (evaluate at milestone boundaries):
+**Future extensions** (evaluate at stage boundaries):
 
 | Extension | Purpose | Evaluate At | Notes |
 |-----------|---------|-------------|-------|
@@ -201,7 +201,7 @@ Neon infrastructure is managed via Platform MCP (FTR-106), which uses the Neon R
 - Branch naming convention and TTL policy enforced in CI scripts
 - `pg_stat_statements` data informs search query optimization from STG-001
 - OpenTelemetry export configured during STG-004 observability setup
-- Snapshot schedule configured during Milestone STG-001-2 via Neon API (FTR-109)
+- Snapshot schedule configured during STG-001-2 via Neon API (FTR-109)
 - API keys scoped per context: org key for Platform MCP, project-scoped keys for CI and development
 - Platform MCP uses Neon REST API directly; no community provider dependency
 - **Extends FTR-101** (pgvector), **FTR-109** (backup), **FTR-081** (testing), **FTR-082** (observability)

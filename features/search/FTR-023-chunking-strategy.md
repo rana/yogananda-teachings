@@ -48,13 +48,13 @@ Document the chunking strategy as a formal specification. The strategy is docume
 
 - STG-001 ingestion script implements default chunking per this specification
 - STG-009 verse-aware chunking implements the verse-commentary pair strategy
-- Milestone 5b per-language chunk size validation uses this specification as baseline
+- STG-021 per-language chunk size validation uses this specification as baseline
 
 ## Specification
 
 The chunking algorithm is the single most important factor in search retrieval quality. Yogananda's prose style varies dramatically across books, requiring a nuanced strategy.
 
-### Default Chunking (Milestones 1a-3c: narrative, collected talks, short works)
+### Default Chunking (Stages 1a-3c: narrative, collected talks, short works)
 
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
@@ -84,7 +84,7 @@ The chunking algorithm is the single most important factor in search retrieval q
 | **Long commentaries** | Split at paragraph boundaries within commentary; each sub-chunk retains verse text as prefix | Verse context travels with every fragment |
 | **Cross-reference** | Verse reference stored as structured metadata | Enables side-by-side commentary view |
 
-### Per-Language Validation (Milestone 5b)
+### Per-Language Validation (STG-021)
 
 English-calibrated chunk sizes (200-300 tokens) may produce different semantic density across scripts. Validate retrieval quality per language before committing to chunk sizes.
 
@@ -104,7 +104,7 @@ A stylometric fingerprint adds a deeper layer of content integrity: not just "th
 
 **Dimensions captured:** Sentence length distribution, vocabulary frequency, metaphor recurrence, rhetorical mode ratio, passage structure.
 
-**Milestone:** STG-009+ (requires substantial corpus ingestion).
+**Stage:** STG-009+ (requires substantial corpus ingestion).
 
 ## Notes
 

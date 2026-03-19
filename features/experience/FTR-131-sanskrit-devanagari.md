@@ -18,7 +18,7 @@ Yogananda's published works contain Sanskrit in four distinct modes: (1) transli
 
 This creates three technical challenges: (a) seekers searching for a term in any variant spelling must find matching passages regardless of which form the published text uses, (b) display must faithfully preserve whatever form appears in the SRF publication, and (c) certain terms — most notably Aum vs. Om — carry theological distinctions that search normalization must not collapse.
 
-Sanskrit is not a Milestone 5b problem. It is embedded in the initial English corpus. *God Talks with Arjuna* contains Devanāgarī verses. The *Autobiography* and *Holy Science* contain heavy IAST transliteration. The ingestion pipeline, search index, font stack, and glossary must handle Sanskrit from the initial milestone.
+Sanskrit is not a STG-021 problem. It is embedded in the initial English corpus. *God Talks with Arjuna* contains Devanāgarī verses. The *Autobiography* and *Holy Science* contain heavy IAST transliteration. The ingestion pipeline, search index, font stack, and glossary must handle Sanskrit from the initial stage.
 
 ### Decision
 
@@ -46,7 +46,7 @@ Implementation:
 
 *God Talks with Arjuna* contains original Bhagavad Gita verses in Devanāgarī alongside romanized transliteration and English commentary. *The Holy Science* by Sri Yukteswar contains Sanskrit verses in Devanāgarī. The *Autobiography* contains heavy IAST transliteration. Each *Gita* chapter typically includes: (a) Devanāgarī verse, (b) romanized transliteration, (c) word-by-word translation, (d) Yogananda's full commentary.
 
-- **Display:** Devanāgarī verses are preserved in `chunk_content` and rendered using Noto Sans Devanagari in the font stack. The Devanāgarī font loads from the initial milestone (not Milestone 5b) because the English-language Gita and Holy Science contain Devanāgarī — and because Hindi content is ingested early (FTR-011).
+- **Display:** Devanāgarī verses are preserved in `chunk_content` and rendered using Noto Sans Devanagari in the font stack. The Devanāgarī font loads from the initial stage (not STG-021) because the English-language Gita and Holy Science contain Devanāgarī — and because Hindi content is ingested early (FTR-011).
 - **Search indexing:** Devanāgarī script passages *in the English corpus* are excluded from the embedding input via a script-detection preprocessing step. The English commentary and romanized transliteration are embedded. Rationale: embedding raw Devanāgarī verses alongside English commentary would dilute retrieval quality for the English-language search context — seekers search the commentary, not the original verses. **Exception:** Hindi corpus chunks are entirely Devanāgarī and are embedded normally — the exclusion applies only to Devanāgarī verse blocks within English-language chunks.
 - **Chunking (extends FTR-023):** For verse-aware chunking in the English corpus, the Devanāgarī verse text is preserved as metadata on the verse-commentary chunk but excluded from the token count that determines chunk splitting. The romanized transliteration is included in both the chunk content and the embedding input. Hindi corpus chunks use standard chunking — the entire text is Devanāgarī and is treated as primary content.
 
@@ -63,9 +63,9 @@ With Hindi *Autobiography of a Yogi* (FTR-011), Devanāgarī transitions from su
 - **Font loading strategy:** On `/hi/` locale pages, Noto Serif Devanagari and Noto Sans Devanagari load **eagerly** (preload in `<head>`), not conditionally. Conditional loading remains for Devanāgarī content appearing on English-locale pages (Gita verses, Holy Science verses).
 - **Conjunct rendering QA:** Hindi has hundreds of conjunct characters (jodakshar): क्ष, त्र, ज्ञ, श्र, and many more. Matras (vowel signs like ि, ी, ु, ू, े, ै, ो, ौ) must not collide with consonants at any font size. Halant/virama (्) must render correctly for consonant clusters. Verify at `--text-sm` (15px equivalent) where rendering issues are most likely.
 - **Nukta characters:** Hindi borrows sounds from Persian/Arabic (फ़, ज़, ख़, ग़). Verify that the YSS Hindi *Autobiography* edition's usage is preserved faithfully.
-- **Quote image generation:** `@vercel/og` (Satori) requires explicit font files — it does not fall back to system fonts. Hindi passage images use Noto Serif Devanagari. The OG image route selects font based on the passage's `language` column. This is initial milestone scope, not Milestone 5b.
+- **Quote image generation:** `@vercel/og` (Satori) requires explicit font files — it does not fall back to system fonts. Hindi passage images use Noto Serif Devanagari. The OG image route selects font based on the passage's `language` column. This is initial stage scope, not STG-021.
 - **PDF export:** Hindi passages use Noto Serif Devanagari at 12pt (scaled from Latin 11pt). PDF generation pipeline must bundle the Devanāgarī font.
-- **Print stylesheet:** `@media print` font-family for `/hi/` locale uses `'Noto Serif Devanagari'` at 12pt. Initial milestone scope.
+- **Print stylesheet:** `@media print` font-family for `/hi/` locale uses `'Noto Serif Devanagari'` at 12pt. Initial stage scope.
 
 **4. Terminology bridge extensions for Sanskrit and cross-tradition terms.**
 
@@ -80,7 +80,7 @@ The `glossary_terms` schema gains three optional columns:
 
 ```sql
 ALTER TABLE glossary_terms ADD COLUMN phonetic_guide TEXT; -- "PRAH-nah-YAH-mah"
-ALTER TABLE glossary_terms ADD COLUMN pronunciation_url TEXT; -- Future: URL to audio (Milestone 5b+)
+ALTER TABLE glossary_terms ADD COLUMN pronunciation_url TEXT; -- Future: URL to audio (STG-021+)
 ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL DEFAULT false;
  -- True when Yogananda's usage intentionally differs from common usage
  -- and the difference itself is part of the teaching (e.g., Aum vs. Om,
@@ -94,7 +94,7 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 - **Unicode NFC normalization** is standard practice for text processing pipelines that handle combining characters. Without it, identical-looking strings can fail equality checks, deduplication, and search matching.
 - **ICU tokenization in pg_search BM25** (FTR-025) handles diacritics normalization natively, collapsing orthographic variants in the search index without altering stored data. The `unaccent` extension remains for pg_trgm fuzzy matching.
 - **The Aum/Om exception** reflects a general principle: search normalization handles orthography; the terminology bridge handles semantics. Collapsing semantically distinct terms in the index would lose information that cannot be recovered.
-- **Devanāgarī fonts from the initial milestone** because the content is present from the start — both as Gita/Holy Science verses in the English corpus and as the entire Hindi *Autobiography* (FTR-011). Deferring font support to Milestone 5b would break rendering for Hindi readers. Noto Serif Devanagari for reading and Noto Sans Devanagari for UI/verses — the same serif/sans distinction as the Latin stack (Merriweather/Open Sans).
+- **Devanāgarī fonts from the initial stage** because the content is present from the start — both as Gita/Holy Science verses in the English corpus and as the entire Hindi *Autobiography* (FTR-011). Deferring font support to STG-021 would break rendering for Hindi readers. Noto Serif Devanagari for reading and Noto Sans Devanagari for UI/verses — the same serif/sans distinction as the Latin stack (Merriweather/Open Sans).
 - **Pronunciation in the glossary** serves seekers who encounter Sanskrit for the first time. Phonetic guides are a minimal editorial effort with high impact for newcomers. Audio pronunciation is deferred until SRF can provide approved recordings.
 - **`has_teaching_distinction`** enables the glossary UI to highlight terms where the gap between common and Yogananda-specific usage is pedagogically important — inviting seekers into the teaching through the vocabulary itself.
 
@@ -102,7 +102,7 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 
 - **Ingestion pipeline:** Unicode NFC normalization added as a mandatory preprocessing step (Step 2.5 in DESIGN.md § Content Ingestion Pipeline)
 - **Search index:** pg_search BM25 index with ICU tokenizer handles diacritics normalization natively (FTR-025). The `unaccent` extension remains for pg_trgm fuzzy matching.
-- **Font stack:** Noto Serif Devanagari (reading) and Noto Sans Devanagari (UI/verses) added from the initial milestone. Hindi locale loads eagerly; English pages with Devanāgarī content load conditionally
+- **Font stack:** Noto Serif Devanagari (reading) and Noto Sans Devanagari (UI/verses) added from the initial stage. Hindi locale loads eagerly; English pages with Devanāgarī content load conditionally
 - **Glossary schema:** Three new nullable columns (`phonetic_guide`, `pronunciation_url`, `has_teaching_distinction`) on `glossary_terms`
 - **Vocabulary Bridge:** Two extraction categories (inline Sanskrit definitions, cross-tradition terms) documented in FTR-028 § Per-Book Evolution Lifecycle
 - **FTR-023:** Verse-aware chunking for *God Talks with Arjuna* extended with Devanāgarī script handling
@@ -110,7 +110,7 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 - **New stakeholder questions:** SRF editorial policy on contested transliterations; pronunciation recording availability; *God Talks with Arjuna* Devanāgarī display confirmation
 - **New technical questions:** IAST diacritics rendering verification in Merriweather/Lora at small sizes
 
-- **Quote images and PDF:** Devanāgarī font bundled for `@vercel/og` and PDF generation from the initial milestone (Hindi passages must render correctly in shared images and printed output)
+- **Quote images and PDF:** Devanāgarī font bundled for `@vercel/og` and PDF generation from the initial stage (Hindi passages must render correctly in shared images and printed output)
 - **Devanāgarī typography QA:** Conjunct rendering, matra placement, halant/virama, and nukta characters verified at all font sizes as a STG-002 success criterion
 
 

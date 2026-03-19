@@ -204,9 +204,9 @@ Implement graph intelligence **within the single-database architecture** (FTR-10
 - Results merged into RRF alongside PATH A (vector) and PATH B (BM25)
 
 **Phasing:**
-- **Milestones 1a–2b:** Graph ontology designed and documented in FTR-034/055. Entity registry and extracted_relationships tables created.
+- **Stages 1a–2b:** Graph ontology designed and documented in FTR-034/055. Entity registry and extracted_relationships tables created.
 - **STG-007:** Graph algorithm batch pipeline (Python + NetworkX). PATH C activated in search pipeline. Knowledge graph foundation: all node types and edge types populated.
-- **Milestone 5a:** Concept/word graph fully constructed: cross-tradition equivalences, progression chains, co-occurrence edges.
+- **STG-020:** Concept/word graph fully constructed: cross-tradition equivalences, progression chains, co-occurrence edges.
 
 #### Alternatives Considered
 
@@ -238,17 +238,17 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 - FTR-020 (Search Architecture) PATH C uses multi-step SQL queries in `/lib/services/graph.ts`
 - STG-007 in ROADMAP.md adds graph algorithm batch pipeline (Python + NetworkX), not Neptune provisioning
 - No infrastructure configuration for graph infrastructure — batch job runs as Lambda or Vercel cron
-- Graph ontology designed from the initial milestones and documented in FTR-034/055
+- Graph ontology designed from the initial stages and documented in FTR-034/055
 
 ## Specification
 
 ### FTR-034: Knowledge Graph Ontology
 
-The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed from the initial milestones; graph intelligence becomes active in STG-007 via Postgres tables + Python batch computation (FTR-034).
+The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed from the initial stages; graph intelligence becomes active in STG-007 via Postgres tables + Python batch computation (FTR-034).
 
 #### Node Types
 
-| Node Type | Description | Primary Key Source | Milestone |
+| Node Type | Description | Primary Key Source | Stage |
 |-----------|-------------|-------------------|-----------|
 | **Teacher** | Yogananda, his line of gurus, other teachers he references | `entity_registry` (type = 'person') | 3b |
 | **DivineName** | God, Divine Mother, Christ, Krishna, Cosmic Consciousness | `entity_registry` (type = 'divine_name') | 3b |
@@ -265,7 +265,7 @@ All node types correspond to rows in Postgres tables (`entity_registry`, `books`
 
 #### Edge Types
 
-| Edge Type | From -> To | Description | Milestone |
+| Edge Type | From -> To | Description | Stage |
 |-----------|-----------|-------------|-----------|
 | **LINEAGE** | Teacher -> Teacher | Guru-disciple relationship | 3b |
 | **AUTHORED** | Teacher -> Work | Authorship attribution | 3b |
@@ -285,7 +285,7 @@ Three algorithms run nightly on the full graph and feed suggestion weights and r
 
 1. **PageRank** — Identifies the most-connected, highest-authority passages and concepts. Feeds the "canonical teaching" signal in Related Teachings (FTR-030).
 2. **Community Detection** — Groups densely connected nodes into teaching clusters. Feeds thematic browsing and the Quiet Index (FTR-066).
-3. **Betweenness Centrality** — Finds bridge passages that connect otherwise separate teaching domains. These are the passages that link, say, meditation technique to devotional practice. Surfaced in Reading Arc suggestions (Milestone 5a+).
+3. **Betweenness Centrality** — Finds bridge passages that connect otherwise separate teaching domains. These are the passages that link, say, meditation technique to devotional practice. Surfaced in Reading Arc suggestions (STG-020+).
 
 #### Graph-Augmented Retrieval Query Pattern
 
@@ -332,7 +332,7 @@ This three-step pattern replaces the single openCypher query that Neptune Analyt
 
 ### FTR-034: Concept/Word Graph
 
-The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (STG-007+, Path C in FTR-020) and the Concept Graph UI exploration (future milestones).
+The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (STG-007+, Path C in FTR-020) and the Concept Graph UI exploration (future stages).
 
 #### Term Node Schema
 
@@ -373,16 +373,16 @@ STG-007: Canonical Vocabulary Seed
  └── Claude generates initial edges from domain knowledge
  └── Human review validates all edges
 
-Milestone 5a: Cross-Tradition Extraction
+STG-020: Cross-Tradition Extraction
  └── Mine Yogananda's explicit cross-tradition statements from corpus
  └── "The Hindu scriptures teach that [...] is what Christ called [...]"
  └── Constrained to Yogananda's own explicit mappings only
 
-Milestone 5a: Progression Chains
+STG-020: Progression Chains
  └── Extract sequential development paths from teaching passages
  └── Validate against SRF pedagogical tradition
 
-Milestone 5a: Co-occurrence Edges
+STG-020: Co-occurrence Edges
  └── Statistical co-occurrence from chunk enrichment data
  └── Filtered: minimum 3 co-occurrences, mutual information > threshold
 ```

@@ -75,7 +75,7 @@ Applied via **dbmate** (SQL-based, no ORM lock-in) or Drizzle ORM migrations. Ev
 - The teaching portal's documentation structure becomes the SRF template
 - New SRF repos are initialized with CLAUDE.md, CONTEXT.md, DECISIONS.md, ROADMAP.md stubs
 - The SRF AE team should review and adopt these standards for existing and new projects
-- Migration tooling (dbmate or Drizzle) is chosen in the initial milestone
+- Migration tooling (dbmate or Drizzle) is chosen in the initial stage
 - Renovate/Dependabot configured from the first commit
 
 ## Notes

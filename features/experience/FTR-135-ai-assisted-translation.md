@@ -13,7 +13,7 @@ governed-by: [PRI-01, PRI-06]
 
 ### Context
 
-The portal requires translating ~200–300 UI strings (nav labels, button text, search prompts, error messages, footer links, accessibility labels) into 9 languages. Spanish (Tier 1) is translated in STG-004 alongside bilingual content — a seeker reading Spanish content deserves Spanish navigation. Hindi (Tier 1, deferred) is translated when content becomes available. Remaining 7 languages are translated in Milestone 5b. The question: who translates these, and how?
+The portal requires translating ~200–300 UI strings (nav labels, button text, search prompts, error messages, footer links, accessibility labels) into 9 languages. Spanish (Tier 1) is translated in STG-004 alongside bilingual content — a seeker reading Spanish content deserves Spanish navigation. Hindi (Tier 1, deferred) is translated when content becomes available. Remaining 7 languages are translated in STG-021. The question: who translates these, and how?
 
 Three categories of translatable content exist in the portal, each with fundamentally different fidelity requirements:
 
@@ -141,7 +141,7 @@ The glossary is a critical dependency for both the AI drafting step and the huma
 
 ### Consequences
 
-- STG-004 (hi/es) and Milestone 5b (remaining 7 languages) use AI-assisted workflow: Claude draft → human review → production
+- STG-004 (hi/es) and STG-021 (remaining 7 languages) use AI-assisted workflow: Claude draft → human review → production
 - Spiritual terminology glossary stored as `/messages/glossary-{locale}.json` — built incrementally during first review cycle, referenced by both AI drafting and human review
 - The `messages/{locale}.draft.json` → `messages/{locale}.json` promotion step should be tracked (Git diff review)
 - Reviewer recruitment: SRF likely has multilingual monastics and volunteers who can review UI translations — this is a stakeholder question

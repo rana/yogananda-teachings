@@ -26,7 +26,7 @@ FTR-015 specifies individual API endpoints with inline response examples. As the
 
 3. **Resource identifiers.** Books use slugs, chunks use UUIDs, chapters use numbers — each defensible individually, but the pattern was unstated. A developer couldn't predict whether a new endpoint would use slugs or UUIDs without reading the example.
 
-Without explicit conventions, each new endpoint or milestone adds entropy. A 10-year API surface (FTR-004) requires declared standards, not emergent patterns.
+Without explicit conventions, each new endpoint or stage adds entropy. A 10-year API surface (FTR-004) requires declared standards, not emergent patterns.
 
 ### Decision
 

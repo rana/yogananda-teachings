@@ -14,7 +14,7 @@ depends-on: [FTR-034, FTR-124]
 
 ### Context
 
-FTR-124 designed the Knowledge Graph at `/explore` when the portal had only book content. Since then, multiple content types were added: magazine articles (Milestone 4a+), video transcripts (future milestones), audio recordings (future milestones), images/photographs (future milestones), ontology concepts (Milestone 4a+), sacred places (future milestones), community collections (Milestone 7b).
+FTR-124 designed the Knowledge Graph at `/explore` when the portal had only book content. Since then, multiple content types were added: magazine articles (STG-020+), video transcripts (future stages), audio recordings (future stages), images/photographs (future stages), ontology concepts (STG-020+), sacred places (future stages), community collections (STG-024).
 
 The Unified Content Hub solves the data layer -- `content_items` + `content_relations` unify all media. But the visualization layer was never updated to consume this unified fabric.
 
@@ -42,10 +42,10 @@ FTR-124's STG-009 delivery becomes the graph's *first version*, not its final fo
 | Mode | Default? | What's visible |
 |------|----------|----------------|
 | **Book map** | Yes (STG-009) | Books, passages, themes, people, references |
-| **Concept map** | Milestone 4a+ | Ontology concepts, relations, linked passages |
-| **All media** | Future milestones | Everything -- full cross-media fabric |
-| **Single book** | Any milestone | One book's passages, themes, connections |
-| **Single theme** | Any milestone | One theme's passages across all media |
+| **Concept map** | STG-020+ | Ontology concepts, relations, linked passages |
+| **All media** | Future stages | Everything -- full cross-media fabric |
+| **Single book** | Any stage | One book's passages, themes, connections |
+| **Single theme** | Any stage | One theme's passages across all media |
 
 **4. Editorial threads and community collections appear as highlighted paths.**
 
@@ -53,12 +53,12 @@ FTR-124's STG-009 delivery becomes the graph's *first version*, not its final fo
 
 ### Phased Node/Edge Evolution
 
-| Milestone | New Node Types | Approximate Scale |
+| Stage | New Node Types | Approximate Scale |
 |-----------|---------------|-------------------|
-| **Milestone 4a** | book, passage, theme, person, reference | ~5,000-10,000 nodes |
-| **Milestone 5a** | magazine_issue, magazine_chunk, ontology_concept | ~12,000-18,000 nodes |
-| **Milestone 7a** | video, video_chunk, place | ~20,000-35,000 nodes |
-| **Milestone 7b** | audio_recording, audio_segment, image | ~30,000-50,000 nodes |
+| **STG-020** | book, passage, theme, person, reference | ~5,000-10,000 nodes |
+| **STG-020** | magazine_issue, magazine_chunk, ontology_concept | ~12,000-18,000 nodes |
+| **STG-023** | video, video_chunk, place | ~20,000-35,000 nodes |
+| **STG-024** | audio_recording, audio_segment, image | ~30,000-50,000 nodes |
 
 ### Governance: Content-Type Integration Checklist
 
@@ -67,12 +67,12 @@ Every future ADR that introduces a new content type must address:
 2. **Graph edge types:** What relationships with existing nodes?
 3. **Graph JSON schema:** What `node_type` and `edge_type` values are added?
 4. **Lambda update:** What data source does the nightly regeneration query?
-5. **Milestone timing:** When does this content type enter the graph?
+5. **Stage timing:** When does this content type enter the graph?
 
 ### Consequences
 
-- FTR-124 remains valid as the STG-009 baseline; this extends it through Milestone 7b
-- Nightly graph Lambda regeneration script updated with each content milestone
+- FTR-124 remains valid as the STG-009 baseline; this extends it through STG-024
+- Nightly graph Lambda regeneration script updated with each content stage
 - Graph JSON schema is versioned
 - The Knowledge Graph becomes a flagship portal feature
 

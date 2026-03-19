@@ -235,7 +235,7 @@ A critical principle.
 
 SRF's mission is to serve "all of humanity." "All" includes people with disabilities — and people on phones. This is a theological imperative, not a compliance exercise. SRF's existing app already invested in screen reader support — the portal must meet or exceed that standard.
 
-Retrofitting accessibility is expensive and error-prone; building it in from day one is nearly free. Semantic HTML, keyboard navigation, and ARIA landmarks cost nothing if done from the start. They cost massive effort to retrofit after inaccessible patterns get baked into components and propagated. The same is true of mobile-first CSS: writing `px-4 md:px-8` costs nothing at Milestone 1a; retrofitting desktop-first layouts for mobile costs real effort. When ~70% of the Hindi and Spanish audience (FTR-011 Tier 1) accesses the portal on mobile phones, mobile-first is not polish — it is access. Later milestones handle audit and polish (professional WCAG audit, TTS, advanced reading mode, full responsive design strategy) — accessibility and mobile readiness are not late-stage additions.
+Retrofitting accessibility is expensive and error-prone; building it in from day one is nearly free. Semantic HTML, keyboard navigation, and ARIA landmarks cost nothing if done from the start. They cost massive effort to retrofit after inaccessible patterns get baked into components and propagated. The same is true of mobile-first CSS: writing `px-4 md:px-8` costs nothing at STG-001; retrofitting desktop-first layouts for mobile costs real effort. When ~70% of the Hindi and Spanish audience (FTR-011 Tier 1) accesses the portal on mobile phones, mobile-first is not polish — it is access. Later stages handle audit and polish (professional WCAG audit, TTS, advanced reading mode, full responsive design strategy) — accessibility and mobile readiness are not late-stage additions.
 
 Screen reader quality goes beyond mere compliance. FTR-053 specifies that the spoken interface should carry the same warmth as the visual one — not just "Bookmark button" but a voice that conveys the portal's devotional register. FTR-052 addresses cognitive accessibility: consistent navigation, no autoplay, clear language, predictable behavior.
 ```
@@ -482,7 +482,7 @@ Inhabit the [x] perspective.
 ---
 How to ensure faithful reproduction of devanagari? Holy Science and others use it. Hindi is devanagari?
 
-Trilingual UI text at which milestone? I lean to Arc 1 with trilingual book ingestion. How to automate UI text translation/generation? Claude AI? Other? What is world class amazing performance and accuracy? Specialized service? Principles "5. Global-First" in mind.
+Trilingual UI text at which stage? I lean to Arc 1 with trilingual book ingestion. How to automate UI text translation/generation? Claude AI? Other? What is world class amazing performance and accuracy? Specialized service? Principles "5. Global-First" in mind.
 
 Consider graceful language revision to README.md. Remove "dopamine hits".
 
@@ -491,7 +491,7 @@ Greenfield perspective. Are there any stale ADRs, DESs, or PROs?
 Greenfield perspective. How do you design and test for "Search quality evaluation — 50-query golden set proving retrieval relevance before anything else is built"? Can be automated with Claude etc?
 
 Think slowly and carefully.
-Greenfield perspective. Does the project apply the principles in practice? Consider arc/milestone ordering and all other dimensions. With mobile phone use as primary device for India and Latin America (true?), is mobile support properly ordered?
+Greenfield perspective. Does the project apply the principles in practice? Consider arc/stage ordering and all other dimensions. With mobile phone use as primary device for India and Latin America (true?), is mobile support properly ordered?
 
 Greenfield perspective. Choice of project markdown file characteristics (quantity, logical naming, sizing, etc, other). What do you prefer? What would an AI architect, designer, and implementer prefer? You have complete design autonomy.
 
@@ -510,7 +510,7 @@ Prepare to ingest Autobiography of a Yogi in Spanish
 Prepare to ingest Autobiography of a Yogi in Hindi https://www.amazon.com/Autobiography-HINDI-Hindi-Paramahansa-Yogananda/dp/9389432472
 
 Think slowly, deeply and carefully.
-Imagine Claude Code develops each milestone and each arc autonomously without human confirmation. Would you be able to implement Arc 1 fully? Arc 2? Arc 3? Others? What are potential blockers to shipping Arc 1? Is AI able to setup all infrastructure autonomously? Do you need AWS MCP server? What, if anything, needs some human setup steps? Let's also explore a infrastructure bootstrap setup and test with a "Hello World" which exercise each piece of the infrastructure. Perhaps a script to create and delete. We could run it per environment for testing prior to development to ensure keys, infrastructure running properly. What's your perspective? It gets us up and running quickly?
+Imagine Claude Code develops each stage and each arc autonomously without human confirmation. Would you be able to implement Arc 1 fully? Arc 2? Arc 3? Others? What are potential blockers to shipping Arc 1? Is AI able to setup all infrastructure autonomously? Do you need AWS MCP server? What, if anything, needs some human setup steps? Let's also explore a infrastructure bootstrap setup and test with a "Hello World" which exercise each piece of the infrastructure. Perhaps a script to create and delete. We could run it per environment for testing prior to development to ensure keys, infrastructure running properly. What's your perspective? It gets us up and running quickly?
 
 Add principle "World-class amazing experience" as high directive for the portal.
 
@@ -518,7 +518,7 @@ Add principle "Global-first" to support all humans of Earth. Equally supports lo
   
 Consider Turso DB (https://turso.tech/) use for Global-first and offline support.
 
-Add AWS Secrets Manager support per environment. Largely or wholey replace environment variables. Update related docs mentioning env variables including `docs/manual-steps-milestone-1a.md`
+Add AWS Secrets Manager support per environment. Largely or wholey replace environment variables. Update related docs mentioning env variables including `docs/manual-steps-stage-1a.md`
 
 Why didn't you (AI) with the design docs, and existing Claude Code skills/commands (`/home/rana/.claude/`) not surface a Secrets Manager solution? What questions and or explorations may have let to Claude suggesting the solution? Or similar? I often use the `explore-act` command. In retrospect, it seems an obvious choice for the scope and nature of the project.
 

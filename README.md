@@ -10,7 +10,7 @@ A British philanthropist asked SRF a simple question: *"What can we do to help m
 
 ## What We Proved First
 
-The first milestones answered one question: **does bilingual semantic search work over Yogananda's text?**
+The first stages answered one question: **does bilingual semantic search work over Yogananda's text?**
 
 - **Intelligent search** — hybrid semantic + BM25 full-text search that understands conceptual queries in English and Spanish, returning ranked verbatim passages with book, chapter, and page citations
 - **Book reader** — chapter-by-chapter reading with contemplative typography served from Contentful
@@ -20,7 +20,7 @@ One book (*Autobiography of a Yogi*) in two languages (en/es), serving ~820 mill
 
 ## The Full Vision
 
-Each milestone builds on the last. The full portal includes:
+Each stage builds on the last. The full portal includes:
 
 - **Life-theme navigation ("Doors of Entry")** — curated thematic entry points (Peace, Courage, Healing, Joy, Purpose, Love) so seekers can explore without formulating a query
 - **Today's Wisdom** — a different Yogananda passage on each visit, creating a living homepage
@@ -53,12 +53,12 @@ All content is freely accessible. No sign-up gates. No conversion tracking. No b
 | Database | Neon PostgreSQL 18 + pgvector + pg_search/ParadeDB (hybrid vector + BM25 full-text search) |
 | AI | Claude via AWS Bedrock (index-time enrichment, ingestion QA — never in search hot path, never content generation; FTR-027) |
 | Embeddings | Voyage voyage-4-large (multilingual, 1024 dimensions) (FTR-024) |
-| Reranking | Cohere Rerank 3.5 (Milestone 2b+) (FTR-027) |
-| Graph | Postgres-native + Python/NetworkX batch pipeline (Milestone 3b+) (FTR-034) |
+| Reranking | Cohere Rerank 3.5 (STG-005+) (FTR-027) |
+| Graph | Postgres-native + Python/NetworkX batch pipeline (STG-007+) (FTR-034) |
 | Suggestions | Static JSON at CDN edge + pg_trgm fuzzy fallback; Vercel KV if needed (FTR-029) |
 | Language detection | fastText (per-query, < 1ms) |
 | CMS | Contentful |
-| Auth | Auth0 (Milestone 7a+) |
+| Auth | Auth0 (STG-023+) |
 | Edge/CDN | Vercel (native CDN, Firewall, DDoS) |
 | Video | YouTube RSS + Data API v3, Vimeo (platform-agnostic) |
 | IaC | Platform MCP + `teachings.json` (FTR-106 revised) |
@@ -70,9 +70,9 @@ Business logic lives in `/lib/services/` (framework-agnostic TypeScript). A thre
 
 ## Roadmap
 
-Milestone-based roadmap. Current focus, planned work, and future directions — detailed in [ROADMAP.md](ROADMAP.md).
+Stage-based roadmap. Current focus, planned work, and future directions — detailed in [ROADMAP.md](ROADMAP.md).
 
-| Status | Milestone | Focus |
+| Status | Stage | Focus |
 |--------|-----------|-------|
 | Complete | 1a–1c | Prove bilingual search, deploy infrastructure |
 | Complete | 2a–2b | All pages, reader experience, PWA, design system |
@@ -89,4 +89,4 @@ This portal is designed and implemented through AI-human collaboration using [Cl
 - [PRINCIPLES.md](PRINCIPLES.md) — 12 immutable commitments that define the project
 - [CONTEXT.md](CONTEXT.md) — Project background, mission, stakeholders, theological constraints
 - [features/FEATURES.md](features/FEATURES.md) — Unified index of 164 active FTR files across 5 domains
-- [ROADMAP.md](ROADMAP.md) — Milestone-based roadmap with deliverables, success criteria, and milestone gates
+- [ROADMAP.md](ROADMAP.md) — Stage-based roadmap with deliverables, success criteria, and stage gates

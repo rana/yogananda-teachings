@@ -61,11 +61,11 @@ Every managed service integral to **routine operations** requires MCP integratio
 All operational surfaces must be designed for AI consumption:
 
 - **Health endpoints** return structured JSON with typed fields (status, version, dependencies, latency), not HTML status pages (FTR-082, FTR-096)
-- **Deploy manifests** are JSON with version, timestamp, milestone, blast tier, design refs, commit count (FTR-096 § deploy-manifest.json)
+- **Deploy manifests** are JSON with version, timestamp, stage, blast tier, design refs, commit count (FTR-096 § deploy-manifest.json)
 - **Structured logging** uses JSON format with request ID correlation (FTR-082, `/lib/logger.ts`)
 - **Error diagnostics** include structured context — stack traces, request metadata, breadcrumbs — accessible via Sentry MCP
 - **Document integrity validation** outputs machine-parseable results (FTR-096 § doc-validate.sh)
-- **Release tags** carry structured metadata: version, milestone, design refs, blast tier (FTR-096 § release-tag.sh)
+- **Release tags** carry structured metadata: version, stage, design refs, blast tier (FTR-096 § release-tag.sh)
 
 **Standard:** Every operational output that the AI operator consumes must be parseable without heuristic text extraction. If an output requires regex to interpret, it needs structured alternatives.
 

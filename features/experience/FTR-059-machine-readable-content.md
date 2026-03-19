@@ -269,7 +269,7 @@ The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt`
 
 ## Content Scope
 - Published books by Paramahansa Yogananda (verbatim text with citations)
-- Audio recordings of Yogananda's lectures (future milestones)
+- Audio recordings of Yogananda's lectures (future stages)
 - Video talks by SRF monastics (YouTube embeds)
 - NOT included: SRF Lessons, Kriya Yoga techniques, unpublished materials
 
@@ -283,7 +283,7 @@ The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt`
 - Theme passages: GET /api/v1/themes/{slug}/passages
 ```
 
-**Passage-level content in `llms-full.txt`.** The metadata-only mode in `llms-full.txt` is a content-readiness gate, not a restriction posture. Full passage text is available in HTML pages from the initial milestone — any crawler can read it. The `llms-full.txt` file evolves from metadata-only to passage-inclusive as the content pipeline matures:
+**Passage-level content in `llms-full.txt`.** The metadata-only mode in `llms-full.txt` is a content-readiness gate, not a restriction posture. Full passage text is available in HTML pages from the initial stage — any crawler can read it. The `llms-full.txt` file evolves from metadata-only to passage-inclusive as the content pipeline matures:
 
 - **STG-004 (metadata only):** Book inventory, theme inventory, API endpoints. Passage text not yet included because the corpus is one book and the citation pipeline is being validated.
 - **STG-009+ (passage-level content):** Once the full corpus is ingested with validated citations, `llms-full.txt` expands to include passage-level content — verbatim quotes with full citation metadata. This is a convenience optimization for AI systems (single-fetch corpus access vs. page-by-page crawling), not a permission change. The content is already fully accessible in HTML.
@@ -416,7 +416,7 @@ Extend FTR-097's rate limiting with a separate tier for known crawler user agent
 |------|-----------|-------------|
 | Anonymous | 30 req/min | Unknown / unidentified |
 | Known crawler | 120 req/min | Googlebot, Bingbot, GPTBot, PerplexityBot, ClaudeBot |
-| API consumer (future) | 300 req/min | Authenticated API keys (Milestone 7a+) |
+| API consumer (future) | 300 req/min | Authenticated API keys (STG-023+) |
 
 Known crawlers get 4× the anonymous rate limit. They're identified by user agent string and verified by reverse DNS where possible (Googlebot verification). This is generous enough for thorough indexing while preventing abuse.
 
@@ -470,7 +470,7 @@ Every page emits a `<link rel="canonical">` tag to prevent duplicate content ind
 | Share URL with `?h=` hash parameter | Strip `?h=` for canonical | `/passage/abc123?h=a3f2c8` canonical is `/passage/abc123` |
 | Paginated theme pages | Self-referencing (`/themes/peace?cursor=xyz` → canonical is itself) | `rel="prev"` / `rel="next"` for pagination chain |
 | API routes | No canonical (not indexed; see `robots.txt` Disallow) | — |
-| Non-English locale pages | Self-referencing with locale prefix | `hreflang` alternates link all locale variants (Milestone 5b) |
+| Non-English locale pages | Self-referencing with locale prefix | `hreflang` alternates link all locale variants (STG-021) |
 
 **Implementation:**
 - Next.js `generateMetadata` returns `canonical` for every page
@@ -478,7 +478,7 @@ Every page emits a `<link rel="canonical">` tag to prevent duplicate content ind
 - `rel="canonical"` is consistent with the URL in the sitemap
 - Passage share pages are canonical for their content; reader deep links are the reading context
 
-**`hreflang` (Milestone 5b):** When multilingual content launches, every page emits `<link rel="alternate" hreflang="{locale}">` tags for all available language variants, plus `hreflang="x-default"` pointing to the English version. Per-locale sitemaps include `<xhtml:link rel="alternate">` entries. This is specified in ROADMAP Milestone 5b and implemented here as the extension of the canonical URL system.
+**`hreflang` (STG-021):** When multilingual content launches, every page emits `<link rel="alternate" hreflang="{locale}">` tags for all available language variants, plus `hreflang="x-default"` pointing to the English version. Per-locale sitemaps include `<xhtml:link rel="alternate">` entries. This is specified in ROADMAP STG-021 and implemented here as the extension of the canonical URL system.
 
 ### 10. IndexNow — Instant Search Engine Notification
 
@@ -634,7 +634,7 @@ Chrome's Speculation Rules API allows the portal to prerender pages the seeker i
 
 **`data-prefetch` attribute:** Added to the next 2–3 likely navigation targets (prefetch is lighter than prerender — just the HTML, not full rendering). Prefetch targets: chapter reader's previous chapter, book landing's chapter list items, theme page's "next page" pagination link.
 
-**Milestone:** STG-005 (alongside reader interaction polish). The prerender targets depend on understanding navigation patterns, which are established in STG-004.
+**Stage:** STG-005 (alongside reader interaction polish). The prerender targets depend on understanding navigation patterns, which are established in STG-004.
 
 ### 14. `.well-known/security.txt`
 
@@ -708,9 +708,9 @@ Every page route has an explicit rendering strategy to ensure search engine craw
 - STG-004: Rendering strategy enforced — all content pages ISR/SSR, client-only pages `noindex`
 - STG-004: OG quote images generated at minimum 1200×630px for Google Discover eligibility
 - STG-005: Speculation Rules prerender hints on reader and navigation pages
-- Milestone 5a: RSS feeds (alongside daily email) with auto-discovery tags
-- Milestone 5a+: `llms-full.txt` expanded to passage-level content (aligned with MCP Tier 3 approval)
-- Milestone 5b: `hreflang` tags and per-locale sitemaps (extend canonical URL system)
+- STG-020: RSS feeds (alongside daily email) with auto-discovery tags
+- STG-020+: `llms-full.txt` expanded to passage-level content (aligned with MCP Tier 3 approval)
+- STG-021: `hreflang` tags and per-locale sitemaps (extend canonical URL system)
 - All structured data maintained alongside content — when a book is re-ingested, its JSON-LD, `llms-full.txt`, and sitemaps are regenerated
 - IndexNow pings fired on every content change (book ingestion, correction, daily passage rotation)
 - Google Search Console and Bing Webmaster Tools configured for monitoring indexing

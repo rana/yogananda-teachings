@@ -15,7 +15,7 @@ governed-by: [PRI-05, PRI-06]
 
 #### Context
 
-FTR-024 established embedding model versioning infrastructure. FTR-024 selected OpenAI `text-embedding-3-small` (1536 dimensions) as the initial embedding model, with planned benchmarking at Milestone 5b.
+FTR-024 established embedding model versioning infrastructure. FTR-024 selected OpenAI `text-embedding-3-small` (1536 dimensions) as the initial embedding model, with planned benchmarking at STG-021.
 
 The RAG Architecture Proposal makes a compelling case for starting with a higher-quality model:
 1. **Literary and spiritual text quality.** Yogananda's prose is rich in literary allusion, Sanskrit vocabulary, figurative language.
@@ -36,7 +36,7 @@ Use Voyage `voyage-4-large` (MoE architecture, shared embedding space, Matryoshk
 
 - All `VECTOR(1536)` definitions change to `VECTOR(1024)`
 - HNSW index parameters updated for 1024 dimensions
-- Milestone 5b benchmarking scope: Voyage as baseline rather than OpenAI
+- STG-021 benchmarking scope: Voyage as baseline rather than OpenAI
 
 ### FTR-024: Embedding Model Versioning and Migration
 
@@ -75,7 +75,7 @@ Three dimensions of embedding quality matter:
 #### Decision
 
 1. Voyage voyage-4-large is the primary embedding model (FTR-024).
-2. Milestone 5b benchmarks Voyage against multilingual alternatives (Cohere embed-v3, BGE-M3, multilingual-e5-large-instruct, Jina-embeddings-v3).
+2. STG-021 benchmarks Voyage against multilingual alternatives (Cohere embed-v3, BGE-M3, multilingual-e5-large-instruct, Jina-embeddings-v3).
 3. **Enrichment-augmented re-embedding (STG-006)** is the intermediate step between baseline and domain-adapted fine-tuning. See § Enrichment-Augmented Re-embedding below.
 4. Domain-adapted embeddings remain a later-stage research effort. Fine-tuning on Yogananda's corpus could produce world-class retrieval quality.
 5. The architecture already supports model evolution via FTR-024.
@@ -93,7 +93,7 @@ Three dimensions of embedding quality matter:
 
 - Primary model is Voyage voyage-4-large (1024 dimensions)
 - STG-006: enrichment-augmented re-embedding (same model, richer input)
-- Milestone 5b benchmarks as baseline
+- STG-021 benchmarks as baseline
 - Domain-adapted embeddings remain a documented research track
 
 ### FTR-024: Enrichment-Augmented Re-embedding

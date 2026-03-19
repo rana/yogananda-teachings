@@ -82,7 +82,7 @@ A dedicated `/places` page presenting sites of biographical and spiritual signif
 
 ### Map Strategy
 
-- **Milestone 5a:** No maps. Text descriptions with addresses and "Get Directions" links (opens user's native maps app).
+- **STG-020:** No maps. Text descriptions with addresses and "Get Directions" links (opens user's native maps app).
 - **Sacred Places enhancement:** No embedded map library. Add **"See This Place" Street View links** (plain Google Maps URLs, no SDK) to place cards where coverage exists. Zero map dependencies, zero tile servers, zero maintenance. See FTR-050.
 - **Future:** Dynamic center locator (if SRF provides data). If a center locator requires an embedded map, evaluate Leaflet + OpenStreetMap or Google Maps at that point — separate decision for a different page with different requirements.
 
@@ -108,7 +108,7 @@ A dedicated `/places` page presenting sites of biographical and spiritual signif
 
 ### Consequences
 
-- Milestone 5a adds static Events section and initial Sacred Places page (SRF properties, no maps)
+- STG-020 adds static Events section and initial Sacred Places page (SRF properties, no maps)
 - A subsequent enhancement adds biographical sites and "See This Place" Street View links (FTR-050) — no embedded map library
 - Sacred Places content needs SRF/YSS review — biographical descriptions must be accurate and approved
 - Cross-referencing places with book passages requires a `places` table and a `chunk_places` junction table (or place tags on chunks)
@@ -176,10 +176,10 @@ Located at `/events` (dedicated page — consistent with the routes table in § 
 
 ### Implementation
 
-- **Milestone 5a:** Static content. MDX or hardcoded in a Next.js page. No CMS needed.
+- **STG-020:** Static content. MDX or hardcoded in a Next.js page. No CMS needed.
 - **Production:** Contentful entry type `event` with fields: `title`, `date`, `description`, `externalUrl`, `image`. Editors update annually.
 - **No dynamic event data.** The portal does not fetch from SRF's event systems. It links to them.
-- **Lightweight calendar awareness (Milestone 5a):** The Convocation hero card displays the next Convocation date. Since Convocation is always in August, a simple date comparison promotes the card from "annual event" to "upcoming event" when the current date is within a configurable window (e.g., April–August). During this window, the card's description adds "Registration is open" with link. Outside the window: "Held each August." This is not the full FTR-065 calendar-aware surfacing system — it's a single date check on a static page. Commemorations can use similar lightweight date proximity when full FTR-065 ships (STG-007+).
+- **Lightweight calendar awareness (STG-020):** The Convocation hero card displays the next Convocation date. Since Convocation is always in August, a simple date comparison promotes the card from "annual event" to "upcoming event" when the current date is within a configurable window (e.g., April–August). During this window, the card's description adds "Registration is open" with link. Outside the window: "Held each August." This is not the full FTR-065 calendar-aware surfacing system — it's a single date check on a static page. Commemorations can use similar lightweight date proximity when full FTR-065 ships (STG-007+).
 
 ---
 

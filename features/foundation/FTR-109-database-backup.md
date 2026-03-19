@@ -42,7 +42,7 @@ Available immediately on Scale tier. Restore to any moment within 30 days — co
 
 #### Layer 2: Neon Snapshots (API-managed, automated schedule)
 
-Configure automated snapshots on the production branch via **Neon Snapshot API** during Milestone STG-001-2 project setup. The Snapshot API supports full CRUD (create, list, restore, update, delete) and backup schedule configuration — no Console interaction needed. Claude configures the schedule via Neon MCP or API call during bootstrap.
+Configure automated snapshots on the production branch via **Neon Snapshot API** during STG-001-2 project setup. The Snapshot API supports full CRUD (create, list, restore, update, delete) and backup schedule configuration — no Console interaction needed. Claude configures the schedule via Neon MCP or API call during bootstrap.
 
 - **Daily snapshot** at 03:00 UTC (before nightly pg_dump for redundancy)
 - **Weekly snapshot** on Sundays
@@ -103,7 +103,7 @@ S3 backup bucket, Lambda function, EventBridge rule, and IAM role are provisione
 ### Consequences
 
 - PITR and Time Travel Queries available from STG-001 (Scale tier). Time Travel accepted as development tool (FTR-094).
-- Snapshot schedule configured during Milestone STG-001-2 Neon project setup via Neon Snapshot API (not Console)
+- Snapshot schedule configured during STG-001-2 Neon project setup via Neon Snapshot API (not Console)
 - Pre-migration snapshots created by CI workflow before migration PRs
 - On-demand snapshots created by Claude via MCP before risky operations
 - Backup infrastructure (S3 bucket, Lambda, EventBridge) provisioned in STG-004 via Platform MCP

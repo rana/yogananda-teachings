@@ -13,10 +13,10 @@ re-evaluate-at: STG-023
 
 ## Rationale
 
-The portal architecture uses Auth0 for optional authentication (Milestone 7a+). Neon Auth (managed Better Auth) is now GA with 60K MAU free (Scale tier), branch-aware auth state, and native Row-Level Security integration. Branch-aware auth means PR preview deployments get isolated auth environments automatically — no Auth0 tenant management needed for previews. Evaluate when Milestone 7a scoping begins.
+The portal architecture uses Auth0 for optional authentication (STG-023+). Neon Auth (managed Better Auth) is now GA with 60K MAU free (Scale tier), branch-aware auth state, and native Row-Level Security integration. Branch-aware auth means PR preview deployments get isolated auth environments automatically — no Auth0 tenant management needed for previews. Evaluate when STG-023 scoping begins.
 
 ## Notes
 
-- **Dependencies:** Milestone 7a (accounts). No auth until then.
-- **Re-evaluate at:** Milestone 7a scoping
+- **Dependencies:** STG-023 (accounts). No auth until then.
+- **Re-evaluate at:** STG-023 scoping
 - **Decision required from:** Architecture

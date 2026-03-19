@@ -4,7 +4,7 @@
 
 SRF IT needs to empower staff, monastics, and YSS partners to create digital applications autonomously — from a Yearly Convocation website to proof-of-concepts to full products. Today, three repos form the foundation: **yogananda-teachings** (portal + 43 skills + 164 FTRs), **yogananda-platform** (27 MCP tools, environment engine, review overlay, cost tracking), and **yogananda-design** (design tokens, semantic language, pattern library). The vision: an operations portal where a staff member enters a prompt and a team of AI agents builds an entire end-to-end application, with email delivery of results.
 
-This document captures the complete architectural vision across all dimensions the user raised. It is a **strategic proposal** — not an implementation plan for a single milestone. It would become one or more FTR files and inform multiple future milestones.
+This document captures the complete architectural vision across all dimensions the user raised. It is a **strategic proposal** — not an implementation plan for a single stage. It would become one or more FTR files and inform multiple future stages.
 
 ---
 
@@ -21,7 +21,7 @@ A staff member opens `yogananda.tech/ops`, clicks "New Experiment," and sees:
    - Assigns a commit-hash-based experimental domain (`abc123.experiments.yogananda.tech`)
    - Spins up a full environment (Neon branch, Vercel deployment, DNS)
    - Executes the agent workflow pipeline
-   - Sends **email notifications** at key milestones (research complete, design ready for review, build deployed, CI checks passed)
+   - Sends **email notifications** at key stages (research complete, design ready for review, build deployed, CI checks passed)
 6. They **review the result** at the experimental URL. Use the review overlay to leave comments. AI agents process feedback and redeploy.
 7. When satisfied, they click **Promote to Dev** (requires manual approval). Or **Decline** (preserved as institutional record).
 

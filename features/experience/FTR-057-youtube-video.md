@@ -48,7 +48,7 @@ Use a **hybrid RSS + YouTube Data API** approach:
 - Requires a YouTube Data API key (free, obtained via Google Cloud Console)
 - Playlist-to-category mapping needs initial configuration and occasional maintenance
 - RSS provides only ~15 recent videos — the API is needed for the full library
-- A future milestone can add video transcription for cross-media search (book passages + video segments)
+- A future stage can add video transcription for cross-media search (book passages + video segments)
 
 
 ## Specification
@@ -240,7 +240,7 @@ Videos play via YouTube's embedded player (no Vimeo needed for public YouTube co
 
 Using `youtube-nocookie.com` for privacy-enhanced mode (no tracking cookies until play).
 
-### FTR-142: Future: Video-to-Book Cross-Reference (Milestone 5b)
+### FTR-142: Future: Video-to-Book Cross-Reference (STG-021)
 
 When monastic talks are transcribed, the transcripts become a new content type alongside book chunks, enabling unified cross-media search and time-synced playback.
 
@@ -259,7 +259,7 @@ When monastic talks are transcribed, the transcripts become a new content type a
 
 ```sql
 -- ============================================================
--- VIDEO TRANSCRIPTS (future milestones)
+-- VIDEO TRANSCRIPTS (future stages)
 -- ============================================================
 CREATE TABLE video_transcripts (
  id UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -272,7 +272,7 @@ CREATE TABLE video_transcripts (
 );
 
 -- ============================================================
--- VIDEO CHUNKS (time-synced, embeddable, searchable — future milestones)
+-- VIDEO CHUNKS (time-synced, embeddable, searchable — future stages)
 -- ============================================================
 -- Same chunking strategy as book_chunks. Each chunk carries start/end
 -- timestamps enabling direct links to the exact video playback moment.

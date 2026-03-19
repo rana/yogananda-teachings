@@ -82,7 +82,7 @@ The commitments are specific: homepage initial payload under 50KB; text-only mod
 
 When a feature proposal seems to conflict with this principle, the response is not "we can't do that" but "and how does the base experience work?" Global-First does not constrain ambition. It demands that ambition serve everyone.
 
-**Prioritization metric:** When scope must be ordered, the option serving more reachable people ships first. Reachable population (speakers × internet penetration × content availability) is the default tiebreaker for all scope decisions. Spanish (~430M reachable) is activated alongside English from the start. Hindi (~425M) is Tier 1 but deferred — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in Milestone 5b when an authorized source becomes available. See FTR-011 for the full quantitative framework, application protocol, and demographic data.
+**Prioritization metric:** When scope must be ordered, the option serving more reachable people ships first. Reachable population (speakers × internet penetration × content availability) is the default tiebreaker for all scope decisions. Spanish (~430M reachable) is activated alongside English from the start. Hindi (~425M) is Tier 1 but deferred — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka (Razorpay); the Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi activates in STG-021 when an authorized source becomes available. See FTR-011 for the full quantitative framework, application protocol, and demographic data.
 
 ---
 
@@ -102,7 +102,7 @@ The three-layer localization strategy: Layer 1 is UI chrome (~200-300 strings, e
 
 SRF's mission is to serve "all of humanity." "All" includes people with disabilities — and people on phones. This is a theological imperative, not a compliance exercise. SRF's existing app already invested in screen reader support — the portal must meet or exceed that standard.
 
-Retrofitting accessibility is expensive and error-prone; building it in from day one is nearly free. Semantic HTML, keyboard navigation, and ARIA landmarks cost nothing if done from the start. They cost massive effort to retrofit after inaccessible patterns get baked into components and propagated. The same is true of mobile-first CSS: writing `px-4 md:px-8` costs nothing at STG-001; retrofitting desktop-first layouts for mobile costs real effort. When ~70% of the Hindi and Spanish audience (FTR-011 Tier 1) accesses the portal on mobile phones, mobile-first is not polish — it is access. Later milestones handle audit and polish (professional WCAG audit, TTS, advanced reading mode, full responsive design strategy) — accessibility and mobile readiness are not late-stage additions.
+Retrofitting accessibility is expensive and error-prone; building it in from day one is nearly free. Semantic HTML, keyboard navigation, and ARIA landmarks cost nothing if done from the start. They cost massive effort to retrofit after inaccessible patterns get baked into components and propagated. The same is true of mobile-first CSS: writing `px-4 md:px-8` costs nothing at STG-001; retrofitting desktop-first layouts for mobile costs real effort. When ~70% of the Hindi and Spanish audience (FTR-011 Tier 1) accesses the portal on mobile phones, mobile-first is not polish — it is access. Later stages handle audit and polish (professional WCAG audit, TTS, advanced reading mode, full responsive design strategy) — accessibility and mobile readiness are not late-stage additions.
 
 Screen reader quality goes beyond mere compliance. FTR-053 specifies that the spoken interface should carry the same warmth as the visual one — not just "Bookmark button" but a voice that conveys the portal's devotional register. FTR-052 addresses cognitive accessibility: consistent navigation, no autoplay, clear language, predictable behavior.
 
@@ -116,7 +116,7 @@ Standard web patterns — aggressive CTAs, notification badges, engagement dashb
 
 The design system is derived from existing SRF properties (yogananda.org, the Online Meditation Center, the convocation site), enhanced with Calm Technology constraints: generous whitespace as "digital silence," warm backgrounds (never pure white), no decorative animations beyond subtle 0.3s transitions, pill-shaped buttons from SRF's established interaction patterns. The portal's visual language should feel like entering a library, not a marketplace.
 
-Personalization features are classified into three tiers (FTR-002): build (language preference, font size, bookmarks — genuinely helpful); build with caution (search history — opt-in only, user-clearable, never inferred); never build (reading streaks, behavioral recommendations, social features, push notifications, engagement dashboards). The portal's anonymous experience through all milestones must be excellent without any personalization.
+Personalization features are classified into three tiers (FTR-002): build (language preference, font size, bookmarks — genuinely helpful); build with caution (search history — opt-in only, user-clearable, never inferred); never build (reading streaks, behavioral recommendations, social features, push notifications, engagement dashboards). The portal's anonymous experience through all stages must be excellent without any personalization.
 
 ---
 
@@ -152,9 +152,9 @@ The search quality test suite (bilingual golden set — FTR-037) serves as the a
 
 ### PRI-11: API-First Architecture
 
-**All business logic in `/lib/services/`.** API routes use `/api/v1/` prefix. All routes public (no auth until Milestone 7a+). Cursor-based pagination. (FTR-015)
+**All business logic in `/lib/services/`.** API routes use `/api/v1/` prefix. All routes public (no auth until STG-023+). Cursor-based pagination. (FTR-015)
 
-Next.js encourages embedding business logic in React Server Components. This is convenient but creates platform lock: Server Components are callable only by the Next.js rendering pipeline, not by mobile apps, third-party integrations, or PWA Service Workers. If business logic migrates into Server Components during early milestones, extracting it later is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
+Next.js encourages embedding business logic in React Server Components. This is convenient but creates platform lock: Server Components are callable only by the Next.js rendering pipeline, not by mobile apps, third-party integrations, or PWA Service Workers. If business logic migrates into Server Components during early stages, extracting it later is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
 
 The shared service layer (`/lib/services/`) is pure TypeScript with zero framework imports. A framework migration rewrites the UI layer (~40% of code), not the business logic (~60%). This is the single most important structural rule for the project's longevity (FTR-004). Every user-facing feature has both a callable service function and a REST API endpoint. Server Components call service functions directly; external consumers call REST endpoints. Both hit the same logic.
 

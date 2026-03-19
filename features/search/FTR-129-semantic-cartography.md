@@ -15,7 +15,7 @@ depends-on: [FTR-128, FTR-124]
 **Target:** STG-009 (alongside knowledge graph visualization) or earlier if static rendering proves viable
 **Dependencies:** FTR-128 (structural enrichment provides semantic understanding for coordinate assignment). Minimal frontend: static SVG at CDN edge works on 2G mobile.
 
-**The gap.** The Passage Constellation (FTR-124, future milestones) uses UMAP/t-SNE to project embeddings into 2D/3D space. This is a mathematical projection — it captures embedding similarity but the axes have no semantic meaning. A seeker navigating the constellation sees clusters but can't reason about *why* passages are near each other without reading them.
+**The gap.** The Passage Constellation (FTR-124, future stages) uses UMAP/t-SNE to project embeddings into 2D/3D space. This is a mathematical projection — it captures embedding similarity but the axes have no semantic meaning. A seeker navigating the constellation sees clusters but can't reason about *why* passages are near each other without reading them.
 
 Semantic Cartography inverts this: Opus assigns coordinates on axes that carry meaning. The resulting map is a navigable territory seekers can reason about spatially — like a library's floor plan where the organization itself communicates.
 
@@ -39,7 +39,7 @@ These axes map to seeker intent: someone seeking personal comfort navigates to a
 **Progressive enhancement rendering:**
 1. **Baseline (static SVG at CDN edge).** Pre-rendered 2D map of chapters/books. Works on 2G mobile. No JavaScript required. Navigation via standard `<a>` elements linking to chapter pages. Accessible: each point has an `<title>` element with chapter name and position description for screen readers.
 2. **Enhanced (client-side JS).** Zoom, pan, hover details with passage previews, smooth transitions between book-level and chapter-level views. Loads on capable devices.
-3. **Full (future milestones).** Interactive exploration with passage-level drill-down when knowledge graph visualization infrastructure exists. Integrates with the Passage Constellation — semantic cartography provides the meaningful axes, embedding projection provides the passage-level detail.
+3. **Full (future stages).** Interactive exploration with passage-level drill-down when knowledge graph visualization infrastructure exists. Integrates with the Passage Constellation — semantic cartography provides the meaningful axes, embedding projection provides the passage-level detail.
 
 **Minimum viable version:** A single 2D scatter of 49 chapters from Autobiography of a Yogi, positioned by Opus on the practice/life and personal/universal axes, rendered as static SVG. Chapter names as labels. Tap/click navigates to the chapter reading page. Testable, shippable, mobile-friendly, accessible. Can be generated from the FTR-128 prototype output.
 

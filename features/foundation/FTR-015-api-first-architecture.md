@@ -20,7 +20,7 @@ The SRF already has a native mobile app (iOS/Android) with an eReader. While a d
 
 Next.js encourages a pattern where business logic lives inside React Server Components. This is convenient for web development but creates a platform lock: Server Components are callable only by the Next.js rendering pipeline, not by a mobile app, a third-party integration, or a PWA Service Worker.
 
-If business logic migrates into Server Components during Milestones 1a–5b, extracting it later into a proper API layer is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
+If business logic migrates into Server Components during Stages 1a–5b, extracting it later into a proper API layer is a significant refactoring effort. The cost of API-first discipline from day one is near zero; the cost of retrofitting is high.
 
 ### Decision
 
@@ -63,7 +63,7 @@ When the API evolves, `/api/v2/` coexists with `/api/v1/`. The web frontend alwa
 
 #### 3. Authentication: Public by Default
 
-**All API routes are public through Milestone 7a.** No authentication required. The portal's core mission is frictionless access to the teachings — adding "Sign in" contradicts this.
+**All API routes are public through STG-023.** No authentication required. The portal's core mission is frictionless access to the teachings — adding "Sign in" contradicts this.
 
 What auth would serve, and how it's handled without it:
 
@@ -75,7 +75,7 @@ What auth would serve, and how it's handled without it:
 | Admin dashboards | Retool has its own auth |
 | Content protection | Not needed — the mission is free access |
 
-**Milestone 7a+ (if needed):** When optional accounts are introduced for cross-device sync, evaluate the lightest mechanism that serves the need (magic links, passkeys, or Auth0 if SSO with other SRF properties is required). Public search and reading remain unauthenticated regardless. Auth is additive middleware on specific protected endpoints — never a gate on reading or search.
+**STG-023+ (if needed):** When optional accounts are introduced for cross-device sync, evaluate the lightest mechanism that serves the need (magic links, passkeys, or Auth0 if SSO with other SRF properties is required). Public search and reading remain unauthenticated regardless. Auth is additive middleware on specific protected endpoints — never a gate on reading or search.
 
 #### 4. Cursor-Based Pagination
 
@@ -133,7 +133,7 @@ The URL structure is decided now. The association files are added when the app l
 
 - STG-001 API routes use `/api/v1/` prefix (update DESIGN.md)
 - All features implemented via `/lib/services/` functions first, then exposed via Server Components and API routes
-- API routes are public (no auth) through Milestone 7a; auth middleware added only if/when Milestone 7a accounts are implemented
+- API routes are public (no auth) through STG-023; auth middleware added only if/when STG-023 accounts are implemented
 - List endpoints return cursor-based pagination
 - Cache-Control headers on all API responses
 - PWA readiness added to roadmap (STG-005)
@@ -427,7 +427,7 @@ Implementation:
 ```
 Query params:
  language (optional) — default 'en'. Returns books available in user's locale.
- Milestone 5b: also returns an "also_available_in_english"
+ STG-021: also returns an "also_available_in_english"
  section for untranslated works (per FTR-058).
 
 Response (complete collection — see § API Conventions):

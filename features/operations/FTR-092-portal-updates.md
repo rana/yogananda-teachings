@@ -16,7 +16,7 @@ governed-by: [PRI-03, PRI-08]
 
 ### Context
 
-Over a 10-year lifespan, the portal will evolve through multiple phases — adding books, languages, features, and content types. Seekers who visited in STG-006 and return in Milestone 5a would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable STG-006-8's "What's New in the Library" gold dot for new books; Milestone 5a RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
+Over a 10-year lifespan, the portal will evolve through multiple phases — adding books, languages, features, and content types. Seekers who visited in STG-006 and return in STG-020 would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable STG-006-8's "What's New in the Library" gold dot for new books; STG-020 RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
 
 The daily email (FTR-154) explicitly excludes announcements: "The email is a passage, not a newsletter. No announcements, no feature updates." This is correct — the email channel must remain pure. But the portal itself should offer a quiet, opt-in way for seekers to learn what has changed.
 
@@ -100,11 +100,11 @@ Over a decade, this archive becomes a narrative of the portal's growth — the p
 ### Placement
 
 - **Primary:** `/updates` page linked from site footer ("What's new in the portal")
-- **RSS:** `/feed/updates.xml` alongside existing content feeds (Milestone 5a)
+- **RSS:** `/feed/updates.xml` alongside existing content feeds (STG-020)
 - **About page:** Brief "Recent additions" summary on the About page (optional, editorial judgment)
 - **Not:** Homepage banners, daily email, push notifications, or nav-bar badges
 
-### Multilingual (Milestone 5b+)
+### Multilingual (STG-021+)
 
 Update notes follow the same translation workflow as other editorial content (FTR-135): AI drafts translation, human reviewer approves. A Hindi-speaking seeker learns about the Hindi launch in Hindi.
 
@@ -118,10 +118,10 @@ Update notes follow the same translation workflow as other editorial content (FT
 ### Consequences
 
 - New FTR-092 in DESIGN.md specifying the `/updates` page design, data model, and editorial workflow
-- New deliverable in STG-007 (when the editorial portal activates — first milestone with human review capability)
+- New deliverable in STG-007 (when the editorial portal activates — first stage with human review capability)
 - New AI workflow in FTR-069 for update note drafting
 - New review queue type (`updates`) in the editorial portal (FTR-067)
-- RSS feed extension in Milestone 5a
+- RSS feed extension in STG-020
 - Portal coordinator role gains update review responsibility
 - `portal_updates` table added to schema
 
@@ -232,13 +232,13 @@ Located at `/updates` — linked from site footer as "What's new in the portal."
 
 ### RSS Feed
 
-`/feed/updates.xml` — RSS 2.0, alongside existing content feeds planned in Milestone 5a. Each item includes title, summary, category, and portal link.
+`/feed/updates.xml` — RSS 2.0, alongside existing content feeds planned in STG-020. Each item includes title, summary, category, and portal link.
 
-### Milestone Delivery
+### Stage Delivery
 
-| Milestone | What Ships |
+| Stage | What Ships |
 |-----------|-----------|
-| **3b** | `/updates` page, `portal_updates` table, AI draft pipeline, review queue. First entries cover Milestones 1a–3b retrospectively. |
+| **3b** | `/updates` page, `portal_updates` table, AI draft pipeline, review queue. First entries cover Stages 1a–3b retrospectively. |
 | **5a** | `/feed/updates.xml` RSS feed alongside other RSS feeds. |
 | **5b+** | Multilingual update notes via FTR-135 translation workflow. |
 

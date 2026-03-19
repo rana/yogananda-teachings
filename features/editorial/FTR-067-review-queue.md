@@ -61,7 +61,7 @@ This is a **UI pattern, not a new data model.** Each underlying content type kee
 
 ### Queue Health Monitoring
 
-Review queues grow with every milestone. Without monitoring, backlogs can exceed a monastic editor's 2–3 hour daily window for weeks.
+Review queues grow with every stage. Without monitoring, backlogs can exceed a monastic editor's 2–3 hour daily window for weeks.
 
 **Queue health indicators:**
 - **Oldest unreviewed item** — displayed on editorial home screen

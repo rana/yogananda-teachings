@@ -19,7 +19,7 @@ re-evaluate-at: STG-009
 **Dependencies:** Tier 1 requires `/lib/services/` operational. Tier 2 requires STG-007 editorial portal. Tier 3 requires corpus complete (STG-009+).
 **Scheduling Notes:** Descheduled 2026-02-24 to focus on core delivery. Three tiers: Development (Claude Code corpus search), Internal (editorial AI workflows), External (third-party AI assistants with fidelity metadata). Service layer wrapping — no new business logic. Full architecture preserved in `design/search/FTR-083-mcp-server-strategy.md`.
 **Re-evaluate At:** STG-009 boundary
-**Decision Required From:** Architecture (self-assessment at milestone boundary)
+**Decision Required From:** Architecture (self-assessment at stage boundary)
 
 ## Notes
 

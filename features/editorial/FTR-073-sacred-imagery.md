@@ -106,7 +106,7 @@ CREATE TABLE image_places (
 - S3 storage for images uses the same bucket and CloudFront distribution as audio files (FTR-142)
 - Image search integration via unified content hub (FTR-142) when cross-media features arrive
 - Claude drafts alt text and rich descriptions at ingestion time; human review mandatory before publishing
-- Image descriptions are localized alongside other content in Milestone 5b (Multi-Language) via `image_descriptions.language`
+- Image descriptions are localized alongside other content in STG-021 (Multi-Language) via `image_descriptions.language`
 - Sacred Places pages (FTR-049) gain a photographs section — images connected via `image_places`
 - **Extends** FTR-005 E7 (Claude-generated alt text) — from About page photos to the entire image archive
 - **Extends** FTR-142 (audio sacred artifacts) — same `is_yogananda_subject` pattern for visual sacred artifacts
@@ -169,7 +169,7 @@ SRF has extraordinary imagery: the Encinitas hermitage cliffs, Lake Shrine garde
 
 ### Decision
 
-1. **The reading experience is text-only.** No images appear in the book reader column. Imagery would compete with Yogananda's words, and his words always win. The side panel may show video thumbnails (future milestones) but never photographs.
+1. **The reading experience is text-only.** No images appear in the book reader column. Imagery would compete with Yogananda's words, and his words always win. The side panel may show video thumbnails (future stages) but never photographs.
 
 2. **Homepage hero:** A single, wide, soft-focus photograph of an SRF property (Encinitas coastline, Lake Shrine) overlaid with "Today's Wisdom" in white Merriweather on a semi-transparent `--srf-navy` band. Updated seasonally (4 images per year). If SRF cannot provide or approve photographs, the homepage uses the warm cream background with no hero image — the design works without it.
 

@@ -47,7 +47,7 @@ CREATE TABLE people (
   death_year INTEGER,              -- NULL for avatars (Krishna) or living figures
   biography_short TEXT NOT NULL,   -- 2–3 sentences, editorial
   biography_long TEXT,             -- full detail page content, editorial
-  image_id UUID,                   -- FK to images table (future milestones, FTR-073)
+  image_id UUID,                   -- FK to images table (future stages, FTR-073)
   topic_id UUID REFERENCES teaching_topics(id),  -- links to theme tagging system
   language TEXT NOT NULL DEFAULT 'en',
   canonical_person_id UUID REFERENCES people(id),  -- cross-language linking
@@ -129,7 +129,7 @@ The theme page (`/themes/krishna`) continues to serve the question "What did Yog
 - API endpoints `GET /api/v1/people` and `GET /api/v1/people/[slug]` added (STG-008)
 - Spiritual Figures entries require SRF editorial review and approval before publication (`is_published` gate)
 - Guru photographs on person pages follow FTR-073 sacred image guidelines
-- Cross-language person entries linked via `canonical_person_id` (Milestone 5b)
+- Cross-language person entries linked via `canonical_person_id` (STG-021)
 - Theme pages for person-category topics gain a "Learn about [person] →" link to Spiritual Figures
 - Reader inline references to named figures can link to Spiritual Figures entries (STG-008+)
 - **Extends FTR-121** (teaching topics), **FTR-049** (Sacred Places), **FTR-122** (exploration categories)

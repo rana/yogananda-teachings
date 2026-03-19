@@ -14,7 +14,7 @@ depends-on: [FTR-069]
 
 ### Context
 
-FTR-069 catalogs 25+ AI-assisted editorial workflows, all governed by the principle "AI proposes, humans approve." This principle is correct as a starting posture but incomplete as a 10-year operating model. The portal's monastic content editor has a 2–3 hour daily window for editorial work. As the corpus grows from 1 book (STG-001) to 15+ books plus video, audio, images, magazine archives, and community submissions (Milestone 7b+), the total review volume grows multiplicatively — more content types × more workflows × more languages.
+FTR-069 catalogs 25+ AI-assisted editorial workflows, all governed by the principle "AI proposes, humans approve." This principle is correct as a starting posture but incomplete as a 10-year operating model. The portal's monastic content editor has a 2–3 hour daily window for editorial work. As the corpus grows from 1 book (STG-001) to 15+ books plus video, audio, images, magazine archives, and community submissions (STG-024+), the total review volume grows multiplicatively — more content types × more workflows × more languages.
 
 The current design implicitly assumes review demand will stay within human capacity. It won't. By STG-009, the editorial team will be managing theme tag reviews, tone spot-checks, daily passage curation, translation reviews, feedback triage, social media approvals, reverse bibliography verification, and editorial thread curation. Without a governed mechanism for evolving the AI-human relationship over time, one of three things happens: (a) review queues grow unbounded, (b) reviewers rubber-stamp to keep pace, or (c) the team informally skips reviews for "trusted" workflows — losing the audit trail that makes the system trustworthy.
 
@@ -79,7 +79,7 @@ A nightly batch job runs consistency checks across workflow outputs:
 
 Inconsistencies are surfaced in the editorial home screen as a low-priority review category. They are not errors — context legitimately changes meaning. But persistent inconsistencies suggest a classification problem worth investigating.
 
-**Milestone:** 3b (consistency checks). Quarterly cadence begins STG-007. Maturity model governance begins STG-007 for theme tag classification (first workflow to reach Full Review volume). Feedback loop protocol begins STG-001 (override logging from the first AI-assisted search).
+**Stage:** STG-007 (consistency checks). Quarterly cadence begins STG-007. Maturity model governance begins STG-007 for theme tag classification (first workflow to reach Full Review volume). Feedback loop protocol begins STG-001 (override logging from the first AI-assisted search).
 
 #### 5. Workflow Dependency Awareness
 
@@ -111,5 +111,5 @@ When an upstream workflow's output changes (e.g., an OCR correction alters passa
 - Maturity stage tracked per workflow per language in `ai_workflow_config` table (STG-007)
 - Nightly consistency check batch job (STG-008, runs alongside existing nightly jobs)
 - Workflow dependency graph documented in FTR-069 and maintained as workflows are added
-- New open question: editorial capacity modeling — projected review hours per milestone (added to CONTEXT.md)
+- New open question: editorial capacity modeling — projected review hours per stage (added to CONTEXT.md)
 - FTR-069 updated with new subsections: Feedback Loop Protocol, AI Observes pattern, AI Abstains protocol, Workflow Dependency Graph, Unified Prompt Versioning

@@ -27,7 +27,7 @@
 
 ### Why Ebook, Not PDF
 
-The original Milestone 1a plan (FTR-022) uses a spiritmaji.com PDF processed through `marker` (open-source OCR). That PDF has **low fidelity** — degraded scans that would produce OCR errors requiring extensive manual QA, particularly for Sanskrit diacritics (ā, ṇ, ś, ṣ).
+The original STG-001 plan (FTR-022) uses a spiritmaji.com PDF processed through `marker` (open-source OCR). That PDF has **low fidelity** — degraded scans that would produce OCR errors requiring extensive manual QA, particularly for Sanskrit diacritics (ā, ṇ, ś, ṣ).
 
 The project principal has purchased the ebook edition of Autobiography of a Yogi (ASIN: `B00JW44IAI`) available at `https://read.amazon.com/?asin=B00JW44IAI`. The ebook edition is **born-digital** — the publisher (SRF) created it from their source files. This means:
 
