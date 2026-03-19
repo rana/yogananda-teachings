@@ -52,8 +52,8 @@ docs/
     ftr-168-stage-1-preparation.md      — Pre-designed artifacts for Stage 1
 
   prompts/                            — Session handoff instruments (tactical)
-    ftr-168-stage-0-spike.md            — Prompt that was used for Stage 0
-    ftr-168-stage-1-build.md            — Prompt for Stage 1
+    stg-010-spike.md            — Prompt that was used for Stage 0
+    stg-011-build.md            — Prompt for Stage 1
 
   spike-results/                      — Empirical findings (reference)
     claude-agent-sdk.md                 — SDK spike results (or symlink to platform)
@@ -78,7 +78,7 @@ docs/
 ## The Experience
 
 **For the human:**
-- Before starting a session: `cat docs/prompts/ftr-168-stage-1-build.md` → copy → paste into new session
+- Before starting a session: `cat docs/prompts/stg-011-build.md` → copy → paste into new session
 - Can review and edit prompts before running — full agency over what the AI sees
 - Can see the full lifecycle at a glance: plan + preparation + prompt + results
 - No information lives only in chat transcripts
@@ -99,6 +99,6 @@ docs/
 
 1. Create `docs/prompts/`
 2. Rename `stage-1-preparation.md` → `ftr-168-stage-1-preparation.md`
-3. Write Stage 0 prompt to `docs/prompts/ftr-168-stage-0-spike.md` (retroactive — for institutional memory)
-4. Write Stage 1 prompt to `docs/prompts/ftr-168-stage-1-build.md`
+3. Write Stage 0 prompt to `docs/prompts/stg-010-spike.md` (retroactive — for institutional memory)
+4. Write Stage 1 prompt to `docs/prompts/stg-011-build.md`
 5. After Stage 1 completes, write results to `docs/plans/ftr-168-stage-1-results.md` (or spike-results/)

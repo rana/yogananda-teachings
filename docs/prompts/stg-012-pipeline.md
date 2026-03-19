@@ -23,7 +23,7 @@ Stage 1 (Minimal Loop) is complete — the first experiment ran end-to-end. Now 
 Read these files in order:
 1. `~/prj/yogananda-teachings/docs/plans/ftr-168-implementation.md` — Full implementation plan (Stage 2 section)
 2. `~/prj/yogananda-teachings/docs/plans/ftr-168-stage-1-preparation.md` — Section 3 has the full-pipeline workflow config schema
-3. `~/prj/yogananda-teachings/docs/prompts/ftr-168-stage-1-build.md` — Stage 1 results section has learnings that inform this stage
+3. `~/prj/yogananda-teachings/docs/prompts/stg-011-build.md` — Stage 1 results section has learnings that inform this stage
 4. `packages/mcp-server/src/services/workflow-executor.ts` — Current executor (extend this)
 5. `packages/mcp-server/src/services/experiment.ts` — Current experiment service (extend this)
 
