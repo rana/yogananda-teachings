@@ -123,15 +123,15 @@ The theme page (`/themes/krishna`) continues to serve the question "What did Yog
 
 ### Consequences
 
-- `people` table added to Neon schema (Milestone 3c migration, when person-category themes activate)
+- `people` table added to Neon schema (STG-008 migration, when person-category themes activate)
 - `person_places` and `person_relations` junction tables added alongside
-- `/people` and `/people/[slug]` routes added to the frontend (Milestone 3c)
-- API endpoints `GET /api/v1/people` and `GET /api/v1/people/[slug]` added (Milestone 3c)
+- `/people` and `/people/[slug]` routes added to the frontend (STG-008)
+- API endpoints `GET /api/v1/people` and `GET /api/v1/people/[slug]` added (STG-008)
 - Spiritual Figures entries require SRF editorial review and approval before publication (`is_published` gate)
 - Guru photographs on person pages follow FTR-073 sacred image guidelines
 - Cross-language person entries linked via `canonical_person_id` (Milestone 5b)
 - Theme pages for person-category topics gain a "Learn about [person] →" link to Spiritual Figures
-- Reader inline references to named figures can link to Spiritual Figures entries (Milestone 3c+)
+- Reader inline references to named figures can link to Spiritual Figures entries (STG-008+)
 - **Extends FTR-121** (teaching topics), **FTR-049** (Sacred Places), **FTR-122** (exploration categories)
 
 ### FTR-074: Monastic & Presidential Lineage
@@ -267,7 +267,7 @@ The `/people` index gains a "Lineage of SRF Presidents" section rendered as a ve
 └──────────────────────────────────────────────┘
 ```
 
-**Knowledge graph lineage filter (Milestone 3d):**
+**Knowledge graph lineage filter (STG-009):**
 
 The `/explore` graph gains a "Lineage" filter mode (extends FTR-035 view modes). When active, it shows only person nodes connected by `guru_of`, `disciple_of`, `succeeded_by`, and `preceded_by` edges, rendered as a directed vertical layout rather than a force-directed graph. This provides an alternate visualization of both the spiritual lineage and the presidential succession without building a one-off component.
 
@@ -294,9 +294,9 @@ The `/explore` graph gains a "Lineage" filter mode (extends FTR-035 view modes).
 - Five new `relation_type` values: `succeeded_by`, `preceded_by`, `mentored_by`, `edited_works_of`, `collaborated_with`
 - New API endpoint: `GET /api/v1/people/lineage` (presidential succession)
 - Existing `GET /api/v1/people` gains `?person_type=` filter
-- `/people` index gains "Lineage of SRF Presidents" timeline section (Milestone 3c)
-- `/explore` gains "Lineage" graph filter mode (Milestone 3d, extends FTR-035)
-- Person cards render In Memoriam presentation for applicable figures (Milestone 3c)
-- Milestone 3c seed data expanded: presidential succession entries with service dates alongside existing spiritual figure seeds
+- `/people` index gains "Lineage of SRF Presidents" timeline section (STG-008)
+- `/explore` gains "Lineage" graph filter mode (STG-009, extends FTR-035)
+- Person cards render In Memoriam presentation for applicable figures (STG-008)
+- STG-008 seed data expanded: presidential succession entries with service dates alongside existing spiritual figure seeds
 - **Extends:** FTR-074, FTR-124, FTR-035
 - **New stakeholder questions:** SRF editorial policy on living monastic biographical content; monastic content scope (content *by* vs. *about* monastics); preferred depth of presidential succession editorial framing

@@ -129,7 +129,7 @@ When `navigator.connection.effectiveType` reports `'2g'` or `'slow-2g'`, the por
 
 Interactive visual map of the entire teaching corpus. Three visualization modes, evolving across milestones. The graph is the portal's universal navigation layer — every node is clickable, navigating to the corresponding page.
 
-**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (Milestone 3d) to full cross-media (future milestones).
+**Mode 1: Knowledge Graph** (FTR-124, FTR-035) — Node-edge visualization showing relationships between all content types: passages, themes, people, places, concepts, and every media format. Pre-computed graph JSON, client-side rendering. Evolves from book-only (STG-009) to full cross-media (future milestones).
 
 **Mode 2: Passage Constellation** — A 2D spatial exploration where passages are positioned by semantic similarity, derived from embedding vectors reduced to two dimensions (UMAP or t-SNE, pre-computed at build time).
 
@@ -287,7 +287,7 @@ The subgraph endpoint powers embeddable mini-graphs in other pages: the reader's
 
 **Implementation:** UMAP dimensionality reduction from 1024-dim embeddings (FTR-024) to 2D. Pre-computed nightly. Static JSON (~500KB for ~10,000 items). Canvas or WebGL rendering.
 
-**Milestone:** Milestone 4a+ (constellation). Milestone 3d delivers Knowledge Graph mode only.
+**Milestone:** Milestone 4a+ (constellation). STG-009 delivers Knowledge Graph mode only.
 
 Linked from Books and themes pages (not primary nav).
 

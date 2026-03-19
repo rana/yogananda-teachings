@@ -63,8 +63,8 @@ After the timer completes and the parting passage appears (FTR-040), a single-li
 
 **Additionally:**
 
-- **"The Path of Practice" editorial reading thread** (FTR-063): A curated passage sequence tracing Yogananda's published teachings on the arc from reading to practice — why meditate → what meditation is → what Kriya Yoga is → the lineage → the invitation. All verbatim, all cited. The final entry signposts SRF Lessons. Milestone 3c+.
-- **Kriya Yoga theme page scope note** (`yoga_path` category): An editorial note at the top of the Kriya Yoga theme page: "Yogananda's published descriptions of Kriya Yoga and its place in the yoga tradition. Formal instruction in Kriya Yoga is available through the SRF Lessons." Links to `yogananda.org/lessons`. Milestone 3c+.
+- **"The Path of Practice" editorial reading thread** (FTR-063): A curated passage sequence tracing Yogananda's published teachings on the arc from reading to practice — why meditate → what meditation is → what Kriya Yoga is → the lineage → the invitation. All verbatim, all cited. The final entry signposts SRF Lessons. STG-008+.
+- **Kriya Yoga theme page scope note** (`yoga_path` category): An editorial note at the top of the Kriya Yoga theme page: "Yogananda's published descriptions of Kriya Yoga and its place in the yoga tradition. Formal instruction in Kriya Yoga is available through the SRF Lessons." Links to `yogananda.org/lessons`. STG-008+.
 - **Search intent pattern: `practice_inquiry`**: Added to E1 intent classification (FTR-005). Queries like "how to practice Kriya Yoga," "learn Kriya," "Kriya Yoga technique" are routed to the curated Kriya overview (theme page or `/guide` practice pathway) rather than raw search results, with the practice bridge note. Analogous to crisis query detection — a pattern where intent requires curated response, not just retrieval.
 
 ### What This Is Not

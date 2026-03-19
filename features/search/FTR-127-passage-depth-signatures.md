@@ -12,7 +12,7 @@ depends-on: [FTR-026, FTR-105]
 
 ## Rationale
 
-**Target:** Milestone 1c (as part of enrichment pipeline — M1c-13)
+**Target:** STG-003 (as part of enrichment pipeline — STG-003-13)
 **Dependencies:** Opus batch enrichment pipeline. Full corpus extracted.
 
 Not all passages are the same kind of thing. Some are luminous and bottomless — they reward the hundredth reading. Some are informational — they answer a question. Some are catalytic — they shift something when you're ready. Some are consoling — they meet suffering.

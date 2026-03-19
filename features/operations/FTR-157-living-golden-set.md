@@ -15,8 +15,8 @@ depends-on: [FTR-037, FTR-032]
 **Status:** Proposed
 **Type:** Enhancement
 **Governing Refs:** FTR-037 (Search Quality Evaluation), FTR-082 (Observability/DELTA), FTR-085 (Privacy), FTR-032 (Search Analytics)
-**Target:** Milestone 2b (requires deployed search with real seekers)
-**Dependencies:** Golden retrieval set operational (Milestone 1a). Search deployed (Milestone 1c). Real seekers using the portal.
+**Target:** STG-005 (requires deployed search with real seekers)
+**Dependencies:** Golden retrieval set operational (STG-001). Search deployed (STG-003). Real seekers using the portal.
 
 **The gap.** FTR-037 specifies ~58 English and ~15 Spanish test queries crafted by Claude. This captures what Claude *predicts* seekers will ask. It cannot capture what seekers *actually* ask and fail to find. The golden set is a snapshot — it improves only when a developer manually adds queries. The search quality loop is open.
 
@@ -54,7 +54,7 @@ Over time, the golden set converges on what seekers *actually need*, not what Cl
 
 **Estimated value:** If 1% of searches receive feedback and 10% of negative-signal queries reveal genuine search gaps, the golden set could grow from ~73 queries to ~200+ queries within the first year — each one grounded in a real seeker's failed search.
 
-**Re-evaluate At:** Milestone 1c (when search quality metrics from 1a/1b are available — if the golden set already covers 95% of real query patterns, this is unnecessary)
+**Re-evaluate At:** STG-003 (when search quality metrics from 1a/1b are available — if the golden set already covers 95% of real query patterns, this is unnecessary)
 **Decision Required From:** Architecture + DELTA review (privacy analysis)
 
 ## Notes

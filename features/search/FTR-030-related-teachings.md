@@ -28,7 +28,7 @@ This powers three features:
 2. **"Continue the Thread"** -- at the end of every chapter, aggregates the most related cross-book passages
 3. **Graph traversal** -- clicking a related passage navigates to that passage in its reader context
 
-**Relationship categorization** (Milestone 3b+):
+**Relationship categorization** (STG-007+):
 
 | Category | Description | Source |
 |----------|-------------|--------|

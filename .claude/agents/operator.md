@@ -19,7 +19,7 @@ Your audience is the project principal responsible for keeping this system runni
   - Project: `delicate-butterfly-11871129` (us-east-1)
   - Org: `org-rough-dust-41358525`
   - MCP: Full access (run_sql, prepare/complete_database_migration, branch management)
-- **AWS Lambda** — Batch operations (ingestion, chunk relations) — M3a+
+- **AWS Lambda** — Batch operations (ingestion, chunk relations) — STG-006+
   - Profile: `platform-admin` (admin), `default` (bedrock-user)
 - **AWS Bedrock** — Claude for index-time enrichment only (never in search hot path)
 
@@ -30,7 +30,7 @@ Your audience is the project principal responsible for keeping this system runni
 | **Contentful** | CMS (Space: 92rnztznqygl) | Entry count (6,552 TextBlocks + growing) |
 | **Auth0** | Identity (tenant: yogananda-tech.us.auth0.com) | Inactive until M7a+ |
 | **Sentry** | Error tracking | Event volume |
-| **New Relic** | APM | Planned M3d+ |
+| **New Relic** | APM | Planned STG-009+ |
 
 ### Key Scripts
 | Script | Purpose |

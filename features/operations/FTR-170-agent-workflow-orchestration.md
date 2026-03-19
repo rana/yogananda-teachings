@@ -6,7 +6,7 @@ state: proposed
 domain: operations
 governed-by: [PRI-12, PRI-10]
 depends-on: [FTR-168, FTR-169]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-170: Agent Workflow Orchestration Engine

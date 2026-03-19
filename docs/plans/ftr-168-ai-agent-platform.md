@@ -737,7 +737,7 @@ Agent Domain:
 3. **Approval authority:** Who can promote experiments to dev? Just IT? Project leads? Any staff member?
 4. **Content boundary:** Can agents build sites that display Yogananda's teachings, or only operational/event sites? (PRI-01 implications)
 5. **Open source:** Should the agent orchestrator be open-sourced for other spiritual organizations?
-6. **Timeline:** Is this a Phase 4 initiative (after M3d corpus complete) or should a minimal version ship earlier?
+6. **Timeline:** Is this a Phase 4 initiative (after STG-009 corpus complete) or should a minimal version ship earlier?
 7. **First experiment:** What should be the inaugural autonomous build? Convocation 2027 is compelling — it's real, time-bounded, and demonstrable.
 
 ---
@@ -2141,7 +2141,7 @@ Pre-populated prompt templates, multi-agent DAG workflows, experiment-as-reposit
 CI/AI validation gates, glass box cost tracking, deep research integration.
 Convocation 2027 website as inaugural experiment.
 
-**Dependencies:** M3d (corpus complete), yogananda-platform Phase 4+
+**Dependencies:** STG-009 (corpus complete), yogananda-platform Phase 4+
 **Deep research:** Pending (2 prompts designed, 12+8 topics)
 **Governing principles:** PRI-01 (verbatim fidelity in agent-built sites),
   PRI-05 (global-first agent validation), PRI-08 (calm notifications),

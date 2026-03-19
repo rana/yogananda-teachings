@@ -16,8 +16,8 @@ The portal's content — book text, theme tags, translations, editorial threads,
 
 ### Book Ingestion Workflow
 
-**Milestone 1a:** book.json (from `scripts/book-ingest/`) → Contentful import script → Contentful (via Management API) → batch sync → chunk → embed → Neon.
-**Milestone 1c+:** Contentful authoring → webhook sync → Neon. Same QA and review steps apply.
+**STG-001:** book.json (from `scripts/book-ingest/`) → Contentful import script → Contentful (via Management API) → batch sync → chunk → embed → Neon.
+**STG-003+:** Contentful authoring → webhook sync → Neon. Same QA and review steps apply.
 
 #### Pre-Ingestion Planning
 
@@ -29,7 +29,7 @@ Before running the pipeline, the book ingestion operator completes a planning ch
 4. **Special handling:** Devanāgarī content? IAST diacritics? Epigraphs? Poetry blocks? (FTR-131, FTR-023)
 5. **Source quality:** PDF scan quality, OCR confidence expectation, known problem areas.
 
-The admin portal surfaces this as a structured form (Milestone 3b+). For Milestones 1a–2b, the checklist lives in the book's ingestion script configuration.
+The admin portal surfaces this as a structured form (STG-007+). For Milestones 1a–2b, the checklist lives in the book's ingestion script configuration.
 
 #### Pipeline Dashboard
 
@@ -47,8 +47,8 @@ After automated processing but before human QA, the operator sees a pipeline sum
 
 New book content is reviewable in a "preview" state before going live:
 
-- **Milestone 1a:** `books.is_published` and `chapters.is_published` boolean flags. Unpublished content is visible in the admin portal ("preview as seeker") but excluded from public search and reader routes.
-- **Milestone 1c+:** Contentful draft/published workflow provides this natively. The webhook sync only processes published entries. The Neon `is_published` flags remain as a cache of Contentful state.
+- **STG-001:** `books.is_published` and `chapters.is_published` boolean flags. Unpublished content is visible in the admin portal ("preview as seeker") but excluded from public search and reader routes.
+- **STG-003+:** Contentful draft/published workflow provides this natively. The webhook sync only processes published entries. The Neon `is_published` flags remain as a cache of Contentful state.
 
 The operator publishes chapter-by-chapter or the whole book at once. Publication triggers chunk relation computation for the new content.
 
@@ -121,4 +121,4 @@ By year 3, the people operating the portal may be different from those who built
 - How to onboard a new staff member to the admin portal
 - How to run the quarterly backup restore drill
 
-**Location:** `/docs/operational/playbook.md` — created during Milestone 3b when the editorial review portal ships. Updated as new workflows are added in subsequent milestones. Referenced from the admin portal's help section.
+**Location:** `/docs/operational/playbook.md` — created during STG-007 when the editorial review portal ships. Updated as new workflows are added in subsequent milestones. Referenced from the admin portal's help section.

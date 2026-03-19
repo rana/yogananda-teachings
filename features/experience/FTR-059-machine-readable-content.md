@@ -237,7 +237,7 @@ Structured JSON data is available at /api/v1/ endpoints.
 
 The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt` provides the actual content inventory in a single fetch — allowing LLM crawlers and AI agents to ingest the portal's full corpus metadata without spidering the site.
 
-**Milestone 2a (metadata only):**
+**STG-004 (metadata only):**
 
 ```
 # llms-full.txt — SRF Online Teachings Portal
@@ -285,8 +285,8 @@ The `llms.txt` file (§2) provides guidance and citation format. `llms-full.txt`
 
 **Passage-level content in `llms-full.txt`.** The metadata-only mode in `llms-full.txt` is a content-readiness gate, not a restriction posture. Full passage text is available in HTML pages from the initial milestone — any crawler can read it. The `llms-full.txt` file evolves from metadata-only to passage-inclusive as the content pipeline matures:
 
-- **Milestone 2a (metadata only):** Book inventory, theme inventory, API endpoints. Passage text not yet included because the corpus is one book and the citation pipeline is being validated.
-- **Milestone 3d+ (passage-level content):** Once the full corpus is ingested with validated citations, `llms-full.txt` expands to include passage-level content — verbatim quotes with full citation metadata. This is a convenience optimization for AI systems (single-fetch corpus access vs. page-by-page crawling), not a permission change. The content is already fully accessible in HTML.
+- **STG-004 (metadata only):** Book inventory, theme inventory, API endpoints. Passage text not yet included because the corpus is one book and the citation pipeline is being validated.
+- **STG-009+ (passage-level content):** Once the full corpus is ingested with validated citations, `llms-full.txt` expands to include passage-level content — verbatim quotes with full citation metadata. This is a convenience optimization for AI systems (single-fetch corpus access vs. page-by-page crawling), not a permission change. The content is already fully accessible in HTML.
 
 The `llms-full.txt` scope is decoupled from the MCP external tier (FTR-098 Tier 3) timeline. MCP provides structured API access with rate limiting and fidelity metadata; `llms-full.txt` provides bulk discovery. Both serve the same mission of making the portal the canonical source.
 
@@ -634,7 +634,7 @@ Chrome's Speculation Rules API allows the portal to prerender pages the seeker i
 
 **`data-prefetch` attribute:** Added to the next 2–3 likely navigation targets (prefetch is lighter than prerender — just the HTML, not full rendering). Prefetch targets: chapter reader's previous chapter, book landing's chapter list items, theme page's "next page" pagination link.
 
-**Milestone:** Milestone 2b (alongside reader interaction polish). The prerender targets depend on understanding navigation patterns, which are established in Milestone 2a.
+**Milestone:** STG-005 (alongside reader interaction polish). The prerender targets depend on understanding navigation patterns, which are established in STG-004.
 
 ### 14. `.well-known/security.txt`
 
@@ -697,17 +697,17 @@ Every page route has an explicit rendering strategy to ensure search engine craw
 
 ### Consequences
 
-- Milestone 2a: `robots.txt` (permissive), crawler-tier rate limits, IndexNow key file
-- Milestone 2a: JSON-LD structured data on all pages (including `BreadcrumbList`, `ReadAction`, `SpeakableSpecification`, `sameAs`), XML sitemaps, citation meta tags, Twitter Card tags, `llms.txt`, `llms-full.txt` (metadata-only)
-- Milestone 2a: Canonical URL policy implemented via `generateMetadata` on all routes
-- Milestone 2a: `<meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1">` on all content pages
-- Milestone 2a: RSS feed auto-discovery `<link rel="alternate">` tags in `<head>`
-- Milestone 2a: OpenAPI specification (alongside testing infrastructure)
-- Milestone 2a: Content negotiation middleware (`Accept: application/json` on page routes)
-- Milestone 2a: `.well-known/security.txt`
-- Milestone 2a: Rendering strategy enforced — all content pages ISR/SSR, client-only pages `noindex`
-- Milestone 2a: OG quote images generated at minimum 1200×630px for Google Discover eligibility
-- Milestone 2b: Speculation Rules prerender hints on reader and navigation pages
+- STG-004: `robots.txt` (permissive), crawler-tier rate limits, IndexNow key file
+- STG-004: JSON-LD structured data on all pages (including `BreadcrumbList`, `ReadAction`, `SpeakableSpecification`, `sameAs`), XML sitemaps, citation meta tags, Twitter Card tags, `llms.txt`, `llms-full.txt` (metadata-only)
+- STG-004: Canonical URL policy implemented via `generateMetadata` on all routes
+- STG-004: `<meta name="robots" content="max-image-preview:large, max-snippet:-1, max-video-preview:-1">` on all content pages
+- STG-004: RSS feed auto-discovery `<link rel="alternate">` tags in `<head>`
+- STG-004: OpenAPI specification (alongside testing infrastructure)
+- STG-004: Content negotiation middleware (`Accept: application/json` on page routes)
+- STG-004: `.well-known/security.txt`
+- STG-004: Rendering strategy enforced — all content pages ISR/SSR, client-only pages `noindex`
+- STG-004: OG quote images generated at minimum 1200×630px for Google Discover eligibility
+- STG-005: Speculation Rules prerender hints on reader and navigation pages
 - Milestone 5a: RSS feeds (alongside daily email) with auto-discovery tags
 - Milestone 5a+: `llms-full.txt` expanded to passage-level content (aligned with MCP Tier 3 approval)
 - Milestone 5b: `hreflang` tags and per-locale sitemaps (extend canonical URL system)
@@ -718,7 +718,7 @@ Every page route has an explicit rendering strategy to ensure search engine craw
 - **Extends** FTR-015 (API-first) with content negotiation on page routes
 - **Extends** FTR-132 (deep links) with canonical URL policy
 - **Extends** FTR-098 (MCP external tier) with `llms-full.txt` as static complement
-- **Complements** Milestone 2a's SEO deliverable (1.7) with comprehensive machine-readability specification
+- **Complements** STG-004's SEO deliverable (1.7) with comprehensive machine-readability specification
 - **Extends** with §3a (No Content Gating — architectural prohibition on DRM, AI training rationale)
 - **Extends** with copyright response headers in DESIGN.md § FTR-016
 

@@ -29,7 +29,7 @@ Three distinct layers require different localization strategies:
 
 Implement a **three-layer localization strategy** with English fallback:
 
-**Layer 1 — UI chrome:** Next.js i18n routing with `next-intl` (or `i18next`). URL-based locale prefixes (`/es/search`, `/de/quiet`). English as default (no prefix). All UI strings externalized to locale JSON files from Milestone 2a — never hardcoded in components.
+**Layer 1 — UI chrome:** Next.js i18n routing with `next-intl` (or `i18next`). URL-based locale prefixes (`/es/search`, `/de/quiet`). English as default (no prefix). All UI strings externalized to locale JSON files from STG-004 — never hardcoded in components.
 
 **Layer 2 — Book content:** Language-specific chunks in Neon, differentiated by the existing `language` column on `book_chunks`. No machine translation of Yogananda's words — if an official translation doesn't exist, the book is not available in that language. Contentful locales (production) provide per-locale editorial content.
 
@@ -37,9 +37,9 @@ Implement a **three-layer localization strategy** with English fallback:
 
 **English fallback:** When the user's language has insufficient content (fewer than 3 search results, sparse theme pages, small daily passage pool), supplement with English passages clearly marked with a `[EN]` language tag and "Read in English" links. The fallback is transparent — never silent.
 
-### Milestone 2a i18n Infrastructure + Bilingual UI
+### STG-004 i18n Infrastructure + Bilingual UI
 
-Milestone 2a delivers **bilingual UI chrome** (English, Spanish) alongside bilingual content (FTR-011 Tier 1). Spanish UI strings are translated via Claude draft → human review (FTR-135) in Milestone 2a — not deferred to 5b. Hindi and remaining language UI strings are a Milestone 5b deliverable. The i18n infrastructure is in place from day one for all 10 core languages:
+STG-004 delivers **bilingual UI chrome** (English, Spanish) alongside bilingual content (FTR-011 Tier 1). Spanish UI strings are translated via Claude draft → human review (FTR-135) in STG-004 — not deferred to 5b. Hindi and remaining language UI strings are a Milestone 5b deliverable. The i18n infrastructure is in place from day one for all 10 core languages:
 
 | Requirement | Rationale |
 |-------------|-----------|
@@ -54,7 +54,7 @@ Milestone 2a delivers **bilingual UI chrome** (English, Spanish) alongside bilin
 - **Mission alignment:** "Freely throughout the world" means in the seeker's language.
 - **Sacred text fidelity:** Machine translation of Yogananda's words is unacceptable. Only official SRF/YSS translations are used.
 - **Graceful degradation:** English fallback ensures seekers always find something, with honest labeling.
-- **Low Milestone 2a cost:** Externalizing strings and using CSS logical properties costs nothing when done from the start but saves a major refactor later.
+- **Low STG-004 cost:** Externalizing strings and using CSS logical properties costs nothing when done from the start but saves a major refactor later.
 - **Spiritual terminology:** Sanskrit terms (samadhi, karma, dharma, prana) appear differently across translations — some keep Sanskrit, some translate, some transliterate. Per-language search must handle both forms.
 
 ### Design Decisions (Multilingual Audit, 2026-02-18)
@@ -73,16 +73,16 @@ The following decisions were made during a comprehensive multilingual audit to e
 
 6. **`chunk_relations` stores per-language relations.** Top 30 same-language + top 10 English supplemental per chunk ensures non-English languages get full related teachings without constant real-time fallback. The English supplemental relations follow the same pattern as the search fallback — supplement, clearly mark with `[EN]`, never silently substitute.
 
-7. **Per-language search quality evaluation is a launch gate.** Each language requires a dedicated search quality test suite (15–20 queries with expected passages) that must pass before that language goes live. This mirrors Milestone 1a's bilingual search quality evaluation (Deliverable M1a-8: ~58 en + Milestone 1b: ~15 es queries) and prevents launching a language with degraded retrieval quality.
+7. **Per-language search quality evaluation is a launch gate.** Each language requires a dedicated search quality test suite (15–20 queries with expected passages) that must pass before that language goes live. This mirrors STG-001's bilingual search quality evaluation (Deliverable STG-001-8: ~58 en + STG-002: ~15 es queries) and prevents launching a language with degraded retrieval quality.
 
 8. **Chunk size must be validated per language.** English-calibrated chunk sizes (200/300/500 tokens) may produce different semantic density across scripts. Per-language chunk size benchmarking is required during Milestone 5b ingestion — particularly for CJK and Indic scripts where tokenization differs significantly from Latin text.
 
 ### Consequences
 
-- Milestone 2a includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); the initial milestone content is bilingual (en/es) per FTR-011
+- STG-004 includes i18n infrastructure setup (locale routing, string externalization) and **bilingual UI chrome** (en/es) via Claude draft → human review (FTR-135); the initial milestone content is bilingual (en/es) per FTR-011
 - The initial migration includes the `topic_translations` table (empty until Milestone 5b)
 - Milestone 5b requires knowing which books SRF has in digital translated form (stakeholder question)
-- Milestone 2a Spanish UI string translation uses the AI-assisted workflow (FTR-135): Claude generates drafts, human reviewer refines tone, spiritual terminology, and cultural nuance. Milestone 5b repeats this proven workflow for Hindi and remaining 7 languages.
+- STG-004 Spanish UI string translation uses the AI-assisted workflow (FTR-135): Claude generates drafts, human reviewer refines tone, spiritual terminology, and cultural nuance. Milestone 5b repeats this proven workflow for Hindi and remaining 7 languages.
 - The content availability matrix creates asymmetric experiences per language — this is honest, not a bug
 - The book catalog per language shows only available books, plus a "Also available in English" section
 - The `hybrid_search` function accepts a `search_language` parameter and filters to the user's locale
@@ -103,7 +103,7 @@ CSS logical properties (`margin-inline-start` instead of `margin-left`, `padding
 
 ### Decision
 
-Use **CSS logical properties** throughout all portal stylesheets and Tailwind utility classes from Milestone 2a.
+Use **CSS logical properties** throughout all portal stylesheets and Tailwind utility classes from STG-004.
 
 **In practice:**
 
@@ -187,7 +187,7 @@ Define a **core language set of 10 languages** that the portal commits to suppor
 
 ### Consequences
 
-- Spanish *Autobiography* ingested in Milestone 1b alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (Milestone 5b or earlier).
+- Spanish *Autobiography* ingested in STG-002 alongside English — bilingual from the proof-of-concept. Hindi ingested when authorized source becomes available (Milestone 5b or earlier).
 - Remaining languages activate ordered by reachable population, each clearing the readiness gate independently
 - Need to confirm digital text availability for all core languages (stakeholder question)
 - YSS-specific UI adaptations needed for Hindi and Bengali locales (organizational branding differences between SRF and YSS per FTR-119)
@@ -249,7 +249,7 @@ Adopt the **hybrid approach**: locale path prefix on frontend pages, query param
 
 ### Consequences
 
-- Frontend i18n uses `next-intl` with URL-based locale prefixes from Milestone 2a (consistent with FTR-058)
+- Frontend i18n uses `next-intl` with URL-based locale prefixes from STG-004 (consistent with FTR-058)
 - All API endpoints accept an optional `language` query parameter (default: `en`)
 - The `language` parameter triggers locale-first search and English fallback at the service layer (FTR-058)
 - Mobile apps and other consumers pin to the API and pass language as a parameter
@@ -267,13 +267,13 @@ Adopt the **hybrid approach**: locale path prefix on frontend pages, query param
 
 | Layer | What | Approach | Milestone |
 |-------|------|----------|-----------|
-| **UI chrome** | Nav, labels, buttons, errors, search prompts (~200–300 strings) | `next-intl` with locale JSON files. URL-based routing (`/es/...`, `/de/...`). AI-assisted workflow: Claude drafts → human review → production (FTR-135). | Infrastructure + hi/es translations in Milestone 2a. Remaining 7 languages in Milestone 5b. |
+| **UI chrome** | Nav, labels, buttons, errors, search prompts (~200–300 strings) | `next-intl` with locale JSON files. URL-based routing (`/es/...`, `/de/...`). AI-assisted workflow: Claude drafts → human review → production (FTR-135). | Infrastructure + hi/es translations in STG-004. Remaining 7 languages in Milestone 5b. |
 | **Book content** | Yogananda's published text in official translations | Language-specific chunks in Neon (`language` column). Contentful locales (available from the initial migration, activated in Milestone 5b). **Never machine-translate sacred text.** | 5b |
 | **Search** | FTS, vector similarity, query expansion | Per-language BM25 index (pg_search, FTR-025). Multilingual embedding model (Voyage, FTR-024). Claude expands queries per language. | 5b |
 
-### Milestone 2a — Bilingual Content and Bilingual UI
+### STG-004 — Bilingual Content and Bilingual UI
 
-Milestone 1a/1b ingests content in English and Spanish (FTR-011 Tier 1; Hindi deferred — authorized source unavailable outside India). **Milestone 2a delivers bilingual UI chrome** — Spanish UI strings translated via Claude draft → human review (FTR-135). A seeker reading Spanish content deserves Spanish navigation. The i18n infrastructure is in place from day one for all 10 core languages:
+STG-001/1b ingests content in English and Spanish (FTR-011 Tier 1; Hindi deferred — authorized source unavailable outside India). **STG-004 delivers bilingual UI chrome** — Spanish UI strings translated via Claude draft → human review (FTR-135). A seeker reading Spanish content deserves Spanish navigation. The i18n infrastructure is in place from day one for all 10 core languages:
 
 - All UI strings externalized to `messages/en.json` (never hardcoded in components)
 - Spanish UI strings translated: `messages/es.json` (FTR-135 workflow). Hindi (`messages/hi.json`) added when content becomes available.
@@ -473,7 +473,7 @@ Non-Latin font loading strategy: Hindi locale (`/hi/`) eagerly preloads Noto Ser
 
 > **Central registry:** CONTEXT.md § Open Questions. The Milestone 5b questions below are tracked there with the full stakeholder list.
 
-- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact Milestone 5b question; Hindi and Spanish already sourced for Milestone 1a/1b)
+- Digital text availability of official translations for the remaining 7 non-English core languages beyond Hindi and Spanish (highest-impact Milestone 5b question; Hindi and Spanish already sourced for STG-001/1b)
 - Translation reviewer staffing per language
 - YSS portal branding for Hindi/Bengali/Thai locales
 - Whether translated editions preserve paragraph structure (affects `canonical_chunk_id` alignment)

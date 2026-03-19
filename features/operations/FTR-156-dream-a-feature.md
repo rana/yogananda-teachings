@@ -15,8 +15,8 @@ depends-on: [FTR-110, FTR-094, FTR-095]
 **Status:** Proposed
 **Type:** Feature
 **Governing Refs:** FTR-110 (Multi-Environment — branch=environment), FTR-094 (Neon Platform — branching), FTR-098 (MCP Strategy), FTR-095 (Infrastructure), FTR-159 (Feature Lifecycle Portal — the human surface that consumes this engine's output)
-**Target:** Milestone 2a (skill definition) — requires working portal to prototype against
-**Dependencies:** Working portal (at least Milestone 1c deployed). Neon branch-per-PR operational. Vercel preview deploys active. FTR lifecycle in features/.
+**Target:** STG-004 (skill definition) — requires working portal to prototype against
+**Dependencies:** Working portal (at least STG-003 deployed). Neon branch-per-PR operational. Vercel preview deploys active. FTR lifecycle in features/.
 
 **The vision.** Someone — the human principal, an SRF stakeholder, a future team member — describes a feature they imagine. Claude orchestrates the full lifecycle: proposal creation, isolated environment, implementation, preview deployment, and impact assessment. If accepted, the feature merges. If not, the branch is cleaned up and the FTR entry records what was learned.
 
@@ -102,7 +102,7 @@ The assessment answers the question every stakeholder cares about: **"Is this wo
 - Not autonomous — human decides promotion, not Claude
 - Not expensive at scale — Neon branches are free (copy-on-write), Vercel previews are free (included in Pro tier)
 
-**Re-evaluate At:** Milestone 1c (working portal provides a meaningful base for prototyping)
+**Re-evaluate At:** STG-003 (working portal provides a meaningful base for prototyping)
 **Decision Required From:** Architecture (skill design), human principal (governance — who can dream?)
 
 ## Notes

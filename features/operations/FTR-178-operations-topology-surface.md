@@ -6,7 +6,7 @@ state: declined
 domain: operations
 governed-by: [PRI-03, PRI-05, PRI-07, PRI-08, PRI-09, PRI-12]
 depends-on: [FTR-168, FTR-169, FTR-170, FTR-174]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-178: Operations Topology Surface — Interactive Architecture Intelligence

@@ -67,16 +67,16 @@ Categories appear only when they contain at least one published topic. The homep
 
 ### Scheduling
 
-- `quality` and `situation` themes: Milestone 3b (existing plan)
-- `practice` themes: Milestone 3b+ (practical themes like Meditation naturally emerge from the early content)
-- `person`, `principle`, `scripture` themes: Milestone 3c+ (requires multi-book content for meaningful coverage; benefits from the Reverse Bibliography extraction pipeline)
+- `quality` and `situation` themes: STG-007 (existing plan)
+- `practice` themes: STG-007+ (practical themes like Meditation naturally emerge from the early content)
+- `person`, `principle`, `scripture` themes: STG-008+ (requires multi-book content for meaningful coverage; benefits from the Reverse Bibliography extraction pipeline)
 
 ### Alternatives Considered
 
 | Approach | Why Rejected |
 |----------|-------------|
 | **Separate tables per category** | Unnecessary complexity; the same tagging infrastructure applies to all categories |
-| **Hierarchical taxonomy** (e.g., scripture -> Gita -> Chapter 2) | Over-engineering for Milestone 3c; a flat per-category list is sufficient. Sub-categories can be added later if content depth warrants |
+| **Hierarchical taxonomy** (e.g., scripture -> Gita -> Chapter 2) | Over-engineering for STG-008; a flat per-category list is sufficient. Sub-categories can be added later if content depth warrants |
 | **Merge with Reverse Bibliography** | Different user intent: "teach me about X" vs "show me where X is cited." Both valuable, different navigation paths |
 
 ### Consequences

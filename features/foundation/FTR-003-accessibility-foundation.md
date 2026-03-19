@@ -21,14 +21,14 @@ SRF's audience includes elderly devotees, seekers in developing countries on low
 
 | Approach | Cost | Risk |
 |----------|------|------|
-| **Milestone 2a (build in)** | Low — semantic HTML, ARIA, keyboard nav are free if done from the start | None — this is best practice |
+| **STG-004 (build in)** | Low — semantic HTML, ARIA, keyboard nav are free if done from the start | None — this is best practice |
 | **Late retrofit** | High — requires auditing and rewriting markup, fixing tab order, adding ARIA after the fact | Significant — inaccessible patterns get baked into components and propagated |
 
 ### Decision
 
-Make **core accessibility** a **Milestone 2a** requirement from the start. Later arcs add the audit and polish milestone (professional WCAG audit, native TTS, advanced reading mode), not the "add accessibility" milestone.
+Make **core accessibility** a **STG-004** requirement from the start. Later arcs add the audit and polish milestone (professional WCAG audit, native TTS, advanced reading mode), not the "add accessibility" milestone.
 
-**Milestone 2a accessibility requirements:**
+**STG-004 accessibility requirements:**
 
 | Category | Requirements |
 |----------|-------------|
@@ -68,7 +68,7 @@ The existing design tokens have contrast failures that must be corrected before 
 
 ### Consequences
 
-- Every component built in Milestone 1a and Milestone 2a must pass basic accessibility checks (Lighthouse, axe DevTools)
+- Every component built in STG-001 and STG-004 must pass basic accessibility checks (Lighthouse, axe DevTools)
 - The design token `--portal-text-muted` must be corrected to `#595959` before implementation begins
 - `--srf-gold` must never be used as text on light backgrounds
 - Later accessibility arcs handle audit and polish (not build-from-scratch), plus TTS and professional audit

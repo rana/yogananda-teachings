@@ -55,7 +55,7 @@ Practice signals tell editorial:
 
 ### Re-evaluate At
 
-Milestone 3b boundary — after Practice Bridge (FTR-055) is operational and generating practice-adjacent content tags.
+STG-007 boundary — after Practice Bridge (FTR-055) is operational and generating practice-adjacent content tags.
 
 ### Decision Required From
 

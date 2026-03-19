@@ -179,7 +179,7 @@ Located at `/events` (dedicated page — consistent with the routes table in § 
 - **Milestone 5a:** Static content. MDX or hardcoded in a Next.js page. No CMS needed.
 - **Production:** Contentful entry type `event` with fields: `title`, `date`, `description`, `externalUrl`, `image`. Editors update annually.
 - **No dynamic event data.** The portal does not fetch from SRF's event systems. It links to them.
-- **Lightweight calendar awareness (Milestone 5a):** The Convocation hero card displays the next Convocation date. Since Convocation is always in August, a simple date comparison promotes the card from "annual event" to "upcoming event" when the current date is within a configurable window (e.g., April–August). During this window, the card's description adds "Registration is open" with link. Outside the window: "Held each August." This is not the full FTR-065 calendar-aware surfacing system — it's a single date check on a static page. Commemorations can use similar lightweight date proximity when full FTR-065 ships (Milestone 3b+).
+- **Lightweight calendar awareness (Milestone 5a):** The Convocation hero card displays the next Convocation date. Since Convocation is always in August, a simple date comparison promotes the card from "annual event" to "upcoming event" when the current date is within a configurable window (e.g., April–August). During this window, the card's description adds "Registration is open" with link. Outside the window: "Held each August." This is not the full FTR-065 calendar-aware surfacing system — it's a single date check on a static page. Commemorations can use similar lightweight date proximity when full FTR-065 ships (STG-007+).
 
 ---
 

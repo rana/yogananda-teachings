@@ -24,9 +24,9 @@ The remaining compliance work is primarily documentary (privacy policy, sub-proc
 
 ### Decision
 
-**1. Privacy policy and legal pages.** Add `/privacy` and `/legal` to the portal URL structure. The privacy policy must be human-readable (not legal boilerplate), written in the portal's contemplative voice, and translated alongside UI strings in Milestone 5b. Disclose: what data is collected, why, how long retained, who processes it, data subject rights, and sub-processor list. The privacy policy is a Milestone 2a deliverable alongside the accessibility foundation.
+**1. Privacy policy and legal pages.** Add `/privacy` and `/legal` to the portal URL structure. The privacy policy must be human-readable (not legal boilerplate), written in the portal's contemplative voice, and translated alongside UI strings in Milestone 5b. Disclose: what data is collected, why, how long retained, who processes it, data subject rights, and sub-processor list. The privacy policy is a STG-004 deliverable alongside the accessibility foundation.
 
-**2. Self-hosted fonts.** Replace Google Fonts CDN imports with self-hosted font files served from Vercel's CDN. Download Merriweather, Lora, and Open Sans WOFF2 files, bundle in the application. This eliminates IP transmission to Google servers and improves performance (no DNS lookup to `fonts.googleapis.com`). Milestone 2a deliverable.
+**2. Self-hosted fonts.** Replace Google Fonts CDN imports with self-hosted font files served from Vercel's CDN. Download Merriweather, Lora, and Open Sans WOFF2 files, bundle in the application. This eliminates IP transmission to Google servers and improves performance (no DNS lookup to `fonts.googleapis.com`). STG-004 deliverable.
 
 **3. Cookie and localStorage disclosure.** The portal uses a language preference cookie (user-initiated) and `localStorage` for bookmarks, reader settings, study workspace, and first-visit detection. Under ePrivacy/TTDSG §25(2)(2), all serve user-initiated functionality and qualify as "strictly necessary" — no consent banner required. This determination is documented in the privacy policy. No cookie banner is added (cookie banners are antithetical to Calm Technology and unnecessary when all storage is functional).
 
@@ -45,7 +45,7 @@ The remaining compliance work is primarily documentary (privacy policy, sub-proc
 
 **9. YouTube privacy-enhanced embeds.** The facade pattern (thumbnail → click to load from `youtube-nocookie.com`) ensures no Google connection occurs until the user actively clicks play. This is compliant with strict German GDPR interpretation and documented.
 
-**10. Record of Processing Activities (ROPA).** Maintain a ROPA (GDPR Article 30) documenting all processing activities. For the portal's minimal data profile, this is a short document. Created in Milestone 2a, maintained as processing activities change.
+**10. Record of Processing Activities (ROPA).** Maintain a ROPA (GDPR Article 30) documenting all processing activities. For the portal's minimal data profile, this is a short document. Created in STG-004, maintained as processing activities change.
 
 **11. Milestone 7a age consideration.** When user accounts are introduced (Milestone 7a), the signup flow must include minimum age verification. GDPR: 16 in most of EU (member state variation down to 13). COPPA: 13 in US. The email subscription (Milestone 5a) should include a minimum age statement: "You must be 16 or older to subscribe."
 
@@ -68,12 +68,12 @@ The remaining compliance work is primarily documentary (privacy policy, sub-proc
 | **Vercel** (Firewall) | Processor | Request metadata, IP for rate limiting (transient) | Global (Vercel edge) | Yes |
 | **Amplitude** | Processor | Anonymized events with country_code | US | Yes |
 | **Sentry** | Processor | Error stack traces, request context | US | Yes |
-| **New Relic** | Processor | Performance metrics, log aggregation | US | Yes (Milestone 3d+) |
+| **New Relic** | Processor | Performance metrics, log aggregation | US | Yes (STG-009+) |
 | **AWS Bedrock** | Processor | Search queries (transient, not stored by AWS) | `us-west-2` | Covered by AWS DPA |
 | **Voyage AI** | Processor | Corpus text at embedding time (one-time; FTR-024) | US | Yes |
 | **SendGrid** | Processor | Subscriber email addresses | US | Yes (Milestone 5a+) |
 | **Auth0** | Processor | User accounts (if implemented) | US | Yes (Milestone 7a+) |
-| **Contentful** | Processor | Editorial content (no personal data) | EU | Yes (Milestone 1a+) |
+| **Contentful** | Processor | Editorial content (no personal data) | EU | Yes (STG-001+) |
 
 EU-US data transfers rely on the EU-US Data Privacy Framework (DPF) where services are certified, with Standard Contractual Clauses (SCCs) as fallback. The sub-processor inventory is reviewed when services are added or changed, and published as part of the privacy policy.
 
@@ -86,13 +86,13 @@ EU-US data transfers rely on the EU-US Data Privacy Framework (DPF) where servic
 
 ### Consequences
 
-- `/privacy` and `/legal` pages added to URL structure (Milestone 2a)
-- Self-hosted fonts replace Google Fonts CDN (Milestone 2a)
+- `/privacy` and `/legal` pages added to URL structure (STG-004)
+- Self-hosted fonts replace Google Fonts CDN (STG-004)
 - Privacy policy drafted in contemplative voice, translated alongside UI strings (Milestone 5b)
 - `DELETE /api/v1/email/subscriber` endpoint for hard deletion (Milestone 5a)
 - 90-day automatic purge of soft-deleted subscriber records (Milestone 5a)
-- Feedback form gains PII notice (Milestone 3b)
-- ROPA document created (Milestone 2a)
+- Feedback form gains PII notice (STG-007)
+- ROPA document created (STG-004)
 - Sub-processor inventory maintained in DESIGN.md
 - Minimum age statement on email subscription form (Milestone 5a)
 - Milestone 7a account signup includes age verification

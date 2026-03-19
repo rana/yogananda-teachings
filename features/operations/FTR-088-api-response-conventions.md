@@ -18,7 +18,7 @@ depends-on: [FTR-015]
 
 ### Context
 
-FTR-015 specifies individual API endpoints with inline response examples. As the endpoint count grew from the initial set (~8 endpoints) through cross-media expansion (post-M3d: ~30+ endpoints), three categories of response convention accumulated implicitly without being declared:
+FTR-015 specifies individual API endpoints with inline response examples. As the endpoint count grew from the initial set (~8 endpoints) through cross-media expansion (post-STG-009: ~30+ endpoints), three categories of response convention accumulated implicitly without being declared:
 
 1. **Field naming.** Some response examples used `snake_case` (matching PostgreSQL column names), others appeared to use `camelCase` (matching TypeScript conventions). The `hasMore` field in pagination sat alongside `book_title` and `results_count` — a silent inconsistency.
 

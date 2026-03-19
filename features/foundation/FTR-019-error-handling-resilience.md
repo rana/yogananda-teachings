@@ -24,7 +24,7 @@ The portal degrades gracefully through layers. Each layer down removes a capabil
 | **Neon PostgreSQL** | Search and API calls fail | Book reader falls back to Contentful Delivery API; search shows calm error message | Reading works, search does not |
 | **Contentful Delivery API** | Book reader pages fail to render | Search still works (Neon is the search index); reader shows fallback message | Search works, reading does not |
 | **Voyage API** | New embedding generation fails | Existing embeddings continue to serve search; ingestion pipeline pauses | Zero seeker impact (ingestion is offline) |
-| **Vercel Edge** | Complete outage | Standard Vercel reliability; no self-hosted fallback in Milestone 1a | Full outage (accept this risk) |
+| **Vercel Edge** | Complete outage | Standard Vercel reliability; no self-hosted fallback in STG-001 | Full outage (accept this risk) |
 
 ### Error Handling Patterns
 

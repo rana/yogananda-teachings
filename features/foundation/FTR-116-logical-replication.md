@@ -6,7 +6,7 @@ state: proposed
 domain: foundation
 governed-by: [PRI-09, PRI-10]
 depends-on: [FTR-094, FTR-082, FTR-085]
-re-evaluate-at: Milestone 3b
+re-evaluate-at: STG-007
 ---
 
 # FTR-116: Logical Replication for Analytics CDC
@@ -18,5 +18,5 @@ Neon supports outbound logical replication to analytics platforms (ClickHouse vi
 ## Notes
 
 - **Dependencies:** Scale tier (already selected). Analytics destination (ClickHouse, Snowflake, or similar).
-- **Re-evaluate at:** M3d boundary (when editorial operations generate analytics needs)
+- **Re-evaluate at:** STG-009 boundary (when editorial operations generate analytics needs)
 - **Decision required from:** Architecture + DELTA compliance review

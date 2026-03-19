@@ -124,7 +124,7 @@ Frontend, UX, accessibility, internationalization, seeker-facing features.
 | [040](experience/FTR-040-frontend-design.md) | Frontend Design | Implemented |
 | [041](experience/FTR-041-book-reader.md) | Book Reader | Implemented |
 | [042](experience/FTR-042-design-system-calm-tech.md) | Design System — SRF-Derived with Calm Technology Principles | Implemented |
-| [043](experience/FTR-043-accessibility-requirements-m2a.md) | Accessibility Requirements (Milestone 2a) | Implemented |
+| [043](experience/FTR-043-accessibility-requirements-m2a.md) | Accessibility Requirements (STG-004) | Implemented |
 | [044](experience/FTR-044-responsive-design.md) | Responsive Design | Implemented |
 | [045](experience/FTR-045-platform-parity-mobile.md) | Platform Parity — Mobile Strategy | Implemented |
 | [046](experience/FTR-046-lotus-bookmark.md) | Lotus Bookmark — Account-Free Reading Bookmarks | Implemented |

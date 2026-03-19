@@ -135,10 +135,10 @@ The public `/seeking` dashboard links to published magazine features: "Read the 
 
 ### Scheduling
 
-- Schema and ingestion pipeline: Milestone 3b+ (alongside chapter/book PDF infrastructure)
-- Magazine browsing UI: Milestone 3b+
-- Search integration (Yogananda's articles): Milestone 3b+
-- Magazine ↔ "What Is Humanity Seeking?" symbiosis: Milestone 3b+
+- Schema and ingestion pipeline: STG-007+ (alongside chapter/book PDF infrastructure)
+- Magazine browsing UI: STG-007+
+- Search integration (Yogananda's articles): STG-007+
+- Magazine ↔ "What Is Humanity Seeking?" symbiosis: STG-007+
 
 ### Consequences
 

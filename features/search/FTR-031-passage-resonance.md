@@ -37,8 +37,8 @@ Collect anonymous, aggregated, passage-level resonance signals for editorial use
 
 ### Scheduling
 
-- Instrumentation: Milestone 2a
-- Editorial dashboard: Milestone 3b
+- Instrumentation: STG-004
+- Editorial dashboard: STG-007
 
 ### Consequences
 

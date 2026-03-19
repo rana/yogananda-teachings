@@ -13,7 +13,7 @@ governed-by: [PRI-01, PRI-06]
 
 ### Context
 
-The portal requires translating ~200–300 UI strings (nav labels, button text, search prompts, error messages, footer links, accessibility labels) into 9 languages. Spanish (Tier 1) is translated in Milestone 2a alongside bilingual content — a seeker reading Spanish content deserves Spanish navigation. Hindi (Tier 1, deferred) is translated when content becomes available. Remaining 7 languages are translated in Milestone 5b. The question: who translates these, and how?
+The portal requires translating ~200–300 UI strings (nav labels, button text, search prompts, error messages, footer links, accessibility labels) into 9 languages. Spanish (Tier 1) is translated in STG-004 alongside bilingual content — a seeker reading Spanish content deserves Spanish navigation. Hindi (Tier 1, deferred) is translated when content becomes available. Remaining 7 languages are translated in Milestone 5b. The question: who translates these, and how?
 
 Three categories of translatable content exist in the portal, each with fundamentally different fidelity requirements:
 
@@ -84,9 +84,9 @@ The Claude system prompt for UI translation should include:
 }
 ```
 
-**Glossary bootstrap (Milestone 2a).** `glossary-hi.json` and `glossary-es.json` seeded from: (1) existing YSS Hindi publications for approved Hindi spiritual terminology, (2) existing SRF Spanish publications for approved Spanish spiritual terminology, (3) Sanskrit proper nouns that remain untranslated (Kriya Yoga, samadhi, pranayama). The glossary is the most important artifact — it's what makes Claude's output devotionally correct rather than merely linguistically correct. Built before any translation runs.
+**Glossary bootstrap (STG-004).** `glossary-hi.json` and `glossary-es.json` seeded from: (1) existing YSS Hindi publications for approved Hindi spiritual terminology, (2) existing SRF Spanish publications for approved Spanish spiritual terminology, (3) Sanskrit proper nouns that remain untranslated (Kriya Yoga, samadhi, pranayama). The glossary is the most important artifact — it's what makes Claude's output devotionally correct rather than merely linguistically correct. Built before any translation runs.
 
-**Reviewer recruitment.** The human review dependency is the actual bottleneck — not the technology. YSS (Yogoda Satsanga Society of India) has Hindi speakers. SRF has Spanish-speaking monastics and members across Latin America. Identifying reviewers is a stakeholder question that should be resolved early in Milestone 2a.
+**Reviewer recruitment.** The human review dependency is the actual bottleneck — not the technology. YSS (Yogoda Satsanga Society of India) has Hindi speakers. SRF has Spanish-speaking monastics and members across Latin America. Identifying reviewers is a stakeholder question that should be resolved early in STG-004.
 
 ### Rationale
 
@@ -141,7 +141,7 @@ The glossary is a critical dependency for both the AI drafting step and the huma
 
 ### Consequences
 
-- Milestone 2a (hi/es) and Milestone 5b (remaining 7 languages) use AI-assisted workflow: Claude draft → human review → production
+- STG-004 (hi/es) and Milestone 5b (remaining 7 languages) use AI-assisted workflow: Claude draft → human review → production
 - Spiritual terminology glossary stored as `/messages/glossary-{locale}.json` — built incrementally during first review cycle, referenced by both AI drafting and human review
 - The `messages/{locale}.draft.json` → `messages/{locale}.json` promotion step should be tracked (Git diff review)
 - Reviewer recruitment: SRF likely has multilingual monastics and volunteers who can review UI translations — this is a stakeholder question

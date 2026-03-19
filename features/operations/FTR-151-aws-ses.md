@@ -39,7 +39,7 @@ The question: does the portal's minimal, DELTA-constrained email use case justif
 2. **Deliverability bootstrapping.** SES requires warming a new sending domain — starting at low volume and gradually increasing over weeks. SendGrid's shared IP pools and established reputation provide good deliverability immediately. A new SES domain sending 50K emails on day one risks spam classification.
 3. **Bounce/complaint handling.** SendGrid has mature bounce management, suppression lists, and automatic unsubscribe handling built in. SES requires building these with SNS topics, Lambda handlers, and a suppression list in the database — more code to write and maintain.
 4. **SendGrid's free tier may suffice.** 100 emails/day (free) covers development and early testing. The Essentials plan ($19.95/month for 50K) covers the portal's likely volume through Milestone 5a. The cost difference is real but small relative to total infrastructure spend.
-5. **Operational handoff.** When the portal transitions to SRF operations (post-M3d), SendGrid means the operations team is on familiar ground. SES means training on a different email system — even if it's simpler.
+5. **Operational handoff.** When the portal transitions to SRF operations (post-STG-009), SendGrid means the operations team is on familiar ground. SES means training on a different email system — even if it's simpler.
 6. **Avoid Redundancy principle.** Tech Stack Brief § Guiding Principle #7: "Where a standard has already been established in SRF, utilize that rather than introducing something new which overlaps."
 
 #### Through (the synthesis)

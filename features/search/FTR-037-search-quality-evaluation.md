@@ -14,9 +14,9 @@ depends-on: [FTR-020]
 
 **Status: Implemented** — see `scripts/eval/`, `data/eval/`
 
-**Governed by:** FTR-005 E5, M1a-8, M1b-2
+**Governed by:** FTR-005 E5, STG-001-8, STG-002-2
 
-The search quality evaluation harness is the acceptance gate for Milestone 1a. It validates that hybrid search returns relevant passages for representative queries before the portal is deployed. This section specifies the golden set format, query design protocol, evaluation methodology, metrics, automation, and CI integration.
+The search quality evaluation harness is the acceptance gate for STG-001. It validates that hybrid search returns relevant passages for representative queries before the portal is deployed. This section specifies the golden set format, query design protocol, evaluation methodology, metrics, automation, and CI integration.
 
 ### Golden Set Data Format
 
@@ -24,8 +24,8 @@ Golden set files live in `/data/eval/` as JSON:
 
 ```
 /data/eval/golden-set-en.json   — English (~58 queries)
-/data/eval/golden-set-hi.json   — Hindi (~15 queries, Milestone 1b)
-/data/eval/golden-set-es.json   — Spanish (~15 queries, Milestone 1b)
+/data/eval/golden-set-hi.json   — Hindi (~15 queries, STG-002)
+/data/eval/golden-set-es.json   — Spanish (~15 queries, STG-002)
 ```
 
 Each file is an array of query specifications:
@@ -65,7 +65,7 @@ Each file is an array of query specifications:
 
 ### Query Design Protocol
 
-**Sequencing:** Golden set queries are drafted *after* M1a-4 (English ingestion complete) and *before* M1a-8 evaluation runs. Claude reads the ingested corpus to write queries that test real content.
+**Sequencing:** Golden set queries are drafted *after* STG-001-4 (English ingestion complete) and *before* STG-001-8 evaluation runs. Claude reads the ingested corpus to write queries that test real content.
 
 **Process per category:**
 
@@ -86,7 +86,7 @@ Each file is an array of query specifications:
 | **Dark Night** | ~8 | ~60% | Fragmentary, pre-linguistic, distressed queries: "I can't stop crying," "nothing matters anymore," "why am I here," "I feel empty inside." Evaluated not by standard Recall@3 but by whether the retrieved passage *meets the seeker where they are* — Opus judges retrieval intent match (does the passage console rather than instruct? does it acknowledge rather than advise?). Tests the Vocabulary Bridge's Layer 1 state mappings and retrieval intent routing (FTR-028). `expected_routing: "search"` with `retrieval_intent: "meet_first"` or `"console"`. Crisis-adjacent queries in this category must also trigger the safety interstitial (FTR-051). |
 | **Adversarial** | ~8 | N/A | Off-topic ("What is the weather in LA?"), misspelled ("Yoganada meditashun"), multi-intent ("Tell me about fear and also what's the best restaurant"), prompt-injection attempts. `expected_routing: "no_results"` or graceful degradation. No relevance score — pass/fail on routing correctness. |
 
-**Total English:** ~66 queries (~58 original + ~8 Dark Night). Spanish (~15 queries) uses the same seven categories but weighted toward Direct and Conceptual given smaller corpus coverage in Milestone 1b. Hindi queries (~15) added when Hindi activates in Milestone 5b.
+**Total English:** ~66 queries (~58 original + ~8 Dark Night). Spanish (~15 queries) uses the same seven categories but weighted toward Direct and Conceptual given smaller corpus coverage in STG-002. Hindi queries (~15) added when Hindi activates in Milestone 5b.
 
 ### Evaluation Metrics
 
@@ -94,7 +94,7 @@ Each file is an array of query specifications:
 
 For each query, does at least one `expected_passages[].relevance == "high"` passage appear in the top 3 results? Binary per query. Aggregated as percentage per category and overall.
 
-- **Overall threshold:** >= 80% (gates Milestone 1a completion)
+- **Overall threshold:** >= 80% (gates STG-001 completion)
 - **Per-category thresholds:** baselines in table above. Used for diagnostic prioritization, not hard gates (except Technique-boundary at 100%).
 
 **Secondary diagnostic metric — MRR@10 (Mean Reciprocal Rank):**
@@ -194,11 +194,11 @@ A GitHub Action runs the evaluation on PRs that touch search-affecting paths:
 - **Fails the PR** if overall Recall@3 drops below 80% or Technique-boundary routing accuracy drops below 100%.
 - Stores the result JSON as a CI artifact for historical comparison.
 
-### Multi-Dimensional Relevance Evaluation (Milestone 3a+)
+### Multi-Dimensional Relevance Evaluation (STG-006+)
 
 Standard Recall@3 and MRR@10 measure topical relevance — "did we find a passage about the right subject?" But the portal aspires to multi-dimensional relevance: the right passage for this topic AND this emotional register AND this depth level AND this seeker state.
 
-**Additional evaluation dimensions (M3a+):**
+**Additional evaluation dimensions (STG-006+):**
 
 | Dimension | Metric | Judge | Description |
 |-----------|--------|-------|-------------|
@@ -238,12 +238,12 @@ The golden set is the evaluation instrument for tuning parameters governed by FT
 
 | Parameter | Values to Test | Deliverable |
 |-----------|---------------|-------------|
-| CC fusion α (2-path) | 0.3, 0.5, 0.7 | M3a |
-| CC fusion weights (3-path) | Per-register table from FTR-020 | M3b |
-| Chunk size (token count) | 200, 300, 500 | M1a-8 (contingency) |
-| Embedding model | Voyage voyage-4-large (default), Cohere embed-v3, BGE-M3 | M1a-8 (contingency) |
-| Enrichment-augmented vs. plain embedding | A/B on Neon branch | M3a |
-| Reranker candidate pool size | 20, 50, 100 | M3a |
+| CC fusion α (2-path) | 0.3, 0.5, 0.7 | STG-006 |
+| CC fusion weights (3-path) | Per-register table from FTR-020 | STG-007 |
+| Chunk size (token count) | 200, 300, 500 | STG-001-8 (contingency) |
+| Embedding model | Voyage voyage-4-large (default), Cohere embed-v3, BGE-M3 | STG-001-8 (contingency) |
+| Enrichment-augmented vs. plain embedding | A/B on Neon branch | STG-006 |
+| Reranker candidate pool size | 20, 50, 100 | STG-006 |
 
 Each parameter evaluation uses the same golden set and produces a comparable results JSON. The per-category breakdowns reveal *where* a parameter change helps or hurts — e.g., a larger chunk size might improve Emotional queries (more context) but hurt Direct queries (diluted keyword signal).
 
@@ -256,7 +256,7 @@ The golden set grows as the corpus grows:
 | 1a | English Autobiography | ~58 en queries |
 | 1b | + Hindi, Spanish Autobiography | + ~15 hi, ~15 es queries |
 | 3a | + 7 additional English books | Re-evaluate existing en queries + ~20 new cross-book queries |
-| 3c | + related content graph | ~50 relation-quality queries (DES separate — M3c-5) |
+| 3c | + related content graph | ~50 relation-quality queries (DES separate — STG-008-5) |
 
 Old queries are **never removed** — they serve as regression tests. New queries are appended. The `id` field ensures stability across versions.
 

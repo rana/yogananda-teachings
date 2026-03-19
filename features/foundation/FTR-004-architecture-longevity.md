@@ -96,7 +96,7 @@ This is inherent in using PostgreSQL — not a feature to build, but a capabilit
 - All architectural decisions are evaluated against a 10-year horizon, not just immediate needs
 - The shared service layer convention (FTR-015) is treated as the project's most important structural rule
 - Component replacement is expected and planned for — it's maintenance, not failure
-- The search quality test suite (deliverable M1a-8) serves as the acceptance gate for any AI model migration
+- The search quality test suite (deliverable STG-001-8) serves as the acceptance gate for any AI model migration
 - Future developers can replace any Tier 3 component without touching Tier 1 or Tier 2 components
 - `pg_dump` export capability is documented as a deliberate architectural feature
 

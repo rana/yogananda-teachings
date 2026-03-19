@@ -14,11 +14,11 @@ depends-on: [FTR-028, FTR-039, FTR-040]
 
 **Type:** Feature
 **Governing Refs:** FTR-039 (Recognition-First IA), FTR-010 (Experience Quality)
-**Target:** Milestone 2a (full implementation). 1c embodies the principle minimally.
+**Target:** STG-004 (full implementation). 1c embodies the principle minimally.
 **Dependencies:** Vocabulary Bridge (FTR-028) for meaningful entry points. FTR-040 for visual system. FTR-040 (Opening Moment) updated to reference recognition-first principle.
 **Scheduling Notes:** The homepage holds multiple entry lenses without hierarchy. A returning devotee and a first-time visitor and someone at 2 AM all find their natural entry.
 
-**Homepage structure (Milestone 2a):**
+**Homepage structure (STG-004):**
 ```
 Today's Wisdom — the portal speaking first
   [passage, possibly Yogananda's voice, full presence]

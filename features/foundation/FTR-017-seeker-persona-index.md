@@ -91,14 +91,14 @@ Full profiles in FTR-060. Summary index:
 
 | Persona | Type | Active From |
 |---|---|---|
-| Monastic content editor | Core staff | Milestone 3b+ |
-| Theological reviewer | Core staff | Milestone 3b+ |
-| AE social media staff | Core staff | Milestone 3d+ |
+| Monastic content editor | Core staff | STG-007+ |
+| Theological reviewer | Core staff | STG-007+ |
+| AE social media staff | Core staff | STG-009+ |
 | Translation reviewer | Core staff (or volunteer) | Milestone 5b+ |
-| AE developer | Core staff | Milestone 1a+ |
-| Leadership (monastic) | Core staff | Milestone 3b+ |
-| Portal coordinator | Operational (unstaffed) | Milestone 3b+ |
-| Book ingestion operator | Operational (unstaffed) | Milestone 2a+ |
+| AE developer | Core staff | STG-001+ |
+| Leadership (monastic) | Core staff | STG-007+ |
+| Portal coordinator | Operational (unstaffed) | STG-007+ |
+| Book ingestion operator | Operational (unstaffed) | STG-004+ |
 | VLD coordinator | Operational (unstaffed) | Milestone 5a+ |
 
 ### Volunteer Personas

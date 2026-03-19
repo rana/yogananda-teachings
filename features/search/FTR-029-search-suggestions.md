@@ -186,7 +186,7 @@ One script (`scripts/generate-suggestion-dictionary.ts`), run after book ingesti
 
 | Corpus State | Total per language |
 |-------------|-------------------|
-| 1 book (Milestone 1a) | ~500 |
+| 1 book (STG-001) | ~500 |
 | 5 books (Phase 2) | ~1,500 |
 | 25 books (full) | ~5,000 |
 
@@ -477,11 +477,11 @@ All suggestion parameters live in `/lib/config.ts` under the `SUGGEST_*` and `SU
 
 6. **RTL language suggestion display.** Arabic and Urdu (Tier 3, Milestone 5b) use RTL script. The dropdown's type indicators (right-aligned secondary text) reverse in RTL. The dropdown should inherit document direction (`dir` attribute) and type indicators should use logical positioning (`inline-end`). Design decision recorded; implementation deferred to Milestone 5b.
 
-7. ~~**Voice input and prefix matching.**~~ **Resolved.** Dictated input detected primarily via input velocity heuristic (>5 chars in single input event); `inputType === 'insertFromDictation'` as secondary signal where available (Safari non-standard, not cross-browser). See § Client Architecture. Voice input bypasses adaptive debounce and routes the complete phrase to prefix match against the full suggestion set. Semantic routing deferred to Milestone 3b+ when the suggestion dictionary exceeds bridge coverage.
+7. ~~**Voice input and prefix matching.**~~ **Resolved.** Dictated input detected primarily via input velocity heuristic (>5 chars in single input event); `inputType === 'insertFromDictation'` as secondary signal where available (Safari non-standard, not cross-browser). See § Client Architecture. Voice input bypasses adaptive debounce and routes the complete phrase to prefix match against the full suggestion set. Semantic routing deferred to STG-007+ when the suggestion dictionary exceeds bridge coverage.
 
 8. **Golden evaluation set maintenance.** When new books change the top-3 for established prefixes, who decides whether to update expectations or fix the pipeline? Protocol: pipeline failures are reviewed by the AI operator; expectation updates require editorial sign-off. Formalize during first pipeline run.
 
-9. **Suggestion API rate limiting.** The `/api/v1/search/suggest` endpoint has no rate limiting. A sweeper could enumerate the dictionary via all two-char prefixes. Mitigation: Vercel's built-in DDoS protection covers volumetric attacks; for targeted enumeration, add `x-ratelimit` headers at Milestone 3a if monitoring shows abuse. The data is not sensitive (all suggestions are publicly visible in static JSON anyway).
+9. **Suggestion API rate limiting.** The `/api/v1/search/suggest` endpoint has no rate limiting. A sweeper could enumerate the dictionary via all two-char prefixes. Mitigation: Vercel's built-in DDoS protection covers volumetric attacks; for targeted enumeration, add `x-ratelimit` headers at STG-006 if monitoring shows abuse. The data is not sensitive (all suggestions are publicly visible in static JSON anyway).
 
 
 ## Notes

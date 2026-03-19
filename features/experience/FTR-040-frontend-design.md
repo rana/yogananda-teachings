@@ -34,11 +34,11 @@ governed-by: [PRI-03, PRI-05, PRI-07, PRI-10, PRI-11]
 | `/videos/[category]` | Filtered view (e.g., How-to-Live, Meditations) | YouTube API (ISR) | ISR (1 hr) | Yes |
 | `/study` | Study Workspace — passage collection, teaching arc assembly, export (future milestones, FTR-143) | `localStorage` (no server) | CSR | No (`noindex`) |
 | `/collections` | Community Collections gallery — published/featured curated passage collections (Milestone 7b, FTR-143) | Neon (`study_outlines` where visibility = published/featured) | ISR (1 hr) | Yes |
-| `/collections/[share-hash]` | Single community collection view (Milestone 3b+ shared-link, Milestone 7b published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
-| `/feedback` | Seeker feedback — citation errors, search suggestions, general feedback (Milestone 3b, FTR-061) | Neon (`seeker_feedback`) | SSR | No (`noindex`) |
-| `/privacy` | Privacy policy — what data is collected, why, how long, sub-processors, data subject rights (Milestone 2a, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
-| `/legal` | Legal information — terms of use, copyright, content licensing (Milestone 2a, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
-| `/browse` | Complete content index — all navigable content by category (Milestone 2a, FTR-056) | Neon (ISR) | ISR (24 hr) | Yes |
+| `/collections/[share-hash]` | Single community collection view (STG-007+ shared-link, Milestone 7b published) | Neon (`study_outlines` + `study_outline_sections` + `study_outline_passages`) | ISR (24 hr) | Yes |
+| `/feedback` | Seeker feedback — citation errors, search suggestions, general feedback (STG-007, FTR-061) | Neon (`seeker_feedback`) | SSR | No (`noindex`) |
+| `/privacy` | Privacy policy — what data is collected, why, how long, sub-processors, data subject rights (STG-004, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
+| `/legal` | Legal information — terms of use, copyright, content licensing (STG-004, FTR-085) | Static (ISR) | ISR (30 days) | Yes |
+| `/browse` | Complete content index — all navigable content by category (STG-004, FTR-056) | Neon (ISR) | ISR (24 hr) | Yes |
 | `/updates` | Portal updates — new books, features, languages (Milestone 5a+, FTR-092) | Neon `portal_updates` | ISR (1 hr) | Yes |
 
 **Rendering key:** ISR = Incremental Static Regeneration (server-rendered, cached at CDN, revalidated on schedule). SSR = Server-Side Rendered (fresh on every request). CSR = Client-Side Rendered (JavaScript only, no server HTML). All ISR and SSR pages deliver complete HTML with JSON-LD, OG tags, Twitter Card tags, and full content to crawlers — no content page depends on client-side data fetching. Content negotiation (FTR-059 §11): all ISR/SSR routes also respond with structured JSON when the `Accept: application/json` header is sent. See FTR-059 §15 for the full rendering strategy rationale.
@@ -367,13 +367,13 @@ Framed through aspiration, not suffering. "Seeking" aligns with the search bar's
 - Mobile: full-width, stacked list
 - This section is below the fold — a deliberate choice. The above-the-fold experience (Today's Wisdom + search bar) is for all visitors; this section is for the ones who scroll because they need more
 
-**Grief elevated to primary theme :** "Comfort after loss" is the entry point; grief/loss also becomes a dedicated theme page (`/themes/grief`) in Milestone 3b with deep, curated content on the immortality of the soul, reunion after death, the purpose of suffering, and direct consolation. Grief is arguably the most common reason someone turns to spiritual literature — the portal should be the definitive resource for seekers Googling "what happens after death Yogananda."
+**Grief elevated to primary theme :** "Comfort after loss" is the entry point; grief/loss also becomes a dedicated theme page (`/themes/grief`) in STG-007 with deep, curated content on the immortality of the soul, reunion after death, the purpose of suffering, and direct consolation. Grief is arguably the most common reason someone turns to spiritual literature — the portal should be the definitive resource for seekers Googling "what happens after death Yogananda."
 
 **DELTA alignment:** No behavioral profiling. The entry points are the same for every visitor. They are informed by aggregated search trends ("What is humanity seeking?"), not individual tracking.
 
 ### Books (`/books`) and Book Landing Page (`/books/[slug]`)
 
-This page is how seekers browse and discover books. Even with a single book in Milestone 2a, the page should feel like the entrance to a real library — warm, unhurried, and honest about what's inside.
+This page is how seekers browse and discover books. Even with a single book in STG-004, the page should feel like the entrance to a real library — warm, unhurried, and honest about what's inside.
 
 #### Books (`/books`)
 
@@ -413,7 +413,7 @@ This page is how seekers browse and discover books. Even with a single book in M
 - **Honest about scope.** "More books are being added" is truthful and forward-looking. No fixed promises, no dates.
 - **The SRF Bookstore link** is a natural signpost: seekers can explore the full catalog of physical books while the digital collection grows.
 - **Each book entry is a generous card** — not a cramped grid item. Whitespace, the cover image (if available from SRF), and a brief editorial description give each book the space it deserves.
-- **No "empty state" design needed in Milestone 2a** — there will always be at least one book.
+- **No "empty state" design needed in STG-004** — there will always be at least one book.
 
 **Book card contents:**
 - Cover image (if available; graceful fallback to a warm cream card with title in Merriweather)
@@ -424,7 +424,7 @@ This page is how seekers browse and discover books. Even with a single book in M
 - "Begin reading →" link to chapter 1
 - "Find this book →" link to SRF Bookstore
 
-**Milestone 3a growth:** As Wave 2a–2d books are ingested, the books page naturally fills out. The layout scales from 1 book to 15+ without redesign. Books are ordered by ingestion priority (FTR-120), which mirrors life-impact ordering.
+**STG-006 growth:** As Wave 2a–2d books are ingested, the books page naturally fills out. The layout scales from 1 book to 15+ without redesign. Books are ordered by ingestion priority (FTR-120), which mirrors life-impact ordering.
 
 **Milestone 5b multi-language:** The books page shows books available in the user's language, plus an "Also available in English" section for untranslated works (per FTR-058 content availability matrix).
 
@@ -548,7 +548,7 @@ The right side panel displays passages from *other books* that are semantically 
 **Reading focus detection — the "settled paragraph" model:**
 - Intersection Observer watches all paragraphs within a **focus zone** (upper-middle 45% of the viewport, `rootMargin: "-20% 0px -35% 0px"` — biased toward where readers' eyes naturally rest)
 - Each visible paragraph gets a **prominence score**: `intersectionRatio × elementHeight` — favors the paragraph the reader is immersed in, not a one-liner passing through
-- A **1.2-second debounce** prevents updates during active scrolling. Only when scrolling stops for 1.2s does the highest-prominence paragraph become the "settled paragraph" *[Parameter — default: 1200ms, evaluate: Milestone 2b user testing]*
+- A **1.2-second debounce** prevents updates during active scrolling. Only when scrolling stops for 1.2s does the highest-prominence paragraph become the "settled paragraph" *[Parameter — default: 1200ms, evaluate: STG-005 user testing]*
 - If the settled paragraph changes, the side panel crossfades (300ms) to the new relations
 - **Source indication:** the side panel header shows the first ~40 characters of the settled paragraph (*"Related to: 'My body became immovably...'"*) — closing the feedback loop without adding any chrome to the main text column
 
@@ -713,7 +713,7 @@ A `@media print` stylesheet ensures passages and chapters print beautifully:
 - Portal URL in small footer: `teachings.yogananda.org`
 - Page breaks between chapters (for full chapter printing)
 - No background colors (saves ink, respects user paper)
-- **Hindi print support (Milestone 1a):** Print stylesheet is locale-aware from the start. Hindi pages use `font-family: 'Noto Serif Devanagari'` at 12pt (scaled from Latin 11pt for optical equivalence). Drop capitals omitted for Devanāgarī. Line length adjusted for 40–50 aksharas per line.
+- **Hindi print support (STG-001):** Print stylesheet is locale-aware from the start. Hindi pages use `font-family: 'Noto Serif Devanagari'` at 12pt (scaled from Latin 11pt for optical equivalence). Drop capitals omitted for Devanāgarī. Line length adjusted for 40–50 aksharas per line.
 - **Additional non-Latin font support (Milestone 5b):** Font-family falls back per script: Noto Serif JP for Japanese, Noto Serif Thai for Thai, Noto Serif Bengali for Bengali. CJK text at 10.5pt (equivalent optical size to 11pt Latin). Define per-locale `@media print` font stacks alongside the web font stacks.
 
 #### FTR-142: Chant Reader Variant
@@ -883,7 +883,7 @@ A passage about concentration means something different on the first reading ver
 
 **API:** No new endpoints. Uses existing `/api/v1/passages/[passage-id]/related` and chunk neighbor queries. The "context" layer is fetched from the chapter data already loaded in the reader.
 
-**Milestone:** 3c (alongside editorial reading threads, FTR-063). Requires Related Teachings (FTR-030, Milestone 2b) and chapter data already in the reader.
+**Milestone:** 3c (alongside editorial reading threads, FTR-063). Requires Related Teachings (FTR-030, STG-005) and chapter data already in the reader.
 
 ---
 
@@ -1226,8 +1226,8 @@ Every passage throughout the portal — search results, reader, theme pages, Qui
 
 **PDF generation :**
 - Passage PDF: single A4 page — Merriweather 14pt, warm cream background, citation, lotus watermark (8% opacity, bottom-right), portal URL
-- Chapter PDF (Milestone 3b+): cover page, running headers, page numbers, drop capitals, lotus watermark on first page
-- Book PDF (Milestone 3b+): title page, table of contents, all chapters, colophon
+- Chapter PDF (STG-007+): cover page, running headers, page numbers, drop capitals, lotus watermark on first page
+- Book PDF (STG-007+): title page, table of contents, all chapters, colophon
 - API: `GET /api/v1/books/{slug}/pdf` (full book), `GET /api/v1/books/{slug}/chapters/{n}/pdf` (chapter), `POST /api/v1/exports/pdf` with `{ "type": "passages", "ids": ["{chunk-id}"] }` (single passage). See FTR-133 — PDFs are sub-paths of their parent resource, not a parallel `/pdf/` namespace.
 
 **Share menu:**
@@ -1275,7 +1275,7 @@ Every word the portal speaks — beyond Yogananda's own — is part of the seeke
 
 **ARIA labels carry warmth (FTR-053).** Screen reader announcements are not markup — they are the only voice the portal has for blind seekers. "You are now in the Quiet Corner, a space for stillness" not "Main content region, The Quiet Corner." "Five passages found about courage" not "Search results: 5 items." See § Screen Reader Emotional Quality under Accessibility for full specification.
 
-**Maintained in:** `/docs/editorial/ui-copy-guide.md` — voice principles, vocabulary glossary, and annotated examples per page. Created during Milestone 2a alongside locale file externalization.
+**Maintained in:** `/docs/editorial/ui-copy-guide.md` — voice principles, vocabulary glossary, and annotated examples per page. Created during STG-004 alongside locale file externalization.
 
 ### FTR-040: Session Closure Moments — Departure Grace
 
@@ -1337,7 +1337,7 @@ The portal is equally excellent for seekers who never touch the search bar. Seve
 **7. The scholar** (citation-driven, cross-referencing, export-oriented).
 - Academic researchers, seminary students, comparative religion faculty, digital humanities scholars who need Yogananda's words in citable form.
 - Stable canonical URLs for every passage (`/passage/[chunk-id]`) serve as persistent citations.
-- Citation export (Chicago, MLA, BibTeX) from the passage detail view (Milestone 3d knowledge graph features the cross-reference layer that makes this natural).
+- Citation export (Chicago, MLA, BibTeX) from the passage detail view (STG-009 knowledge graph features the cross-reference layer that makes this natural).
 - The Knowledge Graph `/explore` view (FTR-034, FTR-124, FTR-035) is this seeker's primary discovery tool — they navigate by relationship, not by theme or emotion.
 - This path is how Yogananda's teachings enter university syllabi, interfaith anthologies, and peer-reviewed scholarship. The portal's bibliographic integrity directly serves this.
 
@@ -1514,7 +1514,7 @@ The following tokens are derived from analysis of yogananda.org, convocation.yog
 
  /* === Font Scale === */
  /* Current scale: manually tuned for readability at each level.
-    Evaluate golden-ratio alternative (1.618 ratio) during Milestone 2a design QA:
+    Evaluate golden-ratio alternative (1.618 ratio) during STG-004 design QA:
     base 1.125rem → 1.819rem → 2.943rem → 4.761rem.
     The golden ratio produces naturally harmonious proportions that echo
     sacred geometry — but only adopt if it serves readability. The current
@@ -1564,7 +1564,7 @@ The following tokens are derived from analysis of yogananda.org, convocation.yog
 | Hindi UI chrome (nav, buttons) | Noto Sans Devanagari | 400/600 | `--text-sm` (15px) | `--leading-normal` (1.6) |
 | Hindi headings | Noto Serif Devanagari | 700 | `--text-2xl` (32px) | `--leading-tight` (1.3) |
 
-**IAST diacritics note (FTR-131):** Merriweather and Lora must render IAST combining characters (ā, ī, ū, ṛ, ṃ, ḥ, ñ, ṅ, ṭ, ḍ, ṇ, ś, ṣ) correctly at all sizes. Verify during Milestone 2a design QA — particularly at `--text-sm` (15px) where combining marks are most likely to collide or render incorrectly.
+**IAST diacritics note (FTR-131):** Merriweather and Lora must render IAST combining characters (ā, ī, ū, ṛ, ṃ, ḥ, ñ, ṅ, ṭ, ḍ, ṇ, ś, ṣ) correctly at all sizes. Verify during STG-004 design QA — particularly at `--text-sm` (15px) where combining marks are most likely to collide or render incorrectly.
 
 #### Spacing, Borders, and Radii
 

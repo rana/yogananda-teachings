@@ -51,7 +51,7 @@ The AI is a **librarian**, not an **oracle**. It finds Yogananda's words — it 
 
 ### Search Flow
 
-The search pipeline has evolved through three milestone tiers. Milestones 1a–2a use a two-path retrieval core (vector + BM25). Milestone 2b+ adds HyDE and Cohere Rerank. Milestone 3b+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
+The search pipeline has evolved through three milestone tiers. Milestones 1a–2a use a two-path retrieval core (vector + BM25). STG-005+ adds HyDE and Cohere Rerank. STG-007+ adds a third retrieval path via Postgres-native graph traversal (FTR-034).
 
 ```
 1. USER QUERY
@@ -84,7 +84,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
     - Do not generate any teaching content
  │
  ▼
-5. HyDE — HYPOTHETICAL DOCUMENT EMBEDDING (Milestone 2b+, FTR-027)
+5. HyDE — HYPOTHETICAL DOCUMENT EMBEDDING (STG-005+, FTR-027)
  Claude generates a hypothetical passage that would answer the query,
  written in Yogananda's register. This generated passage is an
  intermediate embedding artifact only — it is never stored, displayed,
@@ -97,7 +97,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  diverges from corpus vocabulary.
  │
  ▼
-6. MULTI-PATH PARALLEL RETRIEVAL (Neon PostgreSQL, Milestone 3b+ adds PATH C)
+6. MULTI-PATH PARALLEL RETRIEVAL (Neon PostgreSQL, STG-007+ adds PATH C)
 
  PATH A — Dense Vector (pgvector, HNSW):
  - Embed the original query using Voyage voyage-4-large (FTR-024)
@@ -109,7 +109,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - BM25 scoring produces better relevance ranking than tsvector ts_rank
  - Find top 20 chunks by keyword relevance
 
- PATH C — Graph-Augmented Retrieval (Postgres, Milestone 3b+, FTR-034):
+ PATH C — Graph-Augmented Retrieval (Postgres, STG-007+, FTR-034):
  - Identify entities/concepts in query via entity registry (FTR-033)
  - SQL traversal across extracted_relationships and concept_relations
  - Return top 20 chunks reachable within 2–3 hops
@@ -117,7 +117,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - Multi-step queries composed in /lib/services/graph.ts
 
  ADAPTIVE HYBRID FUSION:
- - Merge results from all active paths (A+B in Milestones 1a–3a; A+B+C in Milestone 3b+)
+ - Merge results from all active paths (A+B in Milestones 1a–3a; A+B+C in STG-007+)
  - Convex Combination (CC) replaces Reciprocal Rank Fusion (RRF).
    CC uses normalized scores, not ranks — a passage scored 0.99 by dense
    retrieval is meaningfully distinguished from one scored 0.51.
@@ -125,7 +125,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
    vs. 0.425 for RRF on MS MARCO when any labeled data is available.)
  - Two-path fusion: final_score = α × dense_score + (1 - α) × bm25_score
    *[Parameter — default: α=0.5, tune with golden set queries per FTR-037]*
- - Three-path fusion (M3b+): final_score = α × dense + β × bm25 + γ × graph
+ - Three-path fusion (STG-007+): final_score = α × dense + β × bm25 + γ × graph
    where α + β + γ = 1, tuned per-register (see table below)
  - Register-driven adaptive weights: the Vocabulary Bridge (FTR-028)
    classifies query register at query time. Fusion weights shift accordingly:
@@ -142,7 +142,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - Deduplicate, producing top 50 candidates (expanded from 20 for reranker)
  │
  ▼
-7. RERANKING (Voyage Rerank, standard from M3a, FTR-027)
+7. RERANKING (Voyage Rerank, standard from STG-006, FTR-027)
  Cross-encoder reranker sees query + passage together.
  Multilingual native. Replaces Claude Haiku passage ranking for precision.
  Selects and ranks top 5 from 50 candidates.
@@ -173,7 +173,7 @@ The search pipeline has evolved through three milestone tiers. Milestones 1a–2
  - The verbatim passage text (highlighted relevant portion)
  - Book title, chapter, page number
  - A deep link to the book reader positioned at that passage
- - Related teachings (Milestone 3a+, FTR-030) grouped by relationship type
+ - Related teachings (STG-006+, FTR-030) grouped by relationship type
 ```
 
 **Milestone progression of the search pipeline:**
@@ -315,7 +315,7 @@ Candidate passages:
 {passages_json}
 ```
 
-*These prompts are starting points. Milestone 1a empirical testing (M1a-8, search quality evaluation — English only) will refine wording, few-shot examples, and temperature settings. All prompts are maintained in `/lib/prompts/` as version-controlled TypeScript template literals.*
+*These prompts are starting points. STG-001 empirical testing (STG-001-8, search quality evaluation — English only) will refine wording, few-shot examples, and temperature settings. All prompts are maintained in `/lib/prompts/` as version-controlled TypeScript template literals.*
 
 ### Search Without AI (Fallback / Simple Queries)
 
@@ -337,7 +337,7 @@ When Claude (via AWS Bedrock, FTR-105) is unavailable (timeout, error, rate limi
 
 | Level | Trigger | What Works | What Doesn't | User Impact |
 |-------|---------|-----------|--------------|-------------|
-| **Full** | All services healthy | Query expansion + HyDE (M3a+) + multi-path retrieval + Voyage Rerank (M3a+) | — | Best results: conceptual queries understood, top 5 precisely ranked |
+| **Full** | All services healthy | Query expansion + HyDE (STG-006+) + multi-path retrieval + Voyage Rerank (STG-006+) | — | Best results: conceptual queries understood, top 5 precisely ranked |
 | **No rerank** | Voyage Rerank unavailable | Query expansion, HyDE, adaptive CC fusion | Cross-encoder reranking | Top 5 from CC fusion scores; slightly less precise ordering |
 | **No HyDE** | HyDE generation fails | Query expansion, adaptive CC fusion, Voyage Rerank | Hypothetical document embedding | Marginal loss on literary/metaphorical queries |
 | **No expansion** | Claude query expansion fails | Raw query → hybrid search (vector + BM25) | Conceptual query broadening | Keyword-dependent; "How do I find peace?" works less well than "peace" |
@@ -379,7 +379,7 @@ When the embedding model changes (e.g., from `voyage-4-large` to a successor, or
  New embeddings produce different similarity scores.
 
 5. VALIDATE (on branch)
- Run the search quality evaluation test suite (M1a-8).
+ Run the search quality evaluation test suite (STG-001-8).
  Compare results against production baseline.
  Threshold: new model must match or exceed current ≥ 80% pass rate.
 

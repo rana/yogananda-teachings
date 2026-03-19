@@ -43,7 +43,7 @@ These concerns apply not only to seekers with cognitive disabilities but also to
 
  This tag is used internally for pool selection (Today's Wisdom favors `accessible`; Quiet Corner uses only `accessible`; search returns all levels) — never displayed to the seeker. Not a quality judgment. Dense passages are not lesser teachings — they are teachings that reward deeper attention.
 
-3. **Simplified reading mode.** An optional "Focus" toggle in the reader header (Milestone 2b, alongside Dwell) that reduces the reader to: reading column + Next Chapter. The Related Teachings side panel, keyboard shortcut overlay, dwell icon, and bookmark icon are suppressed. The toggle is stored in `localStorage`. This mode serves seekers who want to read a book linearly without the browse-navigation features — and it naturally serves cognitive accessibility needs without labeling them.
+3. **Simplified reading mode.** An optional "Focus" toggle in the reader header (STG-005, alongside Dwell) that reduces the reader to: reading column + Next Chapter. The Related Teachings side panel, keyboard shortcut overlay, dwell icon, and bookmark icon are suppressed. The toggle is stored in `localStorage`. This mode serves seekers who want to read a book linearly without the browse-navigation features — and it naturally serves cognitive accessibility needs without labeling them.
 
 4. **Consistent, minimal gesture vocabulary for core tasks.** The portal's essential experience (read, search, navigate) requires only: click, scroll, and type. All other gestures (long-press, hover-wait, keyboard shortcuts) are enhancements. The portal must be fully functional with only the three basic gestures. This is already approximately true but should be an explicit design constraint tested in QA.
 
@@ -68,7 +68,7 @@ These concerns apply not only to seekers with cognitive disabilities but also to
 - New `accessibility_level` column on `book_chunks` (nullable enum: `accessible`, `moderate`, `dense`)
 - Today's Wisdom pool favors `accessible` passages (soft bias, not hard filter)
 - Quiet Corner pool restricted to `accessible` passages
-- New "Focus" toggle in reader header (Milestone 2b)
+- New "Focus" toggle in reader header (STG-005)
 - DESIGN.md § Accessibility Requirements gains a "Cognitive Accessibility" subsection
 - DESIGN.md § Homepage updated with progressive disclosure specification
 - Editorial workload: passages need accessibility classification during ingestion QA

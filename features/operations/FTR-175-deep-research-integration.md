@@ -6,7 +6,7 @@ state: proposed
 domain: operations
 governed-by: [PRI-12]
 depends-on: [FTR-168]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-175: Deep Research Integration

@@ -15,11 +15,11 @@ depends-on: [FTR-103]
 **Type:** Enhancement (Experience)
 **Governing Refs:** PRI-05 (Global-First), PRI-03 (Honoring the Spirit), FTR-006 § 4 (Intermittent Connectivity), FTR-103 (PWA)
 **Target:** Phase 2–3 (evaluation); implementation depends on corpus size and Service Worker maturity
-**Dependencies:** Service Worker infrastructure (M2b — already shipped), multi-book corpus (M3a+)
+**Dependencies:** Service Worker infrastructure (STG-005 — already shipped), multi-book corpus (STG-006+)
 
 #### Context
 
-FTR-006 § 4 establishes the portal's offline posture as *offline-tolerant*: the Service Worker caches the app shell (M1c), extends to all pages and fonts (M2a), and reactively caches the last-read chapter (M2b). The offline indicator says: *"You're reading offline. Search requires a connection."*
+FTR-006 § 4 establishes the portal's offline posture as *offline-tolerant*: the Service Worker caches the app shell (STG-003), extends to all pages and fonts (STG-004), and reactively caches the last-read chapter (STG-005). The offline indicator says: *"You're reading offline. Search requires a connection."*
 
 This posture handles the common case — re-reading what you just read when connectivity drops. But it does not serve the seeker who *anticipates* being offline: the devotee heading to a retreat center without WiFi, the monk in a rural ashram, the seeker on a long bus ride in Bihar. These seekers know they will be offline. They need to prepare.
 
@@ -53,7 +53,7 @@ Medium. The Service Worker infrastructure exists. The main work is UI (download 
 - Should offline content expire? Or is cached sacred text permanent until the seeker removes it?
 - Background Fetch API has limited browser support (~70%). Progressive enhancement: browsers without it get sequential download. Is this sufficient, or should the feature wait for broader support?
 
-**Re-evaluate At:** M3a completion (multi-book corpus provides realistic test), Phase 2 planning
+**Re-evaluate At:** STG-006 completion (multi-book corpus provides realistic test), Phase 2 planning
 **Decision Required From:** Architecture (storage strategy, client-side search approach), Human principal (whether offline-first aligns with the portal's identity or over-engineers for a minority use case)
 **Origin:** Explore-act analysis of PRI-05 offline posture gap, 2026-03-03
 

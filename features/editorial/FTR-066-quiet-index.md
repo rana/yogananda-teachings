@@ -11,7 +11,7 @@ governed-by: [PRI-03, PRI-08]
 
 ## Rationale
 
-Milestone 3b plans E3 (Passage Accessibility Rating) and E8 (Tone Classification). The Quiet Index combines these two planned classifications into a browsable dimension: passages organized by their contemplative texture.
+STG-007 plans E3 (Passage Accessibility Rating) and E8 (Tone Classification). The Quiet Index combines these two planned classifications into a browsable dimension: passages organized by their contemplative texture.
 
 ### Passage Textures
 

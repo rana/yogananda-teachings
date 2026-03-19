@@ -59,9 +59,9 @@ Guru portraits and lineage images (FTR-073 `is_yogananda_subject = true` or `sub
 
 ### Implementation Architecture
 
-**Phase 1 (Milestone 3a):** Responsive `<picture>` elements with `srcset`/`sizes` and format negotiation via Vercel Image Optimization (built-in). No custom infrastructure. Pre-generate 4 sizes (240, 480, 720, 1200px) at build/ingest time for all images.
+**Phase 1 (STG-006):** Responsive `<picture>` elements with `srcset`/`sizes` and format negotiation via Vercel Image Optimization (built-in). No custom infrastructure. Pre-generate 4 sizes (240, 480, 720, 1200px) at build/ingest time for all images.
 
-**Phase 2 (Milestone 3b+, if needed):** Lambda@Edge on-demand transformation for long-tail sizes. Only if Phase 1 performance data shows significant waste or gaps.
+**Phase 2 (STG-007+, if needed):** Lambda@Edge on-demand transformation for long-tail sizes. Only if Phase 1 performance data shows significant waste or gaps.
 
 ### Constraints
 
@@ -72,7 +72,7 @@ Guru portraits and lineage images (FTR-073 `is_yogananda_subject = true` or `sub
 
 ### Re-evaluate At
 
-Milestone 3a boundary — after sacred imagery pipeline (FTR-073) is operational and performance budgets are measured with real content.
+STG-006 boundary — after sacred imagery pipeline (FTR-073) is operational and performance budgets are measured with real content.
 
 ### Source Exploration
 

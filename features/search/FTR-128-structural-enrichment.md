@@ -12,8 +12,8 @@ depends-on: [FTR-026, FTR-034, FTR-105]
 
 ## Rationale
 
-**Target:** Milestone 3b (alongside graph intelligence activation)
-**Dependencies:** Assembled book text (available for AoY en/es). Opus batch access (Bedrock). Chunk enrichment pipeline operational (Milestone 1c).
+**Target:** STG-007 (alongside graph intelligence activation)
+**Dependencies:** Assembled book text (available for AoY en/es). Opus batch access (Bedrock). Chunk enrichment pipeline operational (STG-003).
 
 **The gap.** The enrichment pipeline (FTR-026) analyzes chunks independently — each ~500-word passage is enriched in isolation. The knowledge graph (FTR-034) builds bottom-up from these chunk-level entities and relationships. But structural understanding at chapter, book, and author scale is absent. No artifact captures what Opus sees when it reads an entire chapter as a coherent arc, an entire book as an argument structure, or an author's complete output as a distinctive voice.
 

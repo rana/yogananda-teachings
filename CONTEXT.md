@@ -2,7 +2,7 @@
 
 ## Current State
 
-**Milestone 2b (Refine) complete.** 13 of 13 numbered deliverables done; 3 items reclassified (HyDE/Cohere Rerank → M3a search pipeline; Vercel KV skipped — trigger conditions not met). Stretch goals shipped: 5 color themes (auto/light/sepia/dark/meditate), color theme selector in ReaderSettings, circadian color temperature (FTR-040), "Breath Between Chapters" (FTR-040), PWA manifest + offline fallback, cross-site URL registry, font size + line spacing selector, visual regression Playwright screenshots, FTR-040 Opening Moment, reading progress persistence, keyboard help overlay (? key), haptic dwell feedback. See ROADMAP.md § M2b for details.
+**STG-005 (Refine) complete.** 13 of 13 numbered deliverables done; 3 items reclassified (HyDE/Cohere Rerank → STG-006 search pipeline; Vercel KV skipped — trigger conditions not met). Stretch goals shipped: 5 color themes (auto/light/sepia/dark/meditate), color theme selector in ReaderSettings, circadian color temperature (FTR-040), "Breath Between Chapters" (FTR-040), PWA manifest + offline fallback, cross-site URL registry, font size + line spacing selector, visual regression Playwright screenshots, FTR-040 Opening Moment, reading progress persistence, keyboard help overlay (? key), haptic dwell feedback. See ROADMAP.md § STG-005 for details.
 
 **What exists:** Full working portal deployed on Vercel. All pages navigable: Homepage, Books, About, Quiet Corner, Privacy, Legal, Browse, Integrity, Search, Ops, Passage, Bookmarks. Hybrid search (vector + BM25 + RRF) operational in English and Spanish. Reader experience immersive: dwell contemplation, keyboard navigation, lotus bookmarks, focus/presentation modes, parting words, contextual quiet corner, adaptive low-bandwidth. Color theme system with circadian warmth shifts. 480 Vitest tests across 43 files, 36 E2E Playwright tests (all passing). ALL React components have unit tests — zero untested components remain. Performance: all pages ≤ 130KB First Load JS. CI pipeline (build, lint, type check, test, a11y) runs on every PR.
 
@@ -12,9 +12,9 @@
 
 **Design documentation:** PRINCIPLES.md (12 principles), `features/FEATURES.md` (unified index) + 164 active FTR files in `features/` (foundation/, search/, experience/, editorial/, operations/). FTR-096 (Operational Surface) adopted from FTR-096/036/037/039.
 
-**Outstanding:** M2a-16 (EXIF/XMP image metadata) and M2a-22 (Lambda + database backup) remain — architecturally independent of M3a, not blocking.
+**Outstanding:** STG-004-16 (EXIF/XMP image metadata) and STG-004-22 (Lambda + database backup) remain — architecturally independent of STG-006, not blocking.
 
-**What's next:** Begin Milestone 3a (Corpus) — ingest first-wave books (*Where There Is Light*, *Sayings*, *Scientific Healing Affirmations*), expand Today's Wisdom and Quiet Corner pools, activate cross-book search. HyDE and Cohere Rerank evaluate as M3a-11/M3a-12 with larger corpus. Hindi deferred to Milestone 5b — authorized YSS ebook unavailable outside India (FTR-119 explores unblock path via YSS authorization, potentially activating ~425M reachable).
+**What's next:** Begin STG-006 (Corpus) — ingest first-wave books (*Where There Is Light*, *Sayings*, *Scientific Healing Affirmations*), expand Today's Wisdom and Quiet Corner pools, activate cross-book search. HyDE and Cohere Rerank evaluate as STG-006-11/STG-006-12 with larger corpus. Hindi deferred to STG-021 — authorized YSS ebook unavailable outside India (FTR-119 explores unblock path via YSS authorization, potentially activating ~425M reachable).
 
 **Build methodology (PRI-12):** Claude executes all deliverables autonomously — as architect, designer, implementer, and operator. No human-in-the-loop gates in the development process. The human principal reviews at their discretion, not as a blocking step. This applies to development methodology — PRINCIPLES.md § "Human Review as Mandatory Gate" governs the production portal's content governance, not the build process.
 
@@ -30,19 +30,19 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 
 ## Open Questions
 
-*Summary: 0 Tier 1, 17 Tier 2, 22 Tier 3, 36 Tier 4, ~35 Milestone 3b+. No blockers for M3a.*
+*Summary: 0 Tier 1, 17 Tier 2, 22 Tier 3, 36 Tier 4, ~35 STG-007+. No blockers for STG-006.*
 
 ### Tier 2: Resolve During Current Development
 
 **Technical**
-- [ ] Contentful record capacity: monitor record count during ingestion. Evaluate tier needs at Milestone 3a (multi-book corpus).
+- [ ] Contentful record capacity: monitor record count during ingestion. Evaluate tier needs at STG-006 (multi-book corpus).
 - [ ] fastText vs. alternative language detection for short queries containing Sanskrit terms. Evaluate during search quality testing.
 - [ ] Abuse and misuse patterns: extraction at scale, quote weaponization, SEO parasitism. Should the portal include rate limiting tiers, `rel=canonical` enforcement, MCP usage policy, or text watermarking? (FTR-001, FTR-015, FTR-098, FTR-150, FTR-059)
-- [ ] VLD editorial authentication: Milestone 3b+ VLD curation (FTR-060) references Auth0 roles, but Auth0 arrives at Milestone 7a+. What authentication mechanism serves the editorial portal before Auth0? Options: API keys, HTTP Basic, or lightweight auth (e.g., Neon Auth per FTR-114). Needs resolution before Milestone 3b scoping.
+- [ ] VLD editorial authentication: STG-007+ VLD curation (FTR-060) references Auth0 roles, but Auth0 arrives at STG-023+. What authentication mechanism serves the editorial portal before Auth0? Options: API keys, HTTP Basic, or lightweight auth (e.g., Neon Auth per FTR-114). Needs resolution before STG-007 scoping.
 
 **Stakeholder**
-- [ ] Which books have official translations in which languages? **Critical for Tier 1 (Spanish); Hindi deferred to Milestone 5b.** Content availability matrix needed: Language × Book × Format (print/ebook/digital text/audio). M1b used Amazon-purchased Spanish edition as temporary source; full matrix needed before Tier 2 activation. (FTR-058, FTR-058, FTR-011)
-- [ ] *God Talks with Arjuna* Devanāgarī content: not relevant until that book is ingested (Milestone 3a+). (FTR-131, FTR-023)
+- [ ] Which books have official translations in which languages? **Critical for Tier 1 (Spanish); Hindi deferred to STG-021.** Content availability matrix needed: Language × Book × Format (print/ebook/digital text/audio). STG-002 used Amazon-purchased Spanish edition as temporary source; full matrix needed before Tier 2 activation. (FTR-058, FTR-058, FTR-011)
+- [ ] *God Talks with Arjuna* Devanāgarī content: not relevant until that book is ingested (STG-006+). (FTR-131, FTR-023)
 - [ ] Existing SRF editorial voice guide: does SRF already have brand voice guidelines? The portal should extend them. (FTR-054)
 - [ ] SRF editorial policy on contested transliterations: does SRF confirm house style (e.g., "Babaji" vs. "Bābājī") as canonical for all portal display text? (FTR-131, FTR-021)
 - [ ] Cross-property content correction coordination: shared content source of truth, or each property maintains its own? (FTR-021, FTR-123)
@@ -55,7 +55,7 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] Portal updates page posture: visible evolution (`/updates` page) or timeless atmosphere? (FTR-092, FTR-054)
 - [ ] Visual design language: should the portal feel timeless or contemporary? The spiritual eye symbolism (navy=infinite blue, gold=divine ring, cream=star-white) is already latent in the palette — how explicitly should it be acknowledged in design documentation and token naming? (FTR-040, FTR-040)
 
-### Tier 3: Resolve During Milestones 1c–2b
+### Tier 3: Resolve During STG-003–STG-005
 
 **Design**
 - [ ] Today's Wisdom curation model: random selection (current) or synchronized sequential cycle (Daf Yomi model — all visitors see the same passage each day, creating invisible community)? Sequential requires editorial curation of a passage sequence. Random is simpler but forgoes synchronization. (FTR-166, FTR-067, FTR-063)
@@ -64,18 +64,18 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] Ambient co-presence: ephemeral WebSocket reader counts ("12 devotees reading this chapter now") — does an ephemeral room-occupancy counter constitute session tracking under DELTA (PRI-09)? No storage, no cookies, no persistence. (FTR-166, FTR-031)
 
 **Technical**
-- [ ] Query expansion prompt engineering (test with diverse query types). (Milestone 1c)
+- [ ] Query expansion prompt engineering (test with diverse query types). (STG-003)
 - [ ] AWS Bedrock abstraction: thin `/lib/services/claude.ts` supporting both Bedrock and direct Anthropic API for 10-year optionality? (FTR-105, FTR-004)
 - [ ] Content-addressable passage deep links: should resolution chain include a semantic/normalized hash tier between exact match and fuzzy search? (FTR-132, FTR-021)
-- [ ] IAST diacritics rendering verification: Merriweather and Lora at all font sizes, particularly 15px. Include in Milestone 2a design QA. (FTR-131, FTR-003)
+- [ ] IAST diacritics rendering verification: Merriweather and Lora at all font sizes, particularly 15px. Include in STG-004 design QA. (FTR-131, FTR-003)
 - [ ] Circadian content choreography: solar-position awareness vs. fixed clock hours? Browser timezone maps to coordinates for DELTA-compliant calculation. (FTR-040, FTR-065, FTR-082)
-- [ ] AI citation monitoring: should the portal track whether AI systems (ChatGPT, Perplexity, Gemini, etc.) cite Yogananda correctly when quoting from portal content? Not surveillance — web mention monitoring to evaluate whether `llms.txt` citation guidance is effective. Could inform future citation guidance improvements. (FTR-059, Milestone 2b+)
+- [ ] AI citation monitoring: should the portal track whether AI systems (ChatGPT, Perplexity, Gemini, etc.) cite Yogananda correctly when quoting from portal content? Not surveillance — web mention monitoring to evaluate whether `llms.txt` citation guidance is effective. Could inform future citation guidance improvements. (FTR-059, STG-005+)
 - [ ] E-ink and grayscale display testing: should the portal include specific CSS adaptations for e-ink devices (Kindle Experimental Browser, BOOX), or is the existing progressive enhancement sufficient? Gold-on-cream decorative elements (~26% luminance difference) may vanish on grayscale/e-ink. Seekers reading sacred text on e-ink devices is a devotional use case, not an edge case. (FTR-043, FTR-006, PRI-03)
 
 **Stakeholder**
-- [ ] SRF temple singing bowl recordings for Quiet Corner audio. (Milestone 2a)
-- [ ] @YoganandaSRF YouTube channel ID and playlist inventory. (Milestone 2a)
-- [ ] About page content: approved biography text for Yogananda and line of gurus? (Milestone 2a)
+- [ ] SRF temple singing bowl recordings for Quiet Corner audio. (STG-004)
+- [ ] @YoganandaSRF YouTube channel ID and playlist inventory. (STG-004)
+- [ ] About page content: approved biography text for Yogananda and line of gurus? (STG-004)
 - [ ] Who reviews AI-drafted UI translations (~200–300 strings)? (FTR-135)
 - [ ] Pastoral care resources: center contacts, counselors for locales where helplines are underserved? (FTR-051)
 - [ ] Crisis resource policy: display locale-appropriate helpline information alongside grief content? (FTR-051)
@@ -90,12 +90,12 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] Youth and young adult program signposts. (FTR-056, FTR-049)
 - [ ] "Awake" documentary as endorsed entry point / worldview pathway? (FTR-056)
 
-### Tier 4: Requires SRF Input Before Milestone 3b
+### Tier 4: Requires SRF Input Before STG-007
 
-**Strategic** (from milestone planning)
+**Strategic** (from stage planning)
 - [ ] Calendar timeline: what is the assumed team size and velocity?
-- [ ] Minimum lovable product: which milestone constitutes "launched" — publicly available to seekers?
-- [ ] Editorial capacity curve: at what milestone does the monastic editor's 2–3 hour daily window become insufficient? (FTR-060)
+- [ ] Minimum lovable product: which stage constitutes "launched" — publicly available to seekers?
+- [ ] Editorial capacity curve: at what stage does the monastic editor's 2–3 hour daily window become insufficient? (FTR-060)
 
 **Technical**
 - [ ] Sacred Places fallback hierarchy: ranked array of external links per place rather than Google Street View only? (FTR-050, FTR-050)
@@ -106,13 +106,13 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 **Stakeholder**
 - [ ] Portal-app relationship: complementary or overlapping reader? Will portal search power the app?
 - [ ] YSS co-equal or advisory authority over Hindi/Bengali/Thai design decisions. (FTR-058, FTR-119, FTR-119)
-- [ ] YSS Hindi *Autobiography* authorization for shared corpus — confirmed in principle, formal authorization conversation needed. Could unblock Hindi activation (~425M reachable) earlier than Milestone 5b. (FTR-119, FTR-011)
+- [ ] YSS Hindi *Autobiography* authorization for shared corpus — confirmed in principle, formal authorization conversation needed. Could unblock Hindi activation (~425M reachable) earlier than STG-021. (FTR-119, FTR-011)
 - [ ] YSS content availability in Tamil, Telugu, Kannada: which editions of Yogananda's works exist as YSS publications? (FTR-119, FTR-058)
 - [ ] YSS preferred integration surface: embeddable widgets in yssofindia.org, API integration for Lessons app, full portal deployment, or combination? Technical capacity unknown. (FTR-119)
 - [ ] Content governance for bidirectional contribution: who triggers re-ingestion when errors are found in contributed texts? Each organization maintains editorial authority over contributed content? (FTR-119)
 - [ ] What are YSS's own digital priorities for making Yogananda's teachings available online? Frame the partnership conversation around YSS's goals, not SRF's content needs. (FTR-119)
-- [ ] If YSS authorizes Hindi source text, what prevents Hindi from entering Milestone 1b alongside Spanish? Concrete blockers: Romanized Hindi transliteration pipeline, Hindi golden-set queries, Hindi UI strings, human reviewer availability. (FTR-119, FTR-011)
-- [ ] Does YSS have digital audio files of the Hindi *Autobiography*? If so, audio should ship with Hindi text activation — not deferred to a separate media milestone. (FTR-136, FTR-119, FTR-011 § Audio Equity)
+- [ ] If YSS authorizes Hindi source text, what prevents Hindi from entering STG-002 alongside Spanish? Concrete blockers: Romanized Hindi transliteration pipeline, Hindi golden-set queries, Hindi UI strings, human reviewer availability. (FTR-119, FTR-011)
+- [ ] Does YSS have digital audio files of the Hindi *Autobiography*? If so, audio should ship with Hindi text activation — not deferred to a separate media stage. (FTR-136, FTR-119, FTR-011 § Audio Equity)
 - [ ] Should YSS editorial team review the theme taxonomy and Vocabulary Bridge for Hindi cultural appropriateness before Hindi activation? Hindi spiritual vocabulary carries distinct weight — the bridge is a separate artifact, not a translation. (FTR-028, FTR-119)
 - [ ] Project naming in YSS conversations: use "Yogananda Teachings Platform" or similar org-neutral framing rather than "SRF Online Teachings Portal." (FTR-119)
 - [ ] Translated editions: do they preserve paragraph structure? (Critical for cross-language alignment)
@@ -120,7 +120,7 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] Monastic content scope: content *by* vs. *about* monastics. (FTR-074, FTR-074, FTR-001, FTR-001)
 - [ ] Living monastic editorial sensitivity: biographical detail level for current monastics. (FTR-074)
 - [ ] Presidential succession editorial framing: factual data only, or editorial narrative? (FTR-074)
-- [ ] Portal coordinator role ownership: monastic, AE team, or dedicated position? Critical by Milestone 3b. (FTR-060)
+- [ ] Portal coordinator role ownership: monastic, AE team, or dedicated position? Critical by STG-007. (FTR-060)
 - [ ] Inner orientation for editorial team: devotional service, professional positions, or both?
 - [ ] Monastic content editor's current digital workflow. (FTR-060)
 - [ ] Seasonal editorial calendar ownership. (FTR-065, FTR-060)
@@ -136,50 +136,50 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 - [ ] Spoken teachings distribution: portal-only, or also podcast, YouTube, app, WhatsApp audio? The recordings are the expensive asset — distribution should match. (FTR-136)
 - [ ] Could the philanthropist's funding support recording infrastructure and/or a dedicated narrator role at SRF and/or YSS? (FTR-136)
 
-### Milestone 3b+: Parked Until Milestone Approaches
+### STG-007+: Parked Until Stage Approaches
 
-*Triaged from active tiers during documentation crystallization (2026-02-23). Move back to active tiers when their milestone enters planning.*
+*Triaged from active tiers during documentation crystallization (2026-02-23). Move back to active tiers when their stage enters planning.*
 
-**Milestone 3b+ (Editorial)**
+**STG-007+ (Editorial)**
 - [ ] Audience suitability as enrichment dimension: should the enrichment pipeline (FTR-026) compute per-passage suitability markers (e.g., youth-appropriate, grief-context, general) to enable contextual filtering in thematic exploration (FTR-056) and guide pathways? Informed by seeker feedback patterns (FTR-061) over time. Evaluate after thematic exploration is operational and contextual feedback provides signal. (FTR-026, FTR-056, FTR-061, FTR-072)
-- [ ] Extreme-context access and institutional intermediaries: lighter-weight surfaces for hospitals, prisons, hospices, refugee camps? Institutional intermediary persona (chaplain, volunteer, hospice worker) accessing on behalf of seekers who cannot browse freely. If SRF affirms institutional access as in-scope, needs design attention by Milestone 3b. (FTR-006, FTR-051, FTR-040, FTR-047)
+- [ ] Extreme-context access and institutional intermediaries: lighter-weight surfaces for hospitals, prisons, hospices, refugee camps? Institutional intermediary persona (chaplain, volunteer, hospice worker) accessing on behalf of seekers who cannot browse freely. If SRF affirms institutional access as in-scope, needs design attention by STG-007. (FTR-006, FTR-051, FTR-040, FTR-047)
 
-**Milestone 3d+ (Complete)**
-- [ ] Does the philanthropist's foundation want to publish "What Is Humanity Seeking?" as a standalone annual communications asset? Communications planning should begin before Milestone 3d dashboard ships. (FTR-154)
+**STG-009+ (Complete)**
+- [ ] Does the philanthropist's foundation want to publish "What Is Humanity Seeking?" as a standalone annual communications asset? Communications planning should begin before STG-009 dashboard ships. (FTR-154)
 - [ ] Annual impact report format — PDF, web page, or both? Published by SRF or the foundation? (FTR-154)
 - [ ] How does SRF frame impact for the foundation when the most meaningful outcomes are unmeasurable? Is the "What Is Humanity Seeking?" narrative sufficient, or are conventional reach metrics required? (FTR-154)
 - [ ] Philanthropist's foundation operational visibility: editorial pipeline health or only impact metrics? (FTR-154, FTR-060)
 
-**Milestone 4a+ (Service)**
-- [ ] GitLab migration plan: CI/CD pipeline rewrite (GitHub Actions → GitLab CI), Platform MCP adaptation, developer workflow change. Deserves an FTR before Milestone 4a planning. (FTR-106, FTR-108, FTR-107)
+**STG-020+ (Service)**
+- [ ] GitLab migration plan: CI/CD pipeline rewrite (GitHub Actions → GitLab CI), Platform MCP adaptation, developer workflow change. Deserves an FTR before STG-020 planning. (FTR-106, FTR-108, FTR-107)
 
-**Milestone 5a+ (Distribution)**
+**STG-020+ (Distribution)**
 - [ ] Does SRF want Yogananda's teachings accessible to external AI assistants (ChatGPT, Claude, Gemini) via MCP? Distribution channel or risk to sacred text fidelity? Presentation constraints for AI consumers? Open, registered, or restricted access? (FTR-098, FTR-001, FTR-134, FTR-059)
 - [ ] MCP and the SRF mobile app: should the app access portal content via MCP tools alongside HTTP API routes? (FTR-098, FTR-015)
 - [ ] Sacred text in AI context: external AI may juxtapose Yogananda's words with other traditions. Interfaith enrichment or inappropriate decontextualization? (FTR-098, FTR-001)
 - [ ] MCP copyright implications: "freely accessible on the portal" vs. "freely redistributable through any AI assistant worldwide." Legal and stakeholder question. (FTR-098, FTR-059, FTR-085)
 
-**Milestone 5b+ (Languages)**
+**STG-021+ (Languages)**
 - [ ] Voyage voyage-4-large vs. voyage-multilingual-2 for CJK-heavy text: benchmark when CJK content exists. (FTR-024)
 - [ ] Multilingual embedding quality evaluation: benchmark Voyage against Cohere embed-v3, BGE-M3 using actual translated passages. (FTR-024)
 - [ ] Domain-adapted embeddings research: fine-tune multilingual base model on Yogananda's corpus. Requires multilingual corpus and per-language evaluation suites. (FTR-024)
-- [ ] Transliteration support for Indic script search suggestions: Romanized input ("samadhi" not "समाधि"), CJK substring matching. (FTR-029, Milestone 5b)
+- [ ] Transliteration support for Indic script search suggestions: Romanized input ("samadhi" not "समाधि"), CJK substring matching. (FTR-029, STG-021)
 - [ ] pgvector HNSW tuning at multilingual scale: ~400K chunks × 1024 dimensions. Document tuning strategy and Neon compute scaling threshold. (FTR-101, FTR-024)
 - [ ] Mixed-script embedding quality for Gita commentary: validate excluding Devanāgarī from embedding input doesn't degrade verse-specific retrieval. (FTR-131, FTR-023, FTR-024)
-- [ ] Hindi/Bengali/Thai audio-first pilot: can SRF/YSS provide existing *Autobiography* audiobook files alongside the text launch? Deferring all audio to a separate media milestone creates a cultural equity gap for oral-tradition populations. UNESCO 2024: 347M low-literacy adults in Central/Southern Asia — for these populations, text-only is no access, not limited access. FTR-011 recommends existing audio ships with text at language activation time. **Stakeholder ask: provide existing Hindi and Bengali audiobook files for Tier 1 language activation.** (FTR-134, FTR-142, FTR-006, FTR-011)
+- [ ] Hindi/Bengali/Thai audio-first pilot: can SRF/YSS provide existing *Autobiography* audiobook files alongside the text launch? Deferring all audio to a separate media stage creates a cultural equity gap for oral-tradition populations. UNESCO 2024: 347M low-literacy adults in Central/Southern Asia — for these populations, text-only is no access, not limited access. FTR-011 recommends existing audio ships with text at language activation time. **Stakeholder ask: provide existing Hindi and Bengali audiobook files for Tier 1 language activation.** (FTR-134, FTR-142, FTR-006, FTR-011)
 - [ ] YSS photographic archives of Indian biographical sites (Gorakhpur, Serampore, Ranchi, Dakshineswar) for Sacred Places. (FTR-050, FTR-049)
-- [ ] India's DPDPA cross-border transfer provisions: monitor as Milestone 5b Hindi/Bengali approaches. (FTR-085, FTR-058)
+- [ ] India's DPDPA cross-border transfer provisions: monitor as STG-021 Hindi/Bengali approaches. (FTR-085, FTR-058)
 - [ ] Thailand's PDPA compliance: verify data handling for Thai locale. (FTR-085, FTR-058)
 - [ ] Brazil LGPD Data Protection Officer requirement for Portuguese-language content. (FTR-085)
 
-**Milestone 6a+ (Media)**
+**STG-022a+ (Media)**
 - [ ] Cloudflare R2 vs S3 for media assets: zero egress fees matter for free portal serving audio globally over 10 years. (FTR-142, FTR-004)
 - [ ] Chant-to-recording catalog: does SRF maintain a mapping between chants and recordings? Data import vs. curation task. (FTR-142)
 - [ ] Sanskrit term pronunciation recordings: approved audio for key terms (samadhi, pranayama, Kriya Yoga, Aum)? Glossary schema reserves `pronunciation_url`. (FTR-131, FTR-062)
 
-**Milestone 7a+ (Community)**
+**STG-023+ (Community)**
 - [ ] Does the teaching portal get its own mobile app, or integrate into the SRF/YSS app? (FTR-015)
-- [ ] Can SRF provide center location data for "Meditation Near Me" feature? (Milestone 7b)
+- [ ] Can SRF provide center location data for "Meditation Near Me" feature? (STG-024)
 - [ ] Community curation governance: who reviews community collections? Theological boundaries for collection approval? Disclaimer text? (FTR-143)
 - [ ] VLD portal roles: `vld` Auth0 role? Who manages assignment? Can curation count toward service hours? (FTR-143)
 - [ ] Community collection attribution: curator names or anonymous by default? Ego dynamics vs. accountability. (FTR-143)
@@ -193,8 +193,8 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 
 | Date | Resolution | Ref |
 |------|-----------|-----|
-| 2026-02-24 | Contentful from M1a, not deferred — avoids costly migration of 15+ books later | FTR-102 |
-| 2026-02-24 | PDF source: spiritmaji.com for M1a PoC; SRF digital text before launch imported to Contentful | — |
+| 2026-02-24 | Contentful from STG-001, not deferred — avoids costly migration of 15+ books later | FTR-102 |
+| 2026-02-24 | PDF source: spiritmaji.com for STG-001 PoC; SRF digital text before launch imported to Contentful | — |
 | 2026-02-24 | SRF Corpus MCP: all three tiers unscheduled, architecture preserved in FTR-083 | FTR-098 |
 | 2026-02-24 | Hindi/Bengali: core languages prioritized by reachable population; Spanish is Tier 1, activated alongside English. Hindi is Tier 1 but deferred (authorized source unavailable outside India) | FTR-058, FTR-011 |
 | 2026-02-25 | SCM: GitHub confirmed; GitLab migration path clean via CI-agnostic scripts if needed | FTR-106 |
@@ -208,16 +208,16 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 | 2026-02-25 | PostgreSQL 18 selected for Neon project — upstream stable since Sept 2025, UUIDv7 schema convention adopted | FTR-094 |
 | 2026-02-26 | Cloudflare removed from portal stack — Vercel-native (Firewall, DDoS, CDN) suffices; compatible if SRF routes domain through Cloudflare | FTR-118 |
 | 2026-02-26 | Terraform Cloud replaced by S3 + DynamoDB state backend — fewer vendors, 10-year horizon (FTR-004) | FTR-106 |
-| 2026-02-26 | Retool deferred to FTR-149 evaluation at Milestone 3d — removed from production architecture diagram | FTR-149 |
+| 2026-02-26 | Retool deferred to FTR-149 evaluation at STG-009 — removed from production architecture diagram | FTR-149 |
 | 2026-02-26 | Three-layer Neon management model: Terraform (infrastructure), Neon API/MCP (operations), SQL (data). MCP is Claude's primary operations interface during development. | FTR-095, FTR-094 |
 | 2026-02-26 | Neon API key scoping: org key for Terraform, project-scoped keys for CI and development (least privilege) | FTR-094 |
-| 2026-02-26 | Time Travel queries accepted as Milestone 1a development tool — zero implementation cost, already available on Scale tier | FTR-094 (Adopted) |
+| 2026-02-26 | Time Travel queries accepted as STG-001 development tool — zero implementation cost, already available on Scale tier | FTR-094 (Adopted) |
 | 2026-02-26 | Neon Snapshot API for Layer 2 recovery — API-managed schedule, pre-migration snapshots in CI, on-demand via MCP | FTR-109 |
 | 2026-02-26 | Terraform Neon provider (`kislerdm/neon`) is community-maintained — pin version, review plans on upgrades, never auto-upgrade in CI | FTR-094 |
 | 2026-02-28 | Reachable population adopted as quantitative prioritization metric — scope ordered by `speakers × internet_penetration × content_availability`. Roadmap reordered: breadth-first (languages) before depth-first (reader polish, study tools) | FTR-011 |
 | 2026-02-28 | Spanish elevated to Tier 1 language — *Autobiography* ingested alongside English. "No wave ordering" replaced by demographic-priority ordering. Amazon edition as temporary PoC source (same approach as spiritmaji.com for English) | FTR-058, FTR-011 |
 | 2026-02-28 | Language priority ordering: Spanish (Tier 1, activated) → Hindi (Tier 1, deferred to 5b) → Portuguese/Bengali (Tier 2) → German/Japanese/French/Italian/Thai (Tier 3). Languages ship independently as they clear readiness gates | FTR-058, FTR-011 |
-| 2026-02-28 | Devanāgarī scope: *The Holy Science* confirmed to contain Devanāgarī verses. Hindi *Autobiography* deferred — full-text Hindi typography (FTR-131) activates in Milestone 5b | FTR-131 |
+| 2026-02-28 | Devanāgarī scope: *The Holy Science* confirmed to contain Devanāgarī verses. Hindi *Autobiography* deferred — full-text Hindi typography (FTR-131) activates in STG-021 | FTR-131 |
 | 2026-03-01 | Hindi *Autobiography* deferred — authorized YSS ebook only purchasable from India (Razorpay); Amazon Kindle edition is third-party (Fingerprint! Publishing). Hindi remains Tier 1 priority; activates when authorized source becomes available. Spanish proceeded as planned. | FTR-011, FTR-058 |
 | 2026-02-26 | Branch=environment principle adopted: one project per service, branches for separation. Environments disposable via `create-env.sh`/`destroy-env.sh` (M4+) | FTR-110 |
 | 2026-02-26 | Single AWS account with IAM role boundaries (not multi-account) — proportionate to public no-auth portal. Escalate to multi-account only if SRF governance requires it | FTR-110 |
@@ -228,11 +228,11 @@ Roles the AI cannot fill: editorial judgment on sacred text, theological review,
 | 2026-03-01 | Dark Night query category added to search quality evaluation — 8 fragmentary distress queries evaluated by Opus for retrieval intent match, not just Recall@3 | FTR-037, FTR-028 |
 | 2026-03-01 | Terraform replaced by Platform MCP for all vendor infrastructure. FTR-106 revised: `teachings.json` as declarative spec, Platform MCP as execution engine, platform database as state store. `bootstrap.sh` preserved for one-time AWS security. PRI-12 justifies divergence from SRF Tech Stack Brief. | FTR-106, FTR-107, FTR-095 |
 | 2026-03-01 | Two-layer Neon management model replaces three-layer: Platform MCP + Neon MCP (infrastructure + operations) and SQL (data). Former Terraform layer absorbed by platform. | FTR-095, FTR-094 |
-| 2026-02-25 | Optimal chunk size evaluated empirically in M1a-8 | FTR-023 |
-| 2026-02-25 | Enrichment prompt structure resolved via M1c-13 deliverable | FTR-026 |
-| 2026-02-25 | Edition variance: M1a used spiritmaji.com edition; multi-edition policy M3a+ | FTR-001, FTR-021 |
-| 2026-02-25 | M1a parameter validation governed by FTR-012 with success criteria in ROADMAP.md | FTR-012 |
-| 2026-03-01 | Devanāgarī font timing: both *God Talks with Arjuna* and *The Holy Science* contain Devanāgarī. Hindi deferred; Noto Serif Devanagari needed for Sanskrit in English books (M3a+) | FTR-131 |
+| 2026-02-25 | Optimal chunk size evaluated empirically in STG-001-8 | FTR-023 |
+| 2026-02-25 | Enrichment prompt structure resolved via STG-003-13 deliverable | FTR-026 |
+| 2026-02-25 | Edition variance: STG-001 used spiritmaji.com edition; multi-edition policy STG-006+ | FTR-001, FTR-021 |
+| 2026-02-25 | STG-001 parameter validation governed by FTR-012 with success criteria in ROADMAP.md | FTR-012 |
+| 2026-03-01 | Devanāgarī font timing: both *God Talks with Arjuna* and *The Holy Science* contain Devanāgarī. Hindi deferred; Noto Serif Devanagari needed for Sanskrit in English books (STG-006+) | FTR-131 |
 | 2026-02-26 | Cloudflare removed from portal stack — Vercel-native suffices; FTR-118 for re-evaluation | FTR-118 |
 
 *Tech-selection decisions (embedding model, AI provider, single-database, full-text search, graph layer, language URLs) are fully captured in their governing FTRs (FTR-024, FTR-105, FTR-027, FTR-104, FTR-034, FTR-025, FTR-058) and no longer repeated here.*
@@ -252,7 +252,7 @@ Concentrated negative knowledge — things evaluated and deliberately not adopte
 | ElastiCache Redis | VPC networking with Vercel adds 5–15ms; operational overhead disproportionate for ~6K-row dictionary | FTR-029 |
 | Cloudflare (CDN/WAF layer) | Vercel-native Firewall + DDoS + CDN suffices; compatible if SRF routes domain through Cloudflare later | FTR-118 |
 | Terraform Cloud (state backend) | Replaced by S3 + DynamoDB — fewer vendors, 10-year horizon | FTR-106 |
-| Retool (admin UI) | Deferred to M3d evaluation; removed from production architecture | FTR-149 |
+| Retool (admin UI) | Deferred to STG-009 evaluation; removed from production architecture | FTR-149 |
 | AWS SAM / SST (serverless frameworks) | Another IaC paradigm; native Terraform resources simpler for < 15 functions | FTR-107 |
 | CI-scheduled scripts replacing Lambda | CI cron is ephemeral infrastructure tied to SCM platform; Lambda + EventBridge is durable | FTR-107 |
 | AI-generated UI copy | Portal prohibits AI-generated user-facing content; UI copy is user-facing | FTR-054, FTR-001 |
@@ -314,7 +314,7 @@ This is a second-order consequence of the philanthropist's investment: the porta
 ### In Scope
 
 - **Free access** to all SRF/YSS-published books across three author tiers (FTR-001): guru (Yogananda, Sri Yukteswar), president (Daya Mata, Mrinalini Mata, Rajarsi), monastic (monastic speakers). All tiers receive verbatim fidelity.
-- **Multi-language support** (English + 9 non-English core languages). Core set: en, de, es, fr, it, pt, ja, th, hi, bn. Spanish is Tier 1 activated alongside English; Hindi is Tier 1 deferred to Milestone 5b (authorized source unavailable outside India); remaining 7 languages follow in Milestone 5b ordered by reachable population (FTR-011). Evaluation candidates beyond the core set: Chinese, Korean, Russian, Arabic. See FTR-058, FTR-058, FTR-011.
+- **Multi-language support** (English + 9 non-English core languages). Core set: en, de, es, fr, it, pt, ja, th, hi, bn. Spanish is Tier 1 activated alongside English; Hindi is Tier 1 deferred to STG-021 (authorized source unavailable outside India); remaining 7 languages follow in STG-021 ordered by reachable population (FTR-011). Evaluation candidates beyond the core set: Chinese, Korean, Russian, Arabic. See FTR-058, FTR-058, FTR-011.
 - **Intelligent Query Tool** — users ask questions and search across the entire library of books to find specific answers (e.g., "How do I deal with fear?")
 - **Life-theme navigation** — curated thematic entry points (Peace, Courage, Healing, Joy, Purpose, Love) so seekers can explore without needing to formulate a search query
 - **Today's Wisdom** — a different passage from the guru tier (Yogananda, Sri Yukteswar) on each visit, creating a living, dynamic homepage (FTR-001: only guru-tier authors in daily pool)
@@ -325,7 +325,7 @@ This is a second-order consequence of the philanthropist's investment: the porta
 
 ### Explicitly Out of Scope
 
-- **SRF Lessons** — the progressive home-study program is reserved and private. This portal does not include Lesson content, Kriya Yoga technique instruction, or any materials requiring the Lessons Pledge. (Note: the architecture is designed to accommodate future Lessons integration for authorized students if SRF decides to pursue this — see FTR-022 and the "Future Consideration: SRF Lessons" section under Content Scope. No Lessons code ships in any current milestone.)
+- **SRF Lessons** — the progressive home-study program is reserved and private. This portal does not include Lesson content, Kriya Yoga technique instruction, or any materials requiring the Lessons Pledge. (Note: the architecture is designed to accommodate future Lessons integration for authorized students if SRF decides to pursue this — see FTR-022 and the "Future Consideration: SRF Lessons" section under Content Scope. No Lessons code ships in any current stage.)
 
 ### The "What Next" Bridge
 
@@ -383,21 +383,21 @@ Standard engagement metrics (time on site, session depth, retention) optimize fo
 
 ## Operational Staffing (Requires SRF Input)
 
-The editorial review portal (FTR-060) provides tooling for content governance. But tooling without humans is empty. The following operational roles require dedicated staff time, and SRF must determine *who* fills each role before Milestone 3b launches the editorial workflows.
+The editorial review portal (FTR-060) provides tooling for content governance. But tooling without humans is empty. The following operational roles require dedicated staff time, and SRF must determine *who* fills each role before STG-007 launches the editorial workflows.
 
-| Role | Responsibility | Estimated Time | Milestone Needed |
+| Role | Responsibility | Estimated Time | Stage Needed |
 |------|---------------|----------------|----------------------|
-| **Content editor** | Theme tag review, daily passage curation, calendar event management | 2–3 hours/day | Milestone 3b |
-| **Theological reviewer** | Final approval on theme associations, editorial thread accuracy | Periodic (high-stakes, low-frequency) | Milestone 3b |
-| **On-call engineer** | Sentry alert response, infrastructure monitoring, Neon health | As needed (shared with AE team) | M1c |
-| **Book ingestion operator** | Run ingestion pipeline for new books, coordinate human QA | Per-book (1–2 days per ingestion cycle) | Milestone 3a |
-| **Portal coordinator** | Cross-queue editorial health, content pipeline status, VLD activity, calendar planning, feature request triage, portal update review and publication (FTR-092) | Regular (weekly minimum) | Milestone 3b |
-| **Social media reviewer** | Review quote images and captions, distribute to platforms | 20–30 min/day | Milestone 5a |
-| **Translation reviewer** | Compare AI-drafted translations with English source, approve/correct | Batch sessions (per language sprint) | Milestone 5b |
-| **Impact report curator** | Curate "What Is Humanity Seeking?" data into narrative report | Annual | Milestone 5b+ |
-| **VLD coordinator** | Create curation briefs, monitor VLD submission quality, manage trusted submitter status | Weekly | Milestone 7b |
+| **Content editor** | Theme tag review, daily passage curation, calendar event management | 2–3 hours/day | STG-007 |
+| **Theological reviewer** | Final approval on theme associations, editorial thread accuracy | Periodic (high-stakes, low-frequency) | STG-007 |
+| **On-call engineer** | Sentry alert response, infrastructure monitoring, Neon health | As needed (shared with AE team) | STG-003 |
+| **Book ingestion operator** | Run ingestion pipeline for new books, coordinate human QA | Per-book (1–2 days per ingestion cycle) | STG-006 |
+| **Portal coordinator** | Cross-queue editorial health, content pipeline status, VLD activity, calendar planning, feature request triage, portal update review and publication (FTR-092) | Regular (weekly minimum) | STG-007 |
+| **Social media reviewer** | Review quote images and captions, distribute to platforms | 20–30 min/day | STG-020 |
+| **Translation reviewer** | Compare AI-drafted translations with English source, approve/correct | Batch sessions (per language sprint) | STG-021 |
+| **Impact report curator** | Curate "What Is Humanity Seeking?" data into narrative report | Annual | STG-021+ |
+| **VLD coordinator** | Create curation briefs, monitor VLD submission quality, manage trusted submitter status | Weekly | STG-024 |
 
-**Key question for SRF:** Does the monastic order, the AE team, a dedicated content editor, or some combination own these responsibilities? The answer shapes Milestone 3b's editorial workflow design. The portal coordinator and VLD coordinator roles are particularly important to staff early — they are the connective tissue between editorial content, technical operations, and volunteer service. See FTR-017 (Seeker Persona Index) for the complete persona survey.
+**Key question for SRF:** Does the monastic order, the AE team, a dedicated content editor, or some combination own these responsibilities? The answer shapes STG-007's editorial workflow design. The portal coordinator and VLD coordinator roles are particularly important to staff early — they are the connective tissue between editorial content, technical operations, and volunteer service. See FTR-017 (Seeker Persona Index) for the complete persona survey.
 
 ---
 
@@ -437,7 +437,7 @@ Also aligned with: CCPA/CPRA (California), LGPD (Brazil), DPDPA (India), APPI (J
 
 The DELTA Dignity principle and the project's mission — making the teachings "available freely throughout the world" — demand that the portal be accessible to all seekers regardless of physical ability. A portal that excludes blind, deaf, or motor-impaired seekers contradicts its own purpose.
 
-Accessibility is therefore not a polish phase or a nice-to-have. It is a Milestone 2a requirement:
+Accessibility is therefore not a polish phase or a nice-to-have. It is a STG-004 requirement:
 
 - **WCAG 2.1 AA** conformance from the first commit
 - Semantic HTML, ARIA landmarks, keyboard navigation, screen reader support
@@ -445,7 +445,7 @@ Accessibility is therefore not a polish phase or a nice-to-have. It is a Milesto
 - `prefers-reduced-motion` support for users with vestibular disorders
 - Performance budgets that serve seekers on low-bandwidth mobile connections (India, Africa, Latin America)
 
-Formal audit, advanced features (TTS, dark mode, high-contrast), and third-party testing are distributed across Milestones 2a–2b and 5a–5c — not for introducing accessibility after the fact. See FTR-003.
+Formal audit, advanced features (TTS, dark mode, high-contrast), and third-party testing are distributed across STG-004–STG-005 and STG-020+ — not for introducing accessibility after the fact. See FTR-003.
 
 ### Multilingual from the Foundation
 
@@ -455,11 +455,11 @@ The philanthropist's question was about making Yogananda's books "available free
 
 - **Schema:** Every content table carries a `language` column from the first migration. Cross-language linking (`canonical_book_id`, `canonical_chunk_id`) is built into the data model, not retrofitted.
 - **API:** Every content-serving endpoint accepts a `language` parameter. URL structure uses locale prefixes (`/es/search`, `/de/quiet`). Theme slugs stay in English for URL stability; display names are localized.
-- **Search:** The embedding model is multilingual by explicit requirement — M1a embeddings remain valid when Milestone 5b adds new languages. The hybrid search function accepts `search_language` and uses language-appropriate PostgreSQL dictionaries. English fallback is implemented at the service layer.
-- **UI:** All strings are externalized to locale files (`messages/*.json`) from Milestone 2a. CSS logical properties (`margin-inline-start` not `margin-left`) are used throughout, ensuring RTL languages work without refactoring. The `lang` attribute is set on `<html>`.
+- **Search:** The embedding model is multilingual by explicit requirement — STG-001 embeddings remain valid when STG-021 adds new languages. The hybrid search function accepts `search_language` and uses language-appropriate PostgreSQL dictionaries. English fallback is implemented at the service layer.
+- **UI:** All strings are externalized to locale files (`messages/*.json`) from STG-004. CSS logical properties (`margin-inline-start` not `margin-left`) are used throughout, ensuring RTL languages work without refactoring. The `lang` attribute is set on `<html>`.
 - **Content fidelity:** Only official SRF/YSS human translations are served. Machine translation of Yogananda's words is never acceptable (see Sacred Text Fidelity above). If an official translation does not exist, the book is unavailable in that language — the portal is honest about content availability.
 
-The portal launches in English and Spanish (FTR-011 Tier 1). Hindi (also Tier 1) is deferred to Milestone 5b — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka. Milestone 5b activates Hindi alongside the remaining 7 core languages ordered by reachable population. The gap between "bilingual" and "fully multilingual" should require zero schema migrations, zero API changes, and zero search function rewrites — only content ingestion and UI string translation. If a design decision today would require rework to support a new language tomorrow, the design is wrong. (See FTR-058, FTR-058, FTR-058, FTR-135, FTR-011.)
+The portal launches in English and Spanish (FTR-011 Tier 1). Hindi (also Tier 1) is deferred to STG-021 — the authorized YSS ebook is only purchasable from India/Nepal/Sri Lanka. STG-021 activates Hindi alongside the remaining 7 core languages ordered by reachable population. The gap between "bilingual" and "fully multilingual" should require zero schema migrations, zero API changes, and zero search function rewrites — only content ingestion and UI string translation. If a design decision today would require rework to support a new language tomorrow, the design is wrong. (See FTR-058, FTR-058, FTR-058, FTR-135, FTR-011.)
 
 ### Calm Technology Principles
 
@@ -557,7 +557,7 @@ The constraints above are architectural and ethical. This section names somethin
 
 **Crisis-adjacent content carries responsibility.** The portal will reach people in acute distress. The grief entry point targets seekers searching "what happens after death" and "spiritual comfort after loss." Some of these seekers may be in active danger. Yogananda's passages about the immortality of the soul and the freedom of death are truthful, but without context could be read in unintended ways. The portal's response is not to withhold the teachings but to quietly, non-intrusively provide crisis resources alongside content that touches on death, suffering, and despair. Not a modal, not a gate — a gentle presence. (FTR-051)
 
-**The portal transmits Indian teachings through Western infrastructure — and holds this honestly.** The portal is designed in English, built on American technology (Vercel, AWS, Neon), funded by a British philanthropist, and serves the teachings of an Indian master to seekers worldwide. Every individual decision is defensible. The aggregate pattern — who designed it, whose aesthetic it uses, whose infrastructure it runs on — warrants honest acknowledgment and a design process that includes non-Western voices as co-creators, not only as reviewers of completed designs. The bilingual launch (en/es — FTR-011) is a concrete step: Spanish serves ~430M reachable people globally. Hindi (Tier 1, ~425M reachable) activates in Milestone 5b when an authorized source becomes available. Cultural consultation is not a Milestone 5b deliverable — it is a posture maintained throughout all milestones. YSS representatives, Indian designers, and Global South perspectives should participate in design decisions from the start. (Relates to FTR-006, FTR-058, FTR-119, FTR-011)
+**The portal transmits Indian teachings through Western infrastructure — and holds this honestly.** The portal is designed in English, built on American technology (Vercel, AWS, Neon), funded by a British philanthropist, and serves the teachings of an Indian master to seekers worldwide. Every individual decision is defensible. The aggregate pattern — who designed it, whose aesthetic it uses, whose infrastructure it runs on — warrants honest acknowledgment and a design process that includes non-Western voices as co-creators, not only as reviewers of completed designs. The bilingual launch (en/es — FTR-011) is a concrete step: Spanish serves ~430M reachable people globally. Hindi (Tier 1, ~425M reachable) activates in STG-021 when an authorized source becomes available. Cultural consultation is not a STG-021 deliverable — it is a posture maintained throughout all stages. YSS representatives, Indian designers, and Global South perspectives should participate in design decisions from the start. (Relates to FTR-006, FTR-058, FTR-119, FTR-011)
 
 **The unmeasurable encounter is the highest success.** The metrics section (§ Measuring Success) carefully avoids engagement metrics. But the portal's highest impact will be in encounters that no analytics system can capture: the person who found exactly the right words at 2 AM, the seeker in rural India who read about meditation and sat quietly for the first time, the grieving parent who felt less alone. These encounters are the mission fulfilled. The "What Is Humanity Seeking?" dashboard (FTR-154) is the portal's best answer to the measurement problem — shifting the narrative from "how many users" to "what is the world asking." That reframing is itself a teaching about what matters.
 
@@ -604,7 +604,7 @@ The teaching portal should use these technologies wherever possible, introducing
 
 ## Bootstrap Credentials Checklist
 
-Extracted to [docs/guides/credentials.md](docs/guides/credentials.md) for operational reference. Covers Milestone 1a (infrastructure + content), Milestone 1c (deploy + AI enrichment), and later milestones. See FTR-106 for architecture, FTR-095 for deployment spec.
+Extracted to [docs/guides/credentials.md](docs/guides/credentials.md) for operational reference. Covers STG-001 (infrastructure + content), STG-003 (deploy + AI enrichment), and later stages. See FTR-106 for architecture, FTR-095 for deployment spec.
 
 ---
 
@@ -614,7 +614,7 @@ Extracted to [docs/guides/credentials.md](docs/guides/credentials.md) for operat
 
 **Autobiography of a Yogi** by Paramahansa Yogananda — the most widely read and accessible of Yogananda's works. Available in multiple editions and translations.
 
-### Broader Corpus (Milestone 3a+)
+### Broader Corpus (STG-006+)
 
 - The Second Coming of Christ (2 volumes, ~1,600 pages)
 - God Talks With Arjuna: The Bhagavad Gita (2 volumes)
@@ -644,7 +644,7 @@ SRF has indicated that additional unreleased materials exist — books, audio, a
 
 ### Future Consideration: SRF Lessons
 
-The SRF Home Study Lessons are the organization's core spiritual curriculum — sequential private instruction in meditation and Kriya Yoga. They are **explicitly out of scope** for the public portal. However, SRF has indicated they might eventually be incorporated for authorized students (those enrolled in the Lessons) and Kriya Yoga initiates (kriyabans). This may never happen, or may be years away. The architecture is designed so it is not structurally impossible (FTR-022), but no Lessons-specific code ships in any current milestone.
+The SRF Home Study Lessons are the organization's core spiritual curriculum — sequential private instruction in meditation and Kriya Yoga. They are **explicitly out of scope** for the public portal. However, SRF has indicated they might eventually be incorporated for authorized students (those enrolled in the Lessons) and Kriya Yoga initiates (kriyabans). This may never happen, or may be years away. The architecture is designed so it is not structurally impossible (FTR-022), but no Lessons-specific code ships in any current stage.
 
 ### Content Sources
 

@@ -32,7 +32,7 @@ This is a "Classifying" category use — JSON output, no prose. Spot-checked by 
 
 ```sql
 -- ============================================================
--- EXTERNAL REFERENCES (reverse bibliography — Milestone 3c+)
+-- EXTERNAL REFERENCES (reverse bibliography — STG-008+)
 -- ============================================================
 CREATE TABLE external_references (
   id UUID PRIMARY KEY DEFAULT uuidv7(),

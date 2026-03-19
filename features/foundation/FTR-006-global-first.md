@@ -24,7 +24,7 @@ The portal's mission — making Yogananda's teachings "available freely througho
 - A Bengali-speaking YSS member who has never used a website in their own language
 - A visually impaired monk in Germany who navigates entirely by screen reader
 
-FTR-003 established accessibility as a Milestone 2a foundation. FTR-058 established multilingual architecture. FTR-103 established the PWA for offline reading. This ADR addresses the gaps between those decisions — the practical realities of serving seekers who are not well-served by the default assumptions of Western web development.
+FTR-003 established accessibility as a STG-004 foundation. FTR-058 established multilingual architecture. FTR-103 established the PWA for offline reading. This ADR addresses the gaps between those decisions — the practical realities of serving seekers who are not well-served by the default assumptions of Western web development.
 
 ### Decision
 
@@ -55,17 +55,17 @@ In many families globally, one phone serves 3–5 people. The portal must not as
 
 **Commitments:**
 - **No user accounts until Milestone 7a+** — the portal works fully without sign-in, which is already the design. This is correct for shared devices.
-- **Bookmarks (FTR-046) use `localStorage`** — they disappear if the browser data is cleared. This is acceptable for Milestone 2b. Milestone 7a+ (user accounts) can optionally sync bookmarks, but the local-first design is correct for shared devices where privacy between users matters.
+- **Bookmarks (FTR-046) use `localStorage`** — they disappear if the browser data is cleared. This is acceptable for STG-005. Milestone 7a+ (user accounts) can optionally sync bookmarks, but the local-first design is correct for shared devices where privacy between users matters.
 - **No "Welcome back" or personalization.** The portal greets every visit the same way. No reading history displayed on the homepage. No "Continue where you left off" (which would expose one family member's reading to another).
 
 #### 4. Intermittent Connectivity as the Norm
 
-The PWA (FTR-103) is scheduled for Milestone 2b. Milestone 1c (first production deployment) establishes the baseline: cached static assets and an offline indicator. Seekers with unreliable connections get protection from the day the portal is reachable.
+The PWA (FTR-103) is scheduled for STG-005. STG-003 (first production deployment) establishes the baseline: cached static assets and an offline indicator. Seekers with unreliable connections get protection from the day the portal is reachable.
 
 **Commitments:**
-- **Milestone 1c: Service Worker for app shell.** The app shell (HTML, CSS, JS, fonts) is cached by a minimal Service Worker from the first production deployment. The portal loads instantly on repeat visits. Offline indicator banner from day one.
-- **Milestone 2a: Extended caching.** Service Worker enhanced to cover all 2a pages and self-hosted fonts. Integration with text-only mode (skip font caching when text-only enabled).
-- **Milestone 2b: Last-read chapter cached.** When a seeker reads a chapter, the chapter HTML is cached in the Service Worker. If connectivity drops, they can re-read that chapter. Not full offline support — just graceful handling of the most common offline scenario (re-reading what you just read).
+- **STG-003: Service Worker for app shell.** The app shell (HTML, CSS, JS, fonts) is cached by a minimal Service Worker from the first production deployment. The portal loads instantly on repeat visits. Offline indicator banner from day one.
+- **STG-004: Extended caching.** Service Worker enhanced to cover all 2a pages and self-hosted fonts. Integration with text-only mode (skip font caching when text-only enabled).
+- **STG-005: Last-read chapter cached.** When a seeker reads a chapter, the chapter HTML is cached in the Service Worker. If connectivity drops, they can re-read that chapter. Not full offline support — just graceful handling of the most common offline scenario (re-reading what you just read).
 - **Offline indicator.** When the Service Worker detects no connectivity, a subtle banner appears: *"You're reading offline. Search requires a connection."* Not an error state — a calm acknowledgment. Matches the portal's warm cream palette, not a red warning bar.
 
 #### 5. Community and Group Reading
@@ -73,7 +73,7 @@ The PWA (FTR-103) is scheduled for Milestone 2b. Milestone 1c (first production 
 In India, Latin America, and many African communities, spiritual texts are read aloud in groups — satsang, study circles, family devotions. The portal's reader is designed for individual silent reading.
 
 **Commitments:**
-- **Presentation mode (Milestone 2b).** A "Present" button in the reader header. When activated: text enlarges to 24px+ (readable from 2–3 meters), all chrome hides (no header, no sidebar, no share icons), chapter navigation becomes swipe/arrow-key only, warm cream background fills the viewport. The device becomes a digital lectern. *(Pulled forward to Milestone 2b — communal reading is the primary engagement mode in Indian, African, and Latin American cultures.)*
+- **Presentation mode (STG-005).** A "Present" button in the reader header. When activated: text enlarges to 24px+ (readable from 2–3 meters), all chrome hides (no header, no sidebar, no share icons), chapter navigation becomes swipe/arrow-key only, warm cream background fills the viewport. The device becomes a digital lectern. *(Pulled forward to STG-005 — communal reading is the primary engagement mode in Indian, African, and Latin American cultures.)*
 - **This is not a separate feature — it is a CSS mode.** The same reader component, the same content, the same accessibility. `data-mode="present"` on the reader container triggers the enlarged, chrome-free layout.
 
 #### 6. Cultural Consultation for Entry Points
@@ -113,10 +113,10 @@ Every commitment above costs nothing or near-nothing at implementation time if i
 ### Consequences
 
 - Homepage payload budget tightened from 100KB to 50KB (HTML + critical CSS + inline JS)
-- Text-only mode deployed in Milestone 1c (footer toggle); integrated into reader settings and design system in Milestone 2a
-- Minimal Service Worker deployed in Milestone 1c (app shell caching), enhanced in Milestone 2a (all pages + fonts), expanded in Milestone 2b (last-read chapter)
-- Low-bandwidth detection banner deployed in Milestone 1c (2G/slow-2G suggestion); extended adaptation in Milestone 2b
-- Presentation mode added to the reader in Milestone 2b *(pulled forward from later milestones)*
+- Text-only mode deployed in STG-003 (footer toggle); integrated into reader settings and design system in STG-004
+- Minimal Service Worker deployed in STG-003 (app shell caching), enhanced in STG-004 (all pages + fonts), expanded in STG-005 (last-read chapter)
+- Low-bandwidth detection banner deployed in STG-003 (2G/slow-2G suggestion); extended adaptation in STG-005
+- Presentation mode added to the reader in STG-005 *(pulled forward from later milestones)*
 - Cultural consultation budget required for Milestone 5b multilingual launch
 - RTL design review by native reader required before any RTL language goes live
 - `font-display: swap` and unicode-range subsetting are non-negotiable for all font loading

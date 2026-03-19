@@ -46,7 +46,7 @@ CREATE INDEX idx_feedback_type ON seeker_feedback(feedback_type, created_at DESC
 
 **API route:** `POST /api/v1/feedback` — rate-limited (5 submissions per IP per hour to prevent spam, but IP is not stored in the database).
 
-**Editorial integration:** Feedback appears in the editorial review portal (Milestone 3b) as a "Seeker Feedback" queue, alongside theme tag review and ingestion QA.
+**Editorial integration:** Feedback appears in the editorial review portal (STG-007) as a "Seeker Feedback" queue, alongside theme tag review and ingestion QA.
 
 ### Rationale
 
@@ -57,12 +57,12 @@ CREATE INDEX idx_feedback_type ON seeker_feedback(feedback_type, created_at DESC
 
 ### Consequences
 
-- New `seeker_feedback` table in Milestone 3b migration
+- New `seeker_feedback` table in STG-007 migration
 - New API route `POST /api/v1/feedback`
-- Feedback review queue added to editorial portal (Milestone 3b)
-- Footer gains `/feedback` link (Milestone 3b)
-- Every passage display gains "Report a citation error" link (Milestone 3b)
-- Search results page gains "I didn't find what I needed" option when results are sparse (Milestone 3b)
+- Feedback review queue added to editorial portal (STG-007)
+- Footer gains `/feedback` link (STG-007)
+- Every passage display gains "Report a citation error" link (STG-007)
+- Search results page gains "I didn't find what I needed" option when results are sparse (STG-007)
 
 ## Specification
 
@@ -103,4 +103,4 @@ The feedback form includes the notice: *"Please do not include personal informat
 
 ### Editorial Integration
 
-Feedback appears in the editorial review portal (Milestone 3b) as a "Seeker Feedback" queue alongside theme tag review and ingestion QA. Citation error reports are highest priority — they directly affect the portal's fidelity guarantee.
+Feedback appears in the editorial review portal (STG-007) as a "Seeker Feedback" queue alongside theme tag review and ingestion QA. Citation error reports are highest priority — they directly affect the portal's fidelity guarantee.

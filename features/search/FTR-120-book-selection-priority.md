@@ -1,7 +1,7 @@
 ---
 ftr: 120
 title: Book Selection and Ingestion Priority
-summary: "Autobiography of a Yogi as focus book for Milestone 1a with priority ordering for subsequent titles"
+summary: "Autobiography of a Yogi as focus book for STG-001 with priority ordering for subsequent titles"
 state: implemented
 domain: search
 governed-by: [PRI-03, PRI-05]
@@ -15,7 +15,7 @@ governed-by: [PRI-03, PRI-05]
 
 #### Context
 
-The SRF corpus spans dozens of books and thousands of pages. Milestone 1a needs a single book to prove the search pattern.
+The SRF corpus spans dozens of books and thousands of pages. STG-001 needs a single book to prove the search pattern.
 
 | Book | Pages | Why Consider | Why Not |
 |------|-------|-------------|---------|
@@ -38,13 +38,13 @@ Start with **Autobiography of a Yogi**.
 #### Consequences
 
 - The chunking strategy optimized for narrative prose may need adjustment for verse-by-verse commentary books (Second Coming, Bhagavad Gita) later
-- Milestone 1a demonstrates the concept on the most popular book, which is strategically useful for stakeholder presentations
+- STG-001 demonstrates the concept on the most popular book, which is strategically useful for stakeholder presentations
 
 ### FTR-120: Book Ingestion Priority — Life-Impact Over Scholarly Significance
 
 #### Context
 
-The Roadmap (Milestone 3a) originally listed post-Milestone 1a books in an order roughly corresponding to scholarly depth and corpus size: The Second Coming of Christ, God Talks With Arjuna, Man's Eternal Quest, The Divine Romance, etc. However, the question of what makes the portal *essential* for seekers shifts the optimization target from scholarly completeness to life-impact — which books most directly address the reasons people seek spiritual guidance?
+The Roadmap (STG-006) originally listed post-STG-001 books in an order roughly corresponding to scholarly depth and corpus size: The Second Coming of Christ, God Talks With Arjuna, Man's Eternal Quest, The Divine Romance, etc. However, the question of what makes the portal *essential* for seekers shifts the optimization target from scholarly completeness to life-impact — which books most directly address the reasons people seek spiritual guidance?
 
 | Ordering Criterion | Optimizes For | Risk |
 |-------------------|---------------|------|
@@ -59,7 +59,7 @@ Reorder book ingestion to prioritize **life-impact potential** — books that ar
 
 | Priority | Book | Rationale |
 |----------|------|-----------|
-| 1 | *Autobiography of a Yogi* | Milestone 1a focus (already decided, FTR-120) |
+| 1 | *Autobiography of a Yogi* | STG-001 focus (already decided, FTR-120) |
 | 2 | *Where There Is Light* | Organized by life topic (hope, courage, healing, success). Directly powers thematic navigation. Maps to the "Doors of Entry" feature. |
 | 3 | *Sayings of Paramahansa Yogananda* | Standalone aphorisms — naturally pre-chunked. Powers the "Today's Wisdom" daily passage feature. Lowest ingestion complexity. |
 | 4 | *Scientific Healing Affirmations* | Directly addresses health, abundance, and peace. Powers "The Quiet Corner." Practical and actionable. |
@@ -85,12 +85,12 @@ Reorder book ingestion to prioritize **life-impact potential** — books that ar
 
 #### Consequences
 
-- Milestone 3a scope changes: the multi-volume scriptural commentaries move from "first after Milestone 1a" to "after the collected talks"
-- The verse-aware chunking challenge (originally a Milestone 3a concern) is deferred, allowing more time to design a robust solution
+- STG-006 scope changes: the multi-volume scriptural commentaries move from "first after STG-001" to "after the collected talks"
+- The verse-aware chunking challenge (originally a STG-006 concern) is deferred, allowing more time to design a robust solution
 - The portal reaches "critical mass" of quotable, thematically diverse content sooner
-- *Where There Is Light* + *Sayings* + *Scientific Healing Affirmations* can potentially be ingested in the same sprint as Milestone 3a begins, since they are short and structurally simple
+- *Where There Is Light* + *Sayings* + *Scientific Healing Affirmations* can potentially be ingested in the same sprint as STG-006 begins, since they are short and structurally simple
 
 ## Notes
 
 - **Origin:** FTR-120 (Rationale) + FTR-120 (Rationale)
-- **Merge:** Two related ADRs covering book selection for Milestone 1a and post-Milestone 1a ingestion priority
+- **Merge:** Two related ADRs covering book selection for STG-001 and post-STG-001 ingestion priority

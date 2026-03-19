@@ -41,16 +41,16 @@ Examples:
 **Parameters** — Tunable defaults. Ship with the documented value. Adjust based on evidence. Changes are configuration updates, not architectural decisions. Document the current value, the rationale for the default, and the evaluation trigger (what data would prompt reconsideration).
 
 Examples:
-- RRF fusion k=60 (FTR-020) — tune after Milestone M1a-8 search quality evaluation
-- Dwell debounce 1200ms (FTR-040) — tune after Milestone 2b user testing
+- RRF fusion k=60 (FTR-020) — tune after Milestone STG-001-8 search quality evaluation
+- Dwell debounce 1200ms (FTR-040) — tune after STG-005 user testing
 - Chunk size 200–300 tokens (FTR-023) — tune per language after ingestion
-- Chunk overlap: none (FTR-023) — evaluate 10% overlap in Milestone M1a-8
+- Chunk overlap: none (FTR-023) — evaluate 10% overlap in Milestone STG-001-8
 - Rate limits: 15 req/min search, 200 req/hr hard block (FTR-097) — adjust based on observed traffic
 - Email purge delay: 90 days (FTR-085) — adjust based on legal review
 - Cache TTLs: 5min/1hr/24hr (FTR-045) — adjust based on cache hit rate data
 - ISR revalidation intervals (FTR-040) — adjust based on Vercel Analytics metrics
-- Circadian color band boundaries (FTR-040) — adjust after Milestone 2b user feedback
-- Quiet Index texture count: 5 (FTR-066) — adjust after Milestone 3b usage data
+- Circadian color band boundaries (FTR-040) — adjust after STG-005 user feedback
+- Quiet Index texture count: 5 (FTR-066) — adjust after STG-007 usage data
 
 ### Implementation
 
@@ -60,7 +60,7 @@ Examples:
 
 3. **Evaluation log:** When a parameter is tuned based on data, add a brief note to the relevant DESIGN.md section: `*Parameter tuned: [date], [old] → [new], [evidence].*`
 
-4. **Milestone gate integration:** Milestone M1a-8 (search quality evaluation) and Milestone 2b success criteria explicitly include parameter validation as deliverables. Parameters marked "evaluate: Milestone M1a-8" are reviewed during that gate.
+4. **Milestone gate integration:** Milestone STG-001-8 (search quality evaluation) and STG-005 success criteria explicitly include parameter validation as deliverables. Parameters marked "evaluate: Milestone STG-001-8" are reviewed during that gate.
 
 ### Rationale
 
@@ -73,6 +73,6 @@ Examples:
 
 - All existing magic numbers in DESIGN.md to be annotated with the parameter convention during initial implementation
 - `/lib/config.ts` created as the canonical location for runtime parameters
-- Milestone M1a-8 success criteria updated to include parameter validation
+- Milestone STG-001-8 success criteria updated to include parameter validation
 - Future ADRs specify whether each specific value is a principle or parameter
 - CLAUDE.md updated to reference this classification in the document maintenance guidance

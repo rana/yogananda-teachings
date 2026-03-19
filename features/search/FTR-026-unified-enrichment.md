@@ -3,7 +3,7 @@ ftr: 26
 title: "Unified Enrichment Pipeline — Single Index-Time Pass per Chunk"
 summary: "Single Claude prompt per chunk producing topics, entities, domain, depth, tone, and all metadata in one pass"
 state: implemented
-re-evaluate-at: M3b
+re-evaluate-at: STG-007
 domain: search
 governed-by: [PRI-01, PRI-03, PRI-12]
 depends-on: [FTR-005, FTR-105]
@@ -97,7 +97,7 @@ Consolidate all index-time Claude enrichment into a single prompt per chunk. The
 - New enrichment columns added to `book_chunks`: `experiential_depth`, `voice_register`, `emotional_quality`, `cross_references`, `domain` (see FTR-021)
 - The ingestion pipeline (FTR-022) is updated to include the unified enrichment step
 - An `extracted_relationships` table logs all relationship triples for graph intelligence (FTR-034)
-- The enrichment prompt itself requires a dedicated design sprint -- test against 20-30 actual passages spanning all document types before committing the pipeline (Milestone 1a pre-implementation checklist)
+- The enrichment prompt itself requires a dedicated design sprint -- test against 20-30 actual passages spanning all document types before committing the pipeline (STG-001 pre-implementation checklist)
 - FTR-005 E3, E4, E6, E8 are folded into this pipeline; E1, E2, E5, E7 remain as separate operations
 
 ## Notes

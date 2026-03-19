@@ -32,15 +32,15 @@ The Bridge operates at two points:
 
 **The Five Layers:**
 
-**Layer 1: State Mappings** (Milestone 1a) -- Human states mapped to corpus territory with retrieval intent.
+**Layer 1: State Mappings** (STG-001) -- Human states mapped to corpus territory with retrieval intent.
 
-**Layer 2: Vocabulary Expansions** (Milestone 1a) -- Modern/secular terms mapped to Yogananda's vocabulary.
+**Layer 2: Vocabulary Expansions** (STG-001) -- Modern/secular terms mapped to Yogananda's vocabulary.
 
-**Layer 3: Register Bridges** (Milestone 1c) -- Same concept at different emotional registers requires different passages.
+**Layer 3: Register Bridges** (STG-003) -- Same concept at different emotional registers requires different passages.
 
-**Layer 4: Cross-Tradition Vocabulary** (Milestone 3b+) -- Terms from other traditions mapped to Yogananda's frame.
+**Layer 4: Cross-Tradition Vocabulary** (STG-007+) -- Terms from other traditions mapped to Yogananda's frame.
 
-**Layer 5: Language-Specific State Mappings** (Milestone 1b for Spanish) -- Each language receives a separate bridge artifact authored fresh by Opus.
+**Layer 5: Language-Specific State Mappings** (STG-002 for Spanish) -- Each language receives a separate bridge artifact authored fresh by Opus.
 
 **Retrieval Intent:** Bridge entries carry a `retrieval_intent` that shapes presentation:
 - `meet_first` -- acknowledge the state before pointing elsewhere

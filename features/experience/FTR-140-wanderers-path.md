@@ -14,7 +14,7 @@ depends-on: [FTR-039]
 
 **Type:** Feature
 **Governing Refs:** FTR-039 (Recognition-First IA), FTR-002 (DELTA)
-**Target:** Milestone 2b (requires passage depth signatures from enrichment pipeline)
+**Target:** STG-005 (requires passage depth signatures from enrichment pipeline)
 **Dependencies:** Passage depth signatures (Opus-generated classification of each passage as bottomless/informational/catalytic/consoling). localStorage for seen-passage non-repetition.
 **Scheduling Notes:** "Take me somewhere." A single quiet offering. The portal selects a passage using depth signatures — weighted toward bottomless passages, avoiding repetition — and presents it with full context. No parameters, no category, no state required.
 

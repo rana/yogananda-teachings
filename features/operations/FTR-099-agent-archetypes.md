@@ -6,7 +6,7 @@ state: proposed
 domain: operations
 governed-by: [PRI-01, PRI-12]
 depends-on: [FTR-098]
-re-evaluate-at: Milestone 3b
+re-evaluate-at: STG-007
 ---
 
 # FTR-099: Agent Archetypes
@@ -16,7 +16,7 @@ re-evaluate-at: Milestone 3b
 **Status:** Proposed
 **Type:** Feature
 **Governing Refs:** FTR-098, FTR-005, FTR-060, FTR-072, FTR-083, FTR-069, FTR-056
-**Dependencies:** Tier 2 MCP server (FTR-098) operational. `/lib/services/` layer complete for target content types. Editorial review infrastructure (Milestone 3b) for agent-proposed content.
+**Dependencies:** Tier 2 MCP server (FTR-098) operational. `/lib/services/` layer complete for target content types. Editorial review infrastructure (STG-007) for agent-proposed content.
 **Scheduling Notes:** The MCP Corpus server can serve autonomous AI agents working on behalf of SRF's internal stakeholders: monastics, correspondence staff, magazine editors, center leaders, and operational systems. Nine agent archetypes identified: Devotee Correspondence, Magazine Editorial, Content Integrity Watchdog, Translation QA, Center Leader Support, Seeker Trend Intelligence, Social Media Calendar, Knowledge Graph Curator, and Corpus Onboarding.
 
 **Core idea.** One Librarian, many modes. The 9 archetypes are *modes* of a single Corpus Librarian (FTR-077) with role-scoped access — not 9 separate systems. Architecturally: one service layer with role-based API scoping. Four trust profiles: Research (read-only), Editorial (proposes to review queues), Operational (integrity monitoring, alert/quarantine), Intelligence (aggregated analytics, proposes structural changes).

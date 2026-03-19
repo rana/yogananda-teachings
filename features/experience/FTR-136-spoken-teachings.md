@@ -14,7 +14,7 @@ depends-on: [FTR-008, FTR-142]
 
 **Type:** Feature (Content Production + Portal Delivery)
 **Governing Refs:** FTR-003, FTR-053, FTR-008, FTR-142 (cross-media/audio), FTR-119 (YSS partnership)
-**Dependencies:** Passage display infrastructure (Milestone 2a) for portal delivery. Recording infrastructure and organizational commitment for content production. FTR-008 (Verbatim Media Fidelity) constrains: portal-initiated audio of Yogananda's words must use human-recorded narration — synthetic TTS is not permitted for sacred text. User-controlled assistive technology (browser screen readers, OS-level TTS) always permitted and unaffected.
+**Dependencies:** Passage display infrastructure (STG-004) for portal delivery. Recording infrastructure and organizational commitment for content production. FTR-008 (Verbatim Media Fidelity) constrains: portal-initiated audio of Yogananda's words must use human-recorded narration — synthetic TTS is not permitted for sacred text. User-controlled assistive technology (browser screen readers, OS-level TTS) always permitted and unaffected.
 
 **Scope.** This is a content production program with a technology delivery component, not a software feature with a recording component. The program has four layers:
 

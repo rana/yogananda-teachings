@@ -144,7 +144,7 @@ CREATE INDEX idx_deliveries_subscriber ON webhook_deliveries(subscriber_id, crea
 
 ### Admin Interface
 
-Webhook subscribers are managed via the editorial admin portal (established Milestone 3b; subscriber management added Milestone 5a, extending FTR-060). The interface shows:
+Webhook subscribers are managed via the editorial admin portal (established STG-007; subscriber management added Milestone 5a, extending FTR-060). The interface shows:
 - Registered subscribers with event subscriptions
 - Delivery log (last 30 days) with success/failure status
 - "Test" button to send a test event to a subscriber
@@ -177,7 +177,7 @@ Webhook payloads never contain seeker data. Events describe *content* lifecycle 
 | Milestone | What Ships |
 |-----------|-----------|
 | **Milestone 5a** | Webhook schema, subscriber management, delivery engine. Initial events: `daily_passage.rotated`, `content.published`, `content.updated`, `social_asset.approved`, `portal_update.published`. Admin UI in editorial portal. |
-| **Milestone 1c+** | Contentful webhook *inbound* (deliverable M1c-8) triggers portal webhook *outbound* events (`content.published`, `content.updated`). |
+| **STG-003+** | Contentful webhook *inbound* (deliverable STG-003-8) triggers portal webhook *outbound* events (`content.published`, `content.updated`). |
 | **Milestone 5b+** | Additional events as channels mature: `journey.step`, `email.dispatched`. SQS fan-out if subscriber count exceeds ~20. |
 | **Milestone 7a+** | Self-service webhook registration with API key auth for external consumers. |
 

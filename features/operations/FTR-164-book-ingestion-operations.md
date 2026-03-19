@@ -340,7 +340,7 @@ No schema migrations, no API changes, no search rewrites (per PRI-06).
 
 ### Future: Webhook Sync Mode
 
-Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of Milestone 1a.
+Post-launch, content updates flow through Contentful webhooks (FTR-022 Webhook Sync Pipeline). The batch pipeline documented here remains the initial ingestion path; webhooks handle incremental editorial updates. The webhook pipeline is specified in FTR-022 and unimplemented as of STG-001.
 
 ### Chapter Boundary Verification Gate
 

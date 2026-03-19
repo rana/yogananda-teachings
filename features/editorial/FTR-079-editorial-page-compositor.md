@@ -14,8 +14,8 @@ depends-on: [FTR-060, FTR-039, FTR-065]
 
 **Type:** Feature
 **Governing Refs:** FTR-039 (Recognition-First IA), FTR-060 (Editorial Portal), FTR-119 (YSS Branding), FTR-082 (DELTA Framework), FTR-065 (Calendar-Aware Surfacing)
-**Dependencies:** Admin portal foundation (Milestone 3b). Component library maturity — the compositor composes from developer-built lenses, so enough lenses must exist to make composition valuable. Minimum viable: Today's Wisdom, search prompt, featured themes (3 components).
-**Target:** Milestone 3b (foundation) or Milestone 4a+ (full scheduling + brand variants)
+**Dependencies:** Admin portal foundation (STG-007). Component library maturity — the compositor composes from developer-built lenses, so enough lenses must exist to make composition valuable. Minimum viable: Today's Wisdom, search prompt, featured themes (3 components).
+**Target:** STG-007 (foundation) or Milestone 4a+ (full scheduling + brand variants)
 
 **The gap.** The portal's homepage has 10+ content organization models (themes, threads, calendar, places, guide, browse, Wanderer's Path, Four Doors, daily passages, magazine) and a well-specified editorial review portal (FTR-060). Editors can curate *within* each content slot (pick today's passage, review theme tags). But no mechanism exists for editors to decide *which content lenses appear, in what order, with what emphasis* — that requires a code deployment. The compositor closes this gap.
 
@@ -85,9 +85,9 @@ Homepage renderer: `SELECT * FROM composition_slots WHERE composition_id = (best
 **Pages beyond homepage.** The compositor pattern extends to any editorially curated page: `/guide`, `/browse`, `/themes`, the magazine landing. Start with homepage only; evaluate extension when the pattern proves itself.
 
 **Phasing:**
-- **Milestone 3b (foundation):** `page_compositions` + `composition_slots` tables. Admin UI for reorder + toggle. Single default composition per brand/locale. Preview mode.
+- **STG-007 (foundation):** `page_compositions` + `composition_slots` tables. Admin UI for reorder + toggle. Single default composition per brand/locale. Preview mode.
 - **Milestone 4a+ (full):** Scheduling (active_from/active_until). Multiple compositions per brand/locale. Calendar integration (link compositions to calendar events from FTR-065). Brand-variant compositions for YSS.
 
-**Re-evaluate At:** Milestone 3b scoping (when admin portal architecture is finalized)
+**Re-evaluate At:** STG-007 scoping (when admin portal architecture is finalized)
 **Decision Required From:** Architecture (data model, admin UI), SRF editorial (governance: does theological reviewer approve compositions, or just content within them?)
 **Origin:** Exploration — editorial surface gap analysis (2026-02-28)

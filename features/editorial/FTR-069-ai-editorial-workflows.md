@@ -89,7 +89,7 @@ Human editor reviews Claude's suggestions alongside the current 14-day schedule,
 
 When a calendar event approaches (within 30 days), Claude scans the corpus for thematically related passages and suggests passage-event associations. For example, approaching Christmas meditation: Claude identifies passages about Christ, the Nativity, and universal spirituality from across the library. Human curator reviews, selects, and links.
 
-**Milestone:** 3b (alongside calendar event management, M3b-8).
+**Milestone:** 3b (alongside calendar event management, STG-007-8).
 
 #### Community Collection Pre-Review
 
@@ -134,7 +134,7 @@ Seeker feedback (FTR-061) arrives as free text. Claude categorizes it before it 
 
 Human sees pre-categorized feedback with Claude's reasoning, adjusts categories as needed. The categorization itself is never shown to the seeker — it's an internal routing aid.
 
-**Milestone:** 3b (alongside seeker feedback mechanism, M3b-9).
+**Milestone:** 3b (alongside seeker feedback mechanism, STG-007-9).
 
 #### Ingestion Changelog Generation
 
@@ -219,7 +219,7 @@ Output format: {json_schema}
 
 Life-phase prompts are stored alongside worldview prompts in `/lib/data/guide-prompts/` with a `life-phase/` subdirectory.
 
-**Regeneration after corpus growth:** When a new book is ingested (Milestone 3a+), the admin portal flags which worldview and life-phase pathways may benefit from regeneration based on the new book's theme density and reference profile. E.g., ingesting *The Second Coming of Christ* triggers a regeneration flag for the Christian contemplative pathway; ingesting *Scientific Healing Affirmations* triggers a flag for the Facing Illness life-phase pathway. Staff decides whether to regenerate, and regenerated drafts go through the same review pipeline.
+**Regeneration after corpus growth:** When a new book is ingested (STG-006+), the admin portal flags which worldview and life-phase pathways may benefit from regeneration based on the new book's theme density and reference profile. E.g., ingesting *The Second Coming of Christ* triggers a regeneration flag for the Christian contemplative pathway; ingesting *Scientific Healing Affirmations* triggers a flag for the Facing Illness life-phase pathway. Staff decides whether to regenerate, and regenerated drafts go through the same review pipeline.
 
 **Milestone:** 3b+ (requires theme system, reverse bibliography, vocabulary bridge, editorial review infrastructure). Initial pathways generated for English; Milestone 5b adds per-locale cultural adaptation of each pathway.
 
@@ -282,7 +282,7 @@ AI proposals improve over time through systematic feedback, not model fine-tunin
 
 | Observation Type | Example | Cadence |
 |---|---|---|
-| **Theme diversity drift** | "The theme 'Peace' is now 60% dominated by passages from one book. Diversity has decreased since Milestone 3c." | Weekly |
+| **Theme diversity drift** | "The theme 'Peace' is now 60% dominated by passages from one book. Diversity has decreased since STG-008." | Weekly |
 | **Classification staleness** | "142 theme tags were classified > 18 months ago with prompt version 1.2. Current prompt is 2.1. Reclassification may improve accuracy." | Monthly |
 | **Coverage gaps** | "No passages in the corpus address 'Forgiveness' from a practical perspective — only contemplative. This affects the Facing Guilt life-phase pathway." | After each book ingestion |
 | **Cross-workflow inconsistency** | "Passage #247 is tagged 'joyful' by tone classification but selected for the Grief & Loss guide pathway." | Nightly batch |

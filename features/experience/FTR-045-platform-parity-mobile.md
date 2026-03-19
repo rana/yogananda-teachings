@@ -53,7 +53,7 @@ import { neon } from '@neondatabase/serverless';
 // - Wrap queries in async-retry with exponential backoff for transient connection drops
 //   (config: DB_RETRY_COUNT, DB_RETRY_FACTOR, DB_RETRY_MIN_TIMEOUT_MS in /lib/config.ts)
 //
-// For Lambda batch workloads (Milestone 3a+, FTR-107):
+// For Lambda batch workloads (STG-006+, FTR-107):
 // - Use Neon's pooled connection string (port 5432 → pooler endpoint)
 // - Connection limit scales with compute size (up to 4,000 at 9+ CU)
 // - Scale tier: autoscaling up to 16 CU, protected branches, 30-day PITR
@@ -108,14 +108,14 @@ export { sql };
 
 | Trigger | Mechanism | Scope |
 |---------|-----------|-------|
-| Content correction (Milestone 1c+) | Contentful webhook → sync service → Vercel revalidation API | Revalidate by path or tag (e.g., `book:autobiography`, `chapter:autobiography-1`) |
+| Content correction (STG-003+) | Contentful webhook → sync service → Vercel revalidation API | Revalidate by path or tag (e.g., `book:autobiography`, `chapter:autobiography-1`) |
 | Daily passage rotation | TTL-based (`max-age=3600`) | No explicit invalidation — 1-hour cache is acceptable for daily content |
 | Theme tag changes | On-demand revalidation via Vercel API | Theme pages and related API responses |
 | New book ingestion | Automated revalidation of `/books` catalog and search index | Book catalog, search results |
 | Static assets (JS/CSS) | Content-hashed filenames (`main.abc123.js`) | Infinite cache, new deploy = new hash |
 | Emergency content fix | Vercel `revalidatePath('/', 'layout')` or redeploy | Last resort — clears all cached pages |
 
-**Implementation:** Next.js ISR with on-demand revalidation (`revalidatePath` / `revalidateTag`). The webhook sync service (Milestone 1c+) calls the Vercel revalidation endpoint with matching tags after each Contentful publish event. For Milestone 1a (batch sync, no webhooks), cache invalidation is handled by redeployment — acceptable given the low frequency of content changes during initial ingestion.
+**Implementation:** Next.js ISR with on-demand revalidation (`revalidatePath` / `revalidateTag`). The webhook sync service (STG-003+) calls the Vercel revalidation endpoint with matching tags after each Contentful publish event. For STG-001 (batch sync, no webhooks), cache invalidation is handled by redeployment — acceptable given the low frequency of content changes during initial ingestion.
 
 ### Deep Link Readiness
 

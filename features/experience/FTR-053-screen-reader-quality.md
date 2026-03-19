@@ -19,7 +19,7 @@ The portal's aesthetic — warm cream, serif typography, generous whitespace, go
 
 Standard screen reader markup produces functional but emotionally flat output: "Navigation landmark. Link, Search. Link, Books. Link, Videos. Heading level 1, Today's Wisdom. Blockquote." This is correct. It is also the verbal equivalent of a fluorescent-lit institutional hallway — technically accessible but carrying no warmth.
 
-FTR-003 establishes WCAG 2.1 AA compliance as a Milestone 2a foundation. FTR-054 establishes editorial standards for UI copy. This ADR specifically addresses the quality of language that screen readers speak — an audience of one sense that deserves the same care as the audience of five.
+FTR-003 establishes WCAG 2.1 AA compliance as a STG-004 foundation. FTR-054 establishes editorial standards for UI copy. This ADR specifically addresses the quality of language that screen readers speak — an audience of one sense that deserves the same care as the audience of five.
 
 ### Decision
 
@@ -44,7 +44,7 @@ FTR-003 establishes WCAG 2.1 AA compliance as a Milestone 2a foundation. FTR-054
 
 3. **The Quiet Corner timer announces with gentleness.** Timer start: "The timer has begun. [Duration] of stillness." Timer end: "The time of stillness is complete." Not "Timer started: 5:00" or "Timer complete."
 
-4. **Screen reader testing is part of the accessibility review.** Milestone 2a includes VoiceOver (macOS/iOS), NVDA (Windows), and TalkBack (Android) testing. The test criterion is not only "can the seeker navigate and read" but also "does the experience carry warmth and contemplative quality."
+4. **Screen reader testing is part of the accessibility review.** STG-004 includes VoiceOver (macOS/iOS), NVDA (Windows), and TalkBack (Android) testing. The test criterion is not only "can the seeker navigate and read" but also "does the experience carry warmth and contemplative quality."
 
 ### Alternatives Considered
 
@@ -63,8 +63,8 @@ FTR-003 establishes WCAG 2.1 AA compliance as a Milestone 2a foundation. FTR-054
 
 ### Consequences
 
-- All ARIA labels reviewed and rewritten to "spoken warmth" standard during Milestone 2a
-- Screen reader testing added to Milestone 2a CI/CD (automated ARIA presence) and a dedicated manual audit (emotional quality)
+- All ARIA labels reviewed and rewritten to "spoken warmth" standard during STG-004
+- Screen reader testing added to STG-004 CI/CD (automated ARIA presence) and a dedicated manual audit (emotional quality)
 - `/docs/editorial/ui-copy-guide.md` (FTR-054) extended with a screen reader section: ARIA label conventions, examples, and the "spoken warmth" standard
 - No schema changes, no API changes
 - Cross-reference: FTR-003 (accessibility foundation), FTR-054 (UI copy standards)

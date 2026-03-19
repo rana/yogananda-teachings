@@ -34,7 +34,7 @@ Build a **structured spiritual ontology** — a concept graph of Yogananda's tea
 
 ```sql
 -- ============================================================
--- SPIRITUAL ONTOLOGY (concept graph — Milestone 3b+)
+-- SPIRITUAL ONTOLOGY (concept graph — STG-007+)
 -- ============================================================
 CREATE TABLE ontology_concepts (
  id UUID PRIMARY KEY DEFAULT uuidv7(),
@@ -137,7 +137,7 @@ Initial seed: the Living Glossary (FTR-062) terms, already defined. The ontology
 
 #### Scheduling
 
-Milestone 3b+ (alongside Knowledge Graph, FTR-124). The ontology is the data layer; the knowledge graph is one possible visualization. Initial seed (~50 core concepts, ~150 relations) can be curated during Milestone 3a–3d editorial work.
+STG-007+ (alongside Knowledge Graph, FTR-124). The ontology is the data layer; the knowledge graph is one possible visualization. Initial seed (~50 core concepts, ~150 relations) can be curated during STG-006–3d editorial work.
 
 #### Rationale
 
@@ -189,14 +189,14 @@ Implement graph intelligence **within the single-database architecture** (FTR-10
 - Relationships are first-class rows — queryable by standard SQL, indexable, joinable with content tables
 - Canonical entity IDs from `entity_registry` serve as the primary key for all graph nodes
 
-**Graph algorithms (nightly batch, Milestone 3b+):**
+**Graph algorithms (nightly batch, STG-007+):**
 - Python batch job loads entities and relationships from Postgres into NetworkX/igraph (in-memory — the full graph fits easily at ~50K chunks, ~500 entities, ~500K edges)
 - **PageRank:** Which concepts are most referenced? Results written as `centrality_score` column on entity rows. Feeds suggestion weights and retrieval confidence.
 - **Community Detection:** Which concept clusters naturally co-occur? Results written as `community_id` column. Feeds "conceptual neighborhood" queries and theme browsing.
 - **Betweenness Centrality:** Which concepts bridge otherwise separate clusters? Results written as `bridge_score` column. High betweenness = cross-tradition bridge terms.
 - All algorithm results stored as columns in Postgres, refreshed nightly. No external system required.
 
-**Graph-augmented retrieval (PATH C, Milestone 3b+):**
+**Graph-augmented retrieval (PATH C, STG-007+):**
 - Entity resolution against `entity_registry` identifies concepts in the query
 - SQL traversal across `extracted_relationships` and `concept_relations` tables finds chunks within 2–3 hops
 - pgvector similarity ranking applied to traversal results
@@ -205,7 +205,7 @@ Implement graph intelligence **within the single-database architecture** (FTR-10
 
 **Phasing:**
 - **Milestones 1a–2b:** Graph ontology designed and documented in FTR-034/055. Entity registry and extracted_relationships tables created.
-- **Milestone 3b:** Graph algorithm batch pipeline (Python + NetworkX). PATH C activated in search pipeline. Knowledge graph foundation: all node types and edge types populated.
+- **STG-007:** Graph algorithm batch pipeline (Python + NetworkX). PATH C activated in search pipeline. Knowledge graph foundation: all node types and edge types populated.
 - **Milestone 5a:** Concept/word graph fully constructed: cross-tradition equivalences, progression chains, co-occurrence edges.
 
 #### Alternatives Considered
@@ -217,7 +217,7 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 2. **Two-system data synchronization is a permanent operational tax.** Every entity must be synced between Postgres and Neptune. Every migration, debugging session, and monitoring pipeline doubles in surface area. This tax compounds over the project's 10-year horizon.
 3. **The single-query unification advantage is narrow.** The combined traversal + vector query is elegant but adds only ~10-20ms latency when decomposed into multi-step SQL. In a search pipeline already at 200-400ms, this is negligible.
 4. **FTR-104's single-database rationale applies to Neptune as strongly as to DynamoDB.** The original arguments — one backup strategy, one connection string, one migration tool, one monitoring target — are just as valid for a graph database as for a key-value store.
-5. **The Vocabulary Bridge (FTR-028) and query expansion (Milestone 1c) already cover the primary GraphRAG use case.** Cross-tradition term mappings ("Holy Spirit" <-> "AUM") are captured in the bridge and expanded at query time. The remaining edge cases where PATH C would uniquely contribute are vanishingly rare in a single-author corpus with consistent vocabulary.
+5. **The Vocabulary Bridge (FTR-028) and query expansion (STG-003) already cover the primary GraphRAG use case.** Cross-tradition term mappings ("Holy Spirit" <-> "AUM") are captured in the bridge and expanded at query time. The remaining edge cases where PATH C would uniquely contribute are vanishingly rare in a single-author corpus with consistent vocabulary.
 
 **Apache AGE (PostgreSQL extension):** Adds openCypher support to PostgreSQL — attractive in principle, but not available on Neon (the project's database provider). Would require self-hosting Postgres, contradicting the managed-infrastructure strategy.
 
@@ -226,7 +226,7 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 - **The bounded corpus is the key insight.** A 50K–100K chunk corpus with ~500 canonical entities is a graph problem that fits in a Python dictionary, not one that requires a graph database. NetworkX handles it trivially.
 - **FTR-104 remains unqualified.** The single-database architecture is restored to its original strength: one system for all data, all queries, all operations.
 - **Pre-computation absorbs the runtime cost.** Graph algorithm results are pre-computed nightly and stored as Postgres columns. Read-time queries are simple SELECTs and JOINs — no graph engine involved.
-- **PATH C's value is empirically testable.** The Milestone 1a golden query set includes graph-dependent test queries. If two-path search + terminology bridge handles them adequately, PATH C can be deferred or eliminated entirely without architectural regret.
+- **PATH C's value is empirically testable.** The STG-001 golden query set includes graph-dependent test queries. If two-path search + terminology bridge handles them adequately, PATH C can be deferred or eliminated entirely without architectural regret.
 - **Operational simplicity is a 10-year feature.** A system that a single developer can debug, maintain, and operate for a decade outperforms a technically superior but operationally complex alternative.
 
 #### Consequences
@@ -236,7 +236,7 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 - FTR-022 (Content Ingestion Pipeline) stores extracted relationships in Postgres (no graph-load step to external system)
 - FTR-034 (Knowledge Graph Ontology) and FTR-034 (Concept/Word Graph) describe node/edge types stored in Postgres tables, computed by batch jobs
 - FTR-020 (Search Architecture) PATH C uses multi-step SQL queries in `/lib/services/graph.ts`
-- Milestone 3b in ROADMAP.md adds graph algorithm batch pipeline (Python + NetworkX), not Neptune provisioning
+- STG-007 in ROADMAP.md adds graph algorithm batch pipeline (Python + NetworkX), not Neptune provisioning
 - No infrastructure configuration for graph infrastructure — batch job runs as Lambda or Vercel cron
 - Graph ontology designed from the initial milestones and documented in FTR-034/055
 
@@ -244,7 +244,7 @@ Neptune Analytics was the original choice (Feb 2026). It offers combined graph t
 
 ### FTR-034: Knowledge Graph Ontology
 
-The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed from the initial milestones; graph intelligence becomes active in Milestone 3b via Postgres tables + Python batch computation (FTR-034).
+The knowledge graph captures the relationships between teachings, teachers, concepts, and experiences that make Yogananda's corpus a web of interconnected wisdom rather than a flat document collection. The graph ontology is designed from the initial milestones; graph intelligence becomes active in STG-007 via Postgres tables + Python batch computation (FTR-034).
 
 #### Node Types
 
@@ -332,7 +332,7 @@ This three-step pattern replaces the single openCypher query that Neptune Analyt
 
 ### FTR-034: Concept/Word Graph
 
-The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (Milestone 3b+, Path C in FTR-020) and the Concept Graph UI exploration (future milestones).
+The Concept/Word Graph is a specialized subgraph within the knowledge graph (FTR-034) focused on vocabulary relationships — how Yogananda's terminology connects across traditions, Sanskrit sources, and progressive spiritual development. It powers word graph query expansion in the search pipeline (STG-007+, Path C in FTR-020) and the Concept Graph UI exploration (future milestones).
 
 #### Term Node Schema
 
@@ -368,7 +368,7 @@ Each term in the concept graph is a node with:
 #### Construction Process
 
 ```
-Milestone 3b: Canonical Vocabulary Seed
+STG-007: Canonical Vocabulary Seed
  └── Extract from entity_registry + sanskrit_terms tables
  └── Claude generates initial edges from domain knowledge
  └── Human review validates all edges
@@ -387,7 +387,7 @@ Milestone 5a: Co-occurrence Edges
  └── Filtered: minimum 3 co-occurrences, mutual information > threshold
 ```
 
-#### Word Graph Query Expansion (Milestone 3b+)
+#### Word Graph Query Expansion (STG-007+)
 
 When the search pipeline reaches the graph traversal step (FTR-020, Step 6, Path C), the concept graph enables vocabulary-aware expansion:
 

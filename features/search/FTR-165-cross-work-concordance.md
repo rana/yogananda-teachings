@@ -12,8 +12,8 @@ depends-on: [FTR-128, FTR-030, FTR-034, FTR-105]
 
 ## Rationale
 
-**Target:** Milestone 3b+ (after FTR-128 structural enrichment prototype validates)
-**Dependencies:** FTR-128 structural enrichment (chapter/book metadata), multi-book corpus (Milestone 3a), Opus batch access (Bedrock).
+**Target:** STG-007+ (after FTR-128 structural enrichment prototype validates)
+**Dependencies:** FTR-128 structural enrichment (chapter/book metadata), multi-book corpus (STG-006), Opus batch access (Bedrock).
 
 **The gap.** FTR-128 provides structural understanding at chapter, book, and author scale. FTR-030 (Related Teachings) provides search-time embedding similarity between passages. FTR-034 (Knowledge Graph) provides entity-based connections. But none of these capture the relationship that matters most for Yogananda's corpus: **same teaching, different form.**
 

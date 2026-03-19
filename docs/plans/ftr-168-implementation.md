@@ -179,7 +179,7 @@ Store in `packages/mcp-server/src/roles/*.md`:
 
 ### Roles (+3)
 
-- **researcher.md** — Deep research, synthesis. Produces `research-synthesis.md`.
+- **researcher.md** — Deep research, synthesis. Produces `research-synthesis.md`. Simplified precursor to FTR-175 (dual-platform deep research). Stage 2 uses single-agent web research; Stage 3 activates full FTR-175 pipeline with Gemini API integration.
 - **designer.md** — Product/visual design. Produces `unified-spec.md`, `architecture.json`.
 - **lead-engineer.md** — Design mediator. Generates AGENTS.md for experiment repo.
 
@@ -215,6 +215,7 @@ A real but low-stakes site — no external deadline. Something that exercises al
 - Dashboard: experiment list, detail view, design approval UI, Platform Pulse
 - Remaining roles: accessibility-auditor, security-auditor, principles-validator, low-bandwidth-tester, stakeholder-communicator
 - Sealed content blocks (if Convocation references teachings)
+- FTR-175 deep research: Gemini API automated research + manual Claude Deep Research → dual-platform synthesis. Researcher role upgraded from single-agent (Stage 2) to full pipeline.
 - Protocol skills in yogananda-skills — **only if Stage 2 revealed the need**
 
 ### Convocation 2027

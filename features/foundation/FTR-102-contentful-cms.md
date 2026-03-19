@@ -17,7 +17,7 @@ The portal needs a content management system for editorial workflows (theme cura
 
 ### Decision
 
-Adopt **Contentful as the editorial source of truth from Milestone 1a**. Book text is imported to Contentful during ingestion and synced to Neon for search indexing. Contentful is where editors work; Neon is where search works.
+Adopt **Contentful as the editorial source of truth from STG-001**. Book text is imported to Contentful during ingestion and synced to Neon for search indexing. Contentful is where editors work; Neon is where search works.
 
 ### Content Model
 
@@ -42,8 +42,8 @@ Each level is a Contentful entry type. TextBlocks contain the actual paragraph t
 Contentful (editorial source) → Webhook → Sync Service → Chunk + Embed → Neon (search index)
 ```
 
-- Milestone 1a: Batch sync (one-time import script)
-- Milestone 1c+: Webhook-driven sync (event-driven, real-time)
+- STG-001: Batch sync (one-time import script)
+- STG-003+: Webhook-driven sync (event-driven, real-time)
 
 ### Consequences
 

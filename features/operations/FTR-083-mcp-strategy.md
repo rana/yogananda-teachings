@@ -37,14 +37,14 @@ Three tiers of MCP server adoption, phased with the project:
 
 | MCP Server | Milestone | Purpose | Why Valuable |
 |------------|-----------|---------|-------------|
-| **Contentful** | Milestone 1c+ | Content model queries, entry management, webhook debugging | Contentful is the editorial source of truth from Milestone 1a (FTR-102). The content model is tightly coupled to code from the start. Prevents drift between what code expects and what CMS provides. |
+| **Contentful** | STG-003+ | Content model queries, entry management, webhook debugging | Contentful is the editorial source of truth from STG-001 (FTR-102). The content model is tightly coupled to code from the start. Prevents drift between what code expects and what CMS provides. |
 
 **Evaluate (try, keep if useful):**
 
 | MCP Server | Milestone | Purpose | Assessment |
 |------------|-----------|---------|------------|
-| **GitHub** | Milestone 1a+ | Issue context, PR details, review comments | Modest benefit over `gh` CLI. Try it; drop if redundant. |
-| **Vercel** | Milestone 1a+ | Deployment status, build logs, preview URLs | Useful for debugging deployment failures. The `vercel` CLI covers most of this. |
+| **GitHub** | STG-001+ | Issue context, PR details, review comments | Modest benefit over `gh` CLI. Try it; drop if redundant. |
+| **Vercel** | STG-001+ | Deployment status, build logs, preview URLs | Useful for debugging deployment failures. The `vercel` CLI covers most of this. |
 | ~~**Cloudflare**~~ | — | Removed from portal stack (FTR-118). If SRF routes domain through Cloudflare, evaluate Cloudflare MCP at that point. | — |
 
 **Not recommended (skip):**
@@ -53,8 +53,8 @@ Three tiers of MCP server adoption, phased with the project:
 |---------|----------|
 | **AWS** | Platform MCP manages infrastructure declaratively. Sentry catches errors. The gap — "what's in that S3 bucket?" — is too narrow. `aws` CLI through Bash handles rare ad-hoc queries. |
 | **Figma** | Suspended (FTR-153). No design tool needed during AI-led development. |
-| **Amplitude** | Analytics code targets the SDK, not the query API. By the time analytics data matters (Milestone 3d+), queries are infrequent. Dashboard is adequate. |
-| **New Relic** | APM data (slow queries, endpoint latency) is useful during the Milestone 3d observability work, but that's a narrow window. Dashboards handle ongoing monitoring. |
+| **Amplitude** | Analytics code targets the SDK, not the query API. By the time analytics data matters (STG-009+), queries are infrequent. Dashboard is adequate. |
+| **New Relic** | APM data (slow queries, endpoint latency) is useful during the STG-009 observability work, but that's a narrow window. Dashboards handle ongoing monitoring. |
 | **Auth0** | Auth is configured once and rarely touched. When it breaks, the Auth0 CLI or dashboard is adequate for the low frequency of interaction. |
 
 **Custom MCP server (unscheduled):**
@@ -63,9 +63,9 @@ The **SRF Corpus MCP** server architecture (FTR-098, FTR-083) gives the AI devel
 
 ### Consequences
 
-- Sentry MCP added to project configuration at Milestone 1a alongside existing Neon MCP
-- Contentful MCP evaluated and added at Milestone 1c when Contentful webhook sync activates
-- GitHub MCP evaluated during Milestone 1a; kept or dropped based on actual utility versus `gh` CLI
+- Sentry MCP added to project configuration at STG-001 alongside existing Neon MCP
+- Contentful MCP evaluated and added at STG-003 when Contentful webhook sync activates
+- GitHub MCP evaluated during STG-001; kept or dropped based on actual utility versus `gh` CLI
 - SRF Corpus MCP server moved to Unscheduled Features (2026-02-24). Architecture preserved in FTR-083.
 - AWS MCP explicitly not adopted — Platform MCP + Sentry + `aws` CLI is sufficient
 - MCP server configuration documented in CLAUDE.md for all future AI sessions
@@ -87,8 +87,8 @@ These are Claude's operational interface during development. They are the Operat
 | MCP Server | Use Case | Availability | Role |
 |------------|----------|-------------|------|
 | **Neon MCP** (`@neondatabase/mcp-server-neon`) | Branch creation, SQL execution, schema diffs, migration safety (`prepare_database_migration`/`complete_database_migration`/`compare_database_schema`), connection string retrieval, Time Travel queries | Available now | **Primary operations interface** — replaces Console for verification, experimentation, and development workflows. See FTR-095 § Three-Layer Neon Management Model. |
-| **Sentry MCP** | Error investigation — stack traces, breadcrumbs, affected routes | Milestone 1a | Debugging and incident response |
-| **Contentful MCP** | Content model design, entry management during development | Milestone 1c (evaluate) | CMS operations |
+| **Sentry MCP** | Error investigation — stack traces, breadcrumbs, affected routes | STG-001 | Debugging and incident response |
+| **Contentful MCP** | Content model design, entry management during development | STG-003 (evaluate) | CMS operations |
 
 See FTR-083 for the full evaluation framework (essential, high-value, evaluate, not recommended).
 
@@ -104,7 +104,7 @@ Claude Code (dev) → MCP Tool → Service Layer → Neon
 
 The service layer doesn't care who's calling. The access protocol and metadata envelope differ by tier.
 
-#### Tier 1: Development (Milestone 1a)
+#### Tier 1: Development (STG-001)
 
 Unrestricted access for Claude Code during portal development. Also used for iterating on guide pathway generation prompts (FTR-069 § Worldview Guide Pathway Generation, FTR-056 § Worldview Pathway Catalog) — developer tests "generate a guide pathway for Buddhist meditators" interactively, refining prompt templates before deploying to the admin portal batch workflow.
 
@@ -117,7 +117,7 @@ Unrestricted access for Claude Code during portal development. Also used for ite
 | `get_book_metadata(slug)` | `books.ts` | Book information |
 | `get_theme_metadata(slug)` | `themes.ts` | Theme information |
 
-#### Tier 2: Internal (Milestone 3b+)
+#### Tier 2: Internal (STG-007+)
 
 Authenticated service-to-service access for editorial AI agents, batch pipelines, admin portal AI features, and cross-property consumers (SRF app, staff dashboard per FTR-149). Adds tools that FTR-069 AI workflows need for corpus-grounded proposals. Authentication via API key or IAM role (not Auth0).
 

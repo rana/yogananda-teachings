@@ -78,7 +78,7 @@ The path from "no code" to "running search" — the ceremony that transforms des
  └── Verify error capture with test exception
 
 6. First Content
- └── Run ingestion script (M1a-4)
+ └── Run ingestion script (STG-001-4)
  └── Verify: pnpm run ingest -- --book autobiography
  └── Check: book_chunks populated, embeddings present
  └── Run: pnpm run relations -- --full
@@ -89,7 +89,7 @@ The path from "no code" to "running search" — the ceremony that transforms des
 
 See FTR-095 § Environment Configuration for the canonical `.env.example`, named constants (`/lib/config.ts`), CI-only secrets, and developer tooling configuration. That section is the single source of truth for all environment variables.
 
-**Milestone 1a minimum viable `.env.local`** (the subset needed before Contentful is connected):
+**STG-001 minimum viable `.env.local`** (the subset needed before Contentful is connected):
 
 ```bash
 NEON_DATABASE_URL=               # From Neon MCP → get_connection_string (pooled)

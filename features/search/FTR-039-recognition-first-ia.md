@@ -23,7 +23,7 @@ Adopt a **recognition-first** information architecture: the portal offers someth
 
 **The principle:** Recognition before query. The portal offers before it asks.
 
-**The implementation (Milestone 2a):** A multi-lens homepage with five concurrent entry modes:
+**The implementation (STG-004):** A multi-lens homepage with five concurrent entry modes:
 
 1. **Today's Wisdom** (hero position) -- The portal's gift before any interaction.
 2. **"What did Yogananda say about...?"** -- The primary search invitation, reframed to set correct expectations.
@@ -39,7 +39,7 @@ Adopt a **recognition-first** information architecture: the portal offers someth
 - **Thematic navigation:** The six curated themes become children of the Four Doors' vocabulary bridge mappings.
 - **Homepage structure:** FTR-040 (Frontend Design) gains the multi-lens entry specification.
 
-### Milestone 1c Embodiment
+### STG-003 Embodiment
 
 At 1c, the recognition-first principle manifests minimally:
 - Today's Wisdom hero
@@ -51,9 +51,9 @@ At 1c, the recognition-first principle manifests minimally:
 ### Consequences
 
 - FTR-040 updated to reference this and describe the recognition-first principle
-- Deliverable M1c-5 search prompt changes from "What are you seeking?" to "What did Yogananda say about...?"
+- Deliverable STG-003-5 search prompt changes from "What are you seeking?" to "What did Yogananda say about...?"
 - The Vocabulary Bridge (FTR-028) is a prerequisite for meaningful recognition-based entry
-- FTR-138, FTR-139, FTR-140 capture the Milestone 2a+ implementation details
+- FTR-138, FTR-139, FTR-140 capture the STG-004+ implementation details
 
 **Governs:** FTR-040, FTR-040, FTR-040, FTR-138, FTR-139, FTR-140
 

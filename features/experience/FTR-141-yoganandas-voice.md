@@ -14,7 +14,7 @@ depends-on: [FTR-008, FTR-142]
 
 **Type:** Feature
 **Governing Refs:** FTR-142 (Audio Content Type), FTR-008 (Verbatim Media Fidelity), FTR-010 (Experience Quality)
-**Target:** Milestone 2a (when visual identity arrives — not the future media library)
+**Target:** STG-004 (when visual identity arrives — not the future media library)
 **Dependencies:** SRF provides or authorizes voice recordings for portal use. Transcription pipeline (human-verified).
 **Scheduling Notes:** Yogananda's own voice recordings are not "media" — they are primary source in a different modality. A recording of Yogananda speaking about fearlessness carries something a text passage of the same words does not. These deserve earlier, more prominent placement than the general media library (future milestones).
 
@@ -25,7 +25,7 @@ depends-on: [FTR-008, FTR-142]
 
 **Player design:** Nothing that resembles a music player. No waveform, no speed control. A circle that fills slowly as the recording plays. Pause. That's all. Typography beneath shows the passage being spoken, following along. When it ends, silence. A gentle offer: *Read the full passage.*
 
-**Distinction from future media library audio:** Monastic audio (talks, readings) belongs in the general media library (future milestones). Yogananda's own voice recordings belong at Milestone 2a, treated with the same reverence as Today's Wisdom.
+**Distinction from future media library audio:** Monastic audio (talks, readings) belongs in the general media library (future milestones). Yogananda's own voice recordings belong at STG-004, treated with the same reverence as Today's Wisdom.
 
 **Origin:** External design review (Claude Web conversation, 2026-03-01)
 

@@ -24,7 +24,7 @@ If business logic migrates into Server Components during Milestones 1a–5b, ext
 
 ### Decision
 
-Adopt **API-first architecture** with a **shared service layer** from Milestone 1a. Every user-facing feature must have both a callable service function and a REST API endpoint.
+Adopt **API-first architecture** with a **shared service layer** from STG-001. Every user-facing feature must have both a callable service function and a REST API endpoint.
 
 #### 1. Shared Service Layer
 
@@ -47,7 +47,7 @@ This is a code organization rule, not a technology choice. The rule: **never put
 
 #### 2. API Versioning
 
-All API routes use a versioned prefix from Milestone 1a:
+All API routes use a versioned prefix from STG-001:
 
 ```
 /api/v1/search
@@ -116,7 +116,7 @@ The URL structure is decided now. The association files are added when the app l
 
 ### Rationale
 
-- **Zero marginal cost.** Service layer extraction, API versioning, and cache headers are conventions, not infrastructure. They cost minutes to implement in Milestone 1a and save weeks of refactoring later.
+- **Zero marginal cost.** Service layer extraction, API versioning, and cache headers are conventions, not infrastructure. They cost minutes to implement in STG-001 and save weeks of refactoring later.
 - **Multiple consumers are likely.** Even without a native app, the API may be consumed by: a PWA Service Worker (offline reading), the SRF mobile app team, a future admin dashboard, or third-party integrations (with SRF authorization).
 - **SRF ecosystem alignment.** The existing SRF mobile app may want to incorporate portal search or daily passage features. A clean API makes this a simple integration rather than a rewrite.
 - **Developer discipline is cheaper than developer heroics.** Establishing the pattern on day one (when the codebase is small) prevents the gradual drift that makes refactoring painful.
@@ -131,17 +131,17 @@ The URL structure is decided now. The association files are added when the app l
 
 ### Consequences
 
-- Milestone 1a API routes use `/api/v1/` prefix (update DESIGN.md)
+- STG-001 API routes use `/api/v1/` prefix (update DESIGN.md)
 - All features implemented via `/lib/services/` functions first, then exposed via Server Components and API routes
 - API routes are public (no auth) through Milestone 7a; auth middleware added only if/when Milestone 7a accounts are implemented
 - List endpoints return cursor-based pagination
 - Cache-Control headers on all API responses
-- PWA readiness added to roadmap (Milestone 2b)
+- PWA readiness added to roadmap (STG-005)
 - Stakeholder question: does the portal get its own mobile app, or do features integrate into the existing SRF app?
 
 ## Specification
 
-All API routes use a versioned prefix (`/api/v1/`) from Milestone 1a per FTR-015. Language is passed as a query parameter on API routes (`?language=hi`), not as a path prefix — language is a property of content, not a namespace for operations (FTR-058). Frontend pages use locale path prefixes (`/hi/themes/peace`) for SEO and `hreflang` linking. This enables mobile apps pinned to older API versions to coexist with the evolving web frontend. List endpoints use cursor-based pagination for mobile compatibility.
+All API routes use a versioned prefix (`/api/v1/`) from STG-001 per FTR-015. Language is passed as a query parameter on API routes (`?language=hi`), not as a path prefix — language is a property of content, not a namespace for operations (FTR-058). Frontend pages use locale path prefixes (`/hi/themes/peace`) for SEO and `hreflang` linking. This enables mobile apps pinned to older API versions to coexist with the evolving web frontend. List endpoints use cursor-based pagination for mobile compatibility.
 
 ### Design Rationale
 

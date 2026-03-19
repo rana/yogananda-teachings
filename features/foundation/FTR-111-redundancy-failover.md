@@ -78,7 +78,7 @@ With pure hybrid search as the primary search mode (FTR-027 — no external AI s
 
 **Target: search p95 < 500ms from any continent.** This is competitive with general-purpose search engines and appropriate for a contemplative portal. The target is achievable today with pure hybrid search against a single-region Neon instance. No edge caching, multi-region database, or architectural changes required.
 
-*Parameter — latency targets above, evaluate: Milestone 1c real-world traffic patterns (FTR-012).*
+*Parameter — latency targets above, evaluate: STG-003 real-world traffic patterns (FTR-012).*
 
 **What is already globally distributed (day one):**
 - Book chapters and reading pages (ISR, cached at Vercel's 70+ edge PoPs)
@@ -119,7 +119,7 @@ Neon is the portal's database provider for the long term (FTR-094). When Neon sh
 - Primary region: `us-west-2` — co-locates Neon, Bedrock, Lambda, and S3 in a single region
 - Vercel function region co-located with Neon primary
 - Lambda functions deployed to the same region as Neon primary
-- CloudFront distribution configured for all static assets from Milestone 1a
+- CloudFront distribution configured for all static assets from STG-001
 - Search p95 < 500ms from any continent (achieved by pure hybrid search, no multi-region required)
 - When Neon ships cross-region read replicas: activate via Platform MCP in `ap-south-1` and `eu-central-1`
 - Health check endpoint (`/api/v1/health`) reports database connectivity, enabling uptime monitoring

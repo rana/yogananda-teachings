@@ -29,5 +29,5 @@ Use **Next.js on Vercel** with **Tailwind CSS** for the frontend.
 
 ### Consequences
 
-- Milestone 1a can use Next.js API routes instead of AWS Lambda (simpler)
+- STG-001 can use Next.js API routes instead of AWS Lambda (simpler)
 - Production may migrate search API routes to Lambda if needed for scale or separation

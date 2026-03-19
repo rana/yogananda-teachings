@@ -6,7 +6,7 @@ state: proposed
 domain: foundation
 governed-by: [PRI-10]
 depends-on: [FTR-094]
-re-evaluate-at: Milestone 7a scoping
+re-evaluate-at: STG-023
 ---
 
 # FTR-114: Neon Auth as Auth0 Alternative

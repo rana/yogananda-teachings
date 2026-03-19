@@ -29,7 +29,7 @@ The authorization conversation is extractive if it leads with "we need your Hind
 3. **Ask second.** With the widget demonstrating value, the Hindi authorization conversation becomes "shall we extend this to Hindi seekers?" rather than "can we have your text?"
 4. **Empower, don't extract.** Offer methodology transfer (AI-human collaboration, design documentation as institutional memory), development tooling (Claude Code skills for YSS integration), and technology choice (WordPress, React, or anything that calls REST).
 
-The timeline also matters. If the authorization conversation happens *after* the English portal launches (late 2026), Hindi activation could be 2027+. If it happens *during* Milestone 1a development, Hindi could ship months earlier — potentially alongside or shortly after Spanish.
+The timeline also matters. If the authorization conversation happens *after* the English portal launches (late 2026), Hindi activation could be 2027+. If it happens *during* STG-001 development, Hindi could ship months earlier — potentially alongside or shortly after Spanish.
 
 ### Platform Architecture: Shared Engine, Independent Surfaces
 
@@ -64,7 +64,7 @@ The shared engine is exactly what we are building. The organization config is a 
 
 YSS has the authorized Hindi *Autobiography of a Yogi*. The entire Milestone 5b deferral was based on ebook purchasing logistics, not content availability. YSS authorization of the Hindi source text for the shared corpus could unblock Hindi activation — ~425M reachable people, comparable to Spanish (~430M).
 
-If authorized, Hindi could enter the execution sequence after Spanish, potentially as a parallel workstream during Milestone 1c or as a dedicated milestone. The language readiness gate (FTR-058) still applies: text ingested + UI strings translated + human reviewer confirmed + search quality evaluation passes.
+If authorized, Hindi could enter the execution sequence after Spanish, potentially as a parallel workstream during STG-003 or as a dedicated milestone. The language readiness gate (FTR-058) still applies: text ingested + UI strings translated + human reviewer confirmed + search quality evaluation passes.
 
 **Action needed:** Conversation with YSS about authorizing the Hindi text for shared corpus use.
 
@@ -139,7 +139,7 @@ Each portal capability is independently adoptable:
 | Hybrid search | Core | Core | Same engine, per-language |
 | Reading experience | Full | Widget or portal | Shared Devanagari typography |
 | Practice Bridge | → SRF Lessons | → YSS Lessons | Same concept, different routing |
-| Presentation mode (M2b-15) | Full | **High** | Communal reading primary in India |
+| Presentation mode (STG-005-15) | Full | **High** | Communal reading primary in India |
 | Passage sharing (WhatsApp) | Full | **High** | WhatsApp dominant in India |
 | Knowledge graph | Full | Selectable | Cross-language connections |
 | Theme browser | Full | Selectable | Theme priorities may differ |
@@ -147,7 +147,7 @@ Each portal capability is independently adoptable:
 | Bookstore integration | SRF Bookstore | YSS Bookstore | Per-org routing |
 | Ashram/center finder | Not planned | **YSS-developed** | New capability, could generalize |
 
-**Minimal Presentation Mode.** Communal reading (satsang, group study) is primary in Indian devotional culture, not secondary. A CSS toggle (~50–100 lines) that strips navigation chrome for projected/shared reading could ship in Milestone 2a — high value for YSS at minimal technical cost. This is a design decision, not a feature — "display the same content with less chrome."
+**Minimal Presentation Mode.** Communal reading (satsang, group study) is primary in Indian devotional culture, not secondary. A CSS toggle (~50–100 lines) that strips navigation chrome for projected/shared reading could ship in STG-004 — high value for YSS at minimal technical cost. This is a design decision, not a feature — "display the same content with less chrome."
 
 YSS can also develop new capabilities — ashram finder, Dhyana Kendra schedule, India-specific entry paths — that may flow back to the shared platform if generalized.
 
@@ -181,9 +181,9 @@ This is high-value, low-friction integration — the API exists, the app exists,
 
 | Phase | When | What |
 |-------|------|------|
-| **Design** | Milestone 1a | Organization config structure. API parameter design. Widget architecture decisions. Documented in this PRO and successor ADR/DES when adopted. |
-| **Hindi activation** | When YSS authorizes | Hindi source text enters ingestion pipeline. Language readiness gate (FTR-058) determines activation timeline. Could be Milestone 1a or early Phase 2. |
-| **API + Widgets** | Milestone 2a+ | Organization-aware API parameters. Embeddable search widget with configurable branding. YSS can integrate into yssofindia.org. |
+| **Design** | STG-001 | Organization config structure. API parameter design. Widget architecture decisions. Documented in this PRO and successor ADR/DES when adopted. |
+| **Hindi activation** | When YSS authorizes | Hindi source text enters ingestion pipeline. Language readiness gate (FTR-058) determines activation timeline. Could be STG-001 or early Phase 2. |
+| **API + Widgets** | STG-004+ | Organization-aware API parameters. Embeddable search widget with configurable branding. YSS can integrate into yssofindia.org. |
 | **Content expansion** | Milestone 5b+ | Tamil, Telugu, Kannada editions enter corpus. Magazine content from both organizations. Each clears readiness gate independently. |
 | **Full deployment** | When YSS is ready | YSS-branded portal deployment if desired. Same codebase, different configuration. |
 
@@ -209,8 +209,8 @@ Search engine architecture, enrichment pipeline, knowledge graph, API convention
 
 ## Notes
 
-- **Dependencies:** Working API (Milestone 1c). Hindi authorization conversation with YSS. Content availability in Tamil, Telugu, Kannada.
-- **Target:** Design decisions in Milestone 1a; content activation incremental from Milestone 5b onward (or earlier if Hindi authorization proceeds)
-- **Re-evaluate at:** Milestone 1c boundary (design decisions), Hindi authorization progress, Milestone 5b planning
+- **Dependencies:** Working API (STG-003). Hindi authorization conversation with YSS. Content availability in Tamil, Telugu, Kannada.
+- **Target:** Design decisions in STG-001; content activation incremental from Milestone 5b onward (or earlier if Hindi authorization proceeds)
+- **Re-evaluate at:** STG-003 boundary (design decisions), Hindi authorization progress, Milestone 5b planning
 - **Decision required from:** Human principal (YSS stakeholder conversation), Architecture (config structure, API parameters, widget architecture)
 - **Absorbs:** FTR-119 (YSS Locale Branding — subsumed by Component 4)

@@ -29,8 +29,8 @@ Claude is used **only** for index-time enrichment and offline evaluation — **n
 | Search quality evaluation | Claude (via Bedrock) | Offline, CI | No |
 | Theme tag suggestion | Claude (via Bedrock) | Ingestion time | No |
 | Entity extraction | Claude (via Bedrock) | Ingestion time | No |
-| Query expansion (HyDE) | Claude (via Bedrock) | Conditional, Milestone 2b+ | Optional (if evaluation warrants) |
-| Intent classification | Claude (via Bedrock) | Conditional, Milestone 2b+ | Optional (if evaluation warrants) |
+| Query expansion (HyDE) | Claude (via Bedrock) | Conditional, STG-005+ | Optional (if evaluation warrants) |
+| Intent classification | Claude (via Bedrock) | Conditional, STG-005+ | Optional (if evaluation warrants) |
 | Contextual label generation | Claude Haiku (via Bedrock) | Ingestion time | No |
 
 ### Rationale

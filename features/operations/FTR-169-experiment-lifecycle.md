@@ -6,7 +6,7 @@ state: proposed
 domain: operations
 governed-by: [PRI-12, PRI-08]
 depends-on: [FTR-168, FTR-093]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-169: Experiment Lifecycle and Platform Integration

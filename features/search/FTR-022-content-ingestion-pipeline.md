@@ -16,13 +16,13 @@ depends-on: [FTR-018, FTR-102]
 
 ### Initial Pipeline (Source -> Contentful -> Neon)
 
-Contentful is the editorial source of truth from Milestone 1a (FTR-102). The ingestion pipeline imports processed text into Contentful, then syncs to Neon for search indexing. Pre-launch, SRF will provide authoritative digital text that replaces any development-phase extraction.
+Contentful is the editorial source of truth from STG-001 (FTR-102). The ingestion pipeline imports processed text into Contentful, then syncs to Neon for search indexing. Pre-launch, SRF will provide authoritative digital text that replaces any development-phase extraction.
 
 Three extraction paths feed the pipeline, converging at the Contentful import step:
 
 | Path | Source | Tool | Quality | When |
 |------|--------|------|---------|------|
-| **Ebook extraction** | Amazon Cloud Reader (purchased ebook) | Playwright capture + Claude Vision OCR | High (born-digital renders, clean diacritics) | Milestone 1a development |
+| **Ebook extraction** | Amazon Cloud Reader (purchased ebook) | Playwright capture + Claude Vision OCR | High (born-digital renders, clean diacritics) | STG-001 development |
 | **PDF extraction** | spiritmaji.com PDF | `marker` (open-source Python) | Medium (scan-dependent OCR) | Fallback |
 | **SRF digital text** | SRF-provided source files | Direct import | Authoritative | Pre-launch replacement |
 
@@ -71,10 +71,10 @@ Step 14: Rebuild Suggestion Dictionary (FTR-029)
   - Compute weights, export to suggestion_dictionary table
   - Export partitioned static JSON to public/data/suggestions/
   - Script: scripts/generate-suggestion-dictionary.ts (idempotent full rebuild)
-Step 15: Graph Metrics (Milestone 3b+, FTR-034)
+Step 15: Graph Metrics (STG-007+, FTR-034)
 ```
 
-### Webhook Sync Pipeline (Contentful -> Neon, Milestone 1c+)
+### Webhook Sync Pipeline (Contentful -> Neon, STG-003+)
 
 ```
 Step 1: Content editors enter/import book text into Contentful
@@ -82,7 +82,7 @@ Step 2: On publish, Contentful webhook fires
 Step 3: Sync service receives webhook
 Step 4: Update chunk relations (incremental)
 Step 5: Rebuild suggestion dictionary (FTR-029 -- full rebuild, idempotent)
-Step 6: Graph updates (Milestone 3b+, FTR-034)
+Step 6: Graph updates (STG-007+, FTR-034)
 Step 7: Search index, relations, suggestions, and graph
  are always in sync with editorial source
 ```

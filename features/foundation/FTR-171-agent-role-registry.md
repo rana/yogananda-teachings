@@ -6,7 +6,7 @@ state: proposed
 domain: foundation
 governed-by: [PRI-01, PRI-12]
 depends-on: [FTR-168, FTR-093, FTR-099]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-171: Agent Role Registry

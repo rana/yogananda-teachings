@@ -217,10 +217,10 @@ This is documentation, not a prerequisite. The test file is the source of truth 
 
 | Priority | Action | Target |
 |----------|--------|--------|
-| 1 | Create `tests/fitness/spec-fidelity.test.ts` with initial structural + prohibition checks | M3a |
-| 2 | Promote `doc-validate.sh` to blocking in CI | M3a |
-| 3 | Add data integrity SQL checks (Neon branch integration tests) | M3a |
-| 4 | Run first compliance sweep (`/verify` across search + foundation domains) | M3a gate |
+| 1 | Create `tests/fitness/spec-fidelity.test.ts` with initial structural + prohibition checks | STG-006 |
+| 2 | Promote `doc-validate.sh` to blocking in CI | STG-006 |
+| 3 | Add data integrity SQL checks (Neon branch integration tests) | STG-006 |
+| 4 | Run first compliance sweep (`/verify` across search + foundation domains) | STG-006 gate |
 | 5 | Add `## Verification` sections to high-traffic FTRs as they're touched | Ongoing |
 
 ## Notes

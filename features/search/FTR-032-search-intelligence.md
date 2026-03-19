@@ -59,7 +59,7 @@ CREATE TABLE search_theme_aggregates (
 
 ### Consequences
 
-- `search_theme_aggregates` table added (Milestone 3d)
+- `search_theme_aggregates` table added (STG-009)
 - Nightly aggregation Lambda function
 - Annual report production becomes an SRF staff responsibility
 

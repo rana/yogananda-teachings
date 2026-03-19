@@ -154,12 +154,12 @@ None. The existing `topic_translations` table handles localized names for any th
 
 #### Consequences
 
-- Milestone 3b scope expanded: deliverable 4.1 (theme tagging pipeline) now includes the auto-tagging infrastructure, not just manual tagging
-- Situation themes are added incrementally during Milestone 3b+ as content is ingested and sufficient passages confirmed
+- STG-007 scope expanded: deliverable 4.1 (theme tagging pipeline) now includes the auto-tagging infrastructure, not just manual tagging
+- Situation themes are added incrementally during STG-007+ as content is ingested and sufficient passages confirmed
 - The homepage stays calm — six quality doors, one quiet link to explore all themes
 - Editorial governance needed: who decides when a new theme has enough passages to go live?
 - The `description` field on `teaching_topics` now serves double duty: internal reference *and* auto-tagging input. Descriptions should be written as rich keyword-laden paragraphs, not terse labels.
-- The review queue (`tagged_by = 'auto'`) needs a workflow — Milestones 1a–3d use a script or Retool dashboard; post-M3d uses Contentful
+- The review queue (`tagged_by = 'auto'`) needs a workflow — Milestones 1a–3d use a script or Retool dashboard; post-STG-009 uses Contentful
 - **Extended by FTR-122:** Four additional exploration categories (person, principle, scripture, practice) added to the taxonomy, using the same infrastructure
 
 ## Notes

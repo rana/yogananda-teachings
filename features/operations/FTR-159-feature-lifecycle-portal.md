@@ -15,8 +15,8 @@ depends-on: [FTR-156, FTR-096]
 **Status:** Proposed
 **Type:** Feature
 **Governing Refs:** FTR-156 (Dream a Feature), FTR-096 (Operational Health), FTR-096 (Operational Surface), FTR-082 (Observability), FTR-085 (DELTA Privacy), FTR-084 (Documentation Architecture), PRI-08 (Calm Technology)
-**Target:** Milestone 2a (lightweight: morning brief + email feedback) → Milestone 3b (full catalog UI + stakeholder circles + decision journal)
-**Dependencies:** FTR-156 (Dream a Feature) operational — provides the autonomous development engine. FTR-096 operational surface deployed (Milestone 1c). Vercel preview deployments working. Features exist to manage.
+**Target:** STG-004 (lightweight: morning brief + email feedback) → STG-007 (full catalog UI + stakeholder circles + decision journal)
+**Dependencies:** FTR-156 (Dream a Feature) operational — provides the autonomous development engine. FTR-096 operational surface deployed (STG-003). Vercel preview deployments working. Features exist to manage.
 
 **The gap.** FTR-156 describes how features are autonomously developed and deployed to preview branches. FTR-096 provides health monitoring and deployment ceremony. Neither addresses what happens *between* preview deployment and production merge — the review, feedback, decision, and institutional memory lifecycle. The engineering leader currently manages this lifecycle across GitHub PRs, Vercel dashboards, email threads, and mental notes. The cognitive load compounds with every concurrent feature.
 
@@ -105,8 +105,8 @@ A page within the portal (not a separate app) at `/ops/features` — extending t
 │ Planted for Later                                                │
 │ ────────────────────                                             │
 │                                                                  │
-│ ◌ Cross-Book Connection Graph               FTR-128 · M3c       │
-│   Planted 2027-01 · Blooms: Milestone 3c                         │
+│ ◌ Cross-Book Connection Graph               FTR-128 · STG-008       │
+│   Planted 2027-01 · Blooms: STG-008                         │
 │                                                                  │
 │ Recently Harvested                                               │
 │ ────────────────────                                             │
@@ -289,7 +289,7 @@ A composite signal — not a quality metric — predicting how well a feature fi
 - **FTR-096 (Operational Surface)** provides the infrastructure (`/ops` page, deploy manifests, health endpoint). FTR-159 adds feature-specific pages to that surface.
 - **FTR-096 (Design-Artifact Traceability)** provides the `@implements`/`@validates` annotation convention that FTR-159's catalog uses to show which specs a feature implements.
 
-**Re-evaluate At:** Milestone 2a (lightweight: morning brief + email circles), Milestone 3b (full catalog UI)
+**Re-evaluate At:** STG-004 (lightweight: morning brief + email circles), STG-007 (full catalog UI)
 **Decision Required From:** Architecture (data model, integration points), human principal (stakeholder circle membership, feedback governance — who can comment on features?)
 
 ## Notes

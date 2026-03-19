@@ -15,7 +15,7 @@ governed-by: [PRI-01, PRI-02, PRI-03, PRI-05, PRI-07, PRI-09]
 
 The portal's core promise is sacred text fidelity: every displayed passage is verbatim from SRF-published works across all author tiers (FTR-001). But there is no mechanism to *verify* this — to prove that the portal's text hasn't drifted from SRF's source publications. Content-addressable deep links (FTR-132) use content hashes for URL stability, but they don't solve provenance.
 
-The current `/integrity` page (M2a) displays SHA-256 hashes in a monospace table with technical language. No one outside a developer can use or understand it. The hashes are computed live via `string_agg + sha256` at page render, not pre-stored as specified. The page treats integrity as a technical property, but verbatim fidelity is a *spiritual* commitment — the guru-disciple chain of faithful transmission. The page should communicate this in the tradition's own words, and provide a tool any seeker can use.
+The current `/integrity` page (STG-004) displays SHA-256 hashes in a monospace table with technical language. No one outside a developer can use or understand it. The hashes are computed live via `string_agg + sha256` at page render, not pre-stored as specified. The page treats integrity as a technical property, but verbatim fidelity is a *spiritual* commitment — the guru-disciple chain of faithful transmission. The page should communicate this in the tradition's own words, and provide a tool any seeker can use.
 
 ## Specification
 
@@ -125,5 +125,5 @@ All copy rewritten for non-technical readers. ~25 keys per locale in `messages/{
 ## Notes
 
 - **Origin:** FTR-123
-- **M2a implementation (partial):** Hash table page + API endpoint shipped. Hashes computed live at render instead of pre-stored. Technical language only.
+- **STG-004 implementation (partial):** Hash table page + API endpoint shipped. Hashes computed live at render instead of pre-stored. Technical language only.
 - **Redesign rationale:** The current page serves developers but not seekers. The sacred framing and paste-to-verify tool make integrity verification accessible to the portal's actual audience while demoting (not removing) the technical details for auditors.

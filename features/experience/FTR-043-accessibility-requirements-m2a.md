@@ -1,6 +1,6 @@
 ---
 ftr: 43
-title: Accessibility Requirements M2a
+title: Accessibility Requirements STG-004
 summary: "WCAG 2.1 AA compliance requirements for vision, motor, and cognitive accessibility"
 state: implemented
 domain: experience
@@ -8,7 +8,7 @@ governed-by: [PRI-05, PRI-07]
 depends-on: [FTR-003]
 ---
 
-# FTR-043: Accessibility Requirements M2a
+# FTR-043: Accessibility Requirements STG-004
 
 ## Rationale
 
@@ -19,7 +19,7 @@ Accessibility is not a polish step — it is a theological requirement. The DELT
 
 ### WCAG 2.1 AA Compliance Target
 
-The portal targets WCAG 2.1 Level AA conformance from Milestone 2a. Level AAA criteria are adopted where achievable without significant trade-offs (e.g., 7:1 contrast for body text is met by our existing token choices).
+The portal targets WCAG 2.1 Level AA conformance from STG-004. Level AAA criteria are adopted where achievable without significant trade-offs (e.g., 7:1 contrast for body text is met by our existing token choices).
 
 ### Requirements by Category
 
@@ -79,11 +79,11 @@ The portal targets WCAG 2.1 Level AA conformance from Milestone 2a. Level AAA cr
 | Requirement | Implementation |
 |-------------|---------------|
 | `prefers-reduced-motion` | All animations and transitions respect `@media (prefers-reduced-motion: reduce)`. When active: no hover animations, no page transitions, timer chime is text-only. |
-| `prefers-color-scheme` | Support `dark` scheme when the Calm Technology design system ships. Milestone 2a uses light theme only but CSS architecture supports future dark mode via custom properties. |
+| `prefers-color-scheme` | Support `dark` scheme when the Calm Technology design system ships. STG-004 uses light theme only but CSS architecture supports future dark mode via custom properties. |
 | `prefers-contrast` | When `more`, increase border widths and ensure all text exceeds 7:1 contrast. |
 | Clear language | All UI copy at 8th-grade reading level or below. Error messages are specific and actionable ("No passages found for this search. Try different words." not "Error 404"). |
 | Consistent navigation | Header and footer identical on every page. No layout shifts between pages. |
-| Reading mode | Milestone 2a: clean reader with generous whitespace. Calm technology design system: adjustable font size, sepia/dark mode. |
+| Reading mode | STG-004: clean reader with generous whitespace. Calm technology design system: adjustable font size, sepia/dark mode. |
 
 #### FTR-052: Cognitive Accessibility — Beyond WCAG Minimums
 
@@ -93,7 +93,7 @@ WCAG 2.1 AA covers minimum cognitive requirements (consistent navigation, error 
 |-------------|---------------|
 | Progressive homepage disclosure | First visit (sessionStorage) shows simplified above-the-fold: Today's Wisdom + search bar + "Or explore a theme" link. Thematic doors, "Seeking..." entries, and videos are below the fold. Return visits show the full homepage. |
 | Passage accessibility classification | Passages tagged during ingestion QA: `accessible` (short, clear, affirmation-like), `moderate` (standard prose), `dense` (philosophical, multi-clause). Used internally for pool selection — never displayed. Today's Wisdom favors `accessible`; Quiet Corner uses only `accessible`. |
-| Simplified reading mode ("Focus") | Optional toggle in reader header (Milestone 2b). Reduces reader to: reading column + Next Chapter. Related Teachings panel, keyboard shortcuts, dwell icon, and bookmark icon suppressed. Stored in `localStorage`. |
+| Simplified reading mode ("Focus") | Optional toggle in reader header (STG-005). Reduces reader to: reading column + Next Chapter. Related Teachings panel, keyboard shortcuts, dwell icon, and bookmark icon suppressed. Stored in `localStorage`. |
 | Minimal gesture vocabulary for core tasks | The portal's essential experience (read, search, navigate) requires only: click, scroll, type. All other gestures (long-press, hover-wait, keyboard shortcuts) are enhancements. Explicitly tested in QA. |
 | Decision fatigue reduction | Non-search pages follow the single-invitation principle (FTR-047): each endpoint invites exactly one step deeper, never more. |
 
@@ -116,7 +116,7 @@ The warm cream background and gold accents do nothing for blind seekers. The spo
 
 **Passage citations read naturally.** Screen reader output flows as speech: "'The soul is ever free; it is deathless, birthless...' — from Autobiography of a Yogi, Chapter 26, page 312." Uses `aria-label` on passage containers for natural reading while visual HTML retains its formatting.
 
-**Testing criterion:** Milestone 2a screen reader testing (VoiceOver, NVDA, TalkBack) evaluates not only "can the seeker navigate and read" but also "does the experience carry warmth and contemplative quality."
+**Testing criterion:** STG-004 screen reader testing (VoiceOver, NVDA, TalkBack) evaluates not only "can the seeker navigate and read" but also "does the experience carry warmth and contemplative quality."
 
 #### Display Resilience — Grayscale, E-Ink, Print, and Forced Colors
 
@@ -148,7 +148,7 @@ The portal's visual beauty should honor the teachings in every medium a seeker e
 | Forced-colors audit | New components + milestone gates | Chrome DevTools forced-colors emulation |
 | Grayscale visual regression | Every build (CI) | Playwright with `filter: grayscale(1)` screenshot comparison |
 | Print stylesheet validation | Milestone gates | Chrome print preview, verify reader/passage pages |
-| E-ink approximation | Milestone 2b+ | Playwright with `filter: grayscale(1) contrast(1.2)` |
+| E-ink approximation | STG-005+ | Playwright with `filter: grayscale(1) contrast(1.2)` |
 
 #### Performance as Accessibility (Global-First Principle)
 
@@ -158,7 +158,7 @@ The portal's visual beauty should honor the teachings in every medium a seeker e
 | Core Web Vitals | LCP < 2.5s, FID < 100ms, CLS < 0.1. |
 | Progressive enhancement | Core reading and search functionality works without JavaScript (server-rendered HTML). JS enhances: "Show me another", infinite scroll, timer. |
 | Low-bandwidth support | All images lazy-loaded. Responsive images via `srcset`. No autoplay video. Homepage functional as text-only. `/browse` page (FTR-056) designed text-first as < 20KB offline-cacheable portal index — the universal fallback for 2G, feature phones, and screen readers. |
-| Offline resilience | Milestone 2a: service worker caches the Quiet Corner page and current reading position. Full PWA when progressive web app readiness ships (FTR-103). |
+| Offline resilience | STG-004: service worker caches the Quiet Corner page and current reading position. Full PWA when progressive web app readiness ships (FTR-103). |
 
 ### Accessibility Testing Strategy
 

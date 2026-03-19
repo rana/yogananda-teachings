@@ -20,13 +20,13 @@ These features are actively designed into the architecture and have governing AD
 
 | Feature | Milestone | Governing ADRs | Key Dependencies |
 |---------|-----------|----------------|------------------|
-| **Related Teachings — Categorized** | 3a (similarity), 3b+ (graph-categorized) | FTR-030, FTR-034 | Chunk relations (Milestone 1a), graph batch pipeline (Milestone 3b) |
+| **Related Teachings — Categorized** | 3a (similarity), 3b+ (graph-categorized) | FTR-030, FTR-034 | Chunk relations (STG-001), graph batch pipeline (STG-007) |
 | **Contemplative Companion** | 3d+ | FTR-030, FTR-026, FTR-034 | Enrichment metadata (experiential_depth, voice_register), knowledge graph |
 | **Scripture-in-Dialogue** | 3d | FTR-034, FTR-033 | Scripture nodes in knowledge graph, verse-level chunking for Gita/Bible commentaries |
 | **Reading Arc** | 5a | FTR-034, FTR-026 | Graph algorithms (PageRank, betweenness centrality), experiential depth progression |
 | **Living Commentary** | 3d | FTR-030, FTR-026 | Cross-reference extraction in enrichment pipeline, inline reference cards |
 
-**Related Teachings — Categorized:** When a seeker reads a passage, the side panel shows not just *that* other passages are related but *why*. Five relationship categories: Same Concept, Deeper in This Theme, Another Teacher's Expression, Parallel Tradition, Technique for This State. Milestone 3a uses embedding similarity to approximate categories. Milestone 3b+ uses graph traversal for true categorization.
+**Related Teachings — Categorized:** When a seeker reads a passage, the side panel shows not just *that* other passages are related but *why*. Five relationship categories: Same Concept, Deeper in This Theme, Another Teacher's Expression, Parallel Tradition, Technique for This State. STG-006 uses embedding similarity to approximate categories. STG-007+ uses graph traversal for true categorization.
 
 **Contemplative Companion:** A depth-aware reading mode that, given a passage, surfaces the contemplative arc: preparatory teachings → the passage itself → deeper explorations → related practices. Uses experiential_depth (1–7 scale) and voice_register enrichment metadata to build the arc. Not a chatbot — a curated pathway through existing content.
 

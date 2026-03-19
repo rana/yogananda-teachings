@@ -102,7 +102,7 @@ The per-locale resource configuration determines which types appear and in what 
 
 When a seeker searches "I want to die," "how to end the pain," or similar acute-distress queries, the AI librarian faithfully returns passages about death and the soul's immortality — which, without context, could be read as affirming self-harm. FTR-051 handles crisis resources on grief *content pages*, but the search query surface is higher-risk because the seeker's distress is expressed in the query itself, and the results are algorithmically selected without editorial context.
 
-This concern was identified as an open question in CONTEXT.md. It becomes relevant the moment the search index is live and a seeker can query it. The intent classification system (Deliverable M1c-4) provides the natural integration point.
+This concern was identified as an open question in CONTEXT.md. It becomes relevant the moment the search index is live and a seeker can query it. The intent classification system (Deliverable STG-003-4) provides the natural integration point.
 
 ### Decision
 
@@ -122,13 +122,13 @@ Add a `crisis` intent category to the search intent classification layer (FTR-00
 
 - **Duty of care.** A spiritual teachings portal that returns passages about death to a distressed seeker without any acknowledgment of the distress fails a basic duty of care. The portal is a *signpost* — and sometimes the right signpost is a crisis helpline.
 - **Additive, not restrictive.** The interstitial adds a resource; it doesn't block access to teachings. This respects seeker agency (DELTA: Agency) while acknowledging that spiritual content about death is complex territory for someone in acute distress.
-- **Integration with existing architecture.** Crisis detection is a new intent category in the existing intent classification layer — not a separate system. It ships as part of Deliverable M1c-4 (search intent classification) with minimal additional complexity.
+- **Integration with existing architecture.** Crisis detection is a new intent category in the existing intent classification layer — not a separate system. It ships as part of Deliverable STG-003-4 (search intent classification) with minimal additional complexity.
 - **FTR-051 extension.** FTR-051 established the principle of crisis resource presence on grief content. This ADR extends that principle to the search surface, which is higher-risk because it responds to the seeker's own words.
 
 ### Consequences
 
-- New intent category `crisis` added to the intent classification taxonomy (Deliverable M1c-11)
-- Deliverable M1c-11 added to ROADMAP.md: crisis query detection and interstitial
+- New intent category `crisis` added to the intent classification taxonomy (Deliverable STG-003-11)
+- Deliverable STG-003-11 added to ROADMAP.md: crisis query detection and interstitial
 - CONTEXT.md open question on crisis query detection resolved
 - Crisis resource list (helplines, locale mapping, presentation) requires SRF stakeholder input — added to CONTEXT.md stakeholder questions if not already present
 - Sentry event `search.crisis_intent` added to the observability allowlist (FTR-082)

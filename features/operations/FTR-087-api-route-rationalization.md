@@ -81,7 +81,7 @@ Returns title, author, description, cover image, publication year, bookstore URL
 
 #### Not Changed
 
-- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are Milestone 2b YouTube-proxy convenience endpoints. When videos become database-backed in future milestones, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
+- **`/api/v1/videos/latest` and `/api/v1/videos/catalog`** remain as-is. These are STG-005 YouTube-proxy convenience endpoints. When videos become database-backed in future milestones, the main `GET /api/v1/videos` endpoint with query parameters supersedes them. Premature to rationalize a transitional design.
 
 - **Nested routes where nesting is correct.** `/books/[slug]/chapters/[number]`, `/themes/[slug]/passages`, `/people/[slug]/passages`, `/images/{slug}/related` — these nest a subordinate or relationship resource under its parent. The nesting is appropriate and stays.
 
@@ -93,7 +93,7 @@ Returns title, author, description, cover image, publication year, bookstore URL
 - Three new detail endpoints: `GET /api/v1/books/{slug}`, `GET /api/v1/audio/{slug}`, `GET /api/v1/videos/{slug}`
 - Cache table gains entries for all new detail endpoints
 - Service layer gains `getBook(slug)`, `getRecording(slug)`, `getVideo(slug)` functions
-- ROADMAP.md Milestone 3c deliverable updated to use consolidated chapter URLs
+- ROADMAP.md STG-008 deliverable updated to use consolidated chapter URLs
 
 ---
 
@@ -238,18 +238,18 @@ A robust integration uses both: webhooks for real-time events, timestamp filteri
 
 | Milestone | What Ships |
 |-----------|-----------|
-| **Milestone 1a** | `updated_at` columns and triggers on all content tables in the initial schema migration. No API filtering yet. |
-| **Milestone 2a** | `updated_since` and `created_since` parameters on `GET /api/v1/books` and `GET /api/v1/books/[slug]/chapters`. |
-| **Milestone 3b** | Timestamp filtering on theme endpoints (`/api/v1/themes`, `/api/v1/themes/[slug]/passages`). |
-| **Milestone 3c+** | Timestamp filtering on all remaining list endpoints as they ship. |
+| **STG-001** | `updated_at` columns and triggers on all content tables in the initial schema migration. No API filtering yet. |
+| **STG-004** | `updated_since` and `created_since` parameters on `GET /api/v1/books` and `GET /api/v1/books/[slug]/chapters`. |
+| **STG-007** | Timestamp filtering on theme endpoints (`/api/v1/themes`, `/api/v1/themes/[slug]/passages`). |
+| **STG-008+** | Timestamp filtering on all remaining list endpoints as they ship. |
 
 #### Consequences
 
-- Milestone 1a schema migration adds `updated_at` columns and triggers to all content tables
+- STG-001 schema migration adds `updated_at` columns and triggers to all content tables
 - All list endpoints gain optional `updated_since` and `created_since` parameters as they ship
 - Response envelope gains `sync` metadata when timestamp filtering is active
 - OpenAPI spec (FTR-059) documents the filtering parameters on each endpoint
-- Zapier polling triggers become efficient from Milestone 2a
+- Zapier polling triggers become efficient from STG-004
 - Combined with FTR-086, the portal supports both push (webhooks) and pull (timestamp filtering) sync strategies
 
 ## Notes

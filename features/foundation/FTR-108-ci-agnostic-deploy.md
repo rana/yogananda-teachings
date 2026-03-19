@@ -63,7 +63,7 @@ Migration sequencing: Platform MCP provisions infrastructure *first* (in case it
 
 ### Consequences
 
-- `/scripts/` directory added to repo in Milestone 1a
+- `/scripts/` directory added to repo in STG-001
 - GitHub Actions workflows call scripts instead of inline commands
 - All scripts accept environment name as parameter, defaulting to `dev`
 - **Extends FTR-106** (Platform MCP) with concrete deployment orchestration

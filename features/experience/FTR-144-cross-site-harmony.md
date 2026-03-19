@@ -14,7 +14,7 @@ depends-on: [FTR-055, FTR-062, FTR-066]
 
 **Type:** Feature (Experience)
 **Governing Refs:** PRI-04 (Signpost, not destination), FTR-055 (Practice Bridge), FTR-051 (Crisis Detection), FTR-066 (Quiet Index), FTR-062 (Glossary Architecture), FTR-034 (Knowledge Graph), FTR-119 (YSS Platform)
-**Target:** Incremental from M2a through Phase 2
+**Target:** Incremental from STG-004 through Phase 2
 **Dependencies:** Centralized link registry (implemented: `/lib/config/srf-links.ts`)
 
 #### Context
@@ -76,7 +76,7 @@ yogananda.org uses Amplitude with cross-domain tracking. Our portal uses DELTA-c
 
 Search engine architecture, reading experience, accessibility, DELTA compliance, calm technology principles. This proposal adds *outbound links* and *inbound taxonomy alignment* — it does not modify the portal's core identity.
 
-**Re-evaluate At:** M2a completion, Phase 2 planning
+**Re-evaluate At:** STG-004 completion, Phase 2 planning
 **Decision Required From:** Architecture (wisdom category mapping, glossary integration depth), Human principal (SRF coordination for bidirectional linking)
 **Origin:** Ecosystem exploration via Playwright MCP snapshots of yogananda.org (2026-03-02).
 

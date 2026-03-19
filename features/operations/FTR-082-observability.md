@@ -153,12 +153,12 @@ Country code derived from Vercel edge headers, not IP geolocation lookup. Anonym
 
 ### Consequences
 
-- Milestone 1a includes Sentry setup, structured logging (`lib/logger.ts`), and health check endpoint
-- New Relic integration in Milestone 3d (depending on SRF providing New Relic account access)
+- STG-001 includes Sentry setup, structured logging (`lib/logger.ts`), and health check endpoint
+- New Relic integration in STG-009 (depending on SRF providing New Relic account access)
 - Amplitude configured with explicit allowlist — no autocapture, no user identification
 - DELTA compliance review of all observability configuration before launch
-- Vercel Analytics enabled from Milestone 1a (free with Vercel deployment)
-- Practice Bridge events (`practice_bridge_shown`, `practice_bridge_followed`) included in Milestone 1a structured logging — does not wait for Amplitude (M3d-5)
+- Vercel Analytics enabled from STG-001 (free with Vercel deployment)
+- Practice Bridge events (`practice_bridge_shown`, `practice_bridge_followed`) included in STG-001 structured logging — does not wait for Amplitude (STG-009-5)
 - Infrastructure metrics (Vercel Analytics, New Relic, CDN logs) read as product intelligence before adding explicit Amplitude events — see FTR-096 § Infrastructure-as-Intelligence
 
 ## Specification
@@ -235,11 +235,11 @@ No user identification. No IP addresses. No session IDs.
 
 **`requested_language` rationale:** The `page_viewed` event carries `language` (the locale actually served) and `requested_language` (the seeker's `Accept-Language` header preference). The delta between requested and served is a direct measure of unmet language demand — e.g., how many seekers per week arrive wanting Hindi but receive English. This signal is impossible to backfill and directly informs Milestone 5b language prioritization. When `requested_language === language`, the property adds no information and can be elided in analysis.
 
-**`zero_results` rationale:** The `search_performed` event's `zero_results` boolean tracks searches that return no passages. The zero-result rate is the portal's single most actionable operational metric: a rising rate signals corpus gaps, query expansion failures, or search pipeline regressions. The Milestone 3d staff dashboard (M3d-4, FTR-149) should surface zero-result rate trend and the most common zero-result queries as top-level indicators.
+**`zero_results` rationale:** The `search_performed` event's `zero_results` boolean tracks searches that return no passages. The zero-result rate is the portal's single most actionable operational metric: a rising rate signals corpus gaps, query expansion failures, or search pipeline regressions. The STG-009 staff dashboard (STG-009-4, FTR-149) should surface zero-result rate trend and the most common zero-result queries as top-level indicators.
 
 ### Standing Operational Metrics
 
-Beyond the Amplitude event allowlist and APM tooling, the following derived metrics should be computed and surfaced in the Milestone 3d staff dashboard (FTR-149) for ongoing operational awareness:
+Beyond the Amplitude event allowlist and APM tooling, the following derived metrics should be computed and surfaced in the STG-009 staff dashboard (FTR-149) for ongoing operational awareness:
 
 | Metric | Source | Refresh | Dashboard |
 |--------|--------|---------|-----------|

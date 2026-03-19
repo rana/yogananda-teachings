@@ -22,7 +22,7 @@ The Unified Content Hub solves the data layer -- `content_items` + `content_rela
 
 **1. The Knowledge Graph evolves through phases, matching the content it visualizes.**
 
-FTR-124's Milestone 3d delivery becomes the graph's *first version*, not its final form.
+FTR-124's STG-009 delivery becomes the graph's *first version*, not its final form.
 
 **2. The pre-computed graph JSON uses an extensible schema from day one.**
 
@@ -41,7 +41,7 @@ FTR-124's Milestone 3d delivery becomes the graph's *first version*, not its fin
 
 | Mode | Default? | What's visible |
 |------|----------|----------------|
-| **Book map** | Yes (Milestone 3d) | Books, passages, themes, people, references |
+| **Book map** | Yes (STG-009) | Books, passages, themes, people, references |
 | **Concept map** | Milestone 4a+ | Ontology concepts, relations, linked passages |
 | **All media** | Future milestones | Everything -- full cross-media fabric |
 | **Single book** | Any milestone | One book's passages, themes, connections |
@@ -71,7 +71,7 @@ Every future ADR that introduces a new content type must address:
 
 ### Consequences
 
-- FTR-124 remains valid as the Milestone 3d baseline; this extends it through Milestone 7b
+- FTR-124 remains valid as the STG-009 baseline; this extends it through Milestone 7b
 - Nightly graph Lambda regeneration script updated with each content milestone
 - Graph JSON schema is versioned
 - The Knowledge Graph becomes a flagship portal feature

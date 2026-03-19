@@ -14,7 +14,7 @@ depends-on: [FTR-028, FTR-039, FTR-040]
 
 **Type:** Feature
 **Governing Refs:** FTR-028 (Vocabulary Bridge), FTR-039 (Recognition-First IA)
-**Target:** Milestone 2a (requires Vocabulary Bridge Layers 1+3, visual identity system)
+**Target:** STG-004 (requires Vocabulary Bridge Layers 1+3, visual identity system)
 **Dependencies:** Vocabulary Bridge (FTR-028) for semantic depth — without the bridge, the doors are cosmetic labels over generic search. FTR-040 (Frontend Design) for visual system.
 **Scheduling Notes:** Four recognition-based entry points for seekers arriving with an emotional state rather than a query: "I am searching" (curiosity, wonder), "I am struggling" (fear, grief, loss), "I want to understand" (the student, the scholar), "I want to practice" (ready to move from reading to doing). Not the primary homepage architecture — one lens among several in the multi-lens homepage (FTR-139). Lives in secondary navigation.
 

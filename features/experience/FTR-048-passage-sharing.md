@@ -80,7 +80,7 @@ When someone reads a passage that moves them, the most natural human response is
 
 ### Decision
 
-Implement **clean link sharing with Open Graph cards** and **downloadable quote image generation** as a Milestone 2a feature. Every passage — in search results, in the reader, on theme pages, and in the Quiet Corner — has a quiet "Share" affordance.
+Implement **clean link sharing with Open Graph cards** and **downloadable quote image generation** as a STG-004 feature. Every passage — in search results, in the reader, on theme pages, and in the Quiet Corner — has a quiet "Share" affordance.
 
 **Share link behavior:**
 - Generates a URL like `/passage/[chunk-id]` that resolves to the passage in context (reader view, scrolled to the passage)

@@ -20,7 +20,7 @@ The `chunk_relations` table (FTR-030) connects passages by semantic similarity. 
 
 **Example:** "Yogananda on Fear" — 8 passages from 4 books, editorially ordered to build a coherent contemplation.
 
-**Example:** "The Path of Practice" (FTR-055) — a curated passage sequence tracing Yogananda's published arc from reading to practice: why meditate → what meditation is → what Kriya Yoga is → the lineage (Babaji, Lahiri Mahasaya, Sri Yukteswar, Yogananda) → the invitation to practice. All passages verbatim, all cited. The final entry signposts SRF's free Beginner's Meditation (`yogananda.org/a-beginners-meditation`) and the SRF Lessons (`yogananda.org/lessons`). This thread is the corpus-grounded version of what SRF's website provides through editorial copy — but here it is Yogananda's own voice making the invitation. Requires multi-book corpus (Milestone 3c+).
+**Example:** "The Path of Practice" (FTR-055) — a curated passage sequence tracing Yogananda's published arc from reading to practice: why meditate → what meditation is → what Kriya Yoga is → the lineage (Babaji, Lahiri Mahasaya, Sri Yukteswar, Yogananda) → the invitation to practice. All passages verbatim, all cited. The final entry signposts SRF's free Beginner's Meditation (`yogananda.org/a-beginners-meditation`) and the SRF Lessons (`yogananda.org/lessons`). This thread is the corpus-grounded version of what SRF's website provides through editorial copy — but here it is Yogananda's own voice making the invitation. Requires multi-book corpus (STG-008+).
 
 The "Seeking..." entry points already hint at this. Threads make the connection explicit and browsable.
 
@@ -28,7 +28,7 @@ The "Seeking..." entry points already hint at this. Threads make the connection 
 
 ```sql
 -- ============================================================
--- EDITORIAL THREADS (curated multi-book reading paths — Milestone 3c+)
+-- EDITORIAL THREADS (curated multi-book reading paths — STG-008+)
 -- ============================================================
 CREATE TABLE editorial_threads (
   id UUID PRIMARY KEY DEFAULT uuidv7(),

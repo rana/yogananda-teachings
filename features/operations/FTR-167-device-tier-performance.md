@@ -36,7 +36,7 @@ The device-tier definitions are also consumed beyond testing and observability �
 - FTR-081's Playwright E2E suite gains a `perf` project with network-throttled tests
 - FTR-082's aggregate SLOs remain as composite targets; this FTR adds the per-tier decomposition
 - CI gates on the worst-tier target (T1-2G) — if the Bihar JioPhone passes, everyone passes
-- New Relic synthetic monitors (M3d+) use these tier profiles for geographic testing
+- New Relic synthetic monitors (STG-009+) use these tier profiles for geographic testing
 
 ## Specification
 
@@ -163,7 +163,7 @@ Four layers, from synthetic to real:
 | Layer | Tool | What It Measures | When | Per-Tier? |
 |-------|------|-----------------|------|-----------|
 | **Synthetic local** | Playwright + CDP | Action-to-visible timing under throttled network | Every PR (Phase 2+) | Yes — four tiers |
-| **Synthetic remote** | New Relic Synthetics (M3d+) | Same tests from geographic locations (Mumbai, São Paulo, Lagos) | Continuous (5-min intervals) | Yes — real networks approximate tiers |
+| **Synthetic remote** | New Relic Synthetics (STG-009+) | Same tests from geographic locations (Mumbai, São Paulo, Lagos) | Continuous (5-min intervals) | Yes — real networks approximate tiers |
 | **Real aggregate** | Vercel Web Vitals | Core Web Vitals from real visitors | Continuous | No — aggregate only |
 | **Real segmented** | Client Web Vitals + `effectiveType` tag | Core Web Vitals tagged with network speed | Continuous | Approximate — 4G/3G/2G buckets |
 
@@ -198,7 +198,7 @@ When implementing a new performance-sensitive feature:
 
 **Relationship to FTR-081:** FTR-081 specifies the test pyramid and CI pipeline. This FTR adds a dimension (device tiers) that cross-cuts the pyramid. FTR-081's Playwright tests gain a `perf` project; its CI pipeline gains asset size gates and (Phase 3) timing gates.
 
-**Relationship to FTR-082:** FTR-082 specifies aggregate SLOs (search p95, FCP, availability). This FTR decomposes those aggregates by audience tier. FTR-082's "FCP < 1.5s" is the T3 target; the T1 target is 5s. Both are correct — they serve different populations. FTR-082's New Relic Synthetics (M3d+) will use this framework's tier profiles for geographic testing.
+**Relationship to FTR-082:** FTR-082 specifies aggregate SLOs (search p95, FCP, availability). This FTR decomposes those aggregates by audience tier. FTR-082's "FCP < 1.5s" is the T3 target; the T1 target is 5s. Both are correct — they serve different populations. FTR-082's New Relic Synthetics (STG-009+) will use this framework's tier profiles for geographic testing.
 
 **Relationship to FTR-011:** FTR-011 provides the demographic data (speakers × internet penetration × content availability) that justifies the tier definitions. This FTR operationalizes FTR-011's audience analysis into testable infrastructure.
 

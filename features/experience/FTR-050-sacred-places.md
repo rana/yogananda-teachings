@@ -15,7 +15,7 @@ depends-on: [FTR-049]
 
 ### Context
 
-FTR-049 originally specified Leaflet + OpenStreetMap as the embedded map for the Sacred Places page. On re-evaluation, the embedded map adds a library dependency for a page that already communicates geography effectively through its card layout (grouped by category, each card showing city and country). The page works in Milestone 2b without any map. "Get Directions" already delegates to the user's preferred maps app for navigation. The one thing no outbound link provided was a *virtual visit* — seeing what a place looks like before traveling there.
+FTR-049 originally specified Leaflet + OpenStreetMap as the embedded map for the Sacred Places page. On re-evaluation, the embedded map adds a library dependency for a page that already communicates geography effectively through its card layout (grouped by category, each card showing city and country). The page works in STG-005 without any map. "Get Directions" already delegates to the user's preferred maps app for navigation. The one thing no outbound link provided was a *virtual visit* — seeing what a place looks like before traveling there.
 
 ### Decision
 

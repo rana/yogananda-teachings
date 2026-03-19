@@ -63,7 +63,7 @@ Twelve principles define the project's identity and directly constrain code gene
 - **PRI-04: Signpost, not destination.** The portal leads seekers toward practice — it never substitutes for it. Practice Bridge routes technique queries to SRF Lessons information. Crisis query detection provides safety interstitials. The AI never interprets meditation techniques or spiritual practices. (FTR-055, FTR-051, FTR-049)
 
 **Seeker Experience** — who we serve and how:
-- **PRI-05: Global-First.** Supports all humans of Earth equally — low-resourced and high-resourced peoples, low-resource phones with intermittent bandwidth and high-resource phones, tablets and desktops. A seeker in rural Bihar on 2G and a seeker in Los Angeles on fiber both get the complete experience. Progressive enhancement: HTML is the foundation, CSS enriches, JavaScript enhances. No feature gating behind connectivity. Core experiences degrade gracefully with intermittent or absent connectivity. Performance budgets enforce this. **Scope prioritization:** when scope must be ordered, the option serving more reachable people ships first (FTR-011). Spanish is Tier 1 (activated); Hindi is Tier 1 deferred to Milestone 5b (authorized YSS source not yet available outside India). (FTR-006, FTR-011)
+- **PRI-05: Global-First.** Supports all humans of Earth equally — low-resourced and high-resourced peoples, low-resource phones with intermittent bandwidth and high-resource phones, tablets and desktops. A seeker in rural Bihar on 2G and a seeker in Los Angeles on fiber both get the complete experience. Progressive enhancement: HTML is the foundation, CSS enriches, JavaScript enhances. No feature gating behind connectivity. Core experiences degrade gracefully with intermittent or absent connectivity. Performance budgets enforce this. **Scope prioritization:** when scope must be ordered, the option serving more reachable people ships first (FTR-011). Spanish is Tier 1 (activated); Hindi is Tier 1 deferred to STG-021 (authorized YSS source not yet available outside India). (FTR-006, FTR-011)
 - **PRI-06: Multilingual from the foundation.** Every content table carries a `language` column from the first migration. Every content API accepts a `language` parameter. UI strings externalized, CSS uses logical properties, schema includes cross-language linking. Adding a new language should require zero schema migrations, zero API changes, and zero search rewrites. PRI-05's structural mechanism — global-first without multilingual foundations is aspiration without substance. (FTR-058, FTR-135)
 - **PRI-07: Accessibility from first deployment.** WCAG 2.1 AA from the first component. Mobile-first responsive design from the first deployable page — ~70% of the Hindi/Spanish audience is mobile-first (FTR-011, FTR-006). Semantic HTML, ARIA landmarks, keyboard navigation, screen reader support, 44×44px touch targets, `prefers-reduced-motion`. Performance budgets: < 100KB JS, FCP < 1.5s. axe-core in CI — accessibility violations block merges. (FTR-003)
 - **PRI-08: Calm Technology.** No push notifications, no autoplay, no engagement tracking, no gamification, no reading streaks, no time-pressure UI. The portal waits; it does not interrupt. Technology requires the smallest possible amount of attention. (FTR-042, FTR-002)
@@ -71,7 +71,7 @@ Twelve principles define the project's identity and directly constrain code gene
 
 **Engineering Foundation** — how we build:
 - **PRI-10: 10-year design horizon.** `/lib/services/` has zero framework imports — business logic survives a UI rewrite. Raw SQL migrations outlive every ORM. Standard protocols (REST, OAuth, SQL, HTTP) at every boundary. Tier 2 components (Next.js, Vercel, Contentful) are replaceable without touching Tier 1 (PostgreSQL, SQL, HTML). (FTR-004)
-- **PRI-11: API-first architecture.** All business logic in `/lib/services/`. API routes use `/api/v1/` prefix. All routes public (no auth until Milestone 7a+). Cursor-based pagination. (FTR-015)
+- **PRI-11: API-first architecture.** All business logic in `/lib/services/`. API routes use `/api/v1/` prefix. All routes public (no auth until STG-023+). Cursor-based pagination. (FTR-015)
 - **PRI-12: AI-Native Development and Operations.** The AI is architect, designer, implementer, and operator. The human principal directs strategy, stakeholder decisions, and editorial judgment. MCP servers are the primary operational interface — every managed service integral to routine operations requires MCP or equivalent API access. Operational surfaces are machine-parseable: structured JSON health, script-driven deployment, machine-readable manifests. Documentation is institutional memory across context windows — load-bearing infrastructure, not overhead. (FTR-093)
 
 **Principle dependencies.** Several principles enable or enforce others — when implementing, the enabling principle constrains code even when the enabled principle is not directly relevant:
@@ -83,11 +83,11 @@ Twelve principles define the project's identity and directly constrain code gene
 
 ## Quick Reference
 
-**Scope prioritization (FTR-011).** When two features or milestones are architecturally independent, the one serving more reachable people ships first. Metric: `speakers × internet_penetration × content_availability`. Apply this when facing feature-vs-feature or language-vs-feature tradeoffs. Spanish is Tier 1 (activated); Hindi is Tier 1 (deferred to Milestone 5b — authorized YSS source unavailable outside India); Portuguese and Bengali are Tier 2; remaining 5 languages are Tier 3. Full demographic data and worked examples in FTR-011.
+**Scope prioritization (FTR-011).** When two features or milestones are architecturally independent, the one serving more reachable people ships first. Metric: `speakers × internet_penetration × content_availability`. Apply this when facing feature-vs-feature or language-vs-feature tradeoffs. Spanish is Tier 1 (activated); Hindi is Tier 1 (deferred to STG-021 — authorized YSS source unavailable outside India); Portuguese and Bengali are Tier 2; remaining 5 languages are Tier 3. Full demographic data and worked examples in FTR-011.
 
 **Parameters as named constants (FTR-012).** Specific numeric values (chunk sizes, rate limits, thresholds) are tunable defaults, not architectural commitments. All parameters in `/lib/config.ts`. Each documents: value, rationale, evaluation trigger.
 
-**Core stack.** Pure hybrid search (vector + BM25 + Convex Combination fusion) is the primary search mode — no AI in the search path. Enhanced search (M3a): enrichment-augmented embeddings, HyDE, Voyage Rerank, register-driven adaptive fusion weights (FTR-020, FTR-027). Infrastructure managed by yogananda-platform MCP (FTR-106 revised); one-time AWS security via `bootstrap.sh`. See FTR-014 for architecture diagrams and SRF divergence rationale.
+**Core stack.** Pure hybrid search (vector + BM25 + Convex Combination fusion) is the primary search mode — no AI in the search path. Enhanced search (STG-006): enrichment-augmented embeddings, HyDE, Voyage Rerank, register-driven adaptive fusion weights (FTR-020, FTR-027). Infrastructure managed by yogananda-platform MCP (FTR-106 revised); one-time AWS security via `bootstrap.sh`. See FTR-014 for architecture diagrams and SRF divergence rationale.
 
 | Layer | Technology | Role | Governing FTR |
 |-------|-----------|------|---------------|
@@ -97,15 +97,15 @@ Twelve principles define the project's identity and directly constrain code gene
 | Full-text search | pg_search / ParadeDB (BM25) | Keyword retrieval | FTR-025 |
 | Monitoring (DB) | pg_stat_statements | Query performance | FTR-094 |
 | CMS | Contentful | Editorial source of truth | FTR-102 |
-| Embeddings | Voyage voyage-4-large | 1024-dim semantic vectors (enrichment-augmented M3a) | FTR-024 |
-| Reranking (M3a) | Voyage Rerank | Cross-encoder reranking on top-50 candidates | FTR-027 |
+| Embeddings | Voyage voyage-4-large | 1024-dim semantic vectors (enrichment-augmented STG-006) | FTR-024 |
+| Reranking (STG-006) | Voyage Rerank | Cross-encoder reranking on top-50 candidates | FTR-027 |
 | AI (index-time only) | Claude via AWS Bedrock | Enrichment, evaluation — never generates content, never in search path | FTR-105 |
-| Graph (M3b+) | Python + NetworkX | Knowledge graph batch pipeline | FTR-034 |
-| Suggestions | Static JSON at CDN edge + pg_trgm fallback | Autosuggestion (Vercel KV if needed M2b+) | FTR-029 |
+| Graph (STG-007+) | Python + NetworkX | Knowledge graph batch pipeline | FTR-034 |
+| Suggestions | Static JSON at CDN edge + pg_trgm fallback | Autosuggestion (Vercel KV if needed STG-005+) | FTR-029 |
 | Language detection | fastText | Multilingual query routing | FTR-058 |
 | Migrations | dbmate | Raw SQL, framework-agnostic | FTR-106 |
 | Infrastructure | yogananda-platform MCP | Declarative vendor management | FTR-106 |
-| Error tracking | Sentry (M1a–3c) → New Relic (3d+) | Errors now, APM at scale | FTR-036, FTR-082 |
+| Error tracking | Sentry (STG-001–3c) → New Relic (3d+) | Errors now, APM at scale | FTR-036, FTR-082 |
 | Analytics | Amplitude (DELTA-compliant) | Event allowlist only, no user tracking | FTR-082, FTR-085 |
 | Auth (M7a+) | Auth0 | Identity — provisioned, not active | FTR-114 |
 
@@ -119,13 +119,13 @@ Twelve principles define the project's identity and directly constrain code gene
 /app/api/v1/ — Versioned API routes
 /migrations/ — Numbered SQL migrations (dbmate)
 /terraform/bootstrap/ — IAM policy documents (referenced by bootstrap.sh; .tf files archived)
-/lambda/ — AWS Lambda handlers (Milestone 3a+, FTR-107)
+/lambda/ — AWS Lambda handlers (STG-006+, FTR-107)
 /messages/ — Locale JSON files (next-intl)
 /scripts/ — Bootstrap, CI-agnostic deployment, and environment lifecycle scripts (FTR-108, FTR-110)
 /.github/workflows/ — CI/CD pipelines (ci.yml, neon-branch.yml)
 /features/ — FTR files by domain (foundation/, search/, experience/, editorial/, operations/)
 /docs/guides/ — Human onboarding and setup (getting-started, credentials, manual steps)
-/docs/operations/ — Operational runbooks and procedures (Milestone 3b+)
+/docs/operations/ — Operational runbooks and procedures (STG-007+)
 /docs/plans/ — Implementation plans archived as institutional memory (not ephemeral — checked into repo)
 /docs/prompts/ — Session handoff instruments for multi-session work (FTR-168+)
 /docs/reference/ — Background research and deep research prompts/results
@@ -137,10 +137,10 @@ Twelve principles define the project's identity and directly constrain code gene
 
 **MCP servers (PRI-12: every managed service integral to routine operations requires MCP or equivalent API access):**
 - **Neon Management** (now) — Claude's operations interface for Neon. Branch creation, SQL execution, schema diffs, connection strings, migration safety (`prepare_database_migration`/`complete_database_migration`). Used throughout development. See FTR-095 § Three-Layer Neon Management Model. Config: VS Code `mcp.json` (HTTP type, Bearer auth).
-- **New Relic** (M3d+) — Observability MCP via `newrelic-mcp` npm package. NRQL queries, APM, alerts, deployments, synthetics. Config: VS Code `mcp.json` (stdio via npx). Env: `NEW_RELIC_API_KEY`, `NEW_RELIC_REGION`.
-- **Auth0** (Milestone 7a+, provisioned now) — Identity and access management via official `@auth0/auth0-mcp-server` package. Tenant management, application CRUD, user management, role/permission management, log analysis, action management. Uses OAuth 2.0 Device Authorization Flow (credentials in system keychain, not config). Config: VS Code `mcp.json` (stdio via npx). Run `npx -y @auth0/auth0-mcp-server init` to authenticate.
+- **New Relic** (STG-009+) — Observability MCP via `newrelic-mcp` npm package. NRQL queries, APM, alerts, deployments, synthetics. Config: VS Code `mcp.json` (stdio via npx). Env: `NEW_RELIC_API_KEY`, `NEW_RELIC_REGION`.
+- **Auth0** (STG-023+, provisioned now) — Identity and access management via official `@auth0/auth0-mcp-server` package. Tenant management, application CRUD, user management, role/permission management, log analysis, action management. Uses OAuth 2.0 Device Authorization Flow (credentials in system keychain, not config). Config: VS Code `mcp.json` (stdio via npx). Run `npx -y @auth0/auth0-mcp-server init` to authenticate.
 - **Sentry** — Error tracking and monitoring. Via Claude Code plugin.
-- **Contentful** (Milestone 1a+) — CMS content management.
+- **Contentful** (STG-001+) — CMS content management.
 - **SRF Corpus** (unscheduled) — AI consumer access to search, themes, graph. Three-tier architecture for external AI systems. See FTR-083, ROADMAP.md § Unscheduled Features; FTR-098. Fundamentally different from Neon Management MCP — this serves AI consumers, not the AI operator.
 
 ## Identifier Conventions
@@ -163,7 +163,7 @@ domain: search             # foundation | search | experience | editorial | oper
 governed-by: [PRI-01]     # Principle refs only — which PRIs constrain this feature
 depends-on: [FTR-024]     # FTR refs only — direct implementation prerequisites
 always-load: true          # Only on the 11 Always-Load FTRs (see FEATURES.md)
-re-evaluate-at: M3d        # Only on deferred/proposed files — milestone form, not Arc
+re-evaluate-at: STG-009    # Only on deferred/proposed files — STG identifier
 ---
 ```
 
@@ -171,9 +171,9 @@ re-evaluate-at: M3d        # Only on deferred/proposed files — milestone form,
 
 **FTR file anatomy:** `# FTR-NNN: Title` → metadata header → `## Rationale` (the "why") → `## Specification` (the "how") → `## Notes` (history, absorbed proposals). Every feature's rationale and specification live in one file — no dual-homing.
 
-**M{phase}{milestone}-{deliverable}** (Milestone Deliverables) — Deliverables in ROADMAP.md use the `M` prefix for self-identifying cross-references. Pattern: `M1a-4` (Phase 1, Milestone a, deliverable 4). Milestones in prose use full form: "Milestone 1a"; deliverables use M-notation: "M1a-4".
+**STG-NNN** (Stages) — Progress markers across all projects. Three-digit zero-padded. Each stage is defined in ROADMAP.md with track, status, goal, deliverables, and success criteria. Track-grouped numbering: Portal STG-001–009, Platform STG-010–019, Future STG-020+. Deliverables within a stage: `STG-NNN-DD` (e.g., `STG-006-7`). In ROADMAP.md deliverable tables, the `#` column uses bare numbers; in cross-references from other files, use full form. Stages are append-only — do not renumber. Full convention and mapping in FTR-084 § STG-NNN.
 
-When referencing identifiers in prose, use the prefix form: `PRI-01`, `FTR-023`, `M1a-4`. Zero-pad to the standard width (PRI: 2 digits, FTR: 3 digits).
+When referencing identifiers in prose, use the prefix form: `PRI-01`, `FTR-023`, `STG-006-7`. Zero-pad to the standard width (PRI: 2 digits, FTR: 3 digits, STG: 3 digits).
 
 **Cross-reference convention.** In prose, use bare identifiers: "See FTR-023", "per FTR-020", "PRI-01 governs". No file paths in prose — identifiers are stable across restructuring. Clickable links with file paths belong only in FEATURES.md index. File naming (`FTR-NNN-{slug}.md`) makes identifiers discoverable via glob: `**/FTR-023*` finds the file without consulting an index.
 
@@ -189,7 +189,7 @@ Operational commands specific to this portal. Invoked as `/command-name`.
 |---------|---------|
 | `/ingest` | Book ingestion pipeline orchestrator. 9-stage pipeline (source → extract → assemble → validate → Contentful → Neon → embeddings → relations → verify). Accepts book slug or "status". |
 | `/db` | Schema-aware database operations. Migrations, diagnostics, natural language queries via Neon MCP. Knows the full schema and migration conventions. |
-| `/eval` | Search quality evaluation. A/B comparison protocol for HyDE (M3a-11) and Cohere Rerank (M3a-12) against golden retrieval sets. |
+| `/eval` | Search quality evaluation. A/B comparison protocol for HyDE (STG-006-11) and Cohere Rerank (STG-006-12) against golden retrieval sets. |
 
 ### Project Agents (`.claude/agents/`)
 

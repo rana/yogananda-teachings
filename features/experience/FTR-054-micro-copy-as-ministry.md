@@ -22,7 +22,7 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 
 ### Decision
 
-1. **All UI copy is treated as reviewed content.** UI strings are not developer placeholder text. They are part of the seeker's experience and receive the same editorial attention as theme names and curated queries (FTR-135). This means: strings are externalized to locale files from Milestone 2a, reviewed by SRF-aware editors, and never shipped as first-draft developer copy in production.
+1. **All UI copy is treated as reviewed content.** UI strings are not developer placeholder text. They are part of the seeker's experience and receive the same editorial attention as theme names and curated queries (FTR-135). This means: strings are externalized to locale files from STG-004, reviewed by SRF-aware editors, and never shipped as first-draft developer copy in production.
 
 2. **The portal's verbal character is: a warm, quiet librarian.** Consistent with FTR-077 but extended beyond the AI search persona to all UI text. The voice is:
  - **Warm, not clinical.** "We didn't find a matching passage" not "No results found."
@@ -50,7 +50,7 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 
 1. **Leave copy to developer judgment.** Rejected: Over 10 years, developer turnover ensures inconsistency. The visual design system (DESIGN.md § Design Tokens) prevents visual drift; a verbal design system prevents copy drift. Same principle.
 
-2. **Full copywriting review for every string before merge.** Considered: Ensures quality but creates a bottleneck. Decision: Milestone 2a strings are reviewed before launch. Post-launch strings are reviewed in batches during locale translation sprints (FTR-135). Developer-authored strings ship to staging, not directly to production.
+2. **Full copywriting review for every string before merge.** Considered: Ensures quality but creates a bottleneck. Decision: STG-004 strings are reviewed before launch. Post-launch strings are reviewed in batches during locale translation sprints (FTR-135). Developer-authored strings ship to staging, not directly to production.
 
 3. **AI-generated UI copy.** Rejected: The portal prohibits AI-generated user-facing content (FTR-001, FTR-135). UI copy is user-facing. Consistency requires human authorship and review.
 
@@ -63,8 +63,8 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 
 ### Consequences
 
-- New file: `/docs/editorial/ui-copy-guide.md` (created during Milestone 2a alongside locale file externalization)
-- All ARIA labels reviewed for warmth and clarity as part of Milestone 2a accessibility foundation (FTR-003)
+- New file: `/docs/editorial/ui-copy-guide.md` (created during STG-004 alongside locale file externalization)
+- All ARIA labels reviewed for warmth and clarity as part of STG-004 accessibility foundation (FTR-003)
 - DESIGN.md § Frontend Design gains a "UI Copy Standards" subsection referencing this ADR
 - Locale files (`messages/*.json`) include copy-guide annotations for translators
 - CONTEXT.md open question added: editorial governance of UI copy (who reviews, what process)

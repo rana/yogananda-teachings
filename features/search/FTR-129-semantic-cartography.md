@@ -12,7 +12,7 @@ depends-on: [FTR-128, FTR-124]
 
 ## Rationale
 
-**Target:** Milestone 3d (alongside knowledge graph visualization) or earlier if static rendering proves viable
+**Target:** STG-009 (alongside knowledge graph visualization) or earlier if static rendering proves viable
 **Dependencies:** FTR-128 (structural enrichment provides semantic understanding for coordinate assignment). Minimal frontend: static SVG at CDN edge works on 2G mobile.
 
 **The gap.** The Passage Constellation (FTR-124, future milestones) uses UMAP/t-SNE to project embeddings into 2D/3D space. This is a mathematical projection — it captures embedding similarity but the axes have no semantic meaning. A seeker navigating the constellation sees clusters but can't reason about *why* passages are near each other without reading them.

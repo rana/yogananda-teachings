@@ -8,7 +8,7 @@
 
 ### 1. [coherence] FTR-094 identifier collision — two different features
 **Location:** FEATURES.md line 212 vs. ROADMAP.md Unscheduled Features line 587
-**Finding:** FEATURES.md lists FTR-094 as "Neon Platform Governance" (state: Approved). ROADMAP.md Unscheduled Features lists FTR-094 as "Time Travel Queries for Production Debugging" (state: Proposed). These are two distinct features sharing one identifier. Time Travel was also adopted (per Resolved Questions in CONTEXT.md: "Time Travel queries accepted as Milestone 1a development tool"), making the "Proposed" state additionally wrong.
+**Finding:** FEATURES.md lists FTR-094 as "Neon Platform Governance" (state: Approved). ROADMAP.md Unscheduled Features lists FTR-094 as "Time Travel Queries for Production Debugging" (state: Proposed). These are two distinct features sharing one identifier. Time Travel was also adopted (per Resolved Questions in CONTEXT.md: "Time Travel queries accepted as STG-001 development tool"), making the "Proposed" state additionally wrong.
 **Fix:** Time Travel Queries should either be (a) absorbed into FTR-094 as a subsection (if it's genuinely part of Neon governance) with state updated, or (b) assigned a new FTR number in the operations overflow range. Remove the stale ROADMAP.md Unscheduled entry either way.
 
 ### 2. [coherence] features/ directory (159 FTR files) is entirely untracked in git
@@ -32,23 +32,23 @@
 
 ### 5. [coherence] ROADMAP.md execution order table doesn't match actual execution
 **Location:** ROADMAP.md lines 28–41
-**Finding:** The execution order table shows M2b (Refine) at position 7, after M5b (Languages) at position 6. In reality, M2b is complete and M5b hasn't started. The table was aspirational (breadth-first ideal) but actual execution didn't follow it. The table now misleads about both past and future sequence.
-**Fix:** Add a note above the table: "This was the planned breadth-first execution order per FTR-011. Actual execution reordered M2b before M5b (M2b complete; language activation awaiting content sources)." Or update the table to reflect actual vs. planned.
+**Finding:** The execution order table shows STG-005 (Refine) at position 7, after M5b (Languages) at position 6. In reality, STG-005 is complete and M5b hasn't started. The table was aspirational (breadth-first ideal) but actual execution didn't follow it. The table now misleads about both past and future sequence.
+**Fix:** Add a note above the table: "This was the planned breadth-first execution order per FTR-011. Actual execution reordered STG-005 before M5b (STG-005 complete; language activation awaiting content sources)." Or update the table to reflect actual vs. planned.
 
 ### 6. [coherence] CONTEXT.md "governing ADRs" terminology with FTR identifiers
 **Location:** CONTEXT.md line 181
 **Finding:** Text reads "governing ADRs (FTR-024, FTR-105, FTR-027...)" — uses the old "ADRs" term with new FTR identifiers. Post-migration, these should be "governing FTRs".
 **Fix:** Replace "governing ADRs" with "governing FTRs".
 
-### 7. [coherence] ROADMAP.md M1a description still says "120+ ADRs"
+### 7. [coherence] ROADMAP.md STG-001 description still says "120+ ADRs"
 **Location:** ROADMAP.md line 63
 **Finding:** "The design is 120+ ADRs deep" — should now reference 159 FTR files post-migration.
 **Fix:** Change to "The design is 159 FTR files deep" or simply "extensively specified in features/".
 
-### 8. [gap] M2a has 2 outstanding deliverables (M2a-16, M2a-22) but Current State implies Arc 2 complete
-**Location:** CONTEXT.md line 5 ("Milestone 2b complete"), ROADMAP.md M2a Progress ("22 of 24 deliverables complete")
-**Finding:** CONTEXT.md says "Milestone 2b (Refine) complete" which reads as Arc 2 done. But M2a-16 (EXIF/XMP image metadata) and M2a-22 (Lambda + database backup infrastructure) remain incomplete. The M3a gate passes without these ("architecturally independent"), so this isn't blocking — but the status reporting is imprecise.
-**Fix:** Add to CONTEXT.md Current State: "M2a: 22/24 done; M2a-16 (EXIF/XMP) and M2a-22 (Lambda backup) deferred — not blocking M3a." This makes the gap visible without implying it's a problem.
+### 8. [gap] STG-004 has 2 outstanding deliverables (STG-004-16, STG-004-22) but Current State implies Arc 2 complete
+**Location:** CONTEXT.md line 5 ("STG-005 complete"), ROADMAP.md STG-004 Progress ("22 of 24 deliverables complete")
+**Finding:** CONTEXT.md says "STG-005 (Refine) complete" which reads as Arc 2 done. But STG-004-16 (EXIF/XMP image metadata) and STG-004-22 (Lambda + database backup infrastructure) remain incomplete. The STG-006 gate passes without these ("architecturally independent"), so this isn't blocking — but the status reporting is imprecise.
+**Fix:** Add to CONTEXT.md Current State: "STG-004: 22/24 done; STG-004-16 (EXIF/XMP) and STG-004-22 (Lambda backup) deferred — not blocking STG-006." This makes the gap visible without implying it's a problem.
 
 ### 9. [alignment] Greenfield UX rebuild decision exists in memory but not in project docs
 **Location:** Auto-memory `greenfield-plan.md`, not reflected in CONTEXT.md, ROADMAP.md, or any FTR
@@ -69,10 +69,10 @@
 **Finding:** The table lists FTR-040 seven times and FTR-056 three times as "Old ID" → "Parent FTR" mappings, but both columns show the same number. This was meaningful when the source was DES-007/DES-011/etc., but post-migration the table no longer conveys useful information (FTR-040 is a subsection of... FTR-040).
 **Fix:** Either restore the old DES identifiers in the "Old ID" column for historical reference, or remove the table and add a note that these subsections live within their parent FTR files.
 
-### 12. [gap] No FTR state is "Implemented" despite M1a–M2b being complete
+### 12. [gap] No FTR state is "Implemented" despite STG-001–STG-005 being complete
 **Location:** FEATURES.md — all states are Approved/Proposed/Deferred, none Implemented
-**Finding:** Per CLAUDE.md § Documentation–Code Transition: "When implemented: Set state to implemented in the FTR metadata." M1a through M2b are complete with working code, but no FTR files have transitioned to "Implemented" state. This means the loading guidance ("stop loading the file routinely") never triggers.
-**Fix:** Identify FTR files whose specifications are fully implemented in code (e.g., FTR-020 Hybrid Search, FTR-023 Chunking, FTR-046 Lotus Bookmark, FTR-103 PWA) and update their state. This is a batch task best done with a checklist against M1a–M2b deliverables.
+**Finding:** Per CLAUDE.md § Documentation–Code Transition: "When implemented: Set state to implemented in the FTR metadata." STG-001 through STG-005 are complete with working code, but no FTR files have transitioned to "Implemented" state. This means the loading guidance ("stop loading the file routinely") never triggers.
+**Fix:** Identify FTR files whose specifications are fully implemented in code (e.g., FTR-020 Hybrid Search, FTR-023 Chunking, FTR-046 Lotus Bookmark, FTR-103 PWA) and update their state. This is a batch task best done with a checklist against STG-001–STG-005 deliverables.
 
 ### 13. [coherence] Memory file references stale design directory structure
 **Location:** Auto-memory MEMORY.md § "Design File Structure"

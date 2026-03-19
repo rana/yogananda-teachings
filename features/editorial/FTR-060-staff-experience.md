@@ -108,20 +108,20 @@ Only the sections relevant to the staff member's role appear. A translation revi
 
 | Workflow | First Needed | Description |
 |---|---|---|
-| **Theme tag review** | Milestone 3b | Passage displayed with full citation. Theme name and description visible. Similarity score and AI confidence shown (but not as primary decision input). Approve, reject, or adjust relevance weight. Keyboard shortcuts: `a` approve, `r` reject, `→` next. |
-| **Daily passage curation** | Milestone 3b | 7-day lookahead calendar. Each day's passage shown with tone badge. Swap from pool. Flag inappropriate timing (e.g., a "challenging" passage on a holiday). |
-| **Calendar event management** | Milestone 3b | Event list with dates. For each event, associated passages shown. Add/remove associations. Preview how the homepage will look on that date. |
+| **Theme tag review** | STG-007 | Passage displayed with full citation. Theme name and description visible. Similarity score and AI confidence shown (but not as primary decision input). Approve, reject, or adjust relevance weight. Keyboard shortcuts: `a` approve, `r` reject, `→` next. |
+| **Daily passage curation** | STG-007 | 7-day lookahead calendar. Each day's passage shown with tone badge. Swap from pool. Flag inappropriate timing (e.g., a "challenging" passage on a holiday). |
+| **Calendar event management** | STG-007 | Event list with dates. For each event, associated passages shown. Add/remove associations. Preview how the homepage will look on that date. |
 | **Social media asset review** | Milestone 5a | Today's quote image at actual platform dimensions (1:1, 9:16, 16:9). Caption below with inline editing. Download per platform. Mark as "posted" per platform (tracking, not automation). Weekly lookahead view. |
 | **Translation review** | Milestone 5b | Side-by-side: English source string and AI draft. UI context note ("this appears on the search button"). Approve, edit inline, or flag `[REVIEW]`. Batch view (40–100 strings per session). Progress indicator per locale. |
-| **Ingestion QA review** | Milestone 3b+ | Flagged passages with Claude's suggestion and confidence. Accept correction, reject (keep original), or edit manually. Grouped by flag type (OCR error, formatting, truncation). |
-| **Tone/accessibility spot-check** | Milestone 3b | Random sample of classified passages. "Does this feel `contemplative`? Is this `universal`-level accessibility?" Confirm or reclassify. |
-| **Content preview** | Milestone 3b | "Preview as seeker" — see exactly what a theme page, daily passage, or editorial thread will look like before publication. |
+| **Ingestion QA review** | STG-007+ | Flagged passages with Claude's suggestion and confidence. Accept correction, reject (keep original), or edit manually. Grouped by flag type (OCR error, formatting, truncation). |
+| **Tone/accessibility spot-check** | STG-007 | Random sample of classified passages. "Does this feel `contemplative`? Is this `universal`-level accessibility?" Confirm or reclassify. |
+| **Content preview** | STG-007 | "Preview as seeker" — see exactly what a theme page, daily passage, or editorial thread will look like before publication. |
 
 #### Layer 4: Technical Operations Dashboard
 
 **Who:** AE developers
 **What:** Data-heavy dashboards, pipeline monitoring, bulk operations.
-**Tooling decision:** FTR-149 evaluates Retool vs. portal `/admin` routes at Milestone 3d. Retool is one option; lightweight charting (Recharts) within the portal admin is another.
+**Tooling decision:** FTR-149 evaluates Retool vs. portal `/admin` routes at STG-009. Retool is one option; lightweight charting (Recharts) within the portal admin is another.
 
 Scoped to the technical team, not content editors:
 
@@ -166,9 +166,9 @@ The editorial review portal is introduced incrementally, matching the content wo
 
 | Milestone | Staff Experience Deliverables |
 |---|---|
-| **Milestone 3b** | Minimal editorial review portal: theme tag review queue, daily passage curation, calendar event management, content preview, tone/accessibility spot-check. Email digest for review notifications. Auth0 roles: `editor`, `reviewer`. |
+| **STG-007** | Minimal editorial review portal: theme tag review queue, daily passage curation, calendar event management, content preview, tone/accessibility spot-check. Email digest for review notifications. Auth0 roles: `editor`, `reviewer`. |
 | **Milestone 5a** | Social media asset review workflow added to the admin portal. |
-| **Milestone 3b** | Contentful Custom Apps (sidebar panels). Full admin editorial workflow connecting Contentful authoring (available since Milestone 1a) with portal review queues. |
+| **STG-007** | Contentful Custom Apps (sidebar panels). Full admin editorial workflow connecting Contentful authoring (available since STG-001) with portal review queues. |
 | **Milestone 5b** | Translation review UI added to admin portal. Auth0 role: `translator:{locale}`. Volunteer reviewer access with minimal permissions. |
 | **Milestone 5b+** | Impact dashboard for leadership. |
 
@@ -180,7 +180,7 @@ The editorial review portal is introduced incrementally, matching the content wo
 | **Everything in Contentful** | Contentful is excellent for content authoring but not designed for AI classification review workflows (approve/reject per passage at scale), social media asset visual review, or translation side-by-side comparison. Forcing these workflows into Contentful's content model would require awkward workarounds. |
 | **Everything in Retool** | Retool can technically build any admin UI, but the result is always "an admin tool." For the AE developer, this is fine. For a monastic editor reviewing whether a passage about inner peace is correctly tagged — the experience matters. Retool's generic form builders and data grids don't support the focused, reverent interaction these workflows demand. |
 | **Third-party editorial workflow tool (Jira, Asana, Monday)** | Introduces a new vendor with its own UX, its own authentication, its own learning curve. Doesn't integrate with portal data (passages, themes, embeddings). Adds cost. The editorial review workflows are specific to this portal's data model — generic project management tools would require extensive customization to be useful. |
-| **Build the admin portal from the initial milestones** | Premature. The early milestones have a single book with a one-time ingestion QA process. The first real demand for review workflows comes in Milestone 3b (theme tagging at scale across multiple books). Building the portal earlier would be over-engineering. |
+| **Build the admin portal from the initial milestones** | Premature. The early milestones have a single book with a one-time ingestion QA process. The first real demand for review workflows comes in STG-007 (theme tagging at scale across multiple books). Building the portal earlier would be over-engineering. |
 
 ### Rationale
 
@@ -189,14 +189,14 @@ The editorial review portal is introduced incrementally, matching the content wo
 - **Review workflows are the bottleneck.** The portal's most distinctive constraint — human review as mandatory gate — means the speed and quality of staff review directly determines how quickly new content reaches seekers. A cumbersome review process means fewer themes published, fewer passages curated, slower translation cycles. The review experience is a primary product concern, not an afterthought.
 - **The calm design system already exists.** Building the admin portal in the same Next.js application, with the same design tokens, means zero incremental design cost. The portal's warm cream, Merriweather, and gold accents serve the staff experience as naturally as the seeker experience.
 - **Auth0 already exists in the SRF stack.** Role-based access for the admin portal uses SRF's established identity provider. No new authentication system.
-- **Incremental delivery.** Milestone 3b delivers only the review workflows needed for theme tagging (the first AI-proposal workflow at scale). Each subsequent milestone adds only the workflows demanded by its content features. The admin portal grows organically, never ahead of actual need.
+- **Incremental delivery.** STG-007 delivers only the review workflows needed for theme tagging (the first AI-proposal workflow at scale). Each subsequent milestone adds only the workflows demanded by its content features. The admin portal grows organically, never ahead of actual need.
 
 ### Consequences
 
 - **Revises the DESIGN.md statement** "The portal never builds custom admin UIs for either use case." The portal now builds a purpose-built editorial review UI for non-technical staff. Contentful remains the content authoring tool. Retool remains the technical operations tool. The admin portal fills the gap between them.
-- Milestone 3b gains a new deliverable: minimal editorial review portal
+- STG-007 gains a new deliverable: minimal editorial review portal
 - Milestone 5a gains social media asset review in the admin portal
-- Milestone 3b gains Contentful Custom Apps (sidebar panels)
+- STG-007 gains Contentful Custom Apps (sidebar panels)
 - Milestone 5b gains translation review UI and volunteer reviewer access
 - Auth0 role schema: `editor`, `reviewer`, `translator:{locale}`, `admin`, `leadership`
 - Email digest infrastructure: scheduled serverless function for daily review summaries
@@ -253,7 +253,7 @@ The portal is maintained by a broader organizational ecosystem than just "staff.
 
 **Study circle leader — expanded profile:** This is the portal's most demanding external seeker and the primary driver for Study Workspace (Milestone 7a+) and Community Curation (Milestone 7b) features. The weekly satsanga preparation workflow is: (1) identify a theme or topic for the week, (2) search and browse for relevant passages across multiple books, (3) collect passages into an ordered sequence that builds understanding, (4) add brief contextual notes for group discussion, (5) share the collection with group members via link, (6) present during satsanga using Presentation mode (FTR-006 §5). Until the Study Workspace milestone, this seeker uses browser bookmarks, manual note-taking, and shared passage links — functional but friction-heavy. The study circle leader also serves as an informal portal evangelist, introducing the portal to group members who may become daily visitors, devoted practitioners, or Quiet Corner seekers. In Indian and Latin American contexts, the study circle leader may be the primary interface between the portal and seekers who are less digitally literate — they project the portal on a shared screen or read passages aloud. Presentation mode's early delivery (consider pulling to Milestones 2b–3a per CONTEXT.md technical open question) directly serves this population.
 
-**Staffing open question:** Several operational personas (portal coordinator, book ingestion operator, VLD coordinator) are not yet assigned. SRF must determine whether these are monastic roles, AE team roles, or dedicated positions before Milestone 3b begins. See CONTEXT.md § Open Questions (Stakeholder).
+**Staffing open question:** Several operational personas (portal coordinator, book ingestion operator, VLD coordinator) are not yet assigned. SRF must determine whether these are monastic roles, AE team roles, or dedicated positions before STG-007 begins. See CONTEXT.md § Open Questions (Stakeholder).
 
 ### The Editorial Review Portal (`/admin`)
 
@@ -299,7 +299,7 @@ When a staff member logs in, they see a personalized summary filtered by their r
 
 #### Review Workflows
 
-**Theme tag review** (Milestone 3b):
+**Theme tag review** (STG-007):
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ Theme: Peace — Review Candidates (8 of 23)                  │
@@ -367,7 +367,7 @@ Keyboard-driven: `a` approve, `r` reject, `→` next, `←` previous. Session po
 └─────────────────────────────────────────────────────────────┘
 ```
 
-**Portal update review** (Milestone 3b):
+**Portal update review** (STG-007):
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ Portal Update — Review                     AI-drafted       │
@@ -459,7 +459,7 @@ Business logic lives in `/lib/services/` (consistent with FTR-015). The admin ro
 |---|---|
 | **3b** | Minimal admin portal: editorial home, theme tag review, daily passage curation, calendar event management, content preview, tone/accessibility spot-check, portal update review (FTR-092). Auth0 integration. Email digest. |
 | **5a** | Social media asset review added. |
-| **3b** | Contentful Custom Apps (sidebar panels). Full editorial workflow bridging Contentful authoring and portal review queues. (Contentful available from Milestone 1a; Custom Apps ship with editorial portal.) |
+| **3b** | Contentful Custom Apps (sidebar panels). Full editorial workflow bridging Contentful authoring and portal review queues. (Contentful available from STG-001; Custom Apps ship with editorial portal.) |
 | **5b** | Translation review UI. Volunteer reviewer access with scoped permissions (`translator:{locale}`). |
 | **5b+** | Impact dashboard for leadership. |
 | **7b** | VLD dashboard, curation briefs, trusted submitter workflow. VLD expansion to translation, theme tag, feedback, and QA tiers (as VLD capacity and SRF governance allow). |

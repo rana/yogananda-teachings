@@ -74,7 +74,7 @@ When search returns zero results:
 
 #### 6. Search quality evaluation integration
 
-The presentation decisions above are validated by the search quality test suite (ROADMAP deliverable M1a-8):
+The presentation decisions above are validated by the search quality test suite (ROADMAP deliverable STG-001-8):
 - Each test query has expected passages that should appear in the top 3 results.
 - Accessibility boosting is validated: for empathic queries ("dealing with grief"), consoling/accessible passages should rank higher.
 - Deduplication is validated: edition variants should not appear as separate results.
@@ -91,9 +91,9 @@ The presentation decisions above are validated by the search quality test suite 
 ### Consequences
 
 - FTR-015 search endpoint documentation updated to reference this ADR for presentation logic.
-- The search quality test suite (deliverable M1a-8) must validate ranking, deduplication, accessibility boosting, and empty-result behavior.
+- The search quality test suite (deliverable STG-001-8) must validate ranking, deduplication, accessibility boosting, and empty-result behavior.
 - Future content types entering search (video transcripts, audio transcripts, magazine articles) must follow the same ranking hierarchy and deduplication rules. Cross-media result interleaving rules will be specified when those content types are integrated (future milestones).
-- The "5 results" default is a design decision, not a technical constraint. It may be adjusted based on Milestone 1a search quality evaluation — but the adjustment should be governed (update this ADR), not ad hoc.
+- The "5 results" default is a design decision, not a technical constraint. It may be adjusted based on STG-001 search quality evaluation — but the adjustment should be governed (update this ADR), not ad hoc.
 
 ## Notes
 

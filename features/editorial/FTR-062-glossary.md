@@ -62,8 +62,8 @@ CREATE TABLE chunk_glossary_terms (
 ### Scheduling
 
 - Data: Seeded from Vocabulary Bridge Layer 2 entries (FTR-028). Enriched per-book via FTR-028 extraction lifecycle.
-- Glossary page (`/glossary`): Milestone 2b (when multi-book content provides sufficient explanation passages).
-- Inline reader highlighting: Milestone 2b (reader settings already exist from Milestone 2a).
+- Glossary page (`/glossary`): STG-005 (when multi-book content provides sufficient explanation passages).
+- Inline reader highlighting: STG-005 (reader settings already exist from STG-004).
 
 ### Consequences
 
@@ -81,7 +81,7 @@ The Vocabulary Bridge Layer 2 entries (FTR-028, FTR-028) are surfaced as a user-
 
 The `glossary_terms` table (defined in FTR-062) gains three optional columns for Sanskrit and spiritual terminology support:
 
-- **`phonetic_guide`** — Simplified pronunciation guide (e.g., "PRAH-nah-YAH-mah" for prāṇāyāma). Editorially written, based on standard Sanskrit phonology. Ships with Milestone 3b glossary.
+- **`phonetic_guide`** — Simplified pronunciation guide (e.g., "PRAH-nah-YAH-mah" for prāṇāyāma). Editorially written, based on standard Sanskrit phonology. Ships with STG-007 glossary.
 - **`pronunciation_url`** — URL to an SRF-approved audio pronunciation recording. Nullable; populated when SRF provides recordings (Milestone 5b+). Stakeholder question pending.
 - **`has_teaching_distinction`** — Boolean flag for terms where Yogananda's usage intentionally differs from common usage and the difference itself is part of the teaching (e.g., Aum vs. Om, "meditation," "Self-realization"). When true, the glossary UI highlights the distinction as pedagogically significant.
 

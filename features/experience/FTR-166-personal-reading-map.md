@@ -6,7 +6,7 @@ state: proposed
 domain: experience
 governed-by: [PRI-08, PRI-09, PRI-03]
 depends-on: [FTR-041, FTR-047]
-re-evaluate-at: M3a
+re-evaluate-at: STG-006
 ---
 
 # FTR-166: Personal Reading Map

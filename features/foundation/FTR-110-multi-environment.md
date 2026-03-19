@@ -36,7 +36,7 @@ The portal will operate across multiple environments (dev, staging, production) 
 
 ### AWS Account Strategy
 
-Single AWS account with IAM role boundaries through Milestone 3d. If SRF governance requires separate accounts for production (a stakeholder decision, not a technical one), the platform config model supports multi-account without rearchitecture — add an OIDC role per account and a provider alias per environment.
+Single AWS account with IAM role boundaries through STG-009. If SRF governance requires separate accounts for production (a stakeholder decision, not a technical one), the platform config model supports multi-account without rearchitecture — add an OIDC role per account and a provider alias per environment.
 
 ```
 AWS Account: srf-teachings (dedicated account within SRF AWS Organization)
@@ -50,7 +50,7 @@ AWS Account: srf-teachings (dedicated account within SRF AWS Organization)
 ├── Secrets Manager: /portal/{env}/* — All application secrets (FTR-112)
 ├── S3: srf-portal-terraform-state   — Legacy Terraform state (retained for history)
 ├── S3: srf-portal-assets-{env}      — Per-environment asset buckets
-├── Lambda: {env}-*                  — Per-environment functions (Milestone 2a+)
+├── Lambda: {env}-*                  — Per-environment functions (STG-004+)
 └── DynamoDB: srf-portal-terraform-locks — Legacy state locking (retained)
 ```
 
@@ -117,13 +117,13 @@ PR → dev (auto) → staging (manual gate) → prod (manual gate)
 
 ### Consequences
 
-- Platform configurations parameterized by environment from Milestone 1a
+- Platform configurations parameterized by environment from STG-001
 - Single AWS account with IAM role boundaries (escalate to multi-account only if SRF governance requires it)
 - One Neon project with branch-based environment separation (FTR-094)
 - One Vercel project with branch deployments
 - One Sentry project with environment tagging
 - One Contentful space with environment aliases
-- `scripts/bootstrap.sh` created in Deliverable M1a-1 — automates all CLI-scriptable setup
+- `scripts/bootstrap.sh` created in Deliverable STG-001-1 — automates all CLI-scriptable setup
 - `scripts/create-env.sh` and `scripts/destroy-env.sh` created in Milestone 4a when multi-environment activates
 - `terraform/bootstrap/trust-policy.json` checked into repo — the one artifact the bootstrap script needs
 - GitHub Environments configured per environment (dev, staging, prod) with protection rules

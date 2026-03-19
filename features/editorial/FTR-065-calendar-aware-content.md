@@ -31,7 +31,7 @@ The `daily_passages` pool already supports optional seasonal weighting. Calendar
 
 ```sql
 -- ============================================================
--- CALENDAR EVENTS (date-to-passage associations — Milestone 3b+)
+-- CALENDAR EVENTS (date-to-passage associations — STG-007+)
 -- ============================================================
 CREATE TABLE calendar_events (
   id UUID PRIMARY KEY DEFAULT uuidv7(),

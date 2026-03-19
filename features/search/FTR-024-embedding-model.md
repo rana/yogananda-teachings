@@ -76,7 +76,7 @@ Three dimensions of embedding quality matter:
 
 1. Voyage voyage-4-large is the primary embedding model (FTR-024).
 2. Milestone 5b benchmarks Voyage against multilingual alternatives (Cohere embed-v3, BGE-M3, multilingual-e5-large-instruct, Jina-embeddings-v3).
-3. **Enrichment-augmented re-embedding (Milestone 3a)** is the intermediate step between baseline and domain-adapted fine-tuning. See § Enrichment-Augmented Re-embedding below.
+3. **Enrichment-augmented re-embedding (STG-006)** is the intermediate step between baseline and domain-adapted fine-tuning. See § Enrichment-Augmented Re-embedding below.
 4. Domain-adapted embeddings remain a later-stage research effort. Fine-tuning on Yogananda's corpus could produce world-class retrieval quality.
 5. The architecture already supports model evolution via FTR-024.
 
@@ -92,7 +92,7 @@ Three dimensions of embedding quality matter:
 #### Consequences
 
 - Primary model is Voyage voyage-4-large (1024 dimensions)
-- Milestone 3a: enrichment-augmented re-embedding (same model, richer input)
+- STG-006: enrichment-augmented re-embedding (same model, richer input)
 - Milestone 5b benchmarks as baseline
 - Domain-adapted embeddings remain a documented research track
 
@@ -106,7 +106,7 @@ The portal's unified enrichment pipeline (FTR-026) already produces 14 metadata 
 
 #### Decision
 
-At Milestone 3a, re-embed all chunks with an enrichment metadata prefix in natural language format:
+At STG-006, re-embed all chunks with an enrichment metadata prefix in natural language format:
 
 ```
 "This passage is from {book_title}, Chapter {chapter_number}: {chapter_title}.
@@ -115,7 +115,7 @@ Experiential depth: {experiential_depth}/7. Emotional quality: {emotional_qualit
 Topics: {topics}. {passage_text}"
 ```
 
-**Two embedding facets per chunk (Milestone 3a stretch / 3b):**
+**Two embedding facets per chunk (STG-006 stretch / 3b):**
 - **Topical facet:** Emphasizes tradition, source, topic, entities — optimized for topical/referential queries
 - **Experiential facet:** Emphasizes rasa, depth, register, emotional quality — optimized for emotional/devotional queries
 

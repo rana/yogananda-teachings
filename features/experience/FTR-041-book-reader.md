@@ -13,7 +13,7 @@ depends-on: [FTR-040, FTR-043, FTR-044]
 ## Rationale
 
 
-**Phase:** 2 (Presence) — refinements from M2b analysis
+**Phase:** 2 (Presence) — refinements from STG-005 analysis
 **Governing:** PRI-01 (Verbatim Fidelity), PRI-03 (Honoring the Spirit), PRI-07 (Accessibility), PRI-08 (Calm Technology)
 **Supersedes:** Reading-related sections scattered across FTR-040 (FTR-040, FTR-040, FTR-040, FTR-040, FTR-040), reading mode definitions in FTR-006 and FTR-052
 **Related:** FTR-043 (Accessibility), FTR-044 (Responsive), FTR-034 (Knowledge Graph), FTR-022 (Book Ingestion)
@@ -498,7 +498,7 @@ Lectio Divina apps implement this as a "still-yourself timer" before text appear
 
 **Possible resolution:** An opt-in "Contemplative entry" reader preference. When enabled, chapter pages show a brief threshold moment — perhaps a verse, an invocation, or simply a breathing prompt — before the text appears. Dismissed instantly on any interaction. Disabled by default. Stored in `srf-reader-prefs` localStorage. This preserves performance-first default while offering the contemplative transition for readers who want it.
 
-**Decision deferred** to Milestone 3a boundary. See CONTEXT.md § Open Questions.
+**Decision deferred** to STG-006 boundary. See CONTEXT.md § Open Questions.
 
 ---
 

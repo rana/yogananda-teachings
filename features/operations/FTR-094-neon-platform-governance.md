@@ -22,14 +22,14 @@ The portal uses Neon Serverless Postgres as its single database (FTR-104). Prior
 A comprehensive audit of Neon's feature catalog against our design documents revealed:
 
 1. **Tier-gated features.** Several capabilities critical to production readiness (30-day PITR, protected branches, OpenTelemetry export, configurable autosuspend) are only available on paid tiers.
-2. **Missing extensions.** `pg_stat_statements` (query performance) was not in the first migration despite clear Milestone 1a value.
+2. **Missing extensions.** `pg_stat_statements` (query performance) was not in the first migration despite clear STG-001 value.
 3. **No compute governance.** No ADR specified compute sizing per environment, autosuspend policy, or scaling strategy.
 4. **No branch lifecycle policy.** Branch naming, TTL auto-expiry, and the distinction between persistent and ephemeral branches were undocumented.
 5. **No database observability.** The observability strategy (FTR-082) covered application monitoring but not database-level metrics.
 
 ### Decision
 
-Establish **Neon Scale tier with PostgreSQL 18** as the project's database platform from Milestone 1a, with explicit governance for PostgreSQL version, compute, branching, extensions, and observability.
+Establish **Neon Scale tier with PostgreSQL 18** as the project's database platform from STG-001, with explicit governance for PostgreSQL version, compute, branching, extensions, and observability.
 
 #### PostgreSQL Version: 18
 
@@ -53,7 +53,7 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 | Unicode 16.0.0 | 1a+ | Improved case mapping for Sanskrit/Hindi diacritics (FTR-131). |
 | Virtual generated columns | 1c+ | Compute values at read time without storage overhead. Evaluate for normalized search text. |
 | `casefold()` | 1c+ | Unicode-aware case-insensitive matching. Evaluate for Sanskrit term normalization. |
-| `COPY REJECT_LIMIT` | M1a-4 | Error-tolerant bulk ingestion. Evaluate for PDF import pipeline. |
+| `COPY REJECT_LIMIT` | STG-001-4 | Error-tolerant bulk ingestion. Evaluate for PDF import pipeline. |
 | `WITHOUT OVERLAPS` temporal constraints | 2a+ | Evaluate for daily passage scheduling, event scheduling. |
 | `array_sort()` / `array_reverse()` | 2a+ | Tag array processing for teaching topics and entity aliases. |
 | Async I/O | Neon-gated | Neon runs `io_method = 'sync'` during preview. Benefit arrives when Neon enables it — no code changes needed. |
@@ -62,7 +62,7 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 
 **Platform config parameter:** Neon project specifies `postgres_version = "18"` explicitly. Never rely on Neon's default version.
 
-**Verification gate (Deliverable M1a-2):** After platform provisioning, verify all 5 required extensions (pgvector, pg_search, pg_trgm, unaccent, pg_stat_statements) install correctly on Neon PG18. If any extension fails, fallback: recreate on PG17 with no code changes required (only platform `postgres_version` parameter changes).
+**Verification gate (Deliverable STG-001-2):** After platform provisioning, verify all 5 required extensions (pgvector, pg_search, pg_trgm, unaccent, pg_stat_statements) install correctly on Neon PG18. If any extension fails, fallback: recreate on PG17 with no code changes required (only platform `postgres_version` parameter changes).
 
 #### Tier Selection: Scale
 
@@ -92,7 +92,7 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 | **CI test branches** | 0.25 | 1 | 0s | No | Ephemeral; auto-deleted via TTL |
 | **PR preview branches** | 0.25 | 1 | 60s | No | Persists for PR lifetime; TTL: 7 days |
 
-*Parameter — default values above, evaluate: Milestone 1c traffic patterns (FTR-012).*
+*Parameter — default values above, evaluate: STG-003 traffic patterns (FTR-012).*
 
 #### Branch Lifecycle Policy
 
@@ -125,10 +125,10 @@ Extensions enabled in the first migration (`001_initial_schema.sql`):
 | Extension | Purpose | Evaluate At | Notes |
 |-----------|---------|-------------|-------|
 | `hypopg` | Virtual index testing (hypothetical indexes visible only to planner) | Now (dev branches) | Zero risk — indexes exist only in planner memory. Useful for prototyping HNSW parameter changes, pg_search BM25 indexes, and ontology table indexes without build cost. `CREATE EXTENSION IF NOT EXISTS hypopg` on dev/migration branches. |
-| `pg_prewarm` | Buffer cache prewarming after compute wake-up | Milestone 3a | Addresses cold-start latency after autosuspend (production 300s). Preloads HNSW index, GIN index, and core search tables into shared buffers. Pair with `pg_cron` (FTR-115) for automatic prewarming. Directly serves PRI-05 (Global-First) — seekers shouldn't pay cold-cache latency. |
-| `pg_cron` | In-database scheduled jobs | Milestone 3a | Only useful with always-on compute; may replace some Lambda cron jobs. See FTR-115. |
+| `pg_prewarm` | Buffer cache prewarming after compute wake-up | STG-006 | Addresses cold-start latency after autosuspend (production 300s). Preloads HNSW index, GIN index, and core search tables into shared buffers. Pair with `pg_cron` (FTR-115) for automatic prewarming. Directly serves PRI-05 (Global-First) — seekers shouldn't pay cold-cache latency. |
+| `pg_cron` | In-database scheduled jobs | STG-006 | Only useful with always-on compute; may replace some Lambda cron jobs. See FTR-115. |
 | `pg_tiktoken` | Token counting for chunk pipeline | Deferred | Uses OpenAI tokenizer (cl100k_base), not Voyage/Claude tokenizers. Evaluate when Anthropic/Bedrock provides accurate token counting. |
-| `pg_jsonschema` | JSONB column schema validation | Milestone 3b | Validate `entities`, `cross_references`, `metadata` columns on `book_chunks` and ontology JSONB. Re-evaluate when ontology tables (FTR-034) ship. Application-layer validation may suffice. |
+| `pg_jsonschema` | JSONB column schema validation | STG-007 | Validate `entities`, `cross_references`, `metadata` columns on `book_chunks` and ontology JSONB. Re-evaluate when ontology tables (FTR-034) ship. Application-layer validation may suffice. |
 | `pgrag` | RAG utilities | Deferred | Evaluate whether it simplifies the retrieval pipeline. Custom pipeline likely sufficient. |
 
 **Extension addition policy:** New extensions require an ADR amendment or new ADR referencing this governance section. Extensions must be tested on a migration branch before production.
@@ -138,13 +138,13 @@ Extensions enabled in the first migration (`001_initial_schema.sql`):
 **Built-in monitoring (Scale tier, 14-day retention):**
 - RAM, CPU, connection count, deadlocks, rows (insert/update/delete), replication delay, local file cache hit rate, working set size
 
-**pg_stat_statements (installed from Milestone 1a):**
+**pg_stat_statements (installed from STG-001):**
 - Top queries by frequency and average duration
 - Query plan changes after index modifications
 - Performance regression detection after migrations
 - **Caveat:** Stats reset on compute suspend/restart. For production (300s autosuspend), this is acceptable — most sessions are long enough to accumulate meaningful data.
 
-**OpenTelemetry export (Scale tier, Milestone 2a+):**
+**OpenTelemetry export (Scale tier, STG-004+):**
 - Export database metrics and Postgres logs to the observability stack (Sentry, New Relic, or Grafana)
 - Complements application-level observability (FTR-082) with database-level visibility
 - Enables alerts on: connection pool saturation, cache miss rate spikes, replication lag, query duration regressions
@@ -194,14 +194,14 @@ Neon infrastructure is managed via Platform MCP (FTR-106), which uses the Neon R
 
 ### Consequences
 
-- Neon project created as PostgreSQL 18, Scale tier from Milestone 1a (`postgres_version = "18"` in platform config)
+- Neon project created as PostgreSQL 18, Scale tier from STG-001 (`postgres_version = "18"` in platform config)
 - All table primary keys use `uuidv7()` — schema convention for time-ordered UUIDs
 - Production branch protected; compute configuration applied per environment
 - 5 extensions verified on PG18 in first migration (vector, pg_search, pg_trgm, unaccent, pg_stat_statements)
 - Branch naming convention and TTL policy enforced in CI scripts
-- `pg_stat_statements` data informs search query optimization from Milestone 1a
-- OpenTelemetry export configured during Milestone 2a observability setup
-- Snapshot schedule configured during Milestone M1a-2 via Neon API (FTR-109)
+- `pg_stat_statements` data informs search query optimization from STG-001
+- OpenTelemetry export configured during STG-004 observability setup
+- Snapshot schedule configured during Milestone STG-001-2 via Neon API (FTR-109)
 - API keys scoped per context: org key for Platform MCP, project-scoped keys for CI and development
 - Platform MCP uses Neon REST API directly; no community provider dependency
 - **Extends FTR-101** (pgvector), **FTR-109** (backup), **FTR-081** (testing), **FTR-082** (observability)

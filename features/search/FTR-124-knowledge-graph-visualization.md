@@ -48,7 +48,7 @@ Build an interactive knowledge graph visualization at `/explore` that renders th
 
 ### Scheduling
 
-Milestone 3d (after chunk relations are computed across the full multi-book corpus in Milestones 3c–3d). The graph needs multi-book density to be meaningful.
+STG-009 (after chunk relations are computed across the full multi-book corpus in Milestones 3c–3d). The graph needs multi-book density to be meaningful.
 
 ### Consequences
 

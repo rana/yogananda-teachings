@@ -6,7 +6,7 @@ state: proposed
 domain: foundation
 governed-by: [PRI-10]
 depends-on: [FTR-094, FTR-107]
-re-evaluate-at: Milestone 3a
+re-evaluate-at: STG-006
 ---
 
 # FTR-115: pg_cron for In-Database Scheduling
@@ -18,5 +18,5 @@ Several operations could benefit from in-database scheduling: stale suggestion c
 ## Notes
 
 - **Dependencies:** Always-on production compute (production autosuspend ≥ 300s per FTR-094). `pg_cron` only fires when compute is active.
-- **Re-evaluate at:** Milestone 3a (when Lambda infrastructure ships, FTR-107)
+- **Re-evaluate at:** STG-006 (when Lambda infrastructure ships, FTR-107)
 - **Decision required from:** Architecture

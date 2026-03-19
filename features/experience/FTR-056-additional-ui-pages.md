@@ -178,7 +178,7 @@ A single, high-density text page listing every navigable content item in the por
 | 3b | + Themes (all active categories), Glossary terms, Quiet Corner textures |
 | 3c | + People, External References, Reading Threads |
 | 3d+ | + Knowledge Graph link, Calendar Journeys |
-| Post-M3d | + Magazine archives, Ontology concepts |
+| Post-STG-009 | + Magazine archives, Ontology concepts |
 
 **Milestone:** 2a (initial, books-only version). Grows automatically with each subsequent milestone.
 
@@ -246,9 +246,9 @@ A curated recommendation page organized by spiritual need. Where `/browse` answe
 
 **Worldview adaptation:** Seekers arrive not only from different cultures and languages but from different epistemological starting points — and Yogananda's corpus speaks to many of them directly. A Christian contemplative finds *The Second Coming of Christ*. A Sufi or poetry lover finds *Wine of the Mystic*. A Buddhist meditator finds Yogananda's scientific descriptions of concentration and consciousness. A scholar of comparative religion finds the reverse bibliography (FTR-064). An agnostic interested in the science of spirituality finds Yogananda's engagement with Einstein, physics, and the experimental method. The `/guide` page can serve these worldview entry points alongside need-based pathways, using the same editorial template — "If you come from a Christian contemplative tradition," "If you have a Buddhist meditation practice," "If you are interested in the intersection of science and spirituality." These are editorial content, not architectural changes. They surface affinities already present in the corpus rather than imposing an interfaith framing from outside. Whether to include worldview pathways is an SRF editorial decision — see CONTEXT.md § Open Questions (Stakeholder).
 
-**Navigation:** Linked from site footer ("Where to begin"), from the "Start Here" newcomer path (Milestone 2a), and from `/browse` (bidirectional link). Each recommendation section links to the relevant destination page.
+**Navigation:** Linked from site footer ("Where to begin"), from the "Start Here" newcomer path (STG-004), and from `/browse` (bidirectional link). Each recommendation section links to the relevant destination page.
 
-**Milestone:** 3b (requires theme system, glossary, and editorial infrastructure). Grows editorially through Milestone 3c+ as reading threads, people, and references become available.
+**Milestone:** 3b (requires theme system, glossary, and editorial infrastructure). Grows editorially through STG-008+ as reading threads, people, and references become available.
 
 #### Worldview Pathway Catalog
 
@@ -276,7 +276,7 @@ The following catalog defines each perspective, its corpus affinity points, the 
 | WP-14 | **Agnostic / Skeptical-but-Curious** | Yogananda's engagement with science, his insistence on verifiable experience over blind faith, experimental method in meditation | *Autobiography* (science chapters, "The Law of Miracles"), *Man's Eternal Quest* | Scientific vocabulary bridge, consciousness, practical technique | No tradition-specific bridge — entry is through questions: "Is consciousness more than the brain?", "Can meditation be verified?", "What did Yogananda mean by 'scientific' spirituality?" Distinct from WP-06 (Science Explorer) in that WP-14 does not assume interest in consciousness *per se* — it meets skepticism directly. |
 | WP-15 | **Documentary Viewer ("Awake")** | Discovered Yogananda through the *Awake: The Life of Yogananda* documentary film; may have no prior spiritual reading practice; entry is visual/emotional, not textual | *Autobiography of a Yogi* (the source the film draws from), *Where There Is Light* (accessible entry point), *Man's Eternal Quest* | No tradition-specific themes — entry is biographical and emotional: Yogananda's life story, his journey to America, his legacy | film ↔ book, scenes ↔ chapters, biographical narrative ↔ spiritual autobiography. The pathway bridges from a passive viewing experience to active engagement with Yogananda's own words. "You saw his life on screen — now read it in his voice." The *Autobiography* is the natural first book. The documentary is third-party (Counterpoint Films, SRF-endorsed) and linked via its distribution URLs, not hosted on the portal. |
 
-**Generation priority:** Pathways WP-01, WP-03, WP-06, WP-07, WP-09 have the strongest corpus affinity and address the largest seeker populations. Generate and review these first. WP-02, WP-04, WP-08, WP-13 have deep corpus support but smaller initial English-language audiences (WP-02 becomes high-priority for Hindi/Bengali locales). WP-05, WP-10, WP-11, WP-12, WP-14 require multi-book corpus (Milestone 3a+) for meaningful content. WP-15 (Documentary Viewer) requires only the *Autobiography* and is high-priority for the film's existing audience — many seekers discover Yogananda through the documentary before encountering his books. Whether to include WP-13 (Muslim/Sufi) and WP-14 (Agnostic) requires SRF editorial approval. Whether to include WP-15 requires confirming SRF's posture toward the *Awake* documentary as an endorsed entry point (see CONTEXT.md § Open Questions).
+**Generation priority:** Pathways WP-01, WP-03, WP-06, WP-07, WP-09 have the strongest corpus affinity and address the largest seeker populations. Generate and review these first. WP-02, WP-04, WP-08, WP-13 have deep corpus support but smaller initial English-language audiences (WP-02 becomes high-priority for Hindi/Bengali locales). WP-05, WP-10, WP-11, WP-12, WP-14 require multi-book corpus (STG-006+) for meaningful content. WP-15 (Documentary Viewer) requires only the *Autobiography* and is high-priority for the film's existing audience — many seekers discover Yogananda through the documentary before encountering his books. Whether to include WP-13 (Muslim/Sufi) and WP-14 (Agnostic) requires SRF editorial approval. Whether to include WP-15 requires confirming SRF's posture toward the *Awake* documentary as an endorsed entry point (see CONTEXT.md § Open Questions).
 
 **What is NOT a worldview pathway:** A pathway that would require the portal to adopt a theological position. "If you believe all religions are one" is a claim; "If you come from a Christian contemplative tradition" is a starting point. The pathways acknowledge where the seeker is, then point to where Yogananda's words are. They do not assert what Yogananda "would say to a Buddhist" — they show where he actually wrote about the themes that tradition cares about.
 
@@ -470,7 +470,7 @@ This pathway is distinct from the others because it bridges *from the portal to 
 
 **Provenance:** Same three-state model as all pathways. Claude drafts initial text; theological reviewer approves.
 
-**Milestone:** 3b (with the rest of `/guide`). Requires the Kriya Yoga theme page (Milestone 3c+) for the theme link; until then, the link points to Autobiography Ch. 26 only.
+**Milestone:** 3b (with the rest of `/guide`). Requires the Kriya Yoga theme page (STG-008+) for the theme link; until then, the link points to Autobiography Ch. 26 only.
 
 #### Thematic Corpus Exploration — "Explore a Theme in Depth"
 
@@ -555,7 +555,7 @@ All organization uses index-time enrichment data computed under the editorial re
 
 **No account required.** Consistent with the portal's anonymous experience through Milestone 7a (FTR-002, FTR-009). Individual passages found during exploration can be saved via Lotus Bookmarks (FTR-046). The exploration itself is stateless — the seeker can re-enter the same question anytime.
 
-**Contextual feedback.** When a passage feels inappropriate for a given exploration context, seekers can flag via the DELTA-compliant feedback mechanism (FTR-061). Feedback is categorized (see FTR-069 § Feedback Categorization) and routed to editorial staff. Over time, patterns in contextual feedback may inform a new enrichment dimension — audience suitability — but this is a future consideration (see CONTEXT.md § Open Questions), not a Milestone 3b requirement.
+**Contextual feedback.** When a passage feels inappropriate for a given exploration context, seekers can flag via the DELTA-compliant feedback mechanism (FTR-061). Feedback is categorized (see FTR-069 § Feedback Categorization) and routed to editorial staff. Over time, patterns in contextual feedback may inform a new enrichment dimension — audience suitability — but this is a future consideration (see CONTEXT.md § Open Questions), not a STG-007 requirement.
 
 **Global-First (FTR-006).** The exploration view is HTML-first — sub-theme groupings are semantic `<section>` elements with heading hierarchy, not JavaScript-dependent interactive widgets. The full exploration renders without JavaScript. Progressive enhancement adds expand/collapse for passage groups, smooth scroll to sections, and keyboard-driven group navigation (FTR-040). Performance budget: exploration response renders within the existing FCP < 1.5s target; passage groups beyond the first two are lazy-loaded to keep initial payload under the 50KB homepage budget for the exploration entry point.
 
@@ -625,7 +625,7 @@ Response:
 
 **Caching.** Exploration responses are deterministic for a given query + language (same pre-computed enrichment, same groupings). This makes them highly cacheable. The API route sets `Cache-Control: public, s-maxage=300, stale-while-revalidate=600` — a 5-minute edge cache with 10-minute stale-while-revalidate. When the enrichment pipeline re-processes passages (e.g., after a new book ingestion), a cache-busting revalidation is triggered via the existing Contentful webhook → cache purge flow. Suggested starting points (editorially curated) are cached at ISR build time with 24-hour revalidation. At global scale, this means the first seeker exploring "peace" generates the database queries; the next 1,000 seekers in the same 5-minute window are served from edge cache. No AI API cost at any point.
 
-**Milestone:** 3b (requires enrichment pipeline operational, theme taxonomy populated, chunk relations computed). The exploration degrades gracefully before full enrichment: with only search and basic theme tags (Milestone 1c), the exploration returns a flat list grouped by book — still useful, just less structured. Full sub-theme grouping arrives when the enrichment pipeline (FTR-026) is operational.
+**Milestone:** 3b (requires enrichment pipeline operational, theme taxonomy populated, chunk relations computed). The exploration degrades gracefully before full enrichment: with only search and basic theme tags (STG-003), the exploration returns a flat list grouped by book — still useful, just less structured. Full sub-theme grouping arrives when the enrichment pipeline (FTR-026) is operational.
 
 ---
 

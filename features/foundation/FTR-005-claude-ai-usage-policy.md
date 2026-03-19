@@ -65,7 +65,7 @@ Claude **never**:
 
 The following use cases have been evaluated against the librarian model and approved for inclusion in the roadmap. Each stays within the Finding/Classifying/Drafting categories and respects all prohibitions.
 
-#### E1: Search Intent Classification (Milestone 1a)
+#### E1: Search Intent Classification (STG-001)
 
 **Category:** Classifying | **Cost:** ~$0.002/query | **Human review:** No (search infrastructure)
 
@@ -85,7 +85,7 @@ Classify the seeker's query intent before search executes, routing to the optima
 
 **Why this matters:** The difference between a good search engine and a world-class one is understanding *what kind of answer the person needs*. A seeker typing "I'm scared" at 2 AM needs a different experience than one typing "fear Yogananda quotes."
 
-#### E2: Spiritual Terminology Bridge (Milestone 1a)
+#### E2: Spiritual Terminology Bridge (STG-001)
 
 **Category:** Finding | **Cost:** Included in query expansion | **Human review:** No
 
@@ -106,7 +106,7 @@ Enhance query expansion with tradition-aware vocabulary mapping. Seekers arrive 
 
 **Why this matters:** The portal serves Earth's population. Most seekers worldwide have never read Yogananda. They arrive with the vocabulary of their own tradition, their therapist, or their Google search. If the portal can only find passages using Yogananda's exact terminology, it fails the people who need it most.
 
-#### E3: Passage Accessibility Rating (Milestone 2b)
+#### E3: Passage Accessibility Rating (STG-005)
 
 **Category:** Classifying | **Cost:** ~$0.01/chunk (one-time at ingestion) | **Human review:** Spot-check (see FTR-072 for maturity stage definitions — starts at Full Review, graduates to Spot-Check per governed criteria)
 
@@ -125,7 +125,7 @@ Rate each passage during ingestion on a newcomer-friendliness scale:
 
 **Why this matters:** This serves newcomers without tracking user behavior (DELTA-compliant). A first-time visitor encountering a passage about sabikalpa samadhi may feel the portal isn't for them. A passage about courage speaks to everyone. The portal should welcome before it deepens.
 
-#### E4: Ingestion QA Assistant (Milestone 1a)
+#### E4: Ingestion QA Assistant (STG-001)
 
 **Category:** Classifying | **Cost:** ~$0.05/book (one-time) | **Human review:** No — Claude validates autonomously
 
@@ -141,11 +141,11 @@ During ingestion QA, Claude pre-screens ingested text and flags:
 
 **Why this matters:** The entire portal rests on text quality. OCR errors in spiritual terminology (e.g., "Kriya" misread as "Krlya") silently degrade search retrieval. Catching these before publication protects the foundation everything else is built on.
 
-#### E5: Search Quality Evaluation Judge (Milestone 1a)
+#### E5: Search Quality Evaluation Judge (STG-001)
 
 **Category:** Classifying | **Cost:** ~$0.10/evaluation run | **Human review:** No (CI infrastructure)
 
-Automate the search quality evaluation (Deliverables M1a-8 and M1b-2) by using Claude as the evaluator. The evaluation uses a bilingual golden set of ~81 queries (~66 English, ~15 Spanish) across seven difficulty categories (Direct, Conceptual, Emotional, Metaphorical, Technique-boundary, Dark Night, Adversarial). The Dark Night category (~8 queries) tests fragmentary, distressed queries against the Vocabulary Bridge's state mappings and retrieval intent routing (FTR-028). Hindi queries (~15) added when Hindi activates in Milestone 5b. Full methodology, data format, metrics, and CI integration specified in FTR-037.
+Automate the search quality evaluation (Deliverables STG-001-8 and STG-002-2) by using Claude as the evaluator. The evaluation uses a bilingual golden set of ~81 queries (~66 English, ~15 Spanish) across seven difficulty categories (Direct, Conceptual, Emotional, Metaphorical, Technique-boundary, Dark Night, Adversarial). The Dark Night category (~8 queries) tests fragmentary, distressed queries against the Vocabulary Bridge's state mappings and retrieval intent routing (FTR-028). Hindi queries (~15) added when Hindi activates in Milestone 5b. Full methodology, data format, metrics, and CI integration specified in FTR-037.
 
 **Evaluation approach:** Substring matching resolves expected passages deterministically. For results not matching expected passages, Claude Opus judges relevance (HIGH / PARTIAL / NOT_RELEVANT). Opus is used as the evaluation judge (FTR-105) because judging whether a retrieved passage meets a seeker's emotional state requires the same reasoning depth as the enrichment itself. For Dark Night queries, Opus additionally judges retrieval intent match — does the passage console rather than instruct? Does it acknowledge rather than advise?
 
@@ -153,9 +153,9 @@ Automate the search quality evaluation (Deliverables M1a-8 and M1b-2) by using C
 
 **Implementation:** `/scripts/eval/search-quality.ts`. CI job runs on PRs touching search-affecting paths (`/lib/services/search/`, `/lib/prompts/`, `/lib/config.ts`, `/migrations/`, `/data/eval/`). Posts per-category summary on PR. Fails if Recall@3 drops below 80% or Technique-boundary routing drops below 100%. Golden set data in `/data/eval/golden-set-{lang}.json`.
 
-**Why this matters:** As the corpus grows (Milestone 3a through Phase 3) and the search pipeline evolves, automated regression testing ensures quality doesn't silently degrade. Per-category breakdowns reveal *where* search needs improvement — enabling targeted tuning rather than blind iteration.
+**Why this matters:** As the corpus grows (STG-006 through Phase 3) and the search pipeline evolves, automated regression testing ensures quality doesn't silently degrade. Per-category breakdowns reveal *where* search needs improvement — enabling targeted tuning rather than blind iteration.
 
-#### E6: Cross-Book Conceptual Threading (Milestone 3c)
+#### E6: Cross-Book Conceptual Threading (STG-008)
 
 **Category:** Classifying | **Cost:** ~$0.50/book pair (one-time) | **Human review:** Spot-check (see FTR-072 for maturity stage definitions)
 
@@ -168,11 +168,11 @@ Enhance `chunk_relations` (FTR-030) with conceptual understanding. Vector simila
 | `personal_story` | A teaching principle + an autobiographical illustration of it | "Yogananda shares a personal experience of this in..." |
 | `practical_application` | A philosophical passage + a concrete technique or affirmation | "For a practical approach to this teaching, see..." |
 
-**Implementation:** During chunk relation computation (Milestone 3c, Deliverable 5.1), for the top 10 most similar cross-book passages per chunk, Claude classifies the relation type. Stored as a `relation_type` column on `chunk_relations`. Used to diversify the "Continue the Thread" suggestions and add context labels in the side panel.
+**Implementation:** During chunk relation computation (STG-008, Deliverable 5.1), for the top 10 most similar cross-book passages per chunk, Claude classifies the relation type. Stored as a `relation_type` column on `chunk_relations`. Used to diversify the "Continue the Thread" suggestions and add context labels in the side panel.
 
 **Why this matters:** This is what a human librarian does that a search engine cannot. "If you liked this passage about courage, here's where he tells the story of his own test of courage" — that's a world-class reading experience. No physical book, no PDF, no ebook can do this.
 
-#### E7: Photograph Alt Text (Milestone 2a)
+#### E7: Photograph Alt Text (STG-004)
 
 **Category:** Drafting | **Cost:** ~$0.01 total (one-time, <20 images) | **Human review:** Yes
 
@@ -184,7 +184,7 @@ Generate reverential, descriptive alt text for the portal's Yogananda photograph
 
 **Why this matters:** Direct accessibility improvement for visually impaired seekers. A portal that claims accessibility as a foundational principle should describe its sacred images with the same care it gives to its text.
 
-#### E8: Daily Passage Tone Classification (Milestone 2b)
+#### E8: Daily Passage Tone Classification (STG-005)
 
 **Category:** Classifying | **Cost:** ~$0.01/chunk (one-time at ingestion) | **Human review:** Spot-check (see FTR-072 for maturity stage definitions)
 
@@ -267,11 +267,11 @@ The portal works without Claude. Claude makes it *world-class*.
 
 - FTR-001 (Direct Quotes Only) and FTR-105 (AWS Bedrock Claude with Model Tiering) remain the foundational references; this ADR consolidates and extends them
 - The three-category model (Finding / Classifying / Drafting) provides a clear framework for evaluating future Claude use cases
-- E1 (intent classification) and E2 (terminology bridge) are added to Milestone 1a deliverables — they directly improve search quality at launch
-- E3 (accessibility rating) and E8 (tone classification) are added to Milestone 2b — they require multi-book content to be meaningful
-- E4 (QA assistant) and E5 (eval judge) are added to Milestone 1a — they improve quality foundations
-- E6 (cross-book threading) is added to Milestone 3c — it enhances the Related Teachings system
-- E7 (alt text) is added to Milestone 2a — it's an accessibility deliverable
+- E1 (intent classification) and E2 (terminology bridge) are added to STG-001 deliverables — they directly improve search quality at launch
+- E3 (accessibility rating) and E8 (tone classification) are added to STG-005 — they require multi-book content to be meaningful
+- E4 (QA assistant) and E5 (eval judge) are added to STG-001 — they improve quality foundations
+- E6 (cross-book threading) is added to STG-008 — it enhances the Related Teachings system
+- E7 (alt text) is added to STG-004 — it's an accessibility deliverable
 - The Vocabulary Bridge (FTR-028) is a living glossary that deepens with each book, backed by the `vocabulary_bridge` PostgreSQL table.
 - Every new Claude use case proposed in future milestones should be evaluated against this ADR's three-category model and hard prohibitions
 - **Extended ADRs:** FTR-001 (cross-reference to this policy), FTR-105 (cross-reference to expansion roadmap)

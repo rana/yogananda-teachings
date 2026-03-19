@@ -32,9 +32,9 @@ CREATE TABLE entity_registry (
     language        CHAR(5),
     definition      TEXT,
     srf_definition  TEXT,           -- Yogananda's specific definition if distinct
-    centrality_score REAL,          -- PageRank from graph batch (Milestone 3b+)
-    community_id   TEXT,            -- community detection cluster (Milestone 3b+)
-    bridge_score   REAL,            -- betweenness centrality (Milestone 3b+)
+    centrality_score REAL,          -- PageRank from graph batch (STG-007+)
+    community_id   TEXT,            -- community detection cluster (STG-007+)
+    bridge_score   REAL,            -- betweenness centrality (STG-007+)
     created_at      TIMESTAMPTZ DEFAULT now(),
     UNIQUE(canonical_name, entity_type)
 );

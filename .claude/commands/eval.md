@@ -16,7 +16,7 @@ Golden set lives in test fixtures: `lib/services/__tests__/`
 ### Metrics
 | Metric | Formula | Target |
 |--------|---------|--------|
-| **Recall@3** | relevant found in top 3 / total relevant | ≥ 92% (M1a baseline) |
+| **Recall@3** | relevant found in top 3 / total relevant | ≥ 92% (STG-001 baseline) |
 | **Recall@5** | relevant found in top 5 / total relevant | ≥ 95% |
 | **MRR** | mean of 1/rank of first relevant result | ≥ 0.7 |
 | **Precision@5** | relevant in top 5 / 5 | ≥ 0.6 |
@@ -32,7 +32,7 @@ Golden set lives in test fixtures: `lib/services/__tests__/`
 
 ## Evaluation Targets
 
-### M3a-11: HyDE Evaluation
+### STG-006-11: HyDE Evaluation
 **Question:** Does HyDE improve recall on literary/spiritual queries vs. standard vector search?
 - **Baseline:** Standard query embedding (Voyage voyage-4-large)
 - **Variant:** HyDE document-space embedding (Claude Haiku generates hypothetical passage → embed that)
@@ -40,7 +40,7 @@ Golden set lives in test fixtures: `lib/services/__tests__/`
 - **Protocol:** Run both against golden set. Compare Recall@3, MRR. Measure latency overhead (HyDE adds ~200-400ms for LLM generation).
 - **Decision:** Enable by default if Recall@3 improves ≥ 3% with p95 latency < 800ms total
 
-### M3a-12: Cohere Rerank Evaluation
+### STG-006-12: Cohere Rerank Evaluation
 **Question:** Does cross-encoder reranking improve precision over RRF-only?
 - **Baseline:** RRF fusion of FTS + vector results (K=60)
 - **Variant:** RRF top-N → Cohere rerank-v3.5 → final top-10

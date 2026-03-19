@@ -16,7 +16,7 @@ governed-by: [PRI-03, PRI-08]
 
 ### Context
 
-Over a 10-year lifespan, the portal will evolve through multiple phases — adding books, languages, features, and content types. Seekers who visited in Milestone 3a and return in Milestone 5a would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable M3a-8's "What's New in the Library" gold dot for new books; Milestone 5a RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
+Over a 10-year lifespan, the portal will evolve through multiple phases — adding books, languages, features, and content types. Seekers who visited in STG-006 and return in Milestone 5a would not know that WhatsApp search, Sacred Places, reading journeys, or the Knowledge Graph exist unless they stumble upon them. Existing mechanisms cover content additions (deliverable STG-006-8's "What's New in the Library" gold dot for new books; Milestone 5a RSS feed `/feed/new-content.xml` for new books/recordings/videos) but nothing communicates *capability* changes to seekers.
 
 The daily email (FTR-154) explicitly excludes announcements: "The email is a passage, not a newsletter. No announcements, no feature updates." This is correct — the email channel must remain pure. But the portal itself should offer a quiet, opt-in way for seekers to learn what has changed.
 
@@ -118,7 +118,7 @@ Update notes follow the same translation workflow as other editorial content (FT
 ### Consequences
 
 - New FTR-092 in DESIGN.md specifying the `/updates` page design, data model, and editorial workflow
-- New deliverable in Milestone 3b (when the editorial portal activates — first milestone with human review capability)
+- New deliverable in STG-007 (when the editorial portal activates — first milestone with human review capability)
 - New AI workflow in FTR-069 for update note drafting
 - New review queue type (`updates`) in the editorial portal (FTR-067)
 - RSS feed extension in Milestone 5a

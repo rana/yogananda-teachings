@@ -43,8 +43,8 @@ Every managed service integral to **routine operations** requires MCP integratio
 | MCP Server | Service | Operations Covered | Status |
 |---|---|---|---|
 | Neon | Database | Branch management, SQL execution, schema diffs, migration safety, connection strings | Active |
-| Sentry | Error monitoring | Error investigation, stack traces, breadcrumbs | Milestone 1a |
-| Contentful | CMS | Content model queries, entry management, webhook debugging | Milestone 1a+ |
+| Sentry | Error monitoring | Error investigation, stack traces, breadcrumbs | STG-001 |
+| Contentful | CMS | Content model queries, entry management, webhook debugging | STG-001+ |
 | SRF Corpus | Search corpus | AI consumer access to search, themes, graph | Unscheduled (FTR-098) |
 
 **CLI/API equivalents (non-MCP):**
@@ -91,14 +91,14 @@ Scripts are the AI operator's primary execution interface. All operational scrip
 - Are CI-agnostic (FTR-108) — no GitHub Actions-specific assumptions
 - Are documented in FTR-096 with input/output specifications
 
-Current operational scripts (all Milestone 1a/1c deliverables):
+Current operational scripts (all STG-001/1c deliverables):
 
 | Script | Purpose | Deliverable |
 |---|---|---|
-| `status.sh` | AI self-orientation at session start | M1a-10 |
-| `doc-validate.sh` | Cross-reference integrity validation | M1a-9 |
-| `release-tag.sh` | Annotated tags with design refs | M1a-11 |
-| `deploy.sh` | Full deployment ceremony | M1c-18 |
+| `status.sh` | AI self-orientation at session start | STG-001-10 |
+| `doc-validate.sh` | Cross-reference integrity validation | STG-001-9 |
+| `release-tag.sh` | Annotated tags with design refs | STG-001-11 |
+| `deploy.sh` | Full deployment ceremony | STG-003-18 |
 
 #### 5. Service Adoption Gate Checklist
 

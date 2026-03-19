@@ -49,7 +49,7 @@ X-License-URL: https://teachings.yogananda.org/legal
 X-Citation-Format: "[Quote]" — Paramahansa Yogananda, [Book], [Citation] via teachings.yogananda.org
 ```
 
-**Implementation:** Next.js middleware in `/lib/middleware/copyright-headers.ts`. Applied to all routes except `/api/v1/health` and static assets. Milestone 1c (ships with the copyright communication layer, FTR-117).
+**Implementation:** Next.js middleware in `/lib/middleware/copyright-headers.ts`. Applied to all routes except `/api/v1/health` and static assets. STG-003 (ships with the copyright communication layer, FTR-117).
 
 **Rationale:** The portal's No Content Gating policy (FTR-059 §3a) means copyright is asserted through metadata and legal layers, not technology walls. HTTP headers are the lowest-friction mechanism for machine consumers to discover copyright status — they don't need to parse HTML or visit a separate page. Combined with `llms.txt` copyright section, JSON-LD `copyrightHolder`, and the `/legal` page, this creates a multi-layered copyright communication strategy where every layer uses a real standard consumed by real systems.
 

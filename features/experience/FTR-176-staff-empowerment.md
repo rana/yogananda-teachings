@@ -6,7 +6,7 @@ state: proposed
 domain: experience
 governed-by: [PRI-05, PRI-08]
 depends-on: [FTR-168]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-176: Staff Empowerment and Onboarding

@@ -111,7 +111,7 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 - **New technical questions:** IAST diacritics rendering verification in Merriweather/Lora at small sizes
 
 - **Quote images and PDF:** Devanāgarī font bundled for `@vercel/og` and PDF generation from the initial milestone (Hindi passages must render correctly in shared images and printed output)
-- **Devanāgarī typography QA:** Conjunct rendering, matra placement, halant/virama, and nukta characters verified at all font sizes as a Milestone 1b success criterion
+- **Devanāgarī typography QA:** Conjunct rendering, matra placement, halant/virama, and nukta characters verified at all font sizes as a STG-002 success criterion
 
 
 ## Notes

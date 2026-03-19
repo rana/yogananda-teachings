@@ -19,8 +19,8 @@ depends-on: [FTR-073]
 
 Digital watermarking (C2PA Content Credentials) for sacred images and multi-size image serving with WebP + JPEG downloads. FTR-073 (Image Content Type) and FTR-073 (Sacred Image Guidelines) remain active — they govern how images are treated, not how they're served at scale.
 
-**Reactivation trigger:** Image content pipeline built (Milestone 3b+).
-**Re-evaluate At:** Milestone 3b boundary
+**Reactivation trigger:** Image content pipeline built (STG-007+).
+**Re-evaluate At:** STG-007 boundary
 
 ## Notes
 

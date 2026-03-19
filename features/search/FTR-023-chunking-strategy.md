@@ -29,7 +29,7 @@ Document the chunking strategy as a formal specification. The strategy is docume
 | Poetry / chant / prayer | Complete works, indivisible | Whole-poem chunks, never split |
 | Affirmation | Single-statement units | Individual affirmations as atomic units |
 
-**Default Chunking (Milestone 1a through Milestone 3c):**
+**Default Chunking (STG-001 through STG-008):**
 - **Unit:** Paragraph
 - **Token range:** 100-500 tokens (target: 200-300)
 - **Minimum:** 100 tokens (below this, merge with next paragraph)
@@ -46,8 +46,8 @@ Document the chunking strategy as a formal specification. The strategy is docume
 
 ### Consequences
 
-- Milestone 1a ingestion script implements default chunking per this specification
-- Milestone 3d verse-aware chunking implements the verse-commentary pair strategy
+- STG-001 ingestion script implements default chunking per this specification
+- STG-009 verse-aware chunking implements the verse-commentary pair strategy
 - Milestone 5b per-language chunk size validation uses this specification as baseline
 
 ## Specification
@@ -76,7 +76,7 @@ The chunking algorithm is the single most important factor in search retrieval q
 | **Aphorisms** | One chunk per standalone saying/affirmation regardless of length | These books are already atomically organized |
 | **Chapter titles and section headers** | Not chunked separately -- prepended to first paragraph | Headers are context, not content |
 
-### Verse-Aware Chunking (Milestone 3d)
+### Verse-Aware Chunking (STG-009)
 
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
@@ -104,7 +104,7 @@ A stylometric fingerprint adds a deeper layer of content integrity: not just "th
 
 **Dimensions captured:** Sentence length distribution, vocabulary frequency, metaphor recurrence, rhetorical mode ratio, passage structure.
 
-**Milestone:** Milestone 3d+ (requires substantial corpus ingestion).
+**Milestone:** STG-009+ (requires substantial corpus ingestion).
 
 ## Notes
 

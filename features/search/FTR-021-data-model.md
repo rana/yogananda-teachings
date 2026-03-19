@@ -56,7 +56,7 @@ ALTER TABLE books ADD COLUMN edition_year INTEGER; -- year of this specific edit
 
 ### Consequences
 
-- `edition` and `edition_year` columns added to `books` table in Milestone 1a migration
+- `edition` and `edition_year` columns added to `books` table in STG-001 migration
 - `book_chunks_archive` table created (can be empty until an actual re-ingestion occurs)
 - Book landing pages display edition information
 - Re-ingestion workflow documented in the operational playbook
@@ -189,8 +189,8 @@ CREATE TABLE book_chunks (
  accessibility_level SMALLINT, -- 1=universal, 2=accessible, 3=deep (FTR-005 E3)
  -- NULL until classified. Computed by Claude at ingestion, spot-checked by reviewer.
  -- Used for Today's Wisdom (prefer 1–2), theme pages (default 1–2, "Show deeper" shows all).
- centrality_score REAL,  -- PageRank from graph batch (Milestone 3b+, FTR-034)
- community_id TEXT,      -- community detection cluster (Milestone 3b+, FTR-034)
+ centrality_score REAL,  -- PageRank from graph batch (STG-007+, FTR-034)
+ community_id TEXT,      -- community detection cluster (STG-007+, FTR-034)
  metadata JSONB DEFAULT '{}',
  content_hash TEXT GENERATED ALWAYS AS (encode(sha256(content::bytea), 'hex')) STORED,
  -- Auto-computed from content for stable deep links (FTR-132).
@@ -290,9 +290,9 @@ CREATE TABLE book_chunks_archive (
 
 The full schema continues with teaching_topics, topic_translations, chunk_topics, daily_passages, affirmations, search_queries, search_theme_aggregates, chapter_study_notes, chunk_relations, chunk_references, entity_registry, sanskrit_terms, suggestion_dictionary, extracted_relationships, and user_profiles tables. See the complete schema in `design/search/FTR-021-data-model.md`.
 
-### Contentful Content Model (Milestone 1a+)
+### Contentful Content Model (STG-001+)
 
-Created in Milestone 1a as part of Contentful space setup. The content model is the editorial source of truth from the first milestone (FTR-102).
+Created in STG-001 as part of Contentful space setup. The content model is the editorial source of truth from the first milestone (FTR-102).
 
 ```
 Content Type: Book
@@ -330,7 +330,7 @@ Content Type: TextBlock
 └── metadata (JSON Object) — flexible field for verse refs, etc.
 ```
 
-**Milestone 1a sync (batch script):**
+**STG-001 sync (batch script):**
 ```
 Contentful import complete (all TextBlocks published)
  │
@@ -347,7 +347,7 @@ Batch sync script (run locally or via CI)
  └── Log sync event
 ```
 
-**Milestone 1c+ sync (webhook-driven):**
+**STG-003+ sync (webhook-driven):**
 ```
 Contentful publish event
  │

@@ -119,7 +119,7 @@ This means Vercel env vars are *derived from* Secrets Manager via Platform MCP, 
 - `docs/guides/credentials.md` updated: secrets created in Secrets Manager during bootstrap, distributed to Vercel by Platform MCP
 - `.env.example` uses `[secrets-manager]` tag: Secrets Manager in deployed environments; env var in `.env.local` for local dev
 - **Rotation procedure:** (1) Create new credential at the provider (Voyage, Contentful, Neon, Sentry). (2) Update Secrets Manager: `aws secretsmanager put-secret-value --secret-id /portal/production/{service}/{key}`. (3) Run Platform MCP secret redistribution — reads new value from Secrets Manager and updates Vercel env vars. (4) Revoke old credential at the provider. **Cadence:** Quarterly for all third-party API tokens. AWS credentials require no rotation (OIDC tokens are ephemeral).
-- CloudTrail logs all `GetSecretValue` calls — audit trail for secret access from Milestone 1c
+- CloudTrail logs all `GetSecretValue` calls — audit trail for secret access from STG-003
 - KMS customer-managed key encrypts all portal secrets (cost: ~$1/month per key)
 - **Extends:** FTR-106 (Platform MCP), FTR-110 (environment lifecycle), FTR-094 (Neon keys)
 - **Enables:** FTR-113 (Vercel OIDC — secrets accessed via role, not stored keys)

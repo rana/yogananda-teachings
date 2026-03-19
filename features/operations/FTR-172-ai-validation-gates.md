@@ -6,7 +6,7 @@ state: proposed
 domain: operations
 governed-by: [PRI-01, PRI-03, PRI-05, PRI-07, PRI-09, PRI-12]
 depends-on: [FTR-168, FTR-171]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-172: AI Validation Gates

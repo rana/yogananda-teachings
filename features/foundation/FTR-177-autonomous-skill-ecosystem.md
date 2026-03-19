@@ -6,7 +6,7 @@ state: proposed
 domain: foundation
 governed-by: [PRI-12]
 depends-on: [FTR-168, FTR-171]
-re-evaluate-at: M3d boundary
+re-evaluate-at: STG-013
 ---
 
 # FTR-177: Autonomous Skill Ecosystem

@@ -18,12 +18,12 @@ depends-on: [FTR-005, FTR-121, FTR-060]
 **Dependencies:** None architectural — infrastructure already exists (`tagged_by` three-state model, `is_published` boolean).
 **Scheduling Notes:** The portal architecture provides human review gates at every content workflow touchpoint. These are governance tools SRF can activate for production — not mandatory constraints. For the internal demo, the portal operates with autonomous AI release. This proposal captures the full inventory for SRF's consideration.
 
-**Review gate inventory (Milestone 2a+ unless noted):**
+**Review gate inventory (STG-004+ unless noted):**
 
 1. **Theme tags** — `tagged_by` model (`auto`/`manual`/`reviewed`). Gate: filter to `manual`/`reviewed` only. Without gate: serve `auto` tags. (FTR-121)
 2. **UI translations** — Claude drafts, human reviews. Gate: require fluent SRF-aware reviewer sign-off. Without gate: ship Claude drafts directly. (FTR-135)
 3. **Social media** — Quote images and captions generated. Gate: human reviews and posts. Without gate: auto-post with editorial templates. (FTR-154)
-4. **Daily passage selection** — Enrichment pipeline selects. Gate: human curator approves each day's passage. Without gate: algorithmic selection serves directly. (Milestone 2b)
+4. **Daily passage selection** — Enrichment pipeline selects. Gate: human curator approves each day's passage. Without gate: algorithmic selection serves directly. (STG-005)
 5. **Audio transcription** — Speech-to-text generates. Gate: human verifies transcript. Without gate: serve with confidence scores. (Future milestones)
 6. **Practice Bridge tags** — Claude classifies technique-adjacent passages. Gate: human reviews tags before routing. Without gate: serve auto-classified routes. (FTR-055)
 7. **Calendar content** — Events and observances. Gate: human verifies dates and descriptions. Without gate: serve from editorial CMS directly. (Milestone 4a+)

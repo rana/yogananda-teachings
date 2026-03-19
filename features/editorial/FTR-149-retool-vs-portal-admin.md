@@ -14,16 +14,16 @@ depends-on: [FTR-060, FTR-082]
 
 **Type:** Enhancement
 **Governing Refs:** FTR-060, FTR-032, FTR-082
-**Dependencies:** Milestone 3b (editorial portal `/admin`), Milestone 3d (analytics dashboard)
-**Scheduling Notes:** Evaluate at Milestone 3d scoping. The question is whether the analytics/reporting dashboard (Milestone 3d.4 "What Is Humanity Seeking?" admin view, standing operational metrics from FTR-082) should use Retool or be built into the portal's own `/admin` route group.
+**Dependencies:** STG-007 (editorial portal `/admin`), STG-009 (analytics dashboard)
+**Scheduling Notes:** Evaluate at STG-009 scoping. The question is whether the analytics/reporting dashboard (STG-009.4 "What Is Humanity Seeking?" admin view, standing operational metrics from FTR-082) should use Retool or be built into the portal's own `/admin` route group.
 
 #### Context
 
 Two staff-facing interfaces appear in the architecture:
 
-1. **Portal `/admin`** (M3b-5a/b) — Auth0-protected Next.js route group for editorial workflows: theme tag review, daily passage curation, calendar management, queue health, ingestion QA. Built with the portal's calm design system.
+1. **Portal `/admin`** (STG-007-5a/b) — Auth0-protected Next.js route group for editorial workflows: theme tag review, daily passage curation, calendar management, queue health, ingestion QA. Built with the portal's calm design system.
 
-2. **Retool** — Referenced in the production architecture diagram (DESIGN.md), Milestone 3d.4, and FTR-082 standing operational metrics. Implied use: analytics dashboards, search trend visualization, operational metrics.
+2. **Retool** — Referenced in the production architecture diagram (DESIGN.md), STG-009.4, and FTR-082 standing operational metrics. Implied use: analytics dashboards, search trend visualization, operational metrics.
 
 The relationship between these is undefined. Do they coexist (editorial in `/admin`, analytics in Retool)? Does one subsume the other?
 
@@ -42,7 +42,7 @@ The relationship between these is undefined. Do they coexist (editorial in `/adm
 
 #### Recommendation
 
-Defer the decision. Build Milestone 3b editorial portal in `/admin`. At Milestone 3d scoping, evaluate whether the analytics visualization needs justify Retool or whether lightweight charting (e.g., Recharts) within `/admin` suffices. Remove Retool from the production architecture diagram until a decision is made — its presence implies an adopted choice that hasn't occurred.
+Defer the decision. Build STG-007 editorial portal in `/admin`. At STG-009 scoping, evaluate whether the analytics visualization needs justify Retool or whether lightweight charting (e.g., Recharts) within `/admin` suffices. Remove Retool from the production architecture diagram until a decision is made — its presence implies an adopted choice that hasn't occurred.
 
-**Re-evaluate At:** Milestone 3d scoping
+**Re-evaluate At:** STG-009 scoping
 **Decision Required From:** Architecture + SRF AE team (is Retool already in their stack?)

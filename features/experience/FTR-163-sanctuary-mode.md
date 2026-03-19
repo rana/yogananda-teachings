@@ -89,7 +89,7 @@ Sanctuary tokens extend FTR-145 (Visual Design Language System) as a new emotion
 
 ### Re-evaluate At
 
-Milestone 3a boundary — after design token system (FTR-145) is operational and crisis content detection (FTR-051) is validated.
+STG-006 boundary — after design token system (FTR-145) is operational and crisis content detection (FTR-051) is validated.
 
 ### Decision Required From
 

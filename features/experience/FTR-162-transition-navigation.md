@@ -81,7 +81,7 @@ This is heavy curation. Initial launch should target 6–10 high-demand transiti
 
 ### Re-evaluate At
 
-Milestone 3b boundary — after Knowledge Graph (FTR-034) and Vocabulary Bridge (FTR-028) are operational. Editorial capacity assessment required.
+STG-007 boundary — after Knowledge Graph (FTR-034) and Vocabulary Bridge (FTR-028) are operational. Editorial capacity assessment required.
 
 ### Decision Required From
 

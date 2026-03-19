@@ -78,7 +78,7 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 ### Rationale
 
 - The routing document (CLAUDE.md) is the single most impactful file for AI collaboration cost. A well-structured 90-line file saves thousands of tokens per session by directing attention to the right document and section.
-- Milestone-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., Milestone 5b multilingual details during Milestone 1a work), reducing token consumption without losing information.
+- Milestone-relevance markers in the DESIGN.md TOC allow AI sessions to skip irrelevant sections (e.g., Milestone 5b multilingual details during STG-001 work), reducing token consumption without losing information.
 - The documentation-to-code transition protocol prevents the "two sources of truth" problem that invariably emerges when design documents survive into an implemented codebase.
 - Centralizing open questions in CONTEXT.md prevents them from being forgotten in document interiors — a real risk at 967KB of total documentation.
 - Making the documentation system itself an ADR ensures future contributors understand why the system is structured this way, and can evolve it deliberately rather than through drift.
@@ -99,6 +99,28 @@ ADRs carry a maturity marker in their Status field reflecting honest confidence 
 ## Notes
 
 **Provenance:** FTR-084 → FTR-084
+
+### STG-NNN: Stage Identifiers (2026-03-19)
+
+The identifier triptych is now complete:
+
+| Type | Role | Registry | Digit Width |
+|------|------|----------|-------------|
+| PRI-NN | Principles (WHY) | PRINCIPLES.md | 2 digits (stable, ≤12) |
+| FTR-NNN | Features (WHAT) | FEATURES.md | 3 digits (growing) |
+| STG-NNN | Stages (WHERE/WHEN) | ROADMAP.md | 3 digits (activating/completing) |
+
+**STG-NNN** replaces the ad-hoc M-notation (`STG-001`, `STG-009 boundary`, `Milestone 7a+`) with a formal identifier type. Format: `STG-NNN` (three-digit zero-padded). Deliverables: `STG-NNN-DD`. Track-grouped numbering: Portal STG-001–009, Platform STG-010–019, Future STG-020+. Full mapping in ROADMAP.md.
+
+**PRI-NN remains PRI-NN.** The two-digit asymmetry is meaningful — principles are a small, stable, finished set. The visual difference between `PRI-01` and `FTR-023` immediately communicates type.
+
+**Design decisions:**
+- STG-NNN does not need its own FTR — it is a governance convention, documented here in the documentation architecture FTR.
+- PRI-NN does not need an FTR either — principles are the project's constitution, governing FTRs rather than governed by them.
+- ROADMAP.md becomes the STG registry (parallel to FEATURES.md as FTR index, PRINCIPLES.md as PRI registry).
+- `re-evaluate-at` fields in FTR frontmatter now use `STG-NNN` instead of milestone notation.
+
+### FTR-084: Unified Identifier System — FTR Replaces ADR + DES + PRO
 
 FTR-084 (Unified Identifier System — FTR Replaces ADR + DES + PRO) proposes evolving this documentation architecture into a unified FTR system. The full proposal is reproduced below as the genesis document for the FTR migration.
 
@@ -248,7 +270,7 @@ Single table, replaces three separate indexes:
 | 002 | Design Philosophy | foundation | Approved | — | |
 | 020 | Hybrid Search | search | Implemented | 1a | |
 | 040 | Frontend Design | experience | Approved | 2a | |
-| 090 | SRF Corpus MCP | operations | Deferred (M3b+) | — | ex-FTR-098 |
+| 090 | SRF Corpus MCP | operations | Deferred (STG-007+) | — | ex-FTR-098 |
 ```
 
 **Always-load features** (the cross-cutting sections currently always-loaded from DESIGN.md) are marked in the index. The implementing session determines which ~10-12 features carry this marker.

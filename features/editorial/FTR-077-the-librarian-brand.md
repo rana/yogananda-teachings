@@ -22,8 +22,8 @@ When a seeker uses ChatGPT, Perplexity, or Google's AI Overview to ask about Yog
 Adopt **"The Librarian"** as the external brand identity for the portal's AI search capability.
 
 **Implementation:**
-- The About page (Milestone 2a) explains: "This is not an AI that speaks for the masters. It is a librarian that finds their words for you. Every passage you see is exactly as it was published."
-- The `llms.txt` file (Milestone 2a) includes: "This portal uses AI as a librarian, not a content generator. All results are verbatim passages from SRF-published works."
+- The About page (STG-004) explains: "This is not an AI that speaks for the masters. It is a librarian that finds their words for you. Every passage you see is exactly as it was published."
+- The `llms.txt` file (STG-004) includes: "This portal uses AI as a librarian, not a content generator. All results are verbatim passages from SRF-published works."
 - Stakeholder communications use "The Librarian" language when describing the AI search.
 - The search results page may include a subtle footer: "Every passage shown is exactly as published by SRF."
 
@@ -35,7 +35,7 @@ Adopt **"The Librarian"** as the external brand identity for the portal's AI sea
 
 ### Consequences
 
-- About page copy includes "The Librarian" explanation (Milestone 2a)
-- `llms.txt` includes librarian framing (Milestone 2a)
+- About page copy includes "The Librarian" explanation (STG-004)
+- `llms.txt` includes librarian framing (STG-004)
 - No architectural changes — this is branding over an existing technical constraint
 - Marketing materials and stakeholder presentations use this language

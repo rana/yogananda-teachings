@@ -30,13 +30,13 @@ Use **AWS Lambda with EventBridge scheduling**, deployed and managed via **Platf
 ```
 /lambda/
   /handlers/
-    backup.ts          — pg_dump → S3 (Milestone 3a)
-    ingest.ts          — Book ingestion pipeline (Milestone 3a)
-    relations.ts       — Chunk relation computation (Milestone 3a)
-    aggregate-themes.ts — Nightly search theme aggregation (Milestone 3d)
+    backup.ts          — pg_dump → S3 (STG-006)
+    ingest.ts          — Book ingestion pipeline (STG-006)
+    relations.ts       — Chunk relation computation (STG-006)
+    aggregate-themes.ts — Nightly search theme aggregation (STG-009)
     send-email.ts      — Daily passage email dispatch (Milestone 5a)
     generate-social.ts — Quote image generation (Milestone 5a)
-    webhook-contentful.ts — Contentful sync (Milestone 1c+)
+    webhook-contentful.ts — Contentful sync (STG-003+)
     ingest-transcript.ts — YouTube transcript ingestion (future milestones)
     compute-graph.ts   — Knowledge graph positions (future milestones)
     process-image.ts   — Image tier generation (future milestones)
@@ -68,7 +68,7 @@ Each Lambda handler is a thin wrapper that imports from `/lib/services/` — the
 | **13** | `ingest-transcript` | Manual + Scheduler (batch) |
 | **14** | `compute-graph`, `process-image`, `process-audio` | Scheduler (nightly) / Event-driven |
 
-Infrastructure is provisioned once in Milestone 3a. Each subsequent milestone adds functions to already-provisioned infrastructure.
+Infrastructure is provisioned once in STG-006. Each subsequent milestone adds functions to already-provisioned infrastructure.
 
 ### CLI Wrappers
 
@@ -87,16 +87,16 @@ A developer can run `pnpm run ingest --book autobiography` locally. Production r
 ### Rationale
 
 - **Lambda is SCM-agnostic.** It works identically under GitHub Actions or any future CI system. Unlike CI-based cron jobs, Lambda infrastructure doesn't change if the portal ever migrates SCM platforms. EventBridge schedules, IAM roles, and S3 buckets are untouched by an SCM migration.
-- **The portal already has an AWS footprint.** S3 (backups, Milestone 3a), Bedrock (Claude API, Milestone 1a), CloudFront (media streaming, future milestones), and EventBridge are all AWS services the portal uses regardless. Lambda is the natural compute layer for an AWS-invested project.
+- **The portal already has an AWS footprint.** S3 (backups, STG-006), Bedrock (Claude API, STG-001), CloudFront (media streaming, future milestones), and EventBridge are all AWS services the portal uses regardless. Lambda is the natural compute layer for an AWS-invested project.
 - **Terraform-native Lambda is sufficient at this scale.** The portal has < 15 Lambda functions across all milestones. SF v4's ergonomics (local invocation, plugin ecosystem, per-function configuration) serve microservice architectures with dozens of functions. For < 15 functions, `aws_lambda_function` + `aws_lambda_layer_version` in Terraform are straightforward and eliminate a tool dependency.
 - **One IaC tool, one deployment pipeline.** `terraform apply` already deploys Neon, Vercel, Sentry, and S3. Adding Lambda to the same pipeline means no new deployment workflow. CI/CD gains no new steps — Lambda deploys alongside everything else.
-- **Milestone 1a resolves the FTR-109 timing gap.** The backup function deploys in Milestone 1a where it belongs. No more "Milestone 1a or Milestone 2a" ambiguity.
+- **STG-001 resolves the FTR-109 timing gap.** The backup function deploys in STG-001 where it belongs. No more "STG-001 or STG-004" ambiguity.
 - **FTR-104 precedent.** The portal already diverges from SRF's DynamoDB pattern when the portal's needs don't match. The same principle applies: SRF ecosystem alignment is about patterns (Lambda for batch compute), not tools (SF v4 as the deployment mechanism).
 - **10-year horizon (FTR-004).** Terraform is Tier 1 (effectively permanent). Serverless Framework v4 is not in any durability tier — it's a deployment tool with licensing risk and competitive pressure from SST, AWS SAM, and native Terraform. Eliminating it removes a 10-year maintenance liability.
 
 ### Alternatives Considered
 
-1. **Keep the former Lambda batch decision unchanged (Lambda + SF v4 in Milestone 2a).** Rejected: introduces dual IaC tooling, SF v4 licensing dependency, and Milestone 2a overload. The benefits of Lambda are preserved without the deployment tool overhead.
+1. **Keep the former Lambda batch decision unchanged (Lambda + SF v4 in STG-004).** Rejected: introduces dual IaC tooling, SF v4 licensing dependency, and STG-004 overload. The benefits of Lambda are preserved without the deployment tool overhead.
 
 2. **Replace Lambda entirely with CI-scheduled scripts (GitHub Actions).** Rejected: CI cron is ephemeral infrastructure tied to the SCM platform. Lambda + EventBridge is durable infrastructure managed by Terraform, SCM-agnostic.
 
@@ -108,11 +108,11 @@ A developer can run `pnpm run ingest --book autobiography` locally. Production r
 
 ### Consequences
 
-- The former Lambda batch decision is superseded. Its runtime decision (Lambda for batch) is preserved; its deployment tool (SF v4) and timing (Milestone 2a) are replaced.
+- The former Lambda batch decision is superseded. Its runtime decision (Lambda for batch) is preserved; its deployment tool (SF v4) and timing (STG-004) are replaced.
 - `/serverless/` directory becomes `/lambda/`. No `serverless.yml`. No SF v4 dependency.
 - Terraform gains two modules: `/terraform/modules/lambda/` and `/terraform/modules/eventbridge/`.
-- Milestone 2a deliverable M2a-22 provisions Lambda infrastructure (`enable_lambda = true` → `terraform apply`) for database backup. Milestone 3a deliverable M3a-6 deploys batch functions (ingestion, relation computation) to the already-working infrastructure.
+- STG-004 deliverable STG-004-22 provisions Lambda infrastructure (`enable_lambda = true` → `terraform apply`) for database backup. STG-006 deliverable STG-006-6 deploys batch functions (ingestion, relation computation) to the already-working infrastructure.
 - All downstream ADRs referencing Lambda batch infrastructure now reference FTR-107. The infrastructure is the same (Lambda + EventBridge); the deployment mechanism and timing differ.
 - Developers familiar with SF v4 should note: Lambda invocation, monitoring, and IAM are identical. Only the deployment tool changes (Terraform instead of `serverless deploy`).
-- **Extends FTR-106** (Terraform as sole IaC tool), **FTR-004** (10-year horizon — fewer tool dependencies), **FTR-108** (CI-agnostic scripts — `/scripts/` wrappers call same logic), **FTR-109** (backup timing resolved — Milestone 2a).
-- **Deferred:** Step Functions for complex orchestration (evaluate post-M3d if audio/video pipeline complexity warrants it).
+- **Extends FTR-106** (Terraform as sole IaC tool), **FTR-004** (10-year horizon — fewer tool dependencies), **FTR-108** (CI-agnostic scripts — `/scripts/` wrappers call same logic), **FTR-109** (backup timing resolved — STG-004).
+- **Deferred:** Step Functions for complex orchestration (evaluate post-STG-009 if audio/video pipeline complexity warrants it).

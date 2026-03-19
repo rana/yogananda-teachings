@@ -26,16 +26,16 @@ Additionally, 120+ ADRs and 57 design sections existed with zero lines of code. 
 
 Split the initial phase into three milestones:
 
-**Milestone 1a: Prove** (8 deliverables)
+**STG-001: Prove** (8 deliverables)
 Answer one question: does semantic search over Yogananda's text return relevant, accurately cited, verbatim passages? English only. Minimal vertical slice: repo → Contentful content model → schema → ingest → search → read → evaluate. No deployment, no AI enhancements, no homepage, no observability beyond what's needed locally. Claude validates autonomously — no human QA gate.
 
-**Milestone 1b: Bilingual** (3 deliverables)
+**STG-002: Bilingual** (3 deliverables)
 Extend the proven English pipeline to Spanish. Spanish ingestion, cross-language search validation, and bilingual search evaluation. Proves the multilingual architecture before production deployment. Hindi deferred to Milestone 5b (authorized source unavailable outside India).
 
-**Milestone 1c: Deploy** (16 deliverables)
+**STG-003: Deploy** (16 deliverables)
 Deploy to Vercel, add Claude-based query expansion and intent classification, build the homepage, establish observability, add rate limiting and search suggestions, seed the entity registry and enrichment pipeline, and establish the query intent taxonomy. This milestone transforms the proven bilingual prototype into a deployed, AI-enhanced portal.
 
-Milestone 1a has two conversation prerequisites (edition confirmation, PDF source) but no engineering dependencies. Milestone 1b is gated on Milestone 1a's search quality evaluation passing (≥ 80% threshold). Milestone 1c is gated on Milestone 1b's bilingual search evaluation.
+STG-001 has two conversation prerequisites (edition confirmation, PDF source) but no engineering dependencies. STG-002 is gated on STG-001's search quality evaluation passing (≥ 80% threshold). STG-003 is gated on STG-002's bilingual search evaluation.
 
 ### Rationale
 
@@ -43,24 +43,24 @@ Milestone 1a has two conversation prerequisites (edition confirmation, PDF sourc
 - **Fail fast on the existential question.** If chunking, embedding, or hybrid search produce poor results on this specific corpus, the project needs to know immediately — not after building a homepage and observability stack.
 - **Prove multilingual before deploying.** Spanish is Tier 1 activated from the start (FTR-011). Validating bilingual search quality before production deployment avoids shipping a monolingual portal that requires re-architecture for multilingual support.
 - **Reduce scope creep.** 21 deliverables labeled "Prove" set an implicit expectation that all 21 must complete before declaring the phase done. The three-milestone split makes each proof explicit and small.
-- **Contingency planning.** Milestone 1a includes a "What If Search Quality Fails?" section with four concrete fallbacks (chunking adjustment, embedding model swap, manual curation bridge, hybrid weighting tuning). This contingency was absent from the original single-milestone structure.
+- **Contingency planning.** STG-001 includes a "What If Search Quality Fails?" section with four concrete fallbacks (chunking adjustment, embedding model swap, manual curation bridge, hybrid weighting tuning). This contingency was absent from the original single-milestone structure.
 
 ### Alternatives Considered
 
 1. **Keep the initial phase as a single milestone, just start building.** Viable but risks building the homepage and observability before knowing if search works. The split costs nothing — it's a reframing, not a structural change.
 
-2. **Move Milestone 1c deliverables into Milestone 2a.** Considered, but Milestone 2a ("Build") already has its own scope (all pages, engineering infrastructure, accessibility). Milestone 1c is genuinely "foundation" work that should precede Milestone 2a.
+2. **Move STG-003 deliverables into STG-004.** Considered, but STG-004 ("Build") already has its own scope (all pages, engineering infrastructure, accessibility). STG-003 is genuinely "foundation" work that should precede STG-004.
 
-3. **Even smaller Milestone 1a (5 deliverables — no reader, no eval).** The reader and evaluation are both essential to declaring search "proven." Without the reader, "Read in context" links can't be tested. Without the evaluation, the quality threshold is subjective.
+3. **Even smaller STG-001 (5 deliverables — no reader, no eval).** The reader and evaluation are both essential to declaring search "proven." Without the reader, "Read in context" links can't be tested. Without the evaluation, the quality threshold is subjective.
 
 4. **Two milestones (Prove + Deploy) without a separate Bilingual milestone.** Would either delay Spanish to post-deploy (violating Global-First) or bundle bilingual validation into the proof milestone (blurring the English-only existential question).
 
 ### Consequences
 
-- Milestone 1a can begin immediately once edition and PDF source are confirmed — no SRF AE team availability needed.
-- Milestone 1b is gated on Milestone 1a's search quality evaluation. If the evaluation fails, Milestone 1b is deferred until contingency measures resolve the quality gap.
-- Milestone 1c is gated on Milestone 1b's bilingual search evaluation.
-- Milestone 2a's hard prerequisite changes to "Milestone 1c complete."
+- STG-001 can begin immediately once edition and PDF source are confirmed — no SRF AE team availability needed.
+- STG-002 is gated on STG-001's search quality evaluation. If the evaluation fails, STG-002 is deferred until contingency measures resolve the quality gap.
+- STG-003 is gated on STG-002's bilingual search evaluation.
+- STG-004's hard prerequisite changes to "STG-003 complete."
 - The Gates table in ROADMAP.md is updated to reflect the three-milestone split.
 - References to Phase 1 deliverable numbers in other documents (DESIGN.md, CONTEXT.md) should use the 1a/1b/1c numbering.
 

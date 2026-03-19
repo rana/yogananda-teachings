@@ -24,12 +24,12 @@ Adopt a **layered testing strategy** with specific tools for each layer:
 
 | Layer | Tool | What It Tests | Milestone |
 |-------|------|---------------|-----------|
-| **Unit / Integration** | **Vitest** + React Testing Library | Service functions, API route handlers, component rendering, database queries | Milestone 2a |
-| **End-to-End** | **Playwright** | Full user flows: search → read → share → navigate. Cross-browser (Chrome, Firefox, Safari). | Milestone 2a (core flows) |
-| **Accessibility** | **axe-core** (CI) + Playwright a11y assertions | Automated WCAG checks on every page. Keyboard navigation flows. | Milestone 2a (basic) / Milestone 2b (CI) |
-| **Search quality** | Custom Vitest suite | ~30 representative queries with expected passages. Precision/recall metrics. | Milestone 1a (deliverable M1a-8) |
-| **Performance** | **Lighthouse CI** | Core Web Vitals thresholds: LCP < 2.5s, CLS < 0.1, INP < 200ms. | Milestone 2a |
-| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Milestone 1a+ |
+| **Unit / Integration** | **Vitest** + React Testing Library | Service functions, API route handlers, component rendering, database queries | STG-004 |
+| **End-to-End** | **Playwright** | Full user flows: search → read → share → navigate. Cross-browser (Chrome, Firefox, Safari). | STG-004 (core flows) |
+| **Accessibility** | **axe-core** (CI) + Playwright a11y assertions | Automated WCAG checks on every page. Keyboard navigation flows. | STG-004 (basic) / STG-005 (CI) |
+| **Search quality** | Custom Vitest suite | ~30 representative queries with expected passages. Precision/recall metrics. | STG-001 (deliverable STG-001-8) |
+| **Performance** | **Lighthouse CI** | Core Web Vitals thresholds: LCP < 2.5s, CLS < 0.1, INP < 200ms. | STG-004 |
+| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | STG-001+ |
 | **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes to reading UI, passage cards, Quiet Corner | dissolved (evaluate when component library stabilizes) |
 
 #### Tool Choices
@@ -120,13 +120,13 @@ This catches migration drift, unintended column changes, and missing indexes bef
 
 ### Consequences
 
-- Milestone 2a includes Vitest, Playwright, axe-core, and Lighthouse CI setup (basic axe-core testing begins in Milestone 2a)
+- STG-004 includes Vitest, Playwright, axe-core, and Lighthouse CI setup (basic axe-core testing begins in STG-004)
 - CI pipeline runs all test layers on every PR, including schema diff when migrations change
 - Neon branches use TTL auto-expiry: 1 hour for test branches, 7 days for preview branches (FTR-094)
 - Preview branches per PR enable database-backed Vercel preview deployments
 - Neon Schema Diff GitHub Action posts migration diff as PR comment
 - Design validation through browser rendering (code-first, no external design tool during AI-led development)
-- Search quality test suite is a Milestone 1a deliverable (M1a-8) and grows as the corpus expands
+- Search quality test suite is a STG-001 deliverable (STG-001-8) and grows as the corpus expands
 - Visual regression testing begins when the component library stabilizes
 
 ## Specification
@@ -148,13 +148,13 @@ These proportions are guidelines, not gates — the important thing is that most
 
 | Layer | Tool | What It Tests | Milestone |
 |-------|------|---------------|-----------|
-| **Unit / Integration** | Vitest + React Testing Library | Service functions, API route handlers, component rendering | Milestone 2a |
-| **End-to-End** | Playwright | Full user flows: search → read → share → navigate. Cross-browser. | Milestone 2a |
-| **Accessibility** | axe-core (CI) + Playwright a11y | Automated WCAG checks. Keyboard navigation flows. | Milestone 2a |
-| **Search quality** | Custom eval harness (`/scripts/eval/search-quality.ts`) | ~58 English + ~15 Spanish queries (golden set). Recall@3, MRR@10, routing accuracy. Six categories. CI regression on search-affecting PRs. FTR-037. | Milestone 1a (en), 1b (es) |
-| **Related content quality** | Custom Vitest suite | Pre-computed relations are thematically relevant, cross-book diverse, no false friends. | Milestone 3c |
-| **Performance** | Lighthouse CI | LCP < 2.5s, CLS < 0.1, INP < 200ms | Milestone 2a |
-| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | Milestone 1a+ |
+| **Unit / Integration** | Vitest + React Testing Library | Service functions, API route handlers, component rendering | STG-004 |
+| **End-to-End** | Playwright | Full user flows: search → read → share → navigate. Cross-browser. | STG-004 |
+| **Accessibility** | axe-core (CI) + Playwright a11y | Automated WCAG checks. Keyboard navigation flows. | STG-004 |
+| **Search quality** | Custom eval harness (`/scripts/eval/search-quality.ts`) | ~58 English + ~15 Spanish queries (golden set). Recall@3, MRR@10, routing accuracy. Six categories. CI regression on search-affecting PRs. FTR-037. | STG-001 (en), 1b (es) |
+| **Related content quality** | Custom Vitest suite | Pre-computed relations are thematically relevant, cross-book diverse, no false friends. | STG-008 |
+| **Performance** | Lighthouse CI | LCP < 2.5s, CLS < 0.1, INP < 200ms | STG-004 |
+| **Visual** | Browser rendering (code-first) | Design emerges through code iteration; browser is the design artifact | STG-001+ |
 | **Visual regression** | Playwright screenshot comparison | Catch unintended visual changes | Milestone 5a |
 
 ### Database Test Isolation via Neon Branching
@@ -192,7 +192,7 @@ On every PR:
 All must pass before merge.
 ```
 
-### Key E2E Test Scenarios (Milestone 2a)
+### Key E2E Test Scenarios (STG-004)
 
 | Scenario | Flow |
 |----------|------|
@@ -206,9 +206,9 @@ All must pass before merge.
 | **Continue the Thread** | Read to end of chapter → verify "Continue the Thread" section shows cross-book passages → click one → verify navigation |
 | **Seeking entry points** | Homepage → scroll to "Seeking..." → click entry point → verify search results page with relevant passages |
 
-### Related Content Quality Evaluation (Milestone 3c+)
+### Related Content Quality Evaluation (STG-008+)
 
-Mirrors the search quality evaluation (M1a-8) but for the pre-computed `chunk_relations`. The teaching portal is focused on quality teaching — bad relations undermine trust as much as bad search results.
+Mirrors the search quality evaluation (STG-001-8) but for the pre-computed `chunk_relations`. The teaching portal is focused on quality teaching — bad relations undermine trust as much as bad search results.
 
 **Test suite:**
 

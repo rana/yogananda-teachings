@@ -77,7 +77,7 @@ When a future scope decision arises:
 
 ### Consequences
 
-- **Roadmap reordered:** Languages (formerly Milestone 5b) move before reader refinement (formerly Milestone 2b) and before study tools (formerly Milestone 3b+). Spanish Autobiography ingestion moves into Milestone 1b. Hindi deferred (authorized source unavailable outside India) — activates in Milestone 5b.
+- **Roadmap reordered:** Languages (formerly Milestone 5b) move before reader refinement (formerly STG-005) and before study tools (formerly STG-007+). Spanish Autobiography ingestion moves into STG-002. Hindi deferred (authorized source unavailable outside India) — activates in Milestone 5b.
 - **FTR-058 revised:** Language priority ordering replaces "no wave ordering." Languages ship as they clear a readiness gate (content + UI strings + human reviewer), ordered by reachable population.
 - **Breadth-first, not depth-first:** The portal reaches 3 billion people with a good experience before reaching 390 million with a perfect experience.
 - **Decision audit trail:** Future scope decisions reference this ADR with the specific reach calculation.
@@ -129,10 +129,10 @@ Single sorted table for AI-assisted and human feature ordering. All languages �
 
 | # | Language | Speakers (L1+L2) | Internet % | Reachable | Tier | Source Status | Activation | Access Barriers | Source |
 |---|----------|-----------------|------------|-----------|------|---------------|------------|-----------------|--------|
-| — | **English** | 1,528M | ~95% (L1 regions) | ~390M L1 (baseline) | Baseline | Available | M1a | — | A: Ethnologue 2025 |
+| — | **English** | 1,528M | ~95% (L1 regions) | ~390M L1 (baseline) | Baseline | Available | STG-001 | — | A: Ethnologue 2025 |
 | \* | **Mandarin Chinese** | 1,184M | ~78% | ~924M\* | Evaluation | Unconfirmed | Unscheduled | \*Great Firewall: ICP license + China CDN required. Foreign services blocked/throttled. Freedom House 9/100. | B: DataReportal 2025 China |
-| 1 | **Spanish** | 558M | ~77% | ~430M | Tier 1 | SRF edition available | M1b | — | A |
-| 2 | **Hindi** | 609M | ~70% | ~425M | Tier 1 (deferred) | YSS authorization pending | M5b (conditional: M1b) | Romanized input pipeline needed. Authorized source requires YSS conversation. | A |
+| 1 | **Spanish** | 558M | ~77% | ~430M | Tier 1 | SRF edition available | STG-002 | — | A |
+| 2 | **Hindi** | 609M | ~70% | ~425M | Tier 1 (deferred) | YSS authorization pending | M5b (conditional: STG-002) | Romanized input pipeline needed. Authorized source requires YSS conversation. | A |
 | \* | **Arabic (MSA)** | 335M | ~70% (weighted) | ~235M | Evaluation | Unconfirmed | Unscheduled | Zero L1 speakers (all use dialect). Internet % varies: Saudi 99%, Egypt 82%. Complex script. | B: DataReportal 2025 Saudi Arabia, Egypt |
 | 3 | **Portuguese** | 267M | ~85% | ~225M | Tier 2 | TBD | M5a | — | A |
 | \* | **Russian** | 253M | ~92% | ~200M | Evaluation | Unconfirmed | Unscheduled | Content restrictions: Freedom House 17/100. Increasing censorship of foreign services. | B: DataReportal 2025 Russia |
