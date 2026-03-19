@@ -360,7 +360,7 @@ Two layers of progress tracking, both localStorage-only (DELTA-compliant).
 **11.3 Visited Chapters** — Per-book chapter visit tracking:
 - Marks chapter as visited on page load
 - Gold checkmark on the book's table of contents page
-- **No linear progress metrics.** The reader never displays "54% completed," "12 minutes left," "X of Y chapters read" as progress bars, percentage indicators, or time-remaining estimates. These metrics impose a linear, completionist mindset fundamentally hostile to contemplative re-reading, which is cyclical and infinite (deep-research-sacred-reading-experience-report.md § 6). Visited chapter checkmarks on the TOC page are acceptable — they show *where you've been*, not *how far you have to go*. The distinction is between spatial memory aid (checkmarks) and industrial completion metric (progress bars).
+- **No linear progress metrics.** The reader never displays "54% completed," "12 minutes left," "X of Y chapters read" as progress bars, percentage indicators, or time-remaining estimates. These metrics impose a linear, completionist mindset fundamentally hostile to contemplative re-reading, which is cyclical and infinite (deep-research-gemini-sacred-reading.md § 6). Visited chapter checkmarks on the TOC page are acceptable — they show *where you've been*, not *how far you have to go*. The distinction is between spatial memory aid (checkmarks) and industrial completion metric (progress bars).
 
 ---
 
@@ -490,7 +490,7 @@ Print is a first-class reading mode. Seekers print passages — this is an act o
 
 ### 19. Open Design Question: Contemplative Arrival
 
-The portal currently presents chapter text immediately on page load — standard web behavior, aligned with FCP < 1.5s performance budgets. However, research across contemplative traditions (Lectio Divina, Svadhyaya, Tadabbur) consistently finds that **reader internal state affects comprehension** and that sacred reading requires a transition from screen-scrolling mode to contemplative mode before the text can do its work (claude-deep-research-sacred-reading-experience-report.md § 2).
+The portal currently presents chapter text immediately on page load — standard web behavior, aligned with FCP < 1.5s performance budgets. However, research across contemplative traditions (Lectio Divina, Svadhyaya, Tadabbur) consistently finds that **reader internal state affects comprehension** and that sacred reading requires a transition from screen-scrolling mode to contemplative mode before the text can do its work (deep-research-claude-sacred-reading.md § 2).
 
 Lectio Divina apps implement this as a "still-yourself timer" before text appears. The Lectio Divina Journal introduces a centering exercise. Pray As You Go uses musical bridges. The portal's Breath Between Chapters (section 9) provides a between-chapters transition but no *entering-the-book* transition.
 

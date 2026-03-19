@@ -27,7 +27,7 @@ depends-on: [FTR-008, FTR-142]
 
 **Distinction from future media library audio:** Monastic audio (talks, readings) belongs in the general media library (future milestones). Yogananda's own voice recordings belong at Milestone 2a, treated with the same reverence as Today's Wisdom.
 
-**Origin:** External design review (docs/reference/claude-teachings-portal-suggestions.md, 2026-03-01)
+**Origin:** External design review (Claude Web conversation, 2026-03-01)
 
 
 ## Notes

@@ -1,6 +1,83 @@
 # Notes
 
 ---
+Read `docs/plans/ftr-168-phase-1-planning.md`. This is the Phase 1 implementation
+plan for the AI Agent Platform (FTR-168–177). The governing FTR specs are in
+`features/operations/` and `features/foundation/`. Read individual FTRs only when
+the plan references them and you need detail beyond what the plan provides.
+
+The plan's decisions are final — don't re-evaluate architectural choices (PostgreSQL
+orchestration, direct SDK logging, adaptive validation). Focus forward.
+
+Before executing anything, answer two questions:
+
+1. What's the single riskiest assumption in this plan that we could test today?
+
+2. What would you build first and why — is the plan's Stage 1 the right starting point, or does something need to come before it?
+
+Then propose your first concrete action.
+
+
+---
+/invoke
+Envisioning AI agents in the service of Self-Realization Fellowship organization.
+
+Empower creation. Autonomous AI agent convocation prompt to end to end creation with email delivery.
+
+As an SRF staff member, Given an operations portal page, I want to specify an AI prompt, So that a team of AI agents builds an entire end-to-end distributed application. 
+
+An example case may be the Yearly Convocation website.
+
+
+Here are related concepts to weave and consider in a holistic IT capababilities. These may be independent or related.
+
+
+Agent workflows composition, sequence, fan out, fan in. Narrow focus per agent. Agent teams to mediate. Different agent teams with different focuses. Software engineering, software operations, visual design, etc. Can have templates of workflows for use by organization. Elements of workflow may be configured, enabled, disabled, and have sensible deafults. This may be an essential offering of the SRF IT department empowering staff to create the apps for them. Agent use may use Claude Code as the substrate.
+
+
+Multi agent roles. Researcher, product designer, visual designer, quality assurance, operations, compliance, architect, engineer dev ops, executive stakeholder and philanthropist, principles validator, AI check regression. Role rural 2G. Each role may be available for use at different phases of workflow. Design, test, ci check. Configurable role assignment per workflow step with sensible defaults selected. Enables staff to choose. Enable staff/ AI to create new roles, may customize current prompts or create whole new ones. Ecosystem of preserved role to select and experiment with. Helpful for AI to optimize prompt and model cost value decision.
+
+
+Platform project. AI generated. Mark experimental for hash domain name. Branch from dev branch . Provide list of example experiments with pre populated prompt. Allow use to edit and run. Provide email notification of communication. Model selection options. List of complete experiments. Option to merge experiment into dev env.
+
+
+Site designer. Pre populated prompt to build whole convocation site on platform. Autonomous design, build, deploy. Use as example for Smara. Empower staff to build as needed. Allow them to build proof-of-concepts and whole products. Perhaps receive user stories or similar.
+
+
+AI agent to conduct deep research phase. Enable deep research with Claude and Gemini APIs. When exploring or developing a feature, asking interesting questions, surveying fields of knowledge, finding gaps in current understanding which may be well served through deep research as part of exploration prior to planning has deep utility. Combining the strength of two deep research platforms for sythesis has shown high reward. Asking Claude AI to carefully, slowly and thoroughly design deep research prompts is essential.
+
+
+CI checks which us AI agents / prompts as validation phases for any step.
+
+
+Explore everything that could go wrong and protect against it. All levels of codes operations, deployment, service levels, scaling, service degradation, invalid search experience, etc. solution may test in advance. May use AI agents with roles to adversarialy exercise problem vectors. Audit and test in advance to provide leaders with data. Explore gaps? What are we not asking? What questions would I benefit from asking?
+
+
+Verifiable audit of decisions to implementation. Institutional memory with human oversight.
+
+
+Comparative analysis of various agent outputs. Opus rating of outcomes.
+1. Same prompt or workflow with different models/ model version. Rate output. Is Opus clearly better than Sonnet?
+2. Different agent workflows building an application or solving something. Agent teams of narrowly focused agents vs sequential workflow of narrowly focused agents.
+3. Different prompts performance to achieve sophisticated results.
+
+
+Agent Roles. 
+- Production engineer. Searching for infrastructure design, maintenance, debugging. Design for proper instrumentation, telemetry, tracing and logging for runtime insights and debugging. Sees latency layers in `01 - Scenario A - Architecture Brainstorm.md`. What are failure scenarios? How are we actively mitigating? How are Sentry and New Relic well integrated into each component?
+-  Database administrator. PostgreSQL. pg_stat_user_tables, n_dead_tup, Autovaccum, EXPLAIN ANALYZE query plan, indexes,  VACUUM ANALYZE. What is proper design, administration, and maintenance? What are failure scenarios? How are we actively mitigating? How are Sentry and New Relic into DBs Neon and DynamoDB?
+
+
+AI agents. Document each prompt, ai session, generated document for complete audit trail. Helps humans understand. Allows AI to mine for improvements.
+
+
+AI auto generates features document as FTR. Answer own questions. Goes through a battery of skills which expand and compress and crystallize and so on. Store a proposed implementation plan per FTR.
+
+
+Autonomous agents is the next step. Let the teachings portal build itself. Choose a development branch to do the automous development. Produce branches for review. Comment system to redevelop, approve and merge to dev, or decline. Enter proposals for exploration and promotion to development. Anyone can propose and experiment. See a list of proposals, experiments, experiment versions, and similar attribute history. Preserve declined as record. Yss available for their own workflows and concerns. A per project capability. Button to create project creates GitHub repo. Low code autonomous agent per project. Does not promote to dev without manual approval. Could be on commit hash branch derived from dev . Empower non technical stakeholders to design and build their own sites and features. Mcp access including to srf corpus, design.Different agent roles. Proposal generator. Implementer. Etc. Whole agent workflow pipeline with CI like checks and cleaning. ADR compliance, doc maintenance, adding new design decisions if not small. Visual style checks. Architecture coherence. No new cloud service. Limit scope for tech stock. Manual addition could be made later. Pre populated prompt templates with known good framing. Editable by human. Access to shared skills. May call shared skills. Auto generate reference docs, tutorials, examples etc. auto generate video tutorials using AI voice and video generation. Consider add feature for each. Explore cloud service options. Auto configure domain name mapping. Agentic workflow designer, connect the pipeline. Build from scratch. Use Claude Code agent teams to run. Track costs using bedrock token to run. Option to select Claude models and others including open source. Automate feature builds with different models. Determine least expensive model which is effective.
+
+Empower staff and seekers, monastics, yss to create what they need, so that they can do what they need to do when they need to do it. Thinking autonomous AI agents creating on their be half. May reserve for internal audiences? Helpful to have examples and guides to get people started. It's such a new concept. Help people expand the scope of understanding what is possible. Perhaps document whole workflow. Ideation, build review, deployment etc. example research convocation and build portal.
+
+---
 /explore
 Read file `features/search/FTR-029-search-suggestions.md`.
 
@@ -25,7 +102,7 @@ What questions would I benefit from asking? What am I not asking?
 
 How would you design a thorough, deep implementation plan?
 
-Think slowly, deeply and thoroughly.
+Think slowly, deeply, carefully and thoroughly.
 
 You have complete design autonomy. What are your preferences?
 

@@ -79,4 +79,4 @@ Full mode (M3b+):       PATH A + PATH B + PATH C + HyDE -> CC(three-path, regist
 ## Notes
 
 - **Origin:** FTR-027
-- **March 2026 revision:** Cross-encoder reranking elevated from "optional, if warranted by evaluation" to standard (M3a). Cohere Rerank 3.5 replaced with Voyage Rerank for vendor consolidation. Enrichment-augmented embeddings added as standard M3a enhancement. Activation gate language replaced with evaluation history. Based on convergent findings from Gemini and Claude deep research reports. See `docs/reference/gemini-deep-research-modern-search-report.md` and `docs/reference/claude-deep-research-modern-search-report.md`.
+- **March 2026 revision:** Cross-encoder reranking elevated from "optional, if warranted by evaluation" to standard (M3a). Cohere Rerank 3.5 replaced with Voyage Rerank for vendor consolidation. Enrichment-augmented embeddings added as standard M3a enhancement. Activation gate language replaced with evaluation history. Based on convergent findings from Gemini and Claude deep research reports. See `docs/reference/deep-research-gemini-modern-search.md` and `docs/reference/deep-research-claude-modern-search.md`.

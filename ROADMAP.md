@@ -247,6 +247,7 @@ Each milestone delivers a working, demonstrable increment. **Milestone ordering 
 | FTR-159 | Feature Lifecycle Portal — Calm Operations for Engineering Leadership | Feature |
 | FTR-144 | Cross-Site Harmony — yogananda.org Ecosystem Integration | Feature (Experience) |
 | FTR-146 | Circadian as Independent Behavior Modifier | Enhancement (Experience) |
+| FTR-168–176 | AI Agent Platform (9 FTRs) — Autonomous agent orchestration, experiment lifecycle, workflow engine, role registry, validation gates, comparative analysis, glass box ops, deep research, staff empowerment | Feature (Platform) |
 
 *Migration notes: FTR-096 consolidated four operational surface items (Release Tagging, Operational Health, Document Integrity CI, Design-Artifact Traceability). FTR-117 validated and scheduled as M1c-12. FTR-001 multi-author expansion adopted 2026-02-25.*
 

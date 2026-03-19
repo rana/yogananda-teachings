@@ -59,7 +59,7 @@ This powers three features:
 
 ### Discovery Research Integration (March 2026)
 
-Research from library science and content-only recommendation systems (deep-research-report-discovery-without-surveillance-2026.md) identifies two patterns to adopt when surfacing related teachings:
+Research from library science and content-only recommendation systems (deep-research-gemini-discovery-without-surveillance.md) identifies two patterns to adopt when surfacing related teachings:
 
 **MMR Rescoring.** Apply Maximal Marginal Relevance when selecting which relations to display. The current top-3 selection by raw similarity risks presenting three passages that are similar to the source *and to each other* — five dense philosophical passages in a row. MMR penalizes candidates similar to already-selected items, ensuring diversity across depth signature, voice register, and rasa. Implementation: a `lib/services/mmr.ts` function takes candidate passages + already-displayed passages, returns diversity-maximized subset using existing embeddings.
 

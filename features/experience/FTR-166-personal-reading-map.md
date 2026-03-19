@@ -15,7 +15,7 @@ re-evaluate-at: M3a
 
 ### Context
 
-Across 30 years of sacred text digital platforms — Sefaria, YouVersion, Quran.com, Vedabase, SikhiToTheMax — no existing platform designs for re-reading as the primary mode of engagement. Every major app assumes a first-time reader navigating forward through unfamiliar material: progress tracking shows percentage completed, reading plans assume linear progression, navigation assumes the reader seeks something unread. Yet devotees of every tradition report that re-reading is their actual practice (claude-deep-research-sacred-reading-experience-report.md § 6).
+Across 30 years of sacred text digital platforms — Sefaria, YouVersion, Quran.com, Vedabase, SikhiToTheMax — no existing platform designs for re-reading as the primary mode of engagement. Every major app assumes a first-time reader navigating forward through unfamiliar material: progress tracking shows percentage completed, reading plans assume linear progression, navigation assumes the reader seeks something unread. Yet devotees of every tradition report that re-reading is their actual practice (deep-research-claude-sacred-reading.md § 6).
 
 The portal already makes critical decisions aligned with re-reading primacy: no linear progress metrics in the reader (FTR-041 § 11.3), visited-chapter checkmarks as spatial memory aids rather than completion metrics, Zoom Paragraph for contemplative depth. But the **home experience** still assumes the arriving seeker — Today's Wisdom, search bar, book browsing. For the returning devotee who has read the Autobiography three times, the homepage asks "What would you like to find?" when what they want is to go *back*.
 
@@ -121,7 +121,7 @@ The Reading Map uses the `sacred` register (FTR-145) for contemplated passages a
 
 ### Source Research
 
-claude-deep-research-sacred-reading-experience-report.md § 6 ("Re-reading as primary mode is the portal's signature opportunity"), § 8 ("Communal reading without social features"), § 1 (Vedabase's 42.2% returning visitors). Also informed by deep-research-report-discovery-without-surveillance-2026.md § "Reflective Agency Framework."
+deep-research-claude-sacred-reading.md § 6 ("Re-reading as primary mode is the portal's signature opportunity"), § 8 ("Communal reading without social features"), § 1 (Vedabase's 42.2% returning visitors). Also informed by deep-research-gemini-discovery-without-surveillance.md § "Reflective Agency Framework."
 
 ## Notes
 

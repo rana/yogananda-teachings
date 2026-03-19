@@ -263,4 +263,4 @@ Old queries are **never removed** — they serve as regression tests. New querie
 ## Notes
 
 - **Origin:** FTR-037 (Search Quality Evaluation Harness)
-- **March 2026 revision:** Added multi-dimensional relevance evaluation (rasa-match, depth-match, register-match, retrieval intent match). Added ARES-style LLM judges, RPP for system comparison, and expert evaluation panels. Updated parameter evaluation table for CC fusion and enrichment-augmented embeddings. Based on convergent deep research findings. See `docs/reference/gemini-deep-research-modern-search-report.md` and `docs/reference/claude-deep-research-modern-search-report.md`.
+- **March 2026 revision:** Added multi-dimensional relevance evaluation (rasa-match, depth-match, register-match, retrieval intent match). Added ARES-style LLM judges, RPP for system comparison, and expert evaluation panels. Updated parameter evaluation table for CC fusion and enrichment-augmented embeddings. Based on convergent deep research findings. See `docs/reference/deep-research-gemini-modern-search.md` and `docs/reference/deep-research-claude-modern-search.md`.

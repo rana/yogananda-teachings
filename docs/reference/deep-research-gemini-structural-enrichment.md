@@ -1,6 +1,6 @@
 # Structural Enrichment Architecture: Whole-Context AI Understanding of Sacred Texts
 
-> Gemini 2.5 Pro Deep Research report, March 2026. Prompt preserved in `docs/reference/gemini-deep-research-prompt-structural-enrichment.md`.
+> Gemini 2.5 Pro Deep Research report, March 2026. Prompt preserved in `docs/reference/deep-research-prompt-structural-enrichment.md`.
 
 > **Note:** The raw Gemini report (12 topics, 94 citations) was provided as inline document context. The source document `AI for Sacred Text Structural Enrichment.md` contains the full report text with all citations. Key findings per topic are summarized in the analysis below.
 

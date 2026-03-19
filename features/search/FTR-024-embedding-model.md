@@ -141,7 +141,7 @@ Run on Neon branch per the migration procedure. Promote only if treatment matche
 
 #### Research Basis
 
-Convergent finding from both Gemini and Claude deep research reports (March 2026). Both identify enrichment-augmented embedding as the single highest-ROI upgrade for the portal's search architecture. See `docs/reference/gemini-deep-research-modern-search-report.md` and `docs/reference/claude-deep-research-modern-search-report.md`.
+Convergent finding from both Gemini and Claude deep research reports (March 2026). Both identify enrichment-augmented embedding as the single highest-ROI upgrade for the portal's search architecture. See `docs/reference/deep-research-gemini-modern-search.md` and `docs/reference/deep-research-claude-modern-search.md`.
 
 ## Notes
 

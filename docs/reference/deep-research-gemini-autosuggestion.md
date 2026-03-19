@@ -382,7 +382,7 @@ When this massive English text matrix is translated and mapped across the 10 tar
 
 ## Project Analysis (Claude Opus 4.6, 2026-03-17)
 
-**Source:** Gemini 2.5 Pro Deep Research, prompted with 11 topics specific to FTR-029's autosuggestion architecture. Prompt preserved in `docs/reference/gemini-deep-research-prompt-autosuggestion.md`.
+**Source:** Gemini 2.5 Pro Deep Research, prompted with 11 topics specific to FTR-029's autosuggestion architecture. Prompt preserved in `docs/reference/deep-research-prompt-autosuggestion.md`.
 
 **Existing design:** FTR-029 (Search Suggestions -- Corpus-Derived Autosuggestion) specifies a three-tier progressive infrastructure (static JSON at CDN edge, pg_trgm fuzzy fallback, conditional Vercel KV), a six-tier suggestion hierarchy, vocabulary bridge integration, and DELTA-compliant quality evaluation.
 

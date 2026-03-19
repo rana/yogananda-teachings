@@ -99,7 +99,7 @@ Editorial + theological review: Does organizing teachings by emotional transitio
 
 ### Discovery Research Integration (March 2026)
 
-Research from liturgical design, museum curation, and anthology editing (deep-research-report-discovery-without-surveillance-2026.md) provides concrete sequencing patterns for transition arcs:
+Research from liturgical design, museum curation, and anthology editing (deep-research-gemini-discovery-without-surveillance.md) provides concrete sequencing patterns for transition arcs:
 
 **The Liturgical Energy Curve.** Centuries of homiletic practice confirm a 4-step optimal arc for moving seekers between emotional states:
 

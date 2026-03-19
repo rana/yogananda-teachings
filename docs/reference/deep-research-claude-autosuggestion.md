@@ -1,6 +1,6 @@
 # Autosuggestion Architecture for a Multilingual Sacred Text Corpus
 
-> Claude deep research report, March 2026. Covers the same 11 topics as the Gemini deep research prompt (`docs/reference/gemini-deep-research-prompt-autosuggestion.md`). See the Gemini report at `docs/reference/gemini-deep-research-autosuggestion-report.md` for comparison.
+> Claude deep research report, March 2026. Covers the same 11 topics as the Gemini deep research prompt (`docs/reference/deep-research-prompt-autosuggestion.md`). See the Gemini report at `docs/reference/deep-research-gemini-autosuggestion.md` for comparison.
 
 ---
 

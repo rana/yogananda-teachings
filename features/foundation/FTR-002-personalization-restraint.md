@@ -66,7 +66,7 @@ Classify personalization features into three tiers:
 
 ### DELTA as Advantage (Discovery Research, March 2026)
 
-Research on content-only recommendation systems (deep-research-report-discovery-without-surveillance-2026.md) provides empirical support for the DELTA framework's design philosophy:
+Research on content-only recommendation systems (deep-research-gemini-discovery-without-surveillance.md) provides empirical support for the DELTA framework's design philosophy:
 
 **The permanent cold start is a feature, not a bug.** Behavioral recommendation systems require an average of 11.3 sessions to stabilize a user's latent taste vector — during high-intent moments of need (grief, crisis, spiritual yearning), the system fails because it hasn't accumulated enough data. The portal's permanent cold start forces investment in corpus intelligence — enrichment metadata, knowledge graph, structural analysis — producing a system that responds to the seeker's *current* state of being rather than a mathematically averaged shadow of past behaviors.
 

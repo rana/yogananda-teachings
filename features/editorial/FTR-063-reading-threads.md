@@ -65,7 +65,7 @@ CREATE TABLE thread_passages (
 
 ### Sequencing Principles (Discovery Research, March 2026)
 
-Research from museum curation and liturgical design (deep-research-report-discovery-without-surveillance-2026.md) identifies three patterns for sequencing passages into coherent journeys:
+Research from museum curation and liturgical design (deep-research-gemini-discovery-without-surveillance.md) identifies three patterns for sequencing passages into coherent journeys:
 
 **The Palette Cleanser.** Museum curators insert neutral, accessible works between intense pieces to prevent cognitive fatigue. Reading threads must enforce the same discipline: no three consecutive passages should share the same depth signature or rasa. After two "catalytic" or "bottomless" passages, insert a grounding narrative passage — a breathing-centric text, a biographical moment, an accessible story — to reset the seeker's emotional and cognitive state before returning to depth. This is a structural constraint on thread construction, not a suggestion.
 

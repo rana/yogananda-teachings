@@ -86,7 +86,7 @@ Categories appear only when they contain at least one published topic. The homep
 - Seed data for new categories should include rich, keyword-laden descriptions for effective auto-tagging
 - The `/themes` page gains five new sections (appearing incrementally as content thresholds are met)
 - The exploration categories create a rich navigational surface that invites study-oriented seekers to browse by framework, not just by emotional need
-- **MMR diversity applies to all categories.** The FTR-121 MMR rescoring pattern applies equally to person, principle, scripture, practice, and yoga_path themes. A seeker browsing "Christ" should see passages varying in depth signature and voice register — not five dense theological commentaries in sequence. See FTR-121 § MMR diversity and deep-research-report-discovery-without-surveillance-2026.md
+- **MMR diversity applies to all categories.** The FTR-121 MMR rescoring pattern applies equally to person, principle, scripture, practice, and yoga_path themes. A seeker browsing "Christ" should see passages varying in depth signature and voice register — not five dense theological commentaries in sequence. See FTR-121 § MMR diversity and deep-research-gemini-discovery-without-surveillance.md
 - **Extends FTR-121** with five additional categories on the existing taxonomy
 
 ## Notes

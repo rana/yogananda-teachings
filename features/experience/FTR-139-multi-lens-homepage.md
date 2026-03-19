@@ -42,7 +42,7 @@ Secondary nav: Books   Audio   The Four Doors   Guide   About
 
 **1c minimal embodiment:** Today's Wisdom hero + "What did Yogananda say about...?" search prompt + "Show me another" + minimal secondary nav (Books | About) + Practice Bridge quiet line.
 
-**Origin:** External design review (docs/reference/claude-teachings-portal-suggestions.md, 2026-03-01)
+**Origin:** External design review (Claude Web conversation, 2026-03-01)
 
 ---
 

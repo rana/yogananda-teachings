@@ -24,12 +24,12 @@ This is a practice many devotees already have: opening a beloved book to a rando
 
 **Relationship to Today's Wisdom:** Today's Wisdom is the communal version (same passage for everyone on a given day). The Wanderer's Path is the personal version (each invocation goes somewhere new). They are related but distinct.
 
-**Origin:** External design review (docs/reference/claude-teachings-portal-suggestions.md, 2026-03-01)
+**Origin:** External design review (Claude Web conversation, 2026-03-01)
 
 
 ### Discovery Research Integration (March 2026)
 
-Research from content-only recommendation and anonymous collective signals (deep-research-report-discovery-without-surveillance-2026.md) identifies two patterns for the Wanderer's Path:
+Research from content-only recommendation and anonymous collective signals (deep-research-gemini-discovery-without-surveillance.md) identifies two patterns for the Wanderer's Path:
 
 **Circadian Context Routing.** Weight passage selection by time of day using the seeker's local time (client-side, no server tracking). Surface introspective, consoling passages in the evening; catalytic, purpose-driven passages in the morning. This creates a recommendation that shifts organically with the seeker's environment — feeling highly contextualized without tracking identity. Combined with the existing depth-weighting and localStorage non-repetition, this produces a serendipity engine that feels personally curated. Circadian weighting uses the same time bands as FTR-146 (Circadian Modifier): dawn, day, dusk, night.
 

@@ -14,12 +14,12 @@
 
 | Domain | Base Range | Overflow | Directory | Count |
 |--------|-----------|----------|-----------|-------|
-| Foundation | FTR-001–019 | FTR-100–119 | `features/foundation/` | 39 |
+| Foundation | FTR-001–019 | FTR-100–119, FTR-168, FTR-171, FTR-177 | `features/foundation/` | 42 |
 | Search | FTR-020–039 | FTR-120–130, FTR-165 | `features/search/` | 32 |
-| Experience | FTR-040–059 | FTR-131–147, FTR-160–163, FTR-166 | `features/experience/` | 42 |
+| Experience | FTR-040–059 | FTR-131–147, FTR-160–163, FTR-166, FTR-176 | `features/experience/` | 43 |
 | Editorial | FTR-060–079 | FTR-148–150 | `features/editorial/` | 22 (+1 absorbed) |
-| Operations | FTR-080–099 | FTR-151–159, FTR-164, FTR-167 | `features/operations/` | 31 |
-| **Total** | | | | **167** (166 active, 1 absorbed) |
+| Operations | FTR-080–099 | FTR-151–159, FTR-164, FTR-167, FTR-169–170, FTR-172–175, FTR-178 | `features/operations/` | 38 |
+| **Total** | | | | **178** (176 active, 1 absorbed, 1 declined) |
 
 ---
 
@@ -68,6 +68,9 @@ Core identity, cross-cutting constraints, infrastructure, and conventions.
 | [117](foundation/FTR-117-copyright-framework.md) | Copyright and Legal Framework | Proposed (Validated) |
 | [118](foundation/FTR-118-cloudflare-re-evaluation.md) | Cloudflare Re-evaluation for SRF Domain Routing | Proposed |
 | [119](foundation/FTR-119-srf-yss-platform.md) | Teachings Platform — Shared Foundation for SRF and YSS | Proposed |
+| [168](foundation/FTR-168-ai-agent-platform.md) | AI Agent Platform — Vision (Umbrella: FTR-169–176) | Proposed |
+| [171](foundation/FTR-171-agent-role-registry.md) | Agent Role Registry — Hierarchical Teams, Role Definitions, AGENTS.md | Proposed |
+| [177](foundation/FTR-177-autonomous-skill-ecosystem.md) | Autonomous Skill Ecosystem — Instrument Principle, Agent Protocol Skills, Trust-Level Prompts | Proposed |
 
 ---
 
@@ -112,7 +115,7 @@ Search architecture, data model, ingestion, embeddings, knowledge graph.
 
 ---
 
-## Experience (41 FTRs)
+## Experience (43 FTRs)
 
 Frontend, UX, accessibility, internationalization, seeker-facing features.
 
@@ -160,6 +163,7 @@ Frontend, UX, accessibility, internationalization, seeker-facing features.
 | [162](experience/FTR-162-transition-navigation.md) | Transition-Based Navigation — Emotional State-Pair Journeys | Proposed |
 | [163](experience/FTR-163-sanctuary-mode.md) | Sanctuary Mode — Crisis-State Environmental Adaptation | Proposed |
 | [166](experience/FTR-166-personal-reading-map.md) | Personal Reading Map — Returning-Reader Experience | Proposed |
+| [176](experience/FTR-176-staff-empowerment.md) | Staff Empowerment and Onboarding — AI Agent Platform Adoption | Proposed |
 
 ---
 
@@ -195,7 +199,7 @@ Staff tools, content intelligence, curation, content types.
 
 ---
 
-## Operations (30 FTRs)
+## Operations (31 FTRs)
 
 CI/CD, observability, testing, governance, operational tooling.
 
@@ -232,6 +236,13 @@ CI/CD, observability, testing, governance, operational tooling.
 | [159](operations/FTR-159-feature-lifecycle-portal.md) | Feature Lifecycle Portal | Proposed |
 | [164](operations/FTR-164-book-ingestion-operations.md) | Book Ingestion Operations | Approved |
 | [167](operations/FTR-167-device-tier-performance.md) | Device-Tier Performance Framework | Approved (Provisional) |
+| [169](operations/FTR-169-experiment-lifecycle.md) | Experiment Lifecycle and Platform Integration | Proposed |
+| [170](operations/FTR-170-agent-workflow-orchestration.md) | Agent Workflow Orchestration Engine | Proposed |
+| [172](operations/FTR-172-ai-validation-gates.md) | AI Validation Gates — Agents as CI Pipeline Stages | Proposed |
+| [173](operations/FTR-173-comparative-analysis-engine.md) | Comparative Analysis Engine — Model, Workflow, and Prompt A/B Testing | Proposed |
+| [174](operations/FTR-174-glass-box-operations.md) | Glass Box Operations and Cost Tracking | Proposed |
+| [175](operations/FTR-175-deep-research-integration.md) | Deep Research Integration — Dual-Platform Research as Development Phase | Proposed |
+| [178](operations/FTR-178-operations-topology-surface.md) | Operations Topology Surface — Interactive Architecture Intelligence | Declined (absorbed into FTR-174) |
 
 ---
 
