@@ -204,7 +204,7 @@ Classify passages in the `daily_passages` pool by emotional tone:
 
 - **"Challenging"** — In guru-disciple traditions, stern teaching is considered the *highest* compassion (*guru-krpa*), not a separate emotional register. Indian seekers may not experience "challenging" passages as distinct from "consoling" ones.
 - **"Practical" vs. "contemplative"** — This is a Western split. In many Indian traditions, practice IS contemplation. The distinction may feel artificial to Hindu/Vedantic practitioners.
-- **Circadian weighting and cultural context** — The 2 AM consolation assumption reflects a Western sleep-anxiety pattern. A seeker awake at 4 AM in India during brahmamuhurta is likely meditating, not in distress. The circadian UX uses locale-aware solar-position bands (see DESIGN.md § Circadian content choreography) to adapt time-band selection to cultural context.
+- **Circadian weighting and cultural context** — The 2 AM consolation assumption reflects a Western sleep-anxiety pattern. A seeker awake at 4 AM in India during brahmamuhurta is likely meditating, not in distress. The circadian UX uses locale-aware solar-position bands (see FTR-140) to adapt time-band selection to cultural context.
 
 Additional tone dimensions may be needed for Hindi, Bengali, and Japanese locales — or the existing five may require reinterpretation in locale-specific editorial guidelines. This is an editorial question, not a schema change (the `tone` column remains a string; adding new values requires no migration).
 
@@ -265,7 +265,7 @@ The portal works without Claude. Claude makes it *world-class*.
 
 ### Consequences
 
-- FTR-001 (Direct Quotes Only) and FTR-105 (AWS Bedrock Claude with Model Tiering) remain the foundational references; this ADR consolidates and extends them
+- FTR-001 (Direct Quotes Only) and FTR-105 (AWS Bedrock Claude with Model Tiering) remain the foundational references; this feature consolidates and extends them
 - The three-category model (Finding / Classifying / Drafting) provides a clear framework for evaluating future Claude use cases
 - E1 (intent classification) and E2 (terminology bridge) are added to STG-001 deliverables — they directly improve search quality at launch
 - E3 (accessibility rating) and E8 (tone classification) are added to STG-005 — they require multi-book content to be meaningful
@@ -273,5 +273,5 @@ The portal works without Claude. Claude makes it *world-class*.
 - E6 (cross-book threading) is added to STG-008 — it enhances the Related Teachings system
 - E7 (alt text) is added to STG-004 — it's an accessibility deliverable
 - The Vocabulary Bridge (FTR-028) is a living glossary that deepens with each book, backed by the `vocabulary_bridge` PostgreSQL table.
-- Every new Claude use case proposed in future stages should be evaluated against this ADR's three-category model and hard prohibitions
+- Every new Claude use case proposed in future stages should be evaluated against this feature's three-category model and hard prohibitions
 - **Extended ADRs:** FTR-001 (cross-reference to this policy), FTR-105 (cross-reference to expansion roadmap)

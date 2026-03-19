@@ -27,7 +27,7 @@ A cross-API review after FTR-155 (magazine rationalization) revealed five incons
 
 2. **Video endpoints use `{id}` while every other resource uses `{slug}`.** The `videos` table has `slug TEXT NOT NULL UNIQUE`, but FTR-133 and FTR-142 defined transcript endpoints as `/api/v1/videos/{id}/transcript`. Audio uses `{slug}` for the identical pattern.
 
-3. **DESIGN.md referenced a rejected PDF namespace.** A former sharing section (DES-018, since deleted) used `/api/v1/pdf/passage/{chunk-id}`, `/api/v1/pdf/chapter/{book-slug}/{chapter}`, `/api/v1/pdf/book/{book-slug}` — a parallel namespace that FTR-133 explicitly rejected under "Why Not `/api/v1/pdf/books/{slug}`".
+3. **The legacy design document referenced a rejected PDF namespace.** A former sharing section (DES-018, since deleted) used `/api/v1/pdf/passage/{chunk-id}`, `/api/v1/pdf/chapter/{book-slug}/{chapter}`, `/api/v1/pdf/book/{book-slug}` — a parallel namespace that FTR-133 explicitly rejected under "Why Not `/api/v1/pdf/books/{slug}`".
 
 4. **Audio and video lack single-resource detail endpoints.** Every other content type (books, images, people, glossary, ontology, places, magazine issues/articles) has a `GET /resource/{slug}` detail endpoint. Audio and video only had list + transcript sub-resources.
 
@@ -58,7 +58,7 @@ GET /api/v1/videos/{slug}/transcript/pdf   — transcript PDF
 
 Matches audio (`/api/v1/audio/{slug}/transcript`) and every other resource in the API. The `videos` table already has `slug TEXT NOT NULL UNIQUE`.
 
-**3. DESIGN.md PDF references corrected to match FTR-133.**
+**3. Legacy PDF references corrected to match FTR-133.**
 
 The sharing section's `/api/v1/pdf/passage/{chunk-id}` references are replaced with resource-anchored routes per FTR-133's established pattern. Single-passage PDFs use `POST /api/v1/exports/pdf` with a single-item body.
 
@@ -252,6 +252,3 @@ A robust integration uses both: webhooks for real-time events, timestamp filteri
 - Zapier polling triggers become efficient from STG-004
 - Combined with FTR-086, the portal supports both push (webhooks) and pull (timestamp filtering) sync strategies
 
-## Notes
-
-**Provenance:** FTR-087 + FTR-087 → FTR-087

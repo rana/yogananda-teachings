@@ -15,7 +15,7 @@ governed-by: [PRI-10, PRI-12]
 
 The teaching portal is the first project built on SRF's new stack (Next.js + Vercel + Contentful + Neon). Patterns established here will influence every SRF project that follows. Beyond technology choices, engineering conventions — how projects are documented, how decisions are recorded, how AI assistants are given context — determine whether the codebase remains maintainable years after the original team has moved on.
 
-The portal has developed a documentation approach (CLAUDE.md, CONTEXT.md, DECISIONS.md, ROADMAP.md) that serves both human developers and AI-assisted development tools. This should be standardized as the SRF project template.
+The portal has developed a documentation approach (CLAUDE.md, CONTEXT.md, FEATURES.md, ROADMAP.md) that serves both human developers and AI-assisted development tools. This should be standardized as the SRF project template.
 
 ### Decision
 
@@ -29,7 +29,7 @@ Every SRF repository includes these files at the root:
 |------|---------|----------|
 | **CLAUDE.md** | AI context file. Project identity, tech stack, constraints, current status. | AI assistants (Claude Code, Copilot, etc.) and human onboarding |
 | **CONTEXT.md** | Mission, stakeholders, ethical constraints, organizational context. | Humans (product, leadership, new team members) and AI |
-| **DECISIONS.md** | Architecture Decision Records with full rationale for every significant choice. | Future developers asking "why?" |
+| **FEATURES.md | Feature specifications with full rationale for every significant choice. | Future developers asking "why?" |
 | **ROADMAP.md** | Phased plan with deliverables, success criteria, and open questions. | Project management, stakeholders, AI context |
 
 #### Code Organization Conventions
@@ -73,11 +73,8 @@ Applied via **dbmate** (SQL-based, no ORM lock-in) or Drizzle ORM migrations. Ev
 ### Consequences
 
 - The teaching portal's documentation structure becomes the SRF template
-- New SRF repos are initialized with CLAUDE.md, CONTEXT.md, DECISIONS.md, ROADMAP.md stubs
+- New SRF repos are initialized with CLAUDE.md, CONTEXT.md, FEATURES.md, ROADMAP.md stubs
 - The SRF AE team should review and adopt these standards for existing and new projects
 - Migration tooling (dbmate or Drizzle) is chosen in the initial stage
 - Renovate/Dependabot configured from the first commit
 
-## Notes
-
-**Provenance:** FTR-080 → FTR-080

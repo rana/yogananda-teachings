@@ -2,7 +2,7 @@
 ftr: 135
 title: AI-Assisted Translation Workflow
 summary: "Claude-drafted UI translations with mandatory human review; sacred text translation prohibited"
-state: approved-provisional
+state: implemented
 domain: experience
 governed-by: [PRI-01, PRI-06]
 ---
@@ -153,4 +153,3 @@ The glossary is a critical dependency for both the AI drafting step and the huma
 
 FTR-076 (editorial domain) was a byte-for-byte duplicate of this file — absorbed here. Experience domain is the natural home: this spec governs the translation workflow from the seeker/UI perspective (locale files, UI strings, glossary artifacts). Editorial staff are users of the workflow, not its architectural owner.
 
-Migrated from DES-017 per FTR-084.

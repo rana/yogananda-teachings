@@ -35,6 +35,3 @@ Research from content-only recommendation and anonymous collective signals (deep
 
 **Productive Friction.** The Reflective Agency Framework (AAAI 2026) demonstrates that deliberate effort in discovery increases the perceived value of the finding and roots the experience in the seeker's own agency. Before generating a passage, require a moment of intention — a press-and-hold gesture (3 seconds), a breath-paced reveal, or a deliberate "I'm ready" action. This is not UX friction — it is contemplative preparation. The effort of seeking correlates with the reception of the teaching. This aligns with PRI-08 (Calm Technology): the portal waits; it does not auto-deliver. The seeker makes a deliberate act of seeking.
 
-## Notes
-
-Migrated from FTR-140 per FTR-084.

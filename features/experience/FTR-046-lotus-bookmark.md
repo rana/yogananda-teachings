@@ -57,8 +57,3 @@ Implement **Lotus Bookmarks** using `localStorage`:
 - Users on different browsers/devices will have separate bookmark collections until STG-023 sync
 - The bookmarks page is a client-only page (no SSR needed — reads directly from `localStorage` on mount)
 
----
-
-## Notes
-
-Migrated from FTR-046 per FTR-084.

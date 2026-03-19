@@ -69,7 +69,7 @@ The portal offers two experience tiers:
 - New `user_profiles` table in FTR-021: `id`, `auth0_id`, `preferred_language`, `tradition_background` (optional), `practice_level` (optional), `created_at`
 - No `profile_embedding` column — soft personalization explicitly rejected
 - New `user_bookmarks`, `user_collections`, `user_reading_progress` tables
-- Auth0 integration added to DESIGN.md security section (FTR-016)
+- Auth0 integration added to FTR-016 (Security Considerations)
 - CONTEXT.md DELTA framework section updated with authenticated-tier documentation
 - FTR-046 (Lotus Bookmark) extended: local storage for anonymous users, server-synced for authenticated users
 - STG-023+ Lessons integration (FTR-022) builds on this authentication layer

@@ -58,13 +58,8 @@ The portal adopts a **design system derived from existing SRF sites**, enhanced 
 
 ### Consequences
 
-- The design system should be documented as CSS custom properties (see DESIGN.md)
+- The design system should be documented as CSS custom properties (see FTR-145)
 - WCAG contrast ratios must be validated — muted colors on warm cream backgrounds need careful checking
 - The lotus icon SVG family from yogananda.org can be reused (with SRF's permission)
 - A shared npm package could eventually serve these tokens to all SRF Next.js properties
 
----
-
-## Notes
-
-Migrated from FTR-042 per FTR-084.

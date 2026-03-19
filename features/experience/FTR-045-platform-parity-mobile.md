@@ -141,8 +141,3 @@ Before native apps, a Progressive Web App provides offline reading, home screen 
 
 Offline reading aligns with the Calm Technology principle — a seeker can download a book chapter and read it on a flight, in a forest, or in a place with no connectivity. The technology fades into the background.
 
----
-
-## Notes
-
-Migrated from FTR-045 per FTR-084.

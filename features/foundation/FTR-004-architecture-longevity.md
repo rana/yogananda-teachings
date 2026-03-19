@@ -36,7 +36,7 @@ Design for **graceful evolution** over a 10-year horizon. The architecture prior
 | REST + JSON APIs | HTTP is the internet's substrate. 20+ years dominant. |
 | HTML + CSS | The web platform is permanent. Semantic HTML from 2026 renders in 2036. |
 | Terraform HCL | Since 2014. Massive enterprise adoption. OpenTofu fork as insurance. |
-| ADRs (DECISIONS.md) | Markdown in Git. The most durable artifact in the project. |
+| FTR files (`features/`) | Markdown in Git. The most durable artifact in the project. |
 | WCAG accessibility standards | 2.1 stable since 2018. 3.0 is backwards-compatible. |
 
 **Tier 2 — Stable, May Need Version Upgrades (5-7 years):**
@@ -143,7 +143,7 @@ All content lives in Neon (PostgreSQL) — standard SQL, exportable via `pg_dump
 
 ### Documentation as Longevity Tool
 
-The ADR convention (DECISIONS.md) is the most undervalued longevity tool. When a future developer asks "why didn't we use GraphQL?" or "why not embed Google Maps?" — the answer is recorded with full context. This prevents teams from revisiting settled decisions and accidentally undoing architectural choices that had good reasons.
+The FTR documentation convention is the most undervalued longevity tool. When a future developer asks "why didn't we use GraphQL?" or "why not embed Google Maps?" — the answer is recorded with full context. This prevents teams from revisiting settled decisions and accidentally undoing architectural choices that had good reasons.
 
 ### FTR-004: 10-Year Horizon
 

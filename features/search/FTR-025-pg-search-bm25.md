@@ -2,7 +2,7 @@
 ftr: 25
 title: pg_search / ParadeDB BM25 for Full-Text Search
 summary: "BM25 full-text search via ParadeDB pg_search extension with ICU tokenizer replacing tsvector"
-state: approved
+state: implemented
 domain: search
 governed-by: [PRI-06, PRI-10]
 depends-on: [FTR-020]
@@ -82,6 +82,3 @@ CREATE INDEX chunks_bm25_ja ON book_chunks
 - FTR-020 (Search Architecture) updated to reflect pg_search in the search flow
 - A `script` column on `book_chunks` routes queries to the appropriate partial index at STG-021
 
-## Notes
-
-- **Origin:** FTR-025

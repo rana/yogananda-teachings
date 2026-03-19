@@ -76,6 +76,3 @@ CREATE TABLE sanskrit_terms (
 - Suggestion dictionary draws entries from these tables
 - Knowledge graph relationships reference entity registry entries via canonical ID
 
-## Notes
-
-- **Origin:** FTR-033

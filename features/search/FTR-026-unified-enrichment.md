@@ -102,7 +102,6 @@ Consolidate all index-time Claude enrichment into a single prompt per chunk. The
 
 ## Notes
 
-- **Origin:** FTR-026
 - **Implemented (2026-03-18):** `scripts/ingest/enrich.ts` — single Claude Sonnet pass per chunk, all metadata fields. Migration 009 adds `enrichment_model`, `enriched_at`, `passage_role`, `practice_bridge` columns. `scripts/ingest/populate-chunk-topics.ts` wires enriched topics to `chunk_topics` join table. Default model: Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6` via Bedrock inference profile); `--opus` flag for quality-critical runs (`us.anthropic.claude-opus-4-6-v1`). Re-runnable with `--force`. Region: us-west-2.
 - **When to re-enrich:** After improving the enrichment prompt; after a model upgrade (filter: `WHERE enrichment_model != '<new_model>'`); after ingesting a new book (automatic — only un-enriched chunks are processed).
 - **Closed vocabularies (CHECK constraints).** These values are enforced by database CHECK constraints. The enrichment prompt uses the same vocabulary. The design system CSS responds to these values via data attributes.

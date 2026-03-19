@@ -117,7 +117,6 @@ Update notes follow the same translation workflow as other editorial content (FT
 
 ### Consequences
 
-- New FTR-092 in DESIGN.md specifying the `/updates` page design, data model, and editorial workflow
 - New deliverable in STG-007 (when the editorial portal activates — first stage with human review capability)
 - New AI workflow in FTR-069 for update note drafting
 - New review queue type (`updates`) in the editorial portal (FTR-067)
@@ -249,6 +248,3 @@ Located at `/updates` — linked from site footer as "What's new in the portal."
 - RSS feed provides alternative access channel
 - ARIA label: "What's new in the portal — a record of how the library has grown"
 
-## Notes
-
-**Provenance:** FTR-092 + FTR-092 → FTR-092

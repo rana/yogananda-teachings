@@ -62,8 +62,5 @@ STG-001 has two conversation prerequisites (edition confirmation, PDF source) bu
 - STG-003 is gated on STG-002's bilingual search evaluation.
 - STG-004's hard prerequisite changes to "STG-003 complete."
 - The Gates table in ROADMAP.md is updated to reflect the three-stage split.
-- References to Phase 1 deliverable numbers in other documents (DESIGN.md, CONTEXT.md) should use the 1a/1b/1c numbering.
+- References to Phase 1 deliverable numbers in other documents (ROADMAP.md, CONTEXT.md) should use the 1a/1b/1c numbering.
 
-## Notes
-
-**Provenance:** FTR-091 → FTR-091

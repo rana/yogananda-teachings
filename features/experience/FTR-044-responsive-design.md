@@ -332,8 +332,3 @@ The portal's themes (Peace, Courage, Healing) are universal. But seekers have *p
 
 This transforms the Study Workspace from a composition tool into a personal spiritual workspace — a private space for organizing the teachings around one's own life, not the portal's categories.
 
----
-
-## Notes
-
-Migrated from FTR-044 per FTR-084.

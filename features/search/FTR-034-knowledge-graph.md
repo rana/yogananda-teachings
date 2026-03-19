@@ -416,4 +416,3 @@ Cross-tradition mappings are limited to Yogananda's own explicit mappings. The p
 ## Notes
 
 - **Origin:** FTR-034 (Rationale) + FTR-034 (Rationale) + FTR-034 (Specification) + FTR-034 (Specification)
-- **Merge:** Two ADRs covering graph ontology and Postgres-native graph intelligence, plus two DES sections specifying node/edge types and concept/word graph

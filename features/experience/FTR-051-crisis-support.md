@@ -42,7 +42,7 @@ The portal's "direct quotes only" principle (FTR-001) means it cannot add interp
 
 3. **Intent detection is simple, not invasive.** The system does not analyze individual user behavior. Grief-adjacent content is identified by *content type* (grief theme page, death-related teaching topic), not by *user signals*. If a page is about death, it carries the resource line — regardless of who is reading or why.
 
-4. **The Quiet Corner always carries the resource line.** The Quiet Corner is designed for the "2 AM unable to sleep" persona (DESIGN.md § The Quiet Corner). This is the portal's highest-vulnerability context. The crisis resource line is a permanent, subtle feature of the Quiet Corner page.
+4. **The Quiet Corner always carries the resource line.** The Quiet Corner is designed for the "2 AM unable to sleep" persona (FTR-040). This is the portal's highest-vulnerability context. The crisis resource line is a permanent, subtle feature of the Quiet Corner page.
 
 ### Alternatives Considered
 
@@ -87,7 +87,7 @@ The per-locale resource configuration determines which types appear and in what 
 
 - New UI element: crisis resource line on grief theme page, grief-adjacent search results, and Quiet Corner
 - Locale files extended with per-locale crisis resource data — supporting multiple resource types (helplines, community contacts, SRF/YSS centers), not only helplines
-- CONTEXT.md § Spiritual Design Principles references this ADR
+- CONTEXT.md § Spiritual Design Principles references this feature
 - CONTEXT.md § Open Questions (Stakeholder) includes crisis resource policy question for SRF input, and pastoral care resource question
 - No schema changes, no API changes, no privacy implications
 - Editorial review required for all crisis resource text before publication

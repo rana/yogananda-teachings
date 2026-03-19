@@ -89,6 +89,3 @@ Categories appear only when they contain at least one published topic. The homep
 - **MMR diversity applies to all categories.** The FTR-121 MMR rescoring pattern applies equally to person, principle, scripture, practice, and yoga_path themes. A seeker browsing "Christ" should see passages varying in depth signature and voice register — not five dense theological commentaries in sequence. See FTR-121 § MMR diversity and deep-research-gemini-discovery-without-surveillance.md
 - **Extends FTR-121** with five additional categories on the existing taxonomy
 
-## Notes
-
-- **Origin:** FTR-122

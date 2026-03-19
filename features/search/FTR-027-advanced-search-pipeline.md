@@ -2,7 +2,7 @@
 ftr: 27
 title: "Advanced Search Pipeline — Pure Hybrid Primary, AI-Enhanced Optional"
 summary: "Pure hybrid search as primary mode with optional HyDE, cross-encoder reranking, and graph-augmented retrieval"
-state: approved
+state: implemented
 domain: search
 governed-by: [PRI-05, PRI-03]
 depends-on: [FTR-020, FTR-034]
@@ -78,5 +78,4 @@ Full mode (STG-007+):       PATH A + PATH B + PATH C + HyDE -> CC(three-path, re
 
 ## Notes
 
-- **Origin:** FTR-027
 - **March 2026 revision:** Cross-encoder reranking elevated from "optional, if warranted by evaluation" to standard (STG-006). Cohere Rerank 3.5 replaced with Voyage Rerank for vendor consolidation. Enrichment-augmented embeddings added as standard STG-006 enhancement. Activation gate language replaced with evaluation history. Based on convergent findings from Gemini and Claude deep research reports. See `docs/reference/deep-research-gemini-modern-search.md` and `docs/reference/deep-research-claude-modern-search.md`.

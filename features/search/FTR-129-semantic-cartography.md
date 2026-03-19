@@ -49,6 +49,3 @@ These axes map to seeker intent: someone seeking personal comfort navigates to a
 **Decision Required From:** Architecture + UX review (axis selection, visual design, progressive enhancement thresholds)
 **Origin:** Graph navigation exploration — spatial representation of Opus structural understanding (2026-02-28)
 
-## Notes
-
-- **Origin:** FTR-129

@@ -83,7 +83,6 @@ Multi-persona prompting (FTR-128 § Prompt Design Notes) applies: the "Seeker" p
 
 ## Notes
 
-- **Origin:** FTR-127
 - **Research input (March 2026):** Contemplative taxonomy deep research report (57 citations) established the dual-layer model (described vs. evoked), hermeneutic depth tiers grounded in dhvani theory, and probability vector storage for multi-register classification. The described/evoked distinction resolves a fundamental design problem: sacred text often describes suffering to evoke consolation, describes struggle to evoke courage. Single-label classification misrepresents both the text and its impact.
 - **Cross-tradition validation:** The hermeneutic depth tiers map to the Christian Four Senses of Scripture (literal/allegorical/moral/anagogical), computationally validated by Trepczynski 2023 via BIG-Bench. Yogananda's corpus explicitly bridges Hindu and Christian frameworks, making this cross-tradition classification natively appropriate.
 - **Research input (Claude, March 2026):** Claude Deep Research contemplative emotion taxonomy report. Key absorptions: (1) triple function of sacred text (describe, evoke, transmit) — the "transmit" dimension acknowledged as beyond classification; (2) 23 contemplative states missing from all NLP taxonomies — GoEmotions explicitly excluded religion; (3) realistic κ = 0.25–0.45 and F1 targets for contemplative text; (4) "beyond classification" marker for irreducible passages. Report: `docs/reference/deep-research-claude-contemplative-emotion.md`.

@@ -60,7 +60,6 @@ Medium. The Service Worker infrastructure exists. The main work is UI (download 
 
 ## Notes
 
-Migrated from FTR-147 per FTR-084.
 
 ### SSR and Low-Bandwidth Analysis (2026-03-17)
 

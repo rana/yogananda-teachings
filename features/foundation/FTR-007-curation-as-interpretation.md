@@ -35,7 +35,7 @@ However, as the portal's feature surface has grown — editorial reading threads
  - **Transparent framing.** The selection mechanism (a theme label, a date, a search query, a curator name) is visible to the seeker, not hidden behind an opaque algorithm.
  - **Context always available.** Every curated passage links to its full chapter context via "Read in context."
 
-3. **Establish the Editorial Proximity Standard.** A cross-cutting section in DESIGN.md (§ Editorial Proximity Standard) defines unified visual and structural rules for how portal-authored prose (not from any SRF-published author) behaves when it appears near sacred text. The standard governs: visual typography (Merriweather for SRF-published author text across all author tiers, Open Sans for editorial/functional prose), structural separation (`<article>`/`<section>` boundaries), attribution requirements including full author name (FTR-001), accessibility announcements, and a maximum editorial-to-sacred-text content ratio.
+3. **Establish the Editorial Proximity Standard.** The Editorial Proximity Standard (this section) defines unified visual and structural rules for how portal-authored prose (not from any SRF-published author) behaves when it appears near sacred text. The standard governs: visual typography (Merriweather for SRF-published author text across all author tiers, Open Sans for editorial/functional prose), structural separation (`<article>`/`<section>` boundaries), attribution requirements including full author name (FTR-001), accessibility announcements, and a maximum editorial-to-sacred-text content ratio.
 
 ### Alternatives Considered
 
@@ -48,9 +48,9 @@ However, as the portal's feature surface has grown — editorial reading threads
 ### Consequences
 
 - New subsection "Curation as Interpretation: The Fidelity Boundary" added to CONTEXT.md § Theological and Ethical Constraints. This elevates an implicit understanding to an explicit design principle.
-- New cross-cutting section "Editorial Proximity Standard" added to DESIGN.md, governing all features that place portal prose near sacred text. Component developers implementing any governed feature (search results, reading threads, glossary, daily email, social media, magazine, `/guide`, crisis resources, study workspace, chant reader, community collections) must follow the standard.
+- New cross-cutting section "Editorial Proximity Standard" added to the relevant FTR files, governing all features that place portal prose near sacred text. Component developers implementing any governed feature (search results, reading threads, glossary, daily email, social media, magazine, `/guide`, crisis resources, study workspace, chant reader, community collections) must follow the standard.
 - Three new open questions added to CONTEXT.md: edition variance policy, spiritual terminology bridge governance, and fidelity re-validation cadence.
-- Future ADRs introducing features that curate or frame sacred text must reference this ADR and specify which Editorial Proximity Standard rules apply.
+- Future ADRs introducing features that curate or frame sacred text must reference this feature and specify which Editorial Proximity Standard rules apply.
 - The CLAUDE.md maintenance table should include "editorial proximity" alongside multilingual, accessibility, and DELTA as a cross-cutting concern.
 
 ## Specification

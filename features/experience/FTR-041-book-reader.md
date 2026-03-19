@@ -513,6 +513,3 @@ Lectio Divina apps implement this as a "still-yourself timer" before text appear
 - **FTR-044** (Responsive) — reader breakpoints consolidated (section 15)
 - **FTR-012** — Crimson color, font scales, timing values are named constants in `/lib/config.ts`
 
-## Notes
-
-Migrated from FTR-041 per FTR-084.

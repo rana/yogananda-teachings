@@ -93,11 +93,8 @@ EU-US data transfers rely on the EU-US Data Privacy Framework (DPF) where servic
 - 90-day automatic purge of soft-deleted subscriber records (STG-020)
 - Feedback form gains PII notice (STG-007)
 - ROPA document created (STG-004)
-- Sub-processor inventory maintained in DESIGN.md
+- Sub-processor inventory maintained in this file
 - Minimum age statement on email subscription form (STG-020)
 - STG-023 account signup includes age verification
 - New open questions added to CONTEXT.md: data controller identity, minimum age policy, Indian DPDPA cross-border rules, Brazilian LGPD DPO requirement
 
-## Notes
-
-**Provenance:** FTR-085 → FTR-085

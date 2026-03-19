@@ -21,6 +21,3 @@ suspended: 2026-03-01
 **Reactivation trigger:** Post-Phase 3 planning, when distribution scope is defined.
 **Re-evaluate At:** Post-Phase 3 boundary
 
-## Notes
-
-**Provenance:** FTR-154 → FTR-154 (absorbs suspended FTR-154, FTR-154, FTR-154)

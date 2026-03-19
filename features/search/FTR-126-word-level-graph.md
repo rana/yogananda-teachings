@@ -22,6 +22,3 @@ Enhances FTR-034 with fine-grained word-level graph enabling linguistic explorat
 
 **Source Explorations:** `word-graph-similar-to-knowledge-graph-graph-traversal-of.md`
 
-## Notes
-
-- **Origin:** FTR-126

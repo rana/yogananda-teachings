@@ -48,7 +48,7 @@ Establish **Neon Scale tier with PostgreSQL 18** as the project's database platf
 | Skip scan on B-tree indexes | 1a+ | Composite `(updated_at, id)` indexes (FTR-087) become usable for id-only queries. |
 | Parallel GIN index creation | 1a+ | Speeds pg_search/ParadeDB BM25 index builds during ingestion. |
 | Enhanced `RETURNING` (OLD/NEW) | 1a+ | Simplifies ingestion pipeline upsert logic and `book_chunks_archive` pattern. |
-| `EXPLAIN ANALYZE` with BUFFERS | 1a+ | Included by default, complementing pg_stat_statements observability (this ADR). |
+| `EXPLAIN ANALYZE` with BUFFERS | 1a+ | Included by default, complementing pg_stat_statements observability (this feature). |
 | Data checksums by default | 1a+ | Enabled automatically for new Neon projects. |
 | Unicode 16.0.0 | 1a+ | Improved case mapping for Sanskrit/Hindi diacritics (FTR-131). |
 | Virtual generated columns | 1c+ | Compute values at read time without storage overhead. Evaluate for normalized search text. |
@@ -211,6 +211,5 @@ Neon infrastructure is managed via Platform MCP (FTR-106), which uses the Neon R
 
 ## Notes
 
-**Provenance:** FTR-094 → FTR-094
 
-FTR-094 (Time Travel Queries) was adopted into this ADR.
+FTR-094 (Time Travel Queries) was adopted into this feature.

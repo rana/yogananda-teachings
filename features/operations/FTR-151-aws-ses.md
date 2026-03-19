@@ -53,6 +53,3 @@ However, the cost savings are modest ($15–20/month), and the deliverability bo
 **Re-evaluate At:** STG-020 scoping (daily email implementation)
 **Decision Required From:** Architecture + SRF AE team input (do they prefer portal on their SendGrid account or a separate email system?)
 
-## Notes
-
-**Provenance:** FTR-151 → FTR-151

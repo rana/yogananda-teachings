@@ -105,6 +105,3 @@ The assessment answers the question every stakeholder cares about: **"Is this wo
 **Re-evaluate At:** STG-003 (working portal provides a meaningful base for prototyping)
 **Decision Required From:** Architecture (skill design), human principal (governance — who can dream?)
 
-## Notes
-
-**Provenance:** FTR-156 → FTR-156

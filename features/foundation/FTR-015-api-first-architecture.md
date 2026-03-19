@@ -131,7 +131,7 @@ The URL structure is decided now. The association files are added when the app l
 
 ### Consequences
 
-- STG-001 API routes use `/api/v1/` prefix (update DESIGN.md)
+- STG-001 API routes use `/api/v1/` prefix
 - All features implemented via `/lib/services/` functions first, then exposed via Server Components and API routes
 - API routes are public (no auth) through STG-023; auth middleware added only if/when STG-023 accounts are implemented
 - List endpoints return cursor-based pagination

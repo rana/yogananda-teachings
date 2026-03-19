@@ -194,5 +194,5 @@ SRF has extraordinary imagery: the Encinitas hermitage cliffs, Lake Shrine garde
 - The homepage hero component is conditional — it gracefully degrades to text-only if no image is configured
 - A `portal_images` configuration (or simple env var/CMS field) stores the current seasonal hero image
 - The Quiet Corner background image is optional and loaded with `loading="lazy"` and low priority
-- FTR-073's guidelines on guru portraits remain in effect — this ADR adds the footer portrait and nature photography strategy
+- FTR-073's guidelines on guru portraits remain in effect — this feature adds the footer portrait and nature photography strategy
 - The footer component gains a small portrait element with alt text "Paramahansa Yogananda"

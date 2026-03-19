@@ -15,7 +15,7 @@ governed-by: [PRI-10]
 
 ### Context
 
-After a comprehensive review of the project's 120 ADRs, 57 design sections, and multi-stage roadmap, a structural pattern emerged: the documents frequently conflate *principles* (immutable commitments that define the project's identity) with *parameters* (tunable defaults that should adapt to real data). Both are recorded at the same authority level in DECISIONS.md and DESIGN.md, which creates a ratchet effect — every mechanism decision accumulates the weight of a principle decision, and relaxing any parameter *feels* like violating a principle even when it doesn't.
+After a comprehensive review of the project's 120 ADRs, 57 design sections, and multi-stage roadmap, a structural pattern emerged: the documents frequently conflate *principles* (immutable commitments that define the project's identity) with *parameters* (tunable defaults that should adapt to real data). Both are recorded at the same authority level in the project documentation, which creates a ratchet effect — every mechanism decision accumulates the weight of a principle decision, and relaxing any parameter *feels* like violating a principle even when it doesn't.
 
 This matters because: (1) no code exists yet; (2) many specific values (cache TTLs, debounce timers, chunk sizes, rate limits, fusion parameters) are pre-production guesses that need validation against real data; (3) the 10-year horizon (FTR-004) demands that future maintainers can tune operational parameters without navigating the full ADR governance process.
 
@@ -54,11 +54,11 @@ Examples:
 
 ### Implementation
 
-1. **Annotation convention:** Parameters in DESIGN.md are annotated with `*[Parameter — default: {value}, evaluate: {trigger}]*` inline after the value. This signals to implementers that the value should be a configuration constant, not a hardcoded literal.
+1. **Annotation convention:** Parameters in FTR files are annotated with `*[Parameter — default: {value}, evaluate: {trigger}]*` inline after the value. This signals to implementers that the value should be a configuration constant, not a hardcoded literal.
 
 2. **Configuration constants:** All parameters are implemented as named constants in `/lib/config.ts` (or environment variables for deployment-specific values), never as magic numbers in application code.
 
-3. **Evaluation log:** When a parameter is tuned based on data, add a brief note to the relevant DESIGN.md section: `*Parameter tuned: [date], [old] → [new], [evidence].*`
+3. **Evaluation log:** When a parameter is tuned based on data, add a brief note to the relevant FTR file: `*Parameter tuned: [date], [old] → [new], [evidence].*`
 
 4. **Stage gate integration:** STG-001-8 (search quality evaluation) and STG-005 success criteria explicitly include parameter validation as deliverables. Parameters marked "evaluate: STG-001-8" are reviewed during that gate.
 
@@ -71,7 +71,7 @@ Examples:
 
 ### Consequences
 
-- All existing magic numbers in DESIGN.md to be annotated with the parameter convention during initial implementation
+- All existing magic numbers in FTR files to be annotated with the parameter convention during initial implementation
 - `/lib/config.ts` created as the canonical location for runtime parameters
 - STG-001-8 success criteria updated to include parameter validation
 - Future ADRs specify whether each specific value is a principle or parameter

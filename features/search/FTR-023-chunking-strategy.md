@@ -13,7 +13,7 @@ governed-by: [PRI-01, PRI-03]
 
 ### Context
 
-DESIGN.md specifies chunk relations, storage, embedding, and search in detail. But no document formally defines the chunking algorithm -- the single most important factor in search retrieval quality. A bad chunking strategy produces orphaned fragments (too small) or imprecise retrieval (too large). Yogananda's prose style varies dramatically: terse aphorisms in *Sayings*, flowing narrative in *Autobiography*, verse-by-verse commentary in *The Second Coming of Christ*.
+The search FTR files specify chunk relations, storage, embedding, and search in detail. But no document formally defines the chunking algorithm -- the single most important factor in search retrieval quality. A bad chunking strategy produces orphaned fragments (too small) or imprecise retrieval (too large). Yogananda's prose style varies dramatically: terse aphorisms in *Sayings*, flowing narrative in *Autobiography*, verse-by-verse commentary in *The Second Coming of Christ*.
 
 ### Decision
 

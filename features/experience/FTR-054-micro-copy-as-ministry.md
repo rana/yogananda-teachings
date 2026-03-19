@@ -48,7 +48,7 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 
 ### Alternatives Considered
 
-1. **Leave copy to developer judgment.** Rejected: Over 10 years, developer turnover ensures inconsistency. The visual design system (DESIGN.md § Design Tokens) prevents visual drift; a verbal design system prevents copy drift. Same principle.
+1. **Leave copy to developer judgment.** Rejected: Over 10 years, developer turnover ensures inconsistency. The visual design system (FTR-042) prevents visual drift; a verbal design system prevents copy drift. Same principle.
 
 2. **Full copywriting review for every string before merge.** Considered: Ensures quality but creates a bottleneck. Decision: STG-004 strings are reviewed before launch. Post-launch strings are reviewed in batches during locale translation sprints (FTR-135). Developer-authored strings ship to staging, not directly to production.
 
@@ -65,13 +65,9 @@ The portal has a brand identity for its AI: "The Librarian" (FTR-077). But the p
 
 - New file: `/docs/editorial/ui-copy-guide.md` (created during STG-004 alongside locale file externalization)
 - All ARIA labels reviewed for warmth and clarity as part of STG-004 accessibility foundation (FTR-003)
-- DESIGN.md § Frontend Design gains a "UI Copy Standards" subsection referencing this ADR
 - Locale files (`messages/*.json`) include copy-guide annotations for translators
 - CONTEXT.md open question added: editorial governance of UI copy (who reviews, what process)
 - **Per-locale terminology adaptation:** The term "seeker" is the English-language editorial voice. Per-locale editorial review (STG-021) should determine the culturally appropriate term in each language. In Hindi, *sādhak* (साधक, practitioner) or *pāṭhak* (reader) may resonate more than a literal translation of "seeker" — *sādhak* implies active practice, not searching. In Japanese, "seeker" (*tanbōsha*) implies outsider status; "practitioner" or "reader" may feel more respectful. The preferred terms per locale are documented in `/docs/editorial/ui-copy-guide.md` and applied consistently in `messages/{locale}.json`.
 - No schema changes, no API changes
 
 
-## Notes
-
-Migrated from FTR-054 per FTR-084.

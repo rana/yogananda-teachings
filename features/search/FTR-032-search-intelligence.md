@@ -63,6 +63,3 @@ CREATE TABLE search_theme_aggregates (
 - Nightly aggregation Lambda function
 - Annual report production becomes an SRF staff responsibility
 
-## Notes
-
-- **Origin:** FTR-032

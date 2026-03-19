@@ -14,7 +14,7 @@ governed-by: [PRI-01, PRI-04]
 
 ### Context
 
-The portal is designed as a "signpost, not destination" (FTR-049) — it points seekers toward deeper SRF practice without tracking conversions or acting as a sales funnel. The About page's "Go Deeper" section is described as "the most important part of this page" (DESIGN.md § About Section), but currently offers only a single link: `→ SRF Lessons (home-study meditation program)`.
+The portal is designed as a "signpost, not destination" (FTR-049) — it points seekers toward deeper SRF practice without tracking conversions or acting as a sales funnel. The About page's "Go Deeper" section is described as "the most important part of this page" (FTR-056), but currently offers only a single link: `→ SRF Lessons (home-study meditation program)`.
 
 Meanwhile, Yogananda's most consistent teaching across all his published books is that reading is insufficient — practice is everything. *Autobiography of a Yogi* devotes an entire chapter (Ch. 26, "The Science of Kriya Yoga") to publicly explaining what Kriya Yoga is, its ancient lineage, and its purpose. Passages throughout the corpus explicitly invite the reader to move from intellectual understanding to direct experience through meditation.
 
@@ -85,17 +85,9 @@ Three distinctions separate the Practice Bridge from a sales funnel:
 ### Consequences
 
 - CONTEXT.md Key Terminology updated: Kriya Yoga entry revised from "NOT to be discussed" to "Technique instructions never included; Yogananda's published descriptions surfaced normally"
-- DESIGN.md § About Section: "Go Deeper" enriched with SRF-approved Lessons description
-- DESIGN.md § FTR-056: New `/guide` pathway added
-- DESIGN.md § FTR-040: Quiet Corner practice note added after parting passage
-- DESIGN.md § FTR-063: "The Path of Practice" thread documented as a planned thread
-- DESIGN.md § Theme Taxonomy: Scope note added to Kriya Yoga theme
 - FTR-005 E1 intent table: `practice_inquiry` intent added
 - New stakeholder questions added to CONTEXT.md: SRF approval of enriched Lessons description, canonical enrollment URL confirmation
 - The "Conversion to SRF Lessons" anti-metric (CONTEXT.md § Measuring Success) remains unchanged — the portal never tracks how many seekers enroll. Information availability is not the same as conversion optimization.
 - FTR-022 (Lessons Integration Readiness) is unaffected — it governs future *content-level* access control for actual Lesson materials. FTR-055 governs *public descriptions of* the Lessons path, using only published information.
 
 
-## Notes
-
-Migrated from FTR-055 per FTR-084.

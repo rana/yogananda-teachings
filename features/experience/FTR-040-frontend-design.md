@@ -1675,4 +1675,3 @@ Download WOFF2 files for Merriweather (300, 400, 700), Lora (400), and Open Sans
 
 ## Notes
 
-Migrated from FTR-040 (with subsections FTR-040 through FTR-040) per FTR-084.

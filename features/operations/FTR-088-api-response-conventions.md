@@ -100,10 +100,6 @@ Endpoints supporting "show me another" (random single-item responses) accept an 
 
 - FTR-015 response examples updated to use the `data`/`pagination`/`meta` envelope and `snake_case` fields.
 - All future endpoint specifications must follow these conventions.
-- Existing endpoint examples in DESIGN.md that predate this ADR have been retroactively updated.
 - A `serializeResponse()` utility in `/lib/services/` handles `camelCase` → `snake_case` transformation at the API boundary.
 - Mobile app developers can write generic pagination and error handling against a predictable response shape.
 
-## Notes
-
-**Provenance:** FTR-088 → FTR-088

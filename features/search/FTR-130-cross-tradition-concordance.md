@@ -28,6 +28,3 @@ Yogananda's core vision: demonstrating the underlying unity of Christ's and Kris
 **Re-evaluate At:** STG-001-8 (search quality evaluation — test cross-tradition queries), STG-008 planning
 **Decision Required From:** Architecture + search quality evaluation
 
-## Notes
-
-- **Origin:** FTR-130

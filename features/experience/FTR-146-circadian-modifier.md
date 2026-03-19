@@ -62,6 +62,3 @@ The circadian CSS itself, theme definitions, color values, or any other design l
 **Origin:** Design review 2026-03-03
 
 
-## Notes
-
-Migrated from FTR-146 per FTR-084.

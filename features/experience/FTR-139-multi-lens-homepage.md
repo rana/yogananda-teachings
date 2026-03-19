@@ -44,8 +44,3 @@ Secondary nav: Books   Audio   The Four Doors   Guide   About
 
 **Origin:** External design review (Claude Web conversation, 2026-03-01)
 
----
-
-## Notes
-
-Migrated from FTR-139 per FTR-084.

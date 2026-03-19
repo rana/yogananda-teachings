@@ -288,7 +288,7 @@ CREATE TABLE book_chunks_archive (
 
 > **Terminology note:** The database table `teaching_topics` is exposed as `themes` in the API (`/api/v1/themes`) and displayed as "Doors of Entry" in the seeker-facing UI. The related junction table `chunk_topics` links passages to themes. These terms all refer to the same concept: curated thematic groupings of Yogananda's teachings (e.g., Peace, Courage, Healing). See FTR-121 and FTR-121.
 
-The full schema continues with teaching_topics, topic_translations, chunk_topics, daily_passages, affirmations, search_queries, search_theme_aggregates, chapter_study_notes, chunk_relations, chunk_references, entity_registry, sanskrit_terms, suggestion_dictionary, extracted_relationships, and user_profiles tables. See the complete schema in `design/search/FTR-021-data-model.md`.
+The full schema continues with teaching_topics, topic_translations, chunk_topics, daily_passages, affirmations, search_queries, search_theme_aggregates, chapter_study_notes, chunk_relations, chunk_references, entity_registry, sanskrit_terms, suggestion_dictionary, extracted_relationships, and user_profiles tables. See the complete schema earlier in this file.
 
 ### Contentful Content Model (STG-001+)
 
@@ -365,5 +365,4 @@ Webhook → Vercel Function
 ## Notes
 
 - **Origin:** FTR-021 (Edition-Aware Content Model) + FTR-021 (Data Model)
-- **Merge:** FTR-021 rationale merged with FTR-021 specification
 - Schema revised 2026-02-26 after deep review

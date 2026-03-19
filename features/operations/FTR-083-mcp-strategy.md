@@ -243,6 +243,3 @@ Tier 1 and Tier 2 tools return raw service-layer output (matching the HTTP API s
 
 All tools delegate to `/lib/services/` — zero business logic in the MCP layer.
 
-## Notes
-
-**Provenance:** FTR-083 + FTR-083 → FTR-083

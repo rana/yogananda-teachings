@@ -247,6 +247,3 @@ CREATE INDEX idx_messaging_metrics_daily ON messaging_metrics(created_at, channe
 - **Replaces** the STG-024 "exploration" framing with a committed delivery plan starting at STG-020 (WhatsApp)
 
 
-## Notes
-
-Migrated from FTR-134 per FTR-084.

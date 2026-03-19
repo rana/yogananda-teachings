@@ -70,6 +70,3 @@ FTR-003 establishes WCAG 2.1 AA compliance as a STG-004 foundation. FTR-054 esta
 - Cross-reference: FTR-003 (accessibility foundation), FTR-054 (UI copy standards)
 
 
-## Notes
-
-Migrated from FTR-053 per FTR-084.

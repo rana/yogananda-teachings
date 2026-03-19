@@ -165,4 +165,3 @@ None. The existing `topic_translations` table handles localized names for any th
 ## Notes
 
 - **Origin:** FTR-121 (Rationale) + FTR-121 (Rationale)
-- **Merge:** Two related ADRs — FTR-121 establishes teaching topics as curated entry points, FTR-121 extends with multi-category taxonomy and semi-automated tagging

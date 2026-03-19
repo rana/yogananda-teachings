@@ -22,6 +22,3 @@ Video transcript time-syncing, platform-agnostic video model, audio ingestion an
 **Reactivation trigger:** Phase 3 boundary, when cross-media search scope is defined.
 **Re-evaluate At:** Phase 3 boundary
 
-## Notes
-
-Migrated from FTR-142 per FTR-084. Absorbs suspended FTR-142, FTR-142, FTR-142, FTR-142, FTR-142, FTR-142.

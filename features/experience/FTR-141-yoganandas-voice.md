@@ -30,6 +30,3 @@ depends-on: [FTR-008, FTR-142]
 **Origin:** External design review (Claude Web conversation, 2026-03-01)
 
 
-## Notes
-
-Migrated from FTR-141 per FTR-084.

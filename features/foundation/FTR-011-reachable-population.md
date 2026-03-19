@@ -80,7 +80,7 @@ When a future scope decision arises:
 - **Roadmap reordered:** Languages (formerly STG-021) move before reader refinement (formerly STG-005) and before study tools (formerly STG-007+). Spanish Autobiography ingestion moves into STG-002. Hindi deferred (authorized source unavailable outside India) — activates in STG-021.
 - **FTR-058 revised:** Language priority ordering replaces "no wave ordering." Languages ship as they clear a readiness gate (content + UI strings + human reviewer), ordered by reachable population.
 - **Breadth-first, not depth-first:** The portal reaches 3 billion people with a good experience before reaching 390 million with a perfect experience.
-- **Decision audit trail:** Future scope decisions reference this ADR with the specific reach calculation.
+- **Decision audit trail:** Future scope decisions reference this feature with the specific reach calculation.
 - **Data refresh:** At each stage boundary, verify speaker counts and internet penetration against the latest ITU and DataReportal reports. Update the priority table if any language's reachable population shifts by >10%.
 
 ### Limits

@@ -93,4 +93,3 @@ Reorder book ingestion to prioritize **life-impact potential** — books that ar
 ## Notes
 
 - **Origin:** FTR-120 (Rationale) + FTR-120 (Rationale)
-- **Merge:** Two related ADRs covering book selection for STG-001 and post-STG-001 ingestion priority

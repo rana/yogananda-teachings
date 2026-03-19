@@ -39,7 +39,7 @@ Each of these paths should be as excellent as the search experience. "Excellent"
 
 2. **The Google-arrival chapter page has a gentle context header.** When a seeker lands on `/books/[slug]/[chapter]` without navigating through the portal (referrer is external or empty), a subtle one-line context bar appears above the chapter title: "You're reading *[Book Title]* by Paramahansa Yogananda — [Chapter N] of [Total] — Start from the beginning →". Styled in `--portal-text-muted`, `--text-sm`. Dismissed on scroll. Not shown when navigating within the portal.
 
-3. **The Quiet Corner is self-contained.** No navigation chrome competes with the affirmation. The header collapses to just the lotus mark (home link). The footer is suppressed. The page is almost entirely empty — the affirmation, the timer, and nothing else. This is already specified in DESIGN.md but is elevated here as an explicit design constraint: the Quiet Corner page must pass the "2 AM crisis test" — a person in distress should see nothing that adds to their cognitive load.
+3. **The Quiet Corner is self-contained.** No navigation chrome competes with the affirmation. The header collapses to just the lotus mark (home link). The footer is suppressed. The page is almost entirely empty — the affirmation, the timer, and nothing else. This is already specified in FTR-040 but is elevated here as an explicit design constraint: the Quiet Corner page must pass the "2 AM crisis test" — a person in distress should see nothing that adds to their cognitive load.
 
 4. **The daily visitor's path optimizes for Today's Wisdom.** The homepage's information architecture already places Today's Wisdom first. This ADR adds: the "Show me another" interaction should feel *inexhaustible* — the seeker should never feel they've "used up" the passages. When the pool is thin (initial stage, one book), "Show me another" should cycle through all available passages before repeating any. A simple client-side exclusion list (sessionStorage) prevents repeats within a visit.
 
@@ -68,13 +68,7 @@ Each of these paths should be as excellent as the search experience. "Excellent"
 - Chapter page gains external-arrival context header (referrer detection, sessionStorage dismissal)
 - Quiet Corner page explicitly constrained: suppressed footer, minimal header
 - "Show me another" gains sessionStorage-based repeat prevention within a visit
-- DESIGN.md § Passage Sharing, § The Quiet Corner, and § Book Reader updated
-- New DESIGN.md subsection: "Non-Search Seeker Journeys"
+- FTR-048, FTR-041, FTR-040 updated with non-search journey constraints
 - No schema changes, no new API endpoints
 - QA requirement: test each of the five non-search paths end-to-end for warmth, completeness, and single-invitation principle
 
----
-
-## Notes
-
-Migrated from FTR-047 per FTR-084.

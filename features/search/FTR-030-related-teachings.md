@@ -67,6 +67,3 @@ Research from library science and content-only recommendation systems (deep-rese
 
 **Relationship label micro-copy.** Replace mechanical labels ("Related Passage") with semantic transition notes generated from relationship types. A PROGRESSION_TO edge renders as "Moving deeper into this practice..."; a CROSS_TRADITION_EQUIVALENT renders as "A parallel expression from another tradition...". This produces the "wise librarian" effect — the corpus's structural intelligence voiced as caring guidance.
 
-## Notes
-
-- **Origin:** FTR-030

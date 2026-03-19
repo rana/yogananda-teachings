@@ -119,6 +119,3 @@ Pre-renderable PDFs are GET endpoints on their parent resources. But a seeker wh
 - Future: Passage collection and search result PDFs (dynamic, STG-023+ or as demand warrants)
 
 
-## Notes
-
-Migrated from FTR-133 per FTR-084.

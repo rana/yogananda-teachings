@@ -292,6 +292,3 @@ A composite signal — not a quality metric — predicting how well a feature fi
 **Re-evaluate At:** STG-004 (lightweight: morning brief + email circles), STG-007 (full catalog UI)
 **Decision Required From:** Architecture (data model, integration points), human principal (stakeholder circle membership, feedback governance — who can comment on features?)
 
-## Notes
-
-**Provenance:** FTR-159 → FTR-159

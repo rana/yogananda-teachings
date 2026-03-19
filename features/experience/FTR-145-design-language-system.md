@@ -75,6 +75,3 @@ Not needed now — token files are small enough for any context window. Becomes 
 **Origin:** Design exploration 2026-03-02
 
 
-## Notes
-
-Migrated from FTR-145 per FTR-084.

@@ -100,7 +100,7 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 
 ### Consequences
 
-- **Ingestion pipeline:** Unicode NFC normalization added as a mandatory preprocessing step (Step 2.5 in DESIGN.md § Content Ingestion Pipeline)
+- **Ingestion pipeline:** Unicode NFC normalization added as a mandatory preprocessing step (Step 2.5 in FTR-022)
 - **Search index:** pg_search BM25 index with ICU tokenizer handles diacritics normalization natively (FTR-025). The `unaccent` extension remains for pg_trgm fuzzy matching.
 - **Font stack:** Noto Serif Devanagari (reading) and Noto Sans Devanagari (UI/verses) added from the initial stage. Hindi locale loads eagerly; English pages with Devanāgarī content load conditionally
 - **Glossary schema:** Three new nullable columns (`phonetic_guide`, `pronunciation_url`, `has_teaching_distinction`) on `glossary_terms`
@@ -114,6 +114,3 @@ ALTER TABLE glossary_terms ADD COLUMN has_teaching_distinction BOOLEAN NOT NULL 
 - **Devanāgarī typography QA:** Conjunct rendering, matra placement, halant/virama, and nukta characters verified at all font sizes as a STG-002 success criterion
 
 
-## Notes
-
-Migrated from FTR-131 per FTR-084.

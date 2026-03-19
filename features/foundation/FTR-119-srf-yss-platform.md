@@ -155,7 +155,7 @@ YSS can also develop new capabilities — ashram finder, Dhyana Kendra schedule,
 
 YSS's technical capacity is unknown. The platform should empower regardless of capacity level:
 
-- **Platform documentation as AI development context.** The design docs (DESIGN.md, ADRs, design files) serve as context for AI-assisted development. A YSS developer using Claude Code loads platform docs and builds on the API with full architectural understanding.
+- **Platform documentation as AI development context.** The design docs (FTR files) serve as context for AI-assisted development. A YSS developer using Claude Code loads platform docs and builds on the API with full architectural understanding.
 - **Custom Claude Code skills** for YSS integration tasks: widget embedding, language addition, content contribution workflows.
 - **Methodology transfer.** The AI-human collaboration model, design documentation as institutional memory, ADR-driven decisions — a practice YSS could adopt for their own properties.
 - **Technology choice.** YSS may prefer WordPress integration, a separate React app, or a framework entirely of their choosing. The API-first architecture supports all.

@@ -37,6 +37,3 @@ Research on the "wise librarian" effect and content-only recommendation (deep-re
 
 **Appeal-Factor Querying.** Power the Four Doors using the enrichment metadata mapped to library science "appeal factors" rather than keyword or topic indexes. "I am struggling" → query by emotional quality (Mood: consoling, comforting) and depth signature (Complexity: accessible, not bottomless). "I want to understand" → query by voice register (Style: philosophical, analytical) and depth (Complexity: deep). This maps the librarian's nuanced interview process to a single-click interaction.
 
-## Notes
-
-Migrated from FTR-138 per FTR-084.

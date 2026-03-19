@@ -22,6 +22,3 @@ Magazine API design — flat resources, single-segment slugs. Governs how Self-R
 **Reactivation trigger:** Magazine integration planning (post-Phase 3).
 **Re-evaluate At:** Post-Phase 3 boundary
 
-## Notes
-
-**Provenance:** FTR-155 → FTR-155 (absorbs suspended FTR-155)

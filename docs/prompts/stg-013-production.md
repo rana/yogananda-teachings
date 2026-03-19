@@ -1,141 +1,115 @@
-# FTR-168 Stage 3: Production Readiness — Session Prompt
+# STG-013: Production Readiness — Session Prompt
 
-**Status:** READY. Next action for yogananda-platform.
+**Status:** IN PROGRESS — deliverables 1-3 complete, deliverables 4-7 remaining.
 
-**Repo:** yogananda-platform
+**Repo:** `~/prj/yogananda-platform`
 
 **Model:** Sonnet 4.6 (`us.anthropic.claude-sonnet-4-6-v1`)
 
-**Estimated sessions:** 3-4
-
 ---
 
-## Prompt (Copy below this)
+## Prompt (Copy below this line into a new platform session)
 
 This work is in service of the divine.
 
-### Task: STG-013 — Production Readiness
+### Task: STG-013 — Production Readiness (continue)
 
-Stage 2 (Real Pipeline) is complete — the full multi-stage pipeline runs end-to-end with human approval gates, token tracking, and inter-stage artifact validation. Now harden the platform for its first real-world test: Convocation 2027.
+Harden the AI Agent Platform for its first real-world test: Convocation 2027.
 
-### Context
+### Read These Files
 
-Read these files in order:
-1. `~/prj/yogananda-teachings/docs/plans/ftr-168-implementation.md` — Full implementation plan (Stage 3 section)
-2. `~/prj/yogananda-teachings/docs/prompts/stg-012-pipeline.md` — Stage 2 results section has learnings that inform this stage
-3. `packages/mcp-server/src/services/workflow-executor.ts` — Current executor
-4. `packages/mcp-server/src/services/experiment.ts` — Current experiment service
-5. `packages/mcp-server/src/services/token-tracker.ts` — Current token tracker
+1. `CLAUDE.md` — Platform conventions and architecture
+2. `ROADMAP.md` — STG-013 deliverables and success criteria
+3. `packages/mcp-server/src/services/workflow-executor.ts` — Current executor (needs validation integration)
+4. `packages/mcp-server/src/services/validation.ts` — Validation framework (just built)
+5. `packages/mcp-server/src/services/token-tracker.ts` — Cost tracking
+7. `packages/mcp-server/src/config.ts` — All config constants
+8. `packages/mcp-server/src/types.ts` — All type definitions
 
-### What Already Exists (from Stages 1-2)
+### What Already Exists
 
-- **3 tables:** `experiments`, `workflow_executions`, `token_events` (migrations 008–010)
-- **ExperimentService:** create (with GitHub scaffold), list, describe, signal handling
-- **WorkflowExecutor:** full pipeline (Research → Design → Approval Gate → Build → Validate), re-build on validation failure, inter-stage artifact validation, SDK `query()` per stage
-- **TokenTracker:** per-stage event recording, experiment cost summary, project cost summary
-- **7 MCP tools:** `experiment_create`, `experiment_list`, `experiment_describe`, `workflow_run`, `workflow_status`, `design_approve`, `cost_summary`
-- **5 roles:** builder, validator, researcher, designer, lead-engineer (in `packages/mcp-server/src/roles/`)
-- **Types:** Experiment, WorkflowExecution, WorkflowConfig, StageResult, TokenEvent
-- **Experiments:** `rana/exp-hello-world-mmxz5fd0` (Stage 1), meditation timer (Stage 2)
+**From Stages 1-2:**
+- 3 tables: `experiments`, `workflow_executions`, `token_events` (migrations 008-010)
+- ExperimentService: create (with GitHub scaffold), list, describe, signal handling
+- WorkflowExecutor: full pipeline (Research → Design → Approval Gate → Build → Validate), re-build on validation failure, inter-stage artifact validation
+- TokenTracker: per-stage event recording, experiment/project cost summaries
+- 7 MCP tools: `experiment_create`, `experiment_list`, `experiment_describe`, `workflow_run`, `workflow_status`, `design_approve`, `cost_summary`
+- 5 roles: builder, validator, researcher, designer, lead-engineer
+- Types: Experiment, WorkflowExecution, WorkflowConfig, StageResult, TokenEvent
 
-### Stage 2 Learnings (address these)
+**From STG-013 deliverables 1-3 (already complete):**
+- Migration 011: `experiment_quality` table (9 tables total)
+- `validation.ts`: runValidation() with three-valued semantics (pass/fail/inconclusive), adaptive re-run (veto gates triple-run, standard gates re-run on confidence < 0.85), majority vote aggregation, quality score recording
+- Types added: ValidationVerdict, ValidationRunResult, ValidationAggregateResult, QualityScore
+- Config added: MODEL_HAIKU_4_5, VALIDATION_CONFIDENCE_THRESHOLD (0.85), VALIDATION_MAX_RUNS (3), VETO_GATE_ALWAYS_TRIPLE_RUN
+- `executeStage()` exported from workflow-executor.ts
 
-Capture learnings from the Stage 2 test here once available. Areas to evaluate:
-- Did the approval gate work reliably? Any signal timing issues?
-- Did token tracking match Bedrock billing? What was the cost delta?
-- Did the researcher role produce useful synthesis? What was missing?
-- Did the designer role produce viable specs? Were artifacts sufficient for the builder?
-- Did validation catch genuine issues? Were re-builds effective?
-- What was the total experiment cost? Is Batch API optimization worth pursuing?
+**Deferred:** `notifications.ts` (AWS SES) was built but email notifications are deferred. The file exists but should not be wired into the executor. NotificationEvent/NotificationPayload types and notification config constants can be removed or left inert.
+
+### What to Build Now
+
+Complete deliverables 4-7 in order. Each builds on the previous. Do all of them — do not stop between deliverables.
+
+#### Deliverable 4: Five New Roles + Validation Integration
+
+**New roles** in `packages/mcp-server/src/roles/`:
+- `accessibility-auditor.md` — WCAG 2.1 AA audit (keyboard, screen reader, contrast, touch targets). Uses Haiku for cost.
+- `security-auditor.md` — OWASP top 10, dependency audit, secrets exposure. Uses Haiku.
+- `principles-validator.md` — Checks experiment against PRI-01 through PRI-12. Uses Opus for interpretive judgment.
+- `low-bandwidth-tester.md` — Tests on simulated 2G/3G (bundle size, FCP, progressive enhancement). Uses Haiku.
+- `stakeholder-communicator.md` — Generates non-technical summary of experiment results. Uses Sonnet.
+
+**Validation integration into WorkflowExecutor:**
+- Wire `validation.ts` into the executor's Validate stage
+- The Validate stage should run accessibility-auditor, security-auditor, principles-validator, and low-bandwidth-tester as validation gates
+- Use the existing re-build-on-failure logic for failed gates
+- After validation passes, run stakeholder-communicator to generate a summary
+- Record quality scores from each validator's findings
+
+#### Deliverable 5: Dashboard — Platform Pulse
+
+Minimal operational dashboard. Can be a simple Next.js app at `packages/dashboard/` or static HTML served from the MCP server — choose the simplest approach.
+
+Required views:
+- **Platform Pulse** (landing): active experiments, total cost this month, recent completions
+- **Experiment list**: status badges, cost, last activity
+- **Experiment detail**: stage history timeline, cost breakdown by stage, quality scores from validators, artifacts produced
+- **Design approval UI**: view design artifacts, approve/reject with comments (can integrate with existing `design_approve` MCP tool or be standalone)
+
+Design constraints: SRF Gold `#dcbd23`, SRF Navy `#1a2744`, Warm Cream `#FAF8F5`. Calm — no animations, no urgency colors, no gamification.
+
+#### Deliverable 6: FTR-175 Deep Research Upgrade
+
+Upgrade the researcher role from single-agent to dual-platform:
+- **Gemini API** automated research (programmatic, broad survey)
+- **Claude Deep Research** manual prompt generation (deep, interpretive — generates a prompt the human pastes into Claude's Deep Research UI)
+- **Synthesis step** merging both into `research-synthesis.md`
+
+This requires a Gemini API key (Google AI Studio). If the key isn't available, implement the architecture with Gemini as a stub that logs "Gemini API key not configured — skipping automated research" and proceeds with Claude-only research.
+
+#### Deliverable 7: Convocation 2027 Test
+
+Run a real experiment end-to-end. This is the STG-013 graduation test.
+
+**Experiment prompt:** "Build a Convocation 2027 event information page for yogananda.tech. Single page with schedule, speakers, registration link, and accessibility information. Target: mobile-first, works on 2G."
+
+**Success criteria:**
+1. Pipeline completes: prompt → research → design → approval gate → build → validate → deploy to experimental URL
+2. Design-approval gate produces meaningful feedback from reviewer
+3. Cost tracking within 5% of Bedrock billing
+4. Validation catches genuine issues (accessibility, security, principles, low-bandwidth)
+5. Platform Pulse shows the experiment's full lifecycle
+6. Stakeholder communicator generates a readable summary
+
+After the test, update `~/prj/yogananda-teachings/docs/prompts/stg-013-production.md` status to COMPLETE and record results.
 
 ### Model Version Constraint
 
-Use explicit Bedrock model IDs for v4.6:
+Use explicit Bedrock model IDs:
 - Sonnet 4.6: `us.anthropic.claude-sonnet-4-6-v1`
 - Opus 4.6: `us.anthropic.claude-opus-4-6-v1`
 - Haiku 4.5: `us.anthropic.claude-haiku-4-5-20251001-v1:0`
 
-### What to Build
-
-#### 1. Database additions
-
-New migration(s) continuing the sequence:
-
-```sql
--- experiment_quality
-CREATE TABLE experiment_quality (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  experiment_id UUID NOT NULL REFERENCES experiments(id),
-  dimension TEXT NOT NULL,
-  score NUMERIC(3,2) NOT NULL CHECK (score >= 0 AND score <= 1),
-  evidence TEXT,
-  reviewer_role TEXT NOT NULL,
-  created_at TIMESTAMPTZ DEFAULT now()
-);
-
-CREATE INDEX idx_experiment_quality_experiment ON experiment_quality(experiment_id);
-```
-
-#### 2. Validation framework (FTR-172)
-
-New `packages/mcp-server/src/services/validation.ts`:
-- **Gate runner:** Executes validation gates with configurable pass criteria
-- **Three-valued semantics:** pass / fail / inconclusive (not binary)
-- **Adaptive re-run:** Veto gates always triple-run; standard gates re-run only on confidence < 0.85. ~40% cost reduction vs triple-run-all.
-- **Result aggregation:** Majority vote across runs, with inconclusive counting as neither pass nor fail
-
-#### 3. NotificationService (FTR-174)
-
-New `packages/mcp-server/src/services/notifications.ts`:
-- AWS SES integration for key state transitions
-- Calm templates (PRI-08): no urgency, no gamification, no engagement tricks
-- Key events: experiment created, approval gate reached, pipeline completed, pipeline failed, budget exceeded
-- Quiet hours: no notifications between 10 PM and 7 AM local time
-
-#### 4. New roles (+5)
-
-In `packages/mcp-server/src/roles/`:
-- `accessibility-auditor.md` — WCAG 2.1 AA audit. Keyboard, screen reader, contrast, touch targets. Uses Haiku for cost.
-- `security-auditor.md` — OWASP top 10, dependency audit, secrets exposure. Uses Haiku.
-- `principles-validator.md` — Checks experiment against PRI-01 through PRI-12. Uses Opus for interpretive judgment.
-- `low-bandwidth-tester.md` — Tests on simulated 2G/3G. Bundle size, FCP, progressive enhancement. Uses Haiku.
-- `stakeholder-communicator.md` — Generates non-technical summary of experiment results. Uses Sonnet.
-
-#### 5. Dashboard — Platform Pulse
-
-Minimal operational dashboard (can be a simple Next.js app or static page):
-- Experiment list with status badges
-- Experiment detail view: stage history, cost breakdown, quality scores
-- Design approval UI: view design artifacts, approve/reject with comments
-- Platform Pulse: active experiments, total cost this month, recent completions
-
-#### 6. FTR-175 Deep Research upgrade
-
-Upgrade the researcher role from single-agent to dual-platform:
-- Gemini API automated research (programmatic, broad)
-- Claude Deep Research manual prompt (deep, interpretive)
-- Synthesis step merging both into `research-synthesis.md`
-
-#### 7. Convocation 2027 test
-
-Run a real experiment for Convocation 2027. IT is primary reviewer, not executives.
-
-**Success criteria:**
-1. Pipeline completes: prompt → deployed site at experimental URL
-2. Design-approval gate produces meaningful feedback from IT reviewer
-3. Cost tracking within 5% of Bedrock billing
-4. Validation catches genuine issues
-5. Non-technical IT reviewer understands Platform Pulse
-
-### Suggested Session Breakdown
-
-**Session 1:** Database + Validation framework + NotificationService
-**Session 2:** 5 new roles + validation integration into WorkflowExecutor
-**Session 3:** Dashboard (Platform Pulse) + FTR-175 deep research upgrade
-**Session 4:** Convocation 2027 experiment end-to-end
-
 ### Governing FTRs
 
-- FTR-168 (umbrella), FTR-169 (lifecycle), FTR-170 (orchestration)
-- FTR-171 (roles), FTR-172 (validation), FTR-174 (operations/cost)
-- FTR-175 (deep research)
+FTR-168 (umbrella), FTR-169 (lifecycle), FTR-170 (orchestration), FTR-171 (roles), FTR-172 (validation), FTR-174 (operations/cost), FTR-175 (deep research)

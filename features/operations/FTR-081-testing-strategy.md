@@ -225,6 +225,3 @@ Mirrors the search quality evaluation (STG-001-8) but for the pre-computed `chun
 
 **Regression gate:** This suite runs as part of the CI pipeline after any content re-ingestion or embedding model change. Quality must not degrade below thresholds.
 
-## Notes
-
-**Provenance:** FTR-081 + FTR-081 → FTR-081

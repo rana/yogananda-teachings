@@ -69,12 +69,7 @@ These concerns apply not only to seekers with cognitive disabilities but also to
 - Today's Wisdom pool favors `accessible` passages (soft bias, not hard filter)
 - Quiet Corner pool restricted to `accessible` passages
 - New "Focus" toggle in reader header (STG-005)
-- DESIGN.md § Accessibility Requirements gains a "Cognitive Accessibility" subsection
-- DESIGN.md § Homepage updated with progressive disclosure specification
 - Editorial workload: passages need accessibility classification during ingestion QA
 - No new API endpoints; `accessibility_level` is a query filter on existing endpoints
 
 
-## Notes
-
-Migrated from FTR-052 per FTR-084.

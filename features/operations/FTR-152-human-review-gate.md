@@ -36,6 +36,3 @@ depends-on: [FTR-005, FTR-121, FTR-060]
 **Decision Required From:** SRF leadership (editorial governance policy)
 **Origin:** Principle analysis — reframing human review from mandatory constraint to available governance (2026-02-28)
 
-## Notes
-
-**Provenance:** FTR-152 → FTR-152

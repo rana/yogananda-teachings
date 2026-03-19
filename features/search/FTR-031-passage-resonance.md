@@ -56,6 +56,3 @@ Research on anonymous collective signals (deep-research-gemini-discovery-without
 
 **No resonance counters in Quiet Corner.** The Quiet Corner must remain a space of "Reflective Ambiguity" (Reflective Agency Framework, AAAI 2026). Displaying collective attention signals ("5,000 seekers lingered here") introduces social proof and subtle external awareness into an inherently private, contemplative space. Resonance signals are collected from Quiet Corner interactions but never displayed within it. This constraint applies regardless of the seeker-facing resonance display decision above — the Quiet Corner is exempt.
 
-## Notes
-
-- **Origin:** FTR-031

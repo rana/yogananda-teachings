@@ -56,6 +56,3 @@ depends-on: [FTR-008, FTR-142]
 **Decision Required From:** SRF editorial + SRF/YSS leadership (organizational commitment) + Architecture (portal delivery)
 **Related Explorations:** `book-read-to-me-mode-toggle-displayed-next-to-book-text.md` (archived)
 
-## Notes
-
-Migrated from FTR-136 per FTR-084.

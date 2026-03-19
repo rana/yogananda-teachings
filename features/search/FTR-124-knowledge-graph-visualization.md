@@ -58,6 +58,3 @@ STG-009 (after chunk relations are computed across the full multi-book corpus in
 - Graph data is a static artifact — no database queries during exploration
 - **Extends FTR-030** (chunk relations) from a search/reader feature to a visual discovery tool
 
-## Notes
-
-- **Origin:** FTR-124

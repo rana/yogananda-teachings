@@ -19,7 +19,7 @@ The search API (`/api/v1/search`) calls the Claude API for query expansion and p
 
 A bot or bad actor could hammer the search endpoint and generate significant Claude API costs. At 100 requests/second, the portal would burn through $50–100/hour in Claude API charges. Even accidental abuse (a misbehaving scraper, a search indexer hitting the API) could spike costs.
 
-The DESIGN.md security section mentions "Rate limiting on API routes" but doesn't specify the implementation.
+FTR-016 (Security Considerations) mentions "Rate limiting on API routes" but doesn't specify the implementation.
 
 ### Decision
 
@@ -61,8 +61,5 @@ Set a monthly spending cap via the Anthropic API dashboard. If the cap is reache
 - Claude API monthly budget cap set via Anthropic dashboard
 - Search gracefully degrades to database-only when rate-limited or budget-exceeded
 - Monitoring: Sentry alert on rate limit triggers; New Relic dashboard for Claude API usage (STG-009)
-- **Extends** the security section of DESIGN.md with concrete implementation
+- **Extends** FTR-016 (Security Considerations) with concrete implementation
 
-## Notes
-
-**Provenance:** FTR-097 → FTR-097

@@ -116,17 +116,16 @@ Claude's first action in any development session. Prints a concise briefing:
 # Open questions: 4 (see CONTEXT.md § Open Questions)
 ```
 
-Sources: git tags, CI artifacts, PROPOSALS.md index parsing, CONTEXT.md open questions grep.
+Sources: git tags, CI artifacts, FEATURES.md index parsing, CONTEXT.md open questions grep.
 
 #### `scripts/doc-validate.sh` — Document Integrity (STG-001)
 
 Validates cross-reference integrity across all project documents:
 
-1. **Identifier registry:** Scans all markdown files for ADR-NNN, DES-NNN, PRO-NNN declarations. Builds a registry.
+1. **Identifier registry:** Scans all markdown files for PRI-NN, FTR-NNN, STG-NNN declarations. Builds a registry.
 2. **Cross-reference check:** Every identifier referenced in prose must exist in the registry. Flags dangling references.
-3. **Title consistency:** For dual-homed identifiers (ADR/DES in both DECISIONS and design files), verifies titles match.
-4. **Navigation table completeness:** Every DES file in `design/` has a row in DESIGN.md's navigation table.
-5. **Index completeness:** Every PRO body has an index entry in PROPOSALS.md.
+3. **Title consistency:** For FTR files, verifies frontmatter title matches the H1 heading.
+4. **Index completeness:** Every FTR file in `features/` has a row in FEATURES.md.
 
 ```bash
 ./scripts/doc-validate.sh
@@ -138,7 +137,7 @@ Validates cross-reference integrity across all project documents:
 # Cross-references checked: 1,847
 # ✓ All cross-references resolve
 # ✓ All dual-homed titles match
-# ✓ All design files indexed in DESIGN.md
+# ✓ All FTR files indexed in FEATURES.md
 # ✓ All PRO bodies have index entries
 ```
 
@@ -257,6 +256,5 @@ See FTR-158 for the full 3-layer verification architecture (Sentinels, Fitness F
 
 ## Notes
 
-**Provenance:** FTR-096 → FTR-096
 
 FTR-096 (Release Tagging), FTR-096 (Operational Health), FTR-096 (Document Integrity CI), and FTR-096 (Design-Artifact Traceability) were all adopted into FTR-096.

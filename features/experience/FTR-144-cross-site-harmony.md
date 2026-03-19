@@ -80,6 +80,3 @@ Search engine architecture, reading experience, accessibility, DELTA compliance,
 **Decision Required From:** Architecture (wisdom category mapping, glossary integration depth), Human principal (SRF coordination for bidirectional linking)
 **Origin:** Ecosystem exploration via Playwright MCP snapshots of yogananda.org (2026-03-02).
 
-## Notes
-
-Migrated from FTR-144 per FTR-084.

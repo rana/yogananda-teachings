@@ -57,6 +57,3 @@ At 1c, the recognition-first principle manifests minimally:
 
 **Governs:** FTR-040, FTR-040, FTR-040, FTR-138, FTR-139, FTR-140
 
-## Notes
-
-- **Origin:** FTR-039

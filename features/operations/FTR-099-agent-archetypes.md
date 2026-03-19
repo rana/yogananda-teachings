@@ -30,6 +30,3 @@ re-evaluate-at: STG-007
 **Re-evaluate At:** Phase 3 boundary (when Tier 2 MCP scheduling is re-evaluated per FTR-098)
 **Decision Required From:** Architecture + SRF stakeholder input on organizational needs
 
-## Notes
-
-**Provenance:** FTR-099 → FTR-099

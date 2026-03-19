@@ -111,7 +111,7 @@ When SRF publishes a new edition of a book, the portal's text may become outdate
 
 ### Operational Playbook
 
-By year 3, the people operating the portal may be different from those who built it. The architectural documentation (this file, DECISIONS.md) captures *why* decisions were made. The **operational playbook** captures *how to do the work:*
+By year 3, the people operating the portal may be different from those who built it. The architectural documentation (FTR files) captures *why* decisions were made. The **operational playbook** captures *how to do the work:*
 
 - How to add a new book (pre-ingestion checklist through post-publication verification)
 - How to handle a translation batch (reviewer onboarding, glossary setup, batch review, approval)

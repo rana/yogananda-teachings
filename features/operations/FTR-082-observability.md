@@ -252,6 +252,3 @@ Beyond the Amplitude event allowlist and APM tooling, the following derived metr
 | Editorial queue depth by type | `review_queue` tables | Real-time | Admin portal pipeline dashboard |
 | Geographic Core Web Vitals (per target region) | New Relic Synthetics | Continuous | New Relic |
 
-## Notes
-
-**Provenance:** FTR-082 + FTR-082 → FTR-082

@@ -20,6 +20,3 @@ depends-on: [FTR-042]
 **Re-evaluate At:** Post-Phase 3 (after core experience is mature)
 **Decision Required From:** Editorial + UX review
 
-## Notes
-
-Migrated from FTR-137 per FTR-084.

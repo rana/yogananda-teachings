@@ -185,7 +185,6 @@ Webhook payloads never contain seeker data. Events describe *content* lifecycle 
 
 - New `webhook_subscribers` and `webhook_deliveries` tables in STG-020 migration
 - New background job for webhook delivery and retry (Vercel cron or Lambda)
-- DESIGN.md § FTR-086 documents the webhook event system
 - ROADMAP.md STG-020 gains webhook deliverable
 - FTR-059 § RSS section updated: RSS feeds regenerate via webhook event rather than polling cron
 - SRF's existing Zapier workflows can subscribe to portal events from STG-020 launch
@@ -240,6 +239,3 @@ Full catalog, envelope format, delivery semantics, and schema in FTR-086.
 
 Events describe content lifecycle only — never seeker behavior. No PII in any payload. The `email.dispatched` event reports `subscriber_count` (aggregate), not individual addresses.
 
-## Notes
-
-**Provenance:** FTR-086 + FTR-086 → FTR-086

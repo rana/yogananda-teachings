@@ -1,6 +1,6 @@
 ---
 ftr: 43
-title: Accessibility Requirements STG-004
+title: Accessibility Requirements
 summary: "WCAG 2.1 AA compliance requirements for vision, motor, and cognitive accessibility"
 state: implemented
 domain: experience
@@ -8,7 +8,7 @@ governed-by: [PRI-05, PRI-07]
 depends-on: [FTR-003]
 ---
 
-# FTR-043: Accessibility Requirements STG-004
+# FTR-043: Accessibility Requirements
 
 ## Rationale
 
@@ -170,8 +170,3 @@ The portal's visual beauty should honor the teachings in every medium a seeker e
 | Color contrast validation | Design token changes | Chrome DevTools, WebAIM Contrast Checker |
 | Real-user testing | When Calm Technology design system ships | Engage accessibility testers (consider SRF community members with disabilities) |
 
----
-
-## Notes
-
-Migrated from FTR-043 per FTR-084.

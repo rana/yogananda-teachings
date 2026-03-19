@@ -57,6 +57,3 @@ Over time, the golden set converges on what seekers *actually need*, not what Cl
 **Re-evaluate At:** STG-003 (when search quality metrics from 1a/1b are available — if the golden set already covers 95% of real query patterns, this is unnecessary)
 **Decision Required From:** Architecture + DELTA review (privacy analysis)
 
-## Notes
-
-**Provenance:** FTR-157 → FTR-157

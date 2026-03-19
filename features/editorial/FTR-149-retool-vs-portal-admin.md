@@ -23,7 +23,7 @@ Two staff-facing interfaces appear in the architecture:
 
 1. **Portal `/admin`** (STG-007-5a/b) — Auth0-protected Next.js route group for editorial workflows: theme tag review, daily passage curation, calendar management, queue health, ingestion QA. Built with the portal's calm design system.
 
-2. **Retool** — Referenced in the production architecture diagram (DESIGN.md), STG-009.4, and FTR-082 standing operational metrics. Implied use: analytics dashboards, search trend visualization, operational metrics.
+2. **Retool** — Referenced in the production architecture (FTR-014), STG-009.4, and FTR-082 standing operational metrics. Implied use: analytics dashboards, search trend visualization, operational metrics.
 
 The relationship between these is undefined. Do they coexist (editorial in `/admin`, analytics in Retool)? Does one subsume the other?
 

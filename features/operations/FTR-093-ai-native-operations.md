@@ -122,6 +122,3 @@ A "no" on the first two items is a disqualifier for core infrastructure. Dashboa
 - **Extends:** FTR-083 (MCP strategy), FTR-082 (observability), FTR-084 (documentation architecture), FTR-096 (operational surface)
 - **Governed by:** PRI-12 (AI-Native Development and Operations)
 
-## Notes
-
-**Provenance:** FTR-093 → FTR-093

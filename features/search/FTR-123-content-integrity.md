@@ -124,6 +124,5 @@ All copy rewritten for non-technical readers. ~25 keys per locale in `messages/{
 
 ## Notes
 
-- **Origin:** FTR-123
 - **STG-004 implementation (partial):** Hash table page + API endpoint shipped. Hashes computed live at render instead of pre-stored. Technical language only.
 - **Redesign rationale:** The current page serves developers but not seekers. The sacred framing and paste-to-verify tool make integrity verification accessible to the portal's actual audience while demoting (not removing) the technical details for auditors.

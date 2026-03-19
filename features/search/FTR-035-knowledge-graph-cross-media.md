@@ -76,6 +76,3 @@ Every future ADR that introduces a new content type must address:
 - Graph JSON schema is versioned
 - The Knowledge Graph becomes a flagship portal feature
 
-## Notes
-
-- **Origin:** FTR-035

@@ -408,5 +408,4 @@ See FTR-029 for the complete specification: experience walkthrough, six-tier hie
 
 ## Notes
 
-- **Origin:** FTR-020
 - **March 2026 revision (fusion strategy):** RRF replaced with Convex Combination based on convergent findings from two independent deep research reports (Gemini and Claude, March 2026). Both reports confirm CC consistently outperforms RRF when labeled data exists — the portal's 66 golden queries provide this data. Register-driven adaptive fusion weights leverage FTR-028's query-time register classification. Cohere Rerank replaced with Voyage Rerank for vendor consolidation with embedding pipeline (FTR-024). Candidate pool expanded from top-20 to top-50 for the cross-encoder reranker. See `docs/reference/deep-research-gemini-modern-search.md` and `docs/reference/deep-research-claude-modern-search.md`.

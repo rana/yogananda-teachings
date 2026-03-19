@@ -182,4 +182,3 @@ features.css        -> .reader-verse { text-align: center; font-style: italic; .
 ## Notes
 
 - **Origin:** FTR-022 (Content Ingestion Pipeline) + FTR-022 design file (Book Ingestion Pipeline)
-- **Merge:** FTR-022 pipeline stages as Rationale, FTR-022 book-specific pipeline as Specification

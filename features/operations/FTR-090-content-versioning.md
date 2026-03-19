@@ -2,7 +2,7 @@
 ftr: 90
 title: Content Versioning
 summary: "Lifecycle policies for book editions, translations, embeddings, and AI-classified metadata"
-state: approved
+state: implemented
 domain: operations
 governed-by: [PRI-01, PRI-02, PRI-10]
 depends-on: [FTR-021, FTR-024]
@@ -95,8 +95,5 @@ When a significant AI model upgrade or prompt revision occurs:
 - Magazine articles gain an `errata` metadata field (nullable JSON array) in the schema.
 - Embedding migration has a defined lifecycle: parallel → converge → deprecate → delete (90 days).
 - AI re-evaluation is explicitly opt-in — preventing scope creep when models improve.
-- DESIGN.md § FTR-068 (Content Lifecycle Management) should reference this ADR for versioning policy.
+- FTR-068 (Content Lifecycle Management) references this feature for versioning policy.
 
-## Notes
-
-**Provenance:** FTR-090 → FTR-090

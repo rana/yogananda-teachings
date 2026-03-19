@@ -30,6 +30,3 @@ All three require terminology bridge entries, enrichment pipeline markers, and k
 
 **Source Explorations:** `theme-for-extra-solar-life-in-the-cosmos-what-do-the-gurus-2.md`, `theme-self-worth-abundance-scientific-view.md`, `vibration-aum-holy-ghost-quantum-physics-overlap-for-2.md`
 
-## Notes
-
-- **Origin:** FTR-125

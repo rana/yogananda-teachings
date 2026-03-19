@@ -221,4 +221,3 @@ Seeker query: "I feel empty inside"
 ## Notes
 
 - **Origin:** FTR-028 (Rationale) + FTR-028 (Specification)
-- **Merge:** FTR-028 decision rationale merged with FTR-028 implementation specification

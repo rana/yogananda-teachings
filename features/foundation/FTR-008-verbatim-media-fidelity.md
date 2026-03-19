@@ -81,7 +81,7 @@ The portal's API metadata, `llms.txt`, and machine-readable content (FTR-059) sh
 - Principles 1 and 2 amended to be media-inclusive (PRINCIPLES.md, CLAUDE.md)
 - FTR-005 gains prohibition #8 (cross-media sacred content generation)
 - FTR-073 gains explicit AI image generation prohibition for guru imagery
-- FTR-142 gains boundary statement cross-referencing this ADR
+- FTR-142 gains boundary statement cross-referencing this feature
 - FTR-136 (Spoken Teachings — Human Narration Program) updated: human narration as primary path; synthetic TTS not permitted for sacred text
 - Future audio features (book narration, Cosmic Chants performance) must use human recordings
 - Standard restoration of historical media remains permitted and encouraged
