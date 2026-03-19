@@ -85,7 +85,9 @@ The original Phase 1 plan designed 6 stages assuming the Claude Agent SDK was un
 
 ---
 
-## Stage 1: Minimal Loop
+## Stage 1: Minimal Loop — COMPLETE
+
+**Completed:** 2026-03-19. Single session. First experiment: `rana/exp-hello-world-mmxz5fd0`. Validator: pass (0.87 confidence, 4 warnings — real issues caught).
 
 **Goal:** Prompt in, artifact out. Simplest possible end-to-end. 2-3 sessions.
 

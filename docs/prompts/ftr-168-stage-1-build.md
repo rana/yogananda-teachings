@@ -1,6 +1,6 @@
 # FTR-168 Stage 1: Minimal Loop — Session Prompt
 
-**Status:** READY. Next action for yogananda-platform.
+**Status:** COMPLETED (2026-03-19)
 
 **Repo:** yogananda-platform
 
@@ -59,3 +59,36 @@ Use explicit Bedrock model IDs for v4.6 (short names default to 4.5):
 - Validator produces `gate-results.json` with structured verdict
 - `workflow_executions` shows `completed` with stage history in `stage_state`
 - Experiment status = `completed`
+
+---
+
+## Results (2026-03-19)
+
+All 6 success criteria met. Single session, single commit (`f807b67`).
+
+**First experiment:** `rana/exp-hello-world-mmxz5fd0`
+- Builder: 3 commits (scaffold, build, manifest). SRF landing page with Navy/Gold/Cream palette, responsive CSS grid, skip-nav, semantic HTML.
+- Validator: verdict `pass`, confidence 0.87. 15 checks performed, 4 warnings, 5 info findings.
+
+**Validator findings (quality signal):**
+- Warning: Footer contrast 4.48:1 (below 4.5:1 AA threshold)
+- Warning: `<p>` styled as headings instead of `<h3>` (heading hierarchy break)
+- Warning: PRI-01 — builder synthesized spiritual descriptions instead of using lorem ipsum as requested
+- Warning: Merriweather/Open Sans fonts missing (used Georgia + system stack)
+- Info: Progressive enhancement passes, zero security issues, no analytics/tracking
+
+**Learnings for Stage 2:**
+- Validator catches real issues — the adversarial framing works
+- Builder ignored "use lorem ipsum" instruction and synthesized content (PRI-01 violation)
+- No feedback loop: validator finds issues but builder can't fix them. Stage 2 or 3 should add re-build on fail.
+- Model IDs used `us.anthropic.claude-sonnet-4-6` (without `-v1` suffix) — worked, but inconsistent with preparation doc
+- `permissionMode: "default"` was set but pipeline completed — investigate how permissions were handled
+
+**Files created in platform:**
+- `migrations/008_create_experiments.sql`, `009_create_workflow_executions.sql`
+- `packages/mcp-server/src/services/experiment.ts` (437 lines)
+- `packages/mcp-server/src/services/workflow-executor.ts` (221 lines)
+- `packages/mcp-server/src/tools/experiment.ts` (138 lines)
+- `packages/mcp-server/src/types.ts` (extended with Experiment, WorkflowExecution, WorkflowConfig)
+- `packages/mcp-server/src/roles/builder.md`, `validator.md`
+- `packages/mcp-server/src/spike/stage1-test.ts`
