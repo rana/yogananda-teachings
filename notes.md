@@ -1,4 +1,8 @@
-# Notes
+# Notes (Always commit this file)
+
+---
+Remove email support. Remove @aws-sdk/client-ses. Defer to later stage.
+
 
 ---
 Think deeply, slowly, carefully, meticulously and thoroughly.
